@@ -96,7 +96,7 @@ public class TileEntityAnvilMFRenderer extends TileEntitySpecialRenderer {
         GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
         GL11.glScalef(scale, -scale, -scale); //if you read this comment out this line and you can see what happens
         GL11.glPushMatrix();
-        model.renderModel(true, 0.0625F); 
+        model.renderModel(0.0625F); 
         
         GL11.glPopMatrix();
         GL11.glColor3f(255, 255, 255);
