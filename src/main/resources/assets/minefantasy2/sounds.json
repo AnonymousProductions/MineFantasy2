@@ -1,0 +1,105 @@
+{
+	"weapon.bombBounce": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/bombBounce"
+      ]
+    },
+	"weapon.bowFire": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/bowFire"
+      ]
+    },
+	"weapon.arrowHit": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/arrowHit"
+      ]
+    },
+	
+    "weapon.critical": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/critical"
+      ]
+    },
+
+	"weapon.wood_parry": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/wood_parry"
+      ]
+    },
+	
+
+	
+	"weapon.hit.blunt.wood": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/hit/blunt/wood1"
+      ]
+    },
+	"weapon.hit.blunt.stone": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/hit/blunt/stone1"
+      ]
+    },
+	"weapon.hit.blunt.metal": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/hit/blunt/metal1"
+      ]
+    },
+	
+	"weapon.hit.blade.wood": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/hit/blade/wood1"
+      ]
+    },
+	"weapon.hit.blade.stone": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/hit/blade/stone1"
+      ]
+    },
+	"weapon.hit.blade.metal": {
+    "category": "neutral",
+    "sounds": [
+        "Weapon/hit/blade/metal1"
+      ]
+    },
+	
+	"block.mythicore": {
+    "category": "neutral",
+    "sounds": [
+        "blocks/MythicOre"
+      ]
+    },
+	
+	"block.carpentermallet": {
+    "category": "neutral",
+    "sounds": [
+        "blocks/CarpenterMallet"
+      ]
+    },
+	
+	"block.anvilfail": {
+    "category": "neutral",
+    "sounds": [
+        "blocks/AnvilFail1",
+		 "blocks/AnvilFail2",
+		  "blocks/AnvilFail3"
+      ]
+    },
+	"block.anvilsucceed": {
+    "category": "neutral",
+    "sounds": [
+        "blocks/AnvilSucceed1",
+		 "blocks/AnvilSucceed2",
+		  "blocks/AnvilSucceed3"
+      ]
+    }
+}

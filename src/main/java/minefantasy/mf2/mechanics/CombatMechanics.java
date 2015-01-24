@@ -1,0 +1,660 @@
+package minefantasy.mf2.mechanics;
+
+import java.util.Map;
+import java.util.Random;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.helpers.ArrowEffectsMF;
+import minefantasy.mf2.api.helpers.TacticalManager;
+import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.stamina.StaminaBar;
+import minefantasy.mf2.api.tier.IToolMaterial;
+import minefantasy.mf2.api.weapon.IDamageModifier;
+import minefantasy.mf2.api.weapon.IKnockbackWeapon;
+import minefantasy.mf2.api.weapon.IParryable;
+import minefantasy.mf2.api.weapon.IPowerAttack;
+import minefantasy.mf2.api.weapon.ISpecialEffect;
+import minefantasy.mf2.api.weapon.IWeaponSpeed;
+import minefantasy.mf2.api.weapon.IWeightedWeapon;
+import minefantasy.mf2.config.ConfigArmour;
+import minefantasy.mf2.config.ConfigExperiment;
+import minefantasy.mf2.config.ConfigStamina;
+import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.item.weapon.ItemBattleaxeMF;
+import minefantasy.mf2.item.weapon.ItemKatanaMF;
+import minefantasy.mf2.item.weapon.ItemDagger;
+import minefantasy.mf2.item.weapon.ItemWaraxeMF;
+import minefantasy.mf2.item.weapon.ItemWeaponMF;
+import minefantasy.mf2.material.BaseMaterialMF;
+import minefantasy.mf2.network.packet.ParryPacket;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityEnderPearl;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.ISpecialArmor;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+
+public class CombatMechanics
+{
+	public static final String parryCooldownNBT = "MF_Parry_Cooldown";
+	public static final String posthitCooldownNBT = "MF_PostHit";
+	private static Random rand = new Random();
+	public static final float	specialUndeadModifier	= 2.0F;
+	public static final float	specialWerewolfModifier	= 8.0F;
+	public static boolean	swordSkeleton	= true;
+	
+	@SubscribeEvent
+	public void initAttack(LivingAttackEvent event)
+	{
+		EntityLivingBase hitter = getHitter(event.source);
+		int spd = EventManagerMF.getHitspeedTime(hitter);
+		if(hitter != null && !hitter.worldObj.isRemote)
+		{
+			if(spd > 0 && !(event.entityLiving instanceof EntityPlayer))
+			{	event.setCanceled(true);
+				return;
+			}
+		}
+		DamageSource src = event.source;
+		EntityLivingBase hit = event.entityLiving;
+		World world = hit.worldObj;
+		float damage = modifyDamage(src, world, hit, event.ammount, false);
+		
+		if(event.source.isProjectile())
+    	{
+    		if(ConfigArmour.resistArrow && !event.isCanceled() && TacticalManager.resistArrow(event.entityLiving, event.source, damage))
+    		{
+    			if(event.source.getSourceOfDamage() != null && !event.source.getSourceOfDamage().getEntityData().hasKey("arrowDeflectMF") && !(event.source.getEntity() instanceof EntityEnderPearl))
+    			{
+    				event.source.getSourceOfDamage().getEntityData().setBoolean("arrowDeflectMF", true);
+    				event.entityLiving.worldObj.playSoundAtEntity(event.entityLiving, "random.break", 1.0F, 0.5F);
+    			}
+    			event.setCanceled(true);
+    		}
+    	}
+		
+		if(damage <= 0)
+		{
+			event.setCanceled(true);
+		}
+		if(hitter != null && hitter instanceof EntityLivingBase)
+		{
+			int hitTime = 5;
+			if(hitter.getHeldItem() != null)
+			{
+				ItemStack weapon = hitter.getHeldItem();
+				if(weapon.getItem() instanceof IWeaponSpeed)
+				{
+					hitTime += ((IWeaponSpeed)weapon.getItem()).modifyHitTime(hitter, weapon);
+				}
+			}
+			if(hitTime > 0)
+			EventManagerMF.setHitTime(hitter, hitTime);
+		}
+	}
+	
+	/**
+	 * gets the melee hitter
+	 */
+	private EntityLivingBase getHitter(DamageSource source)
+	{
+		if(source != null && source.getEntity() != null && source.getEntity() == source.getSourceOfDamage() && source.getEntity() instanceof EntityLivingBase)
+		{
+			return (EntityLivingBase) source.getEntity();
+		}
+		return null;
+	}
+
+	@SubscribeEvent
+    public void onHit(LivingHurtEvent event)
+    {
+		DamageSource src = event.source;
+		EntityLivingBase hit = event.entityLiving;
+		World world = hit.worldObj;
+		float damage = modifyDamage(src, world, hit, event.ammount, true);
+		
+		if(damage > 0 && hit.isSprinting())
+		{
+			hit.setSprinting(false);
+		}
+		//TODO: Zombie armour
+    	if(event.entityLiving.getEntityData().hasKey(MonsterUpgrader.zombieArmourNBT) && event.entityLiving instanceof EntityZombie)
+    	{
+    		float percent = 1.0F;
+    		ItemStack[] armours = new ItemStack[4];
+    		for(int a = 1; a < 5; a ++)
+    		{
+    			armours[a-1]=event.entityLiving.getEquipmentInSlot(a);
+    		}
+    		damage = ISpecialArmor.ArmorProperties.ApplyArmor(event.entityLiving, armours, event.source, damage);
+    	}
+    	//TODO: Stick arrows (EXPERIMENTAL)
+    	if(ConfigExperiment.stickArrows && event.source.getSourceOfDamage() != null && event.source.getSourceOfDamage() instanceof EntityArrow)
+    	{
+    		if(!event.entity.worldObj.isRemote)
+    		{
+    			ArrowEffectsMF.stickArrowIn(event.entity, ArrowEffectsMF.getDroppedArrow(event.source.getSourceOfDamage()), event.source.getSourceOfDamage());
+    		}
+    	}
+    	if(damage > 0)
+    	{
+    		onOfficialHit(src, hit, damage);
+    	
+	    	if (event.source instanceof EntityDamageSource && !(event.source instanceof EntityDamageSourceIndirect)  && !event.source.damageType.equals("battlegearExtra")) 
+			{
+				Entity entityHitter = ((EntityDamageSource) event.source).getEntity();
+				
+				if (entityHitter instanceof EntityLivingBase) 
+				{
+					EntityLivingBase attacker = (EntityLivingBase) entityHitter;
+					StaminaMechanics.onAttack(attacker, hit);
+					ItemStack weapon = attacker.getHeldItem();
+					HitSoundGenerator.makeHitSound(weapon, event.entityLiving);
+				}
+			}
+    	}
+		event.ammount = damage;
+    }
+	
+	private float modifyDamage(DamageSource src, World world, EntityLivingBase hit, float dam, boolean properHit)
+	{
+		Entity source = src.getSourceOfDamage();
+		Entity hitter = src.getEntity();
+		
+		if(source != null && hitter != null && hitter instanceof EntityLivingBase)
+		{
+			dam = modifyUserHitDamage(dam, (EntityLivingBase)hitter, source, hitter == source, hit, properHit);
+		}
+		
+		//TODO: Elemental resistance
+    	dam *= TacticalManager.getResistance(hit, src);
+    	if(src.isFireDamage())
+    	{
+    		if(dam <= 0.0F)
+    		{
+    			hit.extinguish();
+    		}
+    	}
+    	dam = onUserHit(hit, hitter, src, dam, properHit);
+		return dam;
+	}
+
+	//TODO: damage modifier
+	private float modifyUserHitDamage(float dam, EntityLivingBase user, Entity source, boolean melee, Entity target, boolean properHit)
+	{
+		dam = modifyMobDamage(user, dam);
+		//Power Attack
+		if(melee)
+		{
+			int powerAttack = initPowerAttack(user, target, properHit);
+			if(powerAttack != 0)
+			{
+				if(powerAttack == 1)
+				{
+					dam *= (2F/1.5F);
+					onPowerAttack(dam, user, target, properHit);
+				}
+				if(powerAttack == -1)
+				{
+					dam /= 2F;
+				}
+			}
+		}
+		if(user instanceof EntityLivingBase)
+		{
+			EntityLivingBase player = (EntityLivingBase)user;
+			
+			//TODO: Stamina Traits
+			if(StaminaBar.isSystemActive)
+			{
+				if(StaminaBar.getStaminaValue(player) <= 0)
+				{
+					dam *= ConfigStamina.weaponDrain;
+				}
+			}
+		}
+		if(user.hurtResistantTime > 12)
+		{
+			dam *= 0.5F;
+		}
+		
+		ItemStack weapon = user.getHeldItem();
+    	if(weapon != null)
+    	{
+    		if(weapon.getItem() instanceof IDamageModifier)
+    		{
+    			//TODO: IDamageModifier, this mods the damage for weapons
+    			dam = ((IDamageModifier)weapon.getItem()).modifyDamage(weapon, user, target, dam, properHit);
+    		}
+    		if(weapon.getItem() instanceof IToolMaterial)
+    		{
+    			//TODO: Undead Bonus
+    			if(isMaterialUndeadKiller(((IToolMaterial)weapon.getItem()).getMaterial()))
+    			{
+    				dam = hurtUndead(user, target, dam, properHit);
+    			}
+    		}
+    	}
+    	
+		return dam;
+	}
+	
+	private void onPowerAttack(float dam, EntityLivingBase user, Entity target, boolean properHit)
+	{
+		ItemStack weapon = user.getHeldItem();
+		int ticks = 20;
+		if(weapon != null && weapon.getItem() instanceof IPowerAttack)
+		{
+			((IPowerAttack)weapon.getItem()).onPowerAttack(dam, user, target, properHit);
+			ticks = ((IPowerAttack)weapon.getItem()).getParryModifier(weapon, user, target);
+		}
+	   if(target instanceof EntityLivingBase)
+	   {
+	 	   if(ticks > getParryCooldown((EntityLivingBase)target))
+	 	   {
+	 		   setParryCooldown((EntityLivingBase)target, ticks);
+	 	   }
+	   }
+	   target.worldObj.playSoundAtEntity(target, "minefantasy2:weapon.critical", 1.0F, 2.0F);
+	}
+
+	private static final float power_attack_base = 25F;
+	/**
+	 * 0 = false
+	 * 1 = true
+	 * -1 = failure
+	 */
+	private static int initPowerAttack(EntityLivingBase user, Entity target, boolean properHit)
+	{
+		if(!canExecutePower(user))
+		{
+			return 0;
+		}
+		if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user))
+		{
+			float points = power_attack_base * (StaminaBar.getBaseDecayModifier(user, true, true)*0.5F + 0.5F);
+			if(StaminaBar.isStaminaAvailable(user, points, properHit))
+			{
+				if(properHit)
+				{
+					ItemWeaponMF.applyFatigue(user, points);
+				}
+				return getPostHitCooldown(user) > 0 ? -1 : 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	private static boolean canExecutePower(EntityLivingBase user)
+	{
+		if(user.isInWater())
+		{
+			return false;
+		}
+		if(user instanceof EntityCreeper)
+		{
+			return false;
+		}
+		if(user instanceof EntityPlayer)
+		{
+			if(!user.isSneaking())return false;
+		}
+		return user.fallDistance > 0 && !user.isOnLadder();
+	}
+
+	private float modifyMobDamage(EntityLivingBase user, float dam)
+	{
+		if(user instanceof EntityZombie && user.isChild())
+		{
+			dam *= 0.65F;
+		}
+		return dam;
+	}
+
+	private boolean isMaterialUndeadKiller(ToolMaterial material) 
+    {
+		return material == BaseMaterialMF.silver.getToolConversion() || material == BaseMaterialMF.ornate.getToolConversion();
+	}
+	private float hurtUndead(Entity entityHitting, Entity entityHit, float dam, boolean properHit) 
+    {
+    	if(entityHit instanceof EntityLivingBase && ((EntityLivingBase)entityHit).isEntityUndead())
+		{
+    		dam *= specialUndeadModifier;
+    		if(properHit)
+			{
+	    		entityHit.setFire(10);
+	    		entityHit.playSound("random.fizz", 0.5F, 0.5F);
+			}
+		}
+		if(entityHit.getClass().getName().contains("Werewolf"))
+		{
+			dam *= specialWerewolfModifier;
+			
+			if(properHit)
+			{
+	    		entityHit.setFire(10);
+	    		entityHit.playSound("random.fizz", 0.6F, 0.5F);
+			}
+		}
+    	return dam;
+	}
+	
+	private void onOfficialHit(DamageSource src, EntityLivingBase target, float damage)
+	{
+		Entity source = src.getSourceOfDamage();
+		Entity hitter = src.getEntity();
+		
+		if(source != null && hitter != null && hitter instanceof EntityLivingBase && source == hitter)
+		{
+			EntityLivingBase user = (EntityLivingBase)hitter;
+			ItemStack weapon = user.getHeldItem();
+			if(weapon != null)
+			{
+				onWeaponHit(user, weapon, target, damage);
+			}
+		}
+		this.setPostHitCooldown(target, 10);
+	}
+	private void onWeaponHit(EntityLivingBase user, ItemStack weapon, Entity target, float dam)
+	{
+		if(ToolHelper.isItemMaterial(weapon, BaseMaterialMF.dragonforge.getToolConversion()))
+        {
+        	target.setFire(2);
+        }
+		if(target instanceof EntityLivingBase && weapon.getItem() instanceof ISpecialEffect)
+		{
+			((ISpecialEffect)weapon.getItem()).onProperHit(user, weapon, target, dam);
+		}
+		
+		if(weapon.getItem() instanceof IWeaponSpeed)
+		{
+			target.hurtResistantTime += ((IWeaponSpeed)weapon.getItem()).modifyHitTime(user, weapon);
+		}
+		if(weapon.getItem() instanceof IKnockbackWeapon)
+		{
+			float kb = ((IKnockbackWeapon)weapon.getItem()).getAddedKnockback(user, weapon);
+			
+			if(kb > 0)
+			{
+				TacticalManager.knockbackEntity(target, user, kb, 0F);
+			}
+		}
+		if (ConfigWeapon.useBalance && user instanceof EntityPlayer)
+        {
+			applyBalance((EntityPlayer)user);
+        }
+	}
+
+	protected static void performEffects(Map<PotionEffect, Float> map, EntityLivingBase entityHit) 
+    {
+        double roll = Math.random();
+        if(map == null || map.isEmpty())
+        {
+        	return;
+        }
+        
+        for(PotionEffect effect:map.keySet())
+        {
+            //add effects if they aren't already applied, with corresponding chance factor
+            if(!entityHit.isPotionActive(effect.getPotionID()) && map.get(effect) > roll)
+            {
+                entityHit.addPotionEffect(new PotionEffect(effect));
+            }
+        }
+    }
+	
+	private static boolean debugParry = true;
+	private static final float	parryFatigue	= 5F;
+	private float onUserHit(EntityLivingBase user, Entity entityHitting, DamageSource source, float dam, boolean properHit) 
+    {
+    	ItemStack weapon = user.getHeldItem();
+    	if((properHit || source.isProjectile()) && weapon != null && !source.isUnblockable() &&!source.isExplosion() && weapon.getItem() instanceof IParryable)
+    	{
+    		IParryable parry = (IParryable)weapon.getItem();
+    		
+    	    float threshold = parry.getMaxDamageParry(user, weapon) * TacticalManager.getHighgroundModifier(user, entityHitting, 1.15F);
+    	    
+    	    if(ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote)
+    		{
+    	    	threshold = ArmourCalculator.modifyACForType(source, threshold, 1.0F, 0.75F);
+    		}
+    	    
+    	    if(debugParry && !user.worldObj.isRemote){MineFantasyII.debugMsg("Init Parry: Damage = " + dam + " Threshold = " + threshold);}
+    		
+    	    //USED FOR PARRYING its harder to block arrows
+           if(TacticalManager.canParry(source, user, entityHitting, weapon))
+           {
+        	   dam = (float)Math.max(0F, dam - threshold);
+        	   
+        	   if(debugParry && !user.worldObj.isRemote){MineFantasyII.debugMsg("Parried: dam = " + dam);}
+        	   
+        	   if(properHit || dam <= 0)
+        	   {
+	        	   user.hurtResistantTime = user.maxHurtResistantTime;
+	        	   user.hurtTime = 0;
+	       		   float weaponFatigue = parry.getParryStaminaDecay(source, weapon);
+	       		   
+	        	   parry.onParry(source, user, entityHitting, dam);
+	        	   int ticks = parry.getParryCooldown(source, dam, weapon);
+	        	   if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
+	        	   {
+	        		   ticks *= 2;
+	        	   }
+	        	   if(ticks > getParryCooldown(user))
+	        	   {
+	        		   setParryCooldown(user, ticks);
+	        	   }
+	        	   
+	        	   ItemWeaponMF.applyFatigue(user, TacticalManager.getHighgroundModifier(user, entityHitting, 2.0F)*(dam+1F)*parryFatigue*weaponFatigue);
+		    	   if(!parry.playCustomParrySound(user, entityHitting, weapon))
+		    	   {
+		    		   user.worldObj.playSoundAtEntity(user, "mob.zombie.metal", 1.0F, 1.25F + (rand.nextFloat()*0.5F));
+		    	   }
+		    	   if(user instanceof EntityPlayer)
+		    	   {
+		   			   ((EntityPlayer)user).stopUsingItem();
+		    		   ItemWeaponMF.setParry(weapon, 12);
+		    	   }
+		    	   
+		    	   	if(entityHitting != null && entityHitting instanceof EntityLivingBase)
+			   		{
+		    	   		EntityLivingBase hitter = (EntityLivingBase)entityHitting;
+			   			int hitTime = 5;
+			   			if(hitter.getHeldItem() != null)
+			   			{
+			   				ItemStack attackingWep = hitter.getHeldItem();
+			   				if(attackingWep.getItem() instanceof IWeaponSpeed)
+			   				{
+			   					hitTime += ((IWeaponSpeed)attackingWep.getItem()).modifyHitTime(hitter, weapon);
+			   				}
+			   			}
+			   			if(hitTime > 0)
+			   			{
+			   				MineFantasyII.debugMsg("Recoil hitter: " + hitter.getCommandSenderName() + " for " + hitTime*3 + " ticks.");
+			   				EventManagerMF.setHitTime(hitter, hitTime * 3);
+			   			}
+			   		}
+        	   }
+           }
+    	}
+    	if(user instanceof EntityPlayer || (entityHitting != null && entityHitting instanceof EntityPlayer))
+    	{
+    		if(!user.worldObj.isRemote)
+    		MineFantasyII.debugMsg(dam + "x Damage inflicted to: " + user.getCommandSenderName() + " (" + user.getEntityId() + ")");
+    	}
+		return dam;
+	}
+	@SubscribeEvent
+	public void updateLiving(LivingUpdateEvent event)
+	{
+		EntityLivingBase living = event.entityLiving;
+		
+		tickParryCooldown(living);
+		tickPostHitCooldown(living);
+		if(living instanceof EntityLiving)
+		{
+			EntityLiving mob = (EntityLiving)living;
+			ItemStack held = mob.getHeldItem();
+			
+			{
+				EntityLivingBase tar = mob.getAttackTarget();
+				
+				if(tar != null && tar instanceof EntityPlayer && ((EntityPlayer)tar).isBlocking())
+				{
+					double dist = mob.getDistanceSqToEntity(tar);
+					
+					if(tar instanceof EntityZombie && mob.onGround && mob.getRNG().nextInt(10) == 0 &&  dist > 1D && dist < 4D)
+					{
+						mob.motionY = 0.5F;
+					}
+				}
+			}
+			if(isAxe(held))
+			{
+				EntityLivingBase tar = mob.getAttackTarget();
+				
+				if(tar != null)
+				{
+					double dist = mob.getDistanceSqToEntity(tar);
+					
+					if(mob.onGround && mob.getRNG().nextInt(5) == 0 &&  dist > 1D && dist < 4.0D)
+					{
+						mob.motionY = 0.5F;
+					}
+				}
+				if(mob.getRNG().nextInt(100) == 0 && !mob.isSprinting() && !mob.isChild())
+				{
+					mob.setSprinting(true);
+				}
+			}
+			if(isFastblade(held))
+			{
+				EntityLivingBase tar = mob.getAttackTarget();
+				
+				if(tar != null)
+				{
+					double dist = mob.getDistanceSqToEntity(tar);
+					
+					if(mob.onGround && mob.getRNG().nextInt(20) == 0 &&  dist > 1D && dist < 4.0D)
+					{
+						mob.motionY = 0.5F;
+					}
+				}
+				if(mob.getRNG().nextInt(20) == 0 && !mob.isSprinting() && !mob.isChild())
+				{
+					mob.setSprinting(true);
+				}
+			}
+		}
+	}
+	private boolean isAxe(ItemStack held) 
+	{
+		return held != null && held.getItem() instanceof ItemWaraxeMF || held != null && held.getItem() instanceof ItemBattleaxeMF;
+	}
+	private boolean isFastblade(ItemStack held) 
+	{
+		return held != null && held.getItem() instanceof ItemDagger || held != null && held.getItem() instanceof ItemKatanaMF;
+	}
+	
+	private void applyBalance(EntityPlayer entityPlayer) 
+	{
+		MineFantasyII.debugMsg("Weapon Balance Init");
+		ItemStack weapon = entityPlayer.getHeldItem();
+        float balance = 0.0F;
+        
+        if(weapon != null && weapon.getItem() instanceof IWeightedWeapon)
+        {
+        	balance = ((IWeightedWeapon)weapon.getItem()).getBalance(entityPlayer);
+        }
+        
+        if (ConfigWeapon.useBalance && balance > 0 && entityPlayer != null)
+        {
+        	TacticalManager.throwPlayerOffBalance(entityPlayer, balance, true);
+        }
+	}
+	
+	public static void setParryCooldown(EntityLivingBase user, int ticks)
+	{
+		user.getEntityData().setInteger(parryCooldownNBT, ticks);
+		
+		if(!user.worldObj.isRemote && user instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)user;
+			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new ParryPacket(ticks, player).generatePacket());
+		}
+	}
+	public static int getParryCooldown(EntityLivingBase user)
+	{
+		if(user.getEntityData().hasKey(parryCooldownNBT))
+		{
+			return user.getEntityData().getInteger(parryCooldownNBT);
+		}
+		return 0;
+	}
+	public static void tickParryCooldown(EntityLivingBase user)
+	{
+		int ticks = getParryCooldown(user);
+		if(ticks > 0)
+		{
+			setParryCooldown(user, ticks-1);
+		}
+	}
+	public static boolean isParryAvailable(EntityLivingBase user)
+	{
+		return getParryCooldown(user)<= 0;
+	}
+	
+	public static void setPostHitCooldown(EntityLivingBase user, int ticks)
+	{
+		user.getEntityData().setInteger(posthitCooldownNBT, ticks);
+	}
+	public static int getPostHitCooldown(EntityLivingBase user)
+	{
+		if(user.getEntityData().hasKey(posthitCooldownNBT))
+		{
+			return user.getEntityData().getInteger(posthitCooldownNBT);
+		}
+		return 0;
+	}
+	public static void tickPostHitCooldown(EntityLivingBase user)
+	{
+		int ticks = getPostHitCooldown(user);
+		if(ticks > 0)
+		{
+			setPostHitCooldown(user, ticks-1);
+		}
+	}
+	@SubscribeEvent
+	public void jump(LivingJumpEvent event)
+	{
+		if(event.entityLiving instanceof EntityPlayer && StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(event.entityLiving))
+		{
+			StaminaMechanics.onJump((EntityPlayer) event.entityLiving);
+		}
+	}
+}

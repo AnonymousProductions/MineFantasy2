@@ -1,0 +1,49 @@
+package minefantasy.mf2.client.render;
+
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import minefantasy.mf2.item.archery.ItemBowMF;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+
+@SideOnly(Side.CLIENT)
+public class HudHandlerMF 
+{
+	private MineFantasyHUD inGameGUI = new MineFantasyHUD();
+	
+	@SubscribeEvent
+	public void postRenderOverlay(RenderGameOverlayEvent.Post event) 
+	{
+		if (event.type == RenderGameOverlayEvent.ElementType.HOTBAR)
+		{
+			inGameGUI.renderGameOverlay(event.partialTicks, event.mouseX, event.mouseY);
+		}
+	}
+	
+	@SubscribeEvent
+    public void onBowFOV(FOVUpdateEvent event)
+	{
+        ItemStack stack = event.entity.getItemInUse();
+        if (stack != null && stack.getItem() instanceof ItemBowMF)
+        {
+            int i = event.entity.getItemInUseDuration();
+            float f1 = (float)i / 20.0F;
+            if (f1 > 1.0F)
+            {
+                f1 = 1.0F;
+            }
+            else{
+                f1 *= f1;
+            }
+            event.newfov *= 1.0F - f1 * 0.15F;
+        }
+    }
+}
