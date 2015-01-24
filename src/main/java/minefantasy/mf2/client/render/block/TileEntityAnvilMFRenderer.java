@@ -56,7 +56,7 @@ public class TileEntityAnvilMFRenderer extends TileEntitySpecialRenderer {
     
 	public void renderModelAt(String tex, int meta, double d, double d1, double d2, float f, int renderPass) 
     {
-        int i = 0;
+        int i = meta;
         
 
         int j = 90 * i;
