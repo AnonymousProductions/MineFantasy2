@@ -402,13 +402,13 @@ public class CarpenterRecipes
 		OreDictionary.registerOre(meats, Items.cooked_porkchop);
 		OreDictionary.registerOre(meats, Items.cooked_fished);
 		
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.oats), chopping, "knife", -1, 100, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.oats), chopping, "knife", -1, 40, new Object[]{
 			"M",
 			"B",
 			'M', Items.wheat,
 			'B', Items.bowl
 		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.breadroll, 4), chopping, "knife", -1, 50, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.breadroll, 4), chopping, "knife", -1, 30, new Object[]{
 			"M",
 			'M', Items.bread,
 		});
@@ -435,7 +435,7 @@ public class CarpenterRecipes
 		});
 		for(ItemStack food: OreDictionary.getOres(meats))
 		{
-			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.stew), chopping, "knife", -1, 100, new Object[]{
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.stew), chopping, "knife", -1, 40, new Object[]{
 				"M",
 				"B",
 				'M', food,
