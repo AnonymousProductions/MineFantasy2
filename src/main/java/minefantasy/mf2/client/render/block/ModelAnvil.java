@@ -18,7 +18,6 @@ public class ModelAnvil extends ModelBase {
     ModelRenderer Body;
     ModelRenderer Tip;
     ModelRenderer Back;
-    ModelRenderer log;
     ModelRenderer floor;
     ModelRenderer Base;
   
@@ -68,14 +67,6 @@ public class ModelAnvil extends ModelBase {
       floor.setRotationPoint(0F, 0F, 0F);
       floor.setTextureSize(64, 32);
       floor.mirror = true;
-      
-      
-      log = new ModelRenderer(this, 0, 0);
-      log.addBox(-8F, 2F, -8F, 16, 16, 16);
-      log.setRotationPoint(0F, 0F, 0F);
-      log.setTextureSize(64, 32);
-      log.mirror = true;
-      setRotation(log, 0F, 0F, 0F);
   }
   
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
@@ -88,7 +79,6 @@ public class ModelAnvil extends ModelBase {
     Body.render(f5);
     Tip.render(f5);
     Back.render(f5);
-    log.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)
@@ -98,22 +88,14 @@ public class ModelAnvil extends ModelBase {
     model.rotateAngleZ = z;
   }
 
-  public void renderModel(boolean big, float f) 
+  public void renderModel(float f) 
   {
-	End.render(f);
-    Base.render(f);
-    Post.render(f);
-    Body.render(f);
-    Tip.render(f);
-    Back.render(f);
-    if(big)
-    {
-    	floor.render(f);
-    }
-	}
-
-	public void renderLog(float f)
-	{
-    log.render(f);
-	}
+  	End.render(f);
+     	Base.render(f);
+    	Post.render(f);
+    	Body.render(f);
+    	Tip.render(f);
+    	Back.render(f);
+	floor.render(f);
+   }
 }
