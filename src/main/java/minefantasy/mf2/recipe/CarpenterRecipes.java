@@ -400,6 +400,8 @@ public class CarpenterRecipes
 		OreDictionary.registerOre(meats, Items.cooked_beef);
 		OreDictionary.registerOre(meats, Items.cooked_chicken);
 		OreDictionary.registerOre(meats, Items.cooked_porkchop);
+		OreDictionary.registerOre(meats, FoodListMF.wolf_cooked);
+		OreDictionary.registerOre(meats, FoodListMF.horse_cooked);
 		OreDictionary.registerOre(meats, Items.cooked_fished);
 		
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.oats), chopping, "knife", -1, 40, new Object[]{
