@@ -156,7 +156,6 @@ public class ItemBattleaxeMF extends ItemHeavyWeapon
 	        {
 	        	((EntityPlayer)entityHitting).onCriticalHit(entityHit);
 	        }
-			entityHit.worldObj.playSoundAtEntity(entityHit, "minefantasy2:weapon.critical", 0.8F, power);
 		}
 	}
 	@Override

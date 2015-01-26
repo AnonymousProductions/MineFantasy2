@@ -622,7 +622,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 				}
 				if(hit instanceof EntityLivingBase)
 				{
-					hit.worldObj.playSoundAtEntity(hit, "minefantasy2:weapon.critical", 0.8F, 2.0F);
 					for(int a = 0; a < 4; a ++)
 					{
 						hit.worldObj.spawnParticle("blockcrack_" + Block.getIdFromBlock(Blocks.redstone_block) + "_0", hit.posX, hit.posY+hit.getEyeHeight(), hit.posZ, rand.nextDouble()/2D, rand.nextDouble()/2D, rand.nextDouble()/2D);

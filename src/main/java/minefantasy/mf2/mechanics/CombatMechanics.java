@@ -43,6 +43,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
@@ -276,7 +277,18 @@ public class CombatMechanics
 	 		   setParryCooldown((EntityLivingBase)target, ticks);
 	 	   }
 	   }
-	   target.worldObj.playSoundAtEntity(target, "minefantasy2:weapon.critical", 1.0F, 2.0F);
+	   if(!user.worldObj.isRemote)
+	   {
+		   user.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 20, 5));
+		   user.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 10));
+	   }
+	   if(user instanceof EntityPlayer)
+	   {
+		   TacticalManager.lungeEntity(user, target, 0.5F, 0F);
+		   TacticalManager.throwPlayerOffBalance((EntityPlayer) user, 0.5F, true);
+	   }
+	   
+	   target.worldObj.playSoundAtEntity(target, "minefantasy2:weapon.critical", 1.0F, 1.0F);
 	}
 
 	private static final float power_attack_base = 25F;
@@ -316,13 +328,17 @@ public class CombatMechanics
 		{
 			return false;
 		}
-		if(user instanceof EntityCreeper)
+		if(user instanceof EntityZombie || user instanceof EntitySkeleton)
 		{
-			return false;
+			if(user.fallDistance > 2)return false;
 		}
-		if(user instanceof EntityPlayer)
+		else if(user instanceof EntityPlayer)
 		{
 			if(!user.isSneaking())return false;
+		}
+		else
+		{
+			return false;
 		}
 		return user.fallDistance > 0 && !user.isOnLadder();
 	}
