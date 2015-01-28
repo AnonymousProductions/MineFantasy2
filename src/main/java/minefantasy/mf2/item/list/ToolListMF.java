@@ -12,14 +12,10 @@ import minefantasy.mf2.item.archery.EnumBowType;
 import minefantasy.mf2.item.archery.ItemArrowMF;
 import minefantasy.mf2.item.archery.ItemBowMF;
 import minefantasy.mf2.item.food.FoodListMF;
+import minefantasy.mf2.item.gadget.*;
 import minefantasy.mf2.item.tool.*;
 import minefantasy.mf2.item.tool.advanced.*;
-import minefantasy.mf2.item.tool.crafting.ItemHammer;
-import minefantasy.mf2.item.tool.crafting.ItemKnifeMF;
-import minefantasy.mf2.item.tool.crafting.ItemBasicCraftTool;
-import minefantasy.mf2.item.tool.crafting.ItemNeedle;
-import minefantasy.mf2.item.tool.crafting.ItemSaw;
-import minefantasy.mf2.item.tool.crafting.ItemTongs;
+import minefantasy.mf2.item.tool.crafting.*;
 import minefantasy.mf2.item.weapon.*;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.creativetab.CreativeTabs;
@@ -150,6 +146,8 @@ public class ToolListMF
 	public static Item bucketwood_water = new ItemBucketMF("bucketwood_water", Blocks.flowing_water);
 	public static Item bucketwood_milk = new ItemMilkBucketMF("bucketwood_milk");
 	
+	public static ItemBomb bomb_shrapnel = new ItemBomb("bomb_shrapnel");
+	public static ItemMine mine_shrapnel = new ItemMine("mine_shrapnel");
 	public static void init() 
 	{
 		BlockListMF.init();

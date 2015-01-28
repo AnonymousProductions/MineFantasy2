@@ -7,6 +7,8 @@ import minefantasy.mf2.client.gui.*;
 import minefantasy.mf2.client.render.*;
 import minefantasy.mf2.client.render.block.TileEntityAnvilMFRenderer;
 import minefantasy.mf2.entity.EntityArrowMF;
+import minefantasy.mf2.entity.EntityBomb;
+import minefantasy.mf2.entity.EntityMine;
 import minefantasy.mf2.item.archery.ItemBowMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.advanced.ItemScythe;
@@ -17,6 +19,7 @@ import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -104,6 +107,8 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 	public void registerEntityRenderer()
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowMF.class, new RenderArrowMF());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new RenderSnowball(ToolListMF.bomb_shrapnel));//Switch to RenderBomb when syncing is fixed
+		RenderingRegistry.registerEntityRenderingHandler(EntityMine.class, new RenderMine());
 	}
 	
 	@Override

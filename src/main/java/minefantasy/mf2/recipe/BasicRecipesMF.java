@@ -66,6 +66,7 @@ public class BasicRecipesMF
 		GameRegistry.addSmelting(BlockListMF.oreSulfur, new ItemStack(ComponentListMF.sulfur, 4), 0.25F);
 		GameRegistry.addSmelting(BlockListMF.oreClay, new ItemStack(Items.clay_ball, 4), 0.25F);
 		
+		GameRegistry.addSmelting(ComponentListMF.bomb_casing_uncooked, new ItemStack(ComponentListMF.bomb_casing), 0F);
 		
 		for(int id = 0; id < BlockListMF.metalBlocks.length; id ++)
 		{

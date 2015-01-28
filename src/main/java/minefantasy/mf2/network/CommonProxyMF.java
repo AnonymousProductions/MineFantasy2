@@ -5,7 +5,7 @@ import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.block.tileentity.*;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.container.*;
-import minefantasy.mf2.entity.EntityArrowMF;
+import minefantasy.mf2.entity.*;
 import minefantasy.mf2.hunger.HungerSystemMF;
 import minefantasy.mf2.item.archery.ArrowFireFlint;
 import minefantasy.mf2.item.archery.ArrowFirerMF;
@@ -14,6 +14,8 @@ import minefantasy.mf2.mechanics.CombatMechanics;
 import minefantasy.mf2.mechanics.EventManagerMF;
 import minefantasy.mf2.mechanics.MonsterUpgrader;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -64,12 +66,14 @@ public class CommonProxyMF implements IGuiHandler
 		if(ConfigExperiment.dynamicArrows)
 		{
 			EntityRegistry.registerModEntity(EntityArrowMF.class, "arrowMF", IDBase, MineFantasyII.instance, 64, 1, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntityBomb.class, "bombMF", IDBase, MineFantasyII.instance, 64, 1, true);IDBase ++;
 		}
 		else
 		{
 			EntityRegistry.registerModEntity(EntityArrowMF.class, "arrowMF", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntityBomb.class, "bombMF", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 		}
-		
+		EntityRegistry.registerModEntity(EntityMine.class, "landmineMF", IDBase, MineFantasyII.instance, 16, 10, true);IDBase ++;
 		registerTileEntities();
 	}
 

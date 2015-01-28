@@ -182,12 +182,10 @@ item.dragon_heart.name=Dragon Heart
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /BOMB/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item.bomb.name=Bomb
-
-item.bomb_shrapnel.name=Shrapnel Bomb
+item.bomb_shrapnel.name=Basic Bomb
 item.bomb_fire.name=Fire Bomb
-item.bomb_poison.name=Poison Bomb
-item.bomb_blinding.name=Blinding Bomb
+item.mine_shrapnel.name=Basic Mine
+item.bomb_fire.name=Fire Mine
 
 death.attack.bomb.thrown=%1$s was blown up by %2$s
 death.attack.bomb=%1$s was blown up

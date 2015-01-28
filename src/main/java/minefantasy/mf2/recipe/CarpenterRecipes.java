@@ -605,5 +605,28 @@ public class CarpenterRecipes
 				'F', Items.feather,
 			});
 		}
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.bomb_casing_uncooked), basic, 2, new Object[]
+		{
+			" C ",
+			"CRC",
+			" C ",
+			'R', Items.redstone,
+			'C', Items.clay_ball,
+		});
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.bomb_shrapnel), engineering, 3, new Object[]
+		{
+			"FBF",
+			"BCB",
+			"FBF",
+			'C', ComponentListMF.bomb_casing,
+			'B', ComponentListMF.blackpowder,
+			'F', Items.flint,
+		});
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.mine_shrapnel), engineering, 5, new Object[]
+		{
+			"BPB",
+			'P', Blocks.stone_pressure_plate,
+			'B', ToolListMF.bomb_shrapnel,
+		});
 	}
 }
