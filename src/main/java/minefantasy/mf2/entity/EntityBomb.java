@@ -6,9 +6,12 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.helpers.TacticalManager;
+import minefantasy.mf2.item.gadget.EnumCasingType;
+import minefantasy.mf2.item.gadget.EnumExplosiveType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -81,8 +84,13 @@ public class EntityBomb extends Entity
     {
         return 1.5F;
     }
-
-	protected void entityInit() {}
+    
+    @Override
+	protected void entityInit()
+    {
+    	dataWatcher.addObject(typeId, (byte)0);
+    	dataWatcher.addObject(typeId+1, (byte)0);
+    }
 
     /**
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
@@ -110,7 +118,7 @@ public class EntityBomb extends Entity
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        this.motionY -= 0.03999999910593033D;
+        this.motionY -= (0.03999999910593033D * getGravityModifier());
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
         this.motionX *= 0.9800000190734863D;
         this.motionY *= 0.9800000190734863D;
@@ -147,7 +155,12 @@ public class EntityBomb extends Entity
         }
     }
 
-    private void explode2()
+    private double getGravityModifier()
+	{
+		return getCase().weightModifier;
+	}
+
+	private void explode2()
     {
         float power = 3.5F;
         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, power, false);
@@ -204,32 +217,36 @@ public class EntityBomb extends Entity
 
             if (var4 != null && !var4.isEmpty())
             {
-                Iterator var5 = var4.iterator();
+                Iterator splashDamage = var4.iterator();
 
-                while (var5.hasNext())
+                while (splashDamage.hasNext())
                 {
-                    Entity var6 = (Entity)var5.next();
-                    double var7 = this.getDistanceToEntity(var6);
+                    Entity entityHit = (Entity)splashDamage.next();
+                    double distanceToEntity = this.getDistanceToEntity(entityHit);
 
                     double radius = getRangeOfBlast();
-                    if (var7 < radius)
+                    if (distanceToEntity < radius)
                     {
-                    	int dam = getDamage();
+                    	float dam = getDamage();
                     	
-                    	if(var7 < radius/2)
+                    	if(distanceToEntity > radius/2)
                     	{
-                    		double sc = (radius/2)-var7;
+                    		double sc = distanceToEntity-(radius/2);
                     		if(sc < 0)sc = 0;
-                    		if(sc > (radius/2))sc = (radius);
-                    		dam *= (1 + (0.5D / (radius/2) * sc));
+                    		if(sc > (radius/2))sc = (radius/2);
+                    		dam *= (sc / (radius/2));
                     	}
-                    	if(!(var6 instanceof EntityItem))
+                    	if(!(entityHit instanceof EntityItem))
                     	{
                     		DamageSource source = causeBombDamage(this, thrower != null ? thrower:this);
                     		source.setExplosion();
-                    		if(this.canEntityBeSeen(var6) && var6.attackEntityFrom(source, dam))
+                    		if(getFilling() == 2)
                     		{
-                    			applyEffects(var6);
+                    			source.setFireDamage();
+                    		}
+                    		if(entityHit.attackEntityFrom(source, dam))
+                    		{
+                    			applyEffects(entityHit);
                     		}
                     	}
                     }
@@ -237,9 +254,29 @@ public class EntityBomb extends Entity
             }
             this.setDead();
         }
+        
+        int t = getFilling();
+        if(t > 0)
+        {
+        	for(int a = 0; a < 16; a++)
+        	{
+        		float range = 0.6F;
+        		EntityShrapnel shrapnel = new EntityShrapnel(worldObj, posX, posY+0.5D, posZ, (rand.nextDouble()-0.5)*range, (rand.nextDouble())*(range/2), (rand.nextDouble()-0.5)*range);
+        		
+        		if(t == 2)
+        		{
+        			shrapnel.setFire(10);
+        		}
+        		worldObj.spawnEntityInWorld(shrapnel);
+        	}
+        }
 	}
     private void applyEffects(Entity hit) 
     {
+    	if(getFilling() == 2)
+    	{
+    		hit.setFire(5);
+    	}
     	if(hit instanceof EntityLivingBase)
     	{
     		EntityLivingBase live = (EntityLivingBase)hit;
@@ -248,12 +285,12 @@ public class EntityBomb extends Entity
 
 	private double getRangeOfBlast()
 	{
-		return 4D;
+		return getBlast().range * getCase().rangeModifier;
 	}
 
 	private int getDamage() 
 	{
-		return 25;
+		return (int)(getBlast().damage* getCase().damageModifier);
 	}
 	
 	public static DamageSource causeBombDamage(Entity bomb, Entity user)
@@ -265,4 +302,28 @@ public class EntityBomb extends Entity
     {
         return this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ), Vec3.createVectorHelper(entity.posX, entity.posY + (double)entity.getEyeHeight(), entity.posZ)) == null;
     }
+	
+	private final int typeId = 2;
+	public byte getFilling()
+	{
+		return dataWatcher.getWatchableObjectByte(typeId);
+	}
+	public byte getCasing()
+	{
+		return dataWatcher.getWatchableObjectByte(typeId+1);
+	}
+	public EntityBomb setType(byte fill, byte casing)
+	{
+		dataWatcher.updateObject(typeId, fill);
+		dataWatcher.updateObject(typeId+1, casing);
+		return this;
+	}
+	private EnumExplosiveType getBlast()
+	{
+		return EnumExplosiveType.getType(getFilling());
+	}
+	private EnumCasingType getCase()
+	{
+		return EnumCasingType.getType(getCasing());
+	}
 }

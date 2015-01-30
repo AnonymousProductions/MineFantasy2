@@ -6,10 +6,9 @@ import minefantasy.mf2.block.tileentity.*;
 import minefantasy.mf2.client.gui.*;
 import minefantasy.mf2.client.render.*;
 import minefantasy.mf2.client.render.block.TileEntityAnvilMFRenderer;
-import minefantasy.mf2.entity.EntityArrowMF;
-import minefantasy.mf2.entity.EntityBomb;
-import minefantasy.mf2.entity.EntityMine;
+import minefantasy.mf2.entity.*;
 import minefantasy.mf2.item.archery.ItemBowMF;
+import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.advanced.ItemScythe;
 import minefantasy.mf2.item.tool.crafting.ItemSaw;
@@ -107,8 +106,9 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 	public void registerEntityRenderer()
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowMF.class, new RenderArrowMF());
-		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new RenderSnowball(ToolListMF.bomb_shrapnel));//Switch to RenderBomb when syncing is fixed
+		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new RenderBombIcon());//Switch to RenderBomb when syncing is fixed
 		RenderingRegistry.registerEntityRenderingHandler(EntityMine.class, new RenderMine());
+		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderSnowball(ComponentListMF.shrapnel));
 	}
 	
 	@Override
@@ -129,6 +129,10 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 		if(tile != null && tile instanceof TileEntityCarpenterMF)
 		{
 			return new GuiCarpenterMF(player.inventory, (TileEntityCarpenterMF) tile);
+		}
+		if(tile != null && tile instanceof TileEntityBombBench)
+		{
+			return new GuiBombBench(player.inventory, (TileEntityBombBench) tile);
 		}
         return null;
     }

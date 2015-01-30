@@ -93,6 +93,7 @@ public class BlockListMF
 	public static BlockMetalMF[] storage = new BlockMetalMF[metalBlocks.length];
 	public static BlockAnvilMF[] anvil = new BlockAnvilMF[anvils.length];
 	public static BlockCarpenter carpenter = new BlockCarpenter();
+	public static BlockBombBench bombBench = new BlockBombBench();
 	
 	public static Block cheese_wheel = new BlockCakeMF("cheese", FoodListMF.cheese_slice);
 	

@@ -9,6 +9,7 @@ import minefantasy.mf2.api.armour.ArmourMaterialMF;
 import minefantasy.mf2.item.FuelHandlerMF;
 import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
+import minefantasy.mf2.item.gadget.ItemBombComponent;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
@@ -78,16 +79,20 @@ public class ComponentListMF
 	
 	public static Item flux = new ItemComponentMF("flux", 0);
 	public static Item flux_strong = new ItemComponentMF("flux_strong", 0);
-	public static Item bloom = new ItemComponentMF("bloom", 0);
-	//public static Item iron_dust = new ItemComponentMF("iron_dust", 0);
-	//public static Item iron_prep = new ItemComponentMF("iron_prep", 0);
 	
 	public static Item coalDust = new ItemComponentMF("coalDust", 0);
 	public static Item nitre = new ItemComponentMF("nitre", 0);
 	public static Item sulfur = new ItemComponentMF("sulfur", 0);
-	public static Item blackpowder = new ItemComponentMF("blackpowder", 0);
+	public static Item blackpowder = new ItemBombComponent("blackpowder", 0, "powder", 0);
+	public static Item fletching = new ItemComponentMF("fletching", 0);
+	public static Item shrapnel = new ItemBombComponent("shrapnel", 0, "filling", 1);
+	public static Item bomb_fuse = new ItemBombComponent("bomb_fuse", 0, "fuse", 0);
 	public static Item bomb_casing_uncooked = new ItemComponentMF("bomb_casing_uncooked", 0);
-	public static Item bomb_casing = new ItemComponentMF("bomb_casing", 0);
+	public static Item bomb_casing = new ItemBombComponent("bomb_casing", 0, "bombcase", 0);
+	public static Item mine_casing_uncooked = new ItemComponentMF("mine_casing_uncooked", 0);
+	public static Item mine_casing = new ItemBombComponent("mine_casing", 0, "minecase", 0);
+	public static Item bomb_casing_iron = new ItemBombComponent("bomb_casing_iron", 0, "bombcase", 1);
+	public static Item mine_casing_iron = new ItemBombComponent("mine_casing_iron", 0, "minecase", 1);
 	
 	public static Item coke = new ItemComponentMF("coke", 0);
 	public static Item diamond_shards = new ItemComponentMF("diamond_shards", 0);
@@ -107,7 +112,7 @@ public class ComponentListMF
 	public static Item hideMedium = new ItemComponentMF("hideMedium", 0);
 	public static Item hideLarge = new ItemComponentMF("hideLarge", 0);
 	
-	public static Item dragon_heart = new ItemComponentMF("dragon_heart", 1);
+	public static Item dragon_heart = new ItemBombComponent("dragon_heart", 1, "filling", 2);
 	
 	public static Item padding = new ItemComponentMF("padding", 0);
 	

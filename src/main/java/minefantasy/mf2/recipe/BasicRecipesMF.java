@@ -67,6 +67,7 @@ public class BasicRecipesMF
 		GameRegistry.addSmelting(BlockListMF.oreClay, new ItemStack(Items.clay_ball, 4), 0.25F);
 		
 		GameRegistry.addSmelting(ComponentListMF.bomb_casing_uncooked, new ItemStack(ComponentListMF.bomb_casing), 0F);
+		GameRegistry.addSmelting(ComponentListMF.mine_casing_uncooked, new ItemStack(ComponentListMF.mine_casing), 0F);
 		
 		for(int id = 0; id < BlockListMF.metalBlocks.length; id ++)
 		{
@@ -102,5 +103,14 @@ public class BasicRecipesMF
 				});
 			}
 		}
+		
+		GameRegistry.addRecipe(new ItemStack(BlockListMF.bombBench), new Object[]
+		{
+			"ICI",
+			"III",
+			"III",
+			'C', BlockListMF.carpenter,
+			'I', Items.iron_ingot,
+		});
 	}
 }

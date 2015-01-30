@@ -33,7 +33,7 @@ public class GuiCarpenterMF extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y)
     {
-    	String s = StatCollector.translateToLocal(tile.getResultName());
+    	String s = MineFantasyII.isDebug() ? "Carpenter Bench Crafting" : StatCollector.translateToLocal(tile.getResultName());
         this.fontRendererObj.drawString(s, 10, 6, 0);
         
         int xPoint = (this.width - this.xSize) / 2;

@@ -146,8 +146,9 @@ public class ToolListMF
 	public static Item bucketwood_water = new ItemBucketMF("bucketwood_water", Blocks.flowing_water);
 	public static Item bucketwood_milk = new ItemMilkBucketMF("bucketwood_milk");
 	
-	public static ItemBomb bomb_shrapnel = new ItemBomb("bomb_shrapnel");
-	public static ItemMine mine_shrapnel = new ItemMine("mine_shrapnel");
+	public static ItemBomb bomb_custom = new ItemBomb("bomb_basic");
+	public static ItemMine mine_custom = new ItemMine("mine_basic");
+	
 	public static void init() 
 	{
 		BlockListMF.init();

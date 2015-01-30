@@ -49,6 +49,10 @@ public class CommonProxyMF implements IGuiHandler
 		{
 			return new ContainerCarpenterMF(player.inventory, (TileEntityCarpenterMF) tile);
 		}
+		if(tile != null && tile instanceof TileEntityBombBench)
+		{
+			return new ContainerBombBench(player.inventory, (TileEntityBombBench) tile);
+		}
         return null;
     }
 
@@ -67,11 +71,13 @@ public class CommonProxyMF implements IGuiHandler
 		{
 			EntityRegistry.registerModEntity(EntityArrowMF.class, "arrowMF", IDBase, MineFantasyII.instance, 64, 1, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityBomb.class, "bombMF", IDBase, MineFantasyII.instance, 64, 1, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntityShrapnel.class, "shrapnel_mf", IDBase, MineFantasyII.instance, 16, 1, true);IDBase ++;
 		}
 		else
 		{
 			EntityRegistry.registerModEntity(EntityArrowMF.class, "arrowMF", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityBomb.class, "bombMF", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntityShrapnel.class, "shrapnel_mf", IDBase, MineFantasyII.instance, 16, 20, true);IDBase ++;
 		}
 		EntityRegistry.registerModEntity(EntityMine.class, "landmineMF", IDBase, MineFantasyII.instance, 16, 10, true);IDBase ++;
 		registerTileEntities();
@@ -81,6 +87,7 @@ public class CommonProxyMF implements IGuiHandler
 	{
 		GameRegistry.registerTileEntity(TileEntityAnvilMF.class, "MF_Anvil");
 		GameRegistry.registerTileEntity(TileEntityCarpenterMF.class, "MF_CarpenterBench");
+		GameRegistry.registerTileEntity(TileEntityBombBench.class, "MF_BombBench");
 	}
 
 
@@ -103,5 +110,5 @@ public class CommonProxyMF implements IGuiHandler
 		return null;
 	}
 	
-	public static int renderID = 100;
+	public static int renderID = -1;
 }

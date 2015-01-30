@@ -17,8 +17,4 @@ public class EntityDamageSourceBomb extends EntityDamageSourceIndirect
         super("bomb", bomb, user);
         thrower = user;
     }
-
-    /**
-     * Returns the message to be displayed on player death.
-     */
 }

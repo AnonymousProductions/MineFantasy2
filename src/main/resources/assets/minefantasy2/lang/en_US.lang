@@ -71,6 +71,7 @@ item.flux_strong.name=Strong Flux
 item.bloom.name=Iron Bloom
 item.coke.name=Coke
 item.diamond_shards.name=Diamond Shards
+item.fletching.name=Fletching
 
 item.coalDust.name=Coal Dust
 item.nitre.name=Niter
@@ -78,15 +79,12 @@ item.sulfur.name=Sulfur
 item.blackpowder.name=Blackpowder
 item.bomb_casing_uncooked.name=Clay Bomb Casing
 item.bomb_casing.name=Bomb Casing
-item.bomb_fuse.name=Bomb fuse
+item.mine_casing_uncooked.name=Clay Mine Casing
+item.mine_casing.name=Mine Casing
 item.shrapnel.name=Shrapnel
-item.fire_dust.name=Firey Dust
-item.toxic_bottle.name=Toxic Powder Bottle
-item.wither_bone.name=Wither Bone
-item.wither_dust.name=Wither Dust
-item.wither_bottle.name=Wither Powder Bottle
-item.diamond_dust.name=Diamond Dust
-item.sparkle_dust.name=Sparkle Dust
+item.bomb_fuse.name=Bomb Fuse
+item.bomb_casing_iron.name=Iron Bomb Casing
+item.mine_casing_iron.name=Iron Mine Casing
 
 item.clay_brick.name=Clay Brick
 item.kaolinite.name=Kaolinite
@@ -182,16 +180,25 @@ item.dragon_heart.name=Dragon Heart
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /BOMB/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item.bomb_shrapnel.name=Basic Bomb
-item.bomb_fire.name=Fire Bomb
-item.mine_shrapnel.name=Basic Mine
-item.bomb_fire.name=Fire Mine
+item.bomb_basic.name=Basic Bomb
+item.bomb_shrapnel.name=Shrapnel Bomb
+item.bomb_fire.name=Incineration Bomb
 
+item.mine_basic.name=Basic Mine
+item.mine_shrapnel.name=Shrapnel Mine
+item.mine_fire.name=Incineration Mine
+
+death.attack.mine=%1$s stood on a mine
 death.attack.bomb.thrown=%1$s was blown up by %2$s
 death.attack.bomb=%1$s was blown up
 death.attack.bomb.suicide=%1$s blew themself up
 
+bomb.case.ceramic.name=Ceramic Casing
+bomb.case.iron.name=Iron Casing
+bomb.damage.name=Blast Damage
+bomb.range.metric.name=Blast Radius: %1$s metres
 
+gui.bombcraftmf.name=Bomb Crafting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ORES/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -247,6 +254,7 @@ tile.mithium_block.name=Block of Mithium
 
 tile.ender_block.name=Block of Enderforge
 
+tile.bombBench.name=Bomb Crafting Table
 tile.carpenterBench.name=Carpenter Bench
 tile.anvilStone.name=Stone Anvil
 tile.anvilBronze.name=Bronze Anvil

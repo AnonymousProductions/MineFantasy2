@@ -6,6 +6,7 @@ import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -561,6 +562,11 @@ public class ForgingRecipes
 			"H",
 			'H', Items.coal
 		});
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.shrapnel, 4), false, 2, 2, 10, new Object[]
+		{
+			"H",
+			'H', Items.flint
+		});
 		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.kaolinite_dust, 4), false, -1, -1, 4, new Object[]
 		{
 			"H",
@@ -795,5 +801,27 @@ public class ForgingRecipes
 				});
 			}
 		}
+		
+		//BOMBS
+		material = BaseMaterialMF.iron;
+		
+		time = 3;
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.bomb_casing_iron, 2), true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			" I ",
+			"IRI",
+			" I ",
+			'I', ComponentListMF.hunks[3],
+			'R', Items.redstone,
+		});
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.mine_casing_iron, 2), true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"  P  ",
+			" IRI ",
+			"I R I",
+			'P', Blocks.heavy_weighted_pressure_plate,
+			'I', ComponentListMF.hunks[3],
+			'R', Items.redstone,
+		});
 	}
 }

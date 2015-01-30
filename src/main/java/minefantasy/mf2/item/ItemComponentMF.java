@@ -98,19 +98,25 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.hideLarge);
 		add(list, ComponentListMF.padding);
 		
-		add(list, ComponentListMF.bloom);
 		add(list, ComponentListMF.flux);
 		add(list, ComponentListMF.flux_strong);
 		add(list, ComponentListMF.coke);
 		add(list, ComponentListMF.diamond_shards);
 		add(list, ComponentListMF.diamond_dust);
+		add(list, ComponentListMF.fletching);
 		
 		add(list, ComponentListMF.coalDust);
 		add(list, ComponentListMF.sulfur);
 		add(list, ComponentListMF.nitre);
 		add(list, ComponentListMF.blackpowder);
+		add(list, ComponentListMF.bomb_fuse);
+		add(list, ComponentListMF.shrapnel);
 		add(list, ComponentListMF.bomb_casing_uncooked);
 		add(list, ComponentListMF.bomb_casing);
+		add(list, ComponentListMF.mine_casing_uncooked);
+		add(list, ComponentListMF.mine_casing);
+		add(list, ComponentListMF.bomb_casing_iron);
+		add(list, ComponentListMF.mine_casing_iron);
 		
 		add(list, ComponentListMF.clay_brick);
 		add(list, ComponentListMF.kaolinite);
