@@ -107,7 +107,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		}
 		else if(source.isUnblockable())
 		{
-			AC = 0.0F;
+			AC *= getUnblockableResistance(armour, source);
 		}
 		AC = ToolHelper.modifyArmourRating(armour, AC);
 		if(player.getEntityData().hasKey("MF_ZombieArmour"))
@@ -130,6 +130,11 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		float max = (float) ((getMaxDamage() + 1 - armour.getItemDamage()) * (percent*25F));//I don't know how this variable works
 		
 		return new ArmorProperties(0, percent, (int)max);
+	}
+	
+	public float getUnblockableResistance(ItemStack item, DamageSource source)
+	{
+		return 0F;
 	}
 	
 	public float getMagicAC(float AC, DamageSource source, double damage, EntityLivingBase player)

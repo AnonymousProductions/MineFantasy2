@@ -93,6 +93,8 @@ public class ComponentListMF
 	public static Item mine_casing = new ItemBombComponent("mine_casing", 0, "minecase", 0);
 	public static Item bomb_casing_iron = new ItemBombComponent("bomb_casing_iron", 0, "bombcase", 1);
 	public static Item mine_casing_iron = new ItemBombComponent("mine_casing_iron", 0, "minecase", 1);
+	public static Item bomb_casing_obsidian = new ItemBombComponent("bomb_casing_obsidian", 1, "bombcase", 2);
+	public static Item mine_casing_obsidian = new ItemBombComponent("mine_casing_obsidian", 1, "minecase", 2);
 	
 	public static Item coke = new ItemComponentMF("coke", 0);
 	public static Item diamond_shards = new ItemComponentMF("diamond_shards", 0);

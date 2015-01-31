@@ -2,5 +2,3 @@
   *Make it the same as MFI, only try limit searching the hot list for items
   *Instead create NBT variables(maxtemp, workabletemp, etc) on creation.
   (The old system lagged a bit when lots of ingots were used)
-
-Diamond Dust name missing.

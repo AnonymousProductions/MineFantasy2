@@ -19,7 +19,7 @@ public class FoodListMF
 	public static Item spice_mild = (ItemFoodMF)(new ItemFoodMF("spice_mild", 1, 0F, false));
 	public static Item flour = new ItemComponentMF("flour", 0).setCreativeTab(CreativeTabMF.tabFood);
 	
-	public static Item breadroll = (ItemFoodMF)(new ItemFoodMF("breadroll", 5, 1.0F, false)).setMaxStackSize(1);
+	public static Item breadroll = (ItemFoodMF)(new ItemFoodMF("breadroll", 5, 1.0F, false)).setMaxStackSize(8);
 	
 	public static Item cheese_slice = (ItemFoodMF)(new ItemFoodMF("cheese_slice",       6, 1.0F, 2F, false, 0)).setMaxStackSize(1);
 	

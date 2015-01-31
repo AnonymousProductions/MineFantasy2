@@ -158,6 +158,10 @@ public class ItemMine extends Item
 		list.add(createMine((byte)1, (byte)0, 1));
 		list.add(createMine((byte)1, (byte)1, 1));
 		list.add(createMine((byte)1, (byte)2, 1));
+		
+		list.add(createMine((byte)2, (byte)0, 1));
+		list.add(createMine((byte)2, (byte)1, 1));
+		list.add(createMine((byte)2, (byte)2, 1));
     }
 
     //TODO Icons
@@ -166,7 +170,7 @@ public class ItemMine extends Item
 	{
 		return mines[type];
 	}
-    private IIcon[] mines = new IIcon[2];
+    private IIcon[] mines = new IIcon[3];
     
     @Override
     @SideOnly(Side.CLIENT)
@@ -174,6 +178,7 @@ public class ItemMine extends Item
     {
         this.itemIcon = mines[0] = reg.registerIcon("minefantasy2:Other/mine_ceramic");
         mines[1] = reg.registerIcon("minefantasy2:Other/mine_iron");
+        mines[2] = reg.registerIcon("minefantasy2:Other/mine_obsidian");
     }
     
     @Override
@@ -207,7 +212,7 @@ public class ItemMine extends Item
     @Override
     public EnumRarity getRarity(ItemStack item)
     {
-    	if(getFilling(item) >= 2)
+    	if(getFilling(item) >= 2 || getCasing(item) >= 2)
     	{
     		return EnumRarity.uncommon;
     	}

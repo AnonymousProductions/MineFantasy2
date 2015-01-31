@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import minefantasy.mf2.api.MineFantasyAPI;
@@ -403,6 +404,7 @@ public class CarpenterRecipes
 		OreDictionary.registerOre(meats, FoodListMF.wolf_cooked);
 		OreDictionary.registerOre(meats, FoodListMF.horse_cooked);
 		OreDictionary.registerOre(meats, Items.cooked_fished);
+		OreDictionary.registerOre(meats, new ItemStack(Items.cooked_fished, 1, 1));
 		
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.oats), chopping, "knife", -1, 40, new Object[]{
 			"M",

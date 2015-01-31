@@ -258,7 +258,7 @@ public class EntityMine extends Entity
                     {
                     	float dam = getDamage();
                     	
-                    	if(distanceToEntity > radius/2)
+                    	if(getCasing() != 2 && distanceToEntity > radius/2)
                     	{
                     		double sc = distanceToEntity-(radius/2);
                     		if(sc < 0)sc = 0;

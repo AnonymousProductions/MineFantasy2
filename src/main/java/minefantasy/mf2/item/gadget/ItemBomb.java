@@ -166,6 +166,10 @@ public class ItemBomb extends Item
 		list.add(createBomb((byte)1, (byte)0, 1));
 		list.add(createBomb((byte)1, (byte)1, 1));
 		list.add(createBomb((byte)1, (byte)2, 1));
+		
+		list.add(createBomb((byte)2, (byte)0, 1));
+		list.add(createBomb((byte)2, (byte)1, 1));
+		list.add(createBomb((byte)2, (byte)2, 1));
     }
 
     //TODO Icons
@@ -175,7 +179,7 @@ public class ItemBomb extends Item
 		return bombs[type];
 	}
     public IIcon[] icons = new IIcon[2];
-    private IIcon[] bombs = new IIcon[2];
+    private IIcon[] bombs = new IIcon[3];
     
     @Override
     @SideOnly(Side.CLIENT)
@@ -186,6 +190,7 @@ public class ItemBomb extends Item
         
         this.itemIcon = bombs[0] = reg.registerIcon("minefantasy2:Other/bomb_ceramic");
         bombs[1] = reg.registerIcon("minefantasy2:Other/bomb_iron");
+        bombs[2] = reg.registerIcon("minefantasy2:Other/bomb_obsidian");
     }
     
     @Override
@@ -219,7 +224,7 @@ public class ItemBomb extends Item
     @Override
     public EnumRarity getRarity(ItemStack item)
     {
-    	if(getFilling(item) >= 2)
+    	if(getFilling(item) >= 2 || getCasing(item) >= 2)
     	{
     		return EnumRarity.uncommon;
     	}

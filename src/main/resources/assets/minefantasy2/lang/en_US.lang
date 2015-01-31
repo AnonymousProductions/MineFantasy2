@@ -71,6 +71,7 @@ item.flux_strong.name=Strong Flux
 item.bloom.name=Iron Bloom
 item.coke.name=Coke
 item.diamond_shards.name=Diamond Shards
+item.diamond_dust.name=Diamond Dust
 item.fletching.name=Fletching
 
 item.coalDust.name=Coal Dust
@@ -85,6 +86,8 @@ item.shrapnel.name=Shrapnel
 item.bomb_fuse.name=Bomb Fuse
 item.bomb_casing_iron.name=Iron Bomb Casing
 item.mine_casing_iron.name=Iron Mine Casing
+item.bomb_casing_obsidian.name=Obsidian Bomb Casing
+item.mine_casing_obsidian.name=Obsidian Mine Casing
 
 item.clay_brick.name=Clay Brick
 item.kaolinite.name=Kaolinite
@@ -195,6 +198,7 @@ death.attack.bomb.suicide=%1$s blew themself up
 
 bomb.case.ceramic.name=Ceramic Casing
 bomb.case.iron.name=Iron Casing
+bomb.case.obsidian.name=Obsidian Casing
 bomb.damage.name=Blast Damage
 bomb.range.metric.name=Blast Radius: %1$s metres
 

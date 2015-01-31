@@ -2,8 +2,9 @@ package minefantasy.mf2.item.gadget;
 
 public enum EnumCasingType
 {
-	CERAMIC("ceramic", 1.0F, 1.0F, 1.0F),
-	IRON("iron",       1.5F, 0.8F, 2.0F);
+	CERAMIC("ceramic",  1.0F, 1.0F, 1.0F),
+	IRON("iron",        1.5F, (4.0F/5.5F), 2.0F),
+	OBSIDIAN("obsidian",2.0F, (2.0F/5.5F), 1.5F);
 	
 	public String name;
 	public float damageModifier;
@@ -23,6 +24,10 @@ public enum EnumCasingType
 		if(i == 1)
 		{
 			return IRON;
+		}
+		if(i == 2)
+		{
+			return OBSIDIAN;
 		}
 		return CERAMIC;
 	}

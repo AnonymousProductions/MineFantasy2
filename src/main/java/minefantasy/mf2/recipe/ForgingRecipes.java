@@ -823,5 +823,31 @@ public class ForgingRecipes
 			'I', ComponentListMF.hunks[3],
 			'R', Items.redstone,
 		});
+		
+		for(ItemStack hunk: OreDictionary.getOres("hunkBlackSteel"))
+		{
+			material = BaseMaterialMF.blacksteel;
+			
+			time = 10;
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.bomb_casing_obsidian, 2), true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+			{
+				"RIR",
+				"IOI",
+				"RIR",
+				'O', Blocks.obsidian,
+				'I', hunk,
+				'R', Items.redstone,
+			});
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.mine_casing_obsidian, 2), true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+			{
+				"  P  ",
+				" IRI ",
+				"IRORI",
+				'O', Blocks.obsidian,
+				'P', Blocks.heavy_weighted_pressure_plate,
+				'I', hunk,
+				'R', Items.redstone,
+			});
+		}
 	}
 }

@@ -117,6 +117,8 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.mine_casing);
 		add(list, ComponentListMF.bomb_casing_iron);
 		add(list, ComponentListMF.mine_casing_iron);
+		add(list, ComponentListMF.bomb_casing_obsidian);
+		add(list, ComponentListMF.mine_casing_obsidian);
 		
 		add(list, ComponentListMF.clay_brick);
 		add(list, ComponentListMF.kaolinite);
