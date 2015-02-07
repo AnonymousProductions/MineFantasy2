@@ -17,6 +17,7 @@ import minefantasy.mf2.mechanics.ExtendedReachMF;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -119,20 +120,32 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 	@Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
-    	TileEntity tile = world.getTileEntity(x, y, z);
-		int meta = world.getBlockMetadata(x, y, z);
-		
-		if(tile != null && tile instanceof TileEntityAnvilMF)
+		Minecraft mc = Minecraft.getMinecraft();
+		if(ID == 0)
 		{
-			return new GuiAnvilMF(player.inventory, (TileEntityAnvilMF) tile);
+	    	TileEntity tile = world.getTileEntity(x, y, z);
+			int meta = world.getBlockMetadata(x, y, z);
+			
+			if(tile != null && tile instanceof TileEntityAnvilMF)
+			{
+				return new GuiAnvilMF(player.inventory, (TileEntityAnvilMF) tile);
+			}
+			if(tile != null && tile instanceof TileEntityCarpenterMF)
+			{
+				return new GuiCarpenterMF(player.inventory, (TileEntityCarpenterMF) tile);
+			}
+			if(tile != null && tile instanceof TileEntityBombBench)
+			{
+				return new GuiBombBench(player.inventory, (TileEntityBombBench) tile);
+			}
+			 return null;
 		}
-		if(tile != null && tile instanceof TileEntityCarpenterMF)
+		if(ID == 1)
 		{
-			return new GuiCarpenterMF(player.inventory, (TileEntityCarpenterMF) tile);
-		}
-		if(tile != null && tile instanceof TileEntityBombBench)
-		{
-			return new GuiBombBench(player.inventory, (TileEntityBombBench) tile);
+			if(x == 0)
+			{//GuiAchievements
+				return new GuiKnowledge(mc.thePlayer.getStatFileWriter());
+			}
 		}
         return null;
     }

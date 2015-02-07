@@ -1,0 +1,20 @@
+//HOW TO CREATE RECIPE IMAGES//
+-Recipe images are included in the Recipes folder, and are organised properly.
+Most Recipes (Anvil and carpenter) follow this pattern.
+
+Before you do anything: enable debug mode (there's a special code to use in config, as me for that
+if you're a tester), this will change guis to show what block is needed up top
+
+First: Assemble the recipe in-game, only using stack sizes of 1 in the grid, and make sure
+the result(in proper size) is in the result slot. If your recipe makes 2 items, put
+2 in the result. Also make sure the progress bar is empty.
+
+Take a screenshot of the gui and save it, now follow these steps to display it correctly.
+
+1: Shift the image
+   (-506x, -154y)
+
+2: Crop the image
+   (352x, 225y)
+
+3: Save it under the item's name in the recipes folder.

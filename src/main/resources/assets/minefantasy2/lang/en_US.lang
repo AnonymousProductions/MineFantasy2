@@ -1,4 +1,49 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/INFORMATION/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gui.information=Research Book
+information.discovered=Researched
+
+
+knowledge.gettingStarted=Getting Started
+knowledge.gettingStarted.desc=How to start out
+
+knowledge.smeltCopper=Copper Smithing
+knowledge.smeltCopper.desc=Early metallurgy
+knowledge.smeltBronze=Bronze Smithing
+knowledge.smeltBronze.desc=A simple alloy
+knowledge.smeltIron=Iron Smithing
+knowledge.smeltIron.desc=The most common material
+knowledge.smeltSteel=Steel Smithing
+knowledge.smeltSteel.desc=A common, strong material
+knowledge.encrusted=Encrusted Metals
+knowledge.encrusted.desc=Adding diamond to steel
+knowledge.smeltBlackSteel=Black Steel Smithing
+knowledge.smeltBlackSteel.desc=Upgraded steel
+knowledge.smeltDragonforge=Dragonforge Smithing
+knowledge.smeltDragonforge.desc=A mystical craft
+knowledge.smeltRedSteel=Red Steel Smithing
+knowledge.smeltRedSteel.desc=A heavy, but strong material
+knowledge.smeltBlueSteel=Blue Steel Smithing
+knowledge.smeltBlueSteel.desc=Light and mystical
+knowledge.smeltAdamant=Adamantium Smithing
+knowledge.smeltAdamant.desc=A heavy and resistant material
+knowledge.smeltMithril=Mithril Smithing
+knowledge.smeltMithril.desc=The lightest of materials
+
+knowledge.crucible=Basic Alloying
+knowledge.crucible.desc=Mixing metals
+knowledge.blastfurn=Refining
+knowledge.blastfurn.desc=Purifying your ores
+knowledge.crucible2=Refined Alloying
+knowledge.crucible2.desc=Near perfection
+knowledge.crucible3=Master Alloying
+knowledge.crucible3.desc=The ultimate alloys
+knowledge.mythic=Mythic Forging
+knowledge.mythic.desc=Extending beyond simple metals
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 attribute.nomfcrafttier.name=Any Tier

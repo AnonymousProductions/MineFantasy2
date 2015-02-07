@@ -8,6 +8,7 @@ import java.util.Random;
 import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.mining.RandomOre;
 import minefantasy.mf2.api.tier.IToolMaterial;
 import minefantasy.mf2.config.ConfigTools;
 import minefantasy.mf2.item.list.CreativeTabMF;
@@ -15,6 +16,7 @@ import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -100,6 +102,33 @@ public class ItemHandpick extends ItemPickaxe implements IToolMaterial
 					dropItem(world, x, y, z, drop.copy());
 				}
 			}
+		}
+		
+		if(!world.isRemote)
+		{
+        	int meta = world.getBlockMetadata(x, y, z);
+        	int harvestlvl = this.getMaterial().getHarvestLevel();
+        	int fortune = EnchantmentHelper.getFortuneModifier(user);
+        	boolean silk = EnchantmentHelper.getSilkTouchModifier(user);
+        	
+        	ArrayList<ItemStack>specialdrops = RandomOre.getDroppedItems(block, meta, harvestlvl, fortune, silk, y);
+	    	
+	    	if(specialdrops != null && !specialdrops.isEmpty())
+	    	{
+	    		Iterator list = specialdrops.iterator();
+	    		
+	    		while(list.hasNext())
+	    		{
+	    			ItemStack newdrop = (ItemStack)list.next();
+	    			
+			    	if(newdrop != null)
+			    	{
+			    		if(newdrop.stackSize < 1)newdrop.stackSize = 1;
+			    		
+			    		dropItem(world, x, y, z, newdrop);
+			    	}
+	    		}
+	    	}
 		}
 		return super.onBlockDestroyed(item, world, block, x, y, z, user);
 	}

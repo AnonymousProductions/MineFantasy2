@@ -6,6 +6,7 @@ import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.ItemBandage;
 import minefantasy.mf2.item.ItemBucketMF;
+import minefantasy.mf2.item.ItemMagicAnswerBook;
 import minefantasy.mf2.item.ItemMilkBucketMF;
 import minefantasy.mf2.item.archery.ArrowType;
 import minefantasy.mf2.item.archery.EnumBowType;
@@ -149,6 +150,7 @@ public class ToolListMF
 	public static ItemBomb bomb_custom = new ItemBomb("bomb_basic");
 	public static ItemMine mine_custom = new ItemMine("mine_basic");
 	
+	public static ItemMagicAnswerBook answers = new ItemMagicAnswerBook();
 	public static void init() 
 	{
 		BlockListMF.init();

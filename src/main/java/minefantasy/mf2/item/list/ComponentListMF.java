@@ -6,6 +6,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
+import minefantasy.mf2.api.mining.RandomDigs;
+import minefantasy.mf2.api.mining.RandomOre;
+import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.FuelHandlerMF;
 import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
@@ -175,5 +178,35 @@ public class ComponentListMF
 			arrowheads[a] = new ItemComponentMF(name+"_arrow_head", rarity);
 			OreDictionary.registerOre(name+"_arrow_head", arrowheads[a]);
 		}
+		addRandomDrops();
+	}
+
+	private static void addRandomDrops()
+	{
+		RandomOre.addOre(new ItemStack(flux),       	2F,  Blocks.stone,         	  -1, 0, 128, false);
+		RandomOre.addOre(new ItemStack(flux),       	10F, BlockListMF.limestone,   -1, 0, 256, true);
+		RandomOre.addOre(new ItemStack(flux_strong),    0.5F,Blocks.stone,         	   2, 0, 128, false);
+		RandomOre.addOre(new ItemStack(Items.coal), 	1F,  Blocks.stone, 			  -1, 0, 128, false);
+		RandomOre.addOre(new ItemStack(sulfur),     	2F,  Blocks.stone, 			  -1, 0, 16,  false);
+		RandomOre.addOre(new ItemStack(nitre),      	3F,  Blocks.stone, 			  -1, 0, 64,  false);
+		RandomOre.addOre(new ItemStack(Items.redstone), 5F,  Blocks.stone, 			   2, 0, 16,  false);
+		RandomOre.addOre(new ItemStack(Items.flint),    1F,  Blocks.stone, 			  -1, 0, 64,  false);
+		RandomOre.addOre(new ItemStack(diamond_shards), 0.1F,Blocks.stone, 		       2, 0, 16,  false);
+		RandomOre.addOre(new ItemStack(Items.quartz),   0.5F,Blocks.stone, 		       3, 0, 16,  false);
+		
+		RandomOre.addOre(new ItemStack(sulfur), 			 	10F,Blocks.netherrack, 	 -1, 0, 512,  	false);
+		RandomOre.addOre(new ItemStack(Items.glowstone_dust),	5F,Blocks.netherrack, 	 -1, 0, 512,  	false);
+		RandomOre.addOre(new ItemStack(Items.quartz), 			5F, Blocks.netherrack, 	 -1, 0, 512,  	false);
+		RandomOre.addOre(new ItemStack(Items.blaze_powder), 	5F, Blocks.netherrack,   -1, 0, 512,  	false);
+		RandomOre.addOre(new ItemStack(Items.nether_wart), 		1F, Blocks.netherrack,   -1, 0, 512,  	false);
+		RandomOre.addOre(new ItemStack(Items.nether_star), 	0.001F, Blocks.netherrack,   -1, 0, 512,false);
+		
+		RandomDigs.addOre(new ItemStack(Blocks.skull, 1, 1), 0.1F, Blocks.soul_sand,3, 0, 256,  false);
+		RandomDigs.addOre(new ItemStack(Items.bone),   		 5F, Blocks.dirt,  -1, 0, 256,  false);
+		RandomDigs.addOre(new ItemStack(Items.rotten_flesh), 2F, Blocks.dirt,  -1, 0, 256,  false);
+		RandomDigs.addOre(new ItemStack(Items.coal, 1, 1),   1F, Blocks.dirt,  -1, 32, 64,  false);
+		
+		RandomDigs.addOre(new ItemStack(Items.melon_seeds),   5F, Blocks.grass,  -1, 0, 256,  false);
+		RandomDigs.addOre(new ItemStack(Items.pumpkin_seeds), 8F, Blocks.grass,  -1, 0, 256,  false);
 	}
 }

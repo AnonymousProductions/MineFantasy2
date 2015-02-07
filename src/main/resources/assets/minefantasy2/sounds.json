@@ -5,6 +5,7 @@
         "Weapon/bombBounce"
       ]
     },
+	
 	"weapon.bowFire": {
     "category": "neutral",
     "sounds": [
@@ -100,6 +101,12 @@
         "blocks/AnvilSucceed1",
 		 "blocks/AnvilSucceed2",
 		  "blocks/AnvilSucceed3"
+      ]
+    },
+	"updateResearch": {
+    "category": "neutral",
+    "sounds": [
+        "updateResearch"
       ]
     }
 }

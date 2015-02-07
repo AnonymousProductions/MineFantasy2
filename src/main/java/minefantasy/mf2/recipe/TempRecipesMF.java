@@ -116,31 +116,29 @@ public class TempRecipesMF
 				'S', Items.stick,
 			});
 			
+			for(ItemStack bronze: bronzes)
 			GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[6], 2), new Object[]
 			{
-				steel, steel, steel, steel, Blocks.obsidian
+				steel, steel, bronze, bronze, Blocks.obsidian
 			});
 		}
 		for(ItemStack steel: blacks)
 		{
-		for(ItemStack bronze: bronzes)
-		{
 			GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[11]), new Object[]
 			{
-				steel, bronze, ComponentListMF.ingots[10], ComponentListMF.flux_strong, Items.blaze_powder
+				steel, Items.gold_ingot, Items.redstone, ComponentListMF.flux_strong, Items.blaze_powder
 			});
-		}
 		for(ItemStack silver: silvers)
 		{
 			GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[13]), new Object[]
 			{
-				steel, silver, silver, ComponentListMF.diamond_dust, ComponentListMF.flux_strong, Items.blaze_powder
+				steel, silver, ComponentListMF.diamond_dust, ComponentListMF.flux_strong, Items.blaze_powder
 			});
 		}
 		}
 		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[15], 2), new Object[]
 		{
-			ComponentListMF.ingots[12], BlockListMF.oreMythic, ComponentListMF.ingots[10]
+			ComponentListMF.ingots[12], BlockListMF.oreMythic, Items.gold_ingot, Items.gold_ingot
 		});
 		for(ItemStack silver: silvers)
 		{
