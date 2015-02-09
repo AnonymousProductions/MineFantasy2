@@ -36,7 +36,7 @@ public class GuiDiscovery extends Gui
     public void func_146256_a(InformationBase p_146256_1_)
     {
         this.field_146268_i = I18n.format("knowledge.discover", new Object[0]);
-        this.field_146265_j = p_146256_1_.func_150951_e().getUnformattedText();
+        this.field_146265_j = p_146256_1_.getName();
         this.field_146263_l = Minecraft.getSystemTime();
         this.field_146266_k = p_146256_1_;
         this.field_146262_n = false;
@@ -44,7 +44,7 @@ public class GuiDiscovery extends Gui
 
     public void func_146255_b(InformationBase p_146255_1_)
     {
-        this.field_146268_i = p_146255_1_.func_150951_e().getUnformattedText();
+        this.field_146268_i = p_146255_1_.getName();
         this.field_146265_j = p_146255_1_.getDescription();
         this.field_146263_l = Minecraft.getSystemTime() + 2500L;
         this.field_146266_k = p_146255_1_;

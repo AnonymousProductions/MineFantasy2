@@ -4,6 +4,7 @@
 gui.information=Research Book
 information.discovered=Researched
 
+knowledge.unlocked=Research Completed
 
 knowledge.gettingStarted=Getting Started
 knowledge.gettingStarted.desc=How to start out
@@ -30,6 +31,26 @@ knowledge.smeltAdamant=Adamantium Smithing
 knowledge.smeltAdamant.desc=A heavy and resistant material
 knowledge.smeltMithril=Mithril Smithing
 knowledge.smeltMithril.desc=The lightest of materials
+knowledge.smeltIgnotumite=Ignotumite Smithing
+knowledge.smeltIgnotumite.desc=A rare power
+
+knowledge.craftTools=Tool Crafting
+knowledge.craftTools.desc=Basic tools
+knowledge.craftAdvTools=Advanced Tool Crafting
+knowledge.craftAdvTools.desc=Special Tools
+
+knowledge.hammer=Hammers
+knowledge.hammer.desc=Used for forging
+knowledge.hvyHammer=Heavy Hammers
+knowledge.hvyHammer.desc=For more of an impact
+knowledge.tongs=Tongs
+knowledge.tongs.desc=Hot handling
+knowledge.needle=Needles
+knowledge.needle.desc=Used for sewing
+knowledge.saw=Saws
+knowledge.saw.desc=Used for sawing
+knowledge.knife=Knives
+knowledge.knife.desc=Useful blades
 
 knowledge.crucible=Basic Alloying
 knowledge.crucible.desc=Mixing metals
@@ -42,7 +63,8 @@ knowledge.crucible3.desc=The ultimate alloys
 knowledge.mythic=Mythic Forging
 knowledge.mythic.desc=Extending beyond simple metals
 
-
+knowledge.anvil=Anvil
+knowledge.anvil.desc=Forge metals
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

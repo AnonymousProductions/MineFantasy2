@@ -7,7 +7,7 @@ import java.util.Random;
 import minefantasy.mf2.knowledge.InformationBase;
 import minefantasy.mf2.knowledge.InformationList;
 import minefantasy.mf2.knowledge.InformationPage;
-import minefantasy.mf2.knowledge.KnowledgeFileWriter;
+import minefantasy.mf2.knowledge.ResearchLogic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.stats.StatFileWriter;
@@ -38,7 +39,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
     private static final int field_146571_z = InformationList.minDisplayRow * 24 - 112;
     private static final int field_146559_A = InformationList.maxDisplayColumn * 24 - 77;
     private static final int field_146560_B = InformationList.maxDisplayRow * 24 - 77;
-    private static final ResourceLocation field_146561_C = new ResourceLocation("textures/gui/achievement/achievement_background.png");
+    private static final ResourceLocation screenTex = new ResourceLocation("minefantasy2:textures/gui/knowledge.png");
     protected int field_146555_f = 256;
     protected int field_146557_g = 202;
     protected int field_146563_h;
@@ -51,26 +52,26 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
     protected double field_146565_w;
     protected double field_146573_x;
     private int field_146554_D;
-    private KnowledgeFileWriter field_146556_E;
     private boolean field_146558_F = true;
 
     private int currentPage = -1;
     private GuiButton button;
-    private LinkedList<InformationBase> minecraftAchievements = new LinkedList<InformationBase>();
-
-    public GuiKnowledge(StatFileWriter p_i45026_2_)
+    private LinkedList<InformationBase> informationList = new LinkedList<InformationBase>();
+    private EntityPlayer player;
+    
+    public GuiKnowledge(EntityPlayer user)
     {
-        this.field_146556_E = new KnowledgeFileWriter(p_i45026_2_);
+    	this.player = user;
         short short1 = 141;
         short short2 = 141;
         this.field_146569_s = this.field_146567_u = this.field_146565_w = (double)(InformationList.gettingStarted.displayColumn * 24 - short1 / 2 - 12);
         this.field_146568_t = this.field_146566_v = this.field_146573_x = (double)(InformationList.gettingStarted.displayRow * 24 - short2 / 2);
-        minecraftAchievements.clear();
-        for (Object achievement : InformationList.achievementList)
+        informationList.clear();
+        for (Object achievement : InformationList.knowledgeList)
         {
             if (!InformationPage.isInfoInPages((InformationBase)achievement))
             {
-                minecraftAchievements.add((InformationBase)achievement);
+                informationList.add((InformationBase)achievement);
             }
         }
     }
@@ -180,7 +181,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 this.field_146570_r -= 0.25F;
             }
 
-            this.field_146570_r = MathHelper.clamp_float(this.field_146570_r, 1.0F, 2.0F);
+            this.field_146570_r = MathHelper.clamp_float(this.field_146570_r, 1.0F, 3.0F);
 
             if (this.field_146570_r != f4)
             {
@@ -372,12 +373,12 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
-        this.mc.getTextureManager().bindTexture(field_146561_C);
-        int i4;
+        this.mc.getTextureManager().bindTexture(screenTex);
+        int i4 = 0;
         int j4;
         int l4;
 
-        List<InformationBase> achievementList = (currentPage == -1 ? minecraftAchievements : InformationPage.getInfoPage(currentPage).getInfoList());
+        List<InformationBase> achievementList = (currentPage == -1 ? informationList : InformationPage.getInfoPage(currentPage).getInfoList());
         for (i3 = 0; i3 < achievementList.size(); ++i3)
         {
         	InformationBase achievement1 = achievementList.get(i3);
@@ -388,9 +389,9 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 k3 = achievement1.displayRow * 24 - l + 11;
                 l4 = achievement1.parentInfo.displayColumn * 24 - k + 11;
                 int l3 = achievement1.parentInfo.displayRow * 24 - l + 11;
-                boolean flag5 = this.field_146556_E.hasInfoUnlocked(achievement1);
-                boolean flag6 = this.field_146556_E.canUnlockInfo(achievement1);
-                i4 = this.field_146556_E.func_150874_c(achievement1);
+                boolean flag5 = ResearchLogic.hasInfoUnlocked(player, achievement1);
+                boolean flag6 = ResearchLogic.canUnlockInfo(player, achievement1);
+                //i4 = ResearchLogic.func_150874_c(player, achievement1);
 
                 if (i4 <= 4)
                 {
@@ -447,15 +448,15 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
 
             if (i5 >= -24 && j5 >= -24 && (float)i5 <= 224.0F * this.field_146570_r && (float)j5 <= 155.0F * this.field_146570_r)
             {
-                i4 = this.field_146556_E.func_150874_c(achievement2);
+                //i4 = ResearchLogic.func_150874_c(achievement2);
                 float f6;
 
-                if (this.field_146556_E.hasInfoUnlocked(achievement2))
+                if (ResearchLogic.hasInfoUnlocked(player, achievement2))
                 {
                     f6 = 0.75F;
                     GL11.glColor4f(f6, f6, f6, 1.0F);
                 }
-                else if (this.field_146556_E.canUnlockInfo(achievement2))
+                else if (ResearchLogic.canUnlockInfo(player, achievement2))
                 {
                     f6 = 1.0F;
                     GL11.glColor4f(f6, f6, f6, 1.0F);
@@ -481,7 +482,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                     GL11.glColor4f(f6, f6, f6, 1.0F);
                 }
 
-                this.mc.getTextureManager().bindTexture(field_146561_C);
+                this.mc.getTextureManager().bindTexture(screenTex);
 
                 GL11.glEnable(GL11.GL_BLEND);// Forge: Specifically enable blend because it is needed here. And we fix Generic RenderItem's leakage of it.
                 if (achievement2.getSpecial())
@@ -494,7 +495,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 }
                 GL11.glDisable(GL11.GL_BLEND); //Forge: Cleanup states we set.
 
-                if (!this.field_146556_E.canUnlockInfo(achievement2))
+                if (!ResearchLogic.canUnlockInfo(player, achievement2))
                 {
                     f6 = 0.1F;
                     GL11.glColor4f(f6, f6, f6, 1.0F);
@@ -507,7 +508,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glDisable(GL11.GL_LIGHTING);
 
-                if (!this.field_146556_E.canUnlockInfo(achievement2))
+                if (!ResearchLogic.canUnlockInfo(player, achievement2))
                 {
                     renderitem.renderWithColor = true;
                 }
@@ -525,7 +526,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glPopMatrix();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(field_146561_C);
+        this.mc.getTextureManager().bindTexture(screenTex);
         this.drawTexturedModalRect(i1, j1, 0, 0, this.field_146555_f, this.field_146557_g);
         this.zLevel = 0.0F;
         GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -535,13 +536,13 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
 
         if (achievement != null)
         {
-            String s1 = achievement.func_150951_e().getUnformattedText();
+            String s1 = achievement.getName();
             String s2 = achievement.getDescription();
             i5 = p_146552_1_ + 12;
             j5 = p_146552_2_ - 4;
-            i4 = this.field_146556_E.func_150874_c(achievement);
+            //i4 = ResearchLogic.func_150874_c(achievement);
 
-            if (!this.field_146556_E.canUnlockInfo(achievement))
+            if (!ResearchLogic.canUnlockInfo(player, achievement))
             {
                 String s;
                 int k4;
@@ -550,7 +551,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 {
                     s1 = I18n.format("achievement.unknown", new Object[0]);
                     j4 = Math.max(this.fontRendererObj.getStringWidth(s1), 120);
-                    s = (new ChatComponentTranslation("achievement.requires", new Object[] {achievement.parentInfo.func_150951_e()})).getUnformattedText();
+                    s = (new ChatComponentTranslation("achievement.requires", new Object[] {achievement.parentInfo.getName()})).getUnformattedText();
                     k4 = this.fontRendererObj.splitStringWidth(s, j4);
                     this.drawGradientRect(i5 - 3, j5 - 3, i5 + j4 + 3, j5 + k4 + 12 + 3, -1073741824, -1073741824);
                     this.fontRendererObj.drawSplitString(s, i5, j5 + 12, j4, -9416624);
@@ -558,7 +559,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 else if (i4 < 3)
                 {
                     j4 = Math.max(this.fontRendererObj.getStringWidth(s1), 120);
-                    s = (new ChatComponentTranslation("achievement.requires", new Object[] {achievement.parentInfo.func_150951_e()})).getUnformattedText();
+                    s = (new ChatComponentTranslation("achievement.requires", new Object[] {achievement.parentInfo.getName()})).getUnformattedText();
                     k4 = this.fontRendererObj.splitStringWidth(s, j4);
                     this.drawGradientRect(i5 - 3, j5 - 3, i5 + j4 + 3, j5 + k4 + 12 + 3, -1073741824, -1073741824);
                     this.fontRendererObj.drawSplitString(s, i5, j5 + 12, j4, -9416624);
@@ -573,7 +574,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 j4 = Math.max(this.fontRendererObj.getStringWidth(s1), 120);
                 int k5 = this.fontRendererObj.splitStringWidth(s2, j4);
 
-                if (this.field_146556_E.hasInfoUnlocked(achievement))
+                if (ResearchLogic.hasInfoUnlocked(player, achievement))
                 {
                     k5 += 12;
                 }
@@ -581,7 +582,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 this.drawGradientRect(i5 - 3, j5 - 3, i5 + j4 + 3, j5 + k5 + 3 + 12, -1073741824, -1073741824);
                 this.fontRendererObj.drawSplitString(s2, i5, j5 + 12, j4, -6250336);
 
-                if (this.field_146556_E.hasInfoUnlocked(achievement))
+                if (ResearchLogic.hasInfoUnlocked(player, achievement))
                 {
                     this.fontRendererObj.drawStringWithShadow(I18n.format("information.discovered", new Object[0]), i5, j5 + k5 + 4, -7302913);
                 }
@@ -589,7 +590,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
 
             if (s1 != null)
             {
-                this.fontRendererObj.drawStringWithShadow(s1, i5, j5, this.field_146556_E.canUnlockInfo(achievement) ? (achievement.getSpecial() ? -128 : -1) : (achievement.getSpecial() ? -8355776 : -8355712));
+                this.fontRendererObj.drawStringWithShadow(s1, i5, j5, ResearchLogic.canUnlockInfo(player, achievement) ? (achievement.getSpecial() ? -128 : -1) : (achievement.getSpecial() ? -8355776 : -8355712));
             }
         }
 

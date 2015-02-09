@@ -144,7 +144,7 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 		{
 			if(x == 0)
 			{//GuiAchievements
-				return new GuiKnowledge(mc.thePlayer.getStatFileWriter());
+				return new GuiKnowledge(player);
 			}
 		}
         return null;

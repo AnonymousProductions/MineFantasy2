@@ -11,6 +11,8 @@ import minefantasy.mf2.item.archery.ItemArrowMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.knowledge.InformationList;
+import minefantasy.mf2.knowledge.ResearchLogic;
 import minefantasy.mf2.mechanics.PlayerTagData;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -60,8 +62,23 @@ public class ItemComponentMF extends Item
 		}
 		return ToolListMF.rarity[lvl];
 	}
-    public void onCrafted(EntityPlayer user, ItemStack item)
+    
+    @Override
+    public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
 	{
+    	if(this == ComponentListMF.ingots[2])
+    	{
+    		InformationList.smeltBronze.trigger(user, true);
+    	}
+    	if(this == ComponentListMF.ingots[3])
+    	{
+    		InformationList.smeltSteel.trigger(user, true);
+    	}
+    	if(this == ComponentListMF.fireclay_brick)
+    	{
+    		InformationList.blastfurn.trigger(user, true);
+    	}
+    	return item;
 	}
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)

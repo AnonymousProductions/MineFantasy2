@@ -9,75 +9,69 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.stats.StatBase;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 
-public class InformationBase extends StatBase
+public class InformationBase
 {
+	public int ID;
+	private static int nextID = 0;
 	public boolean startedUnlocked = false;
-    /** Is the column (related to center of achievement gui, in 24 pixels unit) that the achievement will be displayed. */
     public final int displayColumn;
-    /** Is the row (related to center of achievement gui, in 24 pixels unit) that the achievement will be displayed. */
     public final int displayRow;
-    /** Holds the parent achievement, that must be taken before this achievement is avaiable. */
     public final InformationBase parentInfo;
-    /** Holds the description of the achievement, ready to be formatted and/or displayed. */
-    private final String achievementDescription;
-    /**
-     * Holds a string formatter for the achievement, some of then needs extra dynamic info - like the key used to open
-     * the inventory.
-     */
+    private final String description;
     @SideOnly(Side.CLIENT)
     private IStatStringFormat statStringFormatter;
-    /** Holds the ItemStack that will be used to draw the achievement into the GUI. */
     public final ItemStack theItemStack;
-    /**
-     * Special achievements have a 'spiked' (on normal texture pack) frame, special achievements are the hardest ones to
-     * achieve.
-     */
     private boolean isSpecial;
+    private final String idName;
+    private final String modID;
 
-    public InformationBase(String p_i45300_1_, String p_i45300_2_, int p_i45300_3_, int p_i45300_4_, Item p_i45300_5_, InformationBase p_i45300_6_)
+    public InformationBase(String name, int x, int y, Item icon, InformationBase parent, String modid)
     {
-        this(p_i45300_1_, p_i45300_2_, p_i45300_3_, p_i45300_4_, new ItemStack(p_i45300_5_), p_i45300_6_);
+        this(name, x, y, new ItemStack(icon), parent, modid);
+    }
+    public InformationBase(String name, int x, int y, Block icon, InformationBase parent, String modid)
+    {
+        this(name, x, y, new ItemStack(icon), parent, modid);
     }
 
-    public InformationBase(String p_i45301_1_, String p_i45301_2_, int p_i45301_3_, int p_i45301_4_, Block p_i45301_5_, InformationBase p_i45301_6_)
+    public InformationBase(String name, int x, int y, ItemStack icon, InformationBase parent, String modid)
     {
-        this(p_i45301_1_, p_i45301_2_, p_i45301_3_, p_i45301_4_, new ItemStack(p_i45301_5_), p_i45301_6_);
-    }
+    	ID = nextID;
+    	++nextID;
+    	this.modID = modid;
+    	this.idName = name;
+        this.theItemStack = icon;
+        this.description = "knowledge." + idName + ".desc";
+        this.displayColumn = x;
+        this.displayRow = y;
 
-    public InformationBase(String p_i45302_1_, String p_i45302_2_, int p_i45302_3_, int p_i45302_4_, ItemStack p_i45302_5_, InformationBase p_i45302_6_)
-    {
-        super(p_i45302_1_, new ChatComponentTranslation("knowledge." + p_i45302_2_, new Object[0]));
-        this.theItemStack = p_i45302_5_;
-        this.achievementDescription = "knowledge." + p_i45302_2_ + ".desc";
-        this.displayColumn = p_i45302_3_;
-        this.displayRow = p_i45302_4_;
-
-        if (p_i45302_3_ < InformationList.minDisplayColumn)
+        if (x < InformationList.minDisplayColumn)
         {
-            InformationList.minDisplayColumn = p_i45302_3_;
+            InformationList.minDisplayColumn = x;
         }
 
-        if (p_i45302_4_ < InformationList.minDisplayRow)
+        if (y < InformationList.minDisplayRow)
         {
-            InformationList.minDisplayRow = p_i45302_4_;
+            InformationList.minDisplayRow = y;
         }
 
-        if (p_i45302_3_ > InformationList.maxDisplayColumn)
+        if (x > InformationList.maxDisplayColumn)
         {
-            InformationList.maxDisplayColumn = p_i45302_3_;
+            InformationList.maxDisplayColumn = x;
         }
 
-        if (p_i45302_4_ > InformationList.maxDisplayRow)
+        if (y > InformationList.maxDisplayRow)
         {
-            InformationList.maxDisplayRow = p_i45302_4_;
+            InformationList.maxDisplayRow = y;
         }
 
-        this.parentInfo = p_i45302_6_;
+        this.parentInfo = parent;
     }
     
     public InformationBase setUnlocked()
@@ -89,16 +83,6 @@ public class InformationBase extends StatBase
     {
     	page.addInfo(this);
     	return this;
-    }
-
-    /**
-     * Initializes the current stat as independent (i.e., lacking prerequisites for being updated) and returns the
-     * current instance.
-     */
-    public InformationBase initIndependentStat()
-    {
-        this.isIndependent = true;
-        return this;
     }
 
     /**
@@ -116,19 +100,13 @@ public class InformationBase extends StatBase
      */
     public InformationBase registerStat()
     {
-        super.registerStat();
-        InformationList.achievementList.add(this);
+    	ID = nextID;
+    	nextID++;
+        InformationList.knowledgeList.add(this);
         return this;
     }
 
-    /**
-     * Returns whether or not the StatBase-derived class is a statistic (running counter) or an achievement (one-shot).
-     */
-    public boolean isAchievement()
-    {
-        return false;
-    }
-
+/*
     public IChatComponent func_150951_e()
     {
         IChatComponent ichatcomponent = super.func_150951_e();
@@ -140,24 +118,19 @@ public class InformationBase extends StatBase
     {
         return (InformationBase)super.func_150953_b(p_150953_1_);
     }
-
+*/
     /**
      * Returns the fully description of the achievement - ready to be displayed on screen.
      */
     @SideOnly(Side.CLIENT)
     public String getDescription()
     {
-        return this.statStringFormatter != null ? this.statStringFormatter.formatString(StatCollector.translateToLocal(this.achievementDescription)) : StatCollector.translateToLocal(this.achievementDescription);
+        return this.statStringFormatter != null ? this.statStringFormatter.formatString(StatCollector.translateToLocal(this.description)) : StatCollector.translateToLocal(this.description);
     }
-
-    /**
-     * Defines a string formatter for the achievement.
-     */
     @SideOnly(Side.CLIENT)
-    public InformationBase setStatStringFormatter(IStatStringFormat p_75988_1_)
+    public String getName()
     {
-        this.statStringFormatter = p_75988_1_;
-        return this;
+        return this.statStringFormatter != null ? this.statStringFormatter.formatString(StatCollector.translateToLocal("knowledge."+this.idName)) : StatCollector.translateToLocal("knowledge."+this.idName);
     }
 
     /**
@@ -169,12 +142,17 @@ public class InformationBase extends StatBase
         return this.isSpecial;
     }
 
-	public void trigger(EntityPlayer user, boolean playSound)
+	public void trigger(EntityPlayer user, boolean makeEffect)
 	{
-		user.addStat(this, 1);
-		if(playSound && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getStatFileWriter().writeStat(this) <= 0)
+		if(ResearchLogic.tryUnlock(user, this) && makeEffect)
 		{
+			user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unlocked") + ": " + StatCollector.translateToLocal(getName())));
 			user.playSound("minefantasy2:updateResearch", 1.0F, 1.0F);
 		}
+	}
+
+	public String getUniqueName()
+	{
+		return modID +  "_" + idName;
 	}
 }

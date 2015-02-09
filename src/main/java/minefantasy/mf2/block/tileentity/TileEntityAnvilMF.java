@@ -10,6 +10,8 @@ import minefantasy.mf2.api.crafting.anvil.IAnvil;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.container.ContainerAnvilMF;
+import minefantasy.mf2.knowledge.InformationList;
+import minefantasy.mf2.knowledge.ResearchLogic;
 import minefantasy.mf2.network.packet.AnvilPacket;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -240,7 +242,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			if(worldObj.isRemote)
 				return true;
 			
-			if(canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= anvilTierRequired && hammerTier >= hammerTierRequired)
+			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= anvilTierRequired && hammerTier >= hammerTierRequired)
 			{
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, 1.0F);
 				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem());
@@ -268,6 +270,14 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		return false;
 	}
 	
+	private boolean doesPlayerKnowCraft(EntityPlayer user)
+	{
+		if(this.getResult() != null && getResult().getUnlocalizedName().contains("Steel"))
+		{
+			return ResearchLogic.hasInfoUnlocked(user, InformationList.smeltSteel);
+		}
+		return true;
+	}
 	private void craftItem()
 	{
 		if (this.canCraft())

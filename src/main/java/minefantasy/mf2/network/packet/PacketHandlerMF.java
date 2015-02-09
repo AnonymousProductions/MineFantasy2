@@ -25,6 +25,7 @@ public class PacketHandlerMF
         packetList.put(HitSoundPacket.packetName, new HitSoundPacket());
         packetList.put(AnvilPacket.packetName, new AnvilPacket());
         packetList.put(CarpenterPacket.packetName, new CarpenterPacket());
+        packetList.put(KnowledgePacket.packetName, new KnowledgePacket());
     }
 
     @SubscribeEvent

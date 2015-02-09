@@ -10,6 +10,7 @@ import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.InformationList;
+import minefantasy.mf2.knowledge.ResearchLogic;
 import minefantasy.mf2.mechanics.EventManagerMF;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,6 +55,10 @@ public class ItemMagicAnswerBook extends Item
      */
     public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
     {
+    	if(user.isSneaking())
+    	{
+    		ResearchLogic.preparePacket(user);
+    	}else
     	user.openGui(MineFantasyII.instance, 1, world, 0, 0, 0);
         return item;
     }
