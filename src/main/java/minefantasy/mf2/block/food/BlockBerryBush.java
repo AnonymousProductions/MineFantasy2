@@ -1,13 +1,9 @@
 package minefantasy.mf2.block.food;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.Random;
 
 import minefantasy.mf2.item.food.FoodListMF;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -15,17 +11,15 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBerryBush extends BlockBush implements IShearable
 {
@@ -57,7 +51,7 @@ public class BlockBerryBush extends BlockBush implements IShearable
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
     	int meta = world.getBlockMetadata(x, y, z);
-    	if(meta >= 1 && rand.nextInt(50) == 0)
+    	if(meta >= 1 && rand.nextInt(80) == 0)
     	{
     		world.setBlockMetadataWithNotify(x, y, z, 0, 2);
     	}
@@ -121,7 +115,7 @@ public class BlockBerryBush extends BlockBush implements IShearable
     		
     		world.setBlockMetadataWithNotify(x, y, z, 1, 2);
     		
-    		ItemStack itemstack = rand.nextInt(20) == 0 ? new ItemStack(FoodListMF.berriesJuicy) : new ItemStack(FoodListMF.berries, 1 + rand.nextInt(2));
+    		ItemStack itemstack = rand.nextInt(10) == 0 ? new ItemStack(FoodListMF.berriesJuicy) : new ItemStack(FoodListMF.berries, 1);
     		if (itemstack != null)
             {
                 float f = this.rand .nextFloat() * 0.8F + 0.1F;

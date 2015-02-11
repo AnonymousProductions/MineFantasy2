@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
- 
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -42,7 +41,7 @@ public class CraftingManagerAnvil
     /**
      * Adds a recipe. See spreadsheet on first page for details.
      */
-    public void addRecipe(ItemStack result, boolean hot, float exp, String tool, int hammer, int anvil, int time, Object ... input)
+    public void addRecipe(ItemStack result, String research, boolean hot, float exp, String tool, int hammer, int anvil, int time, Object ... input)
     {
         String var3 = "";
         int var4 = 0;
@@ -114,10 +113,10 @@ public class CraftingManagerAnvil
             }
         }
 
-        this.recipes.add(new ShapedAnvilRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, hot));
+        this.recipes.add(new ShapedAnvilRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, hot, research));
     }
 
-    public void addShapelessRecipe(ItemStack output, boolean hot, float experience, String tool, int hammer, int anvil, int time, Object ... input)
+    public void addShapelessRecipe(ItemStack output, String research, boolean hot, float experience, String tool, int hammer, int anvil, int time, Object ... input)
     {
         ArrayList var3 = new ArrayList();
         Object[] var4 = input;
@@ -146,7 +145,7 @@ public class CraftingManagerAnvil
             }
         }
 
-        this.recipes.add(new ShapelessAnvilRecipes(output, tool, experience, hammer, anvil, time, var3, hot));
+        this.recipes.add(new ShapelessAnvilRecipes(output, tool, experience, hammer, anvil, time, var3, hot, research));
     }
     public ItemStack findMatchingRecipe(InventoryCrafting matrix)
     {
@@ -285,6 +284,7 @@ public class CraftingManagerAnvil
 	            anvil.setRequiredAnvil(anvi);
 	            anvil.setHotOutput(hot);
 	            anvil.setToolType(toolType);
+	            anvil.setResearch(var13.getResearch());
 	            
 	            return var13.getCraftingResult(matrix);
             }

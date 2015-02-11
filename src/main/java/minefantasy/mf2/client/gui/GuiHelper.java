@@ -1,10 +1,8 @@
 package minefantasy.mf2.client.gui;
 
-import com.sun.prism.paint.Color;
-
+import minefantasy.mf2.client.render.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import minefantasy.mf2.client.render.TextureHelperMF;
 
 public class GuiHelper
 {

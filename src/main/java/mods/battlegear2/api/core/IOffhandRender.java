@@ -1,5 +1,6 @@
 package mods.battlegear2.api.core;
 
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
 
 /**

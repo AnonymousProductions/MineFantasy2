@@ -1,40 +1,52 @@
 package minefantasy.mf2.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
-import minefantasy.mf2.knowledge.InformationBase;
-import minefantasy.mf2.knowledge.InformationList;
-import minefantasy.mf2.knowledge.InformationPage;
-import minefantasy.mf2.knowledge.ResearchLogic;
+import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.knowledge.InformationBase;
+import minefantasy.mf2.api.knowledge.InformationList;
+import minefantasy.mf2.api.knowledge.InformationPage;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
+import minefantasy.mf2.network.packet.ResearchRequest;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IProgressMeter;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.WorldServer;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import java.util.LinkedList;
-import java.util.List;
-import net.minecraftforge.common.AchievementPage;
+
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiKnowledge extends GuiScreen implements IProgressMeter
+public class GuiKnowledge extends GuiScreen
 {
+	private InformationBase highlighted = null;
     private static final int field_146572_y = InformationList.minDisplayColumn * 24 - 112;
     private static final int field_146571_z = InformationList.minDisplayRow * 24 - 112;
     private static final int field_146559_A = InformationList.maxDisplayColumn * 24 - 77;
@@ -52,9 +64,9 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
     protected double field_146565_w;
     protected double field_146573_x;
     private int field_146554_D;
-    private boolean field_146558_F = true;
+    private boolean allDiscovered = true;
 
-    private int currentPage = -1;
+    private static int currentPage = -1;
     private GuiButton button;
     private LinkedList<InformationBase> informationList = new LinkedList<InformationBase>();
     private EntityPlayer player;
@@ -64,8 +76,8 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
     	this.player = user;
         short short1 = 141;
         short short2 = 141;
-        this.field_146569_s = this.field_146567_u = this.field_146565_w = (double)(InformationList.gettingStarted.displayColumn * 24 - short1 / 2 - 12);
-        this.field_146568_t = this.field_146566_v = this.field_146573_x = (double)(InformationList.gettingStarted.displayRow * 24 - short2 / 2);
+        this.field_146569_s = this.field_146567_u = this.field_146565_w = (double)(KnowledgeListMF.gettingStarted.displayColumn * 24 - short1 / 2 - 12);
+        this.field_146568_t = this.field_146566_v = this.field_146573_x = (double)(KnowledgeListMF.gettingStarted.displayRow * 24 - short2 / 2);
         informationList.clear();
         for (Object achievement : InformationList.knowledgeList)
         {
@@ -73,6 +85,14 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
             {
                 informationList.add((InformationBase)achievement);
             }
+        }
+        for(Object base: informationList.toArray())
+        {
+        	if(!ResearchLogic.hasInfoUnlocked(user, (InformationBase)base))
+        	{
+        		allDiscovered = false;
+        		break;
+        	}
         }
     }
 
@@ -87,24 +107,30 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
         this.buttonList.add(button = new GuiButton(2, (width - field_146555_f) / 2 + 24, height / 2 + 74, 125, 20, InformationPage.getTitle(currentPage)));
     }
 
+    @Override
+    protected void mouseClicked(int x, int y, int button)
+    {
+    	if(button == 0 && highlighted != null)
+    	{
+    		((EntityClientPlayerMP)player).sendQueue.addToSendQueue(new ResearchRequest(player, highlighted.ID).generatePacket());
+    	}
+    	super.mouseClicked(x, y, button);
+    }
     protected void actionPerformed(GuiButton p_146284_1_)
     {
-        if (!this.field_146558_F)
+        if (p_146284_1_.id == 1)
         {
-            if (p_146284_1_.id == 1)
-            {
-                this.mc.displayGuiScreen((GuiScreen)null);
-            }
+            this.mc.displayGuiScreen((GuiScreen)null);
+        }
 
-            if (p_146284_1_.id == 2)
+        if (p_146284_1_.id == 2)
+        {
+            currentPage++;
+            if (currentPage >= InformationPage.getInfoPages().size())
             {
-                currentPage++;
-                if (currentPage >= InformationPage.getInfoPages().size())
-                {
-                    currentPage = -1;
-                }
-                button.displayString = InformationPage.getTitle(currentPage);
+                currentPage = -1;
             }
+            button.displayString = InformationPage.getTitle(currentPage);
         }
     }
 
@@ -129,13 +155,6 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
      */
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
     {
-        if (this.field_146558_F)
-        {
-            this.drawDefaultBackground();
-            this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingStats", new Object[0]), this.width / 2, this.height / 2, 16777215);
-            this.drawCenteredString(this.fontRendererObj, field_146510_b_[(int)(Minecraft.getSystemTime() / 150L % (long)field_146510_b_.length)], this.width / 2, this.height / 2 + this.fontRendererObj.FONT_HEIGHT * 2, 16777215);
-        }
-        else
         {
             int k;
 
@@ -226,20 +245,11 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
         }
     }
 
-    public void func_146509_g()
-    {
-        if (this.field_146558_F)
-        {
-            this.field_146558_F = false;
-        }
-    }
-
     /**
      * Called from the main game loop to update the screen.
      */
     public void updateScreen()
     {
-        if (!this.field_146558_F)
         {
             this.field_146569_s = this.field_146567_u;
             this.field_146568_t = this.field_146566_v;
@@ -263,7 +273,11 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
     {
         int i = (this.width - this.field_146555_f) / 2;
         int j = (this.height - this.field_146557_g) / 2;
+        int pts = ResearchLogic.getKnowledgePoints(player);
+        
         this.fontRendererObj.drawString(I18n.format("gui.information", new Object[0]), i + 15, j + 5, 4210752);
+        if(!this.allDiscovered)
+        this.fontRendererObj.drawStringWithShadow(StatCollector.translateToLocalFormatted("gui.knowledgePoints", pts), i + 20, j + 158, 16777215);
     }
 
     protected void func_146552_b(int p_146552_1_, int p_146552_2_, float p_146552_3_)
@@ -337,20 +351,20 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                     {
                         if (random.nextInt(2) == 0)
                         {
-                            iicon = Blocks.diamond_ore.getIcon(0, 0);
+                            iicon = BlockListMF.oreMythic.getIcon(0, 0);
                         }
                         else
                         {
-                            iicon = Blocks.redstone_ore.getIcon(0, 0);
+                            iicon = BlockListMF.oreSulfur.getIcon(0, 0);
                         }
                     }
                     else if (k3 == 10)
                     {
-                        iicon = Blocks.iron_ore.getIcon(0, 0);
+                        iicon = BlockListMF.oreTin.getIcon(0, 0);
                     }
                     else if (k3 == 8)
                     {
-                        iicon = Blocks.coal_ore.getIcon(0, 0);
+                        iicon = BlockListMF.oreCopper.getIcon(0, 0);
                     }
                     else if (k3 > 4)
                     {
@@ -374,7 +388,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         this.mc.getTextureManager().bindTexture(screenTex);
-        int i4 = 0;
+        int researchVisibility;
         int j4;
         int l4;
 
@@ -391,9 +405,9 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 int l3 = achievement1.parentInfo.displayRow * 24 - l + 11;
                 boolean flag5 = ResearchLogic.hasInfoUnlocked(player, achievement1);
                 boolean flag6 = ResearchLogic.canUnlockInfo(player, achievement1);
-                //i4 = ResearchLogic.func_150874_c(player, achievement1);
+                researchVisibility = ResearchLogic.func_150874_c(player, achievement1);
 
-                if (i4 <= 4)
+                if (researchVisibility <= getVisibleRange()[0])
                 {
                     j4 = -16777216;
 
@@ -448,7 +462,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
 
             if (i5 >= -24 && j5 >= -24 && (float)i5 <= 224.0F * this.field_146570_r && (float)j5 <= 155.0F * this.field_146570_r)
             {
-                //i4 = ResearchLogic.func_150874_c(achievement2);
+                researchVisibility = ResearchLogic.func_150874_c(player, achievement2);
                 float f6;
 
                 if (ResearchLogic.hasInfoUnlocked(player, achievement2))
@@ -461,19 +475,19 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                     f6 = 1.0F;
                     GL11.glColor4f(f6, f6, f6, 1.0F);
                 }
-                else if (i4 < 3)
+                else if (researchVisibility < getVisibleRange()[1])
                 {
                     f6 = 0.3F;
                     GL11.glColor4f(f6, f6, f6, 1.0F);
                 }
-                else if (i4 == 3)
+                else if (researchVisibility == getVisibleRange()[1])
                 {
                     f6 = 0.2F;
                     GL11.glColor4f(f6, f6, f6, 1.0F);
                 }
                 else
                 {
-                    if (i4 != 4)
+                    if (researchVisibility != getVisibleRange()[2])
                     {
                         continue;
                     }
@@ -488,6 +502,10 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 if (achievement2.getSpecial())
                 {
                     this.drawTexturedModalRect(i5 - 2, j5 - 2, 26, 202, 26, 26);
+                }
+                else if (achievement2.getPerk())
+                {
+                    this.drawTexturedModalRect(i5 - 2, j5 - 2, 52, 202, 26, 26);
                 }
                 else
                 {
@@ -534,20 +552,22 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         super.drawScreen(p_146552_1_, p_146552_2_, p_146552_3_);
 
+        highlighted = achievement;
         if (achievement != null)
         {
             String s1 = achievement.getName();
             String s2 = achievement.getDescription();
+            String s3 = StatCollector.translateToLocalFormatted("information.cost", ""+ResearchLogic.getCost(player, achievement));
             i5 = p_146552_1_ + 12;
             j5 = p_146552_2_ - 4;
-            //i4 = ResearchLogic.func_150874_c(achievement);
+            researchVisibility = ResearchLogic.func_150874_c(player, achievement);
 
             if (!ResearchLogic.canUnlockInfo(player, achievement))
             {
                 String s;
                 int k4;
 
-                if (i4 == 3)
+                if (researchVisibility == 3)
                 {
                     s1 = I18n.format("achievement.unknown", new Object[0]);
                     j4 = Math.max(this.fontRendererObj.getStringWidth(s1), 120);
@@ -556,7 +576,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                     this.drawGradientRect(i5 - 3, j5 - 3, i5 + j4 + 3, j5 + k4 + 12 + 3, -1073741824, -1073741824);
                     this.fontRendererObj.drawSplitString(s, i5, j5 + 12, j4, -9416624);
                 }
-                else if (i4 < 3)
+                else if (researchVisibility < 3)
                 {
                     j4 = Math.max(this.fontRendererObj.getStringWidth(s1), 120);
                     s = (new ChatComponentTranslation("achievement.requires", new Object[] {achievement.parentInfo.getName()})).getUnformattedText();
@@ -574,7 +594,7 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 j4 = Math.max(this.fontRendererObj.getStringWidth(s1), 120);
                 int k5 = this.fontRendererObj.splitStringWidth(s2, j4);
 
-                if (ResearchLogic.hasInfoUnlocked(player, achievement))
+                if (ResearchLogic.hasInfoUnlocked(player, achievement) || ResearchLogic.canUnlockInfo(player, achievement))
                 {
                     k5 += 12;
                 }
@@ -585,6 +605,10 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
                 if (ResearchLogic.hasInfoUnlocked(player, achievement))
                 {
                     this.fontRendererObj.drawStringWithShadow(I18n.format("information.discovered", new Object[0]), i5, j5 + k5 + 4, -7302913);
+                }
+                else if(ResearchLogic.canUnlockInfo(player, achievement))
+                {
+                	this.fontRendererObj.drawStringWithShadow(s3, i5, j5 + k5 + 4, -7302913);
                 }
             }
 
@@ -604,6 +628,19 @@ public class GuiKnowledge extends GuiScreen implements IProgressMeter
      */
     public boolean doesGuiPauseGame()
     {
-        return !this.field_146558_F;
+        return false;
+    }
+    
+    private int[] getVisibleRange()
+    {
+    	if(ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.research2))
+    	{
+    		return new int[]{5, 10, 20};
+    	}
+    	if(ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.research1))
+    	{
+    		return new int[]{3, 5, 7};
+    	}
+    	return new int[]{1, 2, 3};
     }
 }

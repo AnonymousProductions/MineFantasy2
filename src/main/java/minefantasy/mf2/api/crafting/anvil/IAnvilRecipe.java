@@ -35,5 +35,7 @@ public interface IAnvilRecipe
     
     String getToolType();
     
+    String getResearch();
+    
     ItemStack getRecipeOutput();
 }

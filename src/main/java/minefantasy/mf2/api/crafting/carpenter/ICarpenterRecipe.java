@@ -38,4 +38,6 @@ public interface ICarpenterRecipe
     String getSound();
     
     ItemStack getRecipeOutput();
+
+	String getResearch();
 }

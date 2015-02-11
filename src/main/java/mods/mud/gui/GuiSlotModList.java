@@ -1,17 +1,17 @@
 package mods.mud.gui;
 
-import cpw.mods.fml.client.GuiScrollingList;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.LoaderState;
-import cpw.mods.fml.common.ModContainer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import mods.mud.UpdateEntry;
 import mods.mud.exceptions.UnknownVersionFormatException;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import cpw.mods.fml.client.GuiScrollingList;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.LoaderState;
+import cpw.mods.fml.common.ModContainer;
 
 public class GuiSlotModList extends GuiScrollingList
 {

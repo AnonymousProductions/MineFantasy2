@@ -1,15 +1,13 @@
 package minefantasy.mf2.recipe;
 
+import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import minefantasy.mf2.api.MineFantasyAPI;
-import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.item.food.FoodListMF;
-import minefantasy.mf2.item.list.ComponentListMF;
-import minefantasy.mf2.item.list.ToolListMF;
-import minefantasy.mf2.material.BaseMaterialMF;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BasicRecipesMF

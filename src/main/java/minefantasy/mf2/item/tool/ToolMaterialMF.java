@@ -1,9 +1,8 @@
 package minefantasy.mf2.item.tool;
 
 import minefantasy.mf2.material.BaseMaterialMF;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.EnumHelper;
 

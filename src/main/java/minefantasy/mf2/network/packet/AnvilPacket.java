@@ -1,16 +1,10 @@
 package minefantasy.mf2.network.packet;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
-import minefantasy.mf2.config.ConfigClient;
-import mods.battlegear2.api.core.IBattlePlayer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.WorldServer;
+import cpw.mods.fml.common.network.ByteBufUtils;
 
 public class AnvilPacket extends PacketMF
 {
@@ -18,6 +12,7 @@ public class AnvilPacket extends PacketMF
 	private int[] coords = new int[3];
 	private String resultName;
 	private String toolNeeded;
+	private String research;
 	private float[] progress = new float[2];
 	private int[] tiers = new int[2];
 
@@ -26,6 +21,7 @@ public class AnvilPacket extends PacketMF
 		coords = new int[]{tile.xCoord, tile.yCoord, tile.zCoord};
 		resultName = tile.getResultName();
 		toolNeeded = tile.getToolNeeded();
+		research = tile.getResearchNeeded();
 		progress = new float[]{tile.progress, tile.progressMax};
 		tiers = new int[]{tile.getToolTierNeeded(), tile.getAnvilTierNeeded()};
 		if(progress[1] <= 0)
@@ -51,6 +47,7 @@ public class AnvilPacket extends PacketMF
 	        tiers[1] = packet.readInt();
 	        resultName = ByteBufUtils.readUTF8String(packet);
 	        toolNeeded = ByteBufUtils.readUTF8String(packet);
+	        research = ByteBufUtils.readUTF8String(packet);
 	        
 	        TileEntityAnvilMF anvil = (TileEntityAnvilMF)entity;
 	        anvil.resName = resultName;
@@ -59,6 +56,7 @@ public class AnvilPacket extends PacketMF
 	        anvil.progressMax = progress[1];
 	        anvil.setHammerUsed(tiers[0]);
 	        anvil.setRequiredAnvil(tiers[1]);
+	        anvil.setResearch(research);
         }
 	}
 
@@ -81,5 +79,6 @@ public class AnvilPacket extends PacketMF
 		packet.writeInt(tiers[1]);
 		ByteBufUtils.writeUTF8String(packet, resultName);
 		ByteBufUtils.writeUTF8String(packet, toolNeeded);
+		ByteBufUtils.writeUTF8String(packet, research);
 	}
 }

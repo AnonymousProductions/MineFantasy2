@@ -1,8 +1,5 @@
 package minefantasy.mf2.container;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,7 +7,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class ContainerCarpenterMF extends Container
 {
@@ -21,48 +17,48 @@ public class ContainerCarpenterMF extends Container
     {
     	isGuiContainer = false;
     	this.tile = tile;
-        int width = 6;
-        int height = 4;
+        int width = tile.width;
+        int height = tile.height;
         for(int x = 0; x < width; x ++)
         {
         	for (int y = 0; y < height; y ++)
         	{
         		int slot = y*width+x;
-        		this.addSlotToContainer(new Slot(tile, slot, 8 + x * 18, 38 + y * 18));
+        		this.addSlotToContainer(new Slot(tile, slot, 44 + x * 18, 54 + y * 18));
         	}
         }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 150, 65));
+        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 174, 80));
     }
     
     public ContainerCarpenterMF(InventoryPlayer user, TileEntityCarpenterMF tile)
     {
     	isGuiContainer = true;
         this.tile = tile;
-        int width = 6;
-        int height = 4;
+        int width = tile.width;
+        int height = tile.height;
         
         for(int x = 0; x < width; x ++)
         {
         	for (int y = 0; y < height; y ++)
         	{
         		int slot = y*width+x;
-        		this.addSlotToContainer(new Slot(tile, slot, 8 + x * 18, 38 + y * 18));
+        		this.addSlotToContainer(new Slot(tile, slot, 44 + x * 18, 54 + y * 18));
         	}
         }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 150, 65));
+        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 174, 80));
         int i;
 
         for (i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
             {
-                this.addSlotToContainer(new Slot(user, j + i * 9 + 9, 8 + j * 18, 116 + i * 18));
+                this.addSlotToContainer(new Slot(user, j + i * 9 + 9, 8 + j * 18, 158 + i * 18));
             }
         }
 
         for (i = 0; i < 9; ++i)
         {
-            this.addSlotToContainer(new Slot(user, i, 8 + i * 18, 174));
+            this.addSlotToContainer(new Slot(user, i, 8 + i * 18, 216));
         }
     }
 

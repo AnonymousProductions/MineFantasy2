@@ -1,23 +1,15 @@
 package minefantasy.mf2.mechanics.worldGen;
 
-import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType;
-
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.config.ConfigWorldGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraft.world.gen.feature.WorldGenPumpkin;
-import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class WorldGenPlants 
 {

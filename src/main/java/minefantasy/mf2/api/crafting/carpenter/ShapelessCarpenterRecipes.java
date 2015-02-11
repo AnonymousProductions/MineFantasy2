@@ -16,7 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
  */
 public class ShapelessCarpenterRecipes implements ICarpenterRecipe
 {
-    public static final int	globalWidth	= 6;
+    public static final int	globalWidth	= 4;
     public static final int	globalHeight	= 4;
 
 	/** Is the ItemStack that you get when craft the recipe. */
@@ -35,9 +35,11 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
     private final float recipeExperiance;
     private final String toolType;
     private final String soundOfCraft;
+    private final String research;
 
-    public ShapelessCarpenterRecipes(ItemStack output, String toolType, float exp, int hammer, int anvi, int time, List components, boolean hot, String sound)
+    public ShapelessCarpenterRecipes(ItemStack output, String toolType, float exp, int hammer, int anvi, int time, List components, boolean hot, String sound, String research)
     {
+    	this.research = research;
     	this.outputHot = hot;
         this.recipeOutput = output;
         this.blockTier = anvi;
@@ -165,5 +167,11 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
 	public String getSound()
 	{
 		return soundOfCraft;
+	}
+
+	@Override
+	public String getResearch()
+	{
+		return research;
 	}
 }

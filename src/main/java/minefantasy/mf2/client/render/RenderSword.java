@@ -1,6 +1,5 @@
 package minefantasy.mf2.client.render;
 
-import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.weapon.IParryable;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.client.Minecraft;
@@ -15,7 +14,6 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.FMLClientHandler;
 

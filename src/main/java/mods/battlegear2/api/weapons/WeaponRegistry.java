@@ -5,7 +5,12 @@ import java.util.Set;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 
 /**
  * Registry for stacks which will be allowed in battle inventory,

@@ -1,6 +1,5 @@
 package minefantasy.mf2.config;
 
-import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.stamina.StaminaBar;
 
 public class ConfigStamina extends ConfigurationBaseMF 

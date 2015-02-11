@@ -1,6 +1,5 @@
 package minefantasy.mf2.item.food;
 
-import minefantasy.mf2.item.ItemBandage;
 import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.init.Items;

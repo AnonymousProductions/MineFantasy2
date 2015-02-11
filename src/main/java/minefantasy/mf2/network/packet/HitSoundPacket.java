@@ -1,14 +1,10 @@
 package minefantasy.mf2.network.packet;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.config.ConfigClient;
-import mods.battlegear2.api.core.IBattlePlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.WorldServer;
+import cpw.mods.fml.common.network.ByteBufUtils;
 
 public class HitSoundPacket extends PacketMF
 {

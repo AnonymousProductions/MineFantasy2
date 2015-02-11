@@ -1,8 +1,9 @@
 package mods.battlegear2.api;
 
-import cpw.mods.fml.common.eventhandler.Cancelable;
+import mods.battlegear2.api.core.BattlegearUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import cpw.mods.fml.common.eventhandler.Cancelable;
 
 /**
  * Those events are posted to {@link BattlegearUtils.RENDER_BUS} from {@link BattlegearRenderHelper}

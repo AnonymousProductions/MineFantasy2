@@ -1,13 +1,10 @@
 package minefantasy.mf2.entity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.archery.IArrowMF;
 import minefantasy.mf2.api.archery.IArrowRetrieve;
-import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.weapon.IDamageType;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigWeapon;
@@ -32,6 +29,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageType, IArrowRetrieve
 {

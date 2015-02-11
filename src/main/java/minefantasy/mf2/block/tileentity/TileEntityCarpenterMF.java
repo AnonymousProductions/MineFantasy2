@@ -1,14 +1,13 @@
 package minefantasy.mf2.block.tileentity;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ShapelessCarpenterRecipes;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.container.ContainerCarpenterMF;
 import minefantasy.mf2.network.packet.CarpenterPacket;
 import net.minecraft.entity.item.EntityItem;
@@ -16,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -33,14 +31,17 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	private String lastPlayerHit = "";
 	private String toolTypeRequired = "hands";
 	private String craftSound = "step.wood";
+	private String researchRequired = "";
 	
+	public final int width = 4;
+	public final int height = 4;
 	public TileEntityCarpenterMF()
 	{
 		this(0);
 	}
 	public TileEntityCarpenterMF(int tier)
 	{
-		inventory = new ItemStack[25];
+		inventory = new ItemStack[width*height+1];
 		this.tier=tier;
 		setContainer(new ContainerCarpenterMF(this));
 	}
@@ -69,6 +70,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
         resName = nbt.getString("ResultName");
         toolTypeRequired = nbt.getString("toolTypeRequired");
         craftSound = nbt.getString("craftSound");
+        researchRequired = nbt.getString("researchRequired");
 	}
 	
 	@Override
@@ -97,6 +99,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
         nbt.setString("ResName", resName);
         nbt.setString("toolTypeRequired", toolTypeRequired);
         nbt.setString("craftSound", craftSound);
+        nbt.setString("researchRequired", researchRequired);
 	}
 
 	@Override
@@ -239,7 +242,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 			if(worldObj.isRemote)
 				return true;
 			
-			if(canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= CarpenterTierRequired && hammerTier >= hammerTierRequired)
+			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= CarpenterTierRequired && hammerTier >= hammerTierRequired)
 			{
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, getUseSound(), 1.25F, rand.nextFloat()+0.5F);
 				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem());
@@ -540,5 +543,18 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	public void setCraftingSound(String sound)
 	{
 		this.craftSound = sound;
+	}
+	@Override
+	public void setResearch(String research)
+	{
+		this.researchRequired = research;
+	}
+	public String getResearchNeeded()
+	{
+		return researchRequired;
+	}
+	public boolean doesPlayerKnowCraft(EntityPlayer user)
+	{
+		return getResearchNeeded().isEmpty() || ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
 	}
 }

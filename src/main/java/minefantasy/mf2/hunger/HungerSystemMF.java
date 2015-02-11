@@ -1,9 +1,7 @@
 package minefantasy.mf2.hunger;
 
 import minefantasy.mf2.api.MineFantasyAPI;
-import minefantasy.mf2.config.ConfigExperiment;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 

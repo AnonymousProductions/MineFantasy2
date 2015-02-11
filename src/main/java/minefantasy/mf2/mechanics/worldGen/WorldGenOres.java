@@ -2,7 +2,6 @@ package minefantasy.mf2.mechanics.worldGen;
 
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.config.ConfigWorldGen;
 import net.minecraft.block.Block;
@@ -10,7 +9,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
 public class WorldGenOres 

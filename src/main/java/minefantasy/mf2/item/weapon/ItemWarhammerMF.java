@@ -1,8 +1,6 @@
 package minefantasy.mf2.item.weapon;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import minefantasy.mf2.api.helpers.TacticalManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,20 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.helpers.ArmourCalculator;
-import minefantasy.mf2.api.helpers.TacticalManager;
-import minefantasy.mf2.api.weapon.IDamageModifier;
-import minefantasy.mf2.item.list.CreativeTabMF;
-import minefantasy.mf2.item.tool.ToolMaterialMF;
-import mods.battlegear2.api.PlayerEventChild.OffhandAttackEvent;
-import mods.battlegear2.api.weapons.IHitTimeModifier;
-import mods.battlegear2.api.weapons.IPenetrateWeapon;
-import mods.battlegear2.api.weapons.IPotionEffect;
-import mods.battlegear2.api.weapons.ISpecialEffect;
 
 /**
  * @author Anonymous Productions

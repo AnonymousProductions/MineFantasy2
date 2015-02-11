@@ -3,7 +3,6 @@ package mods.battlegear2.api.core;
 import java.io.Closeable;
 import java.io.IOException;
 
-import cpw.mods.fml.common.eventhandler.EventBus;
 import mods.battlegear2.api.IAllowItem;
 import mods.battlegear2.api.IOffhandDual;
 import mods.battlegear2.api.shield.IShield;
@@ -37,6 +36,8 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+
+import cpw.mods.fml.common.eventhandler.EventBus;
 
 public class BattlegearUtils {
 

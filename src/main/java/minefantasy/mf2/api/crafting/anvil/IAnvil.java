@@ -13,4 +13,5 @@ public interface IAnvil {
 	void setRequiredAnvil(int i);
 	void setHotOutput(boolean i);
 	void setToolType(String toolType);
+	public void setResearch(String research);
 }

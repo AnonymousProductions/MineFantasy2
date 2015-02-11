@@ -2,7 +2,7 @@ package minefantasy.mf2.mechanics;
 
 import java.util.List;
 
-import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import mods.battlegear2.api.weapons.IExtendedReachWeapon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -10,7 +10,9 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -127,4 +129,5 @@ public class ExtendedReachMF
         }
         return null;
     }
+    
 }

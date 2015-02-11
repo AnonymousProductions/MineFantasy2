@@ -104,7 +104,7 @@
       ]
     },
 	"updateResearch": {
-    "category": "neutral",
+    "category": "player",
     "sounds": [
         "updateResearch"
       ]

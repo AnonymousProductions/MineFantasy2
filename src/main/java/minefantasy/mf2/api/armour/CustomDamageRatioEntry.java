@@ -2,8 +2,6 @@ package minefantasy.mf2.api.armour;
 
 import java.util.HashMap;
 
-import cpw.mods.fml.common.registry.GameData;
-
 import net.minecraft.item.Item;
 
 public class CustomDamageRatioEntry

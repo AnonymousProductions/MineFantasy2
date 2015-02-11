@@ -1,0 +1,79 @@
+package minefantasy.mf2.knowledge;
+
+import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.knowledge.InformationBase;
+import minefantasy.mf2.api.knowledge.InformationList;
+import minefantasy.mf2.api.knowledge.InformationPage;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.item.list.ArmourListMF;
+import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.ToolListMF;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+
+public class KnowledgeListMF
+{
+	public static InformationPage smithing = InformationList.smithing;
+	public static InformationPage artifacting = InformationList.artifacting;
+	public static InformationPage engineering = InformationList.engineering;
+	public static InformationPage cooking = InformationList.cooking;
+	public static InformationPage mastery = InformationList.mastery;
+	
+	public static InformationBase gettingStarted = (new InformationBase("gettingStarted", 		0, 0,  0, Items.book, (InformationBase)null)).registerStat().setUnlocked();
+	public static InformationBase research1 = (new InformationBase("research1", 				2, 1, 50, ToolListMF.researchBook, (InformationBase)null)).registerStat().setPerk();
+	public static InformationBase research2 = (new InformationBase("research2", 				4, 2, 80, Items.enchanted_book, research1)).registerStat().setPerk();
+	
+    public static InformationBase crucible = (new InformationBase("crucible", 					1, 0, 5, Blocks.furnace, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
+    public static InformationBase smeltSmart1 = (new InformationBase("smeltSmart1", 			2, 1, 10, Blocks.torch, crucible)).setPage(smithing).registerStat();
+	
+    public static InformationBase smeltCopper = (new InformationBase("smeltCopper",  			4, -1, 0, ComponentListMF.ingots[0], (InformationBase)null)).registerStat().setPage(smithing).setUnlocked();
+    public static InformationBase smeltIron = (new InformationBase("smeltIron",  				4, 1,  0, Items.iron_ingot, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked();
+    public static InformationBase smeltBronze = (new InformationBase("smeltBronze",  			4, 0,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(smithing);
+    
+    public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 3, 15, Blocks.furnace, smeltSmart1)).registerStat().setPage(smithing).setSpecial();
+    public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 3, 10, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(smithing);
+    public static InformationBase encrusted = (new InformationBase("encrusted",  				5, 2, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(smithing);
+    
+    public static InformationBase smeltSmart2 = (new InformationBase("smeltSmart2", 			4, 5, 20, Items.coal, smeltSteel)).registerStat().setPage(smithing).setPerk();
+    public static InformationBase crucible2 = (new InformationBase("crucible2",  				5, 6, 10, Blocks.furnace, smeltSmart2)).registerStat().setPage(smithing);
+    public static InformationBase smeltBlackSteel = (new InformationBase("smeltBlackSteel",		7, 6, 10, ComponentListMF.ingots[7], crucible2)).registerStat().setPage(smithing);
+    public static InformationBase smeltDragonforge = (new InformationBase("smeltDragonforge",	8, 5, 50, ComponentListMF.ingots[8], smeltBlackSteel)).registerStat().setPage(smithing);
+    
+    public static InformationBase crucible3 = (new InformationBase("crucible3",  				5, 8, 20, Blocks.furnace, smeltBlackSteel)).registerStat().setPage(smithing);
+    public static InformationBase smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 15, ComponentListMF.ingots[12], crucible3)).registerStat().setPage(smithing);
+    public static InformationBase smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		7, 9, 15, ComponentListMF.ingots[14], crucible3)).registerStat().setPage(smithing);
+    
+	public static InformationBase smeltSmart3 = (new InformationBase("smeltSmart3", 			5, 11, 20, Blocks.fire, crucible3)).setPage(smithing).registerStat();
+	public static InformationBase smeltSmart4 = (new InformationBase("smeltSmart4", 			7, 11, 50, Blocks.lava, smeltSmart3)).registerStat().setPage(smithing).setPerk();
+	
+    public static InformationBase mythic = (new InformationBase("mythic",  						5, 13, 30, Blocks.furnace, smeltSmart3)).registerStat().setPage(smithing).setSpecial();
+    public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			4, 15, 30, ComponentListMF.ingots[16], mythic)).registerStat().setPage(smithing);
+    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamant", 			6, 15, 30, ComponentListMF.ingots[15], mythic)).registerStat().setPage(smithing);
+    
+    public static InformationBase anvil = (new InformationBase("anvil", 						-1, 0, 5, Blocks.anvil, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
+    public static InformationBase craftTools = (new InformationBase("craftTools", 				-3, 2, 5, ToolListMF.picks[3], anvil)).registerStat().setPage(smithing);
+    public static InformationBase craftAdvTools = (new InformationBase("craftAdvTools", 		-5, 2, 10, ToolListMF.hvypicks[2], craftTools)).registerStat().setPage(smithing);
+    public static InformationBase craftWeapons = (new InformationBase("craftWeapons", 			-3, 1, 5, ToolListMF.swords[4], anvil)).registerStat().setPage(smithing);
+    public static InformationBase craftAdvWeapons = (new InformationBase("craftAdvWeapons",     -5, 1, 10, ToolListMF.battleaxes[3], craftWeapons)).registerStat().setPage(smithing);
+    public static InformationBase craftOrnateWeapons = (new InformationBase("craftOrnateWeapons",  -3, -1, 10, ToolListMF.swords[3], craftWeapons)).registerStat().setPage(smithing);
+    public static InformationBase craftAdvOrnateWeapons = (new InformationBase("craftAdvOrnateWeapons", -5, -1, 25, ToolListMF.battleaxes[2], craftOrnateWeapons)).registerStat().setPage(smithing);
+    public static InformationBase craftArmour = (new InformationBase("craftArmour", 			-3, 3, 10, ArmourListMF.armour(ArmourListMF.chainmail, 3, 1), anvil)).registerStat().setPage(smithing);
+    public static InformationBase craftArmourAdv = (new InformationBase("craftArmourAdv",       -5, 3, 20, ArmourListMF.armour(ArmourListMF.fieldplate, 3, 1), craftArmour)).registerStat().setPage(smithing);
+    public static InformationBase arrows = (new InformationBase("arrows", 		  		   		 -1, 4, 10, ToolListMF.arrows[4], anvil)).registerStat().setPage(smithing);
+    public static InformationBase arrowsBodkin = (new InformationBase("arrowsBodkin", 		  	 -2, 5, 15, ToolListMF.bodkinArrows[3], arrows)).registerStat().setPage(smithing);
+    public static InformationBase arrowsBroad = (new InformationBase("arrowsBroad", 		  	 -2, 6, 20, ToolListMF.broadArrows[3], arrows)).registerStat().setPage(smithing);
+    
+    public static InformationBase blackpowder = (new InformationBase("blackpowder", 			0, 0, 10, ComponentListMF.blackpowder, (InformationBase)null)).registerStat().setPage(engineering);
+    public static InformationBase bombs = (new InformationBase("bombs", 						0, 2, 20, ToolListMF.bomb_custom, blackpowder)).registerStat().setPage(engineering);
+    public static InformationBase bombIron = (new InformationBase("bombIron", 				   -1, 3, 20, ComponentListMF.bomb_casing_iron, bombs)).registerStat().setPage(engineering);
+    public static InformationBase bombObsidian = (new InformationBase("bombObsidian", 		   -1, 5, 35, ComponentListMF.bomb_casing_obsidian, bombIron)).registerStat().setPage(engineering);
+    public static InformationBase shrapnel = (new InformationBase("shrapnel", 				   1, 3, 30, ComponentListMF.shrapnel, bombs)).registerStat().setPage(engineering);
+    public static InformationBase firebomb = (new InformationBase("firebomb", 		  		   1, 5, 50, Items.blaze_powder, shrapnel)).registerStat().setPage(engineering);
+    
+    public static void init()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+}

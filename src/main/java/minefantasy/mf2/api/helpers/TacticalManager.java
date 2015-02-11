@@ -2,7 +2,6 @@ package minefantasy.mf2.api.helpers;
 
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -10,15 +9,12 @@ import minefantasy.mf2.api.weapon.IParryable;
 import minefantasy.mf2.mechanics.CombatMechanics;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
 
 /**
  * This calculates different tactical contexts for combat like flanking and blocking

@@ -1,15 +1,15 @@
 package mods.mud;
 
-import cpw.mods.fml.client.GuiModList;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import java.util.List;
+
 import mods.mud.gui.GuiModUpdateButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiScreen;
-
-import java.util.List;
+import cpw.mods.fml.client.GuiModList;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 
 /**
  * Created with IntelliJ IDEA.

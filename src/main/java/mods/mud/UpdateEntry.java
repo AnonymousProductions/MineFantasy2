@@ -1,9 +1,9 @@
 package mods.mud;
 
-import cpw.mods.fml.common.ModContainer;
-import mods.mud.exceptions.UnknownVersionFormatException;
-
 import java.net.URL;
+
+import mods.mud.exceptions.UnknownVersionFormatException;
+import cpw.mods.fml.common.ModContainer;
 
 public class UpdateEntry{
 

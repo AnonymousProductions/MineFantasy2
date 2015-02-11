@@ -1,9 +1,9 @@
 package mods.battlegear2.api.heraldry;
 
-import net.minecraft.client.renderer.texture.DynamicTexture;
-
-import java.awt.*;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+
+import net.minecraft.client.renderer.texture.DynamicTexture;
 
 public class RefreshableTexture extends DynamicTexture{
 

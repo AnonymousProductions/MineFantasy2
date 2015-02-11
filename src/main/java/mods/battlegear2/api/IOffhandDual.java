@@ -1,8 +1,8 @@
 package mods.battlegear2.api;
 
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import cpw.mods.fml.relauncher.Side;
 
 public interface IOffhandDual {
 	/**

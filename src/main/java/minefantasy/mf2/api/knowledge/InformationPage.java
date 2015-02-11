@@ -1,10 +1,12 @@
-package minefantasy.mf2.knowledge;
+package minefantasy.mf2.api.knowledge;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import net.minecraft.util.StatCollector;
 
 public class InformationPage
 {
@@ -96,7 +98,7 @@ public class InformationPage
     
     public static String getTitle(int index)
     {
-        return index == -1 ? "Basic" : getInfoPage(index).getName();
+        return StatCollector.translateToLocal(index == -1 ? "Basic" : getInfoPage(index).getName());
     }
 
 	public void addInfo(InformationBase entry)

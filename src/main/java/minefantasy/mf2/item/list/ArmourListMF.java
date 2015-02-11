@@ -2,12 +2,10 @@ package minefantasy.mf2.item.list;
 
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
-import minefantasy.mf2.item.armour.*;
+import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
 
 /**
  * @author Anonymous Productions

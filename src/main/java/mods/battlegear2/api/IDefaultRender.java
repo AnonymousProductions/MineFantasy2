@@ -1,5 +1,7 @@
 package mods.battlegear2.api;
 
+import net.minecraftforge.client.IItemRenderer;
+
 /**
  * Soon:
  * Utility to use one of the default Battlegear2 renderer

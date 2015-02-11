@@ -1,6 +1,5 @@
 package minefantasy.mf2.api.stamina;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import net.minecraft.entity.EntityLivingBase;

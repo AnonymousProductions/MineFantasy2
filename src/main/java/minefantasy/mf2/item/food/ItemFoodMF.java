@@ -3,20 +3,12 @@ package minefantasy.mf2.item.food;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import scala.actors.threadpool.Arrays;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.stamina.StaminaBar;
-import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.hunger.HungerSystemMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.mechanics.TierHelper;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -28,9 +20,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemFoodMF extends ItemFood
 {

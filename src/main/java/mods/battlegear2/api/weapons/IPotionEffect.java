@@ -1,9 +1,9 @@
 package mods.battlegear2.api.weapons;
 
+import java.util.Map;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
-
-import java.util.Map;
 
 public interface IPotionEffect {
 

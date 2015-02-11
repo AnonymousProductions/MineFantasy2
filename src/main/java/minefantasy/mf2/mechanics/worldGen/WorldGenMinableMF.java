@@ -2,7 +2,6 @@ package minefantasy.mf2.mechanics.worldGen;
 
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;

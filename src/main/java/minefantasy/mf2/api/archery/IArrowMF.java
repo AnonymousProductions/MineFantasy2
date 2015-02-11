@@ -1,9 +1,6 @@
 package minefantasy.mf2.api.archery;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public interface IArrowMF 

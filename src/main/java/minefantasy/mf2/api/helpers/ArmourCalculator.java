@@ -1,8 +1,10 @@
 package minefantasy.mf2.api.helpers;
 
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.MineFantasyAPI;
-import minefantasy.mf2.api.armour.*;
+import minefantasy.mf2.api.armour.ArmourDesign;
+import minefantasy.mf2.api.armour.CustomArmourEntry;
+import minefantasy.mf2.api.armour.CustomDamageRatioEntry;
+import minefantasy.mf2.api.armour.IArmourMF;
+import minefantasy.mf2.api.armour.IArmourRating;
 import minefantasy.mf2.api.weapon.IDamageType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -20,8 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
 

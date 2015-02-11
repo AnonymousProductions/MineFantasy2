@@ -1,23 +1,18 @@
-package minefantasy.mf2.knowledge;
+package minefantasy.mf2.api.knowledge;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.IStatStringFormat;
-import net.minecraft.stats.StatBase;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class InformationBase
 {
-	public int ID;
+	public int ID = 0;
 	private static int nextID = 0;
 	public boolean startedUnlocked = false;
     public final int displayColumn;
@@ -28,23 +23,22 @@ public class InformationBase
     private IStatStringFormat statStringFormatter;
     public final ItemStack theItemStack;
     private boolean isSpecial;
+    private boolean isPerk;
     private final String idName;
-    private final String modID;
+    private final int baseLevelCost;
 
-    public InformationBase(String name, int x, int y, Item icon, InformationBase parent, String modid)
+    public InformationBase(String name, int x, int y, int cost, Item icon, InformationBase parent)
     {
-        this(name, x, y, new ItemStack(icon), parent, modid);
+        this(name, x, y, cost, new ItemStack(icon), parent);
     }
-    public InformationBase(String name, int x, int y, Block icon, InformationBase parent, String modid)
+    public InformationBase(String name, int x, int y, int cost, Block icon, InformationBase parent)
     {
-        this(name, x, y, new ItemStack(icon), parent, modid);
+        this(name, x, y, cost, new ItemStack(icon), parent);
     }
 
-    public InformationBase(String name, int x, int y, ItemStack icon, InformationBase parent, String modid)
+    public InformationBase(String name, int x, int y, int cost, ItemStack icon, InformationBase parent)
     {
-    	ID = nextID;
-    	++nextID;
-    	this.modID = modid;
+    	this.baseLevelCost = cost;
     	this.idName = name;
         this.theItemStack = icon;
         this.description = "knowledge." + idName + ".desc";
@@ -94,6 +88,11 @@ public class InformationBase
         this.isSpecial = true;
         return this;
     }
+    public InformationBase setPerk()
+    {
+        this.isPerk = true;
+        return this;
+    }
 
     /**
      * Register the stat into StatList.
@@ -141,18 +140,29 @@ public class InformationBase
     {
         return this.isSpecial;
     }
+    public boolean getPerk()
+    {
+        return this.isPerk;
+    }
 
-	public void trigger(EntityPlayer user, boolean makeEffect)
+	public boolean trigger(EntityPlayer user, boolean makeEffect)
 	{
-		if(ResearchLogic.tryUnlock(user, this) && makeEffect)
+		boolean success = ResearchLogic.tryUnlock(user, this);
+		if(success && makeEffect && !user.worldObj.isRemote)
 		{
 			user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unlocked") + ": " + StatCollector.translateToLocal(getName())));
-			user.playSound("minefantasy2:updateResearch", 1.0F, 1.0F);
+			user.worldObj.playSoundAtEntity(user, "minefantasy2:updateResearch", 1.0F, 1.0F);
 		}
+		return success;
 	}
 
-	public String getUniqueName()
+	public String getUnlocalisedName()
 	{
-		return modID +  "_" + idName;
+		return idName;
+	}
+	
+	public int getCost()
+	{
+		return baseLevelCost;
 	}
 }

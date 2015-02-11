@@ -2,7 +2,6 @@ package minefantasy.mf2.block.basic;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPane;
@@ -11,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BlockMetalBarsMF extends BlockPane 
 {

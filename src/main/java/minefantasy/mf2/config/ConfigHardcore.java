@@ -1,7 +1,6 @@
 package minefantasy.mf2.config;
 
 import minefantasy.mf2.mechanics.CombatMechanics;
-import minefantasy.mf2.mechanics.EventManagerMF;
 
 public class ConfigHardcore extends ConfigurationBaseMF
 {

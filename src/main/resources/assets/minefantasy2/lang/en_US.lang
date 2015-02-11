@@ -1,43 +1,84 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /INFORMATION/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-gui.information=Research Book
+item.infobook.name=Research Book
+item.research_scroll.name=Common Scroll
+item.research_scroll_uncommon.name=Uncommon Scroll
+item.research_scroll_rare.name=Rare Scroll
+
+gui.information=Research
+gui.knowledgePoints=Knowledge Pts: %1$s
 information.discovered=Researched
+information.cost=Research for %1$s Points
+knowledge.gainPts=You have gained %1$s Knowledge Points
+knowledge.unknownUse=You don't know how to use this!
+
+infoPage.basic=Basic Information
+infoPage.smithing=Smithing
+infoPage.artifacting=Artifacting
+infoPage.engineering=Engineering
+infoPage.cooking=Cooking
+infoPage.mastery=Mastery
 
 knowledge.unlocked=Research Completed
 
 knowledge.gettingStarted=Getting Started
 knowledge.gettingStarted.desc=How to start out
 
-knowledge.smeltCopper=Copper Smithing
+knowledge.research1=Improved Research
+knowledge.research1.desc=The big picture
+knowledge.research2=Master Research
+knowledge.research2.desc=Know your field
+
+knowledge.smeltCopper=Copper Smelting
 knowledge.smeltCopper.desc=Early metallurgy
-knowledge.smeltBronze=Bronze Smithing
+knowledge.smeltBronze=Bronze Smelting
 knowledge.smeltBronze.desc=A simple alloy
-knowledge.smeltIron=Iron Smithing
+knowledge.smeltIron=Iron Smelting
 knowledge.smeltIron.desc=The most common material
-knowledge.smeltSteel=Steel Smithing
+knowledge.smeltSteel=Steel Smelting
 knowledge.smeltSteel.desc=A common, strong material
+knowledge.smeltSteel2=Steel Mastery
+knowledge.smeltSteel2.desc=Mass Produce Steel
 knowledge.encrusted=Encrusted Metals
 knowledge.encrusted.desc=Adding diamond to steel
-knowledge.smeltBlackSteel=Black Steel Smithing
+knowledge.smeltBlackSteel=Black Steel Smelting
 knowledge.smeltBlackSteel.desc=Upgraded steel
-knowledge.smeltDragonforge=Dragonforge Smithing
+knowledge.smeltDragonforge=Dragonforge Smelting
 knowledge.smeltDragonforge.desc=A mystical craft
-knowledge.smeltRedSteel=Red Steel Smithing
+knowledge.smeltRedSteel=Red Steel Smelting
 knowledge.smeltRedSteel.desc=A heavy, but strong material
-knowledge.smeltBlueSteel=Blue Steel Smithing
+knowledge.smeltBlueSteel=Blue Steel Smelting
 knowledge.smeltBlueSteel.desc=Light and mystical
-knowledge.smeltAdamant=Adamantium Smithing
+knowledge.smeltAdamant=Adamantium Smelting
 knowledge.smeltAdamant.desc=A heavy and resistant material
-knowledge.smeltMithril=Mithril Smithing
+knowledge.smeltMithril=Mithril Smelting
 knowledge.smeltMithril.desc=The lightest of materials
-knowledge.smeltIgnotumite=Ignotumite Smithing
+knowledge.smeltIgnotumite=Ignotumite Smelting
 knowledge.smeltIgnotumite.desc=A rare power
 
 knowledge.craftTools=Tool Crafting
 knowledge.craftTools.desc=Basic tools
 knowledge.craftAdvTools=Advanced Tool Crafting
 knowledge.craftAdvTools.desc=Special Tools
+knowledge.craftWeapons=Weapon Crafting
+knowledge.craftWeapons.desc=Basic weapons
+knowledge.craftAdvWeapons=Heavy Weapon Crafting
+knowledge.craftAdvWeapons.desc=For more of a whack
+knowledge.craftOrnateWeapons=Ornate Weapon Crafting
+knowledge.craftOrnateWeapons.desc=Fancy
+knowledge.craftAdvOrnateWeapons=Heavy Ornate Weapon Crafting
+knowledge.craftAdvOrnateWeapons.desc=Fancier
+knowledge.craftArmour=Armor Crafting
+knowledge.craftArmour.desc=Protective and durable
+knowledge.craftArmourAdv=Plate Armor
+knowledge.craftArmourAdv.desc=Heavy duty protection
+knowledge.arrows=Fletching
+knowledge.arrows.desc=Arrow Crafting
+knowledge.arrowsBodkin=Bodkin Arrows
+knowledge.arrowsBodkin.desc=Light-Fliers
+knowledge.arrowsBroad=Broad Arrows
+knowledge.arrowsBroad.desc=Heavy Duty
 
 knowledge.hammer=Hammers
 knowledge.hammer.desc=Used for forging
@@ -54,17 +95,38 @@ knowledge.knife.desc=Useful blades
 
 knowledge.crucible=Basic Alloying
 knowledge.crucible.desc=Mixing metals
+knowledge.smeltSmart1=Novice Smelter
+knowledge.smeltSmart1.desc=Ready to learn more
 knowledge.blastfurn=Refining
 knowledge.blastfurn.desc=Purifying your ores
+knowledge.smeltSmart2=Adept Smelter
+knowledge.smeltSmart2.desc=Getting the hang of it
 knowledge.crucible2=Refined Alloying
 knowledge.crucible2.desc=Near perfection
 knowledge.crucible3=Master Alloying
 knowledge.crucible3.desc=The ultimate alloys
+knowledge.smeltSmart3=Expert Smelter
+knowledge.smeltSmart3.desc=For it is an art
 knowledge.mythic=Mythic Forging
 knowledge.mythic.desc=Extending beyond simple metals
+knowledge.smeltSmart4=Master Smelter
+knowledge.smeltSmart4.desc=Bend the elements to your will
 
 knowledge.anvil=Anvil
 knowledge.anvil.desc=Forge metals
+
+knowledge.blackpowder=Explosives
+knowledge.blackpowder.desc=Boom!
+knowledge.bombs=Bomb Crafting
+knowledge.bombs.desc=A deadly ranged weapon
+knowledge.bombIron=Iron Bomb Casing
+knowledge.bombIron.desc=More controlled blast
+knowledge.bombObsidian=Obsidian Bomb Casing
+knowledge.bombObsidian.desc=Concentrated blast range
+knowledge.shrapnel=Shrapnel Bombs
+knowledge.shrapnel.desc=Adding more damage
+knowledge.firebomb=Incineration Bombs
+knowledge.firebomb.desc=Blow them away
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,10 +1,6 @@
 package minefantasy.mf2.mechanics;
 
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.config.ConfigClient;
-import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.network.packet.HitSoundPacket;
-import minefantasy.mf2.network.packet.StaminaPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

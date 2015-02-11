@@ -1,5 +1,7 @@
 package mods.mud.gui;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -7,9 +9,8 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import org.lwjgl.opengl.GL11;
 
-import java.util.List;
+import org.lwjgl.opengl.GL11;
 
 public class GuiModUpdateButton extends GuiButton{
 

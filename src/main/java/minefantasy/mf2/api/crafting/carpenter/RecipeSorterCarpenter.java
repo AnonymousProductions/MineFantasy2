@@ -2,8 +2,6 @@ package minefantasy.mf2.api.crafting.carpenter;
 
 import java.util.Comparator;
 
-import net.minecraft.src.*;
-
 /**
  * 
  * @author AnonymousProductions

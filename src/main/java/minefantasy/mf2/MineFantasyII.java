@@ -5,32 +5,30 @@ import java.io.File;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
-import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.config.*;
+import minefantasy.mf2.config.ConfigArmour;
+import minefantasy.mf2.config.ConfigClient;
+import minefantasy.mf2.config.ConfigExperiment;
+import minefantasy.mf2.config.ConfigFarming;
+import minefantasy.mf2.config.ConfigHardcore;
+import minefantasy.mf2.config.ConfigItemRegistry;
+import minefantasy.mf2.config.ConfigStamina;
+import minefantasy.mf2.config.ConfigTools;
+import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.config.ConfigWorldGen;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
-import minefantasy.mf2.mechanics.EventManagerMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
 import minefantasy.mf2.network.CommonProxyMF;
 import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import org.apache.logging.log4j.Level;
-
-import scala.actors.threadpool.Arrays;
-
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -88,6 +86,7 @@ public class MineFantasyII
     	proxy.registerTickHandlers();
     	addModFlags();
     	ComponentListMF.init();
+    	KnowledgeListMF.init();
     }
 
     @EventHandler

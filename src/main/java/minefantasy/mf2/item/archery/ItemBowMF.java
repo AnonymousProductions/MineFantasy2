@@ -3,10 +3,6 @@ package minefantasy.mf2.item.archery;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.archery.IDisplayMFArrows;
 import minefantasy.mf2.api.archery.ISpecialBow;
@@ -36,6 +32,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 {

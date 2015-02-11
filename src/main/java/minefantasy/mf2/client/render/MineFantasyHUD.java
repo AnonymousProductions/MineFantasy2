@@ -2,9 +2,6 @@ package minefantasy.mf2.client.render;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
-
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.archery.IDisplayMFArrows;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
@@ -16,16 +13,15 @@ import minefantasy.mf2.config.ConfigClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+import org.lwjgl.opengl.GL11;
 
 public class MineFantasyHUD extends Gui
 {
@@ -206,6 +202,7 @@ public class MineFantasyHUD extends Gui
 	
 	private void renderCraftMetre(World world, EntityPlayer player, TileEntityAnvilMF tile) 
 	{
+		boolean knowsCraft = tile.doesPlayerKnowCraft(mc.thePlayer);
 		GL11.glPushMatrix();
 		ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
         int width = scaledresolution.getScaledWidth();
@@ -218,11 +215,11 @@ public class MineFantasyHUD extends Gui
         this.drawTexturedModalRect(xPos, yPos, 84, 0, 172, 20);
         this.drawTexturedModalRect(xPos+6, yPos+12, 90, 20, tile.getProgressBar(160), 3);
         
-        String s = tile.getResultName();
+        String s = knowsCraft ? tile.getResultName() : "????";
         mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         
-        if(!tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
+        if(knowsCraft && !tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
         {
         	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPos-20, yPos);
         	if(tile.getAnvilTierNeeded() > -1)
@@ -237,6 +234,7 @@ public class MineFantasyHUD extends Gui
 	
 	private void renderCraftMetre(World world, EntityPlayer player, TileEntityCarpenterMF tile) 
 	{
+		boolean knowsCraft = tile.doesPlayerKnowCraft(mc.thePlayer);
 		GL11.glPushMatrix();
 		ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
         int width = scaledresolution.getScaledWidth();
@@ -249,11 +247,11 @@ public class MineFantasyHUD extends Gui
         this.drawTexturedModalRect(xPos, yPos, 84, 0, 172, 20);
         this.drawTexturedModalRect(xPos+6, yPos+12, 90, 20, tile.getProgressBar(160), 3);
         
-        String s = tile.getResultName();
+        String s = knowsCraft ? tile.getResultName() : "????";
         mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         
-        if(!tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
+        if(knowsCraft && !tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
         {
         	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPos-20, yPos);
         }

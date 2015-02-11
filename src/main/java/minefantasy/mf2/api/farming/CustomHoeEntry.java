@@ -3,9 +3,7 @@ package minefantasy.mf2.api.farming;
 import java.util.HashMap;
 
 import minefantasy.mf2.api.MineFantasyAPI;
-import minefantasy.mf2.api.helpers.ArmourCalculator;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 public class CustomHoeEntry 

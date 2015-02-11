@@ -1,7 +1,5 @@
 package minefantasy.mf2.config;
 
-import minefantasy.mf2.api.helpers.ArmourCalculator;
-import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.farming.FarmingHelper;
 
 public class ConfigFarming extends ConfigurationBaseMF 

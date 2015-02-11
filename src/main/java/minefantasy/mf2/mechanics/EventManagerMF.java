@@ -5,22 +5,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.MineFantasyAPI;
-import minefantasy.mf2.api.armour.ItemArmourMFBase;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.EntityHelper;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.tool.IHuntingItem;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.config.ConfigStamina;
 import minefantasy.mf2.farming.FarmingHelper;
+import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
@@ -28,14 +25,19 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.Entity.EnumEntitySize;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.event.HoverEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -45,22 +47,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.HarvestCheck;
+import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ChunkEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventManagerMF
 {
@@ -73,7 +76,7 @@ public class EventManagerMF
 		if(dropper instanceof EntityGhast)
 		{
 			//TODO: TEMPORARY
-			int dropCount = (1 + rand.nextInt(event.lootingLevel+1) * (2 + rand.nextInt(8)));
+			int dropCount = (1 + rand.nextInt(event.lootingLevel+1) + (2 + rand.nextInt(8)));
 			
 			for(int a = 0; a < dropCount; a++)
 			{
@@ -131,6 +134,11 @@ public class EventManagerMF
 			}
 		}
 		dropLeather(event.entityLiving, event);
+		
+		if(dropper instanceof EntityWitch)
+		{
+			dropper.entityDropItem(ItemResearchScroll.getRandomDrop(), 0.0F);
+		}
 	}
 	
 	private void dropLeather(EntityLivingBase mob, LivingDropsEvent event) 
@@ -625,6 +633,11 @@ public class EventManagerMF
 			StaminaMechanics.tickEntity(event.entityLiving);
 		}
 		tickHitSpeeds(event.entityLiving);
+		
+		if(event.entity.ticksExisted == 1 && event.entity instanceof EntityPlayer && !event.entity.worldObj.isRemote && !event.entity.getEntityData().hasKey("MF_HasSyncedResearch"))
+		{
+			ResearchLogic.syncData((EntityPlayer) event.entity);
+		}
 	}
 	public static void tickHitSpeeds(EntityLivingBase user)
 	{
@@ -673,4 +686,22 @@ public class EventManagerMF
 			EntityHelper.cloneNBT(origin, spawn);
 		}
 	}
+	
+	private int xpToKnowledge = 25;
+    @SubscribeEvent
+    public void pickupXP(PlayerPickupXpEvent event)
+    {
+    	if(event.orb.worldObj.isRemote)return;
+    	
+    	int value = event.orb.xpValue;
+    	int playervalue = event.entityPlayer.getEntityData().getInteger("MF_XpToNextKnowledge") + value;
+    	event.entityPlayer.getEntityData().setInteger("MF_XpToNextKnowledge", playervalue);
+    	
+    	if(playervalue >= xpToKnowledge)
+    	{
+    		ResearchLogic.modifyKnowledgePoints(event.entityPlayer, 1);
+    		event.entityPlayer.worldObj.playSoundAtEntity(event.entity, "random.orb", 0.5F, 0.5F);
+    		event.entityPlayer.getEntityData().setInteger("MF_XpToNextKnowledge", playervalue - xpToKnowledge);
+    	}
+    }
 }

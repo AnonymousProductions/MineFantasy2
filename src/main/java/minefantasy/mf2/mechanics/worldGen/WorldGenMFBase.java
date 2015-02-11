@@ -2,12 +2,9 @@ package minefantasy.mf2.mechanics.worldGen;
 
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGenMFBase implements IWorldGenerator 

@@ -1,6 +1,5 @@
 package minefantasy.mf2.mechanics;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.stamina.IStaminaWeapon;

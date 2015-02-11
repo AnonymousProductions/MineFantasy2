@@ -49,7 +49,7 @@ public class ConfigClient extends ConfigurationBaseMF
 		stam_yOrient = Integer.parseInt(config.get(GUI_STAMINA, "Y Orient", 1, "The orientation for the Y axis (-1 = top, 0 = middle, 1 = bottom). Determines what point in the axis to snap to").getString());
 		stam_xPos = Integer.parseInt(config.get(GUI_STAMINA, "X Position", -82, "The Offset value away from the orient (-)left, (+)right").getString());
 		stam_yPos = Integer.parseInt(config.get(GUI_STAMINA, "Y Position", -7, "The Offset value away from the orient (-)up, (+)down").getString());
-		stam_direction = Integer.parseInt(config.get(GUI_STAMINA, "Metre Direction", -1, "The direction the metre goes down: 1 = left to right, 0 = middle, -1 = right to left (May have subtle flaws in altered directions 1 and 0)").getString());
+		stam_direction = Integer.parseInt(config.get(GUI_STAMINA, "Metre Direction", 1, "The direction the metre goes down: 1 = left to right, 0 = middle, -1 = right to left (May have subtle flaws in altered directions 1 and 0)").getString());
 		
 		AR_xOrient = Integer.parseInt(config.get(GUI_ARATING, "X Orient", -1, "The orientation for the X axis (-1 = left, 0 = middle, 1 = right). Determines what point in the axis to snap to").getString());
 		AR_yOrient = Integer.parseInt(config.get(GUI_ARATING, "Y Orient", -1, "The orientation for the Y axis (-1 = top, 0 = middle, 1 = bottom). Determines what point in the axis to snap to").getString());

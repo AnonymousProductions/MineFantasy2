@@ -1,6 +1,5 @@
 package minefantasy.mf2.mechanics;
 
-import minefantasy.mf2.MineFantasyII;
 
 public class TierHelper
 {

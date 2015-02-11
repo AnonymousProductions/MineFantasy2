@@ -1,12 +1,9 @@
 package minefantasy.mf2.item.weapon;
 
-import mods.battlegear2.api.PlayerEventChild.OffhandAttackEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import cpw.mods.fml.relauncher.Side;
 
 public abstract class ItemHeavyWeapon extends ItemWeaponMF
 {

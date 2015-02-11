@@ -2,12 +2,12 @@ package minefantasy.mf2.config;
 
 import java.util.Arrays;
 
-import net.minecraft.item.Item;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.api.armour.CustomDamageRatioEntry;
 import minefantasy.mf2.api.farming.CustomHoeEntry;
+import net.minecraft.item.Item;
 
 public class ConfigItemRegistry extends ConfigurationBaseMF 
 {

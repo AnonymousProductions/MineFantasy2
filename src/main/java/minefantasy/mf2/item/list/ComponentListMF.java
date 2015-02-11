@@ -1,26 +1,17 @@
 package minefantasy.mf2.item.list;
 
-import java.awt.Color;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.armour.ArmourDesign;
-import minefantasy.mf2.api.armour.ArmourMaterialMF;
 import minefantasy.mf2.api.mining.RandomDigs;
 import minefantasy.mf2.api.mining.RandomOre;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.item.FuelHandlerMF;
-import minefantasy.mf2.item.ItemComponentMF;
-import minefantasy.mf2.item.armour.ItemArmourMF;
-import minefantasy.mf2.item.gadget.ItemBombComponent;
-import minefantasy.mf2.item.tool.ToolMaterialMF;
+import minefantasy.mf2.item.*;
+import minefantasy.mf2.item.gadget.*;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.oredict.OreDictionary;
+import cpw.mods.fml.common.registry.GameRegistry;
 /**
  * @author Anonymous Productions
  */

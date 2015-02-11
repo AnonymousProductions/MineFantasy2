@@ -1,13 +1,17 @@
 package mods.battlegear2.api.weapons;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.List;
+
 import mods.battlegear2.api.core.BattlegearUtils;
-import net.minecraft.command.*;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-
-import java.util.List;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * Command that can be used by op to set held items in the WeaponRegistry

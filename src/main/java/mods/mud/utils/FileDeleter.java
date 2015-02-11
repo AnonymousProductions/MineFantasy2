@@ -1,8 +1,8 @@
 package mods.mud.utils;
 
-import mods.mud.ModUpdateDetector;
-
 import java.io.File;
+
+import mods.mud.ModUpdateDetector;
 
 public class FileDeleter {
     public static void main(String[] args){

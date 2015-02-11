@@ -1,14 +1,11 @@
 package minefantasy.mf2.block.food;
 
-import java.util.List;
-
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 
 public class ItemBlockCake extends ItemBlock
 {

@@ -1,25 +1,48 @@
 package minefantasy.mf2.item.list;
 
-import java.awt.Color;
-
-import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.ItemBandage;
 import minefantasy.mf2.item.ItemBucketMF;
-import minefantasy.mf2.item.ItemMagicAnswerBook;
+import minefantasy.mf2.item.ItemResearchBook;
 import minefantasy.mf2.item.ItemMilkBucketMF;
+import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.item.archery.ArrowType;
 import minefantasy.mf2.item.archery.EnumBowType;
 import minefantasy.mf2.item.archery.ItemArrowMF;
 import minefantasy.mf2.item.archery.ItemBowMF;
 import minefantasy.mf2.item.food.FoodListMF;
-import minefantasy.mf2.item.gadget.*;
-import minefantasy.mf2.item.tool.*;
-import minefantasy.mf2.item.tool.advanced.*;
-import minefantasy.mf2.item.tool.crafting.*;
-import minefantasy.mf2.item.weapon.*;
+import minefantasy.mf2.item.gadget.ItemBomb;
+import minefantasy.mf2.item.gadget.ItemMine;
+import minefantasy.mf2.item.tool.ItemAxeMF;
+import minefantasy.mf2.item.tool.ItemHoeMF;
+import minefantasy.mf2.item.tool.ItemPickMF;
+import minefantasy.mf2.item.tool.ItemShearsMF;
+import minefantasy.mf2.item.tool.ItemSpadeMF;
+import minefantasy.mf2.item.tool.ToolMaterialMF;
+import minefantasy.mf2.item.tool.advanced.ItemHandpick;
+import minefantasy.mf2.item.tool.advanced.ItemHvyPick;
+import minefantasy.mf2.item.tool.advanced.ItemHvyShovel;
+import minefantasy.mf2.item.tool.advanced.ItemMattock;
+import minefantasy.mf2.item.tool.advanced.ItemScythe;
+import minefantasy.mf2.item.tool.advanced.ItemTrowMF;
+import minefantasy.mf2.item.tool.crafting.ItemBasicCraftTool;
+import minefantasy.mf2.item.tool.crafting.ItemHammer;
+import minefantasy.mf2.item.tool.crafting.ItemKnifeMF;
+import minefantasy.mf2.item.tool.crafting.ItemNeedle;
+import minefantasy.mf2.item.tool.crafting.ItemSaw;
+import minefantasy.mf2.item.tool.crafting.ItemTongs;
+import minefantasy.mf2.item.weapon.ItemBattleaxeMF;
+import minefantasy.mf2.item.weapon.ItemDagger;
+import minefantasy.mf2.item.weapon.ItemGreatswordMF;
+import minefantasy.mf2.item.weapon.ItemHalbeardMF;
+import minefantasy.mf2.item.weapon.ItemKatanaMF;
+import minefantasy.mf2.item.weapon.ItemLance;
+import minefantasy.mf2.item.weapon.ItemMaceMF;
+import minefantasy.mf2.item.weapon.ItemSpearMF;
+import minefantasy.mf2.item.weapon.ItemSwordMF;
+import minefantasy.mf2.item.weapon.ItemWaraxeMF;
+import minefantasy.mf2.item.weapon.ItemWarhammerMF;
 import minefantasy.mf2.material.BaseMaterialMF;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -29,7 +52,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * @author Anonymous Productions
@@ -150,7 +172,10 @@ public class ToolListMF
 	public static ItemBomb bomb_custom = new ItemBomb("bomb_basic");
 	public static ItemMine mine_custom = new ItemMine("mine_basic");
 	
-	public static ItemMagicAnswerBook answers = new ItemMagicAnswerBook();
+	public static ItemResearchBook researchBook = new ItemResearchBook();
+	public static Item research_scroll = new ItemResearchScroll("research_scroll", 5, 1);
+	public static Item research_scroll_uncommon = new ItemResearchScroll("research_scroll_uncommon", 10, 2).setTextureName("minefantasy2:Other/research_scroll");
+	public static Item research_scroll_rare = new ItemResearchScroll("research_scroll_rare", 25, 3).setTextureName("minefantasy2:Other/research_scroll");
 	public static void init() 
 	{
 		BlockListMF.init();
@@ -230,6 +255,15 @@ public class ToolListMF
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(waraxes[3]), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(maces[3]), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(daggers[3]), 1, 1, 1));
+		
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll), 1, 5, 10));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll), 1, 5, 50));
+		
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll_uncommon), 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll_uncommon), 1, 2, 20));
+		
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll_rare), 1, 1, 1));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll_rare), 1, 1, 5));
 	}
 	
 }

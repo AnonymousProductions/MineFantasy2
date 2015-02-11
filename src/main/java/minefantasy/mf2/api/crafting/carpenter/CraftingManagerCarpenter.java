@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
- 
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -42,7 +41,7 @@ public class CraftingManagerCarpenter
     /**
      * Adds a recipe. See spreadsheet on first page for details.
      */
-    public void addRecipe(ItemStack result, String sound, float exp, String tool, int hammer, int anvil, int time, Object ... input)
+    public void addRecipe(ItemStack result, String research, String sound, float exp, String tool, int hammer, int anvil, int time, Object ... input)
     {
         String var3 = "";
         int var4 = 0;
@@ -114,10 +113,10 @@ public class CraftingManagerCarpenter
             }
         }
 
-        this.recipes.add(new ShapedCarpenterRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, false, sound));
+        this.recipes.add(new ShapedCarpenterRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, false, sound, research));
     }
 
-    public void addShapelessRecipe(ItemStack output, String sound, float experience, String tool, int hammer, int anvil, int time, Object ... input)
+    public void addShapelessRecipe(ItemStack output, String research, String sound, float experience, String tool, int hammer, int anvil, int time, Object ... input)
     {
         ArrayList var3 = new ArrayList();
         Object[] var4 = input;
@@ -146,7 +145,7 @@ public class CraftingManagerCarpenter
             }
         }
 
-        this.recipes.add(new ShapelessCarpenterRecipes(output, tool, experience, hammer, anvil, time, var3, false, sound));
+        this.recipes.add(new ShapelessCarpenterRecipes(output, tool, experience, hammer, anvil, time, var3, false, sound, research));
     }
     public ItemStack findMatchingRecipe(InventoryCrafting matrix)
     {
@@ -288,6 +287,7 @@ public class CraftingManagerCarpenter
 	            bench.setHotOutput(hot);
 	            bench.setToolType(toolType);
 	            bench.setCraftingSound(sound);
+	            bench.setResearch(var13.getResearch());
 	            
 	            return var13.getCraftingResult(matrix);
             }

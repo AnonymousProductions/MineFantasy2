@@ -2,11 +2,10 @@ package minefantasy.mf2.material;
 
 import java.util.HashMap;
 
+import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.armour.ArmourMaterialMF;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.util.EnumHelper;
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.MineFantasyAPI;
-import minefantasy.mf2.api.armour.ArmourMaterialMF;
 
 /**
  *	This is used to create both tool and armour materials. Variables needed: Durability, protection, sharpness, enchantment, weight, harvestLvl

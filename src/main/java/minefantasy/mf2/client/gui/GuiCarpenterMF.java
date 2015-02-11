@@ -1,29 +1,29 @@
 package minefantasy.mf2.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.client.render.TextureHelperMF;
 import minefantasy.mf2.container.ContainerCarpenterMF;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiCarpenterMF extends GuiContainer
 {
     private TileEntityCarpenterMF tile;
-
+    private int regularXSize = 176;
     public GuiCarpenterMF(InventoryPlayer user, TileEntityCarpenterMF tile)
     {
         super(new ContainerCarpenterMF(user, tile));
-        this.ySize = 198;
+        this.xSize = 195;
+        this.ySize = 240;
         this.tile = tile;
     }
 
@@ -33,13 +33,14 @@ public class GuiCarpenterMF extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y)
     {
-    	String s = MineFantasyII.isDebug() ? "Carpenter Bench Crafting" : StatCollector.translateToLocal(tile.getResultName());
-        this.fontRendererObj.drawString(s, 10, 6, 0);
+    	boolean knowsCraft = tile.doesPlayerKnowCraft(mc.thePlayer);
+    	String s = MineFantasyII.isDebug() ? "Carpenter Bench Crafting" : knowsCraft ? StatCollector.translateToLocal(tile.getResultName()) : "????";
+        this.fontRendererObj.drawString(s, 10, 8, 0);
         
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;
         
-        if(!tile.resName.equalsIgnoreCase(""))
+        if(knowsCraft && !tile.resName.equalsIgnoreCase(""))
         {
 	        if(tile.getToolNeeded() != null)
 	        {
@@ -49,10 +50,10 @@ public class GuiCarpenterMF extends GuiContainer
 		        	this.fontRendererObj.drawStringWithShadow(s2, -18, -12, 16777215);
 		        }
 	        }
-	        if(x < xPoint+xSize+20 && x > xPoint+xSize && y < yPoint+20 && y > yPoint)
+	        if(x < xPoint+regularXSize+20 && x > xPoint+regularXSize && y < yPoint+20 && y > yPoint)
 	        {
 	        	String s2 = StatCollector.translateToLocal("tooltype.carpenter") + ", " + (tile.getCarpenterTierNeeded() > -1 ? StatCollector.translateToLocal("attribute.mfcrafttier.name") + " " + tile.getCarpenterTierNeeded() : StatCollector.translateToLocal("attribute.nomfcrafttier.name"));
-	        	this.fontRendererObj.drawStringWithShadow(s2, xSize-fontRendererObj.getStringWidth(s2)+18, -12, 16777215);
+	        	this.fontRendererObj.drawStringWithShadow(s2, regularXSize-fontRendererObj.getStringWidth(s2)+18, -12, 16777215);
 	        }
         }
     }
@@ -69,11 +70,11 @@ public class GuiCarpenterMF extends GuiContainer
         if(tile.progressMax > 0 && tile.progress > 0)
         {
         	int progressWidth = (int)(160F/tile.progressMax*tile.progress);
-        	this.drawTexturedModalRect(xPoint+8, yPoint+22, 0, 198, progressWidth, 3);
+        	this.drawTexturedModalRect(xPoint+8, yPoint+21, 0, 198, progressWidth, 3);
         }
-        if(!tile.resName.equalsIgnoreCase(""))
+        if(tile.doesPlayerKnowCraft(mc.thePlayer) && !tile.resName.equalsIgnoreCase(""))
         {
-        	GuiHelper.renderToolIcon(this, "carpenter", tile.getCarpenterTierNeeded(), xPoint+xSize, yPoint);
+        	GuiHelper.renderToolIcon(this, "carpenter", tile.getCarpenterTierNeeded(), xPoint+regularXSize, yPoint);
         	
 	        if(tile.getToolNeeded() != null)
 	        {

@@ -1,19 +1,18 @@
 package minefantasy.mf2.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.client.render.TextureHelperMF;
 import minefantasy.mf2.container.ContainerAnvilMF;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiAnvilMF extends GuiContainer
@@ -33,13 +32,14 @@ public class GuiAnvilMF extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y)
     {
-    	String s = MineFantasyII.isDebug() ? "Anvil Crafting" : StatCollector.translateToLocal(tile.getResultName());
+    	boolean knowsCraft = tile.doesPlayerKnowCraft(mc.thePlayer);
+    	String s = MineFantasyII.isDebug() ? "Anvil Crafting" : knowsCraft ? StatCollector.translateToLocal(tile.getResultName()) : "????";
         this.fontRendererObj.drawString(s, 10, 6, 0);
         
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;
         
-        if(!tile.resName.equalsIgnoreCase(""))
+        if(knowsCraft && !tile.resName.equalsIgnoreCase(""))
         {
 	        if(tile.getToolNeeded() != null)
 	        {
@@ -71,7 +71,7 @@ public class GuiAnvilMF extends GuiContainer
         	int progressWidth = (int)(160F/tile.progressMax*tile.progress);
         	this.drawTexturedModalRect(xPoint+8, yPoint+22, 0, 198, progressWidth, 3);
         }
-        if(!tile.resName.equalsIgnoreCase(""))
+        if(tile.doesPlayerKnowCraft(mc.thePlayer) && !tile.resName.equalsIgnoreCase(""))
         {
         	GuiHelper.renderToolIcon(this, "anvil", tile.getAnvilTierNeeded(), xPoint+xSize, yPoint);
         	

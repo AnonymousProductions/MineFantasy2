@@ -2,7 +2,6 @@ package minefantasy.mf2.api.crafting.anvil;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
@@ -33,8 +32,9 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
     private final int recipeTime;
     private final float recipeExperiance;
     private final String toolType;
+    private final String research;
 
-    public ShapedAnvilRecipes(int wdth, int heit, ItemStack[] inputs, ItemStack output, String toolType, int time, int hammer, int anvi, float exp, boolean hot)
+    public ShapedAnvilRecipes(int wdth, int heit, ItemStack[] inputs, ItemStack output, String toolType, int time, int hammer, int anvi, float exp, boolean hot, String research)
     {
     	this.outputHot = hot;
         this.recipeWidth = wdth;
@@ -46,6 +46,7 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
         this.recipeHammer = hammer;
         this.recipeExperiance = exp;
         this.toolType = toolType;
+        this.research = research;
     }
 
     public ItemStack getRecipeOutput()
@@ -174,5 +175,11 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
 	public String getToolType()
 	{
 		return toolType;
+	}
+
+	@Override
+	public String getResearch()
+	{
+		return research;
 	}
 }

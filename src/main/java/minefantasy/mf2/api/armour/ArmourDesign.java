@@ -2,8 +2,6 @@ package minefantasy.mf2.api.armour;
 
 import java.util.HashMap;
 
-import minefantasy.mf2.api.stamina.StaminaBar;
-
 
 public class ArmourDesign 
 {

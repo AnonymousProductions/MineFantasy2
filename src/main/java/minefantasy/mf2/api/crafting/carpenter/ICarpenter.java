@@ -14,4 +14,5 @@ public interface ICarpenter {
 	void setHotOutput(boolean i);
 	void setToolType(String toolType);
 	void setCraftingSound(String trade);
+	void setResearch(String research);
 }

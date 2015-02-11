@@ -1,6 +1,5 @@
 package minefantasy.mf2.block.tileentity;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -9,16 +8,15 @@ import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvil;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.knowledge.InformationList;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.container.ContainerAnvilMF;
-import minefantasy.mf2.knowledge.InformationList;
-import minefantasy.mf2.knowledge.ResearchLogic;
 import minefantasy.mf2.network.packet.AnvilPacket;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -35,6 +33,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	private InventoryCrafting craftMatrix;
 	private String lastPlayerHit = "";
 	private String toolTypeRequired = "hammer";
+	private String researchRequired = "";
 	
 	public TileEntityAnvilMF()
 	{
@@ -71,6 +70,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         progressMax = nbt.getFloat("ProgressMax");
         resName = nbt.getString("ResultName");
         toolTypeRequired = nbt.getString("toolTypeRequired");
+        researchRequired = nbt.getString("researchRequired");
         texName = nbt.getString("TextureName");
 	}
 	
@@ -99,6 +99,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         nbt.setFloat("ProgressMax", progressMax);
         nbt.setString("ResName", resName);
         nbt.setString("toolTypeRequired", toolTypeRequired);
+        nbt.setString("researchRequired", researchRequired);
         nbt.setString("TextureName", texName);
 	}
 
@@ -264,19 +265,19 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			}
 			lastPlayerHit = user.getCommandSenderName();
 			updateInv();
+			
+			if(rand.nextInt(20) == 0 && user.swingProgress <= 0.2F)
+			ResearchLogic.modifyKnowledgePoints(user, 1);
+			
 			return true;
 		}
 		updateInv();
 		return false;
 	}
 	
-	private boolean doesPlayerKnowCraft(EntityPlayer user)
+	public boolean doesPlayerKnowCraft(EntityPlayer user)
 	{
-		if(this.getResult() != null && getResult().getUnlocalizedName().contains("Steel"))
-		{
-			return ResearchLogic.hasInfoUnlocked(user, InformationList.smeltSteel);
-		}
-		return true;
+		return getResearchNeeded().isEmpty() || ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
 	}
 	private void craftItem()
 	{
@@ -296,6 +297,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
             {
                 this.inventory[output].stackSize += recipe.stackSize; // Forge BugFix: Results may have multiple items
             }
+            EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
             consumeResources();
         }
 		onInventoryChanged();
@@ -391,6 +393,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			resName = recipe.getDisplayName();
 		}
 		return resName;
+	}
+	public String getResearchNeeded()
+	{
+		return researchRequired;
 	}
 	public String getToolNeeded()
 	{
@@ -532,6 +538,11 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	public void setToolType(String toolType)
 	{
 		this.toolTypeRequired = toolType;
+	}
+	@Override
+	public void setResearch(String research)
+	{
+		this.researchRequired = research;
 	}
 	
 	private boolean isMythicRecipe()

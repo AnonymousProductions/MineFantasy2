@@ -1,18 +1,16 @@
 package minefantasy.mf2.network.packet;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
-import io.netty.buffer.ByteBuf;
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.stamina.StaminaBar;
-import minefantasy.mf2.knowledge.InformationBase;
-import minefantasy.mf2.knowledge.InformationList;
-import minefantasy.mf2.knowledge.ResearchLogic;
-import mods.battlegear2.api.core.IBattlePlayer;
+import minefantasy.mf2.api.knowledge.InformationBase;
+import minefantasy.mf2.api.knowledge.InformationList;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.WorldServer;
+import cpw.mods.fml.common.network.ByteBufUtils;
 
 public class KnowledgePacket extends PacketMF
 {
@@ -48,6 +46,7 @@ public class KnowledgePacket extends PacketMF
 				}
 			}
 		}
+		int pts = packet.readInt();
 		username = ByteBufUtils.readUTF8String(packet);
 		if (username != null) 
         {
@@ -60,6 +59,7 @@ public class KnowledgePacket extends PacketMF
             	{
             		InformationBase base = (InformationBase) researches.next();
             		ResearchLogic.tryUnlock(player, base);
+            		ResearchLogic.setKnowledgePoints(entity, pts);
             	}
             }
         }
@@ -81,6 +81,7 @@ public class KnowledgePacket extends PacketMF
 			InformationBase base = InformationList.knowledgeList.get(a);
 			packet.writeBoolean(ResearchLogic.hasInfoUnlocked(user, base));
 		}
+		packet.writeInt(ResearchLogic.getKnowledgePoints(user));
         ByteBufUtils.writeUTF8String(packet, username);
 	}
 }

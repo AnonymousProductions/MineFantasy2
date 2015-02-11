@@ -1,10 +1,10 @@
 package mods.battlegear2.api.heraldry;
 
+import java.awt.image.BufferedImage;
+
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
-
-import java.awt.image.BufferedImage;
 
 public class HeraldryTextureSmall extends AbstractTexture {
 

@@ -1,6 +1,5 @@
 package minefantasy.mf2.mechanics;
 
-import minefantasy.mf2.MineFantasyII;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
