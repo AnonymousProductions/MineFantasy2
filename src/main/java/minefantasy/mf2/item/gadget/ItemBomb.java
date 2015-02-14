@@ -42,7 +42,7 @@ public class ItemBomb extends Item
     {
     	if(!user.isSwingInProgress)
     	{
-			world.playSoundEffect((double)user.posX, (double)user.posY + 1.5D, (double)user.posZ, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+			world.playSoundEffect(user.posX, user.posY + 1.5D, user.posZ, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
 			world.playSoundEffect(user.posX, user.posY+1.5, user.posZ, "game.tnt.primed", 1.0F, 1.0F);
     		user.setItemInUse(item, getMaxItemUseDuration(item));
     	}
@@ -53,7 +53,8 @@ public class ItemBomb extends Item
     {
         return 15;
     }
-    public ItemStack onEaten(ItemStack item, World world, EntityPlayer user)
+    @Override
+	public ItemStack onEaten(ItemStack item, World world, EntityPlayer user)
     {
     	user.swingItem();
         if (!user.capabilities.isCreativeMode)
@@ -194,7 +195,7 @@ public class ItemBomb extends Item
     @SideOnly(Side.CLIENT)
     public IIcon getIconIndex(ItemStack item)
     {
-    	int type = (int)getCasing(item);
+    	int type = getCasing(item);
     	return bombs[type];
     }
     @Override
@@ -203,7 +204,7 @@ public class ItemBomb extends Item
     {
     	if(layer > 0)
     	{
-	    	int type = (int)getFilling(item);
+	    	int type = getFilling(item);
 	    	if(type != 0)
 	    	{
 	    		return icons[type-1];
@@ -212,7 +213,8 @@ public class ItemBomb extends Item
     	return getIconIndex(item);
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses()
     {
     	return true;

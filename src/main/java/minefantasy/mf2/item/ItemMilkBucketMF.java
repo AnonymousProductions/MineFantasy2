@@ -24,7 +24,8 @@ public class ItemMilkBucketMF extends Item
 		this.setUnlocalizedName(name);
     }
 
-    public ItemStack onEaten(ItemStack bucket, World world, EntityPlayer user)
+    @Override
+	public ItemStack onEaten(ItemStack bucket, World world, EntityPlayer user)
     {
     	ItemStack empty = new ItemStack(ToolListMF.bucketwood_empty);
     	if (!world.isRemote)
@@ -53,7 +54,8 @@ public class ItemMilkBucketMF extends Item
     /**
      * How long it takes to use or consume an item
      */
-    public int getMaxItemUseDuration(ItemStack p_77626_1_)
+    @Override
+	public int getMaxItemUseDuration(ItemStack p_77626_1_)
     {
         return 32;
     }
@@ -61,7 +63,8 @@ public class ItemMilkBucketMF extends Item
     /**
      * returns the action that specifies what animation to play when the items is being used
      */
-    public EnumAction getItemUseAction(ItemStack p_77661_1_)
+    @Override
+	public EnumAction getItemUseAction(ItemStack p_77661_1_)
     {
         return EnumAction.drink;
     }
@@ -69,7 +72,8 @@ public class ItemMilkBucketMF extends Item
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
+    @Override
+	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
     {
         user.setItemInUse(item, this.getMaxItemUseDuration(item));
         return item;

@@ -61,6 +61,9 @@ public class CombatMechanics
 	public static final float	specialWerewolfModifier	= 8.0F;
 	public static boolean	swordSkeleton	= true;
 	
+	protected float jumpEvade_cost = 30;
+	protected float evade_cost = 10;
+	
 	@SubscribeEvent
 	public void initAttack(LivingAttackEvent event)
 	{
@@ -220,7 +223,7 @@ public class CombatMechanics
 		}
 		if(user instanceof EntityLivingBase)
 		{
-			EntityLivingBase player = (EntityLivingBase)user;
+			EntityLivingBase player = user;
 			
 			//TODO: Stamina Traits
 			if(StaminaBar.isSystemActive)
@@ -390,7 +393,7 @@ public class CombatMechanics
 				onWeaponHit(user, weapon, target, damage);
 			}
 		}
-		this.setPostHitCooldown(target, 10);
+		CombatMechanics.setPostHitCooldown(target, 10);
 	}
 	private void onWeaponHit(EntityLivingBase user, ItemStack weapon, Entity target, float dam)
 	{
@@ -445,11 +448,23 @@ public class CombatMechanics
 	private float onUserHit(EntityLivingBase user, Entity entityHitting, DamageSource source, float dam, boolean properHit) 
     {
     	ItemStack weapon = user.getHeldItem();
-    	if((properHit || source.isProjectile()) && weapon != null && !source.isUnblockable() &&!source.isExplosion() && weapon.getItem() instanceof IParryable)
+    	if((properHit || source.isProjectile()) && weapon != null && !source.isUnblockable() &&!source.isExplosion())
     	{
-    		IParryable parry = (IParryable)weapon.getItem();
+    		float threshold = 10;//DEFAULT PARRY THRESHOLD
+    		float weaponFatigue = 1.0F;//DEFAULT FATIGUE
+    		int ticks = 18;//DEFAULT TICKS
+    		IParryable parry = null;
     		
-    	    float threshold = parry.getMaxDamageParry(user, weapon) * TacticalManager.getHighgroundModifier(user, entityHitting, 1.15F);
+    		if(weapon.getItem() instanceof IParryable)
+    		{
+    			parry = (IParryable)weapon.getItem();
+    			
+    			ticks = parry.getParryCooldown(source, dam, weapon);
+    			threshold = parry.getMaxDamageParry(user, weapon);
+    			weaponFatigue = parry.getParryStaminaDecay(source, weapon);
+    		}
+    		
+    	    threshold *= TacticalManager.getHighgroundModifier(user, entityHitting, 1.15F);
     	    
     	    if(ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote)
     		{
@@ -461,7 +476,7 @@ public class CombatMechanics
     	    //USED FOR PARRYING its harder to block arrows
            if(TacticalManager.canParry(source, user, entityHitting, weapon))
            {
-        	   dam = (float)Math.max(0F, dam - threshold);
+        	   dam = Math.max(0F, dam - threshold);
         	   
         	   if(debugParry && !user.worldObj.isRemote){MineFantasyII.debugMsg("Parried: dam = " + dam);}
         	   
@@ -469,10 +484,8 @@ public class CombatMechanics
         	   {
 	        	   user.hurtResistantTime = user.maxHurtResistantTime;
 	        	   user.hurtTime = 0;
-	       		   float weaponFatigue = parry.getParryStaminaDecay(source, weapon);
 	       		   
-	        	   parry.onParry(source, user, entityHitting, dam);
-	        	   int ticks = parry.getParryCooldown(source, dam, weapon);
+        		   onParry(source, user, entityHitting, dam, parry);
 	        	   if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
 	        	   {
 	        		   ticks *= 2;
@@ -483,7 +496,11 @@ public class CombatMechanics
 	        	   }
 	        	   
 	        	   ItemWeaponMF.applyFatigue(user, TacticalManager.getHighgroundModifier(user, entityHitting, 2.0F)*(dam+1F)*parryFatigue*weaponFatigue);
-		    	   if(!parry.playCustomParrySound(user, entityHitting, weapon))
+	        	   if(parry == null)
+		    	   {
+		    		   user.worldObj.playSoundAtEntity(user, getDefaultParrySound(weapon), 1.0F, 1.25F + (rand.nextFloat()*0.5F));
+		    	   }
+	        	   else if(!parry.playCustomParrySound(user, entityHitting, weapon))
 		    	   {
 		    		   user.worldObj.playSoundAtEntity(user, "mob.zombie.metal", 1.0F, 1.25F + (rand.nextFloat()*0.5F));
 		    	   }
@@ -521,6 +538,83 @@ public class CombatMechanics
     	}
 		return dam;
 	}
+	private String getDefaultParrySound(ItemStack weapon)
+	{
+		if(weapon.getUnlocalizedName().contains("wood") || weapon.getUnlocalizedName().contains("Wood"))
+		{
+			return "minefantasy2:weapon.wood_parry";
+		}
+		return "mob.zombie.metal";
+	}
+
+	private void onParry(DamageSource source, EntityLivingBase user, Entity attacker, float dam, IParryable parry)
+	{
+		if(parry != null)
+		{
+			parry.onParry(source, user, attacker, dam);
+		}
+		
+		boolean groundBlock = user.onGround;
+		ItemStack weapon = user.getHeldItem();
+		
+		//Redirect
+		if(!user.worldObj.isRemote && !TacticalManager.isRanged(source))
+		{
+			if(canEvade(user))
+			{
+				float powerMod = attacker.isSprinting() ? 4.0F : 2.5F;
+				
+				attacker.setSprinting(false);
+				TacticalManager.lungeEntity(attacker, user, powerMod, 0.0F);
+				TacticalManager.lungeEntity(user, attacker, 3F, 0.0F);
+			}
+		}
+	}
+	
+	/**
+	 * Determines if an evade can be made (jump or normal)
+	 */
+	private boolean canEvade(EntityLivingBase user)
+	{
+		if(user instanceof EntityPlayer)
+		{
+			if(!user.isSneaking())
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if(rand.nextInt(10) != 0)//Mobs can evade
+			{
+				return false;
+			}
+		}
+		
+		if(!user.onGround && !tryJumpEvade(user))
+		{
+			return false;
+		}
+		return tryGroundEvade(user);
+	}
+	/**
+	 * If the player can slip past enemies
+	 * Should be any armour but heavy
+	 */
+	private boolean tryGroundEvade(EntityLivingBase user) 
+	{
+		return ItemWeaponMF.tryPerformAbility(user, evade_cost, true, false);
+	}
+
+	/**
+	 * If the player can jump over enemies in evading
+	 * Only ment for unarmoured/Lightarmour
+	 */
+	private boolean tryJumpEvade(EntityLivingBase user) 
+	{
+		return ItemWeaponMF.tryPerformAbility(user, jumpEvade_cost, true, false);
+	}
+
 	@SubscribeEvent
 	public void updateLiving(LivingUpdateEvent event)
 	{
@@ -666,7 +760,7 @@ public class CombatMechanics
 	{
 		if(event.entityLiving instanceof EntityPlayer && StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(event.entityLiving))
 		{
-			StaminaMechanics.onJump((EntityPlayer) event.entityLiving);
+			StaminaMechanics.onJump(event.entityLiving);
 		}
 	}
 }

@@ -47,7 +47,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 	
 	public ItemBowMF(String name, ToolMaterial mat, EnumBowType type, int rarity)
     {
-		this(name, (int)((float)mat.getMaxUses()*type.durability), type, mat.getDamageVsEntity(), rarity);
+		this(name, (int)(mat.getMaxUses()*type.durability), type, mat.getDamageVsEntity(), rarity);
 		material = mat;
     }
 	
@@ -64,7 +64,8 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
         setCreativeTab(CreativeTabMF.tabArcher);
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     /**
      * Returns True is the item is renderer in full 3D when hold.
      */
@@ -82,7 +83,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
         int power = (this.getMaxItemUseDuration(item) - time);
         power *= model.speed; // Speeds up the power in relation to ticks used
         
-        power = (int)((float)power / 20F * getMaxPower());//scales the power down from full
+        power = (int)(power / 20F * getMaxPower());//scales the power down from full
         
         if(power > getMaxPower())power = (int)getMaxPower();//limits the power to max
         
@@ -98,10 +99,10 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 
         if (var5 || player.inventory.hasItem(Items.arrow))
         {
-            float var7 = (float)power / 20.0F;
+            float var7 = power / 20.0F;
             var7 = (var7 * var7 + var7 * 2.0F) / 3.0F;
 
-            if ((double)var7 < 0.1D)
+            if (var7 < 0.1D)
             {
                 return;
             }
@@ -122,7 +123,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 
             if (var9 > 0)
             {
-                var8.setDamage(var8.getDamage() + (double)var9 * 0.5D + 0.5D);
+                var8.setDamage(var8.getDamage() + var9 * 0.5D + 0.5D);
             }
 
             int var10 = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, item);
@@ -173,7 +174,8 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     /**
      * How long it takes to use or consume an item
      */
-    public int getMaxItemUseDuration(ItemStack item)
+    @Override
+	public int getMaxItemUseDuration(ItemStack item)
     {
         return 72000;
     }
@@ -220,7 +222,8 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     /**
      * Return the enchantability factor of the item, most of the time is based on material.
      */
-    public int getItemEnchantability()
+    @Override
+	public int getItemEnchantability()
     {
         return 1;
     }
@@ -257,7 +260,8 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
         }
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
 
     /**
      * used to cycle through icons based on their used duration, i.e. for the bow
@@ -323,6 +327,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 		return rarity[lvl];
 	}
 	
+	@Override
 	public Entity modifyArrow(Entity arrow) 
 	{
 		if (getMaterial() == BaseMaterialMF.dragonforge.getToolConversion())

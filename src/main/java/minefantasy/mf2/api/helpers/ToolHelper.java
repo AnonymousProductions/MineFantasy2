@@ -1,5 +1,7 @@
 package minefantasy.mf2.api.helpers;
 
+import java.util.ArrayList;
+
 import minefantasy.mf2.api.tier.IToolMaterial;
 import minefantasy.mf2.api.tool.IToolMF;
 import minefantasy.mf2.api.weapon.ISharpenable;
@@ -268,5 +270,37 @@ public class ToolHelper
 			list[2] = instance.getSharpUsesModifier(item);
 		}
 		return list;
+	}
+	
+	public static String[] breakdownLineForResearchArray(String string) 
+	{
+		String temp = "";
+		ArrayList<String> entries = new ArrayList<String>();
+		
+		for(int a = 0; a < string.length(); a ++)
+		{
+			if(a == string.length()-1)
+			{
+				temp = temp + string.charAt(a);
+			}
+			if(string.charAt(a) == " ".charAt(0) || a == string.length()-1)
+			{
+				entries.add(temp);
+			}
+			else
+			{
+				if(string.charAt(a) != " ".charAt(0))
+				{
+					temp = temp + string.charAt(a);
+				}
+			}
+		}
+		int size = entries.size();
+		String[] stringList = new String[size];
+		for(int i = 0; i < size; i++)
+		{
+			stringList[i] = entries.get(i);
+		}
+		return stringList;
 	}
 }

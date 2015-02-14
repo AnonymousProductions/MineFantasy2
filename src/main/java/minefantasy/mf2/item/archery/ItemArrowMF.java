@@ -58,6 +58,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		QuiverArrowRegistry.addArrowToRegistry(new ItemStack(this), null);
 	}
 	
+	@Override
 	public String getItemStackDisplayName(ItemStack item)
     {
         String name = ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(item) + ".name")).trim();
@@ -145,7 +146,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 			return 0F;
 		}
 		
-		return 1F / (float)(arrowMat.getMaxUses()/150);
+		return 1F / (arrowMat.getMaxUses()/150);
 	}
 	@Override
 	public void onHitEntity(Entity arrowInstance, Entity shooter, Entity hit, float damage) 

@@ -97,7 +97,7 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 
 	public boolean onBlockDestroyedOld(ItemStack item, World world, Block block, int x, int y, int z, EntityLivingBase user)
 	{
-		if(user instanceof EntityPlayer && canAcceptCost((EntityPlayer)user))
+		if(user instanceof EntityPlayer && canAcceptCost(user))
 		{
 			breakChain(world, x, y, z, item, block, user, 32, block, world.getBlockMetadata(x, y, z));
 		}
@@ -127,7 +127,7 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 			}
 			if(user instanceof EntityPlayer)
 			{
-				tirePlayer((EntityPlayer)user, 2.0F);
+				tirePlayer(user, 2.0F);
 			}
 		}
 	}
@@ -210,7 +210,7 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 	public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = super.getItemAttributeModifiers();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", (double)this.hitDamage, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", this.hitDamage, 0));
         return multimap;
     }
 	

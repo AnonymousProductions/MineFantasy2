@@ -9,16 +9,15 @@ import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.item.food.ItemFoodMF;
+import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.StatCollector;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 
-/**
- * This class exists because minecraft hunger seems to decrease faster than windows stock
- */
 public class PlayerTickHandlerMF
 {
 	private Random rand = new Random();
@@ -100,4 +99,23 @@ public class PlayerTickHandlerMF
     	entityPlayer.getEntityData().setFloat("MF_Balance_Pitch", pitchBalance);
     	entityPlayer.getEntityData().setFloat("MF_Balance_Yaw", yawBalance);
 	}
+	
+	@SubscribeEvent
+	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
+    {
+		if(event.player.worldObj.isRemote)return;
+		
+		NBTTagCompound persist = PlayerTagData.getPersistedData(event.player);
+    	MineFantasyII.debugMsg("Sync data");
+    	ResearchLogic.syncData((EntityPlayer) event.player);
+    	
+    	if(!persist.hasKey("MF_HasBook"))
+    	{
+    		persist.setBoolean("MF_HasBook", true);
+    		if(event.player.capabilities.isCreativeMode)return;
+    		
+    		event.player.inventory.addItemStackToInventory(new ItemStack(ToolListMF.researchBook));
+    		ResearchLogic.setKnowledgePoints(event.player, ResearchLogic.startersPoints);
+    	}
+    }
 }

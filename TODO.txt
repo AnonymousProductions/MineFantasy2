@@ -3,4 +3,18 @@
   *Instead create NBT variables(maxtemp, workabletemp, etc) on creation.
   (The old system lagged a bit when lots of ingots were used)
 
-*Decrease some food prep times
+
+New Blocks(Artifacting)
+Limestone bricks
+Reinforced Stone|Bricks
+Stairs/Slabs
+Roads
+
+Research Fields:
+Basic (Research, Information, etc)
+Smithing (Smelting, Refining, Alloying, Weapon, Tool, Armour, etc)
+Construction (Blocks for decor)
+Engineering (Bombs, Mines, Crossbows)
+Cooking (Food)
+Mastery (Combat, Stats, etc)
+Alchemy (Potions)

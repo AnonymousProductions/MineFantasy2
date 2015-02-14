@@ -62,7 +62,7 @@ public class BlockCarpenter extends BlockContainer
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase user, ItemStack item)
     {
-        int direction = MathHelper.floor_double((double)(user.rotationYaw * 4.0F / 360.0F) + 0.5D);
+        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D);
 
         world.setBlockMetadataWithNotify(x, y, z, direction, 2);
     }
@@ -156,7 +156,7 @@ public class BlockCarpenter extends BlockContainer
                         }
 
                         itemstack.stackSize -= j1;
-                        EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                         if (itemstack.hasTagCompound())
                         {
@@ -164,9 +164,9 @@ public class BlockCarpenter extends BlockContainer
                         }
 
                         float f3 = 0.05F;
-                        entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
-                        entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
-                        entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                        entityitem.motionX = (float)this.rand.nextGaussian() * f3;
+                        entityitem.motionY = (float)this.rand.nextGaussian() * f3 + 0.2F;
+                        entityitem.motionZ = (float)this.rand.nextGaussian() * f3;
                         world.spawnEntityInWorld(entityitem);
                     }
                 }

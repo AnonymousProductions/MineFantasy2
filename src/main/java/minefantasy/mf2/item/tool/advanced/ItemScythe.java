@@ -144,10 +144,10 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
         if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
         {
             float var6 = 0.7F;
-            double var7 = (double)(world.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
-            double var9 = (double)(world.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
-            double var11 = (double)(world.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
-            EntityItem var13 = new EntityItem(world, (double)x + var7, (double)y + var9, (double)z + var11, drop);
+            double var7 = world.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
+            double var9 = world.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
+            double var11 = world.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
+            EntityItem var13 = new EntityItem(world, x + var7, y + var9, z + var11, drop);
             var13.delayBeforeCanPickup = 10;
             world.spawnEntityInWorld(var13);
         }
@@ -174,14 +174,14 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
         double var7 = posX - x;
         double var9 = posY - y;
         double var11 = posZ - z;
-        return (double)MathHelper.sqrt_double(var7 * var7 + var9 * var9 + var11 * var11);
+        return MathHelper.sqrt_double(var7 * var7 + var9 * var9 + var11 * var11);
     }
 	
 	@Override
 	public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = super.getItemAttributeModifiers();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", (double)this.hitDamage, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", this.hitDamage, 0));
         return multimap;
     }
 	

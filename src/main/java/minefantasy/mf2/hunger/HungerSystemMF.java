@@ -8,6 +8,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 public class HungerSystemMF
 {
 	private static final String prevFoodNBT = "MF_previousFoodLevel";
+	private static final String tempFoodNBT = "MF_tempFood";
 	private static final String saturationNBT = "MF_saturationTicks";
 	@SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event)
@@ -40,14 +41,32 @@ public class HungerSystemMF
     	if(food < prevFood)
     	{
     		float sat = getSaturation(player);
-    		MineFantasyAPI.debugMsg("Saturation: " + sat);
+    		float temp = getTempFood(player);
+    		MineFantasyAPI.debugMsg("Saturation: " + sat + " Temp: " + temp);
+    		
     		if(sat > 0)
     		{
+    			MineFantasyAPI.debugMsg("Hunger drop cancelled: Sat");
     			player.getFoodStats().addStats(1, 0.0F);
+    		}
+    		else if(temp > 0)
+    		{
+    			MineFantasyAPI.debugMsg("Hunger drop cancelled: Temp");
+    			setTempFood(player, temp-1);
+    			player.getFoodStats().addStats(1, 0.0F);
+    		}
+    		if(temp <= 0)
+    		{
+    			setTempFood(player, getTempSlowdownLvl(player));
     		}
     	}
     }
 	
+	private float getTempSlowdownLvl(EntityPlayer player)
+	{
+		return 3;//4x slower
+	}
+
 	public static void setSaturation(EntityPlayer user, float value)
 	{
 		user.getEntityData().setFloat(saturationNBT, value);
@@ -57,6 +76,18 @@ public class HungerSystemMF
 		if(user.getEntityData().hasKey(saturationNBT))
 		{
 			return user.getEntityData().getFloat(saturationNBT);
+		}
+		return 0F;
+	}
+	public static void setTempFood(EntityPlayer user, float value)
+	{
+		user.getEntityData().setFloat(tempFoodNBT, value);
+	}
+	public static float getTempFood(EntityPlayer user)
+	{
+		if(user.getEntityData().hasKey(tempFoodNBT))
+		{
+			return user.getEntityData().getFloat(tempFoodNBT);
 		}
 		return 0F;
 	}

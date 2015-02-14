@@ -29,7 +29,7 @@ public class HudHandlerMF
         if (stack != null && stack.getItem() instanceof ItemBowMF)
         {
             int i = event.entity.getItemInUseDuration();
-            float f1 = (float)i / 20.0F;
+            float f1 = i / 20.0F;
             if (f1 > 1.0F)
             {
                 f1 = 1.0F;

@@ -51,7 +51,7 @@ public class CraftingManagerCarpenter
 
         if (input[var4] instanceof String[])
         {
-            String[] var7 = (String[])((String[])input[var4++]);
+            String[] var7 = ((String[])input[var4++]);
             String[] var8 = var7;
             var9 = var7.length;
 

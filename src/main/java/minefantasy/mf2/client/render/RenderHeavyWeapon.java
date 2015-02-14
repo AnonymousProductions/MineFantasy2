@@ -7,6 +7,7 @@ package minefantasy.mf2.client.render;
 import minefantasy.mf2.api.weapon.IParryable;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -128,7 +129,7 @@ public class RenderHeavyWeapon implements IItemRenderer
             GL11.glScalef(scale,scale,1);
             IIcon icon = item.getIconIndex();
 
-            RenderManager.instance.itemRenderer.renderItemIn2D(tessellator,
+            ItemRenderer.renderItemIn2D(tessellator,
             		icon.getMaxU(),
                     icon.getMinV(),
                     icon.getMinU(),
@@ -147,7 +148,7 @@ public class RenderHeavyWeapon implements IItemRenderer
             GL11.glScalef(scale,scale,1);
             IIcon icon = item.getIconIndex();
 
-            RenderManager.instance.itemRenderer.renderItemIn2D(tessellator,
+            ItemRenderer.renderItemIn2D(tessellator,
             		icon.getMaxU(),
                     icon.getMinV(),
                     icon.getMinU(),

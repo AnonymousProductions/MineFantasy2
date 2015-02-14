@@ -116,10 +116,10 @@ public class ArrowHandlerMF
 		World world = event.entity.worldObj;
 		boolean infinite = getIsInfinite(user, bow);
 		
-		float charge = (float)power / 20.0F;
+		float charge = power / 20.0F;
         charge = (charge * charge + charge * 2.0F) / 3.0F;
 
-        if ((double)charge < 0.1D)
+        if (charge < 0.1D)
         {
             return;
         }

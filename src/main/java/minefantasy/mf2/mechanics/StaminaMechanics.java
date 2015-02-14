@@ -154,7 +154,7 @@ public class StaminaMechanics
 				if(user.getHeldItem().getItemUseAction() == EnumAction.bow)
 				{
 					//Item gets factored in with bow
-					value += StaminaBar.getDefaultMax(user) / 20F / (float)bowSeconds * ConfigStamina.bowModifier;
+					value += StaminaBar.getDefaultMax(user) / 20F / bowSeconds * ConfigStamina.bowModifier;
 				}
 			}
 		}
@@ -176,7 +176,7 @@ public class StaminaMechanics
 			return 0;//can't catch your breath when underwater
 		}
 		//The base time it takes to regen
-		float value = StaminaBar.getTotalMaxStamina(user) / 20 / (float)ConfigStamina.fullRegenSeconds;
+		float value = StaminaBar.getTotalMaxStamina(user) / 20 / ConfigStamina.fullRegenSeconds;
 		if(hurtAdreneline && user.getHealth() <= 2F)
 		{
 			value *= 1.5F;

@@ -144,7 +144,7 @@ public class TacticalManager
 	 */
 	public static void knockbackEntity(Entity target, Entity source, float power, float height) 
 	{
-        target.addVelocity((double) (-MathHelper.sin(source.rotationYaw * (float) Math.PI / 180.0F) * (float) power * 0.5F), height, (double) (MathHelper.cos(source.rotationYaw * (float) Math.PI / 180.0F) * (float) power * 0.5F));
+        target.addVelocity(-MathHelper.sin(source.rotationYaw * (float) Math.PI / 180.0F) * power * 0.5F, height, MathHelper.cos(source.rotationYaw * (float) Math.PI / 180.0F) * power * 0.5F);
     }
 	
 	/**
@@ -156,7 +156,7 @@ public class TacticalManager
 	 */
 	public static void lungeEntity(Entity attacker, Entity target, float power, float height) 
 	{
-        attacker.addVelocity((double) (-MathHelper.sin(attacker.rotationYaw * (float) Math.PI / 180.0F) * (float) power * 0.5F), height, (double) (MathHelper.cos(attacker.rotationYaw * (float) Math.PI / 180.0F) * (float) power * 0.5F));
+        attacker.addVelocity(-MathHelper.sin(attacker.rotationYaw * (float) Math.PI / 180.0F) * power * 0.5F, height, MathHelper.cos(attacker.rotationYaw * (float) Math.PI / 180.0F) * power * 0.5F);
     }
 	
 	public static boolean isRanged(DamageSource source) 

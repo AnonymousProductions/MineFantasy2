@@ -25,10 +25,10 @@ public class PlayerTagData
 	
 	public static NBTTagCompound getPersistedData(EntityPlayer user)
 	{
-		if(!user.getEntityData().hasKey(user.PERSISTED_NBT_TAG))
+		if(!user.getEntityData().hasKey(EntityPlayer.PERSISTED_NBT_TAG))
 		{
-			user.getEntityData().setTag(user.PERSISTED_NBT_TAG, new NBTTagCompound());
+			user.getEntityData().setTag(EntityPlayer.PERSISTED_NBT_TAG, new NBTTagCompound());
 		}
-		return (NBTTagCompound) (user.getEntityData().getTag(user.PERSISTED_NBT_TAG));
+		return (NBTTagCompound) (user.getEntityData().getTag(EntityPlayer.PERSISTED_NBT_TAG));
 	}
 }

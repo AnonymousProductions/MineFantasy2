@@ -47,7 +47,7 @@ public class RandomOre
 			while(list.hasNext())
 			{
 				RandomOre ore = (RandomOre) list.next();
-				if(matchesOre(ore, base, meta, harvest, (float)(fortune / 2F) + 1F, silktouch, y))
+				if(matchesOre(ore, base, meta, harvest, fortune / 2F + 1F, silktouch, y))
 				{
 					loot.add(ore.loot);
 				}

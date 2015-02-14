@@ -58,6 +58,7 @@ public class ItemMaceMF extends ItemWeaponMF
 		return true;
 	}
 	
+	@Override
 	protected float getKnockbackStrength() 
 	{
 		return 1.5F;

@@ -3,8 +3,8 @@ package minefantasy.mf2.item.list;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.ItemBandage;
 import minefantasy.mf2.item.ItemBucketMF;
-import minefantasy.mf2.item.ItemResearchBook;
 import minefantasy.mf2.item.ItemMilkBucketMF;
+import minefantasy.mf2.item.ItemResearchBook;
 import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.item.archery.ArrowType;
 import minefantasy.mf2.item.archery.EnumBowType;
@@ -231,7 +231,7 @@ public class ToolListMF
 			daggers[a] = new ItemDagger(matName+"_dagger", mat, rarity, weight);
 			spears[a] = new ItemSpearMF(matName+"_spear", mat, rarity, weight);
 			
-			arrows[a] = (ItemArrowMF) new ItemArrowMF(matName, rarity, mat);
+			arrows[a] = new ItemArrowMF(matName, rarity, mat);
 			bows[a] = new ItemBowMF(matName+"_bow", mat, EnumBowType.RECURVE, rarity);
 			
 			if(a > 0)
@@ -243,8 +243,8 @@ public class ToolListMF
 				halbeards[a-1] = new ItemHalbeardMF(matName+"_halbeard", mat, rarity, weight);
 				lances[a-1] = new ItemLance(matName+"_lance", mat, rarity, weight);
 				
-				bodkinArrows[a-1] = (ItemArrowMF) new ItemArrowMF(matName, rarity, mat, ArrowType.BODKIN);
-				broadArrows[a-1] = (ItemArrowMF) new ItemArrowMF(matName, rarity, mat, ArrowType.BROADHEAD);
+				bodkinArrows[a-1] = new ItemArrowMF(matName, rarity, mat, ArrowType.BODKIN);
+				broadArrows[a-1] = new ItemArrowMF(matName, rarity, mat, ArrowType.BROADHEAD);
 			}
 		}
 		

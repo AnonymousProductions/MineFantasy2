@@ -1,6 +1,9 @@
 package minefantasy.mf2.block.tileentity;
 
+import java.util.Random;
+
 import minefantasy.mf2.api.crafting.bomb.IBombComponent;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.item.gadget.ItemBomb;
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityBombBench extends TileEntity implements IInventory
 {
 	private ItemStack[] inv = new ItemStack[5];
+	private Random rand = new Random();
 	
 	public boolean tryCraft(EntityPlayer user)
 	{
@@ -23,6 +27,10 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 			for(int a = 0; a < 4; a++)
 			{
 				decrStackSize(a, 1);
+			}
+			if(rand.nextInt(24) == 0 && user.swingProgress == 0.0F)
+			{
+				ResearchLogic.modifyKnowledgePoints(user, 1);
 			}
 			return true;
 		}
@@ -73,7 +81,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 		{
 			if(com2.equalsIgnoreCase("filling"))
 			{
-				filling = (byte) getComponentTier(inv[2]);
+				filling = getComponentTier(inv[2]);
 			}
 			else
 			{

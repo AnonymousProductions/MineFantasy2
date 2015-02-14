@@ -84,6 +84,7 @@ public class ItemLance extends ItemSpearMF
 	{
 		return 5.0F;
 	}
+	@Override
 	public boolean canBlock() 
 	{
 		return false;

@@ -29,7 +29,7 @@ public class ArrowFireFlint implements IArrowHandler
 
         if (var9 > 0)
         {
-            entArrow.setDamage(entArrow.getDamage() + (double)var9 * 0.5D + 0.5D);
+            entArrow.setDamage(entArrow.getDamage() + var9 * 0.5D + 0.5D);
         }
 
         int var10 = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, bow);

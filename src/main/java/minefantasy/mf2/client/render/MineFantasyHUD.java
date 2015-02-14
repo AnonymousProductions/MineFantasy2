@@ -76,7 +76,7 @@ public class MineFantasyHUD extends Gui
 
 	private void renderArmourRating(EntityPlayer player)
 	{
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
 		int width = scaledresolution.getScaledWidth();
         int height = scaledresolution.getScaledHeight();
 		
@@ -122,7 +122,7 @@ public class MineFantasyHUD extends Gui
 		
 		float flash = StaminaBar.getFlashTime(player);
 		int stam = (int)Math.min(81F, (81F * staminaPercentage));
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
 		int width = scaledresolution.getScaledWidth();
         int height = scaledresolution.getScaledHeight();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -204,7 +204,7 @@ public class MineFantasyHUD extends Gui
 	{
 		boolean knowsCraft = tile.doesPlayerKnowCraft(mc.thePlayer);
 		GL11.glPushMatrix();
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
         int width = scaledresolution.getScaledWidth();
         int height = scaledresolution.getScaledHeight();
         
@@ -236,7 +236,7 @@ public class MineFantasyHUD extends Gui
 	{
 		boolean knowsCraft = tile.doesPlayerKnowCraft(mc.thePlayer);
 		GL11.glPushMatrix();
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
         int width = scaledresolution.getScaledWidth();
         int height = scaledresolution.getScaledHeight();
         

@@ -64,7 +64,7 @@ public class ArmourListMF
 		for(int a = 0; a < mats.length; a ++)
 		{
 			BaseMaterialMF baseMat = mats[a];
-			ArmourMaterialMF mat = (ArmourMaterialMF) baseMat.getArmourConversion();
+			ArmourMaterialMF mat = baseMat.getArmourConversion();
 			
 			String matName=baseMat.name;
 			int rarity = baseMat.rarity;

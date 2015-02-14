@@ -1,10 +1,8 @@
 package minefantasy.mf2.api.knowledge;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 
 public class InformationList
 {
@@ -24,7 +22,7 @@ public class InformationList
     public static int maxDisplayRow;
     /** Holds a list of all registered achievements. */
     public static List<InformationBase> knowledgeList = new ArrayList();
-    
+    public static HashMap<String, InformationBase>nameMap = new HashMap<String, InformationBase>();
     /**
      * A stub functions called to make the static initializer for this class run.
      */

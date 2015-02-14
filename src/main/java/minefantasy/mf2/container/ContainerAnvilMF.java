@@ -12,6 +12,7 @@ public class ContainerAnvilMF extends Container
 {
     private TileEntityAnvilMF tile;
     private boolean isGuiContainer = false;
+    private int xInvOffset = 28;
     
     public ContainerAnvilMF(TileEntityAnvilMF tile)
     {
@@ -42,23 +43,23 @@ public class ContainerAnvilMF extends Container
         	for (int y = 0; y < height; y ++)
         	{
         		int slot = y*width+x;
-        		this.addSlotToContainer(new Slot(tile, slot, 8 + x * 18, 38 + y * 18));
+        		this.addSlotToContainer(new Slot(tile, slot, 44 + x * 18, 39 + y * 18));
         	}
         }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 150, 65));
+        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 214, 66));
         int i;
 
         for (i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
             {
-                this.addSlotToContainer(new Slot(user, j + i * 9 + 9, 8 + j * 18, 116 + i * 18));
+                this.addSlotToContainer(new Slot(user, j + i * 9 + 9, 8 + j * 18+xInvOffset, 128 + i * 18));
             }
         }
 
         for (i = 0; i < 9; ++i)
         {
-            this.addSlotToContainer(new Slot(user, i, 8 + i * 18, 174));
+            this.addSlotToContainer(new Slot(user, i, 8 + i * 18+xInvOffset, 186));
         }
     }
 
@@ -88,12 +89,14 @@ public class ContainerAnvilMF extends Container
         }
     }
     
-    public boolean canInteractWith(EntityPlayer p_75145_1_)
+    @Override
+	public boolean canInteractWith(EntityPlayer p_75145_1_)
     {
         return this.tile.isUseableByPlayer(p_75145_1_);
     }
     
-    public ItemStack transferStackInSlot(EntityPlayer user, int currentSlot)
+    @Override
+	public ItemStack transferStackInSlot(EntityPlayer user, int currentSlot)
     {
     	int slotCount = tile.getSizeInventory();
         ItemStack itemstack = null;

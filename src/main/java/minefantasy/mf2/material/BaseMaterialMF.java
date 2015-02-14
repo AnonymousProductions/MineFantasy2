@@ -99,7 +99,7 @@ public class BaseMaterialMF
 		float initAc = AC;
 		
 		AC = Math.round(AC*(100F/ACrounding));
-		AC = (float)AC/(100F/ACrounding);
+		AC = AC/(100F/ACrounding);
 		
 		if(initAc != AC)
 		{

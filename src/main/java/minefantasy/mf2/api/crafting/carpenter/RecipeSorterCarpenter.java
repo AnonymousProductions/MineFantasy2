@@ -21,7 +21,8 @@ class RecipeSorterCarpenter implements Comparator
         return recipe1 instanceof ShapelessCarpenterRecipes && recipe2 instanceof ShapedCarpenterRecipes ? 1 : (recipe2 instanceof ShapelessCarpenterRecipes && recipe1 instanceof ShapedCarpenterRecipes ? -1 : (recipe2.getRecipeSize() < recipe1.getRecipeSize() ? -1 : (recipe2.getRecipeSize() > recipe1.getRecipeSize() ? 1 : 0)));
     }
 
-    public int compare(Object input1, Object input2)
+    @Override
+	public int compare(Object input1, Object input2)
     {
         return this.compareRecipes((ICarpenterRecipe)input1, (ICarpenterRecipe)input2);
     }

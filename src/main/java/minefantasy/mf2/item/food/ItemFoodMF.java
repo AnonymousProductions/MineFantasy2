@@ -48,10 +48,11 @@ public class ItemFoodMF extends ItemFood
 	public ItemFoodMF(String name, int hunger, float saturation, float noEatTime, boolean isMeat, int rarity)
 	{
 		this(name, hunger, saturation, isMeat);
-		this.mfSaturation = noEatTime*60F;
+		this.mfSaturation = noEatTime*60 / 4F;
 		itemRarity = rarity;
 	}
 	
+	@Override
 	protected void onFoodEaten(ItemStack food, World world, EntityPlayer consumer)
     {
 		super.onFoodEaten(food, world, consumer);
@@ -126,8 +127,8 @@ public class ItemFoodMF extends ItemFood
         {
         	int pts = TierHelper.getPointsWorthForFood(hungerLevel, mfSaturation, staminaBuff, staminaSeconds, staminaRegenBuff, staminaRegenSeconds);
         	list.add("Points: " + pts);
-        	list.add("Recommended Tier: " + (pts <= 10 ? 0 : (int)Math.ceil((float)pts/50F)));
-        	int lvl =(int)(Math.max(0, (Math.round((float)pts/5F))-10));
+        	list.add("Recommended Tier: " + (pts <= 10 ? 0 : (int)Math.ceil(pts/50F)));
+        	int lvl =(Math.max(0, (Math.round(pts/5F))-10));
         	list.add("Level: " + lvl);
         }
         list.add(StatCollector.translateToLocalFormatted("food.stat.hunger.name", hungerLevel));
@@ -144,11 +145,11 @@ public class ItemFoodMF extends ItemFood
         	{
         		if(staminaInHours)
         		{
-        			list.add(StatCollector.translateToLocalFormatted("food.stat.staminabuffHours.name", decimal_format.format(staminaBuff), decimal_format.format((float)staminaSeconds/3600F)));
+        			list.add(StatCollector.translateToLocalFormatted("food.stat.staminabuffHours.name", decimal_format.format(staminaBuff), decimal_format.format(staminaSeconds/3600F)));
         		}
         		else if(staminaInMinutes)
         		{
-        			list.add(StatCollector.translateToLocalFormatted("food.stat.staminabuffMinutes.name", decimal_format.format(staminaBuff), decimal_format.format((float)staminaSeconds/60F)));
+        			list.add(StatCollector.translateToLocalFormatted("food.stat.staminabuffMinutes.name", decimal_format.format(staminaBuff), decimal_format.format(staminaSeconds/60F)));
         		}
         		else
         		{
@@ -159,7 +160,7 @@ public class ItemFoodMF extends ItemFood
         	{
         		if(staminaRegenInMinutes)
         		{
-        			list.add(StatCollector.translateToLocalFormatted("food.stat.staminabuffRegenMinutes.name", decimal_format.format(staminaRegenBuff), decimal_format.format((float)staminaRegenSeconds/60F)));
+        			list.add(StatCollector.translateToLocalFormatted("food.stat.staminabuffRegenMinutes.name", decimal_format.format(staminaRegenBuff), decimal_format.format(staminaRegenSeconds/60F)));
         		}
         		else
         		{
@@ -170,7 +171,7 @@ public class ItemFoodMF extends ItemFood
         	{
         		if(mfSaturation > 60F)
         		{
-        			list.add(StatCollector.translateToLocalFormatted("food.stat.saturationMinutes.name", decimal_format.format((float)mfSaturation/60F)));
+        			list.add(StatCollector.translateToLocalFormatted("food.stat.saturationMinutes.name", decimal_format.format(mfSaturation/60F)));
         		}
         		else
         		{
@@ -222,6 +223,7 @@ public class ItemFoodMF extends ItemFood
 		leftOver = item;
 		return this;
 	}
+	@Override
 	public ItemStack onEaten(ItemStack food, World world, EntityPlayer consumer)
     {
 		ItemStack left = getLeftOver(food);

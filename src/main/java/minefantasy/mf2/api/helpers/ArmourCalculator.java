@@ -139,8 +139,8 @@ public class ArmourCalculator
 
 			if(totalProtection > 0)
 			{
-				float singlePointWorth = 1F / (float)totalProtection;
-				return (float)material.getDamageReductionAmount(slot) * singlePointWorth;
+				float singlePointWorth = 1F / totalProtection;
+				return material.getDamageReductionAmount(slot) * singlePointWorth;
 			}
 		}
 		return sizes[slot];
@@ -172,7 +172,7 @@ public class ArmourCalculator
 		
 		if(item.getItem() instanceof ItemArmor)
 		{
-			return (double)((ItemArmor)item.getItem()).damageReduceAmount / 25D;
+			return ((ItemArmor)item.getItem()).damageReduceAmount / 25D;
 		}
 		return 0;
 	}

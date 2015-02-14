@@ -51,19 +51,23 @@ public class ShapedCarpenterRecipes implements ICarpenterRecipe
         this.soundOfCraft = sound;
     }
 
-    public ItemStack getRecipeOutput()
+    @Override
+	public ItemStack getRecipeOutput()
     {
         return this.recipeOutput;
     }
-    public int getCraftTime()
+    @Override
+	public int getCraftTime()
     {
     	return recipeTime;
     }
-    public float getExperiance()
+    @Override
+	public float getExperiance()
     {
     	return this.recipeExperiance;
     }
-    public int getRecipeHammer()
+    @Override
+	public int getRecipeHammer()
     {
     	return recipeHammer;
     }
@@ -71,7 +75,8 @@ public class ShapedCarpenterRecipes implements ICarpenterRecipe
     /**
      * Used to check if a recipe matches current crafting inventory
      */
-    public boolean matches(InventoryCrafting matrix)
+    @Override
+	public boolean matches(InventoryCrafting matrix)
     {
         for (int var2 = 0; var2 <= ShapelessCarpenterRecipes.globalWidth - this.recipeWidth; ++var2)
         {
@@ -150,7 +155,8 @@ public class ShapedCarpenterRecipes implements ICarpenterRecipe
 	/**
      * Returns an Item that is the result of this recipe
      */
-    public ItemStack getCraftingResult(InventoryCrafting matrix)
+    @Override
+	public ItemStack getCraftingResult(InventoryCrafting matrix)
     {
         return recipeOutput.copy();
     }
@@ -158,7 +164,8 @@ public class ShapedCarpenterRecipes implements ICarpenterRecipe
     /**
      * Returns the size of the recipe area
      */
-    public int getRecipeSize()
+    @Override
+	public int getRecipeSize()
     {
         return this.recipeWidth * this.recipeHeight;
     }

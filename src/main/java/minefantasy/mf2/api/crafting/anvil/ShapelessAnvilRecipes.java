@@ -49,7 +49,8 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
         this.research = research;
     }
 
-    public ItemStack getRecipeOutput()
+    @Override
+	public ItemStack getRecipeOutput()
     {
         return this.recipeOutput;
     }
@@ -57,7 +58,8 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
     /**
      * Used to check if a recipe matches current crafting inventory
      */
-    public boolean matches(InventoryCrafting par1InventoryCrafting)
+    @Override
+	public boolean matches(InventoryCrafting par1InventoryCrafting)
     {
         ArrayList var2 = new ArrayList(this.recipeItems);
 
@@ -117,7 +119,8 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
     /**
      * Returns an Item that is the result of this recipe
      */
-    public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
+    @Override
+	public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
     {
         return this.recipeOutput.copy();
     }
@@ -125,7 +128,8 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
     /**
      * Returns the size of the recipe area
      */
-    public int getRecipeSize()
+    @Override
+	public int getRecipeSize()
     {
         return this.recipeItems.size();
     }

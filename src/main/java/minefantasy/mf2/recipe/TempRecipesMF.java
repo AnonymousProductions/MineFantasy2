@@ -144,10 +144,6 @@ public class TempRecipesMF
 		});
 		}
 		GameRegistry.addSmelting(ComponentListMF.ingots[6], new ItemStack(ComponentListMF.ingots[7]), 0.8F);
-		GameRegistry.addSmelting(ComponentListMF.ingots[3], new ItemStack(ComponentListMF.ingots[4]), 0.8F);
-		
-		GameRegistry.addSmelting(ComponentListMF.ingots[11], new ItemStack(ComponentListMF.ingots[12]), 1.2F);
-		GameRegistry.addSmelting(ComponentListMF.ingots[13], new ItemStack(ComponentListMF.ingots[14]), 1.2F);
 		
 		GameRegistry.addSmelting(FoodListMF.horse_raw, new ItemStack(FoodListMF.horse_cooked), 0.2F);
 		GameRegistry.addSmelting(FoodListMF.wolf_raw, new ItemStack(FoodListMF.wolf_cooked), 0.2F);

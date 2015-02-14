@@ -1,13 +1,17 @@
 package minefantasy.mf2.network;
 
+import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.block.crafting.BlockAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
+import minefantasy.mf2.client.ClientTickHandler;
+import minefantasy.mf2.client.KnowledgePageRegistry;
 import minefantasy.mf2.client.gui.GuiAnvilMF;
 import minefantasy.mf2.client.gui.GuiBombBench;
 import minefantasy.mf2.client.gui.GuiCarpenterMF;
 import minefantasy.mf2.client.gui.GuiKnowledge;
+import minefantasy.mf2.client.gui.GuiKnowledgeEntry;
 import minefantasy.mf2.client.render.AnimationHandlerMF;
 import minefantasy.mf2.client.render.HudHandlerMF;
 import minefantasy.mf2.client.render.RenderArrowMF;
@@ -106,6 +110,8 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 		
 		for(ItemScythe scythe: ToolListMF.scythes)
 			MinecraftForgeClient.registerItemRenderer(scythe, new RenderHeavyWeapon().setBlunt());
+		
+		KnowledgePageRegistry.registerPages();
 	}
 	
 	@Override
@@ -122,6 +128,7 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 		FMLCommonHandler.instance().bus().register(new AnimationHandlerMF());
 		FMLCommonHandler.instance().bus().register(new ExtendedReachMF());
 		MinecraftForge.EVENT_BUS.register(new HudHandlerMF());
+		FMLCommonHandler.instance().bus().register(new ClientTickHandler());
 		
 		TileEntityRendererDispatcher.instance.mapSpecialRenderers.put(TileEntityAnvilMF.class, new TileEntityAnvilMFRenderer());
 	}
@@ -166,6 +173,10 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 		{
 			if(x == 0)
 			{//GuiAchievements
+				if(y >= 0)
+				{
+					return new GuiKnowledgeEntry(mc.currentScreen, InformationList.knowledgeList.get(y));
+				}
 				return new GuiKnowledge(player);
 			}
 		}

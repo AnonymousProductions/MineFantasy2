@@ -90,14 +90,14 @@ public class RenderSaw implements IItemRenderer
             GL11.glPushMatrix();
             float var14 = 0.125F;
             GL11.glScalef(var14, var14, var14);
-            float var15 = (float) (System.currentTimeMillis() % 3000L) / 3000.0F * 8.0F;
+            float var15 = System.currentTimeMillis() % 3000L / 3000.0F * 8.0F;
             GL11.glTranslatef(var15, 0.0F, 0.0F);
             GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
             ItemRenderer.renderItemIn2D(tessellator, x2, y1, x1, y2, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
             GL11.glPopMatrix();
             GL11.glPushMatrix();
             GL11.glScalef(var14, var14, var14);
-            var15 = (float) (System.currentTimeMillis() % 4873L) / 4873.0F * 8.0F;
+            var15 = System.currentTimeMillis() % 4873L / 4873.0F * 8.0F;
             GL11.glTranslatef(-var15, 0.0F, 0.0F);
             GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
             ItemRenderer.renderItemIn2D(tessellator, x2, y1, x1, y2, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);

@@ -2,7 +2,6 @@ package minefantasy.mf2.mechanics;
 
 import java.util.List;
 
-import minefantasy.mf2.api.knowledge.ResearchLogic;
 import mods.battlegear2.api.weapons.IExtendedReachWeapon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -10,9 +9,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -71,7 +68,7 @@ public class ExtendedReachMF
             if (mc.theWorld != null)
             {
                 mc.pointedEntity = null;
-                double d0 = (double)maxDist;
+                double d0 = maxDist;
                 MovingObjectPosition objectMouseOver = mc.renderViewEntity.rayTrace(d0, tickPart);
                 double d1 = d0;
                 Vec3 vec3 = mc.renderViewEntity.getPosition(tickPart);
@@ -85,7 +82,7 @@ public class ExtendedReachMF
                 Vec3 vec32 = vec3.addVector(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0);
                 Entity pointedEntity = null;
                 float f1 = 1.0F;
-                List list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(mc.renderViewEntity, mc.renderViewEntity.boundingBox.addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand((double)f1, (double)f1, (double)f1));
+                List list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(mc.renderViewEntity, mc.renderViewEntity.boundingBox.addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand(f1, f1, f1));
                 double d2 = d1;
 
                 for (int i = 0; i < list.size(); ++i)
@@ -95,7 +92,7 @@ public class ExtendedReachMF
                     if (entity.canBeCollidedWith())
                     {
                         float f2 = entity.getCollisionBorderSize();
-                        AxisAlignedBB axisalignedbb = entity.boundingBox.expand((double)f2, (double)f2, (double)f2);
+                        AxisAlignedBB axisalignedbb = entity.boundingBox.expand(f2, f2, f2);
                         MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
 
                         if (axisalignedbb.isVecInside(vec3))

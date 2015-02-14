@@ -215,7 +215,7 @@ public abstract class PlayerEventChild extends PlayerEvent{
                 }
                 float f = super.getCharge()/20.0F;
                 f = (f * f + f * 2.0F) / 3.0F;
-                if ((double)f < 0.1D)
+                if (f < 0.1D)
                 {
                     return 0;
                 }

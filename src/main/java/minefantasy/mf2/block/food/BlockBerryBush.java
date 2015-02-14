@@ -132,7 +132,7 @@ public class BlockBerryBush extends BlockBush implements IShearable
                     }
 
                     itemstack.stackSize -= j1;
-                    EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                    EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                     if (itemstack.hasTagCompound())
                     {
@@ -140,9 +140,9 @@ public class BlockBerryBush extends BlockBush implements IShearable
                     }
 
                     float f3 = 0.05F;
-                    entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
-                    entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
-                    entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                    entityitem.motionX = (float)this.rand.nextGaussian() * f3;
+                    entityitem.motionY = (float)this.rand.nextGaussian() * f3 + 0.2F;
+                    entityitem.motionZ = (float)this.rand.nextGaussian() * f3;
                     world.spawnEntityInWorld(entityitem);
                 }
             }

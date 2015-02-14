@@ -57,6 +57,8 @@ knowledge.smeltMithril.desc=The lightest of materials
 knowledge.smeltIgnotumite=Ignotumite Smelting
 knowledge.smeltIgnotumite.desc=A rare power
 
+knowledge.craftCrafters=Crafting tools
+knowledge.craftCrafters.desc=The tools of the trade
 knowledge.craftTools=Tool Crafting
 knowledge.craftTools.desc=Basic tools
 knowledge.craftAdvTools=Advanced Tool Crafting
@@ -80,18 +82,8 @@ knowledge.arrowsBodkin.desc=Light-Fliers
 knowledge.arrowsBroad=Broad Arrows
 knowledge.arrowsBroad.desc=Heavy Duty
 
-knowledge.hammer=Hammers
-knowledge.hammer.desc=Used for forging
 knowledge.hvyHammer=Heavy Hammers
 knowledge.hvyHammer.desc=For more of an impact
-knowledge.tongs=Tongs
-knowledge.tongs.desc=Hot handling
-knowledge.needle=Needles
-knowledge.needle.desc=Used for sewing
-knowledge.saw=Saws
-knowledge.saw.desc=Used for sawing
-knowledge.knife=Knives
-knowledge.knife.desc=Useful blades
 
 knowledge.crucible=Basic Alloying
 knowledge.crucible.desc=Mixing metals
@@ -1450,3 +1442,11 @@ food.stat.saturationSeconds.name=Saturation for %1$s seconds
 food.stat.staminabuffRegenMinutes.name=Regen %1$s stamina/second for %2$s mins
 food.stat.staminabuffRegenSeconds.name=Regen %1$s stamina/second for %2$s secs
 food.stat.cure.poison=Cure Poison
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/LONG KNOWLEDGE STATS/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+knowledge.anvil.paragraph_1=Anvils are used to work metals easily into many forms.
+knowledge.anvil.paragraph_2=You will need one of these for nearly anything, anvils are tiered and need upgrading.
+knowledge.anvil.paragraph_3=They can be made with 6 ingots from bronze, iron, steel, black steel, blue steel and red steel.

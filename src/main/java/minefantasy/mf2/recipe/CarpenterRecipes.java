@@ -301,13 +301,13 @@ public class CarpenterRecipes
 		OreDictionary.registerOre(meats, Items.cooked_fished);
 		OreDictionary.registerOre(meats, new ItemStack(Items.cooked_fished, 1, 1));
 		
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.oats), chopping, "knife", -1, 40, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.oats), chopping, "knife", -1, 20, new Object[]{
 			"M",
 			"B",
 			'M', Items.wheat,
 			'B', Items.bowl
 		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.breadroll, 4), chopping, "knife", -1, 30, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.breadroll, 4), chopping, "knife", -1, 15, new Object[]{
 			"M",
 			'M', Items.bread,
 		});
@@ -326,7 +326,7 @@ public class CarpenterRecipes
 			'S', Items.sugar,
 			'B', Items.bowl,
 		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.sweetroll), basic, "knife", -1, 20, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.sweetroll), basic, "knife", -1, 15, new Object[]{
 			"I",
 			"R",
 			'I', FoodListMF.icing,
@@ -334,17 +334,17 @@ public class CarpenterRecipes
 		});
 		for(ItemStack food: OreDictionary.getOres(meats))
 		{
-			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.stew), chopping, "knife", -1, 40, new Object[]{
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.stew), chopping, "knife", -1, 15, new Object[]{
 				"M",
 				"B",
 				'M', food,
 				'B', Items.bowl
 			});
-			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.jerky, 2), chopping, "knife", 2, 100, new Object[]{
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.jerky, 2), chopping, "knife", 2, 20, new Object[]{
 				"M",
 				'M', food,
 			});
-			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_meat_uncooked), chopping, "knife", 2, 300, new Object[]{
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_meat_uncooked), chopping, "knife", 2, 150, new Object[]{
 				"FFF",
 				"MMM",
 				"FEF",
@@ -354,14 +354,14 @@ public class CarpenterRecipes
 				'M', food,
 				'T', FoodListMF.pie_tray,
 			});
-			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.sandwitch_meat), chopping, "knife", 2, 200, new Object[]{
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.sandwitch_meat), chopping, "knife", 2, 50, new Object[]{
 				"B",
 				"M",
 				"B",
 				'M', food,
 				'B', FoodListMF.breadroll
 			});
-			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_shepard_uncooked), chopping, "knife", 3, 500, new Object[]{
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_shepard_uncooked), chopping, "knife", 3, 200, new Object[]{
 				"PPP",
 				"MMM",
 				"FEF",
@@ -373,7 +373,7 @@ public class CarpenterRecipes
 				'T', FoodListMF.pie_tray,
 			});
 		}
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_apple_uncooked), chopping, "knife", 2, 300, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_apple_uncooked), chopping, "knife", 2, 120, new Object[]{
 			"FSF",
 			"MMM",
 			"FEF",
@@ -384,7 +384,7 @@ public class CarpenterRecipes
 			'S', Items.sugar,
 			'T', FoodListMF.pie_tray,
 		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_berry_uncooked), chopping, "knife", 2, 300, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_berry_uncooked), chopping, "knife", 2, 100, new Object[]{
 			"FSF",
 			"MMM",
 			"FEF",
@@ -474,7 +474,7 @@ public class CarpenterRecipes
 			'R', FoodListMF.cake_bf_uniced,
 		});
 		
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.cheese_roll), chopping, "knife", 1, 100, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.cheese_roll), chopping, "knife", 1, 30, new Object[]{
 			"C",
 			"R",
 			'C', FoodListMF.cheese_slice,

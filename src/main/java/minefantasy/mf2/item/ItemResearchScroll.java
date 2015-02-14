@@ -2,17 +2,15 @@ package minefantasy.mf2.item;
 
 import java.util.Random;
 
+import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.knowledge.ResearchLogic;
-import minefantasy.mf2.item.list.CreativeTabMF;
-import minefantasy.mf2.item.list.ToolListMF;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemResearchScroll extends ItemComponentMF
 {

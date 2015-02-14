@@ -132,7 +132,7 @@ public class ItemHvyShovel extends ItemSpade implements IToolMaterial
         double var7 = posX - x;
         double var9 = posY - y;
         double var11 = posZ - z;
-        return (double)MathHelper.sqrt_double(var7 * var7 + var9 * var9 + var11 * var11);
+        return MathHelper.sqrt_double(var7 * var7 + var9 * var9 + var11 * var11);
     }
 	
 	private ForgeDirection getFDFor(EntityLivingBase user) 

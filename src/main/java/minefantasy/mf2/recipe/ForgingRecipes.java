@@ -1,6 +1,5 @@
 package minefantasy.mf2.recipe;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.list.ArmourListMF;
@@ -28,6 +27,7 @@ public class ForgingRecipes
 			tool = ToolListMF.picks[id];
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{
+				String smeltMat = "smelt"+material.name;
 				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftTools", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"L I",
@@ -108,7 +108,7 @@ public class ForgingRecipes
 			tool = ToolListMF.hammers[id];
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{
-				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "hammer", true, material.hammerTier-1, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftCrafters", true, material.hammerTier-1, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"I",
 					"L",
@@ -124,7 +124,7 @@ public class ForgingRecipes
 			tool = ToolListMF.tongs[id];
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{
-				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "tongs", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftCrafters", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"I ",
 					" I",
@@ -137,7 +137,7 @@ public class ForgingRecipes
 			tool = ToolListMF.saws[id];
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{
-				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "saw", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftCrafters", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"SIIII",
 					"SIII ",
@@ -151,7 +151,7 @@ public class ForgingRecipes
 			tool = ToolListMF.knives[id];
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{
-				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "knife", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftCrafters", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					" I",
 					" I",
@@ -167,7 +167,7 @@ public class ForgingRecipes
 			tool = ToolListMF.needles[id];
 			for(ItemStack ingot: OreDictionary.getOres("hunk"+material.name))
 			{
-				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "needle", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftCrafters", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"I",
 					"I",
@@ -556,6 +556,36 @@ public class ForgingRecipes
 					'I', ComponentListMF.hunks[id]
 				});
 			}
+		}
+		for(ItemStack ore: OreDictionary.getOres("ingotPigIron"))
+		{
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[4], 1), "smeltSteel", true, 1, 1, 5, new Object[]
+			{
+				"H",
+				'H', ore
+			});
+			
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[7], 1), "smeltBlackSteel", true, 2, 2, 10, new Object[]
+			{
+				"P",
+				"H",
+				'P', ore,
+				'H', ComponentListMF.ingots[6]
+			});
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[12], 1), "smeltRedSteel", true, 3, 3, 15, new Object[]
+			{
+				"P",
+				"H",
+				'P', ore,
+				'H', ComponentListMF.ingots[11]
+			});
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[14], 1), "smeltBlueSteel", true, 3, 3, 15, new Object[]
+			{
+				"P",
+				"H",
+				'P', ore,
+				'H', ComponentListMF.ingots[13]
+			});
 		}
 		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.coalDust, 4), false, -1, -1, 2, new Object[]
 		{

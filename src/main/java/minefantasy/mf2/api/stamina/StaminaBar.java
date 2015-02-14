@@ -165,7 +165,7 @@ public class StaminaBar
 			EntityPlayer player = (EntityPlayer)user;
 			if(player.experienceLevel > 0)
 			{
-				amount += ((float)player.experienceLevel*levelAmount);
+				amount += (player.experienceLevel*levelAmount);
 			}
 		}
 		return amount;

@@ -6,16 +6,7 @@ import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.config.ConfigArmour;
-import minefantasy.mf2.config.ConfigClient;
-import minefantasy.mf2.config.ConfigExperiment;
-import minefantasy.mf2.config.ConfigFarming;
-import minefantasy.mf2.config.ConfigHardcore;
-import minefantasy.mf2.config.ConfigItemRegistry;
-import minefantasy.mf2.config.ConfigStamina;
-import minefantasy.mf2.config.ConfigTools;
-import minefantasy.mf2.config.ConfigWeapon;
-import minefantasy.mf2.config.ConfigWorldGen;
+import minefantasy.mf2.config.*;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -76,17 +67,19 @@ public class MineFantasyII
 		new ConfigItemRegistry().setConfig(getCfg(event, "Item_Registry"));
 		new ConfigFarming().setConfig(getCfg(event, "Farming"));
 		new ConfigWorldGen().setConfig(getCfg(event, "WorldGen"));
+		new ConfigResearch().setConfig(getCfg(event, "Research"));
 		
 		MineFantasyAPI.isInDebugMode = isDebug();
 		output("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 		
 		ToolListMF.init();
 		
-    	proxy.preInit();
     	proxy.registerTickHandlers();
     	addModFlags();
     	ComponentListMF.init();
     	KnowledgeListMF.init();
+    	BasicRecipesMF.init();
+    	proxy.preInit();
     }
 
     @EventHandler
@@ -126,7 +119,6 @@ public class MineFantasyII
     	
     	ConfigItemRegistry.readCustoms();
     	
-    	BasicRecipesMF.init();
     	for(BiomeGenBase biome : BiomeGenBase.getBiomeGenArray())
     	{
     		registerBiomeStuff(biome);

@@ -74,9 +74,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	protected Random rand = new Random();
 	
 	
-	protected float jumpEvade_cost = 30;
-	protected float evade_cost = 10;
-	
 	protected float lunge_cost = 25;
 	protected float charge_cost = 10;
 	protected float jump_cost = 2;
@@ -176,7 +173,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	public Multimap getItemAttributeModifiers()
 	{
 		Multimap map = HashMultimap.create();
-		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.baseDamage, 0));
+		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", this.baseDamage, 0));
 
         return map;
     }
@@ -220,7 +217,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
                 if(hitMod > 0){
                     list.add(EnumChatFormatting.RED+
                             StatCollector.translateToLocalFormatted("attribute.modifier.take."+ 1,
-                                    decimal_format.format((float)hitMod / 10F * 100),
+                                    decimal_format.format(hitMod / 10F * 100),
                                             StatCollector.translateToLocal("attribute.weapon.attackSpeed")));
                 }else{
                     list.add(EnumChatFormatting.DARK_GREEN+
@@ -347,27 +344,13 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	@Override
 	public void onParry(DamageSource source, EntityLivingBase user, Entity attacker, float dam) 
 	{
-		boolean groundBlock = user.onGround;
 		ItemStack weapon = user.getHeldItem();
-		
-		//Redirect
-		if(!user.worldObj.isRemote && !TacticalManager.isRanged(source))
-		{
-			if(canEvade(user))
-			{
-				float powerMod = attacker.isSprinting() ? 4.0F : 2.5F;
-				
-				attacker.setSprinting(false);
-				TacticalManager.lungeEntity(attacker, user, powerMod, 0.0F);
-				TacticalManager.lungeEntity(user, attacker, 3F, 0.0F);
-				addXp(user, 30);
-			}
-		}
 		int pd = getParryDamage(dam);
 		if(pd > 0)
 		{
 			weapon.damageItem(pd, user);
 		}
+		
 		addXp(user, 30);
 	}
 
@@ -377,67 +360,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	protected int getParryDamage(float dam) 
 	{
 		return (int)dam;
-	}
-
-	/**
-	 * Determines if an evade can be made (jump or normal)
-	 */
-	private boolean canEvade(EntityLivingBase user)
-	{
-		if(!canWeaponEvade())
-		{
-			return false;
-		}
-		if(user instanceof EntityPlayer)
-		{
-			if(!user.isSneaking())
-			{
-				return false;
-			}
-		}
-		else
-		{
-			if(rand.nextInt(canAnyMobParry() ? 10 : 5) != 0)//Mobs can evade
-			{
-				return false;
-			}
-		}
-		
-		if(!user.onGround && !tryJumpEvade(user))
-		{
-			return false;
-		}
-		return tryGroundEvade(user);
-	}
-	/**
-	 * If the player can slip past enemies
-	 * Should be any armour but heavy
-	 */
-	private boolean tryGroundEvade(EntityLivingBase user) 
-	{
-		return tryPerformAbility(user, evade_cost, true, false);
-	}
-
-	/**
-	 * If the player can jump over enemies in evading
-	 * Only ment for unarmoured/Lightarmour
-	 */
-	private boolean tryJumpEvade(EntityLivingBase user) 
-	{
-		return tryPerformAbility(user, jumpEvade_cost, true, false);
-	}
-	@Override
-	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player)
-	{
-		if((StaminaBar.isSystemActive && TacticalManager.shouldStaminaBlock  && !StaminaBar.isAnyStamina(player, false)) || !CombatMechanics.isParryAvailable(player))
-		{
-			return item;
-		}
-		if(canBlock())
-    	{
-    		super.onItemRightClick(item, world, player);
-    	}
-		return item;
 	}
 
 	@Override
@@ -522,21 +444,21 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		return 1.0F;
 	}
 	
-	protected boolean canPerformAbility(EntityLivingBase user, float points)
+	public static boolean canPerformAbility(EntityLivingBase user, float points)
 	{
 		return tryPerformAbility(user, points, false, true, true, false);
 	}
-	protected boolean tryPerformAbility(EntityLivingBase user, float points)
+	public static boolean tryPerformAbility(EntityLivingBase user, float points)
 	{
 		return tryPerformAbility(user, points, true, true);
 	}
 	
-	protected boolean tryPerformAbility(EntityLivingBase user, float points, boolean armour, boolean weapon)
+	public static boolean tryPerformAbility(EntityLivingBase user, float points, boolean armour, boolean weapon)
 	{
 		return tryPerformAbility(user, points, true, armour, weapon, true);
 	}
 	
-	protected boolean tryPerformAbility(EntityLivingBase user, float points, boolean flash, boolean armour, boolean weapon, boolean takePoints)
+	public static boolean tryPerformAbility(EntityLivingBase user, float points, boolean flash, boolean armour, boolean weapon, boolean takePoints)
 	{
 		if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user))
 		{
@@ -625,6 +547,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 			}
 		}
 	}
+	@Override
 	public boolean canUserParry(EntityLivingBase user)
 	{
 		return user instanceof EntityPlayer || (canAnyMobParry() || rand.nextFloat() < 0.20F);

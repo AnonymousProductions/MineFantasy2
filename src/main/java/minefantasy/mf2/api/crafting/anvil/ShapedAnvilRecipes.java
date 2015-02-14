@@ -49,19 +49,23 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
         this.research = research;
     }
 
-    public ItemStack getRecipeOutput()
+    @Override
+	public ItemStack getRecipeOutput()
     {
         return this.recipeOutput;
     }
-    public int getCraftTime()
+    @Override
+	public int getCraftTime()
     {
     	return recipeTime;
     }
-    public float getExperiance()
+    @Override
+	public float getExperiance()
     {
     	return this.recipeExperiance;
     }
-    public int getRecipeHammer()
+    @Override
+	public int getRecipeHammer()
     {
     	return recipeHammer;
     }
@@ -69,7 +73,8 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
     /**
      * Used to check if a recipe matches current crafting inventory
      */
-    public boolean matches(InventoryCrafting matrix)
+    @Override
+	public boolean matches(InventoryCrafting matrix)
     {
         for (int var2 = 0; var2 <= ShapelessAnvilRecipes.globalWidth - this.recipeWidth; ++var2)
         {
@@ -148,7 +153,8 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
 	/**
      * Returns an Item that is the result of this recipe
      */
-    public ItemStack getCraftingResult(InventoryCrafting matrix)
+    @Override
+	public ItemStack getCraftingResult(InventoryCrafting matrix)
     {
         return recipeOutput.copy();
     }
@@ -156,7 +162,8 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
     /**
      * Returns the size of the recipe area
      */
-    public int getRecipeSize()
+    @Override
+	public int getRecipeSize()
     {
         return this.recipeWidth * this.recipeHeight;
     }

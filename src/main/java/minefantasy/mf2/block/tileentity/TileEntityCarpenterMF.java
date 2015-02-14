@@ -3,6 +3,7 @@ package minefantasy.mf2.block.tileentity;
 import java.util.List;
 import java.util.Random;
 
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ShapelessCarpenterRecipes;
@@ -255,7 +256,13 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				progress += Math.max(0.2F, efficiency);
 				if(progress >= progressMax)
 				{
+					MineFantasyII.debugMsg("Completed Craft: KPE Gained: " + (int)(progressMax/2));
+					ResearchLogic.addKnowledgeExperience(user, progressMax/20F);
 					craftItem();
+				}
+				if(rand.nextInt(30) == 0 && user.swingProgress == 0.0F)
+				{
+					ResearchLogic.modifyKnowledgePoints(user, 1);
 				}
 			}
 			else
@@ -335,7 +342,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
                 }
 
                 itemstack.stackSize -= j1;
-                EntityItem entityitem = new EntityItem(worldObj, (double)((float)xCoord + f), (double)((float)yCoord + f1), (double)((float)zCoord + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                EntityItem entityitem = new EntityItem(worldObj, xCoord + f, yCoord + f1, zCoord + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                 if (itemstack.hasTagCompound())
                 {
@@ -343,9 +350,9 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
                 }
 
                 float f3 = 0.05F;
-                entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
-                entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
-                entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                entityitem.motionX = (float)this.rand.nextGaussian() * f3;
+                entityitem.motionY = (float)this.rand.nextGaussian() * f3 + 0.2F;
+                entityitem.motionZ = (float)this.rand.nextGaussian() * f3;
                 worldObj.spawnEntityInWorld(entityitem);
             }
         }
@@ -532,7 +539,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	}
 	public int getProgressBar(int i)
 	{
-		return (int)Math.ceil((float)i / progressMax * progress);
+		return (int)Math.ceil(i / progressMax * progress);
 	}
 	@Override
 	public void setToolType(String toolType)

@@ -1,13 +1,18 @@
 package minefantasy.mf2.api;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
+import minefantasy.mf2.api.knowledge.KnowledgeType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.EnumChatFormatting;
 
 public class MineFantasyAPI 
 {
@@ -15,7 +20,7 @@ public class MineFantasyAPI
 	 * This variable saves if MineFantasy is in debug mode
 	 */
 	public static boolean isInDebugMode;
-	
+
 	public static void debugMsg(String msg)
 	{
 		if(isInDebugMode)

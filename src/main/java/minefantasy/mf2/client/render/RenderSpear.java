@@ -10,6 +10,7 @@ package minefantasy.mf2.client.render;
  * Code based off Battlegear Spears by Nerd Boy.
  */
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -82,7 +83,7 @@ public class RenderSpear implements IItemRenderer
                 x = icon.getMinU();
             }
             
-            RenderManager.instance.itemRenderer.renderItemIn2D(tessellator,
+            ItemRenderer.renderItemIn2D(tessellator,
             		x,
                     icon.getMinV(),
                     x2,
@@ -113,7 +114,7 @@ public class RenderSpear implements IItemRenderer
                 x = icon.getMinU();
             }
             
-            RenderManager.instance.itemRenderer.renderItemIn2D(tessellator,
+            ItemRenderer.renderItemIn2D(tessellator,
             		x,
                     icon.getMinV(),
                     x2,

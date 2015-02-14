@@ -1,14 +1,13 @@
 package minefantasy.mf2.knowledge;
 
-import minefantasy.mf2.MineFantasyII;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.InformationPage;
-import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
@@ -52,6 +51,8 @@ public class KnowledgeListMF
     public static InformationBase smeltAdamant = (new InformationBase("smeltAdamant", 			6, 15, 30, ComponentListMF.ingots[15], mythic)).registerStat().setPage(smithing);
     
     public static InformationBase anvil = (new InformationBase("anvil", 						-1, 0, 5, Blocks.anvil, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
+    public static InformationBase craftCrafters = (new InformationBase("craftCrafters", 		-1, -2, 5, ToolListMF.hammers[3], anvil)).registerStat().setPage(smithing).setUnlocked();
+    public static InformationBase hvyHammer = (new InformationBase("hvyHammer", 				-1, -4, 5, ToolListMF.hvyHammers[2], craftCrafters)).registerStat().setPage(smithing);
     public static InformationBase craftTools = (new InformationBase("craftTools", 				-3, 2, 5, ToolListMF.picks[3], anvil)).registerStat().setPage(smithing);
     public static InformationBase craftAdvTools = (new InformationBase("craftAdvTools", 		-5, 2, 10, ToolListMF.hvypicks[2], craftTools)).registerStat().setPage(smithing);
     public static InformationBase craftWeapons = (new InformationBase("craftWeapons", 			-3, 1, 5, ToolListMF.swords[4], anvil)).registerStat().setPage(smithing);
@@ -73,7 +74,5 @@ public class KnowledgeListMF
     
     public static void init()
 	{
-		// TODO Auto-generated method stub
-		
 	}
 }

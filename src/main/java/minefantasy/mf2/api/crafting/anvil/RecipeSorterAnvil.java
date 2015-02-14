@@ -21,7 +21,8 @@ class RecipeSorterAnvil implements Comparator
         return recipe1 instanceof ShapelessAnvilRecipes && recipe2 instanceof ShapedAnvilRecipes ? 1 : (recipe2 instanceof ShapelessAnvilRecipes && recipe1 instanceof ShapedAnvilRecipes ? -1 : (recipe2.getRecipeSize() < recipe1.getRecipeSize() ? -1 : (recipe2.getRecipeSize() > recipe1.getRecipeSize() ? 1 : 0)));
     }
 
-    public int compare(Object input1, Object input2)
+    @Override
+	public int compare(Object input1, Object input2)
     {
         return this.compareRecipes((IAnvilRecipe)input1, (IAnvilRecipe)input2);
     }

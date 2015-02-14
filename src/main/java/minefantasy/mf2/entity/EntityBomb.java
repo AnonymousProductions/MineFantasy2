@@ -37,16 +37,16 @@ public class EntityBomb extends Entity
         this.thrower = thrower;
         this.fuse = 30;
         
-        this.setLocationAndAngles(thrower.posX, thrower.posY + (double)thrower.getEyeHeight(), thrower.posZ, thrower.rotationYaw, thrower.rotationPitch);
-        this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
+        this.setLocationAndAngles(thrower.posX, thrower.posY + thrower.getEyeHeight(), thrower.posZ, thrower.rotationYaw, thrower.rotationPitch);
+        this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
         this.posY -= 0.10000000149011612D;
-        this.posZ -= (double)(MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
+        this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
         this.setPosition(this.posX, this.posY, this.posZ);
         
         float f = 0.4F;
-        this.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f);
-        this.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f);
-        this.motionY = (double)(-MathHelper.sin((this.rotationPitch + this.getThrownOffset()) / 180.0F * (float)Math.PI) * f);
+        this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f;
+        this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f;
+        this.motionY = -MathHelper.sin((this.rotationPitch + this.getThrownOffset()) / 180.0F * (float)Math.PI) * f;
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, this.getThrownForce(), 1.0F);
         
         this.prevPosX = posX;
@@ -58,21 +58,21 @@ public class EntityBomb extends Entity
     public void setThrowableHeading(double x, double y, double z, float offset, float force)
     {
         float f2 = MathHelper.sqrt_double(x * x + y * y + z * z);
-        x /= (double)f2;
-        y /= (double)f2;
-        z /= (double)f2;
-        x += this.rand.nextGaussian() * 0.007499999832361937D * (double)force;
-        y += this.rand.nextGaussian() * 0.007499999832361937D * (double)force;
-        z += this.rand.nextGaussian() * 0.007499999832361937D * (double)force;
-        x *= (double)offset;
-        y *= (double)offset;
-        z *= (double)offset;
+        x /= f2;
+        y /= f2;
+        z /= f2;
+        x += this.rand.nextGaussian() * 0.007499999832361937D * force;
+        y += this.rand.nextGaussian() * 0.007499999832361937D * force;
+        z += this.rand.nextGaussian() * 0.007499999832361937D * force;
+        x *= offset;
+        y *= offset;
+        z *= offset;
         this.motionX = x;
         this.motionY = y;
         this.motionZ = z;
         float f3 = MathHelper.sqrt_double(x * x + z * z);
         this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(x, z) * 180.0D / Math.PI);
-        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(y, (double)f3) * 180.0D / Math.PI);
+        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(y, f3) * 180.0D / Math.PI);
     }
     protected float getThrownOffset()
     {
@@ -94,7 +94,8 @@ public class EntityBomb extends Entity
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
      * prevent them from trampling crops
      */
-    protected boolean canTriggerWalking()
+    @Override
+	protected boolean canTriggerWalking()
     {
         return false;
     }
@@ -111,7 +112,8 @@ public class EntityBomb extends Entity
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate()
+    @Override
+	public void onUpdate()
     {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -167,7 +169,8 @@ public class EntityBomb extends Entity
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    protected void writeEntityToNBT(NBTTagCompound nbt)
+    @Override
+	protected void writeEntityToNBT(NBTTagCompound nbt)
     {
         nbt.setByte("Fuse", (byte)this.fuse);
     }
@@ -175,12 +178,14 @@ public class EntityBomb extends Entity
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    protected void readEntityFromNBT(NBTTagCompound nbt)
+    @Override
+	protected void readEntityFromNBT(NBTTagCompound nbt)
     {
         this.fuse = nbt.getByte("Fuse");
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public float getShadowSize()
     {
         return 0.25F;
@@ -194,7 +199,8 @@ public class EntityBomb extends Entity
         return this.thrower;
     }
     
-    public void applyEntityCollision(Entity entity)
+    @Override
+	public void applyEntityCollision(Entity entity)
     {
     	if(!(thrower != null && thrower == entity))
     	{
@@ -298,7 +304,7 @@ public class EntityBomb extends Entity
 	
 	public boolean canEntityBeSeen(Entity entity)
     {
-        return this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ), Vec3.createVectorHelper(entity.posX, entity.posY + (double)entity.getEyeHeight(), entity.posZ)) == null;
+        return this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(this.posX, this.posY + this.getEyeHeight(), this.posZ), Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ)) == null;
     }
 	
 	private final int typeId = 2;

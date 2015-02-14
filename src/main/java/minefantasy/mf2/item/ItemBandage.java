@@ -43,7 +43,8 @@ public class ItemBandage extends Item
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
+    @Override
+	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
     {
     	if(canHeal(user) && user.hurtResistantTime <= 0)
     	{
@@ -54,11 +55,13 @@ public class ItemBandage extends Item
     /**
      * returns the action that specifies what animation to play when the items is being used
      */
-    public EnumAction getItemUseAction(ItemStack item)
+    @Override
+	public EnumAction getItemUseAction(ItemStack item)
     {
         return EnumAction.block;
     }
-    public int getMaxItemUseDuration(ItemStack item)
+    @Override
+	public int getMaxItemUseDuration(ItemStack item)
     {
         return (int)(20F*secondsToUse);
     }

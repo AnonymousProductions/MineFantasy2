@@ -43,7 +43,7 @@ public class ItemMine extends Item
     {
     	if(!user.isSwingInProgress)
     	{
-    		world.playSoundEffect((double)user.posX, (double)user.posY + 1.5D, (double)user.posZ, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+    		world.playSoundEffect(user.posX, user.posY + 1.5D, user.posZ, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
     		user.setItemInUse(item, getMaxItemUseDuration(item));
     	}
     	return item;
@@ -53,7 +53,8 @@ public class ItemMine extends Item
     {
         return 35;
     }
-    public ItemStack onEaten(ItemStack item, World world, EntityPlayer user)
+    @Override
+	public ItemStack onEaten(ItemStack item, World world, EntityPlayer user)
     {
     	world.playSoundEffect(user.posX, user.posY+1.5, user.posZ, "random.click", 1.0F, 1.0F);
     	user.swingItem();
@@ -183,7 +184,7 @@ public class ItemMine extends Item
     @SideOnly(Side.CLIENT)
     public IIcon getIconIndex(ItemStack item)
     {
-    	int type = (int)getCasing(item);
+    	int type = getCasing(item);
     	return mines[type];
     }
     @Override
@@ -192,7 +193,7 @@ public class ItemMine extends Item
     {
     	if(layer > 0)
     	{
-	    	int type = (int)getFilling(item);
+	    	int type = getFilling(item);
 	    	if(type != 0)
 	    	{
 	    		return ToolListMF.bomb_custom.icons[type-1];
@@ -201,7 +202,8 @@ public class ItemMine extends Item
     	return getIconIndex(item);
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses()
     {
     	return true;

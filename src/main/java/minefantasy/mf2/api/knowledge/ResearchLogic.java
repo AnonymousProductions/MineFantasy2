@@ -1,6 +1,5 @@
 package minefantasy.mf2.api.knowledge;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.mechanics.PlayerTagData;
 import minefantasy.mf2.network.packet.KnowledgePacket;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +10,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ResearchLogic
 {
+	public static int xpToKnowledge = 25;
+	public static int startersPoints = 10;
 	public static boolean tryUnlock(EntityPlayer player, InformationBase base)
     {
 		if(base.startedUnlocked || !canUnlockInfo(player, base))
@@ -67,17 +68,41 @@ public class ResearchLogic
 
 	public static boolean hasInfoUnlocked(EntityPlayer player, InformationBase base)
     {
-		return base.startedUnlocked || hasInfoUnlocked(player, base.getUnlocalisedName());
-    }
-	
-	public static boolean hasInfoUnlocked(EntityPlayer player, String basename)
-    {
+		if(base.startedUnlocked)return true;
+		
 		NBTTagCompound nbt = getNBT(player);
+		String basename = base.getUnlocalisedName();
 		if(nbt.hasKey("Research_" + basename))
 		{
 			return nbt.getBoolean("Research_" + basename);
 		}
         return false;
+    }
+	
+	public static boolean hasInfoUnlocked(EntityPlayer player, String basename)
+    {
+		InformationBase base = InformationList.nameMap.get(basename);
+		if(base != null)
+		{
+			return hasInfoUnlocked(player, base);
+		}
+        return false;
+    }
+	
+	public static boolean hasInfoUnlocked(EntityPlayer player, String[] basenames)
+    {
+		for(String basename : basenames)
+		{
+			InformationBase base = InformationList.nameMap.get(basename);
+			if(base != null)
+			{
+				if(!hasInfoUnlocked(player, base))
+				{
+					return false;
+				}
+			}
+		}
+        return true;
     }
 
     private static NBTTagCompound getNBT(EntityPlayer player)
@@ -124,4 +149,40 @@ public class ResearchLogic
 			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new KnowledgePacket(player).generatePacket());
 		}
     }
+
+	public static void addKnowledgeExperience(EntityPlayer player, float xp)
+    {
+		if(xp <= 0.5F)
+		{
+			return;
+		}
+		
+		float experience = getKnowledgeXP(player) + xp;
+		float xpCap = xpBarCap(player);
+		
+		boolean playedSound = false;
+		while(experience >= xpCap)
+		{
+			experience -= xpCap;
+			ResearchLogic.modifyKnowledgePoints(player, 1);
+			if(!playedSound)
+			{
+				player.worldObj.playSoundAtEntity(player, "random.orb", 0.5F, 0.5F);
+				playedSound = true;
+			}
+		}
+			
+		player.getEntityData().setFloat(knowledgeXP, experience);
+    }
+	
+	public static String knowledgeXP = "MF_KnowledgeXP";
+	
+	private static float xpBarCap(EntityPlayer player)
+	{
+		return xpToKnowledge;
+	}
+	public static float getKnowledgeXP(EntityPlayer player)
+	{
+		return player.getEntityData().getFloat(knowledgeXP);
+	}
 }

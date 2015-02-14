@@ -6,6 +6,7 @@ package minefantasy.mf2.client.render;
  * 
  */
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -77,7 +78,7 @@ public class RenderLance implements IItemRenderer
             
             GL11.glPushMatrix();
             GL11.glTranslatef(-0.8F, -0.2F, 0F);
-            RenderManager.instance.itemRenderer.renderItemIn2D(tessellator,
+            ItemRenderer.renderItemIn2D(tessellator,
             		icon.getMaxU(),
                     icon.getMinV(),
                     icon.getMinU(),

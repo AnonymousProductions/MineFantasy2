@@ -1,15 +1,9 @@
 package minefantasy.mf2.network.packet;
 
 import io.netty.buffer.ByteBuf;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
-import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.ByteBufUtils;
 

@@ -1,5 +1,8 @@
 package minefantasy.mf2.api.knowledge;
 
+import java.util.ArrayList;
+
+import minefantasy.mf2.api.knowledge.client.EntryPage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -67,7 +70,6 @@ public class InformationBase
 
         this.parentInfo = parent;
     }
-    
     public InformationBase setUnlocked()
     {
     	startedUnlocked = true;
@@ -102,6 +104,7 @@ public class InformationBase
     	ID = nextID;
     	nextID++;
         InformationList.knowledgeList.add(this);
+        InformationList.nameMap.put(idName, this);
         return this;
     }
 
@@ -164,5 +167,21 @@ public class InformationBase
 	public int getCost()
 	{
 		return baseLevelCost;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private ArrayList<EntryPage> pages = new ArrayList<EntryPage>();
+	@SideOnly(Side.CLIENT)
+	public void addPages(EntryPage... info)
+	{
+		for(EntryPage page: info)
+		{
+			pages.add(page);
+		}
+	}
+	@SideOnly(Side.CLIENT)
+	public ArrayList<EntryPage> getPages()
+	{
+		return pages;
 	}
 }

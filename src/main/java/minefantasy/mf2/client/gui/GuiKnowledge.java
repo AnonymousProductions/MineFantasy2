@@ -12,34 +12,26 @@ import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.ResearchRequest;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.IProgressMeter;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.WorldServer;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -51,20 +43,20 @@ public class GuiKnowledge extends GuiScreen
     private static final int field_146571_z = InformationList.minDisplayRow * 24 - 112;
     private static final int field_146559_A = InformationList.maxDisplayColumn * 24 - 77;
     private static final int field_146560_B = InformationList.maxDisplayRow * 24 - 77;
-    private static final ResourceLocation screenTex = new ResourceLocation("minefantasy2:textures/gui/knowledge.png");
-    protected int field_146555_f = 256;
-    protected int field_146557_g = 202;
-    protected int field_146563_h;
-    protected int field_146564_i;
-    protected float field_146570_r = 1.0F;
-    protected double field_146569_s;
-    protected double field_146568_t;
-    protected double field_146567_u;
-    protected double field_146566_v;
-    protected double field_146565_w;
-    protected double field_146573_x;
-    private int field_146554_D;
-    private boolean allDiscovered = true;
+    private static final ResourceLocation screenTex = new ResourceLocation("minefantasy2:textures/gui/knowledge/knowledge.png");
+    protected static int field_146555_f = 256;
+    protected static int field_146557_g = 202;
+    protected static int field_146563_h;
+    protected static int field_146564_i;
+    protected static float field_146570_r = 1.0F;
+    protected static double field_146569_s;
+    protected static double field_146568_t;
+    protected static double field_146567_u;
+    protected static double field_146566_v;
+    protected static double field_146565_w;
+    protected static double field_146573_x;
+    private static int field_146554_D;
+    private static boolean allDiscovered = true;
 
     private static int currentPage = -1;
     private GuiButton button;
@@ -76,8 +68,8 @@ public class GuiKnowledge extends GuiScreen
     	this.player = user;
         short short1 = 141;
         short short2 = 141;
-        this.field_146569_s = this.field_146567_u = this.field_146565_w = (double)(KnowledgeListMF.gettingStarted.displayColumn * 24 - short1 / 2 - 12);
-        this.field_146568_t = this.field_146566_v = this.field_146573_x = (double)(KnowledgeListMF.gettingStarted.displayRow * 24 - short2 / 2);
+        GuiKnowledge.field_146569_s = GuiKnowledge.field_146567_u = GuiKnowledge.field_146565_w = KnowledgeListMF.gettingStarted.displayColumn * 24 - short1 / 2 - 12;
+        GuiKnowledge.field_146568_t = GuiKnowledge.field_146566_v = GuiKnowledge.field_146573_x = KnowledgeListMF.gettingStarted.displayRow * 24 - short2 / 2;
         informationList.clear();
         for (Object achievement : InformationList.knowledgeList)
         {
@@ -86,7 +78,7 @@ public class GuiKnowledge extends GuiScreen
                 informationList.add((InformationBase)achievement);
             }
         }
-        for(Object base: informationList.toArray())
+        for(Object base: InformationList.knowledgeList.toArray())
         {
         	if(!ResearchLogic.hasInfoUnlocked(user, (InformationBase)base))
         	{
@@ -99,9 +91,9 @@ public class GuiKnowledge extends GuiScreen
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
+    @Override
+	public void initGui()
     {
-        this.mc.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.REQUEST_STATS));
         this.buttonList.clear();
         this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.format("gui.done", new Object[0])));
         this.buttonList.add(button = new GuiButton(2, (width - field_146555_f) / 2 + 24, height / 2 + 74, 125, 20, InformationPage.getTitle(currentPage)));
@@ -112,11 +104,18 @@ public class GuiKnowledge extends GuiScreen
     {
     	if(button == 0 && highlighted != null)
     	{
+    		if(ResearchLogic.hasInfoUnlocked(player, highlighted) && !highlighted.getPages().isEmpty())
+    		{
+    			player.openGui(MineFantasyII.instance, 1, player.worldObj, 0, highlighted.ID, 0);
+    		}
+    		
+    		else
     		((EntityClientPlayerMP)player).sendQueue.addToSendQueue(new ResearchRequest(player, highlighted.ID).generatePacket());
     	}
     	super.mouseClicked(x, y, button);
     }
-    protected void actionPerformed(GuiButton p_146284_1_)
+    @Override
+	protected void actionPerformed(GuiButton p_146284_1_)
     {
         if (p_146284_1_.id == 1)
         {
@@ -137,7 +136,8 @@ public class GuiKnowledge extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char p_73869_1_, int p_73869_2_)
+    @Override
+	protected void keyTyped(char p_73869_1_, int p_73869_2_)
     {
         if (p_73869_2_ == this.mc.gameSettings.keyBindInventory.getKeyCode())
         {
@@ -153,86 +153,87 @@ public class GuiKnowledge extends GuiScreen
     /**
      * Draws the screen and all the components in it.
      */
-    public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
+    @Override
+	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
     {
         {
             int k;
 
             if (Mouse.isButtonDown(0))
             {
-                k = (this.width - this.field_146555_f) / 2;
-                int l = (this.height - this.field_146557_g) / 2;
+                k = (this.width - GuiKnowledge.field_146555_f) / 2;
+                int l = (this.height - GuiKnowledge.field_146557_g) / 2;
                 int i1 = k + 8;
                 int j1 = l + 17;
 
-                if ((this.field_146554_D == 0 || this.field_146554_D == 1) && p_73863_1_ >= i1 && p_73863_1_ < i1 + 224 && p_73863_2_ >= j1 && p_73863_2_ < j1 + 155)
+                if ((GuiKnowledge.field_146554_D == 0 || GuiKnowledge.field_146554_D == 1) && p_73863_1_ >= i1 && p_73863_1_ < i1 + 224 && p_73863_2_ >= j1 && p_73863_2_ < j1 + 155)
                 {
-                    if (this.field_146554_D == 0)
+                    if (GuiKnowledge.field_146554_D == 0)
                     {
-                        this.field_146554_D = 1;
+                        GuiKnowledge.field_146554_D = 1;
                     }
                     else
                     {
-                        this.field_146567_u -= (double)((float)(p_73863_1_ - this.field_146563_h) * this.field_146570_r);
-                        this.field_146566_v -= (double)((float)(p_73863_2_ - this.field_146564_i) * this.field_146570_r);
-                        this.field_146565_w = this.field_146569_s = this.field_146567_u;
-                        this.field_146573_x = this.field_146568_t = this.field_146566_v;
+                        GuiKnowledge.field_146567_u -= (p_73863_1_ - GuiKnowledge.field_146563_h) * GuiKnowledge.field_146570_r;
+                        GuiKnowledge.field_146566_v -= (p_73863_2_ - GuiKnowledge.field_146564_i) * GuiKnowledge.field_146570_r;
+                        GuiKnowledge.field_146565_w = GuiKnowledge.field_146569_s = GuiKnowledge.field_146567_u;
+                        GuiKnowledge.field_146573_x = GuiKnowledge.field_146568_t = GuiKnowledge.field_146566_v;
                     }
 
-                    this.field_146563_h = p_73863_1_;
-                    this.field_146564_i = p_73863_2_;
+                    GuiKnowledge.field_146563_h = p_73863_1_;
+                    GuiKnowledge.field_146564_i = p_73863_2_;
                 }
             }
             else
             {
-                this.field_146554_D = 0;
+                GuiKnowledge.field_146554_D = 0;
             }
 
             k = Mouse.getDWheel();
-            float f4 = this.field_146570_r;
+            float f4 = GuiKnowledge.field_146570_r;
 
             if (k < 0)
             {
-                this.field_146570_r += 0.25F;
+                GuiKnowledge.field_146570_r += 0.25F;
             }
             else if (k > 0)
             {
-                this.field_146570_r -= 0.25F;
+                GuiKnowledge.field_146570_r -= 0.25F;
             }
 
-            this.field_146570_r = MathHelper.clamp_float(this.field_146570_r, 1.0F, 3.0F);
+            GuiKnowledge.field_146570_r = MathHelper.clamp_float(GuiKnowledge.field_146570_r, 1.0F, 3.0F);
 
-            if (this.field_146570_r != f4)
+            if (GuiKnowledge.field_146570_r != f4)
             {
-                float f6 = f4 - this.field_146570_r;
-                float f5 = f4 * (float)this.field_146555_f;
-                float f1 = f4 * (float)this.field_146557_g;
-                float f2 = this.field_146570_r * (float)this.field_146555_f;
-                float f3 = this.field_146570_r * (float)this.field_146557_g;
-                this.field_146567_u -= (double)((f2 - f5) * 0.5F);
-                this.field_146566_v -= (double)((f3 - f1) * 0.5F);
-                this.field_146565_w = this.field_146569_s = this.field_146567_u;
-                this.field_146573_x = this.field_146568_t = this.field_146566_v;
+                float f6 = f4 - GuiKnowledge.field_146570_r;
+                float f5 = f4 * GuiKnowledge.field_146555_f;
+                float f1 = f4 * GuiKnowledge.field_146557_g;
+                float f2 = GuiKnowledge.field_146570_r * GuiKnowledge.field_146555_f;
+                float f3 = GuiKnowledge.field_146570_r * GuiKnowledge.field_146557_g;
+                GuiKnowledge.field_146567_u -= (f2 - f5) * 0.5F;
+                GuiKnowledge.field_146566_v -= (f3 - f1) * 0.5F;
+                GuiKnowledge.field_146565_w = GuiKnowledge.field_146569_s = GuiKnowledge.field_146567_u;
+                GuiKnowledge.field_146573_x = GuiKnowledge.field_146568_t = GuiKnowledge.field_146566_v;
             }
 
-            if (this.field_146565_w < (double)field_146572_y)
+            if (GuiKnowledge.field_146565_w < field_146572_y)
             {
-                this.field_146565_w = (double)field_146572_y;
+                GuiKnowledge.field_146565_w = field_146572_y;
             }
 
-            if (this.field_146573_x < (double)field_146571_z)
+            if (GuiKnowledge.field_146573_x < field_146571_z)
             {
-                this.field_146573_x = (double)field_146571_z;
+                GuiKnowledge.field_146573_x = field_146571_z;
             }
 
-            if (this.field_146565_w >= (double)field_146559_A)
+            if (GuiKnowledge.field_146565_w >= field_146559_A)
             {
-                this.field_146565_w = (double)(field_146559_A - 1);
+                GuiKnowledge.field_146565_w = field_146559_A - 1;
             }
 
-            if (this.field_146573_x >= (double)field_146560_B)
+            if (GuiKnowledge.field_146573_x >= field_146560_B)
             {
-                this.field_146573_x = (double)(field_146560_B - 1);
+                GuiKnowledge.field_146573_x = field_146560_B - 1;
             }
 
             this.drawDefaultBackground();
@@ -248,42 +249,43 @@ public class GuiKnowledge extends GuiScreen
     /**
      * Called from the main game loop to update the screen.
      */
-    public void updateScreen()
+    @Override
+	public void updateScreen()
     {
         {
-            this.field_146569_s = this.field_146567_u;
-            this.field_146568_t = this.field_146566_v;
-            double d0 = this.field_146565_w - this.field_146567_u;
-            double d1 = this.field_146573_x - this.field_146566_v;
+            GuiKnowledge.field_146569_s = GuiKnowledge.field_146567_u;
+            GuiKnowledge.field_146568_t = GuiKnowledge.field_146566_v;
+            double d0 = GuiKnowledge.field_146565_w - GuiKnowledge.field_146567_u;
+            double d1 = GuiKnowledge.field_146573_x - GuiKnowledge.field_146566_v;
 
             if (d0 * d0 + d1 * d1 < 4.0D)
             {
-                this.field_146567_u += d0;
-                this.field_146566_v += d1;
+                GuiKnowledge.field_146567_u += d0;
+                GuiKnowledge.field_146566_v += d1;
             }
             else
             {
-                this.field_146567_u += d0 * 0.85D;
-                this.field_146566_v += d1 * 0.85D;
+                GuiKnowledge.field_146567_u += d0 * 0.85D;
+                GuiKnowledge.field_146566_v += d1 * 0.85D;
             }
         }
     }
 
     protected void func_146553_h()
     {
-        int i = (this.width - this.field_146555_f) / 2;
-        int j = (this.height - this.field_146557_g) / 2;
+        int i = (this.width - GuiKnowledge.field_146555_f) / 2;
+        int j = (this.height - GuiKnowledge.field_146557_g) / 2;
         int pts = ResearchLogic.getKnowledgePoints(player);
         
         this.fontRendererObj.drawString(I18n.format("gui.information", new Object[0]), i + 15, j + 5, 4210752);
-        if(!this.allDiscovered)
+        if(!GuiKnowledge.allDiscovered)
         this.fontRendererObj.drawStringWithShadow(StatCollector.translateToLocalFormatted("gui.knowledgePoints", pts), i + 20, j + 158, 16777215);
     }
 
     protected void func_146552_b(int p_146552_1_, int p_146552_2_, float p_146552_3_)
     {
-        int k = MathHelper.floor_double(this.field_146569_s + (this.field_146567_u - this.field_146569_s) * (double)p_146552_3_);
-        int l = MathHelper.floor_double(this.field_146568_t + (this.field_146566_v - this.field_146568_t) * (double)p_146552_3_);
+        int k = MathHelper.floor_double(GuiKnowledge.field_146569_s + (GuiKnowledge.field_146567_u - GuiKnowledge.field_146569_s) * p_146552_3_);
+        int l = MathHelper.floor_double(GuiKnowledge.field_146568_t + (GuiKnowledge.field_146566_v - GuiKnowledge.field_146568_t) * p_146552_3_);
 
         if (k < field_146572_y)
         {
@@ -305,15 +307,15 @@ public class GuiKnowledge extends GuiScreen
             l = field_146560_B - 1;
         }
 
-        int i1 = (this.width - this.field_146555_f) / 2;
-        int j1 = (this.height - this.field_146557_g) / 2;
+        int i1 = (this.width - GuiKnowledge.field_146555_f) / 2;
+        int j1 = (this.height - GuiKnowledge.field_146557_g) / 2;
         int k1 = i1 + 16;
         int l1 = j1 + 17;
         this.zLevel = 0.0F;
         GL11.glDepthFunc(GL11.GL_GEQUAL);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)k1, (float)l1, -200.0F);
-        GL11.glScalef(1.0F / this.field_146570_r, 1.0F / this.field_146570_r, 0.0F);
+        GL11.glTranslatef(k1, l1, -200.0F);
+        GL11.glScalef(1.0F / GuiKnowledge.field_146570_r, 1.0F / GuiKnowledge.field_146570_r, 0.0F);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -328,20 +330,20 @@ public class GuiKnowledge extends GuiScreen
         boolean flag3 = true;
         boolean flag4 = true;
         Random random = new Random();
-        float f1 = 16.0F / this.field_146570_r;
-        float f2 = 16.0F / this.field_146570_r;
+        float f1 = 16.0F / GuiKnowledge.field_146570_r;
+        float f2 = 16.0F / GuiKnowledge.field_146570_r;
         int i3;
         int j3;
         int k3;
 
-        for (i3 = 0; (float)i3 * f1 - (float)l2 < 155.0F; ++i3)
+        for (i3 = 0; i3 * f1 - l2 < 155.0F; ++i3)
         {
-            float f3 = 0.6F - (float)(j2 + i3) / 25.0F * 0.3F;
+            float f3 = 0.6F - (j2 + i3) / 25.0F * 0.3F;
             GL11.glColor4f(f3, f3, f3, 1.0F);
 
-            for (j3 = 0; (float)j3 * f2 - (float)k2 < 224.0F; ++j3)
+            for (j3 = 0; j3 * f2 - k2 < 224.0F; ++j3)
             {
-                random.setSeed((long)(this.mc.getSession().getPlayerID().hashCode() + i2 + j3 + (j2 + i3) * 16));
+                random.setSeed(this.mc.getSession().getPlayerID().hashCode() + i2 + j3 + (j2 + i3) * 16);
                 k3 = random.nextInt(1 + j2 + i3) + (j2 + i3) / 2;
                 IIcon iicon = Blocks.sand.getIcon(0, 0);
 
@@ -445,8 +447,8 @@ public class GuiKnowledge extends GuiScreen
 
         InformationBase achievement = null;
         RenderItem renderitem = new RenderItem();
-        float f4 = (float)(p_146552_1_ - k1) * this.field_146570_r;
-        float f5 = (float)(p_146552_2_ - l1) * this.field_146570_r;
+        float f4 = (p_146552_1_ - k1) * GuiKnowledge.field_146570_r;
+        float f5 = (p_146552_2_ - l1) * GuiKnowledge.field_146570_r;
         RenderHelper.enableGUIStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -456,11 +458,11 @@ public class GuiKnowledge extends GuiScreen
 
         for (l4 = 0; l4 < achievementList.size(); ++l4)
         {
-        	InformationBase achievement2 = (InformationBase)achievementList.get(l4);
+        	InformationBase achievement2 = achievementList.get(l4);
             i5 = achievement2.displayColumn * 24 - k;
             j5 = achievement2.displayRow * 24 - l;
 
-            if (i5 >= -24 && j5 >= -24 && (float)i5 <= 224.0F * this.field_146570_r && (float)j5 <= 155.0F * this.field_146570_r)
+            if (i5 >= -24 && j5 >= -24 && i5 <= 224.0F * GuiKnowledge.field_146570_r && j5 <= 155.0F * GuiKnowledge.field_146570_r)
             {
                 researchVisibility = ResearchLogic.func_150874_c(player, achievement2);
                 float f6;
@@ -533,7 +535,7 @@ public class GuiKnowledge extends GuiScreen
 
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-                if (f4 >= (float)i5 && f4 <= (float)(i5 + 22) && f5 >= (float)j5 && f5 <= (float)(j5 + 22))
+                if (f4 >= i5 && f4 <= i5 + 22 && f5 >= j5 && f5 <= j5 + 22)
                 {
                     achievement = achievement2;
                 }
@@ -545,7 +547,7 @@ public class GuiKnowledge extends GuiScreen
         GL11.glPopMatrix();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(screenTex);
-        this.drawTexturedModalRect(i1, j1, 0, 0, this.field_146555_f, this.field_146557_g);
+        this.drawTexturedModalRect(i1, j1, 0, 0, GuiKnowledge.field_146555_f, GuiKnowledge.field_146557_g);
         this.zLevel = 0.0F;
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -626,7 +628,8 @@ public class GuiKnowledge extends GuiScreen
     /**
      * Returns true if this GUI should pause the game when it is displayed in single-player
      */
-    public boolean doesGuiPauseGame()
+    @Override
+	public boolean doesGuiPauseGame()
     {
         return false;
     }

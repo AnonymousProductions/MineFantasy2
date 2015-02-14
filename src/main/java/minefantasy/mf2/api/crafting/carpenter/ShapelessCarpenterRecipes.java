@@ -51,7 +51,8 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
         this.soundOfCraft = sound;
     }
 
-    public ItemStack getRecipeOutput()
+    @Override
+	public ItemStack getRecipeOutput()
     {
         return this.recipeOutput;
     }
@@ -59,7 +60,8 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
     /**
      * Used to check if a recipe matches current crafting inventory
      */
-    public boolean matches(InventoryCrafting par1InventoryCrafting)
+    @Override
+	public boolean matches(InventoryCrafting par1InventoryCrafting)
     {
         ArrayList var2 = new ArrayList(this.recipeItems);
 
@@ -119,7 +121,8 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
     /**
      * Returns an Item that is the result of this recipe
      */
-    public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
+    @Override
+	public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
     {
         return this.recipeOutput.copy();
     }
@@ -127,7 +130,8 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
     /**
      * Returns the size of the recipe area
      */
-    public int getRecipeSize()
+    @Override
+	public int getRecipeSize()
     {
         return this.recipeItems.size();
     }

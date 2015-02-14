@@ -18,11 +18,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiAnvilMF extends GuiContainer
 {
     private TileEntityAnvilMF tile;
-
+    private int regularXSize = 176;
+    private int xInvOffset = 28;
+    
     public GuiAnvilMF(InventoryPlayer user, TileEntityAnvilMF tile)
     {
         super(new ContainerAnvilMF(user, tile));
-        this.ySize = 198;
+        this.xSize = 235;
+        this.ySize = 210;
         this.tile = tile;
     }
 
@@ -34,7 +37,7 @@ public class GuiAnvilMF extends GuiContainer
     {
     	boolean knowsCraft = tile.doesPlayerKnowCraft(mc.thePlayer);
     	String s = MineFantasyII.isDebug() ? "Anvil Crafting" : knowsCraft ? StatCollector.translateToLocal(tile.getResultName()) : "????";
-        this.fontRendererObj.drawString(s, 10, 6, 0);
+        this.fontRendererObj.drawString(s, 10+xInvOffset, 8, 0);
         
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;
@@ -46,13 +49,13 @@ public class GuiAnvilMF extends GuiContainer
 		        if(x < xPoint && x > xPoint-20 && y < yPoint+20 && y > yPoint)
 		        {
 		        	String s2 = StatCollector.translateToLocal("tooltype."+tile.getToolNeeded()) + ", "  + (tile.getToolTierNeeded() > -1 ? StatCollector.translateToLocal("attribute.mfcrafttier.name") + " " + tile.getToolTierNeeded() : StatCollector.translateToLocal("attribute.nomfcrafttier.name"));
-		        	this.fontRendererObj.drawStringWithShadow(s2, -18, -12, 16777215);
+		        	this.fontRendererObj.drawStringWithShadow(s2, -18+xInvOffset, -12, 16777215);
 		        }
 	        }
-	        if(x < xPoint+xSize+20 && x > xPoint+xSize && y < yPoint+20 && y > yPoint)
+	        if(x < xPoint+regularXSize+20 && x > xPoint+regularXSize && y < yPoint+20 && y > yPoint)
 	        {
 	        	String s2 = StatCollector.translateToLocal("tooltype.anvil") + ", " + (tile.getAnvilTierNeeded() > -1 ? StatCollector.translateToLocal("attribute.mfcrafttier.name") + " " + tile.getAnvilTierNeeded() : StatCollector.translateToLocal("attribute.nomfcrafttier.name"));
-	        	this.fontRendererObj.drawStringWithShadow(s2, xSize-fontRendererObj.getStringWidth(s2)+18, -12, 16777215);
+	        	this.fontRendererObj.drawStringWithShadow(s2, regularXSize-fontRendererObj.getStringWidth(s2)+18+xInvOffset, -12, 16777215);
 	        }
         }
     }
@@ -61,7 +64,7 @@ public class GuiAnvilMF extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float f, int x, int y)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(TextureHelperMF.getResource("textures/gui/anvil.png"));
+        this.mc.getTextureManager().bindTexture(TextureHelperMF.getResource("textures/gui/anvil"+tile.getTextureName()+".png"));
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPoint, yPoint, 0, 0, this.xSize, this.ySize);
@@ -69,15 +72,15 @@ public class GuiAnvilMF extends GuiContainer
         if(tile.progressMax > 0 && tile.progress > 0)
         {
         	int progressWidth = (int)(160F/tile.progressMax*tile.progress);
-        	this.drawTexturedModalRect(xPoint+8, yPoint+22, 0, 198, progressWidth, 3);
+        	this.drawTexturedModalRect(xPoint+8+xInvOffset, yPoint+21, 0, 210, progressWidth, 3);
         }
         if(tile.doesPlayerKnowCraft(mc.thePlayer) && !tile.resName.equalsIgnoreCase(""))
         {
-        	GuiHelper.renderToolIcon(this, "anvil", tile.getAnvilTierNeeded(), xPoint+xSize, yPoint);
+        	GuiHelper.renderToolIcon(this, "anvil", tile.getAnvilTierNeeded(), xPoint+regularXSize+xInvOffset, yPoint);
         	
 	        if(tile.getToolNeeded() != null)
 	        {
-	        	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPoint-20, yPoint);
+	        	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPoint-20+xInvOffset, yPoint);
 	        }
         }
     }

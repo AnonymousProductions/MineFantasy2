@@ -9,6 +9,7 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.EntityHelper;
+import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -40,6 +41,7 @@ import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemFood;
@@ -47,7 +49,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -57,13 +58,14 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public class EventManagerMF
 {
@@ -481,7 +483,7 @@ public class EventManagerMF
 			String s = StatCollector.translateToLocal("attribute.weapon.cutting");
 			if(cutting < 100)
 			{
-				s += " " + (int)cutting + "%";
+				s += " " + cutting + "%";
 			}
 			list.add(s);
 		}
@@ -490,7 +492,7 @@ public class EventManagerMF
 			String s = StatCollector.translateToLocal("attribute.weapon.blunt");
 			if(blunt < 100)
 			{
-				s += " " + (int)blunt + "%";
+				s += " " + blunt + "%";
 			}
 			list.add(s);
 		}
@@ -551,13 +553,13 @@ public class EventManagerMF
 	{
 		if (itemstack != null)
         {
-            float f = this.rand .nextFloat() * 0.8F + 0.1F;
-            float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
-            float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
+            float f = EventManagerMF.rand .nextFloat() * 0.8F + 0.1F;
+            float f1 = EventManagerMF.rand.nextFloat() * 0.8F + 0.1F;
+            float f2 = EventManagerMF.rand.nextFloat() * 0.8F + 0.1F;
 
             while (itemstack.stackSize > 0)
             {
-                int j1 = this.rand.nextInt(21) + 10;
+                int j1 = EventManagerMF.rand.nextInt(21) + 10;
 
                 if (j1 > itemstack.stackSize)
                 {
@@ -565,7 +567,7 @@ public class EventManagerMF
                 }
 
                 itemstack.stackSize -= j1;
-                EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                EntityItem entityitem = new EntityItem(world, (float)x + f, (float)y + f1, (float)z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                 if (itemstack.hasTagCompound())
                 {
@@ -573,9 +575,9 @@ public class EventManagerMF
                 }
 
                 float f3 = 0.05F;
-                entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
-                entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
-                entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                entityitem.motionX = (float)EventManagerMF.rand.nextGaussian() * f3;
+                entityitem.motionY = (float)EventManagerMF.rand.nextGaussian() * f3 + 0.2F;
+                entityitem.motionZ = (float)EventManagerMF.rand.nextGaussian() * f3;
                 world.spawnEntityInWorld(entityitem);
             }
         }
@@ -634,9 +636,8 @@ public class EventManagerMF
 		}
 		tickHitSpeeds(event.entityLiving);
 		
-		if(event.entity.ticksExisted == 1 && event.entity instanceof EntityPlayer && !event.entity.worldObj.isRemote && !event.entity.getEntityData().hasKey("MF_HasSyncedResearch"))
+		if(event.entity.ticksExisted == 1 && event.entity instanceof EntityPlayer && !event.entity.worldObj.isRemote)
 		{
-			ResearchLogic.syncData((EntityPlayer) event.entity);
 		}
 	}
 	public static void tickHitSpeeds(EntityLivingBase user)
@@ -687,21 +688,29 @@ public class EventManagerMF
 		}
 	}
 	
-	private int xpToKnowledge = 25;
     @SubscribeEvent
     public void pickupXP(PlayerPickupXpEvent event)
     {
     	if(event.orb.worldObj.isRemote)return;
-    	
-    	int value = event.orb.xpValue;
-    	int playervalue = event.entityPlayer.getEntityData().getInteger("MF_XpToNextKnowledge") + value;
-    	event.entityPlayer.getEntityData().setInteger("MF_XpToNextKnowledge", playervalue);
-    	
-    	if(playervalue >= xpToKnowledge)
+    	ResearchLogic.addKnowledgeExperience(event.entityPlayer, event.orb.xpValue);
+    }
+    
+    @SubscribeEvent
+    public void startUseItem(PlayerUseItemEvent.Start event)
+    {
+    	EntityPlayer player = event.entityPlayer;
+    	if(event.item.getItemUseAction() == EnumAction.block)
     	{
-    		ResearchLogic.modifyKnowledgePoints(event.entityPlayer, 1);
-    		event.entityPlayer.worldObj.playSoundAtEntity(event.entity, "random.orb", 0.5F, 0.5F);
-    		event.entityPlayer.getEntityData().setInteger("MF_XpToNextKnowledge", playervalue - xpToKnowledge);
+    		if((StaminaBar.isSystemActive && TacticalManager.shouldStaminaBlock  && !StaminaBar.isAnyStamina(player, false)) || !CombatMechanics.isParryAvailable(player))
+    		{
+    			event.setCanceled(true);
+    		}
     	}
     }
+
+	private boolean canItemBlock(ItemStack item)
+	{
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

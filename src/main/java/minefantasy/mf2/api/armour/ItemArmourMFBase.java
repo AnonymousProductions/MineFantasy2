@@ -44,7 +44,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		design = AD;
 		suitBulk = design.getBulk();
 		texture = tex;
-		float baseDura = (float)material.durability * design.getDurability()/2F;
+		float baseDura = material.durability * design.getDurability()/2F;
 		float dura = baseDura /2F + (baseDura /2F * ArmourCalculator.sizes[slot] / ArmourCalculator.sizes[1]);
 		this.setMaxDamage((int)dura);
 		this.setUnlocalizedName(name);
@@ -195,14 +195,14 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
         		float percent = (ratio / getProtectionRatio())-1F;
                 list.add(EnumChatFormatting.RED+
                         StatCollector.translateToLocalFormatted("attribute.modifier.take."+ 1,
-                                decimal_format.format(-(float)percent * 100),
+                                decimal_format.format(-percent * 100),
                                         StatCollector.translateToLocal("attribute.armour."+name)));
             }else
             {
             	float percent = (ratio / getProtectionRatio())-1F;
                 list.add(EnumChatFormatting.DARK_GREEN+
                         StatCollector.translateToLocalFormatted("attribute.modifier.plus."+ 1,
-                                decimal_format.format((float)percent * 100),
+                                decimal_format.format(percent * 100),
                                         StatCollector.translateToLocal("attribute.armour."+name)));
             }
         }

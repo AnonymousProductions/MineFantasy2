@@ -1,12 +1,16 @@
 package minefantasy.mf2.recipe;
 
+import java.util.HashMap;
+
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -18,6 +22,15 @@ public class BasicRecipesMF
 		ForgingRecipes.init();
 		CarpenterRecipes.init();
 		
+		GameRegistry.addRecipe(new ItemStack(ToolListMF.researchBook), new Object[]
+		{
+			"H",
+			"B",
+			"B",
+			'H', ToolListMF.hammers[2],
+			'B', Items.book,
+		});
+
 		GameRegistry.addRecipe(new RecipeArmourDyeMF());
 		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.blackpowder, 4), new Object[]
 		{
@@ -86,21 +99,25 @@ public class BasicRecipesMF
 				});
 			}
 		}
+		IRecipe[] anvilRecs = new IRecipe[BlockListMF.anvils.length];
 		for(int id = 1; id < BlockListMF.anvils.length; id ++)
 		{
 			BaseMaterialMF material = BlockListMF.anvils[id];
 			
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{
-				GameRegistry.addRecipe(new ItemStack(BlockListMF.anvil[id]), new Object[]
+				IRecipe recipe = 
+				GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.anvil[id]), new Object[]
 				{
 					" II",
 					"III",
 					" I ",
 					'I', ingot
 				});
+				anvilRecs[id] = recipe;
 			}
 		}
+		recipeMap.put("anvilCrafting", anvilRecs);
 		
 		GameRegistry.addRecipe(new ItemStack(BlockListMF.bombBench), new Object[]
 		{
@@ -111,4 +128,5 @@ public class BasicRecipesMF
 			'I', Items.iron_ingot,
 		});
 	}
+	public static final HashMap<String, IRecipe[]>recipeMap = new HashMap<String, IRecipe[]>();
 }

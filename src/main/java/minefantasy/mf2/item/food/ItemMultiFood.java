@@ -21,6 +21,7 @@ public class ItemMultiFood extends ItemFoodMF
 		setMaxDamage(bites-1);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int damage)
     {
@@ -46,6 +47,7 @@ public class ItemMultiFood extends ItemFoodMF
 		return food;
     }
 	
+	@Override
 	@SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register)
     {

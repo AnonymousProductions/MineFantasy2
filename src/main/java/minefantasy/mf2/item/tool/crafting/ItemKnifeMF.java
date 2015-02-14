@@ -72,6 +72,7 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 		return "knife";
 	}
 	
+	@Override
 	public boolean canBlock() 
 	{
 		return false;

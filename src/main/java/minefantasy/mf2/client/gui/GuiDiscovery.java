@@ -68,7 +68,7 @@ public class GuiDiscovery extends Gui
         GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0.0D, (double)this.field_146260_g, (double)this.field_146267_h, 0.0D, 1000.0D, 3000.0D);
+        GL11.glOrtho(0.0D, this.field_146260_g, this.field_146267_h, 0.0D, 1000.0D, 3000.0D);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glLoadIdentity();
         GL11.glTranslatef(0.0F, 0.0F, -2000.0F);
@@ -78,7 +78,7 @@ public class GuiDiscovery extends Gui
     {
         if (this.field_146266_k != null && this.field_146263_l != 0L && Minecraft.getMinecraft().thePlayer != null)
         {
-            double d0 = (double)(Minecraft.getSystemTime() - this.field_146263_l) / 3000.0D;
+            double d0 = (Minecraft.getSystemTime() - this.field_146263_l) / 3000.0D;
 
             if (!this.field_146262_n)
             {

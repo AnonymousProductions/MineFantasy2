@@ -66,12 +66,14 @@ public class ContainerBombBench extends Container
         }
     }
     
-    public boolean canInteractWith(EntityPlayer p_75145_1_)
+    @Override
+	public boolean canInteractWith(EntityPlayer p_75145_1_)
     {
         return this.tile.isUseableByPlayer(p_75145_1_);
     }
     
-    public ItemStack transferStackInSlot(EntityPlayer user, int currentSlot)
+    @Override
+	public ItemStack transferStackInSlot(EntityPlayer user, int currentSlot)
     {
     	int slotCount = tile.getSizeInventory();
         ItemStack itemstack = null;

@@ -8,7 +8,6 @@ import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvil;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
 import minefantasy.mf2.api.helpers.ToolHelper;
-import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.container.ContainerAnvilMF;
 import minefantasy.mf2.network.packet.AnvilPacket;
@@ -247,6 +246,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			{
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, 1.0F);
 				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem());
+				float toolEfficiency = efficiency;
 				
 				if(user.swingProgress > 0 && user.swingProgress <= 1.0)
 				{
@@ -256,6 +256,9 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				progress += Math.max(0.2F, efficiency);
 				if(progress >= progressMax)
 				{
+					float xpGained = progressMax / toolEfficiency;
+					MineFantasyII.debugMsg("Completed Craft: KPE Gained: " + (int)xpGained);
+					ResearchLogic.addKnowledgeExperience(user, xpGained);
 					craftItem();
 				}
 			}
@@ -265,9 +268,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			}
 			lastPlayerHit = user.getCommandSenderName();
 			updateInv();
-			
-			if(rand.nextInt(20) == 0 && user.swingProgress <= 0.2F)
-			ResearchLogic.modifyKnowledgePoints(user, 1);
 			
 			return true;
 		}
@@ -329,7 +329,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
                 }
 
                 itemstack.stackSize -= j1;
-                EntityItem entityitem = new EntityItem(worldObj, (double)((float)xCoord + f), (double)((float)yCoord + f1), (double)((float)zCoord + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                EntityItem entityitem = new EntityItem(worldObj, xCoord + f, yCoord + f1, zCoord + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                 if (itemstack.hasTagCompound())
                 {
@@ -337,9 +337,9 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
                 }
 
                 float f3 = 0.05F;
-                entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
-                entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
-                entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                entityitem.motionX = (float)this.rand.nextGaussian() * f3;
+                entityitem.motionY = (float)this.rand.nextGaussian() * f3 + 0.2F;
+                entityitem.motionZ = (float)this.rand.nextGaussian() * f3;
                 worldObj.spawnEntityInWorld(entityitem);
             }
         }
@@ -532,7 +532,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	}
 	public int getProgressBar(int i)
 	{
-		return (int)Math.ceil((float)i / progressMax * progress);
+		return (int)Math.ceil(i / progressMax * progress);
 	}
 	@Override
 	public void setToolType(String toolType)
@@ -557,7 +557,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			TileEntityBeacon beacon = (TileEntityBeacon)tile;
 			if(beacon.getLevels() > 0)
 			{
-				MineFantasyII.debugMsg("Beacon Found: " + worldObj.isRemote);
 				return true;
 			}
 		}

@@ -45,6 +45,7 @@ public abstract class ItemHeavyWeapon extends ItemWeaponMF
 	/**
 	 * Gets the angle the weapon can parry
 	 */
+	@Override
 	public float getParryAngleModifier(EntityLivingBase user) 
 	{
 		return 1.0F;

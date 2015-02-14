@@ -73,7 +73,7 @@ public class BlockCakeMF extends Block
     	int slices = world.getBlockMetadata(x, y, z);
         float border = 0.0625F;
         float size = border + (slices / (float)maxSlices) * (1.0F-(border*2));
-        return AxisAlignedBB.getBoundingBox((double)((float)x + size), (double)y, (double)((float)z + border), (double)((float)(x + 1) - border), (double)((float)y + height - border), (double)((float)(z + 1) - border));
+        return AxisAlignedBB.getBoundingBox(x + size, y, z + border, x + 1 - border, y + height - border, z + 1 - border);
     }
 
     /**
@@ -86,7 +86,7 @@ public class BlockCakeMF extends Block
     	int slices = world.getBlockMetadata(x, y, z);
         float border = 0.0625F;
         float size = border + (slices / (float)maxSlices) * (1.0F-(border*2));
-        return AxisAlignedBB.getBoundingBox((double)((float)x + size), (double)y, (double)((float)z + border), (double)((float)(x + 1) - border), (double)((float)y + height), (double)((float)(z + 1) - border));
+        return AxisAlignedBB.getBoundingBox(x + size, y, z + border, x + 1 - border, y + height, z + 1 - border);
     }
 
     /**
@@ -112,7 +112,8 @@ public class BlockCakeMF extends Block
     /**
      * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
      */
-    public boolean renderAsNormalBlock()
+    @Override
+	public boolean renderAsNormalBlock()
     {
         return false;
     }
@@ -121,7 +122,8 @@ public class BlockCakeMF extends Block
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
      * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
      */
-    public boolean isOpaqueCube()
+    @Override
+	public boolean isOpaqueCube()
     {
         return false;
     }

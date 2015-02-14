@@ -322,7 +322,7 @@ public class BattlegearUtils {
                     {
                         if (i > 0)
                         {
-                            par1Entity.addVelocity((double)(-MathHelper.sin(player.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(player.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
+                            par1Entity.addVelocity(-MathHelper.sin(player.rotationYaw * (float)Math.PI / 180.0F) * i * 0.5F, 0.1D, MathHelper.cos(player.rotationYaw * (float)Math.PI / 180.0F) * i * 0.5F);
                             player.motionX *= 0.6D;
                             player.motionZ *= 0.6D;
                             player.setSprinting(false);

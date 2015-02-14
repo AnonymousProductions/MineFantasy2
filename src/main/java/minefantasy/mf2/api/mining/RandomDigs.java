@@ -47,7 +47,7 @@ public class RandomDigs
 			while(list.hasNext())
 			{
 				RandomDigs ore = (RandomDigs) list.next();
-				if(matchesOre(ore, base, meta, harvest, (float)(fortune / 2F) + 1F, silktouch, y))
+				if(matchesOre(ore, base, meta, harvest, fortune / 2F + 1F, silktouch, y))
 				{
 					loot.add(ore.loot);
 				}
