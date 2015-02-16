@@ -188,7 +188,7 @@ public class BlockAnvilMF extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return CommonProxyMF.renderID;
+		return 100;
 	}
 	private Random rand = new Random();
 }

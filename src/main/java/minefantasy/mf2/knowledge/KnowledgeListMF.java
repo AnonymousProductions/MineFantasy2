@@ -1,7 +1,10 @@
 package minefantasy.mf2.knowledge;
 
+import java.util.ArrayList;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.InformationPage;
@@ -14,7 +17,7 @@ import net.minecraft.init.Items;
 public class KnowledgeListMF
 {
 	public static InformationPage smithing = InformationList.smithing;
-	public static InformationPage artifacting = InformationList.artifacting;
+	public static InformationPage construction = InformationList.construction;
 	public static InformationPage engineering = InformationList.engineering;
 	public static InformationPage cooking = InformationList.cooking;
 	public static InformationPage mastery = InformationList.mastery;
@@ -75,4 +78,12 @@ public class KnowledgeListMF
     public static void init()
 	{
 	}
+    
+    public static IAnvilRecipe dragonforgeIngotRecipe;
+    public static IAnvilRecipe blackSteelNuggetR;
+    public static final ArrayList<IAnvilRecipe> plateRecipes = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> plateHelmetR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> plateChestR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> plateLegsR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> plateBootsR = new ArrayList<IAnvilRecipe>();
 }

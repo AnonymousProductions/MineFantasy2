@@ -1,11 +1,11 @@
 package minefantasy.mf2.network;
 
+import minefantasy.mf2.api.helpers.ClientTickHandler;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.block.crafting.BlockAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
-import minefantasy.mf2.client.ClientTickHandler;
 import minefantasy.mf2.client.KnowledgePageRegistry;
 import minefantasy.mf2.client.gui.GuiAnvilMF;
 import minefantasy.mf2.client.gui.GuiBombBench;
@@ -23,6 +23,7 @@ import minefantasy.mf2.client.render.RenderMine;
 import minefantasy.mf2.client.render.RenderSaw;
 import minefantasy.mf2.client.render.RenderSpear;
 import minefantasy.mf2.client.render.RenderSword;
+import minefantasy.mf2.client.render.block.RenderAnvilMF;
 import minefantasy.mf2.client.render.block.TileEntityAnvilMFRenderer;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.entity.EntityBomb;
@@ -55,13 +56,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 /**
  * @author Anonymous Productions
  */
-public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderingHandler
+public class ClientProxyMF extends CommonProxyMF
 {
 
 	@Override
@@ -130,7 +132,8 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 		MinecraftForge.EVENT_BUS.register(new HudHandlerMF());
 		FMLCommonHandler.instance().bus().register(new ClientTickHandler());
 		
-		TileEntityRendererDispatcher.instance.mapSpecialRenderers.put(TileEntityAnvilMF.class, new TileEntityAnvilMFRenderer());
+		RenderingRegistry.registerBlockHandler(new RenderAnvilMF());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnvilMF.class, new TileEntityAnvilMFRenderer());
 	}
 	
 	public void registerEntityRenderer()
@@ -183,6 +186,7 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
         return null;
     }
 
+	/*
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 	{
@@ -213,4 +217,5 @@ public class ClientProxyMF extends CommonProxyMF implements ISimpleBlockRenderin
 		// TODO Auto-generated method stub
 		return renderID;
 	}
+	*/
 }

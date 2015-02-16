@@ -1,6 +1,7 @@
 package minefantasy.mf2.client.render;
 
 import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.item.archery.ItemBowMF;
 import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;

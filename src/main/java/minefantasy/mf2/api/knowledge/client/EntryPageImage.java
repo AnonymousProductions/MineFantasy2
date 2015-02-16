@@ -2,8 +2,8 @@ package minefantasy.mf2.api.knowledge.client;
 
 import org.lwjgl.opengl.GL11;
 
-import minefantasy.mf2.client.RenderHelper;
-import minefantasy.mf2.client.render.TextureHelperMF;
+import minefantasy.mf2.api.helpers.RenderHelper;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.StatCollector;

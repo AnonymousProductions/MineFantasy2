@@ -7,7 +7,7 @@ import java.util.List;
 public class InformationList
 {
 	public static InformationPage smithing = new InformationPage("infoPage.smithing").registerInfoPage();
-	public static InformationPage artifacting = new InformationPage("infoPage.artifacting").registerInfoPage();
+	public static InformationPage construction = new InformationPage("infoPage.construction").registerInfoPage();
 	public static InformationPage engineering = new InformationPage("infoPage.engineering").registerInfoPage();
 	public static InformationPage cooking = new InformationPage("infoPage.cooking").registerInfoPage();
 	public static InformationPage mastery = new InformationPage("infoPage.mastery").registerInfoPage();

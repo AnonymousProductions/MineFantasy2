@@ -1,6 +1,7 @@
 package minefantasy.mf2.client.render;
 
 import minefantasy.mf2.api.weapon.IParryable;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;

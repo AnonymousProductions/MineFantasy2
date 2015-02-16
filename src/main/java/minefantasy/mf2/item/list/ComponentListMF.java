@@ -71,6 +71,8 @@ public class ComponentListMF
 	public static Item vine = new ItemComponentMF("vine", -1);
 	public static Item sharp_rock = new ItemComponentMF("sharp_rock", -1);
 	public static ItemComponentMF[] arrowheads = new ItemComponentMF[ToolListMF.weaponMats.length];
+	public static ItemComponentMF[] bodkinheads = new ItemComponentMF[ToolListMF.weaponMats.length-1];
+	public static ItemComponentMF[] broadheads = new ItemComponentMF[ToolListMF.weaponMats.length-1];
 	
 	public static Item flux = new ItemComponentMF("flux", 0);
 	public static Item flux_strong = new ItemComponentMF("flux_strong", 0);
@@ -169,6 +171,14 @@ public class ComponentListMF
 			
 			arrowheads[a] = new ItemComponentMF(name+"_arrow_head", rarity);
 			OreDictionary.registerOre(name+"_arrow_head", arrowheads[a]);
+			if(a != 0)
+			{
+				bodkinheads[a-1] = new ItemComponentMF(name+"_bodkin_head", rarity);
+				OreDictionary.registerOre(name+"_bodkin_head", bodkinheads[a-1]);
+				
+				broadheads[a-1] = new ItemComponentMF(name+"_broad_head", rarity);
+				OreDictionary.registerOre(name+"_broad_head", broadheads[a-1]);
+			}
 		}
 		addRandomDrops();
 	}

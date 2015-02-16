@@ -100,7 +100,7 @@ public class BasicRecipesMF
 			}
 		}
 		IRecipe[] anvilRecs = new IRecipe[BlockListMF.anvils.length];
-		for(int id = 1; id < BlockListMF.anvils.length; id ++)
+		for(int id = 0; id < BlockListMF.anvils.length; id ++)
 		{
 			BaseMaterialMF material = BlockListMF.anvils[id];
 			

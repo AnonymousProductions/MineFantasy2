@@ -1,4 +1,4 @@
-package minefantasy.mf2.client;
+package minefantasy.mf2.api.helpers;
 
 import java.util.List;
 import java.util.Random;

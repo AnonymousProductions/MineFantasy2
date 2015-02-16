@@ -3,7 +3,7 @@ package minefantasy.mf2.client.render.block;
 import java.util.Random;
 
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
-import minefantasy.mf2.client.render.TextureHelperMF;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;

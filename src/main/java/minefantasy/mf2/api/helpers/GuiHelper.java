@@ -1,6 +1,6 @@
-package minefantasy.mf2.client.gui;
+package minefantasy.mf2.api.helpers;
 
-import minefantasy.mf2.client.render.TextureHelperMF;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
@@ -9,9 +9,14 @@ public class GuiHelper
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	public static void renderToolIcon(Gui screen, String toolType, int tier, int x, int y)
 	{
+		renderToolIcon(screen, toolType, tier, x, y, false);
+	}
+	public static void renderToolIcon(Gui screen, String toolType, int tier, int x, int y, boolean outline)
+	{
 		mc.getTextureManager().bindTexture(TextureHelperMF.getResource("textures/gui/icons.png"));
         int[] icon = getToolTypeIcon(toolType);
-        screen.drawTexturedModalRect(x, y, icon[0], icon[1], 20, 20);
+        screen.drawTexturedModalRect(x, y, outline ? 20 : 0, 0, 20, 20);
+        screen.drawTexturedModalRect(x, y, icon[0], icon[1]+20, 20, 20);
         if(tier > -1)
         mc.fontRenderer.drawStringWithShadow(""+tier, x + 4, y + 10, 16777215);
 	}

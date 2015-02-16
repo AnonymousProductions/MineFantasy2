@@ -3,7 +3,7 @@ package minefantasy.mf2.api.knowledge.client;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.client.render.TextureHelperMF;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -20,8 +20,6 @@ public class EntryPageCraft extends EntryPage
 	private IRecipe[] recipes = new IRecipe[]{};
 	public static int switchRate = 15;
 	private int recipeID;
-	public static final int universalBookImageWidth = 146;
-	public static final int universalBookImageHeight = 180;
 	
 	public EntryPageCraft(IRecipe... recipes)
 	{

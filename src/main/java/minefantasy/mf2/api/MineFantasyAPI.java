@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
+import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.knowledge.KnowledgeType;
 import net.minecraft.item.Item;
@@ -54,13 +55,13 @@ public class MineFantasyAPI
 	 * @param forgeTime The time taken to forge(default is 200. each hit is about 100)
 	 * @param input The input for the item (Exactly the same as regular recipes)
 	 */
-	public static void addAnvilRecipe(ItemStack result, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
+	public static IAnvilRecipe addAnvilRecipe(ItemStack result, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		CraftingManagerAnvil.getInstance().addRecipe(result, "", hot, 0F, toolType, hammerType, anvil, forgeTime, input);
+		return CraftingManagerAnvil.getInstance().addRecipe(result, "", hot, 0F, toolType, hammerType, anvil, forgeTime, input);
 	}
-	public static void addAnvilRecipe(ItemStack result, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
+	public static IAnvilRecipe addAnvilRecipe(ItemStack result, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		addAnvilRecipe(result, hot, "hammer", hammerType, anvil, forgeTime, input);
+		return addAnvilRecipe(result, hot, "hammer", hammerType, anvil, forgeTime, input);
 	}
 	
 	/**
@@ -76,13 +77,13 @@ public class MineFantasyAPI
 	 * @param forgeTime The time taken to forge(default is 200. each hit is about 100)
 	 * @param input The input for the item (Exactly the same as regular recipes)
 	 */
-	public static void addAnvilRecipe(ItemStack result, String research, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
+	public static IAnvilRecipe addAnvilRecipe(ItemStack result, String research, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		CraftingManagerAnvil.getInstance().addRecipe(result, research, hot, 0F, toolType, hammerType, anvil, forgeTime, input);
+		return CraftingManagerAnvil.getInstance().addRecipe(result, research, hot, 0F, toolType, hammerType, anvil, forgeTime, input);
 	}
-	public static void addAnvilRecipe(ItemStack result, String research, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
+	public static IAnvilRecipe addAnvilRecipe(ItemStack result, String research, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		addAnvilRecipe(result, research, hot, "hammer", hammerType, anvil, forgeTime, input);
+		return addAnvilRecipe(result, research, hot, "hammer", hammerType, anvil, forgeTime, input);
 	}
 	
 	/**

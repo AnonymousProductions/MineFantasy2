@@ -9,6 +9,7 @@ package minefantasy.mf2.client.render;
  * 
  * Code based off Battlegear Spears by Nerd Boy.
  */
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;

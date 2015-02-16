@@ -41,7 +41,7 @@ public class CraftingManagerAnvil
     /**
      * Adds a recipe. See spreadsheet on first page for details.
      */
-    public void addRecipe(ItemStack result, String research, boolean hot, float exp, String tool, int hammer, int anvil, int time, Object ... input)
+    public IAnvilRecipe addRecipe(ItemStack result, String research, boolean hot, float exp, String tool, int hammer, int anvil, int time, Object ... input)
     {
         String var3 = "";
         int var4 = 0;
@@ -113,10 +113,12 @@ public class CraftingManagerAnvil
             }
         }
 
-        this.recipes.add(new ShapedAnvilRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, hot, research));
+        IAnvilRecipe recipe = new ShapedAnvilRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, hot, research);
+        this.recipes.add(recipe);
+        return recipe;
     }
 
-    public void addShapelessRecipe(ItemStack output, String research, boolean hot, float experience, String tool, int hammer, int anvil, int time, Object ... input)
+    public IAnvilRecipe addShapelessRecipe(ItemStack output, String research, boolean hot, float experience, String tool, int hammer, int anvil, int time, Object ... input)
     {
         ArrayList var3 = new ArrayList();
         Object[] var4 = input;
@@ -145,7 +147,9 @@ public class CraftingManagerAnvil
             }
         }
 
-        this.recipes.add(new ShapelessAnvilRecipes(output, tool, experience, hammer, anvil, time, var3, hot, research));
+        IAnvilRecipe recipe = new ShapelessAnvilRecipes(output, tool, experience, hammer, anvil, time, var3, hot, research);
+        this.recipes.add(recipe);
+        return recipe;
     }
     public ItemStack findMatchingRecipe(InventoryCrafting matrix)
     {

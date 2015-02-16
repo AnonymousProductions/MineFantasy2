@@ -1,7 +1,7 @@
 package minefantasy.mf2.client.gui;
 
 import minefantasy.mf2.block.tileentity.TileEntityBombBench;
-import minefantasy.mf2.client.render.TextureHelperMF;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.container.ContainerBombBench;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;

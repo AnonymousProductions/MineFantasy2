@@ -20,21 +20,21 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
     public static final int	globalHeight	= 4;
 
 	/** Is the ItemStack that you get when craft the recipe. */
-    private final ItemStack recipeOutput;
+    public final ItemStack recipeOutput;
 
-    private final boolean outputHot;
+    public final boolean outputHot;
     /** Is a List of ItemStack that composes the recipe. */
-    private final List recipeItems;
+    public final List recipeItems;
     
     private final int recipeHammer;
     
     /** The anvil Required */
-    private final int anvil;
+    public final int anvil;
     
-    private final int recipeTime;
-    private final float recipeExperiance;
-    private final String toolType;
-    private final String research;
+    public final int recipeTime;
+    public final float recipeExperiance;
+    public final String toolType;
+    public final String research;
 
     public ShapelessAnvilRecipes(ItemStack output, String toolType, float exp, int hammer, int anvi, int time, List components, boolean hot, String research)
     {

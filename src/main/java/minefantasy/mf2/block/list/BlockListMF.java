@@ -56,7 +56,7 @@ public class BlockListMF
 	};
 	public static final BaseMaterialMF[] anvils = new BaseMaterialMF[]
 	{
-		BaseMaterialMF.stone,
+		//BaseMaterialMF.stone,
 		BaseMaterialMF.bronze,
 		BaseMaterialMF.iron,
 		BaseMaterialMF.steel,

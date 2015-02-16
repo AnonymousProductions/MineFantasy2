@@ -15,7 +15,7 @@ knowledge.unknownUse=You don't know how to use this!
 
 infoPage.basic=Basic Information
 infoPage.smithing=Smithing
-infoPage.artifacting=Artifacting
+infoPage.construction=Construction
 infoPage.engineering=Engineering
 infoPage.cooking=Cooking
 infoPage.mastery=Mastery
@@ -1447,6 +1447,16 @@ food.stat.cure.poison=Cure Poison
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /LONG KNOWLEDGE STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+method.workbench=Basic Workbench
+method.furnace=Smelting
+method.anvil=Anvil
+method.carpenter=Carpenter
+
+knowledge.guiSubtitle=This is the GUI
 knowledge.anvil.paragraph_1=Anvils are used to work metals easily into many forms.
 knowledge.anvil.paragraph_2=You will need one of these for nearly anything, anvils are tiered and need upgrading.
 knowledge.anvil.paragraph_3=They can be made with 6 ingots from bronze, iron, steel, black steel, blue steel and red steel.
+knowledge.anvil.paragraph_4=To use the anvil you need the proper tools; most recipes use regular hammers, while others (like heavy armour and advanced tools) require heavy hammers.
+knowledge.anvil.paragraph_5=With your tools, place the anvil in the world, with that done, you will need a water source (or cauldron/barrel), and atleast 1 forge for heating ingots.
+knowledge.anvil.paragraph_6=The GUI for anvils is similar to regular crafting: items in the grid(4) will be used to set up. the name of the item appears in the text box(1).
+knowledge.anvil.paragraph_7=When that's ready, hit the anvil with a hammer in the world, keep hits apart from about a second, the progress bar(2) will fill then when finished the result comes out in the slot(4)

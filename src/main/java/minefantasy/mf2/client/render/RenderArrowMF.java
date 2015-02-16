@@ -1,6 +1,7 @@
 package minefantasy.mf2.client.render;
 
 import minefantasy.mf2.entity.EntityArrowMF;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

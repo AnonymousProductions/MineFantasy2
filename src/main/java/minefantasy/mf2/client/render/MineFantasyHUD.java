@@ -8,7 +8,7 @@ import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
-import minefantasy.mf2.client.gui.GuiHelper;
+import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.config.ConfigClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 
 import org.lwjgl.opengl.GL11;
 

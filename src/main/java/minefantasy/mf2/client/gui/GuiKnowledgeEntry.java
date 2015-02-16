@@ -8,7 +8,7 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.client.EntryPageCraft;
 import minefantasy.mf2.api.knowledge.client.EntryPage;
 import minefantasy.mf2.api.knowledge.InformationBase;
-import minefantasy.mf2.client.render.TextureHelperMF;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
@@ -47,8 +47,8 @@ public class GuiKnowledgeEntry extends GuiScreen
         
         this.buttonList.clear();
         this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + yPoint + this.bookImageHeight, 200, 20, I18n.format("gui.done", new Object[0])));
-	    this.buttonList.add(this.buttonNextPage = new GuiKnowledgeEntry.NextPageButton(1, xPoint + 120, yPoint + 154, true));
-	    this.buttonList.add(this.buttonPreviousPage = new GuiKnowledgeEntry.NextPageButton(2, xPoint + 6, yPoint + 154, false));
+	    this.buttonList.add(this.buttonNextPage = new GuiKnowledgeEntry.NextPageButton(1, xPoint + 120, yPoint + 170, true));
+	    this.buttonList.add(this.buttonPreviousPage = new GuiKnowledgeEntry.NextPageButton(2, xPoint + 6, yPoint + 170, false));
 	    this.updateButtons();
     }
 	

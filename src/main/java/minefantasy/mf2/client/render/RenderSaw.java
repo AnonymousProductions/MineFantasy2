@@ -5,6 +5,7 @@ package minefantasy.mf2.client.render;
  * @author Anonymous Productions
  */
 import net.minecraft.client.Minecraft;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;

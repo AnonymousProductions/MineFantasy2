@@ -1,4 +1,4 @@
-package minefantasy.mf2.client.render;
+package minefantasy.mf2.api.helpers;
 
 import java.util.Map;
 

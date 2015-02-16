@@ -40,7 +40,7 @@ public final class CreativeTabMF extends CreativeTabs
 			case 2: return new ItemStack(ToolListMF.swords[3]);
 			case 3: return new ItemStack(ArmourListMF.fieldplate[8]);
 			case 4: return new ItemStack(ToolListMF.bows[3]);
-			case 5: return new ItemStack(Blocks.anvil);
+			case 5: return new ItemStack(BlockListMF.anvil[1]);
 			case 6: return new ItemStack(ToolListMF.bomb_custom);
 			case 7: return new ItemStack(ComponentListMF.plank);
 			case 8: return new ItemStack(ToolListMF.hvypicks[2]);

@@ -2,6 +2,7 @@ package minefantasy.mf2.api.knowledge;
 
 import java.util.ArrayList;
 
+import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.knowledge.client.EntryPage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

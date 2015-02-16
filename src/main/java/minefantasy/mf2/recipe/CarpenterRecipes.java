@@ -282,12 +282,6 @@ public class CarpenterRecipes
 	
 	private static void addStonemason()
 	{
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.anvil[0]), "anvil", basic, "hammer", -1, 50, new Object[]{
-			"WW ",
-			"WWW",
-			" W ",
-			'W', Blocks.cobblestone,
-		});
 	}
 	
 	private static void addCooking()
@@ -505,6 +499,27 @@ public class CarpenterRecipes
 				"S",
 				"F",
 				'H', ComponentListMF.arrowheads[id],
+				'S', Items.stick,
+				'F', ComponentListMF.fletching,
+			});
+		}
+		for(int id = 0; id < ToolListMF.weaponMats.length-1; id ++)
+		{
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.bodkinArrows[id]), "arrowsBodkin", chopping, 1, new Object[]
+			{
+				"H",
+				"S",
+				"F",
+				'H', ComponentListMF.bodkinheads[id],
+				'S', Items.stick,
+				'F', ComponentListMF.fletching,
+			});
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.broadArrows[id]), "arrowsBroad", chopping, 1, new Object[]
+			{
+				"H",
+				"S",
+				"F",
+				'H', ComponentListMF.broadheads[id],
 				'S', Items.stick,
 				'F', ComponentListMF.fletching,
 			});

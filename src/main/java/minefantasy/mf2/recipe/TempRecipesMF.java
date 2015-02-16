@@ -15,12 +15,12 @@ public class TempRecipesMF
 {
 	public static void init()
 	{
-		GameRegistry.addSmelting(BlockListMF.anvil[1], new ItemStack(ComponentListMF.ingots[2], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[2], new ItemStack(Items.iron_ingot, 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[3], new ItemStack(ComponentListMF.ingots[4], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[4], new ItemStack(ComponentListMF.ingots[7], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[5], new ItemStack(ComponentListMF.ingots[14], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[6], new ItemStack(ComponentListMF.ingots[12], 6), 0.0F);
+		GameRegistry.addSmelting(BlockListMF.anvil[0], new ItemStack(ComponentListMF.ingots[2], 6), 0.0F);
+		GameRegistry.addSmelting(BlockListMF.anvil[1], new ItemStack(Items.iron_ingot, 6), 0.0F);
+		GameRegistry.addSmelting(BlockListMF.anvil[2], new ItemStack(ComponentListMF.ingots[4], 6), 0.0F);
+		GameRegistry.addSmelting(BlockListMF.anvil[3], new ItemStack(ComponentListMF.ingots[7], 6), 0.0F);
+		GameRegistry.addSmelting(BlockListMF.anvil[4], new ItemStack(ComponentListMF.ingots[14], 6), 0.0F);
+		GameRegistry.addSmelting(BlockListMF.anvil[5], new ItemStack(ComponentListMF.ingots[12], 6), 0.0F);
 		
 		GameRegistry.addRecipe(new ItemStack(Items.leather, 1), new Object[]
 		{
