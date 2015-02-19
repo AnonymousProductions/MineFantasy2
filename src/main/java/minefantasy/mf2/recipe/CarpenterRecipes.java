@@ -37,108 +37,6 @@ public class CarpenterRecipes
 		addCooking();
 		addMisc();
 		
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.pickStone), carving, 24 , new Object[]
-		{
-			"V I",
-			"SSI",
-			"V I",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.axeStone), carving, 20 , new Object[]
-		{
-			"VII",
-			"SSI",
-			"V  ",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.spadeStone), carving, 10 , new Object[]
-		{
-			"V  ",
-			"SSI",
-			"V  ",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.hoeStone), carving, 16 , new Object[]
-		{
-			"V I",
-			"SSI",
-			"V  ",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.hammerStone), carving, 12 , new Object[]
-		{
-			"I",
-			"V",
-			"S",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.tongsStone), carving, 15 , new Object[]
-		{
-			" I ",
-			"SVI",
-			" S ",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.knifeStone), carving, 18 , new Object[]
-		{
-			"I ",
-			"I ",
-			"SV",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.needleBone), carving, "knife", -1, 10 , new Object[]
-		{
-			"B",
-			'B', Items.bone
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.swordStone), carving, 40 , new Object[]
-		{
-			"VI  ",
-			"SIII",
-			"VI  ",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.waraxeStone), carving, 30 , new Object[]
-		{
-			"VII",
-			"SSI",
-			"V I",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.maceStone), carving, 35 , new Object[]
-		{
-			"  II",
-			"SSII",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.spearStone), carving, 20 , new Object[]
-		{
-			"SSSI",
-			
-			'S', ComponentListMF.plank,
-			'I', ComponentListMF.sharp_rock,
-		});
-		
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.swordTraining), carving, "knife", 1, 40 , new Object[]
 		{
 			" I  ",
@@ -249,12 +147,6 @@ public class CarpenterRecipes
 			" U ",
 			'P', Items.leather_boots,
 			'U', Items.leather
-		});
-		
-		
-		MineFantasyAPI.addShapelessCarpenterRecipe(new ItemStack(ComponentListMF.sharp_rock, 9), mallet, "hammer", -1, 5 , new Object[]
-		{
-			Blocks.cobblestone
 		});
 	}
 

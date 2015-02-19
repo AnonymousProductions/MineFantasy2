@@ -43,8 +43,10 @@ import minefantasy.mf2.item.weapon.ItemGreatswordMF;
 import minefantasy.mf2.item.weapon.ItemHalbeardMF;
 import minefantasy.mf2.item.weapon.ItemKatanaMF;
 import minefantasy.mf2.item.weapon.ItemLance;
+import minefantasy.mf2.item.weapon.ItemMaceMF;
 import minefantasy.mf2.item.weapon.ItemSpearMF;
 import minefantasy.mf2.item.weapon.ItemSwordMF;
+import minefantasy.mf2.item.weapon.ItemWaraxeMF;
 import minefantasy.mf2.item.weapon.ItemWarhammerMF;
 import minefantasy.mf2.mechanics.ExtendedReachMF;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
@@ -100,10 +102,13 @@ public class ClientProxyMF extends CommonProxyMF
 		for(ItemHalbeardMF spear: ToolListMF.halbeards)
 			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear(true));
 		
-			MinecraftForgeClient.registerItemRenderer(ToolListMF.spearStone, new RenderSpear());
 			MinecraftForgeClient.registerItemRenderer(ToolListMF.spearTraining, new RenderSpear());
 		
 		for(ItemSwordMF sword: ToolListMF.swords)
+			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
+		for(ItemWaraxeMF sword: ToolListMF.waraxes)
+			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
+		for(ItemMaceMF sword: ToolListMF.maces)
 			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
 		
 		MinecraftForgeClient.registerItemRenderer(ToolListMF.swordTraining, new RenderSword());

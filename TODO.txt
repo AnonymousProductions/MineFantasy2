@@ -4,7 +4,7 @@
   (The old system lagged a bit when lots of ingots were used)
 
 
-New Blocks(Artifacting)
+New Blocks(Construction)
 Limestone bricks
 Reinforced Stone|Bricks
 Stairs/Slabs
@@ -18,3 +18,9 @@ Engineering (Bombs, Mines, Crossbows)
 Cooking (Food)
 Mastery (Combat, Stats, etc)
 Alchemy (Potions)
+
+Issues: //WRITE ISSUES FOUND IN GAMEPLAY HERE//
++++++++++++++++++++++++++++++++++++++++++++++++
+ Issue                                | Check |
++++++++++++++++++++++++++++++++++++++++++++++++
+Stone swords make clang parry             -

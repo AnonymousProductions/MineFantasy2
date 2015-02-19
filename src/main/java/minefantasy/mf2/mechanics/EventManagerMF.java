@@ -405,41 +405,6 @@ public class EventManagerMF
 				event.getPlayer().addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 1));
 			}
 		}
-		
-		//HC
-		if(!event.world.isRemote && held != null && held.getItem() == ComponentListMF.sharp_rock && broken != null)
-		{
-			//STICKS
-			if(broken.getMaterial() == Material.wood)
-			{
-				event.setCanceled(true);
-				dropItem(event.world, new ItemStack(Items.stick), event.x+0.5, event.y+0.5, event.z+0.5);
-			}
-			
-			//ROCKS
-			else if(broken.getMaterial() == Material.ground  || broken == Blocks.grass)
-			{
-				event.setCanceled(true);
-				if(rand.nextInt(2) == 0)
-				{
-					dropItem(event.world, new ItemStack(ComponentListMF.sharp_rock), event.x+0.5, event.y+0.5, event.z+0.5);
-				}
-			}
-			
-			//VINES
-			else if(broken.getMaterial() == Material.leaves && broken.isOpaqueCube())
-			{
-				event.setCanceled(true);
-				if(rand.nextInt(2) == 0)
-				{
-					dropItem(event.world, new ItemStack(ComponentListMF.vine), event.x+0.5, event.y+0.5, event.z+0.5);
-				}
-			}
-			else if(broken == Blocks.vine)
-			{
-				dropItem(event.world, new ItemStack(ComponentListMF.vine), event.x+0.5, event.y+0.5, event.z+0.5);
-			}
-		}
 	}
 
 	private void addKillTo(EntityPlayer hunter, String type) 

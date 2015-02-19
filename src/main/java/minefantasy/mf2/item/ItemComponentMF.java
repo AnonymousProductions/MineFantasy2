@@ -122,8 +122,6 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.strong_brick);
 		add(list, ComponentListMF.dragon_heart);
 		
-		add(list, ComponentListMF.vine);
-		add(list, ComponentListMF.sharp_rock);
     }
     private void add(List list, Item item)
     {

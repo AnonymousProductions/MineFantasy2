@@ -151,15 +151,15 @@ public class ToolListMF
 	public static Item tongsStone = new ItemTongs("stone_tongs", ToolMaterialMF.STONE, -1);
 	public static Item needleBone = new ItemNeedle("bone_needle", ToolMaterialMF.STONE, -1);
 	
-	public static Item pickStone = new ItemPickMF("stone_pick", ToolMaterialMF.STONE, -1);
-	public static Item axeStone = new ItemAxeMF("stone_axe", ToolMaterialMF.STONE, -1);
-	public static Item spadeStone = new ItemSpadeMF("stone_spade", ToolMaterialMF.STONE, -1);
-	public static Item hoeStone = new ItemHoeMF("stone_hoe", ToolMaterialMF.STONE, -1);
+	//public static Item pickStone = new ItemPickMF("stone_pick", ToolMaterialMF.STONE, -1);
+	//public static Item axeStone = new ItemAxeMF("stone_axe", ToolMaterialMF.STONE, -1);
+	//public static Item spadeStone = new ItemSpadeMF("stone_spade", ToolMaterialMF.STONE, -1);
+	//public static Item hoeStone = new ItemHoeMF("stone_hoe", ToolMaterialMF.STONE, -1);
 	
-	public static Item swordStone = new ItemSwordMF("stone_sword", ToolMaterialMF.STONE, -1, 3.5F);
-	public static Item maceStone = new ItemMaceMF("stone_mace", ToolMaterialMF.STONE, -1, 3.5F);
-	public static Item waraxeStone = new ItemWaraxeMF("stone_waraxe", ToolMaterialMF.STONE, -1, 3.5F);
-	public static Item spearStone = new ItemSpearMF("stone_spear", ToolMaterialMF.STONE, -1, 3.5F);
+	//public static Item swordStone = new ItemSwordMF("stone_sword", ToolMaterialMF.STONE, -1, 3.5F);
+	//public static Item maceStone = new ItemMaceMF("stone_mace", ToolMaterialMF.STONE, -1, 3.5F);
+	//public static Item waraxeStone = new ItemWaraxeMF("stone_waraxe", ToolMaterialMF.STONE, -1, 3.5F);
+	//public static Item spearStone = new ItemSpearMF("stone_spear", ToolMaterialMF.STONE, -1, 3.5F);
 	
 	public static Item bandage_crude = new ItemBandage("bandage_crude", 5F);
 	public static Item bandage_wool = new ItemBandage("bandage_wool", 8F);

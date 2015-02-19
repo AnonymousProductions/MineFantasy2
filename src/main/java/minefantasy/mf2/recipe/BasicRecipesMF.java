@@ -40,10 +40,6 @@ public class BasicRecipesMF
 			new ItemStack(ComponentListMF.nitre),
 			//new ItemStack(ComponentListMF.flux_strong),
 		});
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.sharp_rock), new Object[]
-		{
-			Blocks.dirt,
-		});
 		
 		GameRegistry.addRecipe(new ItemStack(ComponentListMF.plank), new Object[]
 		{
@@ -112,6 +108,29 @@ public class BasicRecipesMF
 		}
 		recipeMap.put("anvilCrafting", anvilRecs);
 		
+		GameRegistry.addRecipe(new ItemStack(ToolListMF.hammerStone), new Object[]{
+			"C",
+			"P",
+			'C', Blocks.cobblestone,
+			'P', ComponentListMF.plank,
+		});
+		GameRegistry.addRecipe(new ItemStack(ToolListMF.tongsStone), new Object[]{
+			"C ",
+			"PC",
+			'C', Blocks.cobblestone,
+			'P', ComponentListMF.plank,
+		});
+		GameRegistry.addRecipe(new ItemStack(ToolListMF.needleBone), new Object[]{
+			"B",
+			"B",
+			'B', Items.bone
+		});
+		GameRegistry.addRecipe(new ItemStack(ToolListMF.knifeStone), new Object[]{
+			"F",
+			"P",
+			'F', Items.flint,
+			'P', ComponentListMF.plank,
+		});
 	}
 	public static final HashMap<String, IRecipe[]>recipeMap = new HashMap<String, IRecipe[]>();
 }

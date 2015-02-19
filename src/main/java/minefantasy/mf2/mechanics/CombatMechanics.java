@@ -451,7 +451,7 @@ public class CombatMechanics
     	if((properHit || source.isProjectile()) && weapon != null && !source.isUnblockable() &&!source.isExplosion())
     	{
     		float threshold = 10;//DEFAULT PARRY THRESHOLD
-    		float weaponFatigue = 1.0F;//DEFAULT FATIGUE
+    		float weaponFatigue = 2.0F;//DEFAULT FATIGUE
     		int ticks = 18;//DEFAULT TICKS
     		IParryable parry = null;
     		
@@ -540,7 +540,7 @@ public class CombatMechanics
 	}
 	private String getDefaultParrySound(ItemStack weapon)
 	{
-		if(weapon.getUnlocalizedName().contains("wood") || weapon.getUnlocalizedName().contains("Wood"))
+		if(weapon.getUnlocalizedName().contains("wood") || weapon.getUnlocalizedName().contains("Wood") || weapon.getUnlocalizedName().contains("stone") || weapon.getUnlocalizedName().contains("Stone"))
 		{
 			return "minefantasy2:weapon.wood_parry";
 		}

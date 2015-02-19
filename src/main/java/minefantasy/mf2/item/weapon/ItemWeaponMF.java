@@ -637,11 +637,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		list.add(new ItemStack(ToolListMF.maceTraining));
 		list.add(new ItemStack(ToolListMF.spearTraining));
 		
-		list.add(new ItemStack(ToolListMF.swordStone));
-		list.add(new ItemStack(ToolListMF.waraxeStone));
-		list.add(new ItemStack(ToolListMF.maceStone));
-		list.add(new ItemStack(ToolListMF.spearStone));
-		
 		addSet(list, ToolListMF.swords);
 		addSet(list, ToolListMF.waraxes);
 		addSet(list, ToolListMF.maces);
