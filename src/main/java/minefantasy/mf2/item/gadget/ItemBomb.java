@@ -5,14 +5,23 @@ import java.util.List;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.entity.EntityBomb;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.mechanics.BombDispenser;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -29,6 +38,7 @@ public class ItemBomb extends Item
         setTextureName("minefantasy2:Other/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
+		BlockDispenser.dispenseBehaviorRegistry.putObject(this, new BombDispenser());
     }
 
     @Override
@@ -62,9 +72,14 @@ public class ItemBomb extends Item
             --item.stackSize;
         }
 
-        //if (!world.isRemote)
+        if (!world.isRemote)
         {
-        	world.spawnEntityInWorld(new EntityBomb(world, user).setType(getFilling(item), getCasing(item)));
+        	EntityBomb bomb = new EntityBomb(world, user).setType(getFilling(item), getCasing(item), getFuse(item), getPowder(item));
+        	world.spawnEntityInWorld(bomb);
+        	if(item.hasTagCompound() && item.getTagCompound().hasKey("stickyBomb"))
+        	{
+        		bomb.getEntityData().setBoolean("stickyBomb", true);
+        	}
         }
         return item;
     }
@@ -74,12 +89,24 @@ public class ItemBomb extends Item
     {
     	super.addInformation(item, user, list, fullInfo);
     	
+    	if(item.hasTagCompound() && item.getTagCompound().hasKey("stickyBomb"))
+    	{
+    		list.add(EnumChatFormatting.GREEN + StatCollector.translateToLocal("bomb.case.sticky") + EnumChatFormatting.GRAY);
+    	}
     	EnumExplosiveType fill = EnumExplosiveType.getType(getFilling(item));
     	EnumCasingType casing = EnumCasingType.getType(getCasing(item));
-    	int damage = (int) (fill.damage*casing.damageModifier);
-    	float range = fill.range*casing.rangeModifier;
+    	EnumFuseType fuse = EnumFuseType.getType(getFuse(item));
+    	EnumPowderType powder = EnumPowderType.getType(getPowder(item));
+    	
+    	int damage = (int) (fill.damage*casing.damageModifier*powder.damageModifier);
+    	float range = fill.range*casing.rangeModifier*powder.rangeModifier;
+    	float fusetime = (float)fuse.time/20F;
     	
     	list.add(StatCollector.translateToLocal("bomb.case."+casing.name+".name"));
+    	list.add(StatCollector.translateToLocal("bomb.powder."+powder.name+".name"));
+    	list.add(StatCollector.translateToLocal("bomb.fuse."+fuse.name+".name"));
+    	list.add("");
+    	list.add(StatCollector.translateToLocalFormatted("bomb.fusetime.name", fusetime));
     	list.add(StatCollector.translateToLocal("bomb.damage.name")+": "+damage);
     	list.add(StatCollector.translateToLocalFormatted("bomb.range.metric.name", range));
     }
@@ -89,9 +116,46 @@ public class ItemBomb extends Item
     	EnumExplosiveType type = EnumExplosiveType.getType(getFilling(item));
     	return "item.bomb_"+type.name;
     }
+    private static final String powderNBT = "MineFantasy_PowderType";
+    private static final String fuseNBT = "MineFantasy_FuseType";
     private static final String fillingNBT = "MineFantasy_ExplosiveType";
     private static final String casingNBT = "MineFantasy_CaseType";
     
+    public static void setSticky(ItemStack item)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	nbt.setBoolean("stickyBomb", true);
+    }
+    
+    public static void setFuse(ItemStack item, byte fuse)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	nbt.setByte(fuseNBT, fuse);
+    }
+    public static byte getFuse(ItemStack item)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	if(nbt.hasKey(fuseNBT))
+    	{
+    		return nbt.getByte(fuseNBT);
+    	}
+    	return (byte)0;
+    }
+    
+    public static void setPowder(ItemStack item, byte powder)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	nbt.setByte(powderNBT, powder);
+    }
+    public static byte getPowder(ItemStack item)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	if(nbt.hasKey(powderNBT))
+    	{
+    		return nbt.getByte(powderNBT);
+    	}
+    	return (byte)0;
+    }
     /**
      * 0 = Basic
      * 1 = Shrapnel
@@ -137,37 +201,47 @@ public class ItemBomb extends Item
     	return item.getTagCompound();
     }
     
-    public static ItemStack createExplosive(Item item, byte casing, byte filling, int stackSize)
+    public static ItemStack createExplosive(Item item, byte casing, byte filling, byte fuse, byte powder, int stackSize, boolean sticky)
     {
     	ItemStack bomb = new ItemStack(item, stackSize);
-    	
     	setFilling(bomb, filling);
     	setCasing(bomb, casing);
+    	setFuse(bomb, fuse);
+    	setPowder(bomb, powder);
+    	if(sticky)
+    	{
+    		setSticky(bomb);
+    	}
     	return bomb;
     }
     
-    public ItemStack createBomb(byte casing, byte filling, int stackSize)
+    public static ItemStack createExplosive(Item item, byte casing, byte filling, byte fuse, byte powder, int stackSize)
     {
-    	ItemStack bomb = new ItemStack(this, stackSize);
-    	
-    	setFilling(bomb, filling);
-    	setCasing(bomb, casing);
-    	return bomb;
+    	return createExplosive(item, casing, filling, fuse, powder, stackSize, false);
+    }
+    
+    public ItemStack createBomb(byte casing, byte filling, byte fuse, byte powder, int stackSize)
+    {
+    	return ItemBomb.createExplosive(this, casing, filling,  fuse, powder, stackSize);
     }
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-		list.add(createBomb((byte)0, (byte)0, 1));
-		list.add(createBomb((byte)0, (byte)1, 1));
-		list.add(createBomb((byte)0, (byte)2, 1));
+		list.add(createBomb((byte)0, (byte)0, (byte)0, (byte)0, 1));
+		list.add(createBomb((byte)0, (byte)1, (byte)0, (byte)0, 1));
+		list.add(createBomb((byte)0, (byte)2, (byte)0, (byte)0, 1));
 		
-		list.add(createBomb((byte)1, (byte)0, 1));
-		list.add(createBomb((byte)1, (byte)1, 1));
-		list.add(createBomb((byte)1, (byte)2, 1));
+		list.add(createBomb((byte)1, (byte)0, (byte)0, (byte)0, 1));
+		list.add(createBomb((byte)1, (byte)1, (byte)0, (byte)0, 1));
+		list.add(createBomb((byte)1, (byte)2, (byte)0, (byte)0, 1));
 		
-		list.add(createBomb((byte)2, (byte)0, 1));
-		list.add(createBomb((byte)2, (byte)1, 1));
-		list.add(createBomb((byte)2, (byte)2, 1));
+		list.add(createBomb((byte)2, (byte)0, (byte)0, (byte)0, 1));
+		list.add(createBomb((byte)2, (byte)1, (byte)0, (byte)0, 1));
+		list.add(createBomb((byte)2, (byte)2, (byte)0, (byte)0, 1));
+		
+		list.add(createBomb((byte)3, (byte)0, (byte)0, (byte)0, 1));
+		list.add(createBomb((byte)3, (byte)1, (byte)0, (byte)0, 1));
+		list.add(createBomb((byte)3, (byte)2, (byte)0, (byte)0, 1));
     }
 
     //TODO Icons
@@ -177,7 +251,7 @@ public class ItemBomb extends Item
 		return bombs[type];
 	}
     public IIcon[] icons = new IIcon[2];
-    private IIcon[] bombs = new IIcon[3];
+    private IIcon[] bombs = new IIcon[4];
     
     @Override
     @SideOnly(Side.CLIENT)
@@ -189,6 +263,7 @@ public class ItemBomb extends Item
         this.itemIcon = bombs[0] = reg.registerIcon("minefantasy2:Other/bomb_ceramic");
         bombs[1] = reg.registerIcon("minefantasy2:Other/bomb_iron");
         bombs[2] = reg.registerIcon("minefantasy2:Other/bomb_obsidian");
+        bombs[3] = reg.registerIcon("minefantasy2:Other/bomb_crystal");
     }
     
     @Override
@@ -198,11 +273,24 @@ public class ItemBomb extends Item
     	int type = getCasing(item);
     	return bombs[type];
     }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderPasses(int metadata)
+    {
+        return 3;
+    }
+    
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack item, int layer)
     {
-    	if(layer > 0)
+    	boolean sticky =  item.hasTagCompound() && item.getTagCompound().hasKey("stickyBomb");
+    	if(layer == 0 && sticky)
+    	{
+    		return Items.slime_ball.getIconFromDamage(0);
+    	}
+    	if(layer > (sticky ? 1 : 0))
     	{
 	    	int type = getFilling(item);
 	    	if(type != 0)

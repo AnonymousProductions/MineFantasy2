@@ -24,7 +24,11 @@ import minefantasy.mf2.client.render.RenderSaw;
 import minefantasy.mf2.client.render.RenderSpear;
 import minefantasy.mf2.client.render.RenderSword;
 import minefantasy.mf2.client.render.block.RenderAnvilMF;
+import minefantasy.mf2.client.render.block.RenderBombBench;
+import minefantasy.mf2.client.render.block.RenderCarpenter;
 import minefantasy.mf2.client.render.block.TileEntityAnvilMFRenderer;
+import minefantasy.mf2.client.render.block.TileEntityBombBenchRenderer;
+import minefantasy.mf2.client.render.block.TileEntityCarpenterRenderer;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.entity.EntityBomb;
 import minefantasy.mf2.entity.EntityMine;
@@ -134,6 +138,10 @@ public class ClientProxyMF extends CommonProxyMF
 		
 		RenderingRegistry.registerBlockHandler(new RenderAnvilMF());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnvilMF.class, new TileEntityAnvilMFRenderer());
+		RenderingRegistry.registerBlockHandler(new RenderCarpenter());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCarpenterMF.class, new TileEntityCarpenterRenderer());
+		RenderingRegistry.registerBlockHandler(new RenderBombBench());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombBench.class, new TileEntityBombBenchRenderer());
 	}
 	
 	public void registerEntityRenderer()

@@ -6,7 +6,9 @@ import minefantasy.mf2.api.crafting.bomb.IBombComponent;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.item.gadget.ItemBomb;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,7 +23,14 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 	
 	public boolean tryCraft(EntityPlayer user)
 	{
+		boolean sticky = ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.stickybomb) && user.getHeldItem() != null && user.getHeldItem().getItem() == Items.slime_ball;
+		if(!worldObj.isRemote && sticky && applySlime())
+		{
+			user.inventory.consumeInventoryItem(Items.slime_ball);
+			return true;
+		}
 		ItemStack result = findResult();
+		
 		if(result != null && craftItem(result))
 		{
 			for(int a = 0; a < 4; a++)
@@ -33,6 +42,20 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 				ResearchLogic.modifyKnowledgePoints(user, 1);
 			}
 			return true;
+		}
+		return false;
+	}
+	private boolean applySlime()
+	{
+		ItemStack res = getStackInSlot(4);
+		
+		if(res != null && res.getItem() instanceof ItemBomb)
+		{
+			if(res.hasTagCompound() && !res.getTagCompound().hasKey("stickyBomb"))
+			{
+				res.getTagCompound().setBoolean("stickyBomb", true);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -68,15 +91,31 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 		}
 		byte caseTier = -1;
 		byte filling = 0;
+		byte fuse = -1;
+		byte powder = -1;
 		Item design = null;
 		String com0 = getComponentType(inv[0]);
+		String com1 = getComponentType(inv[1]);
 		String com2 = getComponentType(inv[2]);
+		String com3 = getComponentType(inv[3]);
 		if(com0 != null)
 		{
 			caseTier = getComponentTier(inv[0]);
 			String type = com0;
 			design = type.equalsIgnoreCase("bombcase") ? ToolListMF.bomb_custom : type.equalsIgnoreCase("minecase") ? ToolListMF.mine_custom : null;
 		}
+		if(com1 != null)
+		{
+			if(com1.equalsIgnoreCase("powder"))
+			{
+				powder = getComponentTier(inv[1]);
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else return null;
 		if(com2 != null)
 		{
 			if(com2.equalsIgnoreCase("filling"))
@@ -88,19 +127,36 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 				return null;
 			}
 		}
-		if(design != null)
+		if(com3 != null)
 		{
-			return ItemBomb.createExplosive(design, caseTier, filling, 1);
+			if(com3.equalsIgnoreCase("fuse"))
+			{
+				fuse = getComponentTier(inv[3]);
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else return null;
+		
+		if(design != null && fuse > -1 && powder > -1)
+		{
+			return ItemBomb.createExplosive(design, caseTier, filling, fuse, powder, 1, false);
 		}
 		return null;
 	}
 	
 	private boolean isMatch(int slot, String type)
 	{
-		String component = getComponentType(inv[slot]);
+		return isMatch(inv[slot], type);
+	}
+	public static boolean isMatch(ItemStack item, String type)
+	{
+		String component = getComponentType(item);
 		return component != null && component.equalsIgnoreCase(type);
 	}
-	private String getComponentType(ItemStack item)
+	public static  String getComponentType(ItemStack item)
 	{
 		if(item != null && item.getItem() != null && item.getItem() instanceof IBombComponent)
 		{
@@ -108,7 +164,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 		}
 		return null;
 	}
-	private byte getComponentTier(ItemStack item)
+	public static  byte getComponentTier(ItemStack item)
 	{
 		if(item != null && item.getItem() != null && item.getItem() instanceof IBombComponent)
 		{

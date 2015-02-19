@@ -135,7 +135,7 @@ public class EntryPageRecipeAnvil extends EntryPage
 				{
 					for(int x = 0; x < 4; x++) 
 					{
-						int index = y * 3 + x;
+						int index = y * 6 + x;
 
 						if(index >= shapeless.recipeItems.size())
 							break drawGrid;

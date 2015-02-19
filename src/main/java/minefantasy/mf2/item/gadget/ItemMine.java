@@ -6,6 +6,8 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.entity.EntityMine;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.mechanics.BombDispenser;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,6 +32,7 @@ public class ItemMine extends Item
         setTextureName("minefantasy2:Other/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
+		BlockDispenser.dispenseBehaviorRegistry.putObject(this, new BombDispenser());
     }
 
     @Override
@@ -65,7 +68,7 @@ public class ItemMine extends Item
 
         if (!world.isRemote)
         {
-        	world.spawnEntityInWorld(new EntityMine(world, user).setType(getFilling(item), getCasing(item)));
+        	world.spawnEntityInWorld(new EntityMine(world, user).setType(getFilling(item), getCasing(item), getFuse(item), getPowder(item)));
         }
 
         return item;
@@ -78,10 +81,18 @@ public class ItemMine extends Item
     	
     	EnumExplosiveType fill = EnumExplosiveType.getType(getFilling(item));
     	EnumCasingType casing = EnumCasingType.getType(getCasing(item));
-    	int damage = (int) (fill.damage*casing.damageModifier);
-    	float range = fill.range*casing.rangeModifier;
+    	EnumFuseType fuse = EnumFuseType.getType(getFuse(item));
+    	EnumPowderType powder = EnumPowderType.getType(getPowder(item));
+    	
+    	int damage = (int) (fill.damage*casing.damageModifier*powder.damageModifier);
+    	float range = fill.range*casing.rangeModifier*powder.rangeModifier;
+    	float fusetime = (float)fuse.time/20F;
     	
     	list.add(StatCollector.translateToLocal("bomb.case."+casing.name+".name"));
+    	list.add(StatCollector.translateToLocal("bomb.powder."+powder.name+".name"));
+    	list.add(StatCollector.translateToLocal("bomb.fuse."+fuse.name+".name"));
+    	list.add("");
+    	list.add(StatCollector.translateToLocalFormatted("bomb.fusetime.name", fusetime));
     	list.add(StatCollector.translateToLocal("bomb.damage.name")+": "+damage);
     	list.add(StatCollector.translateToLocalFormatted("bomb.range.metric.name", range));
     }
@@ -91,20 +102,52 @@ public class ItemMine extends Item
     	EnumExplosiveType type = EnumExplosiveType.getType(getFilling(item));
     	return "item.mine_"+type.name;
     }
-    private final String fillingNBT = "MineFantasy_ExplosiveType";
-    private final String casingNBT = "MineFantasy_CaseType";
+    private static final String powderNBT = "MineFantasy_PowderType";
+    private static final String fuseNBT = "MineFantasy_FuseType";
+    private static final String fillingNBT = "MineFantasy_ExplosiveType";
+    private static final String casingNBT = "MineFantasy_CaseType";
     
+    
+    public static void setFuse(ItemStack item, byte fuse)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	nbt.setByte(fuseNBT, fuse);
+    }
+    public static byte getFuse(ItemStack item)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	if(nbt.hasKey(fuseNBT))
+    	{
+    		return nbt.getByte(fuseNBT);
+    	}
+    	return (byte)0;
+    }
+    
+    public static void setPowder(ItemStack item, byte powder)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	nbt.setByte(powderNBT, powder);
+    }
+    public static byte getPowder(ItemStack item)
+    {
+    	NBTTagCompound nbt = getNBT(item);
+    	if(nbt.hasKey(powderNBT))
+    	{
+    		return nbt.getByte(powderNBT);
+    	}
+    	return (byte)0;
+    }
     /**
      * 0 = Basic
      * 1 = Shrapnel
      * 2 = Fire
      */
-    public void setFilling(ItemStack item, byte filling)
+    public static void setFilling(ItemStack item, byte filling)
     {
     	NBTTagCompound nbt = getNBT(item);
     	nbt.setByte(fillingNBT, filling);
     }
-    public byte getFilling(ItemStack item)
+    public static byte getFilling(ItemStack item)
     {
     	NBTTagCompound nbt = getNBT(item);
     	if(nbt.hasKey(fillingNBT))
@@ -118,12 +161,12 @@ public class ItemMine extends Item
      * 0 = Ceramic
      * 1 = Iron
      */
-    public void setCasing(ItemStack item, byte casing)
+    public static void setCasing(ItemStack item, byte casing)
     {
     	NBTTagCompound nbt = getNBT(item);
     	nbt.setByte(casingNBT, casing);
     }
-    public byte getCasing(ItemStack item)
+    public static byte getCasing(ItemStack item)
     {
     	NBTTagCompound nbt = getNBT(item);
     	if(nbt.hasKey(casingNBT))
@@ -133,34 +176,34 @@ public class ItemMine extends Item
     	return (byte)0;
     }
     
-    public NBTTagCompound getNBT(ItemStack item)
+    public static NBTTagCompound getNBT(ItemStack item)
     {
     	if(!item.hasTagCompound())item.setTagCompound(new NBTTagCompound());
     	return item.getTagCompound();
     }
     
-    public ItemStack createMine(byte casing, byte filling, int stackSize)
+    public ItemStack createMine(byte casing, byte filling, byte fuse, byte powder, int stackSize)
     {
-    	ItemStack mine = new ItemStack(this, stackSize);
-    	
-    	setFilling(mine, filling);
-    	setCasing(mine, casing);
-    	return mine;
+    	return ItemBomb.createExplosive(this, casing, filling,  fuse, powder, stackSize);
     }
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-		list.add(createMine((byte)0, (byte)0, 1));
-		list.add(createMine((byte)0, (byte)1, 1));
-		list.add(createMine((byte)0, (byte)2, 1));
+		list.add(createMine((byte)0, (byte)0, (byte)0, (byte)0, 1));
+		list.add(createMine((byte)0, (byte)1, (byte)0, (byte)0, 1));
+		list.add(createMine((byte)0, (byte)2, (byte)0, (byte)0, 1));
 		
-		list.add(createMine((byte)1, (byte)0, 1));
-		list.add(createMine((byte)1, (byte)1, 1));
-		list.add(createMine((byte)1, (byte)2, 1));
+		list.add(createMine((byte)1, (byte)0, (byte)0, (byte)0, 1));
+		list.add(createMine((byte)1, (byte)1, (byte)0, (byte)0, 1));
+		list.add(createMine((byte)1, (byte)2, (byte)0, (byte)0, 1));
 		
-		list.add(createMine((byte)2, (byte)0, 1));
-		list.add(createMine((byte)2, (byte)1, 1));
-		list.add(createMine((byte)2, (byte)2, 1));
+		list.add(createMine((byte)2, (byte)0, (byte)0, (byte)0, 1));
+		list.add(createMine((byte)2, (byte)1, (byte)0, (byte)0, 1));
+		list.add(createMine((byte)2, (byte)2, (byte)0, (byte)0, 1));
+		
+		list.add(createMine((byte)3, (byte)0, (byte)0, (byte)0, 1));
+		list.add(createMine((byte)3, (byte)1, (byte)0, (byte)0, 1));
+		list.add(createMine((byte)3, (byte)2, (byte)0, (byte)0, 1));
     }
 
     //TODO Icons
@@ -169,7 +212,7 @@ public class ItemMine extends Item
 	{
 		return mines[type];
 	}
-    private IIcon[] mines = new IIcon[3];
+    private IIcon[] mines = new IIcon[4];
     
     @Override
     @SideOnly(Side.CLIENT)
@@ -178,6 +221,7 @@ public class ItemMine extends Item
         this.itemIcon = mines[0] = reg.registerIcon("minefantasy2:Other/mine_ceramic");
         mines[1] = reg.registerIcon("minefantasy2:Other/mine_iron");
         mines[2] = reg.registerIcon("minefantasy2:Other/mine_obsidian");
+        mines[3] = reg.registerIcon("minefantasy2:Other/mine_crystal");
     }
     
     @Override

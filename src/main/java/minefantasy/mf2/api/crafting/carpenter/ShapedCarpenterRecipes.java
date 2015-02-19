@@ -12,28 +12,28 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ShapedCarpenterRecipes implements ICarpenterRecipe
 {
     /** How many horizontal slots this recipe is wide. */
-    private int recipeWidth;
+	public int recipeWidth;
     
-    private final int recipeHammer;
+    public final int recipeHammer;
 
-    private final boolean outputHot;
+    public final boolean outputHot;
     /** How many vertical slots this recipe uses. */
-    private int recipeHeight;
+    public int recipeHeight;
     
     /** The Block Tier needed to craft */
-    private final int blockTier;
+    public final int blockTier;
 
     /** Is a array of ItemStack that composes the recipe. */
-    private ItemStack[] recipeItems;
+    public ItemStack[] recipeItems;
 
     /** Is the ItemStack that you get when craft the recipe. */
-    private ItemStack recipeOutput;
+    public ItemStack recipeOutput;
     
-    private final int recipeTime;
-    private final float recipeExperiance;
-    private final String toolType;
-    private final String soundOfCraft;
-    private final String research;
+    public final int recipeTime;
+    public final float recipeExperiance;
+    public final String toolType;
+    public final String soundOfCraft;
+    public final String research;
     
     public ShapedCarpenterRecipes(int wdth, int heit, ItemStack[] inputs, ItemStack output, String toolType, int time, int hammer, int anvi, float exp, boolean hot, String sound, String research)
     {

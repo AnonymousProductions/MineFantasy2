@@ -98,8 +98,11 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.sulfur);
 		add(list, ComponentListMF.nitre);
 		add(list, ComponentListMF.blackpowder);
+		add(list, ComponentListMF.blackpowder_advanced);
 		add(list, ComponentListMF.bomb_fuse);
+		add(list, ComponentListMF.bomb_fuse_long);
 		add(list, ComponentListMF.shrapnel);
+		add(list, ComponentListMF.magma_cream_refined);
 		add(list, ComponentListMF.bomb_casing_uncooked);
 		add(list, ComponentListMF.bomb_casing);
 		add(list, ComponentListMF.mine_casing_uncooked);
@@ -108,6 +111,8 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.mine_casing_iron);
 		add(list, ComponentListMF.bomb_casing_obsidian);
 		add(list, ComponentListMF.mine_casing_obsidian);
+		add(list, ComponentListMF.bomb_casing_crystal);
+		add(list, ComponentListMF.mine_casing_crystal);
 		
 		add(list, ComponentListMF.clay_brick);
 		add(list, ComponentListMF.kaolinite);

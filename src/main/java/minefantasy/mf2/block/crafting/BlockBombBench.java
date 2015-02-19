@@ -4,6 +4,7 @@ import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -38,19 +39,19 @@ public class BlockBombBench extends BlockContainer
 		this.setStepSound(Block.soundTypeStone);
 		this.setHardness(5F);
 		this.setResistance(2F);
-        //this.setLightOpacity(0);
+        this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabMF.tabUtil);
     }
     @Override
     public boolean renderAsNormalBlock()
     {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isOpaqueCube()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -168,6 +169,11 @@ public class BlockBombBench extends BlockContainer
 			return Blocks.crafting_table.getIcon(1, meta);
 		}
 		return Blocks.anvil.getIcon(0, 0);
+	}
+	@Override
+	public int getRenderType()
+	{
+		return BlockListMF.bomb_RI;
 	}
 	private Random rand = new Random();
 }

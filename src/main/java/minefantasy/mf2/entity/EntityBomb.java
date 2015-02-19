@@ -3,12 +3,24 @@ package minefantasy.mf2.entity;
 import java.util.Iterator;
 import java.util.List;
 
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.item.gadget.EnumCasingType;
 import minefantasy.mf2.item.gadget.EnumExplosiveType;
+import minefantasy.mf2.item.gadget.EnumFuseType;
+import minefantasy.mf2.item.gadget.EnumPowderType;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -26,6 +38,7 @@ public class EntityBomb extends Entity
     public EntityBomb(World world)
     {
         super(world);
+        this.fuse = getFuseTime();
         this.preventEntitySpawning = true;
         this.setSize(0.5F, 0.5F);
         this.yOffset = this.height / 2.0F;
@@ -35,7 +48,6 @@ public class EntityBomb extends Entity
     {
         this(world);
         this.thrower = thrower;
-        this.fuse = 30;
         
         this.setLocationAndAngles(thrower.posX, thrower.posY + thrower.getEyeHeight(), thrower.posZ, thrower.rotationYaw, thrower.rotationPitch);
         this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
@@ -55,7 +67,12 @@ public class EntityBomb extends Entity
     }
 
  
-    public void setThrowableHeading(double x, double y, double z, float offset, float force)
+    private int getFuseTime()
+	{
+		return (this.fuse = getFuseType().time) + (isSticky() ? 20 : 0);
+	}
+
+	public void setThrowableHeading(double x, double y, double z, float offset, float force)
     {
         float f2 = MathHelper.sqrt_double(x * x + y * y + z * z);
         x /= f2;
@@ -88,6 +105,8 @@ public class EntityBomb extends Entity
     {
     	dataWatcher.addObject(typeId, (byte)0);
     	dataWatcher.addObject(typeId+1, (byte)0);
+    	dataWatcher.addObject(typeId+2, (byte)0);
+    	dataWatcher.addObject(typeId+3, (byte)0);
     }
 
     /**
@@ -134,9 +153,19 @@ public class EntityBomb extends Entity
         List collide = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox);
         if (!collide.isEmpty() && !(thrower != null && collide.contains(thrower)))
         {
-        	double d = 0.5D;
-            this.motionX *= d;
-            this.motionZ *= d;
+        	if(isSticky())
+        	{
+        		Object object = collide.get(0);
+	        	if(object instanceof Entity && object != this)
+	        	{
+	        		if(this.ridingEntity == null)
+	        		{
+		        		this.mountEntity((Entity) object);
+		        		this.fuse = getFuseTime();
+	        		}
+	        	}
+        	}
+        	this.motionX = motionZ = 0;
         }
 
         if (this.fuse-- <= 0)
@@ -153,11 +182,75 @@ public class EntityBomb extends Entity
             this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.125D, this.posZ, 0.0D, 0.0D, 0.0D);
             this.worldObj.spawnParticle("flame", this.posX, this.posY + 0.125D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
+        
+        if(!worldObj.isRemote && this.ridingEntity != null && ridingEntity instanceof EntityLivingBase)
+        {
+        	if(!(ridingEntity instanceof EntityChicken))
+        	panic((EntityLivingBase)ridingEntity);
+        }
+        if(isStuckInBlock())
+        {
+    		motionX = motionY = motionZ = 0;
+        }
+    }
+    
+    @Override
+    public void mountEntity(Entity object)
+    {
+    	super.mountEntity(object);
+    	
+    	if(object instanceof EntityChicken)
+		{
+			EntityChicken chook = (EntityChicken)object;
+			Entity target = worldObj.findNearestEntityWithinAABB(IMob.class, chook.boundingBox.expand(64, 8, 64),chook);
+			if(target != null)
+			{
+				if(target instanceof EntityLivingBase)
+				{
+					chook.setCustomNameTag("Suicide Chook!");
+    				fuse = getFuseTime()*2;
+    				chook.getNavigator().clearPathEntity();
+					chook.setAttackTarget((EntityLivingBase)target);
+					chook.targetTasks.addTask(1, new EntityAIAttackOnCollide(chook, IMob.class, 1.25D, true));
+    				chook.setAIMoveSpeed(0.5F);
+				}
+			}
+		}
     }
 
-    private double getGravityModifier()
+    private boolean isStuckInBlock()
 	{
-		return getCase().weightModifier;
+		return false;//isSticky() && isAABBInSolid(boundingBox.expand(0.5D, 0.5D, 0.5D));
+	}
+
+	private void panic(EntityLivingBase victim)
+	{
+		double moveX = victim.getEntityData().getDouble("MF2_PanicX");
+		double moveZ = victim.getEntityData().getDouble("MF2_PanicZ");
+    	victim.setJumping(true);
+    	
+    	if(moveX == 0 || moveZ == 0 || rand.nextInt(30) == 0)
+    	{
+    		 moveX = (rand.nextDouble()-0.5D)*0.85D;
+    		 moveZ = (rand.nextDouble()-0.5D)*0.85D;
+    		 
+    		 victim.getEntityData().setDouble("MF2_PanicX", moveX);
+    		 victim.getEntityData().setDouble("MF2_PanicZ", moveZ);
+    		 if(victim.onGround)victim.motionY = 0.25F;
+    	}
+    	victim.swingItem();
+    	victim.limbSwing = 1.0F;
+    	victim.moveEntity(moveX, 0D, moveZ);
+	}
+
+	private boolean isSticky()
+	{
+		return getEntityData().hasKey("stickyBomb");
+	}
+
+	private double getGravityModifier()
+	{
+		return isStuckInBlock() ? 0F : getCase().weightModifier;
 	}
 
 	private void explode2()
@@ -248,6 +341,10 @@ public class EntityBomb extends Entity
                     		{
                     			source.setFireDamage();
                     		}
+                    		if(ridingEntity != null && entityHit == ridingEntity)
+                    		{
+                    			dam *= 1.5F;
+                    		}
                     		if(entityHit.attackEntityFrom(source, dam))
                     		{
                     			applyEffects(entityHit);
@@ -289,12 +386,12 @@ public class EntityBomb extends Entity
 
 	private double getRangeOfBlast()
 	{
-		return getBlast().range * getCase().rangeModifier;
+		return getBlast().range * getCase().rangeModifier * getPowderType().rangeModifier;
 	}
 
 	private int getDamage() 
 	{
-		return (int)(getBlast().damage* getCase().damageModifier);
+		return (int)(getBlast().damage* getCase().damageModifier * getPowderType().damageModifier);
 	}
 	
 	public static DamageSource causeBombDamage(Entity bomb, Entity user)
@@ -316,10 +413,23 @@ public class EntityBomb extends Entity
 	{
 		return dataWatcher.getWatchableObjectByte(typeId+1);
 	}
-	public EntityBomb setType(byte fill, byte casing)
+	public byte getFuse()
+	{
+		return dataWatcher.getWatchableObjectByte(typeId+2);
+	}
+	public byte getPowder()
+	{
+		return dataWatcher.getWatchableObjectByte(typeId+3);
+	}
+	public EntityBomb setType(byte fill, byte casing, byte fuse, byte powder)
 	{
 		dataWatcher.updateObject(typeId, fill);
 		dataWatcher.updateObject(typeId+1, casing);
+		dataWatcher.updateObject(typeId+2, fuse);
+		dataWatcher.updateObject(typeId+3, powder);
+		
+		this.fuse = getFuseType().time;
+		
 		return this;
 	}
 	private EnumExplosiveType getBlast()
@@ -330,4 +440,51 @@ public class EntityBomb extends Entity
 	{
 		return EnumCasingType.getType(getCasing());
 	}
+	private EnumFuseType getFuseType()
+	{
+		return EnumFuseType.getType(getFuse());
+	}
+	private EnumPowderType getPowderType()
+	{
+		return EnumPowderType.getType(getPowder());
+	}
+	
+	public boolean isAABBInSolid(AxisAlignedBB field)
+    {
+        int i = MathHelper.floor_double(field.minX);
+        int j = MathHelper.floor_double(field.maxX + 1.0D);
+        int k = MathHelper.floor_double(field.minY);
+        int l = MathHelper.floor_double(field.maxY + 1.0D);
+        int i1 = MathHelper.floor_double(field.minZ);
+        int j1 = MathHelper.floor_double(field.maxZ + 1.0D);
+
+        for (int k1 = i; k1 < j; ++k1)
+        {
+            for (int l1 = k; l1 < l; ++l1)
+            {
+                for (int i2 = i1; i2 < j1; ++i2)
+                {
+                    Block block = worldObj.getBlock(k1, l1, i2);
+
+                    if (block.getMaterial().isSolid())
+                    {
+                        int j2 = worldObj.getBlockMetadata(k1, l1, i2);
+                        double d0 = (double)(l1 + 1);
+
+                        if (j2 < 8)
+                        {
+                            d0 = (double)(l1 + 1) - (double)j2 / 8.0D;
+                        }
+
+                        if (d0 >= field.minY)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

@@ -24,7 +24,7 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
 
     private final boolean outputHot;
     /** Is a List of ItemStack that composes the recipe. */
-    private final List recipeItems;
+    public final List recipeItems;
     
     private final int recipeHammer;
     

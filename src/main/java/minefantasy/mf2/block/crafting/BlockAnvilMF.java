@@ -3,6 +3,7 @@ package minefantasy.mf2.block.crafting;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -188,7 +189,7 @@ public class BlockAnvilMF extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return 100;
+		return BlockListMF.anvil_RI;
 	}
 	private Random rand = new Random();
 }

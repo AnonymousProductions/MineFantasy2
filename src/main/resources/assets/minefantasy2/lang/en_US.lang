@@ -24,6 +24,8 @@ knowledge.unlocked=Research Completed
 
 knowledge.gettingStarted=Getting Started
 knowledge.gettingStarted.desc=How to start out
+knowledge.ores=Ores and Minerals
+knowledge.ores.desc=Ore/Mineral Generation
 
 knowledge.research1=Improved Research
 knowledge.research1.desc=The big picture
@@ -109,16 +111,34 @@ knowledge.anvil.desc=Forge metals
 
 knowledge.blackpowder=Explosives
 knowledge.blackpowder.desc=Boom!
+knowledge.advblackpowder=Refined Explosions
+knowledge.advblackpowder.desc=Fine-tuned
 knowledge.bombs=Bomb Crafting
 knowledge.bombs.desc=A deadly ranged weapon
+knowledge.stickybomb=Sticky Bombs
+knowledge.stickybomb.desc=As fun as it sounds...
+knowledge.bombFuse=Bomb Fuse
+knowledge.bombFuse.desc=Ready for the bang...
+knowledge.bombCeramic=Ceramic Bomb Casing
+knowledge.bombCeramic.desc=Basic bomb case
 knowledge.bombIron=Iron Bomb Casing
 knowledge.bombIron.desc=More controlled blast
 knowledge.bombObsidian=Obsidian Bomb Casing
-knowledge.bombObsidian.desc=Concentrated blast range
+knowledge.bombObsidian.desc=Highly concentrated
+knowledge.mineCeramic=Ceramic Mine Casing
+knowledge.mineCeramic.desc=Explosive Traps
+knowledge.mineIron=Iron Mine Casing
+knowledge.mineIron.desc=More Stable Traps
+knowledge.mineObsidian=Obsidian Mine Casing
+knowledge.mineObsidian.desc=Direct Blasting
 knowledge.shrapnel=Shrapnel Bombs
 knowledge.shrapnel.desc=Adding more damage
 knowledge.firebomb=Incineration Bombs
 knowledge.firebomb.desc=Blow them away
+knowledge.bombCrystal=Crystal Bomb Casing
+knowledge.bombCrystal.desc=Give em' a glassing
+knowledge.mineCrystal=Crystal Mine Casing
+knowledge.mineCrystal.desc=Highly sensetive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -199,16 +219,21 @@ item.coalDust.name=Coal Dust
 item.nitre.name=Niter
 item.sulfur.name=Sulfur
 item.blackpowder.name=Blackpowder
+item.blackpowder_advanced.name=Advanced Blackpowder
 item.bomb_casing_uncooked.name=Clay Bomb Casing
 item.bomb_casing.name=Bomb Casing
 item.mine_casing_uncooked.name=Clay Mine Casing
 item.mine_casing.name=Mine Casing
 item.shrapnel.name=Shrapnel
+item.magma_cream_refined.name=Refined Magma Cream
 item.bomb_fuse.name=Bomb Fuse
+item.bomb_fuse_long.name=Long Bomb Fuse
 item.bomb_casing_iron.name=Iron Bomb Casing
 item.mine_casing_iron.name=Iron Mine Casing
 item.bomb_casing_obsidian.name=Obsidian Bomb Casing
 item.mine_casing_obsidian.name=Obsidian Mine Casing
+item.bomb_casing_crystal.name=Crystal Bomb Casing
+item.mine_casing_crystal.name=Crystal Mine Casing
 
 item.clay_brick.name=Clay Brick
 item.kaolinite.name=Kaolinite
@@ -246,7 +271,7 @@ item.ingotEnder.name=Enderforge Ingot
 item.hunkCopper.name=Copper Nugget
 item.hunkTin.name=Tin Nugget
 item.hunkBronze.name=Bronze Nugget
-item.hunkWroughtIron.name=Wrought Iron Nugget
+item.hunkIron.name=Iron Nugget
 item.hunkPigIron.name=Pig Iron Nugget
 item.hunkSteel.name=Steel Nugget
 item.hunkEncrusted.name=Encrusted Nugget
@@ -317,11 +342,18 @@ death.attack.bomb.thrown=%1$s was blown up by %2$s
 death.attack.bomb=%1$s was blown up
 death.attack.bomb.suicide=%1$s blew themself up
 
+bomb.powder.blackpowder.name=Blackpowder Charge
+bomb.powder.advBlackpowder.name=Advanced Blackpowder Charge
+bomb.fuse.basic.name=Basic Fuse
+bomb.fuse.long.name=Long Fuse
 bomb.case.ceramic.name=Ceramic Casing
 bomb.case.iron.name=Iron Casing
 bomb.case.obsidian.name=Obsidian Casing
+bomb.case.crystal.name=Crystal Casing
 bomb.damage.name=Blast Damage
 bomb.range.metric.name=Blast Radius: %1$s metres
+bomb.fusetime.name=Fuse Time: %1$s seconds
+bomb.case.sticky=Sticky
 
 gui.bombcraftmf.name=Bomb Crafting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1453,6 +1485,20 @@ method.anvil=Anvil
 method.carpenter=Carpenter
 
 knowledge.guiSubtitle=This is the GUI
+
+knowledge.ores.paragraph_1=There are many ores generating in the world of MineFantasy, many can be refined into new metals for use in their own purposes or in alloys.
+knowledge.ores.paragraph_2=As well as ores you may also find minerals: Minerals are like ores and generate in a similar way. Minerals can't be refined much but usually drop an item when mined.
+knowledge.ores.copper.paragraph_1=Copper ore is a commonly found material in the world. It can be found both above and below sea level and is smelted into ingots.
+knowledge.ores.tin.paragraph_1=Tin is less common than copper and found in similar areas. When mining you will often find some tin every once in awhile, it's main use is making bronze but buckets can also be made from this material.
+knowledge.ores.silver.paragraph_1=Silver is slightly more common than gold and found in the same levels. Silver has limited uses but you believe more use can be discovered later on.
+knowledge.minerals.mythic.paragraph_1=Little is known of this mystyrious ore only that it appears periodically near bedrock. Known as "Mythic" Ore this strange element gives off humming sounds when nearby and seems to be extremely hard to mine. No known tools seem to be strong enough to mine this material, not even diamond.
+knowledge.minerals.clay.paragraph_1=Clay is commonly known to be found near water in thick chunks, but it also can be found within dirt underneath the grass layer.
+knowledge.minerals.kaolinite.paragraph_1=Kaolinite can be found occasionally in large underground chunks. When mixed with clay: kaolinite can be used to create fireclay, this can be useful in refining technology.
+knowledge.minerals.limestone.paragraph_1=Limestone can be found in massive chunks anywhere near sea level. It's main use is flux creation for refinment purposes.
+knowledge.minerals.borax.paragraph_1=Borax is an uncommon mineral that can be found both above and below sea level. It's dust can be used as a strong flux for more efficient processing. Strong flux can be used in substitute for normal flux, but is recommended you save for later use.
+knowledge.minerals.nitre.paragraph_1=Nitre (or Niter if you're wrong) is a mineral found in the walls of caves, it's not very useful now but you may discover more use later.
+knowledge.minerals.sulfur.paragraph_1=Sulfur is found low underground where magma bubbles. This certainally could be useful for something.
+
 knowledge.anvil.paragraph_1=Anvils are used to work metals easily into many forms.
 knowledge.anvil.paragraph_2=You will need one of these for nearly anything, anvils are tiered and need upgrading.
 knowledge.anvil.paragraph_3=They can be made with 6 ingots from bronze, iron, steel, black steel, blue steel and red steel.
@@ -1460,3 +1506,29 @@ knowledge.anvil.paragraph_4=To use the anvil you need the proper tools; most rec
 knowledge.anvil.paragraph_5=With your tools, place the anvil in the world, with that done, you will need a water source (or cauldron/barrel), and atleast 1 forge for heating ingots.
 knowledge.anvil.paragraph_6=The GUI for anvils is similar to regular crafting: items in the grid(4) will be used to set up. the name of the item appears in the text box(1).
 knowledge.anvil.paragraph_7=When that's ready, hit the anvil with a hammer in the world, keep hits apart from about a second, the progress bar(2) will fill then when finished the result comes out in the slot(4)
+
+knowledge.blackpowder.paragraph_1=Explosives are an interesting concept to research. You have found the powder found within creepers is all well and good but it seems too unstable and impractical to use.
+knowledge.blackpowder.paragraph_2=Blackpowder however when made correctly will be able to detonate with a controlled force, with this particular mixture you should be able to set off a damaging yet safe blast.
+knowledge.advblackpowder.paragraph_1=You now have a further understanding on what makes explosions tick. Blackpowder uses 3 main elements to cause an explosion and elements such as redstone and glowstone are able to add more of a punch to this, increasing damage.
+knowledge.bombs.paragraph_1=With blackpowder you believe it is possible to create tiny explosive devices capable of doing great damage.
+knowledge.bombs.paragraph_2=Bombs are throwable grenade-like objects capable of doing serious damage to multiple enemies. To craft bombs you will need a bomb crafting table.
+knowledge.bombs.paragraph_3=The bomb crafting table is made by reinfocing a standard carpenters bench. 
+knowledge.bombs.paragraph_4=Bombs are made from a variety of componts (1) is the bomb casing this can be made from many materials and designs.
+knowledge.bombs.paragraph_5=(2) is the powder, right now blackpowder will work well enough.
+knowledge.bombs.paragraph_6=(3) is optional for more filling, to add effect to the blast.
+knowledge.bombs.paragraph_7=(4) is for the bomb fuse.
+knowledge.bombs.paragraph_8=To throw bombs, hold right-click until their thrown.
+knowledge.bombFuse.paragraph_1=For bombs to work you will need a fuse. Fuses use a redstone reaction down a string of coal powder to create a spark, these fuses are able to detonate explosives safely at a pre -determined time. Thank god for redstone!
+knowledge.bombFuse.paragraph_2=Long bomb fuses have double the time
+knowledge.bombCeramic.paragraph_1=Bomb casings are used to store the components of a bomb. each casing has different stats usually in range and damage.
+knowledge.bombCeramic.paragraph_2=Ceramic cases are brittle and far less resistant to exploding hence: they will have a high blast radius.
+knowledge.bombIron.paragraph_1=You have discovered a practical way of constructing bomb cases out of iron. Iron is hard and rather explosion resistant; but a few weak-points and a soft lining and these bombs can be designed to concentrate the blast, reducing the range but increasing the damage.
+knowledge.bombObsidian.paragraph_1=You have discovered a way to make bombs out of obsidian. Like iron casings: obsidian can resist the blast and concentrate it, only this is so effective the range is extremely small.
+knowledge.mineCeramic.paragraph_1=You can now create mine casings. Mines work similar to bombs, only their fuse ignites when they sense movement, even the slightest vibration can set them off. Mines take a few seconds to arm.
+knowledge.mineCeramic.paragraph_2=Ceramic mines are extremely sensetive, they do average damage but have a wide range.
+knowledge.mineIron.paragraph_1=You have discovered how to make mine casings out of iron. These casings are more resistant to explosions and have weak points designed to focus the blast more efficiently, doing more damage at less range.
+knowledge.mineObsidian.paragraph_1=You have discovered how to make mine casings out of obsidian. With this material; mines will be extremely concentrated and have a very small range. Great at doing huge damage in a small choke point.
+knowledge.stickybomb.paragraph_1=Your understanding of bomb projectiles is thorough enough to try a new experiment... what if you rolled a bomb in slime... this may stick well enough to attatch to targets when hit, and who said explosions aren't fun.
+knowledge.stickybomb.paragraph_2=All you need to do is right-click the top of a bomb crafting table with a slime ball with a bomb in the output slot
+knowledge.bombCrystal.paragraph_1=You may be on to something here... Ordinarily glass would make a terrible material for bombs as the casing would simply shatter and disrupt the powder charge- but a new diamond mesh set around the glass will not only allow it to hold together, but deliver a damaging array of diamond shrapnel with it.
+knowledge.mineCrystal.paragraph_1=Mines have been found useful for protecting what's yours, if only you could have damage and range. Crystal bombs are so fragile that they will detonate with a large diamond-lined blast on the slightest vibration!

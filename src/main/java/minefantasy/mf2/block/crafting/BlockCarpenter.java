@@ -3,6 +3,7 @@ package minefantasy.mf2.block.crafting;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
@@ -34,7 +35,6 @@ public class BlockCarpenter extends BlockContainer
     {
         super(Material.wood);
         
-        setBlockBounds(0F, 0F, 0F, 1F, 1F-(2/16F), 1F);
         this.setBlockTextureName("minectaft:oak_planks");
         GameRegistry.registerBlock(this, "MF_CarpenterBench");
 		setBlockName("carpenterBench");
@@ -94,27 +94,6 @@ public class BlockCarpenter extends BlockContainer
         	{
         		tile.tryCraft(user);
         	}
-        }
-    }
-
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
-    {
-    	int xdim = 8;
-    	int ydim = 8;
-    	int zdim = 14;
-    	
-    	float oX = 0.5F - (xdim / 16F);
-    	float oY = 0.5F - (ydim / 16F);
-        int direction = world.getBlockMetadata(x, y, z);
-
-        if (direction != 2 && direction != 0)
-        {
-            this.setBlockBounds(oY, 0.0F, oX, 1F-oY, zdim/16F, 1F-oX);
-        }
-        else
-        {
-            this.setBlockBounds(oX, 0.0F, oY, 1F-oX, zdim/16F, 1F-oY);
         }
     }
 
@@ -183,6 +162,11 @@ public class BlockCarpenter extends BlockContainer
 	public IIcon getIcon(int side, int meta)
 	{
 		return Blocks.crafting_table.getIcon(side, meta);
+	}
+	@Override
+	public int getRenderType()
+	{
+		return BlockListMF.carpenter_RI;
 	}
 	private Random rand = new Random();
 }

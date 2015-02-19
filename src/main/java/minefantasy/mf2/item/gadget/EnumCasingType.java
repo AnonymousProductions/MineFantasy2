@@ -4,7 +4,8 @@ public enum EnumCasingType
 {
 	CERAMIC("ceramic",  1.0F, 1.0F, 1.0F),
 	IRON("iron",        1.5F, (4.0F/5.5F), 2.0F),
-	OBSIDIAN("obsidian",2.0F, (2.0F/5.5F), 1.5F);
+	OBSIDIAN("obsidian",2.0F, (2.0F/5.5F), 1.5F),
+	CRYSTAL("crystal",  1.5F, (6.0F/5.5F), 0.75F);
 	
 	public String name;
 	public float damageModifier;
@@ -28,6 +29,10 @@ public enum EnumCasingType
 		if(i == 2)
 		{
 			return OBSIDIAN;
+		}
+		if(i == 3)
+		{
+			return CRYSTAL;
 		}
 		return CERAMIC;
 	}

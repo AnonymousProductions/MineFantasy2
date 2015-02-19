@@ -21,6 +21,7 @@ import minefantasy.mf2.mechanics.CombatMechanics;
 import minefantasy.mf2.mechanics.EventManagerMF;
 import minefantasy.mf2.mechanics.MonsterUpgrader;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

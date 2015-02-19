@@ -81,9 +81,12 @@ public class ComponentListMF
 	public static Item nitre = new ItemComponentMF("nitre", 0);
 	public static Item sulfur = new ItemComponentMF("sulfur", 0);
 	public static Item blackpowder = new ItemBombComponent("blackpowder", 0, "powder", 0);
+	public static Item blackpowder_advanced = new ItemBombComponent("blackpowder_advanced", 1, "powder", 1);
 	public static Item fletching = new ItemComponentMF("fletching", 0);
 	public static Item shrapnel = new ItemBombComponent("shrapnel", 0, "filling", 1);
+	public static Item magma_cream_refined = new ItemBombComponent("magma_cream_refined", 1, "filling", 2);
 	public static Item bomb_fuse = new ItemBombComponent("bomb_fuse", 0, "fuse", 0);
+	public static Item bomb_fuse_long = new ItemBombComponent("bomb_fuse_long", 0, "fuse", 1);
 	public static Item bomb_casing_uncooked = new ItemComponentMF("bomb_casing_uncooked", 0);
 	public static Item bomb_casing = new ItemBombComponent("bomb_casing", 0, "bombcase", 0);
 	public static Item mine_casing_uncooked = new ItemComponentMF("mine_casing_uncooked", 0);
@@ -92,6 +95,8 @@ public class ComponentListMF
 	public static Item mine_casing_iron = new ItemBombComponent("mine_casing_iron", 0, "minecase", 1);
 	public static Item bomb_casing_obsidian = new ItemBombComponent("bomb_casing_obsidian", 1, "bombcase", 2);
 	public static Item mine_casing_obsidian = new ItemBombComponent("mine_casing_obsidian", 1, "minecase", 2);
+	public static Item bomb_casing_crystal = new ItemBombComponent("bomb_casing_crystal", 1, "bombcase", 3);
+	public static Item mine_casing_crystal = new ItemBombComponent("mine_casing_crystal", 1, "minecase", 3);
 	
 	public static Item coke = new ItemComponentMF("coke", 0);
 	public static Item diamond_shards = new ItemComponentMF("diamond_shards", 0);
@@ -111,7 +116,7 @@ public class ComponentListMF
 	public static Item hideMedium = new ItemComponentMF("hideMedium", 0);
 	public static Item hideLarge = new ItemComponentMF("hideLarge", 0);
 	
-	public static Item dragon_heart = new ItemBombComponent("dragon_heart", 1, "filling", 2);
+	public static Item dragon_heart = new ItemComponentMF("dragon_heart", 1);
 	
 	public static Item padding = new ItemComponentMF("padding", 0);
 	

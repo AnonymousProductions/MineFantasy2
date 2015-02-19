@@ -32,7 +32,7 @@ public class RenderAnvilMF implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return 100;
+		return BlockListMF.anvil_RI;
 	}
 
 	@Override

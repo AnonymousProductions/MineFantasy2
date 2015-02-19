@@ -20,7 +20,7 @@ public class EntryPageImage extends EntryPage
 	
 	public EntryPageImage(String tex, String... paragraphs)
 	{
-		this(tex, 48, 48, paragraphs);
+		this(tex, 128, 128, paragraphs);
 	}
 	public EntryPageImage(String tex, int width, int height, String... paragraphs)
 	{
@@ -43,7 +43,7 @@ public class EntryPageImage extends EntryPage
 	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)
 	{
 		mc.renderEngine.bindTexture(TextureHelperMF.getResource(image));
-		RenderHelper.drawTexturedModalRect(posX+14, posY+8, 2, 0, 0, 128, 128, 1/128F, 1/128F);
+		RenderHelper.drawTexturedModalRect(posX+14, posY+8, 2, 0, 0, sizes[0], sizes[1], 1F/(float)sizes[0], 1F/(float)sizes[1]);
 	}
 
 }

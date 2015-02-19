@@ -68,7 +68,7 @@ public class ResearchLogic
 
 	public static boolean hasInfoUnlocked(EntityPlayer player, InformationBase base)
     {
-		if(base.startedUnlocked)return true;
+		if(base.startedUnlocked)return base.parentInfo == null || hasInfoUnlocked(player, base.parentInfo);
 		
 		NBTTagCompound nbt = getNBT(player);
 		String basename = base.getUnlocalisedName();

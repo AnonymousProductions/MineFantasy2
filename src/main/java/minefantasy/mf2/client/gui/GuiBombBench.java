@@ -20,7 +20,7 @@ public class GuiBombBench extends GuiContainer
     public GuiBombBench(InventoryPlayer user, TileEntityBombBench tile)
     {
         super(new ContainerBombBench(user, tile));
-        this.ySize = 198;
+        this.ySize = 208;
         this.tile = tile;
     }
 
@@ -31,7 +31,7 @@ public class GuiBombBench extends GuiContainer
     protected void drawGuiContainerForegroundLayer(int x, int y)
     {
     	String s = StatCollector.translateToLocal("tile.bombBench.name");
-        this.fontRendererObj.drawString(s, 10, 6, 0);
+        //this.fontRendererObj.drawString(s, 10, 6, 0);
         
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;

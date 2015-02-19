@@ -5,6 +5,8 @@ import java.util.List;
 
 import minefantasy.mf2.item.gadget.EnumCasingType;
 import minefantasy.mf2.item.gadget.EnumExplosiveType;
+import minefantasy.mf2.item.gadget.EnumFuseType;
+import minefantasy.mf2.item.gadget.EnumPowderType;
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -68,7 +70,7 @@ public class EntityMine extends Entity
     		user.swingItem();
         	if(!worldObj.isRemote)
         	{
-        		ItemStack item = ToolListMF.mine_custom.createMine(getCasing(), getFilling(), 1);
+        		ItemStack item = ToolListMF.mine_custom.createMine(getCasing(), getFilling(), getFuse(), getPowder(), 1);
         		if(!user.inventory.addItemStackToInventory(item))
         		{
         			this.entityDropItem(item, 0.0F);
@@ -111,6 +113,8 @@ public class EntityMine extends Entity
     {
     	dataWatcher.addObject(typeId, (byte)0);
     	dataWatcher.addObject(typeId+1, (byte)0);
+    	dataWatcher.addObject(typeId+2, (byte)0);
+    	dataWatcher.addObject(typeId+3, (byte)0);
     }
 
     /**
@@ -245,7 +249,7 @@ public class EntityMine extends Entity
     	worldObj.createExplosion(this, posX, posY, posZ, 0, false);
         if (!this.worldObj.isRemote)
         {
-        	double area = getRangeOfBlast()*2D;
+        	double area = getRangeOfBlast()*2D* getPowderType().rangeModifier;
             AxisAlignedBB var3 = this.boundingBox.expand(area, area/2, area);
             List var4 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, var3);
 
@@ -258,7 +262,7 @@ public class EntityMine extends Entity
                     Entity entityHit = (Entity)splashDamage.next();
                     double distanceToEntity = this.getDistanceToEntity(entityHit);
 
-                    double radius = getRangeOfBlast();
+                    double radius = getRangeOfBlast()* getPowderType().rangeModifier;
                     if (distanceToEntity < radius)
                     {
                     	float dam = getDamage();
@@ -323,7 +327,7 @@ public class EntityMine extends Entity
 
 	private float getDamage() 
 	{
-		return getBlast().damage * getCase().damageModifier;
+		return getBlast().damage * getCase().damageModifier * getPowderType().damageModifier;
 	}
 	
 	private static DamageSource mineDmg = new DamageSource("mine").setExplosion();
@@ -343,10 +347,23 @@ public class EntityMine extends Entity
 	{
 		return dataWatcher.getWatchableObjectByte(typeId+1);
 	}
-	public EntityMine setType(byte fill, byte casing)
+	public byte getFuse()
+	{
+		return dataWatcher.getWatchableObjectByte(typeId+2);
+	}
+	public byte getPowder()
+	{
+		return dataWatcher.getWatchableObjectByte(typeId+3);
+	}
+	public EntityMine setType(byte fill, byte casing, byte fuse, byte powder)
 	{
 		dataWatcher.updateObject(typeId, fill);
 		dataWatcher.updateObject(typeId+1, casing);
+		dataWatcher.updateObject(typeId+2, fuse);
+		dataWatcher.updateObject(typeId+3, powder);
+		
+		this.fuse = getFuseType().time;
+		
 		return this;
 	}
 	private EnumExplosiveType getBlast()
@@ -356,5 +373,13 @@ public class EntityMine extends Entity
 	private EnumCasingType getCase()
 	{
 		return EnumCasingType.getType(getCasing());
+	}
+	private EnumFuseType getFuseType()
+	{
+		return EnumFuseType.getType(getFuse());
+	}
+	private EnumPowderType getPowderType()
+	{
+		return EnumPowderType.getType(getPowder());
 	}
 }

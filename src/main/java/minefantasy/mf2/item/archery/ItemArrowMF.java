@@ -10,7 +10,9 @@ import minefantasy.mf2.api.archery.IDisplayMFArrows;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.material.BaseMaterialMF;
+import minefantasy.mf2.mechanics.MFArrowDispenser;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,6 +33,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	private ArrowType design;
 	private ToolMaterial arrowMat;
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
+	public static final MFArrowDispenser dispenser = new MFArrowDispenser();
 	public ItemArrowMF(String name)
 	{
 		this(name, 0, ToolMaterial.WOOD);
@@ -41,8 +44,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	}
 	public ItemArrowMF(String name, int rarity, ToolMaterial material, ArrowType type)
 	{
-		this.setUnlocalizedName(name+"_arrow");
-		
+		super.setUnlocalizedName(name+"_arrow");
 		
 		name = getName(name, type);
 		design = type;
@@ -56,6 +58,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		
 		Arrows.addArrow(new ItemStack(this));
 		QuiverArrowRegistry.addArrowToRegistry(new ItemStack(this), null);
+		BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenser);
 	}
 	
 	@Override

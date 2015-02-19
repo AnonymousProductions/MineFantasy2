@@ -32,13 +32,6 @@ public class BasicRecipesMF
 		});
 
 		GameRegistry.addRecipe(new RecipeArmourDyeMF());
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.blackpowder, 4), new Object[]
-		{
-			new ItemStack(ComponentListMF.coalDust),
-			new ItemStack(ComponentListMF.coalDust),
-			new ItemStack(ComponentListMF.sulfur),
-			new ItemStack(ComponentListMF.nitre),
-		});
 		//Just a way on making the overpowered gunpowder from black powder
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.gunpowder), new Object[]
 		{
@@ -119,14 +112,6 @@ public class BasicRecipesMF
 		}
 		recipeMap.put("anvilCrafting", anvilRecs);
 		
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.bombBench), new Object[]
-		{
-			"ICI",
-			"III",
-			"III",
-			'C', BlockListMF.carpenter,
-			'I', Items.iron_ingot,
-		});
 	}
 	public static final HashMap<String, IRecipe[]>recipeMap = new HashMap<String, IRecipe[]>();
 }

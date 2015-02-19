@@ -1,5 +1,10 @@
 package minefantasy.mf2.config;
 
+import minefantasy.mf2.block.list.BlockListMF;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
 public class ConfigClient extends ConfigurationBaseMF
 {
 	public static final String CATEGORY_GUI = "Gui/Hud Features";
@@ -37,6 +42,9 @@ public class ConfigClient extends ConfigurationBaseMF
 	public static int AC_yOrient;
 	public static int AC_xPos;
 	public static int AC_yPos;
+	
+	
+	public static final String CATEGORY_BLOCK = "Block Render Ids";
 	@Override
 	protected void loadConfig()
 	{
@@ -60,6 +68,10 @@ public class ConfigClient extends ConfigurationBaseMF
 		AC_yOrient = Integer.parseInt(config.get(GUI_ACOUNT, "Y Orient", -1, "The orientation for the Y axis (-1 = top, 0 = middle, 1 = bottom). Determines what point in the axis to snap to").getString());
 		AC_xPos = Integer.parseInt(config.get(GUI_ACOUNT, "X Position", 4, "The Offset value away from the orient (-)left, (+)right").getString());
 		AC_yPos = Integer.parseInt(config.get(GUI_ACOUNT, "Y Position", 16, "The Offset value away from the orient (-)up, (+)down").getString());
+		
+		BlockListMF.anvil_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Anvil", -100).getString());
+		BlockListMF.carpenter_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Carpenter", -101).getString());
+		BlockListMF.bomb_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bomb Bench", -102).getString());
 	}
 
 }

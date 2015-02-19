@@ -374,5 +374,6 @@ public class TacticalManager
     		entityPlayer.rotationYaw += yawBalance;
     	}
 	}
+	
 	public static boolean newBalanceSystem = false;
 }

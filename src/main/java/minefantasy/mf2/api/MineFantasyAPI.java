@@ -8,6 +8,7 @@ import java.util.Map;
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
+import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.knowledge.KnowledgeType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -55,13 +56,13 @@ public class MineFantasyAPI
 	 * @param forgeTime The time taken to forge(default is 200. each hit is about 100)
 	 * @param input The input for the item (Exactly the same as regular recipes)
 	 */
-	public static IAnvilRecipe addAnvilRecipe(ItemStack result, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
+	public static void addAnvilRecipe(ItemStack result, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		return CraftingManagerAnvil.getInstance().addRecipe(result, "", hot, 0F, toolType, hammerType, anvil, forgeTime, input);
+		CraftingManagerAnvil.getInstance().addRecipe(result, "", hot, 0F, toolType, hammerType, anvil, forgeTime, input);
 	}
-	public static IAnvilRecipe addAnvilRecipe(ItemStack result, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
+	public static void addAnvilRecipe(ItemStack result, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		return addAnvilRecipe(result, hot, "hammer", hammerType, anvil, forgeTime, input);
+		addAnvilRecipe(result, hot, "hammer", hammerType, anvil, forgeTime, input);
 	}
 	
 	/**
@@ -127,20 +128,20 @@ public class MineFantasyAPI
 	 * @param craftTime The time taken to craft(default is 200. each hit is about 100)
 	 * @param input The input for the item (Exactly the same as regular recipes)
 	 */
-	public static void addCarpenterRecipe(ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
+	public static ICarpenterRecipe addCarpenterRecipe(ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
 	{
-		CraftingManagerCarpenter.getInstance().addRecipe(result, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
+		return CraftingManagerCarpenter.getInstance().addRecipe(result, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
-	public static void addCarpenterRecipe(ItemStack result, String research, String sound, int craftTime, Object... input)
+	public static ICarpenterRecipe addCarpenterRecipe(ItemStack result, String research, String sound, int craftTime, Object... input)
 	{
-		addCarpenterRecipe(result, research, sound, "hands", -1, craftTime, input);
+		return addCarpenterRecipe(result, research, sound, "hands", -1, craftTime, input);
 	}
-	public static void addShapelessCarpenterRecipe(ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
+	public static ICarpenterRecipe addShapelessCarpenterRecipe(ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
 	{
-		CraftingManagerCarpenter.getInstance().addShapelessRecipe(result, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
+		return CraftingManagerCarpenter.getInstance().addShapelessRecipe(result, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
-	public static void addShapelessCarpenterRecipe(ItemStack result, String research, String sound, int craftTime, Object... input)
+	public static ICarpenterRecipe addShapelessCarpenterRecipe(ItemStack result, String research, String sound, int craftTime, Object... input)
 	{
-		addShapelessCarpenterRecipe(result, research,  sound, "hands", -1, craftTime, input);
+		return addShapelessCarpenterRecipe(result, research,  sound, "hands", -1, craftTime, input);
 	}
 }

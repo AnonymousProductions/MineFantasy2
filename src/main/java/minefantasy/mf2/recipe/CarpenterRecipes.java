@@ -6,6 +6,7 @@ import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -526,14 +527,16 @@ public class CarpenterRecipes
 		}
 		
 		//BOMBS
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.bomb_casing_uncooked, 2), "bombs", basic, 2, new Object[]
+		KnowledgeListMF.bombCaseCeramicR = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.bomb_casing_uncooked, 2), "bombCeramic", basic, 2, new Object[]
 		{
 			" C ",
 			"C C",
 			" C ",
 			'C', Items.clay_ball,
 		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.mine_casing_uncooked), "bombs", basic, 2, new Object[]
+		KnowledgeListMF.mineCaseCeramicR = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.mine_casing_uncooked), "mineCeramic", basic, 2, new Object[]
 		{
 			" P ",
 			"C C",
@@ -542,7 +545,29 @@ public class CarpenterRecipes
 			'P', Blocks.stone_pressure_plate,
 			'C', Items.clay_ball,
 		});
+		KnowledgeListMF.bombCaseCrystalR = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.bomb_casing_crystal), "bombCrystal", basic, 10, new Object[]
+		{
+			" D ",
+			"R R",
+			" B ",
+			'B', Items.glass_bottle,
+			'D', ComponentListMF.diamond_shards,
+			'R', Items.redstone
+		});
+		KnowledgeListMF.mineCaseCrystalR = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.mine_casing_crystal), "mineCrystal", basic, 10, new Object[]
+		{
+			" P ",
+			"RDR",
+			" B ",
+			'P', Blocks.heavy_weighted_pressure_plate,
+			'B', Items.glass_bottle,
+			'D', ComponentListMF.diamond_shards,
+			'R', Items.redstone
+		});
 		
+		KnowledgeListMF.bombFuseR =
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.bomb_fuse, 8), "bombs", basic, 4, new Object[]
 		{
 			"R",
@@ -551,6 +576,42 @@ public class CarpenterRecipes
 			'S', Items.string,
 			'C', ComponentListMF.coalDust,
 			'R', Items.redstone,
+		});
+		KnowledgeListMF.longFuseR =
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.bomb_fuse_long), "bombs", basic, 1, new Object[]
+		{
+			"F",
+			"R",
+			"F",
+			'F', ComponentListMF.bomb_fuse,
+			'R', Items.redstone,
+		});
+		
+		KnowledgeListMF.blackpowderRec =
+		MineFantasyAPI.addShapelessCarpenterRecipe(new ItemStack(ComponentListMF.blackpowder, 4), "blackpowder", "basic", 2, new Object[]
+		{
+			new ItemStack(ComponentListMF.coalDust),
+			new ItemStack(ComponentListMF.coalDust),
+			new ItemStack(ComponentListMF.sulfur),
+			new ItemStack(ComponentListMF.nitre),
+		});
+		KnowledgeListMF.advblackpowderRec =
+		MineFantasyAPI.addShapelessCarpenterRecipe(new ItemStack(ComponentListMF.blackpowder_advanced), "advblackpowder", "basic", 2, new Object[]
+		{
+			new ItemStack(ComponentListMF.blackpowder),
+			new ItemStack(Items.redstone),
+			new ItemStack(Items.glowstone_dust)
+		});
+		
+		KnowledgeListMF.magmaRefinedR =
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.magma_cream_refined, 8), "firebomb", "basic", 5, new Object[]
+		{
+			"PCP",
+			"CDC",
+			"PCP",
+			'D', ComponentListMF.dragon_heart,
+			'C', Items.magma_cream,
+			'P', Items.blaze_powder
 		});
 	}
 }

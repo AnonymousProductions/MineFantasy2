@@ -15,7 +15,7 @@ public class ConfigExperiment extends ConfigurationBaseMF
 
 	public static final String CATEGORY_FOOD = "Experimental: Hunger Modification";
 	
-	public static String debug;
+	public static String debug = "";
 	
 	@Override
 	protected void loadConfig()
