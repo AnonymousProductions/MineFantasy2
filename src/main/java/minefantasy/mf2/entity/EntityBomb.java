@@ -237,6 +237,7 @@ public class EntityBomb extends Entity
     		 victim.getEntityData().setDouble("MF2_PanicX", moveX);
     		 victim.getEntityData().setDouble("MF2_PanicZ", moveZ);
     		 if(victim.onGround)victim.motionY = 0.25F;
+    		 victim.rotationYaw = (float)(Math.atan2(moveX, moveZ));
     	}
     	victim.swingItem();
     	victim.limbSwing = 1.0F;

@@ -3,34 +3,15 @@ package minefantasy.mf2.network;
 import minefantasy.mf2.api.helpers.ClientTickHandler;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.block.crafting.BlockAnvilMF;
-import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
-import minefantasy.mf2.block.tileentity.TileEntityBombBench;
-import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
+import minefantasy.mf2.block.tileentity.*;
+import minefantasy.mf2.block.tileentity.blastfurnace.*;
 import minefantasy.mf2.client.KnowledgePageRegistry;
-import minefantasy.mf2.client.gui.GuiAnvilMF;
-import minefantasy.mf2.client.gui.GuiBombBench;
-import minefantasy.mf2.client.gui.GuiCarpenterMF;
-import minefantasy.mf2.client.gui.GuiKnowledge;
-import minefantasy.mf2.client.gui.GuiKnowledgeEntry;
-import minefantasy.mf2.client.render.AnimationHandlerMF;
-import minefantasy.mf2.client.render.HudHandlerMF;
-import minefantasy.mf2.client.render.RenderArrowMF;
-import minefantasy.mf2.client.render.RenderBombIcon;
-import minefantasy.mf2.client.render.RenderBow;
-import minefantasy.mf2.client.render.RenderHeavyWeapon;
-import minefantasy.mf2.client.render.RenderLance;
-import minefantasy.mf2.client.render.RenderMine;
-import minefantasy.mf2.client.render.RenderSaw;
-import minefantasy.mf2.client.render.RenderSpear;
-import minefantasy.mf2.client.render.RenderSword;
-import minefantasy.mf2.client.render.block.RenderAnvilMF;
-import minefantasy.mf2.client.render.block.RenderBombBench;
-import minefantasy.mf2.client.render.block.RenderCarpenter;
-import minefantasy.mf2.client.render.block.TileEntityAnvilMFRenderer;
-import minefantasy.mf2.client.render.block.TileEntityBombBenchRenderer;
-import minefantasy.mf2.client.render.block.TileEntityCarpenterRenderer;
+import minefantasy.mf2.client.gui.*;
+import minefantasy.mf2.client.render.*;
+import minefantasy.mf2.client.render.block.*;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.entity.EntityBomb;
+import minefantasy.mf2.entity.EntityFireBlast;
 import minefantasy.mf2.entity.EntityMine;
 import minefantasy.mf2.entity.EntityShrapnel;
 import minefantasy.mf2.item.archery.ItemBowMF;
@@ -38,16 +19,7 @@ import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.advanced.ItemScythe;
 import minefantasy.mf2.item.tool.crafting.ItemSaw;
-import minefantasy.mf2.item.weapon.ItemBattleaxeMF;
-import minefantasy.mf2.item.weapon.ItemGreatswordMF;
-import minefantasy.mf2.item.weapon.ItemHalbeardMF;
-import minefantasy.mf2.item.weapon.ItemKatanaMF;
-import minefantasy.mf2.item.weapon.ItemLance;
-import minefantasy.mf2.item.weapon.ItemMaceMF;
-import minefantasy.mf2.item.weapon.ItemSpearMF;
-import minefantasy.mf2.item.weapon.ItemSwordMF;
-import minefantasy.mf2.item.weapon.ItemWaraxeMF;
-import minefantasy.mf2.item.weapon.ItemWarhammerMF;
+import minefantasy.mf2.item.weapon.*;
 import minefantasy.mf2.mechanics.ExtendedReachMF;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
 import net.minecraft.block.Block;
@@ -56,6 +28,8 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -155,6 +129,7 @@ public class ClientProxyMF extends CommonProxyMF
 		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new RenderBombIcon());//Switch to RenderBomb when syncing is fixed
 		RenderingRegistry.registerEntityRenderingHandler(EntityMine.class, new RenderMine());
 		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderSnowball(ComponentListMF.shrapnel));
+		RenderingRegistry.registerEntityRenderingHandler(EntityFireBlast.class, new RenderSnowball(Item.getItemFromBlock(Blocks.fire)));
 	}
 	
 	@Override
@@ -182,6 +157,14 @@ public class ClientProxyMF extends CommonProxyMF
 			if(tile != null && tile instanceof TileEntityBombBench)
 			{
 				return new GuiBombBench(player.inventory, (TileEntityBombBench) tile);
+			}
+			if(tile != null && tile instanceof TileEntityBlastFH)
+			{
+				return new GuiBlastHeater(player.inventory, (TileEntityBlastFH) tile);
+			}
+			if(tile != null && tile instanceof TileEntityBlastFC)
+			{
+				return new GuiBlastChamber(player.inventory, (TileEntityBlastFC) tile);
 			}
 			 return null;
 		}

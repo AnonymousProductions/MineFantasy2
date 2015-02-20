@@ -1,3 +1,5 @@
+THIS SYSTEM WILL BE OBSOLETE SOON ENOUGH
+
 //HOW TO CREATE RECIPE IMAGES//
 -Recipe images are included in the Recipes folder, and are organised properly.
 Most Recipes (Anvil and carpenter) follow this pattern.

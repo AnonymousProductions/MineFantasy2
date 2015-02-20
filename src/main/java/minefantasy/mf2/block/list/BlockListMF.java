@@ -12,6 +12,8 @@ import minefantasy.mf2.block.crafting.BlockCarpenter;
 import minefantasy.mf2.block.food.BlockBerryBush;
 import minefantasy.mf2.block.food.BlockCakeMF;
 import minefantasy.mf2.block.food.BlockPie;
+import minefantasy.mf2.block.refining.BlockBFC;
+import minefantasy.mf2.block.refining.BlockBFH;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -115,6 +117,8 @@ public class BlockListMF
 	public static Block pie_shepards = new BlockPie("pie_shepards", FoodListMF.pieslice_shepards);
 	
 	public static Block berryBush = new BlockBerryBush("berries");
+	public static Block blast_chamber = new BlockBFC();
+	public static Block blast_heater = new BlockBFH();
 	
 	public static void init()
 	{

@@ -420,6 +420,8 @@ tile.anvilSteel.name=Steel Anvil
 tile.anvilBlackSteel.name=Black Steel Anvil
 tile.anvilRedSteel.name=Red Steel Anvil
 tile.anvilBlueSteel.name= Blue Steel Anvil
+tile.blastfurnchamber.name=Blast Furnace Chamber
+tile.blastfurnheater.name=Blast Furnace Heater
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /TABS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

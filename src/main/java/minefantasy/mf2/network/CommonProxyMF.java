@@ -2,15 +2,13 @@ package minefantasy.mf2.network;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.archery.Arrows;
-import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
-import minefantasy.mf2.block.tileentity.TileEntityBombBench;
-import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
+import minefantasy.mf2.block.tileentity.*;
+import minefantasy.mf2.block.tileentity.blastfurnace.*;
 import minefantasy.mf2.config.ConfigExperiment;
-import minefantasy.mf2.container.ContainerAnvilMF;
-import minefantasy.mf2.container.ContainerBombBench;
-import minefantasy.mf2.container.ContainerCarpenterMF;
+import minefantasy.mf2.container.*;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.entity.EntityBomb;
+import minefantasy.mf2.entity.EntityFireBlast;
 import minefantasy.mf2.entity.EntityMine;
 import minefantasy.mf2.entity.EntityShrapnel;
 import minefantasy.mf2.hunger.HungerSystemMF;
@@ -59,6 +57,14 @@ public class CommonProxyMF implements IGuiHandler
 		{
 			return new ContainerBombBench(player.inventory, (TileEntityBombBench) tile);
 		}
+		if(tile != null && tile instanceof TileEntityBlastFH)
+		{
+			return new ContainerBlastHeater(player.inventory, (TileEntityBlastFH) tile);
+		}
+		if(tile != null && tile instanceof TileEntityBlastFC)
+		{
+			return new ContainerBlastChamber(player.inventory, (TileEntityBlastFC) tile);
+		}
         return null;
     }
 
@@ -78,12 +84,15 @@ public class CommonProxyMF implements IGuiHandler
 			EntityRegistry.registerModEntity(EntityArrowMF.class, "arrowMF", IDBase, MineFantasyII.instance, 64, 1, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityBomb.class, "bombMF", IDBase, MineFantasyII.instance, 64, 1, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityShrapnel.class, "shrapnel_mf", IDBase, MineFantasyII.instance, 16, 1, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntityFireBlast.class, "fire_blast", IDBase, MineFantasyII.instance, 64, 2, true);IDBase ++;
+			
 		}
 		else
 		{
 			EntityRegistry.registerModEntity(EntityArrowMF.class, "arrowMF", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityBomb.class, "bombMF", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityShrapnel.class, "shrapnel_mf", IDBase, MineFantasyII.instance, 16, 20, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntityFireBlast.class, "fire_blast", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 		}
 		EntityRegistry.registerModEntity(EntityMine.class, "landmineMF", IDBase, MineFantasyII.instance, 16, 10, true);IDBase ++;
 		registerTileEntities();
@@ -94,6 +103,8 @@ public class CommonProxyMF implements IGuiHandler
 		GameRegistry.registerTileEntity(TileEntityAnvilMF.class, "MF_Anvil");
 		GameRegistry.registerTileEntity(TileEntityCarpenterMF.class, "MF_CarpenterBench");
 		GameRegistry.registerTileEntity(TileEntityBombBench.class, "MF_BombBench");
+		GameRegistry.registerTileEntity(TileEntityBlastFC.class, "MF_BlastChamber");
+		GameRegistry.registerTileEntity(TileEntityBlastFH.class, "MF_BlastHeater");
 	}
 
 
