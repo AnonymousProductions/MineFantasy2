@@ -1,2 +1,2 @@
 # MineFantasy2
-This will be used for MineFantasy2 when it's ready
+Recreation in progress.. Lots of stuff to do
