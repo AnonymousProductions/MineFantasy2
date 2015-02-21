@@ -6,6 +6,7 @@ import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -133,6 +134,31 @@ public class BasicRecipesMF
 		});
 		
 		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.iron_prep, new ItemStack(ComponentListMF.ingots[3]));
+		
+		KnowledgeListMF.fireclayR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.fireclay), new Object[]
+		{
+			"D",
+			"C",
+			
+			'D', ComponentListMF.kaolinite_dust,
+			'C', Items.clay_ball
+		});
+		KnowledgeListMF.fireBrickR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.fireclay_brick) , new Object[]
+		{
+			"C",
+			
+			'C', ComponentListMF.fireclay
+		});
+		KnowledgeListMF.fireBricksR = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.firebricks) , new Object[]
+		{
+			"BB",
+			"BB",
+			
+			'B', ComponentListMF.strong_brick
+		});
 	}
 	public static final HashMap<String, IRecipe[]>recipeMap = new HashMap<String, IRecipe[]>();
 }

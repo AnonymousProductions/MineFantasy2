@@ -89,8 +89,6 @@ knowledge.hvyHammer.desc=For more of an impact
 
 knowledge.crucible=Basic Alloying
 knowledge.crucible.desc=Mixing metals
-knowledge.smeltSmart1=Novice Smelter
-knowledge.smeltSmart1.desc=Ready to learn more
 knowledge.blastfurn=Refining
 knowledge.blastfurn.desc=Purifying your ores
 knowledge.smeltSmart2=Adept Smelter
@@ -1508,6 +1506,17 @@ knowledge.anvil.paragraph_4=To use the anvil you need the proper tools; most rec
 knowledge.anvil.paragraph_5=With your tools, place the anvil in the world, with that done, you will need a water source (or cauldron/barrel), and atleast 1 forge for heating ingots.
 knowledge.anvil.paragraph_6=The GUI for anvils is similar to regular crafting: items in the grid(4) will be used to set up. the name of the item appears in the text box(1).
 knowledge.anvil.paragraph_7=When that's ready, hit the anvil with a hammer in the world, keep hits apart from about a second, the progress bar(2) will fill then when finished the result comes out in the slot(4)
+
+knowledge.blastfurn.paragraph_1=You have come to know the fact that simply melting down your ores just doesn't quite do it, materials such as iron are full of impurities and can never reach their full potential.
+knowledge.blastfurn.paragraph_2=Refining aims to deal with this issue. The blast furnace is able to smelt iron ore and process it into a more pure ingot, this produces pig iron that can be refined into steel.
+knowledge.blastfurn.paragraph_3=To create the blast furnace: you will need quite a few components for it to work: The first thing you need is fire clay.
+knowledge.blastfurn.paragraph_4=The furnace generates huge temperatures and needs to be made from a heat-resistant material. Fire clay is capable of handling extreme temperatures and is what you need to craft the structure.
+knowledge.blastfurn.paragraph_5=With that ready, the second thing you need is the furnace blocks. Make a furnace heater, and as many chambers as you want. The more chambers the more you can smelt.
+knowledge.blastfurn.paragraph_6=Now that you're familliar with the blocks- it's time to make the furnace. Start off in a nice big room. place the heater down in the middle (with a hopper underneath to catch the output). Surround it's 4 corners with fire brick blocks.
+knowledge.blastfurn.paragraph_7=Then you can place as many as 16 chambers on top. make sure all 4 sides are covered in bricks, the top must not be obstructed
+knowledge.blastfurn.paragraph_8=With the structure built: there are a few safety mesures to take note of: Firstly: each time the furnace smelts it will eject firey jets out the sides, be careful and don't obstruct them, Secondly: be careful with the top smoke is dangerous to breathe in.
+knowledge.blastfurn.paragraph_9=To use the blast furnace all you need to do is put coal and input in the top-most chamber block (it will distribute itself down). Coal goes in the top slot, input in the bottom slot. Then put fuel (only coal or similar can be used) in the heater block. result will spit out into the hopper underneath.
+knowledge.blastfurn.paragraph_10=Pig iron can be made from prepared iron ore. You can prepare iron on an anvil. Using strong flux doubles output.
 
 knowledge.blackpowder.paragraph_1=Explosives are an interesting concept to research. You have found the powder found within creepers is all well and good but it seems too unstable and impractical to use.
 knowledge.blackpowder.paragraph_2=Blackpowder however when made correctly will be able to detonate with a controlled force, with this particular mixture you should be able to set off a damaging yet safe blast.

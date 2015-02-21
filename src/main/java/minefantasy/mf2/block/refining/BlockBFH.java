@@ -7,10 +7,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -23,7 +25,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -35,17 +39,27 @@ public class BlockBFH extends BlockContainer
 	public IIcon bottomTex;
 	public IIcon sideTex;
 	public boolean isActive;
-	public BlockBFH(boolean isActive) 
+	public BlockBFH(boolean isActive)
 	{
 		super(Material.anvil);
 		this.isActive = isActive;
         GameRegistry.registerBlock(this, isActive ? "MF_BlastHeaterActive" : "MF_BlastHeater");
 		setBlockName("blastfurnheater");
 		this.setStepSound(Block.soundTypeMetal);
-		this.setHardness(12F);
-		this.setResistance(24F);
+		this.setHardness(10F);
+		this.setResistance(10F);
         this.setCreativeTab(CreativeTabMF.tabUtil);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World world, int x, int y, int z, Random rand)
+    {
+        if (isActive && rand.nextInt(20) == 0)
+        {
+            world.playSound((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), "fire.fire", 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
+        }
+    }
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list)
@@ -138,8 +152,14 @@ public class BlockBFH extends BlockContainer
 	@Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
     {
+		if(!ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.blastfurn))
+        {
+			if(world.isRemote)
+		    	user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unknownUse")));
+			return false;
+        }
 		TileEntityBlastFH tile = getTile(world, x, y, z);
-    	if(tile != null && (!world.isSideSolid(x, y+1, z, ForgeDirection.DOWN) || MineFantasyII.isDebug()))
+    	if(tile != null)
     	{
     		if(!world.isRemote)
     		{

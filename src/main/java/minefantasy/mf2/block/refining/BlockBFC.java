@@ -6,9 +6,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFC;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -19,7 +21,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -35,8 +39,8 @@ public class BlockBFC extends BlockContainer
         GameRegistry.registerBlock(this, "MF_BlastChamber");
 		setBlockName("blastfurnchamber");
 		this.setStepSound(Block.soundTypeMetal);
-		this.setHardness(10F);
-		this.setResistance(20F);
+		this.setHardness(8F);
+		this.setResistance(10F);
         this.setCreativeTab(CreativeTabMF.tabUtil);
 	}
 
@@ -120,8 +124,14 @@ public class BlockBFC extends BlockContainer
 	@Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
     {
+		if(!ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.blastfurn))
+        {
+			if(world.isRemote)
+		    	user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unknownUse")));
+			return false;
+        }
 		TileEntityBlastFC tile = getTile(world, x, y, z);
-    	if(tile != null && (!world.isSideSolid(x, y+1, z, ForgeDirection.DOWN) || MineFantasyII.isDebug()))
+    	if(tile != null)
     	{
     		if(!world.isRemote)
     		{

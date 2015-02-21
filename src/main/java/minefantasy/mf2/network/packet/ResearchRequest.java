@@ -1,6 +1,7 @@
 package minefantasy.mf2.network.packet;
 
 import io.netty.buffer.ByteBuf;
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
@@ -38,10 +39,11 @@ public class ResearchRequest extends PacketMF
             {
             	int points = ResearchLogic.getKnowledgePoints(entity);
             	int cost = ResearchLogic.getCost(player, research);
-            	if(!player.worldObj.isRemote && points >= cost)
+            	if(!player.worldObj.isRemote && (MineFantasyII.isDebug() || points >= cost))
             	{
 	            	if(research.trigger(player, true))
 	            	{
+	            		if(!MineFantasyII.isDebug())
 	            		ResearchLogic.modifyKnowledgePoints(entity, -cost);
 	            		ResearchLogic.syncData(entity);
 	            	}

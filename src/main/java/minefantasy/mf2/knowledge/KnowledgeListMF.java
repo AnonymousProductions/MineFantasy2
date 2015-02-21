@@ -15,6 +15,7 @@ import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.crafting.IRecipe;
 
 public class KnowledgeListMF
 {
@@ -30,11 +31,10 @@ public class KnowledgeListMF
 	public static InformationBase research2 = (new InformationBase("research2", 				4, 2, 80, Items.enchanted_book, research1)).registerStat().setPerk();
 	
     public static InformationBase crucible = (new InformationBase("crucible", 					1, 0, 5, Blocks.furnace, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
-    public static InformationBase smeltSmart1 = (new InformationBase("smeltSmart1", 			2, 1, 10, Blocks.torch, crucible)).setPage(smithing).registerStat();
 	
     public static InformationBase smeltBronze = (new InformationBase("smeltBronze",  			4, 0,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(smithing).setUnlocked();
     
-    public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 3, 15, Blocks.furnace, smeltSmart1)).registerStat().setPage(smithing).setSpecial();
+    public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 3, 15, BlockListMF.blast_heater_active, crucible)).registerStat().setPage(smithing).setSpecial();
     public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 3, 10, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(smithing).setUnlocked();
     public static InformationBase encrusted = (new InformationBase("encrusted",  				5, 2, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(smithing);
     
@@ -89,7 +89,8 @@ public class KnowledgeListMF
 	{
 	}
     
-    public static IAnvilRecipe coalDustR;
+    public static IAnvilRecipe coalDustR, kaoDustR;
+    public static IRecipe fireclayR, fireBrickR, fireBricksR;
     
     public static IAnvilRecipe blackSteelNuggetR;
     public static IAnvilRecipe dragonforgeIngotRecipe;
@@ -100,6 +101,7 @@ public class KnowledgeListMF
     public static final ArrayList<IAnvilRecipe> plateBootsR = new ArrayList<IAnvilRecipe>();
     
     public static IAnvilRecipe ironPrepR, ironPrepR2;
+    public static IAnvilRecipe blastChamR, blastHeatR;
     
     public static ICarpenterRecipe blackpowderRec, advblackpowderRec;
     public static IAnvilRecipe bombBenchCraft;

@@ -228,10 +228,21 @@ public class EntitySmoke extends Entity
             	if(pos.entityHit instanceof EntityLivingBase && !worldObj.isRemote)
             	{
             		EntityLivingBase hit = (EntityLivingBase)pos.entityHit;
-            		hit.addPotionEffect(new PotionEffect(Potion.hunger.id, 200, 0));
-            		if(rand.nextInt(50) == 0)
+            		hit.addPotionEffect(new PotionEffect(Potion.hunger.id, 20, 0));
+            		if(rand.nextInt(20) == 0)
             		{
-            			hit.addPotionEffect(new PotionEffect(Potion.blindness.id, 200, 0));
+            			if(hit.getActivePotionEffect(Potion.blindness) != null)
+            			{
+            				hit.addPotionEffect(new PotionEffect(Potion.wither.id, 200, 0));
+            			}
+            			else if(hit.getActivePotionEffect(Potion.confusion) != null)
+            			{
+            				hit.addPotionEffect(new PotionEffect(Potion.blindness.id, 200, 0));
+            			}
+            			else
+            			{
+            				hit.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
+            			}
             		}
             	}
             }

@@ -147,7 +147,7 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	}
 	private void startFire(int x, int y, int z) 
 	{
-		if(isAir(x, y, z))
+		if(!worldObj.isRemote && worldObj.isAirBlock(x, y, z))
 		{
 			worldObj.setBlock(xCoord+x, yCoord+y, zCoord+z, Blocks.fire);
 		}

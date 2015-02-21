@@ -106,16 +106,6 @@ public class CarpenterRecipes
 			'C', Blocks.wool
 		});
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.fireclay) , new Object[]
-		{
-			ComponentListMF.kaolinite_dust,
-			Items.clay_ball
-		});
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.fireclay_brick) , new Object[]
-		{
-			ComponentListMF.fireclay
-		});
-		
 		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 0), sewing, "needle", 2, 50 , new Object[]
 		{
 			" U ",

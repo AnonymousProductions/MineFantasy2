@@ -71,21 +71,21 @@ public class BlockBombBench extends BlockContainer
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
     {
-    	if(ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.bombs))
+    	if(!ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.bombs))
         {
-        	TileEntityBombBench tile = getTile(world, x, y, z);
-        	if(tile != null && (world.isAirBlock(x, y+1, z) || !world.isSideSolid(x, y+1, z, ForgeDirection.DOWN)))
-        	{
-        		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
-        		{
-        			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
-        		}
-        	}
-            return true;
+			if(world.isRemote)
+		    	user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unknownUse")));
+			return false;
         }
-    	if(!world.isRemote)
-    	user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unknownUse")));
-    	return false;
+    	TileEntityBombBench tile = getTile(world, x, y, z);
+    	if(tile != null && (world.isAirBlock(x, y+1, z) || !world.isSideSolid(x, y+1, z, ForgeDirection.DOWN)))
+    	{
+    		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
+    		{
+    			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
+    		}
+    	}
+        return true;
     }
     @Override
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)

@@ -53,8 +53,6 @@ public class EntryPageRecipeBase extends EntryPage
         parent.drawTexturedModalRect(xPoint, yPoint, 0, 0, this.universalBookImageWidth, this.universalBookImageHeight);
         
         IRecipe recipe = recipes[recipeID];
-        renderRecipe(parent, x, y, f, posX, posY, recipe);
-        
         String cft = "<" + StatCollector.translateToLocal("method.workbench") + ">";
         mc.fontRenderer.drawSplitString(cft, posX+(universalBookImageWidth/2) - (mc.fontRenderer.getStringWidth(cft)/2), posY+150, 117, 0);
         if(tooltipStack != null)
@@ -89,6 +87,7 @@ public class EntryPageRecipeBase extends EntryPage
 			}
 			*/
 		}
+        renderRecipe(parent, x, y, f, posX, posY, recipe);
         
 	}
 
