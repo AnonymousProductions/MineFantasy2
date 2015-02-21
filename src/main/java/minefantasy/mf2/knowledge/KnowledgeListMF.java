@@ -35,7 +35,7 @@ public class KnowledgeListMF
     public static InformationBase smeltBronze = (new InformationBase("smeltBronze",  			4, 0,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(smithing).setUnlocked();
     
     public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 3, 15, Blocks.furnace, smeltSmart1)).registerStat().setPage(smithing).setSpecial();
-    public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 3, 10, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(smithing);
+    public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 3, 10, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(smithing).setUnlocked();
     public static InformationBase encrusted = (new InformationBase("encrusted",  				5, 2, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(smithing);
     
     public static InformationBase smeltSmart2 = (new InformationBase("smeltSmart2", 			4, 5, 20, Items.coal, smeltSteel)).registerStat().setPage(smithing).setPerk();
@@ -98,6 +98,8 @@ public class KnowledgeListMF
     public static final ArrayList<IAnvilRecipe> plateChestR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> plateLegsR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> plateBootsR = new ArrayList<IAnvilRecipe>();
+    
+    public static IAnvilRecipe ironPrepR, ironPrepR2;
     
     public static ICarpenterRecipe blackpowderRec, advblackpowderRec;
     public static IAnvilRecipe bombBenchCraft;

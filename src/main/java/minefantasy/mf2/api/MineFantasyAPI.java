@@ -5,11 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.common.IFuelHandler;
+
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.knowledge.KnowledgeType;
+import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -144,4 +150,34 @@ public class MineFantasyAPI
 	{
 		return addShapelessCarpenterRecipe(result, research,  sound, "hands", -1, craftTime, input);
 	}
+
+	public static void addBlastFurnaceRecipe(Block input, ItemStack output) 
+	{
+		BlastFurnaceRecipes.smelting().addRecipe(input, output);
+	}
+	public static void addBlastFurnaceRecipe(Item input, ItemStack output) 
+	{
+		BlastFurnaceRecipes.smelting().addRecipe(input, output);
+	}
+	public static void addBlastFurnaceRecipe(ItemStack input, ItemStack output) 
+	{
+		BlastFurnaceRecipes.smelting().addRecipe(input, output);
+	}
+	/**
+	 * This fuel handler is for MineFantasy equipment, it uses real fuel(like coal) not wood
+	 */
+	private static List<IFuelHandler> fuelHandlers = Lists.newArrayList();
+	public static void registerFuelHandler(IFuelHandler handler)
+    {
+        fuelHandlers.add(handler);
+    }
+    public static int getFuelValue(ItemStack itemStack)
+    {
+        int fuelValue = 0;
+        for (IFuelHandler handler : fuelHandlers)
+        {
+            fuelValue = Math.max(fuelValue, handler.getBurnTime(itemStack));
+        }
+        return fuelValue;
+    }
 }

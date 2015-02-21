@@ -118,7 +118,8 @@ public class BlockListMF
 	
 	public static Block berryBush = new BlockBerryBush("berries");
 	public static Block blast_chamber = new BlockBFC();
-	public static Block blast_heater = new BlockBFH();
+	public static Block blast_heater = new BlockBFH(false);
+	public static Block blast_heater_active = new BlockBFH(true).setLightLevel(10F);
 	
 	public static void init()
 	{

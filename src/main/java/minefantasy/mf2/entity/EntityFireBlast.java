@@ -1,5 +1,6 @@
 package minefantasy.mf2.entity;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
@@ -9,7 +10,7 @@ import net.minecraft.world.World;
 
 public class EntityFireBlast extends EntityFireball
 {
-    private static final float size = 1.0F;
+    private static final float size =0.75F;
     public EntityFireBlast(World world)
     {
         super(world);
@@ -39,10 +40,20 @@ public class EntityFireBlast extends EntityFireball
     	{
     		setDead();
     	}
+    	if(ticksExisted % 5 == 0)
+    	{
+	    	int lifeScale = (int) Math.floor((float)ticksExisted / 5F);
+	    	float newSize = size + (size/4*lifeScale);
+	    	this.setSize(newSize, newSize);
+    	}
     }
 
     private int getLifeSpan() 
     {
+    	if(isPreset("BlastFurnace"))
+    	{
+    		return 15;
+    	}
 		return 30;
 	}
 
@@ -55,9 +66,10 @@ public class EntityFireBlast extends EntityFireball
         {
             if (pos.entityHit != null)
             {
-                if (!pos.entityHit.isImmuneToFire() && pos.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 12.0F))
+                if (!pos.entityHit.isImmuneToFire())
                 {
-                    pos.entityHit.setFire(10);
+                	pos.entityHit.setFire(10);
+                	pos.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), getDamage());
                 }
             }
             else
@@ -91,13 +103,28 @@ public class EntityFireBlast extends EntityFireball
                 {
                     this.worldObj.setBlock(i, j, k, Blocks.fire);
                 }
+                boolean tnt = worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ).getMaterial() == Material.tnt;
+                if(isPreset("BlastFurnace") && (rand.nextInt(100) == 0) || tnt)
+                {
+                	boolean solid = worldObj.isBlockNormalCubeDefault(pos.blockX, pos.blockY, pos.blockZ, false);
+                	worldObj.newExplosion(this, posX, posY, posZ, solid ? 1.5F : 0.5F, true, true);
+                }
             }
 
             this.setDead();
         }
     }
 
-    /**
+    private float getDamage() 
+    {
+    	if(isPreset("BlastFurnace"))
+    	{
+    		return 8F;
+    	}
+		return 2.0F;
+	}
+
+	/**
      * Returns true if other Entities should be prevented from moving through this Entity.
      */
     public boolean canBeCollidedWith()
@@ -117,5 +144,21 @@ public class EntityFireBlast extends EntityFireball
     public boolean isInvisible()
     {
         return true;
+    }
+    
+    public void modifySpeed(float mod)
+    {
+    	this.accelerationX *= mod;
+    	this.accelerationY *= mod;
+    	this.accelerationZ *= mod;
+    }
+    
+    public boolean isPreset(String s)
+    {
+    	if(getEntityData().hasKey("Preset"))
+    	{
+    		return getEntityData().getString("Preset").equalsIgnoreCase(s);
+    	}
+    	return false;
     }
 }

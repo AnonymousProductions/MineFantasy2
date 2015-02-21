@@ -9,11 +9,7 @@ import minefantasy.mf2.client.KnowledgePageRegistry;
 import minefantasy.mf2.client.gui.*;
 import minefantasy.mf2.client.render.*;
 import minefantasy.mf2.client.render.block.*;
-import minefantasy.mf2.entity.EntityArrowMF;
-import minefantasy.mf2.entity.EntityBomb;
-import minefantasy.mf2.entity.EntityFireBlast;
-import minefantasy.mf2.entity.EntityMine;
-import minefantasy.mf2.entity.EntityShrapnel;
+import minefantasy.mf2.entity.*;
 import minefantasy.mf2.item.archery.ItemBowMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -129,7 +125,8 @@ public class ClientProxyMF extends CommonProxyMF
 		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new RenderBombIcon());//Switch to RenderBomb when syncing is fixed
 		RenderingRegistry.registerEntityRenderingHandler(EntityMine.class, new RenderMine());
 		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderSnowball(ComponentListMF.shrapnel));
-		RenderingRegistry.registerEntityRenderingHandler(EntityFireBlast.class, new RenderSnowball(Item.getItemFromBlock(Blocks.fire)));
+		RenderingRegistry.registerEntityRenderingHandler(EntityFireBlast.class, new RenderFireBlast());
+		RenderingRegistry.registerEntityRenderingHandler(EntitySmoke.class, new RenderFireBlast());
 	}
 	
 	@Override

@@ -1,16 +1,24 @@
 package minefantasy.mf2.block.tileentity.blastfurnace;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraftforge.common.util.ForgeDirection;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.block.refining.BlockBFH;
 import minefantasy.mf2.entity.EntityFireBlast;
 import minefantasy.mf2.item.list.ComponentListMF;
 
@@ -26,11 +34,15 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	{
 		super.updateEntity();
 		
-		if(isBuilt)
+		boolean wasBurning = isBurning();
+		if(fuel > 0)
+		{
+			--fuel;
+		}
+		if(isBuilt && smokeStorage < getMaxSmokeStorage())
 		{
 			if(fuel > 0)
 			{
-				--fuel;
 				++progress;
 				float maxProgress = getMaxProgress();
 				if(progress >= maxProgress)
@@ -38,12 +50,16 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 					progress -= maxProgress;
 					smeltItem();
 				}
+				if(ticksExisted % 10 == 0)
+				{
+					smokeStorage+=2;
+				}
 			}
 			else if(!worldObj.isRemote)
 			{
 				if(isFuel(items[0]))
 				{
-					fuel = maxFuel = TileEntityFurnace.getItemBurnTime(items[0]);
+					fuel = maxFuel = getItemBurnTime(items[0]);
 					decrStackSize(0, 1);
 				}
 			}
@@ -51,16 +67,21 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 		if(fireTime > 0)
 		{
 			if(fuel > 0)--fuel;
-			
+			smokeStorage++;
 			fireTime--;
 			if(ticksExisted % 2 == 0)
 			shootFire();
 			
 		}
+		if (!worldObj.isRemote && wasBurning != isBurning())
+        {
+            BlockBFH.updateFurnaceBlockState(isBurning(), this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        }
 	}
+	public static float maxProgress = 1200;
 	private float getMaxProgress() 
 	{
-		return 600;
+		return maxProgress;
 	}
 	public static int maxFurnaceHeight = 8;
 	private void smeltItem() 
@@ -144,8 +165,9 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	private void shootFire(int x, int y, int z)
 	{
 		double v = 0.125D;
-		EntityFireBlast fireball = new EntityFireBlast(worldObj, xCoord+0.5+x, yCoord+0.5+y, zCoord+0.5+z, (double)x*v, (double)y*v, (double)z*v);
-		fireball.ticksExisted = 15;
+		EntityFireBlast fireball = new EntityFireBlast(worldObj, xCoord+0.5+x, yCoord, zCoord+0.5+z, (double)x*v, (double)y*v, (double)z*v);
+		fireball.getEntityData().setString("Preset", "BlastFurnace");
+		fireball.modifySpeed(0.5F);
 		worldObj.spawnEntityInWorld(fireball);
 	}
 	
@@ -205,6 +227,7 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	{
 		super.writeToNBT(nbt);
 		
+		nbt.setFloat("progress", progress);
 		nbt.setInteger("fuel", fuel);
 		nbt.setInteger("maxFuel", maxFuel);
 	}
@@ -213,12 +236,13 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	{
 		super.readFromNBT(nbt);
 		
+		progress = nbt.getFloat("progress");
 		fuel = nbt.getInteger("fuel");
 		maxFuel = nbt.getInteger("maxFuel");
 	}
 	public static boolean isFuel(ItemStack item)
 	{
-		return TileEntityFurnace.getItemBurnTime(item) > 0;
+		return getItemBurnTime(item) > 0;
 	}
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) 
@@ -243,5 +267,36 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 			return isFuel(item);
 		}
 		return false;
+	}
+	
+	public static int getItemBurnTime(ItemStack fuel)
+    {
+        return MineFantasyAPI.getFuelValue(fuel)/4;
+    }
+
+	public boolean isBurning()
+	{
+		return fuel > 0;
+	}
+
+	public int getBurnTimeRemainingScaled(int i) 
+	{
+		if (this.maxFuel <= 0)
+        {
+			return 0;
+        }
+
+        return fuel * i / maxFuel;
+	}
+	
+	@Override
+	public int getSizeInventory()
+	{
+		return 1;
+	}
+	@Override
+	public int getMaxSmokeStorage() 
+	{
+		return 10;
 	}
 }

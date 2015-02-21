@@ -1,11 +1,13 @@
 package minefantasy.mf2.block.refining;
 
+import java.util.List;
 import java.util.Random;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import minefantasy.mf2.item.list.CreativeTabMF;
@@ -13,9 +15,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -26,13 +30,16 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBFH extends BlockContainer 
 {
+	private static boolean keepInventory;
 	private Random rand = new Random();
 	public IIcon bottomTex;
 	public IIcon sideTex;
-	public BlockBFH() 
+	public boolean isActive;
+	public BlockBFH(boolean isActive) 
 	{
 		super(Material.anvil);
-        GameRegistry.registerBlock(this, "MF_BlastHeater");
+		this.isActive = isActive;
+        GameRegistry.registerBlock(this, isActive ? "MF_BlastHeaterActive" : "MF_BlastHeater");
 		setBlockName("blastfurnheater");
 		this.setStepSound(Block.soundTypeMetal);
 		this.setHardness(12F);
@@ -40,6 +47,15 @@ public class BlockBFH extends BlockContainer
         this.setCreativeTab(CreativeTabMF.tabUtil);
 	}
 
+	@Override
+	public void getSubBlocks(Item item, CreativeTabs tab, List list)
+    {
+		if(!isActive)
+		{
+			super.getSubBlocks(item, tab, list);
+		}
+    }
+	
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) 
 	{
@@ -60,6 +76,8 @@ public class BlockBFH extends BlockContainer
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
+		if(keepInventory)return;
+		
 		TileEntityBlastFH tile = getTile(world, x, y, z);
 
         if (tile != null)
@@ -131,12 +149,44 @@ public class BlockBFH extends BlockContainer
         return true;
     }
 	
+	public static void updateFurnaceBlockState(boolean state, World world, int x, int y, int z)
+    {
+        int l = world.getBlockMetadata(x, y, z);
+        TileEntity tileentity = world.getTileEntity(x, y, z);
+        keepInventory = true;
+
+        if (state)
+        {
+            world.setBlock(x, y, z, BlockListMF.blast_heater_active);
+        }
+        else
+        {
+            world.setBlock(x, y, z, BlockListMF.blast_heater);
+        }
+
+        keepInventory = false;
+        world.setBlockMetadataWithNotify(x, y, z, l, 2);
+
+        if (tileentity != null)
+        {
+            tileentity.validate();
+            world.setTileEntity(x, y, z, tileentity);
+        }
+    }
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		sideTex = reg.registerIcon("minefantasy2:metal/blast_chamber_side");
+		sideTex = isActive ? reg.registerIcon("minefantasy2:metal/blast_heater_active") : reg.registerIcon("minefantasy2:metal/blast_heater");
 		bottomTex = reg.registerIcon("minefantasy2:metal/blast_chamber_top");
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public Item getItem(World world, int x, int y, int z)
+    {
+        return Item.getItemFromBlock(BlockListMF.blast_heater);
+    }
 
 }

@@ -1,5 +1,7 @@
 package minefantasy.mf2.container;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,6 +16,8 @@ public class ContainerBlastHeater extends Container
 {
     private TileEntityBlastFH tile;
     private boolean isGuiContainer = false;
+    private int lastFuel;
+    private int lastFuelMax;
     
     public ContainerBlastHeater(InventoryPlayer user, TileEntityBlastFH tile)
     {
@@ -41,6 +45,23 @@ public class ContainerBlastHeater extends Container
     @Override
     public void detectAndSendChanges()
     {
+    	for (int i = 0; i < this.crafters.size(); ++i)
+        {
+            ICrafting icrafting = (ICrafting)this.crafters.get(i);
+
+            if (this.lastFuel != tile.fuel)
+            {
+                icrafting.sendProgressBarUpdate(this, 0, tile.fuel);
+            }
+
+            if (this.lastFuelMax != tile.maxFuel)
+            {
+                icrafting.sendProgressBarUpdate(this, 1, tile.maxFuel);
+            }
+        }
+    	this.lastFuel = tile.fuel;
+        this.lastFuelMax = tile.maxFuel;
+        
     	for (int i = 0; i < this.inventorySlots.size(); ++i)
         {
             ItemStack itemstack = ((Slot)this.inventorySlots.get(i)).getStack();
@@ -61,6 +82,21 @@ public class ContainerBlastHeater extends Container
                     ((ICrafting)this.crafters.get(j)).sendSlotContents(this, i, itemstack1);
                 }
             }
+        }
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void updateProgressBar(int id, int value)
+    {
+        if (id == 0)
+        {
+            tile.fuel = value;
+        }
+
+        if (id == 1)
+        {
+            tile.maxFuel = value;
         }
     }
     

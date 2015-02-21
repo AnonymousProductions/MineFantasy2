@@ -40,6 +40,12 @@ public class GuiBlastHeater extends GuiContainer
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPoint, yPoint, 0, 0, this.xSize, this.ySize);
+        
+        if (this.tile.isBurning())
+        {
+            int i1 = this.tile.getBurnTimeRemainingScaled(13);
+            this.drawTexturedModalRect(xPoint + 82, yPoint + 42 + 12 - i1, 243, 12 - i1, 14, i1 + 1);
+        }
     }
     
     @Override

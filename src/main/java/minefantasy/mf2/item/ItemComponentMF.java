@@ -95,6 +95,7 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.fletching);
 		
 		add(list, ComponentListMF.coalDust);
+		add(list, ComponentListMF.iron_prep);
 		add(list, ComponentListMF.sulfur);
 		add(list, ComponentListMF.nitre);
 		add(list, ComponentListMF.blackpowder);

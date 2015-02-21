@@ -68,6 +68,7 @@ public class MineFantasyII
 		new ConfigFarming().setConfig(getCfg(event, "Farming"));
 		new ConfigWorldGen().setConfig(getCfg(event, "WorldGen"));
 		new ConfigResearch().setConfig(getCfg(event, "Research"));
+		new ConfigCrafting().setConfig(getCfg(event, "Crafting"));
 		
 		MineFantasyAPI.isInDebugMode = isDebug();
 		output("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);

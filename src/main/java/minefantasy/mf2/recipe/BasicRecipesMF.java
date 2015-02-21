@@ -131,6 +131,8 @@ public class BasicRecipesMF
 			'F', Items.flint,
 			'P', ComponentListMF.plank,
 		});
+		
+		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.iron_prep, new ItemStack(ComponentListMF.ingots[3]));
 	}
 	public static final HashMap<String, IRecipe[]>recipeMap = new HashMap<String, IRecipe[]>();
 }

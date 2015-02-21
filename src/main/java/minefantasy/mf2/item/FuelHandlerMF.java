@@ -18,6 +18,14 @@ public class FuelHandlerMF implements IFuelHandler
 		{
 			return 200;
 		}
+		if(fuel.getItem() == ComponentListMF.coalDust)
+		{
+			return 400;
+		}
+		if(fuel.getItem() == ComponentListMF.coke)
+		{
+			return 800;
+		}
 		return 0;
 	}
 

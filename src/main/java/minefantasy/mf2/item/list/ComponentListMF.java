@@ -1,8 +1,10 @@
 package minefantasy.mf2.item.list;
 
+import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.mining.RandomDigs;
 import minefantasy.mf2.api.mining.RandomOre;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.AdvancedFuelHandlerMF;
 import minefantasy.mf2.item.FuelHandlerMF;
 import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.gadget.ItemBombComponent;
@@ -80,6 +82,7 @@ public class ComponentListMF
 	public static Item coalDust = new ItemComponentMF("coalDust", 0);
 	public static Item nitre = new ItemComponentMF("nitre", 0);
 	public static Item sulfur = new ItemComponentMF("sulfur", 0);
+	public static Item iron_prep = new ItemComponentMF("iron_prep", 0);
 	public static Item blackpowder = new ItemBombComponent("blackpowder", 0, "powder", 0);
 	public static Item blackpowder_advanced = new ItemBombComponent("blackpowder_advanced", 1, "powder", 1);
 	public static Item fletching = new ItemComponentMF("fletching", 0);
@@ -123,6 +126,7 @@ public class ComponentListMF
 	public static void init() 
 	{
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
+		MineFantasyAPI.registerFuelHandler(new AdvancedFuelHandlerMF());
 		OreDictionary.registerOre("ingotIron", Items.iron_ingot);
 		Items.potionitem.setMaxStackSize(16);
 		Items.iron_ingot.setTextureName("minefantasy2:component/ingotWroughtIron");

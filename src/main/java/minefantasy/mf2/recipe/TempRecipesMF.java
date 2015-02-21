@@ -51,25 +51,6 @@ public class TempRecipesMF
 			'T', ComponentListMF.ingots[1]
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(ComponentListMF.ingots[3], 2), new Object[]
-		{
-			"IFI",
-			"FCF",
-			"IFI",
-			'I', Blocks.iron_ore,
-			'F', ComponentListMF.flux,
-			'C', Blocks.coal_block,
-		});
-		GameRegistry.addRecipe(new ItemStack(ComponentListMF.ingots[3], 3), new Object[]
-		{
-			"IFI",
-			"FCF",
-			"IFI",
-			'I', Blocks.iron_ore,
-			'F', ComponentListMF.flux_strong,
-			'C', Blocks.coal_block,
-		});
-		
 		ArrayList<ItemStack> steels = OreDictionary.getOres("ingotSteel");
 		ArrayList<ItemStack> bronzes = OreDictionary.getOres("ingotBronze");
 		ArrayList<ItemStack> silvers = OreDictionary.getOres("ingotSilver");

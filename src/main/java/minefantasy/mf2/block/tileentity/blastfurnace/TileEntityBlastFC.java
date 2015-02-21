@@ -1,6 +1,11 @@
 package minefantasy.mf2.block.tileentity.blastfurnace;
 
+import java.util.Random;
+
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
+import minefantasy.mf2.api.refine.ISmokeCarrier;
+import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import net.minecraft.block.Block;
@@ -9,18 +14,19 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedInventory
+public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedInventory, ISmokeCarrier
 {
 	protected ItemStack[] items = new ItemStack[2];
-	private int smokeStorage;
+	protected int smokeStorage;
 	public int ticksExisted;
 	public boolean isBuilt = false;
 	public int fireTime;
+	private Random rand = new Random();
 	
 	@Override
 	public void updateEntity()
@@ -40,6 +46,14 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 		if(ticksExisted % 200 == 0)
 		{
 			updateBuild();
+		}
+		if(smokeStorage > 0)
+		{
+			SmokeMechanics.emitSmokeFromCarrier(worldObj, xCoord, yCoord, zCoord, this, 5);
+		}
+		if(!worldObj.isRemote && smokeStorage > getMaxSmokeStorage() && rand.nextInt(1000) == 0)
+		{
+			worldObj.newExplosion(null, xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, 5F, true, true);
 		}
 	}
 	protected void interact(TileEntityBlastFC tile)
@@ -97,7 +111,7 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	}
 	protected boolean isAir(int x, int y, int z)
 	{
-		return worldObj.isAirBlock(xCoord+x, yCoord+y, zCoord+z);
+		return !worldObj.isBlockNormalCubeDefault(xCoord+x, yCoord+y, zCoord+z, false);
 	}
 	private int getMaxStackSizeForDistribute()
 	{
@@ -258,7 +272,7 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	}
 	public static boolean isCoal(ItemStack item)
 	{
-		return true;
+		return item.getItem() == Items.coal;
 	}
 	public static boolean isFlux(ItemStack item)
 	{
@@ -270,9 +284,9 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	}
 	protected static ItemStack getResult(ItemStack input)
 	{
-		if(FurnaceRecipes.smelting().getSmeltingResult(input) != null && FurnaceRecipes.smelting().getSmeltingResult(input).getItem() == Items.iron_ingot)
+		if(BlastFurnaceRecipes.smelting().getSmeltingResult(input) != null)
 		{
-			return new ItemStack(ComponentListMF.ingots[3]);
+			return BlastFurnaceRecipes.smelting().getSmeltingResult(input).copy();
 		}
 		return null;
 	}
@@ -290,5 +304,20 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	public boolean canExtractItem(int slot, ItemStack item, int side)
 	{
 		return false;
+	}
+	@Override
+	public int getSmokeValue() 
+	{
+		return smokeStorage;
+	}
+	@Override
+	public void setSmokeValue(int smoke) 
+	{
+		smokeStorage = smoke;
+	}
+	@Override
+	public int getMaxSmokeStorage() 
+	{
+		return 10;
 	}
 }

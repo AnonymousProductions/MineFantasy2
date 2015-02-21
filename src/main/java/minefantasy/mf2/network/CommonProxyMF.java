@@ -1,16 +1,16 @@
 package minefantasy.mf2.network;
 
+import java.util.Random;
+
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.refine.ISmokeHandler;
+import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.tileentity.*;
 import minefantasy.mf2.block.tileentity.blastfurnace.*;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.container.*;
-import minefantasy.mf2.entity.EntityArrowMF;
-import minefantasy.mf2.entity.EntityBomb;
-import minefantasy.mf2.entity.EntityFireBlast;
-import minefantasy.mf2.entity.EntityMine;
-import minefantasy.mf2.entity.EntityShrapnel;
+import minefantasy.mf2.entity.*;
 import minefantasy.mf2.hunger.HungerSystemMF;
 import minefantasy.mf2.item.archery.ArrowFireFlint;
 import minefantasy.mf2.item.archery.ArrowFirerMF;
@@ -31,7 +31,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /**
  * @author Anonymous Productions
  */
-public class CommonProxyMF implements IGuiHandler 
+public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 {
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -85,6 +85,7 @@ public class CommonProxyMF implements IGuiHandler
 			EntityRegistry.registerModEntity(EntityBomb.class, "bombMF", IDBase, MineFantasyII.instance, 64, 1, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityShrapnel.class, "shrapnel_mf", IDBase, MineFantasyII.instance, 16, 1, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityFireBlast.class, "fire_blast", IDBase, MineFantasyII.instance, 64, 2, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntitySmoke.class, "smoke_mf", IDBase, MineFantasyII.instance, 64, 2, true);IDBase ++;
 			
 		}
 		else
@@ -93,9 +94,11 @@ public class CommonProxyMF implements IGuiHandler
 			EntityRegistry.registerModEntity(EntityBomb.class, "bombMF", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityShrapnel.class, "shrapnel_mf", IDBase, MineFantasyII.instance, 16, 20, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityFireBlast.class, "fire_blast", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntitySmoke.class, "smoke_mf", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 		}
 		EntityRegistry.registerModEntity(EntityMine.class, "landmineMF", IDBase, MineFantasyII.instance, 16, 10, true);IDBase ++;
 		registerTileEntities();
+		SmokeMechanics.handler = this;
 	}
 
 	protected void registerTileEntities()
@@ -128,4 +131,21 @@ public class CommonProxyMF implements IGuiHandler
 	}
 	
 	public static int renderID = -1;
+	private static Random rand = new Random();
+	@Override
+	public void spawnSmoke(World world, double x, double y, double z, int value) 
+	{
+		for(int a = 0; a < value; a++)
+		{
+			float sprayRange = 0.005F;
+			float sprayX = (rand.nextFloat()*sprayRange) - (sprayRange/2);
+			float sprayZ = (rand.nextFloat()*sprayRange) - (sprayRange/2);
+			float height = 0.001F;
+			if(rand.nextInt(2) == 0)
+			{
+				EntitySmoke smoke = new EntitySmoke(world ,x, y-0.5D, z, sprayX, height, sprayZ);
+				world.spawnEntityInWorld(smoke);
+			}
+		}
+	}
 }

@@ -18,10 +18,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ForgingRecipes
 {
-	static IAnvilRecipe[] recipelist;
 	public static void init()
 	{
-		recipelist = new IAnvilRecipe[ToolListMF.mats.length];
 		for(int id = 0; id < ToolListMF.mats.length; id ++)
 		{
 			int time;
@@ -942,5 +940,19 @@ public class ForgingRecipes
 				'R', Items.redstone,
 			});
 		}
+		time = 2;
+		material = BaseMaterialMF.iron;
+		KnowledgeListMF.ironPrepR = 
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep), "blastfurn", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+			"IFI",
+			'I', Blocks.iron_ore,
+			'F', ComponentListMF.flux,
+		});
+		KnowledgeListMF.ironPrepR2 = 
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep, 2), "blastfurn", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+			"IFI",
+			'I', Blocks.iron_ore,
+			'F', ComponentListMF.flux_strong,
+		});
 	}
 }
