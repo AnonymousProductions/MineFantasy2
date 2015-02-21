@@ -163,6 +163,10 @@ public class ClientProxyMF extends CommonProxyMF
 			{
 				return new GuiBlastChamber(player.inventory, (TileEntityBlastFC) tile);
 			}
+			if(tile != null && tile instanceof TileEntityCrucible)
+			{
+				return new GuiCrucible(player.inventory, (TileEntityCrucible) tile);
+			}
 			 return null;
 		}
 		if(ID == 1)

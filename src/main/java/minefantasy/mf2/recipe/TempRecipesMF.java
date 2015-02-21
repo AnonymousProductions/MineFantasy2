@@ -15,13 +15,6 @@ public class TempRecipesMF
 {
 	public static void init()
 	{
-		GameRegistry.addSmelting(BlockListMF.anvil[0], new ItemStack(ComponentListMF.ingots[2], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[1], new ItemStack(Items.iron_ingot, 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[2], new ItemStack(ComponentListMF.ingots[4], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[3], new ItemStack(ComponentListMF.ingots[7], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[4], new ItemStack(ComponentListMF.ingots[14], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[5], new ItemStack(ComponentListMF.ingots[12], 6), 0.0F);
-		
 		GameRegistry.addRecipe(new ItemStack(Items.leather, 1), new Object[]
 		{
 			"H",
@@ -44,22 +37,12 @@ public class TempRecipesMF
 			'I', ComponentListMF.ingots[1],
 		});
 		//RESOURCES
-		GameRegistry.addRecipe(new ItemStack(ComponentListMF.ingots[2], 3), new Object[]
-		{
-			"CTC",
-			'C', ComponentListMF.ingots[0],
-			'T', ComponentListMF.ingots[1]
-		});
 		
 		ArrayList<ItemStack> steels = OreDictionary.getOres("ingotSteel");
 		ArrayList<ItemStack> bronzes = OreDictionary.getOres("ingotBronze");
 		ArrayList<ItemStack> silvers = OreDictionary.getOres("ingotSilver");
 		ArrayList<ItemStack> blacks = OreDictionary.getOres("ingotBlackSteel");
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[10]), new Object[]
-		{
-			Items.gold_ingot, Items.gold_ingot, ComponentListMF.flux_strong
-		});
 		GameRegistry.addRecipe(new ItemStack(Blocks.golden_rail, 64), new Object[]
 		{
 			"I I",
@@ -92,40 +75,7 @@ public class TempRecipesMF
 				'I', steel,
 				'S', Items.stick,
 			});
-			
-			for(ItemStack bronze: bronzes)
-			GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[6], 2), new Object[]
-			{
-				steel, steel, bronze, bronze, Blocks.obsidian
-			});
 		}
-		for(ItemStack steel: blacks)
-		{
-			GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[11]), new Object[]
-			{
-				steel, Items.gold_ingot, Items.redstone, ComponentListMF.flux_strong, Items.blaze_powder
-			});
-		for(ItemStack silver: silvers)
-		{
-			GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[13]), new Object[]
-			{
-				steel, silver, ComponentListMF.diamond_dust, ComponentListMF.flux_strong, Items.blaze_powder
-			});
-		}
-		}
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[15], 2), new Object[]
-		{
-			ComponentListMF.ingots[12], BlockListMF.oreMythic, Items.gold_ingot, Items.gold_ingot
-		});
-		for(ItemStack silver: silvers)
-		{
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.ingots[16], 2), new Object[]
-		{
-			ComponentListMF.ingots[14], BlockListMF.oreMythic, silver, silver
-		});
-		}
-		GameRegistry.addSmelting(ComponentListMF.ingots[6], new ItemStack(ComponentListMF.ingots[7]), 0.8F);
-		
 		GameRegistry.addSmelting(FoodListMF.horse_raw, new ItemStack(FoodListMF.horse_cooked), 0.2F);
 		GameRegistry.addSmelting(FoodListMF.wolf_raw, new ItemStack(FoodListMF.wolf_cooked), 0.2F);
 		GameRegistry.addSmelting(Items.milk_bucket, new ItemStack(BlockListMF.cheese_wheel), 0F);
@@ -178,13 +128,6 @@ public class TempRecipesMF
 			'C', Blocks.dirt
 		});
 		
-		GameRegistry.addSmelting(ComponentListMF.fireclay_brick, new ItemStack(ComponentListMF.strong_brick), 0.1F);
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.firebricks, 1), new Object[]
-		{
-			"CC",
-			"CC",
-			'C', ComponentListMF.strong_brick
-		});
 		GameRegistry.addRecipe(new ItemStack(BlockListMF.framed_glass), new Object[]
 		{
 			"PGP",
@@ -217,7 +160,6 @@ public class TempRecipesMF
 			"HH",
 			'H', Blocks.tallgrass
 		});
-		GameRegistry.addSmelting(BlockListMF.limestone_cobblestone, new ItemStack(BlockListMF.limestone), 0.1F);
 		GameRegistry.addRecipe(new ItemStack(BlockListMF.clayWall, 4), new Object[]
 		{
 			" P ",

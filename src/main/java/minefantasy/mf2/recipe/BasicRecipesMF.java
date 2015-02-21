@@ -22,6 +22,15 @@ public class BasicRecipesMF
 		TempRecipesMF.init();//TODO remove temp recipes
 		ForgingRecipes.init();
 		CarpenterRecipes.init();
+		SmeltingRecipesMF.init();
+		
+		KnowledgeListMF.crucibleRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.crucible), new Object[]{
+			"SSS",
+			"S S",
+			"SSS",
+			'S', Blocks.stone,
+		});
 		
 		GameRegistry.addRecipe(new ItemStack(ToolListMF.researchBook), new Object[]
 		{
@@ -56,19 +65,6 @@ public class BasicRecipesMF
 		});
 		
 		MineFantasyAPI.removeAllRecipes(Items.pumpkin_pie);
-		
-		GameRegistry.addSmelting(BlockListMF.oreCopper, new ItemStack(ComponentListMF.ingots[0]), 0.4F);
-		GameRegistry.addSmelting(BlockListMF.oreTin, new ItemStack(ComponentListMF.ingots[1]), 0.5F);
-		GameRegistry.addSmelting(BlockListMF.oreSilver, new ItemStack(ComponentListMF.ingots[9]), 0.9F);
-		
-		GameRegistry.addSmelting(BlockListMF.oreBorax, new ItemStack(ComponentListMF.flux_strong, 4), 0.25F);
-		GameRegistry.addSmelting(BlockListMF.oreKaolinite, new ItemStack(ComponentListMF.kaolinite), 0.25F);
-		GameRegistry.addSmelting(BlockListMF.oreNitre, new ItemStack(ComponentListMF.nitre, 4), 0.25F);
-		GameRegistry.addSmelting(BlockListMF.oreSulfur, new ItemStack(ComponentListMF.sulfur, 4), 0.25F);
-		GameRegistry.addSmelting(BlockListMF.oreClay, new ItemStack(Items.clay_ball, 4), 0.25F);
-		
-		GameRegistry.addSmelting(ComponentListMF.bomb_casing_uncooked, new ItemStack(ComponentListMF.bomb_casing), 0F);
-		GameRegistry.addSmelting(ComponentListMF.mine_casing_uncooked, new ItemStack(ComponentListMF.mine_casing), 0F);
 		
 		for(int id = 0; id < BlockListMF.metalBlocks.length; id ++)
 		{

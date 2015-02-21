@@ -14,6 +14,8 @@ import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.knowledge.KnowledgeType;
+import minefantasy.mf2.api.refine.Alloy;
+import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -180,4 +182,93 @@ public class MineFantasyAPI
         }
         return fuelValue;
     }
+    
+    /**
+	 * Adds an alloy for any Crucible
+	 * @param out The result
+	 * @param in The list of required items
+	 */
+	public static void addAlloy(ItemStack out, Object... in)
+	{
+		AlloyRecipes.addAlloy(out, convertList(in));
+	}
+	
+	/**
+	 * Adds an alloy with a minimal furnace level
+	 * @param out The result
+	 * @param level The minimal furnace level
+	 * @param in The list of required items
+	 */
+	public static void addAlloy(ItemStack out, int level, Object... in)
+	{
+		AlloyRecipes.addAlloy(out, level, convertList(in));
+	}
+	
+	
+	/**
+	 * Adds an alloy with a minimal furnace level
+	 * @param dupe the amount of times the ratio can be added
+	 * @param out The result
+	 * @param level The minimal furnace level
+	 * @param in The list of required items
+	 */
+	public static void addRatioAlloy(int dupe, ItemStack out, int level, Object... in)
+	{
+		AlloyRecipes.addRatioRecipe(out, level, convertList(in), dupe);
+	}
+	
+	/**
+	 * Adds an alloy with any smelter
+	 * @param dupe the amount of times the ratio can be added
+	 * @param out The result
+	 * @param level The minimal furnace level
+	 * @param in The list of required items
+	 */
+	public static void addRatioAlloy(int dupe, ItemStack out, Object... in)
+	{
+		AlloyRecipes.addRatioRecipe(out, 0, convertList(in), dupe);
+	}
+	
+	/**
+	 * Adds a custom alloy
+	 * @param alloy the Alloy to add
+	 * Use this if you want your alloy to have special properties
+	 * @see Alloy
+	 */
+	public static void addAlloy(Alloy alloy)
+	{
+		AlloyRecipes.addAlloy(alloy);
+	}
+	
+	private static List convertList(Object[] in) 
+	{
+		ArrayList arraylist = new ArrayList();
+        Object[] aobject = in;
+        int i = in.length;
+
+        for (int j = 0; j < i; ++j)
+        {
+            Object object1 = aobject[j];
+
+            if (object1 instanceof ItemStack)
+            {
+                arraylist.add(((ItemStack)object1).copy());
+            }
+            else if (object1 instanceof Item)
+            {
+                arraylist.add(new ItemStack((Item)object1));
+            }
+            else
+            {
+                if (!(object1 instanceof Block))
+                {
+                    throw new RuntimeException("MineFantasy: Invalid alloy!");
+                }
+
+                arraylist.add(new ItemStack((Block)object1));
+            }
+        }
+        
+        return arraylist;
+	}
 }

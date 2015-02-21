@@ -1,19 +1,9 @@
 package minefantasy.mf2.block.list;
 
-import minefantasy.mf2.block.basic.BasicBlockMF;
-import minefantasy.mf2.block.basic.BlockMetalBarsMF;
-import minefantasy.mf2.block.basic.BlockMetalMF;
-import minefantasy.mf2.block.basic.BlockMythicOre;
-import minefantasy.mf2.block.basic.BlockOreMF;
-import minefantasy.mf2.block.basic.BlockPaneMF;
-import minefantasy.mf2.block.crafting.BlockAnvilMF;
-import minefantasy.mf2.block.crafting.BlockBombBench;
-import minefantasy.mf2.block.crafting.BlockCarpenter;
-import minefantasy.mf2.block.food.BlockBerryBush;
-import minefantasy.mf2.block.food.BlockCakeMF;
-import minefantasy.mf2.block.food.BlockPie;
-import minefantasy.mf2.block.refining.BlockBFC;
-import minefantasy.mf2.block.refining.BlockBFH;
+import minefantasy.mf2.block.basic.*;
+import minefantasy.mf2.block.crafting.*;
+import minefantasy.mf2.block.food.*;
+import minefantasy.mf2.block.refining.*;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -120,6 +110,9 @@ public class BlockListMF
 	public static Block blast_chamber = new BlockBFC();
 	public static Block blast_heater = new BlockBFH(false);
 	public static Block blast_heater_active = new BlockBFH(true).setLightLevel(10F);
+	
+	public static Block crucible = new BlockCrucible(false);
+	public static Block crucible_active = new BlockCrucible(true).setLightLevel(12F);
 	
 	public static void init()
 	{
