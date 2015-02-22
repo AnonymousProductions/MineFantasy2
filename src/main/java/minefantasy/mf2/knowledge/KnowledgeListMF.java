@@ -27,6 +27,7 @@ public class KnowledgeListMF
 	
 	public static InformationBase gettingStarted = (new InformationBase("gettingStarted", 		0, 0,  0, Items.book, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase ores = (new InformationBase("ores",  						   -2, -2, 0, BlockListMF.oreCopper, (InformationBase)null)).registerStat().setUnlocked();
+	public static InformationBase chimney = (new InformationBase("chimney",  				   -1, -2, 0, BlockListMF.chimney_stone, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase research1 = (new InformationBase("research1", 				2, 1, 50, ToolListMF.researchBook, (InformationBase)null)).registerStat().setPerk();
 	public static InformationBase research2 = (new InformationBase("research2", 				4, 2, 80, Items.enchanted_book, research1)).registerStat().setPerk();
 	
@@ -43,14 +44,14 @@ public class KnowledgeListMF
     public static InformationBase smeltBlackSteel = (new InformationBase("smeltBlackSteel",		7, 6, 10, ComponentListMF.ingots[7], crucible2)).registerStat().setPage(smithing);
     public static InformationBase smeltDragonforge = (new InformationBase("smeltDragonforge",	8, 5, 50, ComponentListMF.ingots[8], smeltBlackSteel)).registerStat().setPage(smithing);
     
-    public static InformationBase crucible3 = (new InformationBase("crucible3",  				5, 8, 20, Blocks.furnace, smeltBlackSteel)).registerStat().setPage(smithing);
+    public static InformationBase crucible3 = (new InformationBase("crucible3",  				5, 8, 20, Blocks.furnace, crucible2)).registerStat().setPage(smithing);
     public static InformationBase smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 15, ComponentListMF.ingots[12], crucible3)).registerStat().setPage(smithing);
     public static InformationBase smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		7, 9, 15, ComponentListMF.ingots[14], crucible3)).registerStat().setPage(smithing);
     
-	public static InformationBase smeltSmart3 = (new InformationBase("smeltSmart3", 			5, 11, 20, Blocks.fire, crucible3)).setPage(smithing).registerStat();
-	public static InformationBase smeltSmart4 = (new InformationBase("smeltSmart4", 			7, 11, 50, Blocks.lava, smeltSmart3)).registerStat().setPage(smithing).setPerk();
+	//public static InformationBase smeltSmart3 = (new InformationBase("smeltSmart3", 			5, 11, 20, Blocks.fire, crucible3)).setPage(smithing).registerStat();
+	//public static InformationBase smeltSmart4 = (new InformationBase("smeltSmart4", 			7, 11, 50, Blocks.lava, smeltSmart3)).registerStat().setPage(smithing).setPerk();
 	
-    public static InformationBase mythic = (new InformationBase("mythic",  						5, 13, 30, Blocks.furnace, smeltSmart3)).registerStat().setPage(smithing).setSpecial();
+    public static InformationBase mythic = (new InformationBase("mythic",  						5, 13, 30, Blocks.furnace, crucible3)).registerStat().setPage(smithing).setSpecial();
     public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			4, 15, 30, ComponentListMF.ingots[16], mythic)).registerStat().setPage(smithing);
     public static InformationBase smeltAdamant = (new InformationBase("smeltAdamant", 			6, 15, 30, ComponentListMF.ingots[15], mythic)).registerStat().setPage(smithing);
     

@@ -61,7 +61,7 @@ public class SmeltingRecipesMF {
 		{
 			for(ItemStack bronze: bronzes)
 			{
-				MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[6]), 1, new Object[]{
+				MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[6], 2), 1, new Object[]{
 					steel, steel, bronze, bronze, Blocks.obsidian
 				});
 			}
@@ -98,6 +98,9 @@ public class SmeltingRecipesMF {
 				ComponentListMF.ingots[14], BlockListMF.oreMythic, silver, silver
 			});
 		}
+		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[6], new ItemStack(ComponentListMF.ingots[7]));
+		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[11], new ItemStack(ComponentListMF.ingots[12]));
+		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[13], new ItemStack(ComponentListMF.ingots[14]));
 	}
 
 }

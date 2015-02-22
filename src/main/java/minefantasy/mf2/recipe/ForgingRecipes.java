@@ -603,28 +603,6 @@ public class ForgingRecipes
 				"H",
 				'H', ore
 			});
-			
-			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[7], 1), "smeltBlackSteel", true, 2, 2, 10, new Object[]
-			{
-				"P",
-				"H",
-				'P', ore,
-				'H', ComponentListMF.ingots[6]
-			});
-			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[12], 1), "smeltRedSteel", true, 3, 3, 15, new Object[]
-			{
-				"P",
-				"H",
-				'P', ore,
-				'H', ComponentListMF.ingots[11]
-			});
-			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[14], 1), "smeltBlueSteel", true, 3, 3, 15, new Object[]
-			{
-				"P",
-				"H",
-				'P', ore,
-				'H', ComponentListMF.ingots[13]
-			});
 		}
 		KnowledgeListMF.coalDustR = 
 		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.coalDust, 4), "", false, -1, -1, 2, new Object[]

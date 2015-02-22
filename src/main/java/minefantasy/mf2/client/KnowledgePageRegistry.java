@@ -32,7 +32,9 @@ public class KnowledgePageRegistry
 		KnowledgeListMF.ores.addPages(assembleOreDesc("nitre", BlockListMF.oreNitre));
 		KnowledgeListMF.ores.addPages(assembleOreDesc("sulfur", BlockListMF.oreSulfur));
 		
-		KnowledgeListMF.crucible.addPages(new EntryPageText("knowledge.crucible.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.crucibleRecipe));
+		KnowledgeListMF.chimney.addPages(new EntryPageText("knowledge.chimney.paragraph_1", "knowledge.chimney.paragraph_2"), new EntryPageRecipeCarpenter(KnowledgeListMF.chimneyRecipe), new EntryPageRecipeCarpenter(KnowledgeListMF.wideChimneyRecipe), new EntryPageText("knowledge.chimney.paragraph_3"));
+		
+		KnowledgeListMF.crucible.addPages(new EntryPageText("knowledge.crucible.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.crucibleRecipe), new EntryPageText("knowledge.crucible.paragraph_2"));
 		KnowledgeListMF.crucible2.addPages(new EntryPageText("knowledge.crucible2.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.advCrucibleRecipe));
 		KnowledgeListMF.smeltBronze.addPages(new EntryPageText("knowledge.smeltBronze.paragraph_1"), new EntryPageSmelting(new ItemStack(BlockListMF.oreCopper), new ItemStack(ComponentListMF.ingots[0])), new EntryPageSmelting(new ItemStack(BlockListMF.oreTin), new ItemStack(ComponentListMF.ingots[1])));
     	KnowledgeListMF.anvil.addPages(new EntryPageText("knowledge.anvil.paragraph_1", "knowledge.anvil.paragraph_2", "knowledge.anvil.paragraph_3"), new EntryPageRecipeBase(BasicRecipesMF.recipeMap.get("anvilCrafting")), new EntryPageText( "knowledge.anvil.paragraph_4", "knowledge.anvil.paragraph_5"), new EntryPageImage("textures/gui/knowledge/anvilGuiExample.png", 128, 128, "knowledge.guiSubtitle"), new EntryPageText( "knowledge.anvil.paragraph_6", "knowledge.anvil.paragraph_7"));

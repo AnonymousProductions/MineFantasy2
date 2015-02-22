@@ -26,6 +26,8 @@ knowledge.gettingStarted=Getting Started
 knowledge.gettingStarted.desc=How to start out
 knowledge.ores=Ores and Minerals
 knowledge.ores.desc=Ore/Mineral Generation
+knowledge.chimney=Smoke and Chimnies
+knowledge.chimney.desc=What greenhouse gasses?
 
 knowledge.research1=Improved Research
 knowledge.research1.desc=The big picture
@@ -408,6 +410,11 @@ tile.ignotumite_block.name=Block of Ignotumite
 tile.mithium_block.name=Block of Mithium
 
 tile.ender_block.name=Block of Enderforge
+
+tile.crucible.stone.name=Stone Crucible
+tile.crucible.fireclay.name=Fireclay Crucible
+tile.chimney.stone.name=Stone Chimney
+tile.chimney.stone.wide.name=Wide Stone Chimney
 
 tile.bombBench.name=Bomb Crafting Table
 tile.carpenterBench.name=Carpenter Bench
@@ -1486,6 +1493,10 @@ method.carpenter=Carpenter
 
 knowledge.guiSubtitle=This is the GUI
 
+knowledge.chimney.paragraph_1=Smoke is emitted from many industrial devices, though it usually dissapears into the atmosphere; it can be dangerous to breathe in.
+knowledge.chimney.paragraph_2=Breathing in smoke can be debilitating and effects can build up. Building chimneys allow you to redirect the smoke upwards. Just stack them on top of the block.
+knowledge.chimney.paragraph_3=Chimneys can explode under pressure, but this is uncommon. Wide chimneys can hold more smoke.
+
 knowledge.ores.paragraph_1=There are many ores generating in the world of MineFantasy, many can be refined into new metals for use in their own purposes or in alloys.
 knowledge.ores.paragraph_2=As well as ores you may also find minerals: Minerals are like ores and generate in a similar way. Minerals can't be refined much but usually drop an item when mined.
 knowledge.ores.copper.paragraph_1=Copper ore is a commonly found material in the world. It can be found both above and below sea level and is smelted into ingots.
@@ -1498,6 +1509,10 @@ knowledge.minerals.limestone.paragraph_1=Limestone can be found in massive chunk
 knowledge.minerals.borax.paragraph_1=Borax is an uncommon mineral that can be found both above and below sea level. It's dust can be used as a strong flux for more efficient processing. Strong flux can be used in substitute for normal flux, but is recommended you save for later use.
 knowledge.minerals.nitre.paragraph_1=Nitre (or Niter if you're wrong) is a mineral found in the walls of caves, it's not very useful now but you may discover more use later.
 knowledge.minerals.sulfur.paragraph_1=Sulfur is found low underground where magma bubbles. This certainally could be useful for something.
+
+knowledge.crucible.paragraph_1=Crucibles are a simple device used for alloying. To create a crucible simply craft one with 8 blocks on a carpenter bench and place it down on a heat source. Heat sources include fire, lava and forges. Hotter sources mean faster alloy speed.
+knowledge.crucible.paragraph_2=To smelt with a crucible, put in the required amount of inputs. bronze for example is 2 copper : 1 tin, so 2 slots have copper ingots and 1 slot has a tin ingot: you can put more in so long as the ratio is the same (eg. 4 copper : 2 tin), the more items you have the slower it smelts, but it's still more efficient to smelt multiple items at once.
+knowledge.crucible2.paragraph_1=Fire clay has proven extremely useful at handling high temperatures, if you coat a crucible in this material it will be able to smelt more advanced alloys. This can also smelt pig iron into steel.
 
 knowledge.anvil.paragraph_1=Anvils are used to work metals easily into many forms.
 knowledge.anvil.paragraph_2=You will need one of these for nearly anything, anvils are tiered and need upgrading.
