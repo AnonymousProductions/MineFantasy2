@@ -36,7 +36,7 @@ public class GuiCrucible extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float f, int x, int y)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(TextureHelperMF.getResource("textures/gui/crucible.png"));
+        this.mc.getTextureManager().bindTexture(TextureHelperMF.getResource(getTex()));
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPoint, yPoint, 0, 0, this.xSize, this.ySize);
@@ -52,7 +52,16 @@ public class GuiCrucible extends GuiContainer
         }
     }
     
-    @Override
+    private String getTex() 
+    {
+    	if(tile.getTier() == 1)
+    	{
+    		return "textures/gui/crucible_advanced.png";
+    	}
+		return "textures/gui/crucible.png";
+	}
+
+	@Override
     public void drawScreen(int x, int y, float f)
     {
         super.drawScreen(x, y, f);

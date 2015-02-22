@@ -1,7 +1,10 @@
 package minefantasy.mf2.block.tileentity;
 
+import java.util.Random;
+
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
+import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.refining.BlockCrucible;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,7 +20,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	private ItemStack[] inv = new ItemStack[10];
 	public float progress, progressMax;
 	public float temperature;
-	
+	private Random rand = new Random();
 	
 	@Override
 	public void updateEntity()
@@ -39,7 +42,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 		
 		if (isHot && canSmelt()) 
 		{
-			progress += (temperature/40F);
+			progress += (temperature/60F);
 			if (progress >= progressMax) 
 			{
 				progress = 0;
@@ -50,12 +53,17 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 		{
 			progress = 0;
 		}
+		if(progress > 0 && rand.nextInt(4) == 0)
+		{
+			SmokeMechanics.emitSmoke(worldObj, xCoord, yCoord, zCoord, 1);
+		}
 		
 		if(isHot != getTemperature() >0)
 		{
 			BlockCrucible.updateFurnaceBlockState(getTemperature() > 0, worldObj, xCoord, yCoord, zCoord);
 		}
 	}
+	
 	public void smeltItem() {
 		if (!canSmelt()) 
 		{
@@ -124,7 +132,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 		Alloy alloy = AlloyRecipes.getResult(input);
 		if(alloy != null)
 		{
-			//if(alloy.getLevel() <= getTier())
+			if(alloy.getLevel() <= getTier())
 			{
 				return AlloyRecipes.getResult(input).getRecipeOutput();
 			}
@@ -134,7 +142,11 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	
 	public int getTier()
 	{
-		return this.blockMetadata;
+		if(this.blockType != null && blockType instanceof BlockCrucible)
+		{
+			return ((BlockCrucible)blockType).tier;
+		}
+		return 0;
 	}
 	public float getTemperature()
 	{

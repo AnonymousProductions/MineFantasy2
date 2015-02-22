@@ -51,6 +51,7 @@ public class SmeltingRecipesMF {
 			Items.gold_ingot, Items.gold_ingot, ComponentListMF.flux_strong
 		});	
 		
+		ArrayList<ItemStack> pigs = OreDictionary.getOres("ingotPigIron");
 		ArrayList<ItemStack> steels = OreDictionary.getOres("ingotSteel");
 		ArrayList<ItemStack> bronzes = OreDictionary.getOres("ingotBronze");
 		ArrayList<ItemStack> silvers = OreDictionary.getOres("ingotSilver");
@@ -60,32 +61,39 @@ public class SmeltingRecipesMF {
 		{
 			for(ItemStack bronze: bronzes)
 			{
-				MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[6]), new Object[]{
+				MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[6]), 1, new Object[]{
 					steel, steel, bronze, bronze, Blocks.obsidian
 				});
 			}
 		}
+		for(ItemStack ingot: pigs)
+		{
+			MineFantasyAPI.addRatioAlloy(9, new ItemStack(ComponentListMF.ingots[4]), 1, new Object[]
+			{
+				ingot
+			});
+		}
 		for(ItemStack steel: blacks)
 		{
-			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[11]), new Object[]
+			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[11]), 1, new Object[]
 			{
 				steel, Items.gold_ingot, Items.redstone, ComponentListMF.flux_strong, Items.blaze_powder
 			});
 		for(ItemStack silver: silvers)
 		{
-			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[13]), new Object[]
+			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[13]), 1, new Object[]
 			{
 				steel, silver, ComponentListMF.diamond_dust, ComponentListMF.flux_strong, Items.blaze_powder
 			});
 		}
 		}
-		MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[15], 2), new Object[]
+		MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[15], 2), 1, new Object[]
 		{
 			ComponentListMF.ingots[12], BlockListMF.oreMythic, Items.gold_ingot, Items.gold_ingot
 		});
 		for(ItemStack silver: silvers)
 		{
-			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[16], 2), new Object[]
+			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[16], 2), 1, new Object[]
 			{
 				ComponentListMF.ingots[14], BlockListMF.oreMythic, silver, silver
 			});

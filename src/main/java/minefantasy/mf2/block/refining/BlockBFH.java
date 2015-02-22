@@ -198,8 +198,8 @@ public class BlockBFH extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		sideTex = isActive ? reg.registerIcon("minefantasy2:metal/blast_heater_active") : reg.registerIcon("minefantasy2:metal/blast_heater");
-		bottomTex = reg.registerIcon("minefantasy2:metal/blast_chamber_top");
+		sideTex = isActive ? reg.registerIcon("minefantasy2:processor/blast_heater_active") : reg.registerIcon("minefantasy2:processor/blast_heater");
+		bottomTex = reg.registerIcon("minefantasy2:processor/blast_chamber_top");
 	}
 	
 	@Override

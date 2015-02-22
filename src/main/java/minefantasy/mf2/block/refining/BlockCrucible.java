@@ -35,13 +35,17 @@ public class BlockCrucible extends BlockContainer
 	private Random rand = new Random();
 	public final boolean isActive;
 	private static boolean keepInventory;
+	public int tier;
+	public String type;
 	
-	public BlockCrucible(boolean isActive) 
+	public BlockCrucible(String tex, int tier, boolean isActive) 
 	{
 		super(Material.rock);
+		this.tier = tier;
+		this.type = tex;
 		this.isActive = isActive;
-        GameRegistry.registerBlock(this, "MF_Crucible" + (isActive ? "Active" : ""));
-		setBlockName("crucible");
+        GameRegistry.registerBlock(this, "MF_Crucible"+tex + (isActive ? "Active" : ""));
+		setBlockName("crucible."+tex);
 		this.setStepSound(Block.soundTypeStone);
 		this.setHardness(8F);
 		this.setResistance(8F);
@@ -63,7 +67,7 @@ public class BlockCrucible extends BlockContainer
 		return new TileEntityCrucible();
 	}
 	
-	private TileEntityCrucible getTile(IBlockAccess world, int x, int y, int z)
+	private static TileEntityCrucible getTile(IBlockAccess world, int x, int y, int z)
 	{
 		return (TileEntityCrucible)world.getTileEntity(x, y, z);
 	}
@@ -123,16 +127,21 @@ public class BlockCrucible extends BlockContainer
 	public static void updateFurnaceBlockState(boolean state, World world, int x, int y, int z)
     {
         int l = world.getBlockMetadata(x, y, z);
-        TileEntity tileentity = world.getTileEntity(x, y, z);
+        TileEntityCrucible tileentity = getTile(world, x, y, z);
         keepInventory = true;
-
-        if (state)
+        Block block = world.getBlock(x, y, z);
+        
+        if(block != null && block instanceof BlockCrucible)
         {
-            world.setBlock(x, y, z, BlockListMF.crucible_active);
-        }
-        else
-        {
-            world.setBlock(x, y, z, BlockListMF.crucible);
+        	int blocktier = ((BlockCrucible)block).tier;
+	        if (state)
+	        {
+	            world.setBlock(x, y, z, getActiveBlock(blocktier));
+	        }
+	        else
+	        {
+	            world.setBlock(x, y, z, getInactiveBlock(blocktier));
+	        }
         }
 
         keepInventory = false;
@@ -145,6 +154,24 @@ public class BlockCrucible extends BlockContainer
         }
     }
 	
+	private static Block getActiveBlock(int tier)
+	{
+		if(tier == 1)
+		{
+			return BlockListMF.crucibleadv_active;
+		}
+		return BlockListMF.crucible_active;
+	}
+
+	private static Block getInactiveBlock(int tier) 
+	{
+		if(tier == 1)
+		{
+			return BlockListMF.crucibleadv;
+		}
+		return BlockListMF.crucible;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
@@ -166,12 +193,13 @@ public class BlockCrucible extends BlockContainer
         return true;
     }
 	private IIcon sideTex, topTex;
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		topTex = isActive ? reg.registerIcon("minefantasy2:basic/crucible_top_active") : reg.registerIcon("minefantasy2:basic/crucible_top");
-		sideTex = reg.registerIcon("minefantasy2:basic/crucible_side");
+		topTex = isActive ? reg.registerIcon("minefantasy2:processor/crucible_top_active_"+type) : reg.registerIcon("minefantasy2:processor/crucible_top_"+type);
+		sideTex = reg.registerIcon("minefantasy2:processor/crucible_side_"+type);
 	}
 	@Override
 	@SideOnly(Side.CLIENT)

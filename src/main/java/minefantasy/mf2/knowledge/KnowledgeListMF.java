@@ -38,8 +38,8 @@ public class KnowledgeListMF
     public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 3, 10, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(smithing).setUnlocked();
     public static InformationBase encrusted = (new InformationBase("encrusted",  				5, 2, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(smithing);
     
-    public static InformationBase smeltSmart2 = (new InformationBase("smeltSmart2", 			4, 5, 20, Items.coal, smeltSteel)).registerStat().setPage(smithing).setPerk();
-    public static InformationBase crucible2 = (new InformationBase("crucible2",  				5, 6, 10, Blocks.furnace, smeltSmart2)).registerStat().setPage(smithing);
+    //public static InformationBase smeltSmart2 = (new InformationBase("smeltSmart2", 			4, 5, 20, Items.coal, smeltSteel)).registerStat().setPage(smithing).setPerk();
+    public static InformationBase crucible2 = (new InformationBase("crucible2",  				5, 6, 10, BlockListMF.crucibleadv_active, blastfurn)).registerStat().setPage(smithing);
     public static InformationBase smeltBlackSteel = (new InformationBase("smeltBlackSteel",		7, 6, 10, ComponentListMF.ingots[7], crucible2)).registerStat().setPage(smithing);
     public static InformationBase smeltDragonforge = (new InformationBase("smeltDragonforge",	8, 5, 50, ComponentListMF.ingots[8], smeltBlackSteel)).registerStat().setPage(smithing);
     
@@ -90,7 +90,8 @@ public class KnowledgeListMF
 	}
     
     public static IAnvilRecipe coalDustR, kaoDustR;
-    public static IRecipe fireclayR, fireBrickR, fireBricksR, crucibleRecipe;
+    public static IRecipe fireclayR, fireBrickR, fireBricksR;
+    public static ICarpenterRecipe crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe;
     
     public static IAnvilRecipe blackSteelNuggetR;
     public static IAnvilRecipe dragonforgeIngotRecipe;

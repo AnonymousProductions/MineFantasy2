@@ -111,8 +111,13 @@ public class BlockListMF
 	public static Block blast_heater = new BlockBFH(false);
 	public static Block blast_heater_active = new BlockBFH(true).setLightLevel(10F);
 	
-	public static Block crucible = new BlockCrucible(false);
-	public static Block crucible_active = new BlockCrucible(true).setLightLevel(12F);
+	public static Block crucible = new BlockCrucible("stone", 0, false);
+	public static Block crucible_active = new BlockCrucible("stone", 0, true).setLightLevel(12F);
+	public static Block crucibleadv = new BlockCrucible("fireclay", 1, false);
+	public static Block crucibleadv_active = new BlockCrucible("fireclay", 1, true).setLightLevel(12F);
+	
+	public static Block chimney_stone = new BlockChimney("stone", false, 5);
+	public static Block chimney_stone_wide = new BlockChimney("stone", true, 10);
 	
 	public static void init()
 	{

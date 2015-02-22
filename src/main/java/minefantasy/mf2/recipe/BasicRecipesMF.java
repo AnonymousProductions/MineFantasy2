@@ -24,14 +24,6 @@ public class BasicRecipesMF
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
 		
-		KnowledgeListMF.crucibleRecipe = 
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.crucible), new Object[]{
-			"SSS",
-			"S S",
-			"SSS",
-			'S', Blocks.stone,
-		});
-		
 		GameRegistry.addRecipe(new ItemStack(ToolListMF.researchBook), new Object[]
 		{
 			"H",

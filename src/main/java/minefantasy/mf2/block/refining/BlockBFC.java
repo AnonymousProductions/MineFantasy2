@@ -145,8 +145,8 @@ public class BlockBFC extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		sideTex = reg.registerIcon("minefantasy2:metal/blast_chamber_side");
-		bottomTex = reg.registerIcon("minefantasy2:metal/blast_chamber_top");
+		sideTex = reg.registerIcon("minefantasy2:processor/blast_chamber_side");
+		bottomTex = reg.registerIcon("minefantasy2:processor/blast_chamber_top");
 	}
 
 }

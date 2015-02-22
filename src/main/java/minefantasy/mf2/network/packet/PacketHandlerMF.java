@@ -27,6 +27,7 @@ public class PacketHandlerMF
         packetList.put(CarpenterPacket.packetName, new CarpenterPacket());
         packetList.put(KnowledgePacket.packetName, new KnowledgePacket());
         packetList.put(ResearchRequest.packetName, new ResearchRequest());
+        packetList.put(ChimneyPacket.packetName, new ChimneyPacket());
     }
 
     @SubscribeEvent

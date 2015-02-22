@@ -55,6 +55,8 @@ public class EntryPageRecipeBase extends EntryPage
         IRecipe recipe = recipes[recipeID];
         String cft = "<" + StatCollector.translateToLocal("method.workbench") + ">";
         mc.fontRenderer.drawSplitString(cft, posX+(universalBookImageWidth/2) - (mc.fontRenderer.getStringWidth(cft)/2), posY+150, 117, 0);
+        renderRecipe(parent, x, y, f, posX, posY, recipe);
+        
         if(tooltipStack != null)
         {
 			List<String> tooltipData = tooltipStack.getTooltip(Minecraft.getMinecraft().thePlayer, false);
@@ -87,8 +89,6 @@ public class EntryPageRecipeBase extends EntryPage
 			}
 			*/
 		}
-        renderRecipe(parent, x, y, f, posX, posY, recipe);
-        
 	}
 
 	private void renderRecipe(GuiScreen parent, int mx, int my, float f, int posX, int posY, IRecipe recipe)

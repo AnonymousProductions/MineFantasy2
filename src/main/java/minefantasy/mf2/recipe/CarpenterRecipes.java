@@ -26,6 +26,7 @@ public class CarpenterRecipes
 	
 	public static void init()
 	{
+		
 		GameRegistry.addRecipe(new ItemStack(BlockListMF.carpenter), new Object[]{
 			"PBP",
 			"P P",
@@ -165,6 +166,36 @@ public class CarpenterRecipes
 	
 	private static void addStonemason()
 	{
+		KnowledgeListMF.crucibleRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.crucible), "crucible", "carving", "hammer", -1, 20 , new Object[]{
+			"SSS",
+			"S S",
+			"SSS",
+			'S', Blocks.stone,
+		});
+		KnowledgeListMF.advCrucibleRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.crucibleadv), "crucible2", "carving", 40 , new Object[]{
+			"SSS",
+			"SCS",
+			"SSS",
+			'S', ComponentListMF.fireclay,
+			'C', BlockListMF.crucible
+		});
+		
+		KnowledgeListMF.chimneyRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.chimney_stone, 8), "", "carving", "hammer", -1, 30 , new Object[]{
+			"S S",
+			"S S",
+			"S S",
+			'S', Blocks.stone,
+		});
+		KnowledgeListMF.wideChimneyRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.chimney_stone_wide), "", "carving", "hammer", -1, 10 , new Object[]{
+			"S",
+			"C",
+			'C', BlockListMF.chimney_stone,
+			'S', Blocks.stone,
+		});
 	}
 	
 	private static void addCooking()
