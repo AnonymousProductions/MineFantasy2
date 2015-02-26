@@ -13,6 +13,19 @@ Lantern
 Storage Blocks later (Like safes even lockable chests and doors)
 
 
+//:Skills and Research:\\
+Rather than a research system that seems grindy and unsatisfying, it may be fitting to add RPG elements
+to the mod, just a simple system like the mcmmo plugin would suffice, the research points could be
+added automatically when gaining the proper skills, or with perk points (or config), as you do stuff or
+find scrolls you gain skills, skills can be things like Smithing, Cooking, Melee, Ranged, Defense, etc.
+
+
+//:Adding Slag:\\
+I've not really been in to adding slag, but if it could be made into a liquid and
+output through some kind of system and dumped, that may make it worth adding,
+Same thing with smoke, making it an upside-down liquid(like thaumcraft fluxgas)
+
+
 //:Research Fields:\\
 Basic (Research, Information, etc)
 Smithing (Smelting, Refining, Alloying, Weapon, Tool, Armour, etc)
