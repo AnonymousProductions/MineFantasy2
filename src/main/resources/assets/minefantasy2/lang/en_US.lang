@@ -375,8 +375,12 @@ tile.window_pane.name=Window Pane
 tile.mud_pavement.name=Rough Mud Bricks
 tile.mud_brick.name=Mud Bricks
 tile.thatch.name=Thatch
-tile.limestone.name=limestone
+
+tile.limestone.name=Limestone
 tile.limestone_cobblestone.name=Limestone Cobblestone
+tile.limestone_brick.name=Limestone Brick
+tile.limestone_pavement.name=Limestone Pavement
+
 tile.framed_glass.name=Framed Glass
 tile.framed_pane.name=Framed Glass Pane
 tile.firebricks.name=Fire Bricks

@@ -625,7 +625,7 @@ public class ForgingRecipes
 		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.flux, 4), false, -1, -1, 2, new Object[]
 		{
 			"H",
-			'H', BlockListMF.limestone_cobblestone,
+			'H', new ItemStack(Item.getItemFromBlock(BlockListMF.limestone), 1),
 		});
 		
 		

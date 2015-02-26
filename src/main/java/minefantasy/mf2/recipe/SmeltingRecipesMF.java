@@ -8,6 +8,7 @@ import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -34,9 +35,6 @@ public class SmeltingRecipesMF {
 		GameRegistry.addSmelting(BlockListMF.oreClay, new ItemStack(Items.clay_ball, 4), 0.25F);
 		
 		GameRegistry.addSmelting(ComponentListMF.ingots[6], new ItemStack(ComponentListMF.ingots[7]), 0.8F);
-		GameRegistry.addSmelting(BlockListMF.limestone_cobblestone, new ItemStack(BlockListMF.limestone), 0.1F);
-		
-		GameRegistry.addSmelting(BlockListMF.limestone_cobblestone, new ItemStack(BlockListMF.limestone), 0.1F);
 		
 		GameRegistry.addSmelting(ComponentListMF.fireclay_brick, new ItemStack(ComponentListMF.strong_brick), 0.1F);
 		GameRegistry.addSmelting(ComponentListMF.bomb_casing_uncooked, new ItemStack(ComponentListMF.bomb_casing), 0F);
