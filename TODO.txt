@@ -1,16 +1,19 @@
-+Re-Implement Hot items:
-  *Make it the same as MFI, only try limit searching the hot list for items
-  *Instead create NBT variables(maxtemp, workabletemp, etc) on creation.
-  (The old system lagged a bit when lots of ingots were used)
+//:Re-Implement Hot items:\\
+Make it the same as MFI, only try limit searching the hot list for items
+Instead create NBT variables(maxtemp, workabletemp, etc) on creation.
+(The old system lagged a bit when lots of ingots were used)
 
 
-New Blocks(Construction)
+//:New Blocks(Construction):\\
 Limestone bricks
 Reinforced Stone|Bricks
 Stairs/Slabs
-Roads
+Roads (Mattock Roads)
+Lantern
+Storage Blocks later (Like safes even lockable chests and doors)
 
-Research Fields:
+
+//:Research Fields:\\
 Basic (Research, Information, etc)
 Smithing (Smelting, Refining, Alloying, Weapon, Tool, Armour, etc)
 Construction (Blocks for decor)
@@ -18,6 +21,17 @@ Engineering (Bombs, Mines, Crossbows)
 Cooking (Food)
 Mastery (Combat, Stats, etc)
 Alchemy (Potions)
+
+
+//:Alchemy Stuff:\\
+A large selection of biome-specific herbs, mob drops, etc
+Potions made will have no stacking but multiple uses (kind of like botanica)
+Potions can also have tiers for better ingreedients
+
+
+
+
+
 
 Issues: //WRITE ISSUES FOUND IN GAMEPLAY HERE//
 +++++++++++++++++++++++++++++++++++++++++++++++

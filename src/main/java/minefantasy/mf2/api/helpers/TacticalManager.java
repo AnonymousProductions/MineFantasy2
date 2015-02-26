@@ -6,10 +6,12 @@ import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.weapon.IParryable;
+import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.mechanics.CombatMechanics;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -298,6 +300,12 @@ public class TacticalManager
 	}
 	public static boolean resistArrow(EntityLivingBase user, DamageSource source, float dam) 
 	{
+		Entity hitter = source.getSourceOfDamage();
+		if(hitter == null || !isArrow(hitter))
+		{
+			return false;
+		}
+			
 		dam *= (1.00D - ArmourCalculator.getTotalArmourPercent(user));
 		
 		float threshold = 0.25F;
@@ -322,6 +330,13 @@ public class TacticalManager
 		return dam <= threshold && dam > 0;
 	}
 	
+	/**
+	 * This tries to see if the projectile is an arrow, just so certain projectiles dont do the armour bouncy thing
+	 */
+	public static boolean isArrow(Entity hitter) 
+	{
+		return hitter instanceof EntityArrow || hitter instanceof EntityArrowMF;
+	}
 	/**
 	 * Gets the modifer for base resistance(non magic/fire)
 	 */
