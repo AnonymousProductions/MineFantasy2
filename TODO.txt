@@ -23,4 +23,3 @@ Issues: //WRITE ISSUES FOUND IN GAMEPLAY HERE//
 +++++++++++++++++++++++++++++++++++++++++++++++
  Issue                                | Check |
 +++++++++++++++++++++++++++++++++++++++++++++++
-Stone swords make clang parry             -

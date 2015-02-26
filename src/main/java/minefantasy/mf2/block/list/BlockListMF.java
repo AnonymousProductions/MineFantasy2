@@ -80,6 +80,7 @@ public class BlockListMF
 	public static Block window_pane = new BlockPaneMF("window_pane", "window", "framed_glass_pane", Material.glass, true).setHardness(0.9F).setResistance(0.2F).setStepSound(Block.soundTypeGlass);
 	
 	public static Block thatch = new BasicBlockMF("thatch", Material.leaves).setHardness(1.0F).setStepSound(Block.soundTypeGrass);
+	public static Block thatch_stair = new ConstructionBlockMF.StairsConstBlock("thatch_stair", thatch).register("thatch_stair");
 	
 //	public static Block limestone_cobblestone = new BasicBlockMF("limestone_cobblestone", Material.rock).setHardness(0.8F).setResistance(4.0F).setStepSound(Block.soundTypePiston);
 //	public static Block limestone = new BasicBlockMF("limestone", Material.rock, limestone_cobblestone).setHardness(1.0F).setResistance(5.0F).setStepSound(Block.soundTypeStone);

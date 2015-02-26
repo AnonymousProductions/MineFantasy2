@@ -98,14 +98,23 @@ public class ConstructionBlockMF extends Block {
 	public static class StairsConstBlock extends BlockStairs
 	{
 
-		public StairsConstBlock(String unlocalizedName, Block baseBlock, int metaOfBaseBlock) {
+		public StairsConstBlock(String unlocalizedName, Block baseBlock, int metaOfBaseBlock)
+		{
 			super(baseBlock, metaOfBaseBlock);
-			  this.setBlockName(unlocalizedName);
-			    this.setCreativeTab(CreativeTabs.tabBlock);
+			this.setBlockName(unlocalizedName);
+		    this.setCreativeTab(CreativeTabs.tabBlock);
+		    this.setLightOpacity(0);//They seem to render shadows funny
 		}
 		
-		public StairsConstBlock(String unlocalizedName, Block baseBlock) {
+		public StairsConstBlock(String unlocalizedName, Block baseBlock) 
+		{
 		    this(unlocalizedName, baseBlock, 0);
+		}
+
+		public Block register(String name) 
+		{
+			GameRegistry.registerBlock(this, name);
+			return this;
 		}
 		
 	}
