@@ -10,6 +10,7 @@ import minefantasy.mf2.mechanics.CombatMechanics;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
@@ -85,6 +86,14 @@ public class TacticalManager
 				return false;
 			}
 		}
+		else
+		{
+			if(!isMobBlocking(user))
+			{
+				return false;
+			}
+		}
+		
 		if(!CombatMechanics.isParryAvailable(user))
 		{
 			return false;
@@ -117,6 +126,14 @@ public class TacticalManager
 			return false;
 		}
 		return arc > 0 && canBlock(entityHitting, user, arc);
+	}
+	private static boolean isMobBlocking(EntityLivingBase user)
+	{
+		if(user.getHeldItem() != null)
+		{
+			return user.getHeldItem().getItem().getItemUseAction(user.getHeldItem()) == EnumAction.block;
+		}
+		return false;
 	}
 	public static float getHighgroundModifier(Entity target, Entity hitter, float value)
 	{

@@ -130,7 +130,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 		mythicSize = Integer.parseInt(config.get(mythic, "Mythic Size", 8, "How many blocks consist of the vein").getString());
 		
 		
-		kaoliniteRarity = Float.parseFloat(config.get(kaolinite, "Kaolinite Rarity", 0.1F, "The chance for kaolinite to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any kaolinite").getString());
+		kaoliniteRarity = Float.parseFloat(config.get(kaolinite, "Kaolinite Rarity", 0.25F, "The chance for kaolinite to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any kaolinite").getString());
 		kaoliniteFrequencyMin = Integer.parseInt(config.get(kaolinite, "Kaolinite Frequency Min", 1, "Kaolinite will try spawn between this and max deposits per chunk").getString());
 		kaoliniteFrequencyMax = Integer.parseInt(config.get(kaolinite, "Kaolinite Frequency Max", 1, "Kaolinite will try spawn between min and this deposits per chunk").getString());
 		kaoliniteLayerMin = Integer.parseInt(config.get(kaolinite, "Kaolinite Layer Min", 48, "Kaolinite deposits spawn above this layer").getString());
