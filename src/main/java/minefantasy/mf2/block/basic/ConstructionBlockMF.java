@@ -1,11 +1,13 @@
 package minefantasy.mf2.block.basic;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.MineFantasyII;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,6 +34,8 @@ public class ConstructionBlockMF extends Block {
 		
 		GameRegistry.registerBlock(this, ItemConstBlock.class, this.getUnlocalizedName());
 		
+		GameRegistry.registerBlock(new StairsConstBlock(unlocName + "_stair", this), unlocName + "_stair");
+		
 		addConstructRecipes(Item.getItemFromBlock(this));
 		
 	}
@@ -45,6 +49,8 @@ public class ConstructionBlockMF extends Block {
 		
 		GameRegistry.addRecipe(new ItemStack(item, 4, 2), new Object[] {"XX ", "XX ", 'X', new ItemStack(item, 1, 0)});
 		GameRegistry.addRecipe(new ItemStack(item, 4, 2), new Object[] {"XX ", "XX ", 'X', new ItemStack(item, 1, 1)});
+		
+		GameRegistry.addRecipe(new ItemStack(item.getItemFromBlock(GameRegistry.findBlock(MineFantasyII.MODID, item.getUnlocalizedName().substring(5) + "_stair"))), new Object[] {"X  ", "XX ", "XXX", 'X', new ItemStack(item, 1, 0)});
 	}
 	
 	public void registerBlockIcons(IIconRegister register)
@@ -89,6 +95,20 @@ public class ConstructionBlockMF extends Block {
 		}
 	}
 	
+	public static class StairsConstBlock extends BlockStairs
+	{
+
+		public StairsConstBlock(String unlocalizedName, Block baseBlock, int metaOfBaseBlock) {
+			super(baseBlock, metaOfBaseBlock);
+			  this.setBlockName(unlocalizedName);
+			    this.setCreativeTab(CreativeTabs.tabBlock);
+		}
+		
+		public StairsConstBlock(String unlocalizedName, Block baseBlock) {
+		    this(unlocalizedName, baseBlock, 0);
+		}
+		
+	}
 	
 	public static class ItemConstBlock extends ItemBlockWithMetadata
 	{

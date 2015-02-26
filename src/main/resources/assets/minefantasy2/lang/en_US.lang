@@ -380,6 +380,7 @@ tile.limestone.name=Limestone
 tile.limestone_cobblestone.name=Limestone Cobblestone
 tile.limestone_brick.name=Limestone Brick
 tile.limestone_pavement.name=Limestone Pavement
+tile.limestone_stair.name=Limestone Stairs
 
 tile.framed_glass.name=Framed Glass
 tile.framed_pane.name=Framed Glass Pane
