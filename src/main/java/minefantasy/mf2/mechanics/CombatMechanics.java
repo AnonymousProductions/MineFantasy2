@@ -28,6 +28,7 @@ import minefantasy.mf2.item.weapon.ItemWaraxeMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.network.packet.ParryPacket;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -471,14 +472,14 @@ public class CombatMechanics
     	    	threshold = ArmourCalculator.modifyACForType(source, threshold, 1.0F, 0.75F);
     		}
     	    
-    	    if(debugParry && !user.worldObj.isRemote){MineFantasyII.debugMsg("Init Parry: Damage = " + dam + " Threshold = " + threshold);}
+    	    if(debugParry && !user.worldObj.isRemote){MFLogUtil.logDebug("Init Parry: Damage = " + dam + " Threshold = " + threshold);}
     		
     	    //USED FOR PARRYING its harder to block arrows
            if(TacticalManager.canParry(source, user, entityHitting, weapon))
            {
         	   dam = Math.max(0F, dam - threshold);
         	   
-        	   if(debugParry && !user.worldObj.isRemote){MineFantasyII.debugMsg("Parried: dam = " + dam);}
+        	   if(debugParry && !user.worldObj.isRemote){MFLogUtil.logDebug("Parried: dam = " + dam);}
         	   
         	   if(properHit || dam <= 0)
         	   {
@@ -524,7 +525,7 @@ public class CombatMechanics
 			   			}
 			   			if(hitTime > 0)
 			   			{
-			   				MineFantasyII.debugMsg("Recoil hitter: " + hitter.getCommandSenderName() + " for " + hitTime*3 + " ticks.");
+			   				MFLogUtil.logDebug("Recoil hitter: " + hitter.getCommandSenderName() + " for " + hitTime*3 + " ticks.");
 			   				EventManagerMF.setHitTime(hitter, hitTime * 3);
 			   			}
 			   		}
@@ -534,7 +535,7 @@ public class CombatMechanics
     	if(user instanceof EntityPlayer || (entityHitting != null && entityHitting instanceof EntityPlayer))
     	{
     		if(!user.worldObj.isRemote)
-    		MineFantasyII.debugMsg(dam + "x Damage inflicted to: " + user.getCommandSenderName() + " (" + user.getEntityId() + ")");
+    			MFLogUtil.logDebug(dam + "x Damage inflicted to: " + user.getCommandSenderName() + " (" + user.getEntityId() + ")");
     	}
 		return dam;
 	}
@@ -689,7 +690,7 @@ public class CombatMechanics
 	
 	private void applyBalance(EntityPlayer entityPlayer) 
 	{
-		MineFantasyII.debugMsg("Weapon Balance Init");
+		MFLogUtil.logDebug("Weapon Balance Init");
 		ItemStack weapon = entityPlayer.getHeldItem();
         float balance = 0.0F;
         

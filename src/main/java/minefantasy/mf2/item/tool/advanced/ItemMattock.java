@@ -8,6 +8,7 @@ import minefantasy.mf2.api.tier.IToolMaterial;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -97,7 +98,7 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
 			Block block2 = Block.getBlockById(id);
 			if(block2 != null)
 			{
-				MineFantasyII.debugMsg("Set Block: " + id + " : " + meta);
+				MFLogUtil.logDebug("Set Block: " + id + " : " + meta);
 				world.setBlock(x, y, z, block2);
 				world.setBlockMetadataWithNotify(x, y, z, meta, 2);
 				return true;
@@ -110,7 +111,7 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
 		if(!mattock.hasTagCompound())mattock.setTagCompound(new NBTTagCompound());
 		mattock.getTagCompound().setInteger("MF_Mattock_ID", id);
 		mattock.getTagCompound().setInteger("MF_Mattock_Meta", meta);
-		MineFantasyII.debugMsg("set Mattock Tile: " + id + " : " + meta);
+		MFLogUtil.logDebug("set Mattock Tile: " + id + " : " + meta);
 	}
 	@Override
     public boolean onItemUse(ItemStack mattock, EntityPlayer player, World world, int x, int y, int z, int facing, float pitch, float yaw, float pan)

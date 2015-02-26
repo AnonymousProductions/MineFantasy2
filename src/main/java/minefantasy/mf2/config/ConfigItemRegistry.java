@@ -7,6 +7,7 @@ import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.api.armour.CustomDamageRatioEntry;
 import minefantasy.mf2.api.farming.CustomHoeEntry;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.item.Item;
 
 public class ConfigItemRegistry extends ConfigurationBaseMF 
@@ -75,7 +76,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 	
 	public static void readCustoms()
 	{
-		MineFantasyII.debugMsg("Loading Custom Item Entries from config...");
+		MFLogUtil.logDebug("Loading Custom Item Entries from config...");
 		try
 		{
 			for(String s: armourListAC)
@@ -97,7 +98,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 		}
 		catch(Exception e)
 		{
-			MineFantasyII.outputErr("Failed to load Custom Item Entries from config. Check the config file");
+			MFLogUtil.logWarn("Failed to load Custom Item Entries from config. Check the config file");
 		}
 	}
 
@@ -106,7 +107,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 		ArmourDesign AC = getClassFor(design);
 		if(AC == null)
 		{
-			MineFantasyII.outputErr("Could not define armour design '" + design + "' for item id: " + Item.getIdFromItem(piece));
+			MFLogUtil.logWarn("Could not define armour design '" + design + "' for item id: " + Item.getIdFromItem(piece));
 			return;
 		}
 		CustomArmourEntry.registerItem(piece, AC, weight);
@@ -162,7 +163,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 					if(AD != null && piece != null)
 					{
 						CustomArmourEntry.registerItem(piece, AD, weight);
-						MineFantasyII.debugMsg("Added Armour: " + id + " To " + AD.getName() + " modified weight is " + weight);
+						MFLogUtil.logDebug("Added Armour: " + id + " To " + AD.getName() + " modified weight is " + weight);
 					}
 					phase = 0;
 				}
@@ -208,7 +209,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 					if(hoe != null)
 					{
 						CustomHoeEntry.registerItem(hoe, eff);
-						MineFantasyII.debugMsg("Added Hoe: " + id + " With Efficiency " + eff);
+						MFLogUtil.logDebug("Added Hoe: " + id + " With Efficiency " + eff);
 					}
 					phase = 0;
 				}
@@ -260,7 +261,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 					if(weapon != null)
 					{
 						CustomDamageRatioEntry.registerItem(weapon, new float[]{cut, blunt});
-						MineFantasyII.debugMsg("Added Custom weapon: " + id + " With Ratio " + cut + ":" + blunt);
+						MFLogUtil.logDebug("Added Custom weapon: " + id + " With Ratio " + cut + ":" + blunt);
 					}
 					phase = 0;
 				}
@@ -309,7 +310,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 					temp = "";
 					
 					CustomDamageRatioEntry.registerEntity(id, new float[]{cut, blunt});
-					MineFantasyII.debugMsg("Added Custom entity: " + id + " With Ratio " + cut + ":" + blunt);
+					MFLogUtil.logDebug("Added Custom entity: " + id + " With Ratio " + cut + ":" + blunt);
 					phase = 0;
 				}
 			}

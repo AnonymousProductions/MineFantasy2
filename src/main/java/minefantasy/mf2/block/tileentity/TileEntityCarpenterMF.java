@@ -11,6 +11,7 @@ import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.container.ContainerCarpenterMF;
 import minefantasy.mf2.network.packet.CarpenterPacket;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -256,7 +257,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				progress += Math.max(0.2F, efficiency);
 				if(progress >= progressMax)
 				{
-					MineFantasyII.debugMsg("Completed Craft: KPE Gained: " + (int)(progressMax/2));
+					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)(progressMax/2));
 					ResearchLogic.addKnowledgeExperience(user, progressMax/20F);
 					craftItem();
 				}

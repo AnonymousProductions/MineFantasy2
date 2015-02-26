@@ -9,6 +9,7 @@ import minefantasy.mf2.api.weapon.IDamageType;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.item.archery.ArrowType;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -386,7 +387,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 					float dam = k;//(getDamageModifier()*power) / 10F * (float)k;
 					
 					if(!worldObj.isRemote)
-					MineFantasyII.debugMsg("Base MF Arrow Damage = " + dam + "force = " + f2);
+						MFLogUtil.logDebug("Base MF Arrow Damage = " + dam + "force = " + f2);
 					if (this.getIsCritical())
 					{
 						dam *= (rand.nextFloat()*0.5F)+1.0F;
@@ -859,7 +860,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 			return dataWatcher.getWatchableObjectString(texture_dw);
 		}catch(Exception e)
 		{
-			MineFantasyII.outputErr("Arrow Failed To Load Texture");
+			MFLogUtil.logWarn("Arrow Failed To Load Texture");
 			return "steel_arrow";
 		}
 	}
@@ -914,7 +915,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	public void setPower(float f)
 	{
 		if(!worldObj.isRemote)
-		MineFantasyII.debugMsg("Set Arrow Power: " + f);
+			MFLogUtil.logDebug("Set Arrow Power: " + f);
 		power = f;
 	}
 }

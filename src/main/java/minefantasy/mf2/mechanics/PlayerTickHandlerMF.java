@@ -10,6 +10,7 @@ import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.item.food.ItemFoodMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -90,7 +91,7 @@ public class PlayerTickHandlerMF
         	
         	if(ConfigWeapon.useBalance)
             {
-        		MineFantasyII.debugMsg("Weapon Balance Move");
+        		MFLogUtil.logDebug("Weapon Balance Move");
         		entityPlayer.rotationYaw += yawBalance > 0 ? weight : -weight;
             }
         	
@@ -106,7 +107,7 @@ public class PlayerTickHandlerMF
 		if(event.player.worldObj.isRemote)return;
 		
 		NBTTagCompound persist = PlayerTagData.getPersistedData(event.player);
-    	MineFantasyII.debugMsg("Sync data");
+		MFLogUtil.logDebug("Sync data");
     	ResearchLogic.syncData((EntityPlayer) event.player);
     	
     	if(!persist.hasKey("MF_HasBook"))

@@ -11,6 +11,7 @@ import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.container.ContainerAnvilMF;
 import minefantasy.mf2.network.packet.AnvilPacket;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -257,7 +258,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				if(progress >= progressMax)
 				{
 					float xpGained = progressMax / toolEfficiency;
-					MineFantasyII.debugMsg("Completed Craft: KPE Gained: " + (int)xpGained);
+					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)xpGained);
 					ResearchLogic.addKnowledgeExperience(user, xpGained);
 					craftItem();
 				}

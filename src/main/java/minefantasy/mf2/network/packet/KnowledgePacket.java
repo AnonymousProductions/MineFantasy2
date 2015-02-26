@@ -9,6 +9,7 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.ByteBufUtils;
 
@@ -53,7 +54,7 @@ public class KnowledgePacket extends PacketMF
             EntityPlayer entity = player.worldObj .getPlayerEntityByName(username);
             if(entity != null)
             {
-            	MineFantasyII.debugMsg("KnowledgeSync Complete: " + completed.size() + " Unlocked");
+            	MFLogUtil.logDebug("KnowledgeSync Complete: " + completed.size() + " Unlocked");
             	Iterator researches = completed.iterator();
             	while(researches.hasNext())
             	{

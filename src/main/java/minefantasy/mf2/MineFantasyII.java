@@ -15,6 +15,7 @@ import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
 import minefantasy.mf2.network.CommonProxyMF;
 import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.init.Items;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
@@ -71,7 +72,7 @@ public class MineFantasyII
 		new ConfigCrafting().setConfig(getCfg(event, "Crafting"));
 		
 		MineFantasyAPI.isInDebugMode = isDebug();
-		output("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
+		MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 		
 		ToolListMF.init();
 		
@@ -139,21 +140,7 @@ public class MineFantasyII
     	return new Configuration(new File(event.getModConfigurationDirectory(), "MineFantasyII/"+name + ".cfg"));
     }
     
-    public static void debugMsg(String msg)
-    {
-    	if(isDebug())
-    	{
-    		System.out.println("[MineFantasyII](Debug): " + msg);
-    	}
-    }
-    public static void output(String msg)
-    {
-    	System.out.println("[MineFantasyII]: " + msg);
-    }
-    public static void outputErr(String msg)
-    {
-    	System.err.println("[MineFantasyII]: " + msg);
-    }
+ 
 
     
     

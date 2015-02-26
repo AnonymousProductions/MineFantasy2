@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -103,7 +104,7 @@ public class BaseMaterialMF
 		
 		if(initAc != AC)
 		{
-			MineFantasyII.debugMsg("Auto-Calculated ArmourRating for tier: " + name + ", modified to " + AC);
+			MFLogUtil.logDebug("Auto-Calculated ArmourRating for tier: " + name + ", modified to " + AC);
 		}
 		
 		return addMaterial(name, tier, durability, harvestLevel, AC, sharpness, enchantment, weight);

@@ -3,6 +3,7 @@ package minefantasy.mf2.network.packet;
 import io.netty.buffer.ByteBuf;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.tileentity.TileEntityChimney;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -38,7 +39,7 @@ public class ChimneyPacket extends PacketMF
         	int blockMetadata = packet.readInt();
         	if(Block.getIdFromBlock(tile.maskBlock) != blockID || tile.maskMeta != blockMetadata)
         	{
-        		MineFantasyII.debugMsg("Chimney Texture Change Found");
+        		MFLogUtil.logDebug("Chimney Texture Change Found");
         	}
     		tile.setBlock(blockID, blockMetadata);
         }
