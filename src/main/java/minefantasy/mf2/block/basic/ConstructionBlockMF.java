@@ -32,7 +32,7 @@ public class ConstructionBlockMF extends Block {
 		
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		
-		GameRegistry.registerBlock(this, ItemConstBlock.class, this.getUnlocalizedName());
+		GameRegistry.registerBlock(this, ItemConstBlock.class, unlocName);
 		
 		GameRegistry.registerBlock(new StairsConstBlock(unlocName + "_stair", this), unlocName + "_stair");
 		

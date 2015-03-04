@@ -8,6 +8,7 @@ import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
+import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.config.ConfigClient;
 import net.minecraft.client.Minecraft;
@@ -57,6 +58,10 @@ public class MineFantasyHUD extends Gui
 				if(tile instanceof TileEntityCarpenterMF)
 				{
 					this.renderCraftMetre(world, player, (TileEntityCarpenterMF)tile);
+				}
+				if(tile instanceof TileEntityTanningRack)
+				{
+					this.renderCraftMetre(world, player, (TileEntityTanningRack)tile);
 				}
 			}
 		}
@@ -255,6 +260,39 @@ public class MineFantasyHUD extends Gui
         if(knowsCraft && !tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
         {
         	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPos-20, yPos);
+        }
+        
+        GL11.glPopMatrix();
+	}
+	
+	private void renderCraftMetre(World world, EntityPlayer player, TileEntityTanningRack tile) 
+	{
+		boolean knowsCraft = tile.doesPlayerKnowCraft(mc.thePlayer);
+		GL11.glPushMatrix();
+		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
+        int width = scaledresolution.getScaledWidth();
+        int height = scaledresolution.getScaledHeight();
+        
+        bindTexture("textures/gui/hud_overlay.png");
+        int xPos = width/2 + -86;
+        int yPos = height - 69;
+        
+        this.drawTexturedModalRect(xPos, yPos, 84, 0, 172, 20);
+        this.drawTexturedModalRect(xPos+6, yPos+12, 90, 20, tile.getProgressBar(160), 3);
+        
+        String s = knowsCraft ? tile.getResultName() : "????";
+        ItemStack result = tile.items[1];
+        if(result != null && result.stackSize > 1)
+        {
+        	s += " x"+result.stackSize;
+        }
+        mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
+        GL11.glColor3f(1.0F, 1.0F, 1.0F);
+        
+        String resName = tile.getResultName();
+        if(knowsCraft && !resName.equalsIgnoreCase("") && tile.toolType != null)
+        {
+        	GuiHelper.renderToolIcon(this, tile.toolType, tile.tier, xPos-20, yPos);
         }
         
         GL11.glPopMatrix();

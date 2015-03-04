@@ -3,6 +3,7 @@ package minefantasy.mf2.recipe;
 import java.util.HashMap;
 
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -23,6 +24,13 @@ public class BasicRecipesMF
 		ForgingRecipes.init();
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
+		
+		GameRegistry.addRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
+			"PPP",
+			"P P",
+			"PPP",
+			'P', ComponentListMF.plank,
+		});
 		
 		GameRegistry.addRecipe(new ItemStack(ToolListMF.researchBook), new Object[]
 		{
@@ -147,6 +155,11 @@ public class BasicRecipesMF
 			
 			'B', ComponentListMF.strong_brick
 		});
+		BaseMaterialMF mat = BaseMaterialMF.iron;
+		
+		TanningRecipe.addRecipe(ComponentListMF.hideSmall, mat.craftTimeModifier*5F, -1, new ItemStack(Items.leather));
+		TanningRecipe.addRecipe(ComponentListMF.hideMedium, mat.craftTimeModifier*8F, -1, new ItemStack(Items.leather, 3));
+		TanningRecipe.addRecipe(ComponentListMF.hideLarge, mat.craftTimeModifier*12F, -1, new ItemStack(Items.leather, 5));
 	}
 	public static final HashMap<String, IRecipe[]>recipeMap = new HashMap<String, IRecipe[]>();
 }

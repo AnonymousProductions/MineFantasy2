@@ -50,3 +50,4 @@ Issues: //WRITE ISSUES FOUND IN GAMEPLAY HERE//
 +++++++++++++++++++++++++++++++++++++++++++++++
  Issue                                | Check |
 +++++++++++++++++++++++++++++++++++++++++++++++
+Hot cricibles drop                        -

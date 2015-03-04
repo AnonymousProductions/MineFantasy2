@@ -2,9 +2,11 @@ package minefantasy.mf2.recipe;
 
 import java.util.ArrayList;
 
+import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -15,21 +17,17 @@ public class TempRecipesMF
 {
 	public static void init()
 	{
-		GameRegistry.addRecipe(new ItemStack(Items.leather, 1), new Object[]
-		{
-			"H",
-			'H', ComponentListMF.rawhideSmall,
+		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideSmall), new Object[]{
+			ComponentListMF.rawhideSmall
 		});
-		GameRegistry.addRecipe(new ItemStack(Items.leather, 2), new Object[]
-		{
-			"H",
-			'H', ComponentListMF.rawhideMedium,
+		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideMedium), new Object[]{
+			ComponentListMF.rawhideMedium
 		});
-		GameRegistry.addRecipe(new ItemStack(Items.leather, 3), new Object[]
-		{
-			"H",
-			'H', ComponentListMF.rawhideLarge,
+		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideLarge), new Object[]{
+			ComponentListMF.rawhideLarge
 		});
+		
+		
 		GameRegistry.addRecipe(new ItemStack(Items.bucket, 1), new Object[]
 		{
 			"I I",

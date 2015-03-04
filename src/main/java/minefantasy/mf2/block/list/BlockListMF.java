@@ -123,6 +123,8 @@ public class BlockListMF
 	public static Block chimney_stone = new BlockChimney("stone", false, 5);
 	public static Block chimney_stone_wide = new BlockChimney("stone", true, 10);
 	
+	public static Block tanner = new BlockTanningRack();
+	
 	public static void init()
 	{
 		for(int a = 0; a < specialMetalBlocks.length; a++)

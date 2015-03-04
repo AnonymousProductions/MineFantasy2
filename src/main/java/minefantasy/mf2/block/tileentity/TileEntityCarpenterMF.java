@@ -563,6 +563,10 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	}
 	public boolean doesPlayerKnowCraft(EntityPlayer user)
 	{
-		return getResearchNeeded().isEmpty() || ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
+		if(getResearchNeeded().isEmpty())
+		{
+			return true;
+		}
+		return ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
 	}
 }
