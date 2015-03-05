@@ -156,4 +156,5 @@ public class BlockListMF
 	public static int anvil_RI = 100;
 	public static int carpenter_RI = 101;
 	public static int bomb_RI = 102;
+	public static int tanner_RI = 103;
 }

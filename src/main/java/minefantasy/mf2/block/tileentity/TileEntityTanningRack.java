@@ -21,12 +21,23 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	public int tier;
 	public String toolType = "knife";
 	public final ContainerTanner container;
+	private int tempTicksExisted = 0;
 	
 	public TileEntityTanningRack()
 	{
 		container = new ContainerTanner(this);
 	}
 	
+	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
+		++tempTicksExisted;
+		if(tempTicksExisted == 10)
+		{
+			blockMetadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		}
+	}
 	public boolean interact(EntityPlayer player, boolean leftClick)
 	{
 		container.detectAndSendChanges();
@@ -40,7 +51,15 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 			{
 				held.damageItem(1, player);
 				
-				progress += ToolHelper.getCrafterEfficiency(held);
+				float efficiency = ToolHelper.getCrafterEfficiency(held);
+				if(player.swingProgress > 0 && player.swingProgress <= 1.0)
+				{
+					efficiency *= (0.5F-player.swingProgress);
+				}
+				
+				if(efficiency > 0)
+				progress += efficiency;
+				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "dig.cloth", 1.0F, 1.0F);
 				if(progress >= maxProgress)
 				{
 					progress = 0;
@@ -64,6 +83,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 					setInventorySlotContents(0, item2);
 					tryDecrMainItem(player);
 					updateRecipe();
+					worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "mob.horse.leather", 1.0F, 1.0F);
 					return true;
 				}
 			}
@@ -75,6 +95,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 				}
 				setInventorySlotContents(0, null);
 				updateRecipe();
+				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "mob.horse.leather", 1.0F, 1.0F);
 				return true;
 			}
 		}

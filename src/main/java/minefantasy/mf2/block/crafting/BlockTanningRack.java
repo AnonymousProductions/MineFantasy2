@@ -6,11 +6,13 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -41,6 +44,14 @@ public class BlockTanningRack extends BlockContainer
 	{
 		return new TileEntityTanningRack();
 	}
+	
+	@Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase user, ItemStack item)
+    {
+    	int dir = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+
+        world.setBlockMetadataWithNotify(x, y, z, dir, 2);
+    }
 	
 	public TileEntityTanningRack getTile(World  world, int x, int y, int z)
 	{
@@ -124,4 +135,22 @@ public class BlockTanningRack extends BlockContainer
     {
     	return Blocks.planks.getIcon(side,  0);
     }
+    
+    @Override
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+    
+    @Override
+	public int getRenderType()
+	{
+		return BlockListMF.tanner_RI;
+	}
 }

@@ -25,7 +25,8 @@ public class BasicRecipesMF
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
 		
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
+		KnowledgeListMF.tannerRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
 			"PPP",
 			"P P",
 			"PPP",
@@ -156,6 +157,16 @@ public class BasicRecipesMF
 			'B', ComponentListMF.strong_brick
 		});
 		BaseMaterialMF mat = BaseMaterialMF.iron;
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideSmall), new Object[]{
+			ComponentListMF.rawhideSmall, ComponentListMF.flux
+		});
+		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideMedium), new Object[]{
+			ComponentListMF.rawhideMedium, ComponentListMF.flux
+		});
+		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideLarge), new Object[]{
+			ComponentListMF.rawhideLarge, ComponentListMF.flux
+		});
 		
 		TanningRecipe.addRecipe(ComponentListMF.hideSmall, mat.craftTimeModifier*5F, -1, new ItemStack(Items.leather));
 		TanningRecipe.addRecipe(ComponentListMF.hideMedium, mat.craftTimeModifier*8F, -1, new ItemStack(Items.leather, 3));

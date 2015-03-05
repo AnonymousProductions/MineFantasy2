@@ -31,6 +31,7 @@ public class KnowledgeListMF
 	public static InformationBase research1 = (new InformationBase("research1", 				2, 1, 50, ToolListMF.researchBook, (InformationBase)null)).registerStat().setPerk();
 	public static InformationBase research2 = (new InformationBase("research2", 				4, 2, 80, Items.enchanted_book, research1)).registerStat().setPerk();
 	
+	public static InformationBase tanning = (new InformationBase("tanning", 					2, -2,0, BlockListMF.tanner, (InformationBase)null)).registerStat().setUnlocked().setSpecial();
     public static InformationBase crucible = (new InformationBase("crucible", 					1, 0, 5, BlockListMF.crucible, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
 	
     public static InformationBase smeltBronze = (new InformationBase("smeltBronze",  			4, 0,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(smithing).setUnlocked();
@@ -90,6 +91,7 @@ public class KnowledgeListMF
 	{
 	}
     
+    public static IRecipe tannerRecipe;
     public static IAnvilRecipe coalDustR, kaoDustR;
     public static IRecipe fireclayR, fireBrickR, fireBricksR;
     public static ICarpenterRecipe crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe;

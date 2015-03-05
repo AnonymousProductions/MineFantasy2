@@ -72,6 +72,7 @@ public class ConfigClient extends ConfigurationBaseMF
 		BlockListMF.anvil_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Anvil", -100).getString());
 		BlockListMF.carpenter_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Carpenter", -101).getString());
 		BlockListMF.bomb_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bomb Bench", -102).getString());
+		BlockListMF.tanner_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Tanning Rack", -103).getString());
 	}
 
 }

@@ -7,6 +7,7 @@ import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.AdvancedFuelHandlerMF;
 import minefantasy.mf2.item.FuelHandlerMF;
 import minefantasy.mf2.item.ItemComponentMF;
+import minefantasy.mf2.item.ItemHide;
 import minefantasy.mf2.item.gadget.ItemBombComponent;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
@@ -112,12 +113,12 @@ public class ComponentListMF
 	public static Item fireclay_brick = new ItemComponentMF("fireclay_brick", 0);
 	public static Item strong_brick = new ItemComponentMF("strong_brick", 0);
 	
-	public static Item rawhideSmall = new ItemComponentMF("rawhideSmall", -1);
-	public static Item rawhideMedium = new ItemComponentMF("rawhideMedium", -1);
-	public static Item rawhideLarge = new ItemComponentMF("rawhideLarge", -1);
 	public static Item hideSmall = new ItemComponentMF("hideSmall", 0);
 	public static Item hideMedium = new ItemComponentMF("hideMedium", 0);
 	public static Item hideLarge = new ItemComponentMF("hideLarge", 0);
+	public static Item rawhideSmall = new ItemHide("rawhideSmall", hideSmall, 1.0F);
+	public static Item rawhideMedium = new ItemHide("rawhideMedium", hideMedium, 1.5F);
+	public static Item rawhideLarge = new ItemHide("rawhideLarge", hideLarge, 3.0F);
 	
 	public static Item dragon_heart = new ItemComponentMF("dragon_heart", 1);
 	

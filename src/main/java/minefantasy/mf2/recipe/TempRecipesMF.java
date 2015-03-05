@@ -17,17 +17,6 @@ public class TempRecipesMF
 {
 	public static void init()
 	{
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideSmall), new Object[]{
-			ComponentListMF.rawhideSmall
-		});
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideMedium), new Object[]{
-			ComponentListMF.rawhideMedium
-		});
-		GameRegistry.addShapelessRecipe(new ItemStack(ComponentListMF.hideLarge), new Object[]{
-			ComponentListMF.rawhideLarge
-		});
-		
-		
 		GameRegistry.addRecipe(new ItemStack(Items.bucket, 1), new Object[]
 		{
 			"I I",

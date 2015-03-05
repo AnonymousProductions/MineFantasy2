@@ -117,6 +117,8 @@ public class ClientProxyMF extends CommonProxyMF
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCarpenterMF.class, new TileEntityCarpenterRenderer());
 		RenderingRegistry.registerBlockHandler(new RenderBombBench());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombBench.class, new TileEntityBombBenchRenderer());
+		RenderingRegistry.registerBlockHandler(new RenderTanningRack());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTanningRack.class, new TileEntityTanningRackRenderer());
 	}
 	
 	public void registerEntityRenderer()

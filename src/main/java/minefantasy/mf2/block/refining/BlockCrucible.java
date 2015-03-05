@@ -207,4 +207,9 @@ public class BlockCrucible extends BlockContainer
     {
         return Item.getItemFromBlock(BlockListMF.crucible);
     }
+	@Override
+	public Item getItemDropped(int meta, Random rand, int fort)
+    {
+        return Item.getItemFromBlock(BlockListMF.crucible);
+    }
 }

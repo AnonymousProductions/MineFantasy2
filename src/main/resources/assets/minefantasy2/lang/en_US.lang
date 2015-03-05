@@ -28,6 +28,8 @@ knowledge.ores=Ores and Minerals
 knowledge.ores.desc=Ore/Mineral Generation
 knowledge.chimney=Smoke and Chimnies
 knowledge.chimney.desc=What greenhouse gasses?
+knowledge.tanning=Tanning
+knowledge.tanning.desc=Refined skins
 
 knowledge.research1=Improved Research
 knowledge.research1.desc=The big picture
@@ -1503,6 +1505,9 @@ knowledge.guiSubtitle=This is the GUI
 knowledge.chimney.paragraph_1=Smoke is emitted from many industrial devices, though it usually dissapears into the atmosphere; it can be dangerous to breathe in.
 knowledge.chimney.paragraph_2=Breathing in smoke can be debilitating and effects can build up. Building chimneys allow you to redirect the smoke upwards. Just stack them on top of the block.
 knowledge.chimney.paragraph_3=Chimneys can explode under pressure, but this is uncommon. Wide chimneys can hold more smoke.
+
+knowledge.tanning.paragraph_1=Leather is a useful commodity across a wide range of trades but it can be difficult to find pure samples naturally. The best way to get a workable piece of leather is to refine it from raw hide: with this you use the tanning rack.
+knowledge.tanning.paragraph_2=The tanning rack is a very simple process. All you need to do is first clean a hide, apply flux to it or right-click it in water for a short time, this creates a clean hide. Right-click clean hides on the rack to place them (one at a time) and click the rack with a knife to turn it into leather.
 
 knowledge.ores.paragraph_1=There are many ores generating in the world of MineFantasy, many can be refined into new metals for use in their own purposes or in alloys.
 knowledge.ores.paragraph_2=As well as ores you may also find minerals: Minerals are like ores and generate in a similar way. Minerals can't be refined much but usually drop an item when mined.
