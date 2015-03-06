@@ -43,6 +43,23 @@ Potions can also have tiers for better ingreedients
 
 
 
+//:Other Stuff:\\
+Big Furnace
+Ignotumite/Mithium ores
+Enderforge smelting
+Coke
+Ornate Crafting
+Repair
+Crossbow
+Uncraftable recipes (saddles, tags)
+Item heating
+Stealth Mechanics
+Review on learning craftstuff (like the research system)
+
+//:Later Stuff:\\
+Hardcore Crafting
+Advanced iron / bloomery
+
 
 
 
@@ -50,4 +67,5 @@ Issues: //WRITE ISSUES FOUND IN GAMEPLAY HERE//
 +++++++++++++++++++++++++++++++++++++++++++++++
  Issue                                | Check |
 +++++++++++++++++++++++++++++++++++++++++++++++
-Hot cricibles drop                        -
+Hot cricibles drop                        X
+Sword skeleton drops arrows               -

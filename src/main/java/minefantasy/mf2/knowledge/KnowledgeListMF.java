@@ -104,6 +104,9 @@ public class KnowledgeListMF
     public static final ArrayList<IAnvilRecipe> plateLegsR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> plateBootsR = new ArrayList<IAnvilRecipe>();
     
+    public static final ArrayList<IAnvilRecipe> ornateWepsR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> advOrnateWepsR = new ArrayList<IAnvilRecipe>();
+    
     public static IAnvilRecipe ironPrepR, ironPrepR2;
     public static IAnvilRecipe blastChamR, blastHeatR;
     

@@ -55,7 +55,7 @@ public class BaseMaterialMF
 	public static BaseMaterialMF silver =  addMaterial("Silver", 		     -1, 300,     0,        0.5F,       10,       0.70F);
 	public static BaseMaterialMF gold =    addMaterial("Gold", 	     	     -1, 150,     0,        0.0F,       25,       1.50F);
 	public static BaseMaterialMF goldPure =    addMaterial("PureGold", 	     -1, 50 ,     0,        0.0F,       50,       2.00F).setRarity(1);
-	public static BaseMaterialMF ornate =  addMaterial("Ornate", 		     -1, 500,     0,        1.0F,       30,       1.00F).setRarity(1);
+	public static BaseMaterialMF ornate =  addMaterial("Ornate", 		     -1, 500,     0,        1.0F,       30,       1.00F).setRarity(1).setForgeStats(1, 1, 4F);
 	
 	
 	public static BaseMaterialMF copper		 = addMaterial("Copper",		  0, 250,   1,     1.5F, 1.0F,    5,        1.00F).setForgeStats(0, 0, 1.0F);

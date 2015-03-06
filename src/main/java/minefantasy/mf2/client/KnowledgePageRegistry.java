@@ -67,6 +67,17 @@ public class KnowledgePageRegistry
 	    KnowledgeListMF.bombFuse.addPages(new EntryPageText("knowledge.bombFuse.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.bombFuseR), new EntryPageText("knowledge.bombFuse.paragraph_2"), new EntryPageRecipeCarpenter(KnowledgeListMF.longFuseR));
 	    
 	    KnowledgeListMF.stickybomb.addPages(new EntryPageText("knowledge.stickybomb.paragraph_1", "knowledge.stickybomb.paragraph_2"));
+	    
+	    KnowledgeListMF.craftOrnateWeapons.addPages(new EntryPageText("knowledge.ornateweps.paragraph_1"));
+	    for(int a = 0; a < KnowledgeListMF.ornateWepsR.size(); a++)
+	    {
+	    	KnowledgeListMF.craftOrnateWeapons.addPages(new EntryPageRecipeAnvil(KnowledgeListMF.ornateWepsR.get(a)));
+	    }
+	    KnowledgeListMF.craftAdvOrnateWeapons.addPages(new EntryPageText("knowledge.advornateweps.paragraph_1"));
+	    for(int a = 0; a < KnowledgeListMF.advOrnateWepsR.size(); a++)
+	    {
+	    	KnowledgeListMF.craftAdvOrnateWeapons.addPages(new EntryPageRecipeAnvil(KnowledgeListMF.advOrnateWepsR.get(a)));
+	    }
 	}
 	
 	private static EntryPage[] assembleOreDesc(String orename, Block ore, Item ingot)

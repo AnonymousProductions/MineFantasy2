@@ -19,6 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.block.refining.BlockBFH;
+import minefantasy.mf2.block.tileentity.TileEntityCrucible;
 import minefantasy.mf2.entity.EntityFireBlast;
 import minefantasy.mf2.item.list.ComponentListMF;
 
@@ -116,32 +117,34 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	private void dropItem(ItemStack result)
 	{
 		TileEntity under = worldObj.getTileEntity(xCoord, yCoord-1, zCoord);
-		if(under != null && under instanceof TileEntityHopper)
+		if(under != null && under instanceof TileEntityCrucible)
 		{
-			TileEntityHopper hopper = (TileEntityHopper)under;
-			for(int slot = 0; slot < hopper.getSizeInventory(); slot++)
+			TileEntityCrucible crucible = (TileEntityCrucible)under;
+			for(int slot = 0; slot < crucible.getSizeInventory(); slot++)
 			{
-				if(hopper.getStackInSlot(slot) == null)
+				if(crucible.getStackInSlot(slot) == null)
 				{
-					hopper.setInventorySlotContents(slot, result);
+					crucible.setInventorySlotContents(slot, result);
 					return;
 				}
-				else if(hopper.getStackInSlot(slot).isItemEqual(result))
+				else if(crucible.getStackInSlot(slot).isItemEqual(result))
 				{
-					int freeSpace = hopper.getStackInSlot(slot).getMaxStackSize() - hopper.getStackInSlot(slot).stackSize;
+					int freeSpace = crucible.getStackInSlot(slot).getMaxStackSize() - crucible.getStackInSlot(slot).stackSize;
 					if(freeSpace >= result.stackSize)
 					{
-						hopper.getStackInSlot(slot).stackSize += result.stackSize;
+						crucible.getStackInSlot(slot).stackSize += result.stackSize;
 						return;
 					}
 					else
 					{
-						hopper.getStackInSlot(slot).stackSize += freeSpace;
+						crucible.getStackInSlot(slot).stackSize += freeSpace;
 						result.stackSize -= freeSpace;
 					}
 				}
 			}
 		}
+		if(result.stackSize <= 0)return;
+		
 		EntityItem entity = new EntityItem(worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5, result);
 		worldObj.spawnEntityInWorld(entity);
 	}

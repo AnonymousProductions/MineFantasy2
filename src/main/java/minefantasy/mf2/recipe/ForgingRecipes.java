@@ -966,5 +966,208 @@ public class ForgingRecipes
 			'I', Items.iron_ingot,
 			'F', Blocks.furnace,
 		});
+		for(ItemStack silver : OreDictionary.getOres("ingotSilver"))
+		{
+			addOrnate(silver);
+		}
+	}
+
+	private static void addOrnate(ItemStack silver)
+	{
+		//DAGGERS
+		int time = 12;
+		int id = 3;
+		Item tool = ToolListMF.daggers[id];
+		BaseMaterialMF material = BaseMaterialMF.ornate;
+		ItemStack lapis = new ItemStack(Items.dye, 1, 4);
+		Item gold = Items.gold_ingot;
+		
+		KnowledgeListMF.ornateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"LJ ",
+			"SGI",
+			"L  ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//SWORDS
+		time = 25;
+		tool = ToolListMF.swords[id];
+		KnowledgeListMF.ornateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"LG  ",
+			"SJII",
+			"LG  ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//AXES
+		time = 20;
+		tool = ToolListMF.waraxes[id];
+		KnowledgeListMF.ornateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"LII",
+			"SSJ",
+			"L G",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//MACES
+		time = 18;
+		tool = ToolListMF.maces[id];
+		KnowledgeListMF.ornateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"L II",
+			"SSGJ",
+			"L   ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//SPEARS
+		time = 20;
+		tool = ToolListMF.spears[id];
+		KnowledgeListMF.ornateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			" L I  ",
+			"SSSJIG",
+			" L I  ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		//BOWS
+		time = 30;
+		tool = ToolListMF.bows[id];
+		KnowledgeListMF.ornateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"ISSSI",
+			" GLG ",
+			"  J  ",
+			
+			'L', Items.leather,
+			'S', Items.string,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//HALBEARDS
+		time = 30;
+		tool = ToolListMF.halbeards[id-1];
+		KnowledgeListMF.advOrnateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			" L II ",
+			"SSSJIG",
+			" L I  ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//GREATSWORDS
+		time = 35;
+		tool = ToolListMF.greatswords[id-1];
+		KnowledgeListMF.advOrnateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"LG   ",
+			"SJIII",
+			"LG   ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//KATANAS
+		time = 40;
+		tool = ToolListMF.katanas[id-1];
+		KnowledgeListMF.advOrnateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"L    I",
+			"SJIII ",
+			"LG    ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//BATTLEAXES
+		time = 30;
+		tool = ToolListMF.battleaxes[id-1];
+		KnowledgeListMF.advOrnateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"L II ",
+			"SSSGJ",
+			"L II ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		
+		//WARHAMMERS
+		time = 28;
+		tool = ToolListMF.warhammers[id-1];
+		KnowledgeListMF.advOrnateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"L  II",
+			"SSSIJ",
+			"L   G",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
+		//LANCES
+		time = 50;
+		tool = ToolListMF.lances[id-1];
+		KnowledgeListMF.advOrnateWepsR.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"G     ",
+			"SJIIII",
+			"G     ",
+			'L', Items.leather,
+			'S', ComponentListMF.plank,
+			'G', gold,
+			'I', silver,
+			'J', lapis
+		}));
 	}
 }
