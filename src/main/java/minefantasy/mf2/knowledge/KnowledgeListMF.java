@@ -9,6 +9,7 @@ import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.InformationPage;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
@@ -36,25 +37,25 @@ public class KnowledgeListMF
 	
     public static InformationBase smeltBronze = (new InformationBase("smeltBronze",  			4, 0,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(smithing).setUnlocked();
     
-    public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 3, 15, BlockListMF.blast_heater_active, crucible)).registerStat().setPage(smithing).setSpecial();
-    public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 3, 10, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(smithing).setUnlocked();
-    public static InformationBase encrusted = (new InformationBase("encrusted",  				5, 2, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(smithing);
+    public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 3, 15, BlockListMF.blast_heater_active, crucible)).registerStat().setPage(smithing).setSpecial().addSkill(SkillList.metallurgy, 20);
+    public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 3, 10, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(smithing).setUnlocked().addSkill(SkillList.metallurgy, 20);
+    public static InformationBase encrusted = (new InformationBase("encrusted",  				5, 2, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 30);
     
     //public static InformationBase smeltSmart2 = (new InformationBase("smeltSmart2", 			4, 5, 20, Items.coal, smeltSteel)).registerStat().setPage(smithing).setPerk();
-    public static InformationBase crucible2 = (new InformationBase("crucible2",  				5, 6, 10, BlockListMF.crucibleadv_active, blastfurn)).registerStat().setPage(smithing);
-    public static InformationBase smeltBlackSteel = (new InformationBase("smeltBlackSteel",		7, 6, 10, ComponentListMF.ingots[7], crucible2)).registerStat().setPage(smithing);
+    public static InformationBase crucible2 = (new InformationBase("crucible2",  				5, 6, 10, BlockListMF.crucibleadv_active, blastfurn)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 40);
+    public static InformationBase smeltBlackSteel = (new InformationBase("smeltBlackSteel",		7, 6, 10, ComponentListMF.ingots[7], crucible2)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 50);
     public static InformationBase smeltDragonforge = (new InformationBase("smeltDragonforge",	8, 5, 50, ComponentListMF.ingots[8], smeltBlackSteel)).registerStat().setPage(smithing);
     
-    public static InformationBase crucible3 = (new InformationBase("crucible3",  				5, 8, 20, Blocks.furnace, crucible2)).registerStat().setPage(smithing);
-    public static InformationBase smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 15, ComponentListMF.ingots[12], crucible3)).registerStat().setPage(smithing);
-    public static InformationBase smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		7, 9, 15, ComponentListMF.ingots[14], crucible3)).registerStat().setPage(smithing);
+    public static InformationBase crucible3 = (new InformationBase("crucible3",  				5, 8, 20, Blocks.furnace, crucible2)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 65);
+    public static InformationBase smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 15, ComponentListMF.ingots[12], crucible3)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 65);
+    public static InformationBase smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		7, 9, 15, ComponentListMF.ingots[14], crucible3)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 65);
     
 	//public static InformationBase smeltSmart3 = (new InformationBase("smeltSmart3", 			5, 11, 20, Blocks.fire, crucible3)).setPage(smithing).registerStat();
 	//public static InformationBase smeltSmart4 = (new InformationBase("smeltSmart4", 			7, 11, 50, Blocks.lava, smeltSmart3)).registerStat().setPage(smithing).setPerk();
 	
-    public static InformationBase mythic = (new InformationBase("mythic",  						5, 13, 30, Blocks.furnace, crucible3)).registerStat().setPage(smithing).setSpecial();
-    public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			4, 15, 30, ComponentListMF.ingots[16], mythic)).registerStat().setPage(smithing);
-    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamant", 			6, 15, 30, ComponentListMF.ingots[15], mythic)).registerStat().setPage(smithing);
+    public static InformationBase mythic = (new InformationBase("mythic",  						5, 13, 30, Blocks.furnace, crucible3)).registerStat().setPage(smithing).setSpecial().addSkill(SkillList.metallurgy, 75);
+    public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			4, 15, 30, ComponentListMF.ingots[16], mythic)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 75);
+    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamant", 			6, 15, 30, ComponentListMF.ingots[15], mythic)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 75);
     
     public static InformationBase anvil = (new InformationBase("anvil", 						-1, 0, 5, Blocks.anvil, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
     public static InformationBase craftCrafters = (new InformationBase("craftCrafters", 		-1, -2, 5, ToolListMF.hammers[3], anvil)).registerStat().setPage(smithing).setUnlocked();
@@ -64,9 +65,9 @@ public class KnowledgeListMF
     public static InformationBase craftWeapons = (new InformationBase("craftWeapons", 			-3, 1, 5, ToolListMF.swords[4], anvil)).registerStat().setPage(smithing);
     public static InformationBase craftAdvWeapons = (new InformationBase("craftAdvWeapons",     -5, 1, 10, ToolListMF.battleaxes[3], craftWeapons)).registerStat().setPage(smithing);
     public static InformationBase craftOrnateWeapons = (new InformationBase("craftOrnateWeapons",  -3, -1, 10, ToolListMF.swords[3], craftWeapons)).registerStat().setPage(smithing);
-    public static InformationBase craftAdvOrnateWeapons = (new InformationBase("craftAdvOrnateWeapons", -5, -1, 25, ToolListMF.battleaxes[2], craftOrnateWeapons)).registerStat().setPage(smithing);
-    public static InformationBase craftArmour = (new InformationBase("craftArmour", 			-3, 3, 10, ArmourListMF.armour(ArmourListMF.chainmail, 3, 1), anvil)).registerStat().setPage(smithing);
-    public static InformationBase craftArmourAdv = (new InformationBase("craftArmourAdv",       -5, 3, 20, ArmourListMF.armour(ArmourListMF.fieldplate, 3, 1), craftArmour)).registerStat().setPage(smithing);
+    public static InformationBase craftAdvOrnateWeapons = (new InformationBase("craftAdvOrnateWeapons", -5, -1, 25, ToolListMF.battleaxes[2], craftOrnateWeapons)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 25);
+    public static InformationBase craftArmour = (new InformationBase("craftArmour", 			-3, 3, 10, ArmourListMF.armour(ArmourListMF.chainmail, 3, 1), anvil)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 30);
+    public static InformationBase craftArmourAdv = (new InformationBase("craftArmourAdv",       -5, 3, 20, ArmourListMF.armour(ArmourListMF.fieldplate, 3, 1), craftArmour)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 30);
     public static InformationBase arrows = (new InformationBase("arrows", 		  		   		 -1, 4, 10, ToolListMF.arrows[4], anvil)).registerStat().setPage(smithing);
     public static InformationBase arrowsBodkin = (new InformationBase("arrowsBodkin", 		  	 -2, 5, 15, ToolListMF.bodkinArrows[3], arrows)).registerStat().setPage(smithing);
     public static InformationBase arrowsBroad = (new InformationBase("arrowsBroad", 		  	 -2, 6, 20, ToolListMF.broadArrows[3], arrows)).registerStat().setPage(smithing);

@@ -3,10 +3,14 @@ package minefantasy.mf2.mechanics;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.helpers.PlayerTagData;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.item.food.ItemFoodMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -15,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.WorldServer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -41,6 +46,18 @@ public class PlayerTickHandlerMF
     			Arrows.updateArrowCount(event.player);
         	}
         	playSounds(event.player);
+        	
+        	if(RPGElements.isSystemActive)
+        	{
+        		if(event.player.isSprinting() && event.player.ticksExisted % 10 == 0)
+        		{
+        			SkillList.athletics.addXP(event.player, 1);
+        		}
+        		else if(event.player.isSneaking() && TacticalManager.isEntityMoving(event.player) && event.player.ticksExisted % 10 == 0)
+        		{
+        			SkillList.sneak.addXP(event.player, 1);
+        		}
+        	}
         }
 		
         if(event.phase == TickEvent.Phase.START)
@@ -117,6 +134,10 @@ public class PlayerTickHandlerMF
     		
     		event.player.inventory.addItemStackToInventory(new ItemStack(ToolListMF.researchBook));
     		ResearchLogic.setKnowledgePoints(event.player, ResearchLogic.startersPoints);
+    	}
+    	if(RPGElements.isSystemActive)
+    	{
+    		RPGElements.initSkills(event.player);
     	}
     }
 }

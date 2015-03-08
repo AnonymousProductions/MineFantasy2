@@ -3,6 +3,8 @@ package minefantasy.mf2.block.tileentity;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerTanner;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -62,6 +64,10 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "dig.cloth", 1.0F, 1.0F);
 				if(progress >= maxProgress)
 				{
+					if(RPGElements.isSystemActive)
+					{
+						SkillList.leatherworking.addXP(player, 5);
+					}
 					progress = 0;
 					setInventorySlotContents(0, items[1].copy());
 					updateRecipe();

@@ -1,4 +1,4 @@
-package minefantasy.mf2.mechanics;
+package minefantasy.mf2.api.helpers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

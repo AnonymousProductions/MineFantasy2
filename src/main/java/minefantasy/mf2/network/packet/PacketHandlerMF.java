@@ -28,6 +28,8 @@ public class PacketHandlerMF
         packetList.put(KnowledgePacket.packetName, new KnowledgePacket());
         packetList.put(ResearchRequest.packetName, new ResearchRequest());
         packetList.put(ChimneyPacket.packetName, new ChimneyPacket());
+        packetList.put(SkillPacket.packetName, new SkillPacket());
+        packetList.put(LevelupPacket.packetName, new LevelupPacket());
     }
 
     @SubscribeEvent

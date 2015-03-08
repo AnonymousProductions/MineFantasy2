@@ -1,9 +1,11 @@
 package minefantasy.mf2.config;
 
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.rpg.RPGElements;
 
 public class ConfigExperiment extends ConfigurationBaseMF 
 {
+	public static final String CATEGORY_EARLY = "Unfinished Features";
 	public static final String CATEGORY_ARCHERY = "Archery Features";
 	
 	public static boolean stickArrows;
@@ -20,6 +22,7 @@ public class ConfigExperiment extends ConfigurationBaseMF
 	@Override
 	protected void loadConfig()
 	{
+		RPGElements.isSystemActive = Boolean.parseBoolean(config.get(CATEGORY_EARLY, "Enable Skills", false, "This will be a later feature where skills determine a number of actions ingame, also will be used to unlock perks").getString());
 		stickArrows = Boolean.parseBoolean(config.get(CATEGORY_ARCHERY, "Save Arrows", true, "With this active; arrows fired into enemies save, so they can be dropped on death").getString());
 		dynamicArrows = Boolean.parseBoolean(config.get(CATEGORY_ARCHERY, "Dynamic arrow sync", true, "This is for whatever hosts the world (singleplayer, or servers); it increases the rate arrows sync their data for smoother rendering for players. This however increases packet traffic. If you have a lot of players on a server or a lot of arrows, disable this to help clean it up").getString());
 		

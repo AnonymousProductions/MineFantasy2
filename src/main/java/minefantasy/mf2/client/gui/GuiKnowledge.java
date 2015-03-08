@@ -9,6 +9,7 @@ import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.InformationPage;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.ResearchRequest;
@@ -563,7 +564,7 @@ public class GuiKnowledge extends GuiScreen
             i5 = p_146552_1_ + 12;
             j5 = p_146552_2_ - 4;
             researchVisibility = ResearchLogic.func_150874_c(player, achievement);
-
+            
             if (!ResearchLogic.canUnlockInfo(player, achievement))
             {
                 String s;

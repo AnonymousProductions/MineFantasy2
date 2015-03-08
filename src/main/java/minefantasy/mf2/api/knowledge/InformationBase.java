@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.knowledge.client.EntryPage;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -30,6 +32,9 @@ public class InformationBase
     private boolean isPerk;
     private final String idName;
     private final int baseLevelCost;
+    private ArrayList<SkillRequirement> skills = new ArrayList<SkillRequirement>();
+    @SideOnly(Side.CLIENT)
+    public String[] requirements = null;
 
     public InformationBase(String name, int x, int y, int cost, Item icon, InformationBase parent)
     {
@@ -71,6 +76,16 @@ public class InformationBase
 
         this.parentInfo = parent;
     }
+    
+    public InformationBase addSkill(Skill skill, int level)
+    {
+    	if(RPGElements.isSystemActive)
+    	{
+    		skills.add(new SkillRequirement(skill, level));
+    	}
+    	return this;
+    }
+    
     public InformationBase setUnlocked()
     {
     	startedUnlocked = true;
@@ -128,7 +143,22 @@ public class InformationBase
     @SideOnly(Side.CLIENT)
     public String getDescription()
     {
-        return this.statStringFormatter != null ? this.statStringFormatter.formatString(StatCollector.translateToLocal(this.description)) : StatCollector.translateToLocal(this.description);
+        String text = this.statStringFormatter != null ? this.statStringFormatter.formatString(StatCollector.translateToLocal(this.description)) : StatCollector.translateToLocal(this.description);
+        
+        if(RPGElements.isSystemActive)
+    	{
+    		String[] requirements = getRequiredSkills();
+    		if(requirements != null && requirements.length > 0)
+    		{
+    			text += "\n\n";
+    			for(String s : requirements)
+    			{
+    				text += s + "\n";
+    			}
+    		}
+    	}
+        
+        return text;
     }
     @SideOnly(Side.CLIENT)
     public String getName()
@@ -151,6 +181,13 @@ public class InformationBase
 
 	public boolean trigger(EntityPlayer user, boolean makeEffect)
 	{
+		if(RPGElements.isSystemActive)
+		{
+			if(!hasSkillsUnlocked(user))
+			{
+				return false;
+			}
+		}
 		boolean success = ResearchLogic.tryUnlock(user, this);
 		if(success && makeEffect && !user.worldObj.isRemote)
 		{
@@ -160,6 +197,18 @@ public class InformationBase
 		return success;
 	}
 
+	private boolean hasSkillsUnlocked(EntityPlayer player)
+	{
+		for(int id = 0; id < skills.size(); id++)
+		{
+			SkillRequirement requirement = skills.get(id);
+			if(!requirement.isAvailable(player))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 	public String getUnlocalisedName()
 	{
 		return idName;
@@ -184,5 +233,34 @@ public class InformationBase
 	public ArrayList<EntryPage> getPages()
 	{
 		return pages;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public String[] getRequiredSkills()
+	{
+		if(this.requirements == null)
+		{
+			requirements = new String[skills.size()];
+			for(int id = 0; id < skills.size(); id++)
+			{
+				SkillRequirement requirement = skills.get(id);
+				requirements[id] = StatCollector.translateToLocalFormatted("rpg.required", requirement.level, requirement.skill.getDisplayName());
+			}
+		}
+		return requirements;
+	}
+}
+class SkillRequirement
+{
+	protected Skill skill;
+	protected int level;
+	SkillRequirement(Skill skill, int level)
+	{
+		this.skill = skill;
+		this.level = level;
+	}
+	public boolean isAvailable(EntityPlayer player)
+	{
+		return RPGElements.hasLevel(player, skill, level);
 	}
 }

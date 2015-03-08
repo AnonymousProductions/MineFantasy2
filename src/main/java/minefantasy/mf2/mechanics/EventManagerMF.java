@@ -6,14 +6,19 @@ import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.EntityHelper;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.rpg.LevelupEvent;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.SyncSkillEvent;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.tool.IHuntingItem;
+import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.config.ConfigStamina;
@@ -22,6 +27,8 @@ import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
+import minefantasy.mf2.network.packet.LevelupPacket;
+import minefantasy.mf2.network.packet.SkillPacket;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -53,6 +60,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -433,7 +441,19 @@ public class EventManagerMF
 			}
 			if(event.itemStack.hasTagCompound() && event.itemStack.getTagCompound().hasKey("MF_CraftedByName"))
 			{
-				event.toolTip.add(StatCollector.translateToLocal("attribute.mfcraftedbyname.name") + ": " + event.itemStack.getTagCompound().getString("MF_CraftedByName"));
+				String name = event.itemStack.getTagCompound().getString("MF_CraftedByName");
+				boolean special = name.equals("Galactic_Hiker") || name.equals("tim4200");//Mod creators have highlights
+				
+				event.toolTip.add((special ? EnumChatFormatting.GREEN : "") + StatCollector.translateToLocal("attribute.mfcraftedbyname.name") + ": " + name + EnumChatFormatting.GRAY);
+			}
+			WeaponClass WC = WeaponClass.findClassForAny(event.itemStack);
+			if(WC != null && RPGElements.isSystemActive)
+			{
+				event.toolTip.add(StatCollector.translateToLocal("weaponclass."+WC.name.toLowerCase()));
+				float skillMod = RPGElements.getWeaponModifier(event.entityPlayer, WC.parentSkill) * 100F;
+				if(skillMod > 100)
+				event.toolTip.add(StatCollector.translateToLocal("rpg.skillmod") + ItemWeaponMF.decimal_format.format(skillMod-100) + "%");
+				
 			}
 		}
 	}
@@ -677,5 +697,25 @@ public class EventManagerMF
 	{
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	@SubscribeEvent
+	public void levelup(LevelupEvent event)
+	{
+		EntityPlayer player = event.thePlayer;
+		if(!player.worldObj.isRemote)
+		{
+			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new LevelupPacket(player, event.theSkill, event.theLevel).generatePacket());
+			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new SkillPacket(player, event.theSkill).generatePacket());
+		}
+	}
+	@SubscribeEvent
+	public void syncSkill(SyncSkillEvent event)
+	{
+		EntityPlayer player = event.thePlayer;
+		if(!player.worldObj.isRemote)
+		{
+			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new SkillPacket(player, event.theSkill).generatePacket());
+		}
 	}
 }

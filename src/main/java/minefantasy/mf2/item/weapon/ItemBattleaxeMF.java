@@ -1,6 +1,7 @@
 package minefantasy.mf2.item.weapon;
 
 import minefantasy.mf2.api.helpers.TacticalManager;
+import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.mechanics.EventManagerMF;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -187,5 +188,11 @@ public class ItemBattleaxeMF extends ItemHeavyWeapon
 	protected float getStaminaMod() 
 	{
 		return heavyStaminaCost*axeStaminaCost;
+	}
+	
+	@Override
+	public WeaponClass getWeaponClass() 
+	{
+		return WeaponClass.AXE;
 	}
 }

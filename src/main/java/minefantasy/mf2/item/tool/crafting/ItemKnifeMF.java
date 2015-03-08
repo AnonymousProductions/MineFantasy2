@@ -6,6 +6,7 @@ import java.util.Random;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.tool.IHuntingItem;
 import minefantasy.mf2.api.tool.IToolMF;
+import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.block.Block;
@@ -90,5 +91,10 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 	protected float getStaminaMod() 
 	{
 		return 0.5F;
+	}
+	@Override
+	public WeaponClass getWeaponClass() 
+	{
+		return null;
 	}
 }

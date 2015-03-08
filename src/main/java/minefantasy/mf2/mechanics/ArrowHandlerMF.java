@@ -1,6 +1,8 @@
 package minefantasy.mf2.mechanics;
 
 import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.config.ConfigStamina;
 import net.minecraft.enchantment.Enchantment;
@@ -108,11 +110,12 @@ public class ArrowHandlerMF
 	@SubscribeEvent
 	public void fireArrow(ArrowLooseEvent event)
 	{
+		float power = event.charge;
+		EntityPlayer user = event.entityPlayer;
+		
 		Arrows.updateArrowCount(event.entityPlayer);
 		
 		ItemStack bow = event.bow;
-		float power = event.charge;
-		EntityPlayer user = event.entityPlayer;
 		World world = event.entity.worldObj;
 		boolean infinite = getIsInfinite(user, bow);
 		

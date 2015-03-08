@@ -1,6 +1,6 @@
 package minefantasy.mf2.api.knowledge;
 
-import minefantasy.mf2.mechanics.PlayerTagData;
+import minefantasy.mf2.api.helpers.PlayerTagData;
 import minefantasy.mf2.network.packet.KnowledgePacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

@@ -18,6 +18,7 @@ import minefantasy.mf2.api.weapon.IKnockbackWeapon;
 import minefantasy.mf2.api.weapon.IParryable;
 import minefantasy.mf2.api.weapon.IPowerAttack;
 import minefantasy.mf2.api.weapon.ISpecialEffect;
+import minefantasy.mf2.api.weapon.IWeaponClass;
 import minefantasy.mf2.api.weapon.IWeaponSpeed;
 import minefantasy.mf2.api.weapon.IWeightedWeapon;
 import minefantasy.mf2.config.ConfigWeapon;
@@ -64,7 +65,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 //Made this extend the sword class (allows them to be enchanted)
-public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, IDamageType, IKnockbackWeapon, IWeaponSpeed, IHeldStaminaItem, IStaminaWeapon, IBattlegearWeapon, IToolMaterial, IWeightedWeapon, IParryable, ISpecialEffect, IDamageModifier
+public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, IDamageType, IKnockbackWeapon, IWeaponSpeed, IHeldStaminaItem, IStaminaWeapon, IBattlegearWeapon, IToolMaterial, IWeightedWeapon, IParryable, ISpecialEffect, IDamageModifier, IWeaponClass
 {
     public static final DecimalFormat decimal_format = new DecimalFormat("#.#");
 

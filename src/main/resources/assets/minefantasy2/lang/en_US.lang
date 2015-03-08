@@ -1306,8 +1306,8 @@ item.ender_spear.name=Enderforge Spear
 item.ender_dagger.name=Enderforge Dagger
 item.ender_lance.name=Enderforge Lance
 
-item.ender_katana.name=Ender Katana
-item.ender_dagger.name=Ender Dagger
+item.ender_katana.name=Enderforge Katana
+item.ender_dagger.name=Enderforge Dagger
 
 item.ender_battleaxe.name=Enderforge Battleaxe
 item.ender_greatsword.name=Enderforge Greatsword
@@ -1491,6 +1491,50 @@ food.stat.staminabuffRegenMinutes.name=Regen %1$s stamina/second for %2$s mins
 food.stat.staminabuffRegenSeconds.name=Regen %1$s stamina/second for %2$s secs
 food.stat.cure.poison=Cure Poison
 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/RPG/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+rpg.levelup=Your %1$s skill has increased to %2$s
+rpg.required=Requires %1$s %2$s
+rpg.skillmod=Skill Modifier: +
+
+skill.list.basic=Basic Skills
+skill.list.craft=Crafting Skills
+skill.list.combat=Combat Skills
+
+skill.dexterity.name=Dexterity
+skill.endurance.name=Endurance
+skill.athletics.name=Athletics
+skill.acrobatics.name=Acrobatics
+skill.sneak.name=Sneak
+
+skill.metallurgy.name=Metallurgy
+skill.carpenter.name=Carpentry
+skill.engineering.name=Engineering
+skill.leatherworks.name=Leatherworking
+skill.repair.name=Repair
+skill.cooking.name=Cooking
+
+skill.unarmed.name=Unarmed
+skill.blade.name=Blade
+skill.blunt.name=Blunt
+skill.axe.name=Axe
+skill.polearm.name=Polearm
+skill.exotic.name=Exotic Weapons
+skill.archery.name=Archery
+
+skill.lightarmour.name=Light Armour
+skill.mediumarmour.name=Medium Armour
+skill.heavyarmour.name=Heavy Armour
+skill.block.name=Block
+
+weaponclass.fist=Unarmed
+weaponclass.blade=Blade
+weaponclass.blunt=Blunt
+weaponclass.axe=Axe
+weaponclass.polearm=Polearm
+weaponclass.exotic=Exotic
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /LONG KNOWLEDGE STATS/

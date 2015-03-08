@@ -3,6 +3,8 @@ package minefantasy.mf2.item;
 import java.util.Random;
 
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +29,14 @@ public class ItemResearchScroll extends ItemComponentMF
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
 	{
 		ResearchLogic.modifyKnowledgePoints(user, pointsWorth);
+		if(RPGElements.isSystemActive)
+		{
+			for(int a = 0; a < 1 + rand.nextInt(pointsWorth); a++)
+			{
+				Skill skill = RPGElements.getRandomSkill();
+				skill.addXP(user, skill.getLvlXP(RPGElements.getLevel(user, skill), user));
+			}
+		}
 		if(!user.capabilities.isCreativeMode)
 		{
 			--item.stackSize;

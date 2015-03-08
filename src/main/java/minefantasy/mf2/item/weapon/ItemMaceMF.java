@@ -1,5 +1,6 @@
 package minefantasy.mf2.item.weapon;
 
+import minefantasy.mf2.api.weapon.WeaponClass;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -97,5 +98,10 @@ public class ItemMaceMF extends ItemWeaponMF
 	protected float getStaminaMod() 
 	{
 		return maceStaminaCost;
+	}
+	@Override
+	public WeaponClass getWeaponClass() 
+	{
+		return WeaponClass.BLUNT;
 	}
 }

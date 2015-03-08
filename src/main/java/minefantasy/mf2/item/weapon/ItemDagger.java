@@ -3,6 +3,7 @@ package minefantasy.mf2.item.weapon;
 import java.util.Random;
 
 import minefantasy.mf2.api.stamina.StaminaBar;
+import minefantasy.mf2.api.weapon.WeaponClass;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -102,5 +103,10 @@ public class ItemDagger extends ItemWeaponMF
 	protected float getStaminaMod() 
 	{
 		return daggerStaminaCost;
+	}
+	@Override
+	public WeaponClass getWeaponClass() 
+	{
+		return WeaponClass.BLADE;
 	}
 }

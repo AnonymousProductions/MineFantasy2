@@ -408,4 +408,9 @@ public class TacticalManager
 	}
 	
 	public static boolean newBalanceSystem = false;
+	
+	public static boolean isEntityMoving(EntityLivingBase player)
+	{
+		return player.moveForward != 0 || player.moveStrafing != 0;
+	}
 }

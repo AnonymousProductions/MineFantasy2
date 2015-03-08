@@ -4,6 +4,8 @@ import java.util.Random;
 
 import minefantasy.mf2.api.crafting.bomb.IBombComponent;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.item.gadget.ItemBomb;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -33,6 +35,10 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 		
 		if(result != null && craftItem(result))
 		{
+			if(RPGElements.isSystemActive)
+			{
+				SkillList.engineering.addXP(user, 20);
+			}
 			for(int a = 0; a < 4; a++)
 			{
 				decrStackSize(a, 1);

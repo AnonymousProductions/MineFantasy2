@@ -18,7 +18,8 @@ public class BlockMythicOre extends BlockOreMF
     {
 		if (rand.nextInt(20) == 0 && world.isRemote)
         {
-			world.playSound(x + 0.5D, y + 0.5D, z + 0.5D, "minefantasy2:block.mythicore", 2.5F, rand.nextFloat() * 0.4F + 0.5F, true);
+			//"minefantasy2:block.mythicore"
+			world.playSound(x + 0.5D, y + 0.5D, z + 0.5D, "random.levelup", 1.0F, rand.nextFloat() * 0.4F + 1.1F, true);
         }
     }
 }

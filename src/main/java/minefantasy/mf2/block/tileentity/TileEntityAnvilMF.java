@@ -9,6 +9,8 @@ import minefantasy.mf2.api.crafting.anvil.IAnvil;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerAnvilMF;
 import minefantasy.mf2.network.packet.AnvilPacket;
 import minefantasy.mf2.util.MFLogUtil;
@@ -252,6 +254,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				if(user.swingProgress > 0 && user.swingProgress <= 1.0)
 				{
 					efficiency *= (0.5F-user.swingProgress);
+				}
+				if(RPGElements.isSystemActive)
+				{
+					SkillList.metallurgy.addXP(user, (int)efficiency);
 				}
 				
 				progress += Math.max(0.2F, efficiency);

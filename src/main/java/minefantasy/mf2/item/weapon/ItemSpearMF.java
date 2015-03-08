@@ -3,6 +3,7 @@ package minefantasy.mf2.item.weapon;
 import java.util.List;
 
 import minefantasy.mf2.api.helpers.TacticalManager;
+import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import mods.battlegear2.api.shield.IShield;
@@ -164,5 +165,10 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
 	protected float getStaminaMod() 
 	{
 		return spearStaminaCost;
+	}
+	@Override
+	public WeaponClass getWeaponClass() 
+	{
+		return WeaponClass.POLEARM;
 	}
 }

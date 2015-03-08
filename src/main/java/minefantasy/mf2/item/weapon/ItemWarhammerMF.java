@@ -1,6 +1,7 @@
 package minefantasy.mf2.item.weapon;
 
 import minefantasy.mf2.api.helpers.TacticalManager;
+import minefantasy.mf2.api.weapon.WeaponClass;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -100,5 +101,11 @@ public class ItemWarhammerMF extends ItemHeavyWeapon
 	public int getParryModifier(ItemStack weapon, EntityLivingBase user, Entity target)
 	{
 		return 80;
+	}
+
+	@Override
+	public WeaponClass getWeaponClass() 
+	{
+		return WeaponClass.BLUNT;
 	}
 }

@@ -3,11 +3,16 @@ package minefantasy.mf2.mechanics;
 import java.util.Map;
 import java.util.Random;
 
+import javax.xml.transform.Source;
+
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.Skill;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.tier.IToolMaterial;
 import minefantasy.mf2.api.weapon.IDamageModifier;
@@ -17,6 +22,7 @@ import minefantasy.mf2.api.weapon.IPowerAttack;
 import minefantasy.mf2.api.weapon.ISpecialEffect;
 import minefantasy.mf2.api.weapon.IWeaponSpeed;
 import minefantasy.mf2.api.weapon.IWeightedWeapon;
+import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.config.ConfigArmour;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigStamina;
@@ -68,6 +74,25 @@ public class CombatMechanics
 	@SubscribeEvent
 	public void initAttack(LivingAttackEvent event)
 	{
+		if(event.source == DamageSource.fall && event.entityLiving instanceof EntityPlayer && RPGElements.isSystemActive)
+		{
+			SkillList.acrobatics.addXP((EntityPlayer) event.entityLiving, (int)event.ammount+1);
+		}
+		if(RPGElements.isSystemActive && event.entityLiving instanceof EntityPlayer && !event.source.isUnblockable())
+		{
+			for(int a = 0; a < 4; a++)
+			{
+				ItemStack piece = event.entityLiving.getEquipmentInSlot(a+1);
+				if(piece != null)
+				{
+					int AC = ArmourCalculator.getArmourClass(piece).equalsIgnoreCase("heavy") ? 2 : ArmourCalculator.getArmourClass(piece).equalsIgnoreCase("light") ? 0 : 1;
+					
+					Skill skill = (AC == 2) ? SkillList.heavyarmour : (AC == 0) ? SkillList.lightarmour : SkillList.mediumarmour;
+					skill.addXP((EntityPlayer) event.entityLiving, (int)(event.ammount/5F));
+				}
+			}
+		}
+		
 		EntityLivingBase hitter = getHitter(event.source);
 		int spd = EventManagerMF.getHitspeedTime(hitter);
 		if(hitter != null && !hitter.worldObj.isRemote)
@@ -219,6 +244,16 @@ public class CombatMechanics
 				if(powerAttack == -1)
 				{
 					dam /= 2F;
+				}
+			}
+			if(RPGElements.isSystemActive && user instanceof EntityPlayer)
+			{
+				WeaponClass WC = WeaponClass.findClassForAny(user.getHeldItem());
+				if(WC != null)
+				{
+					float mod = RPGElements.getWeaponModifier((EntityPlayer) user, WC.parentSkill);
+					MFLogUtil.logDebug("Weapon Class: " + WC.name + ", mod = " + mod);
+					dam *= mod;
 				}
 			}
 		}
@@ -385,13 +420,31 @@ public class CombatMechanics
 		Entity source = src.getSourceOfDamage();
 		Entity hitter = src.getEntity();
 		
-		if(source != null && hitter != null && hitter instanceof EntityLivingBase && source == hitter)
+		if(source != null && hitter != null && hitter instanceof EntityLivingBase)
 		{
-			EntityLivingBase user = (EntityLivingBase)hitter;
-			ItemStack weapon = user.getHeldItem();
-			if(weapon != null)
+			if(source == hitter)
 			{
-				onWeaponHit(user, weapon, target, damage);
+				EntityLivingBase user = (EntityLivingBase)hitter;
+				ItemStack weapon = user.getHeldItem();
+				if(weapon != null)
+				{
+					onWeaponHit(user, weapon, target, damage);
+				}
+				if(RPGElements.isSystemActive && user instanceof EntityPlayer )
+				{
+					WeaponClass WC = WeaponClass.findClassForAny(weapon);
+					if(WC != null)
+					{
+						WC.parentSkill.addXP((EntityPlayer)user, (int)damage);
+					}
+				}
+			}
+			else
+			{
+				if(source instanceof EntityArrow && src.isProjectile())
+				{
+					onArrowHit(source, target, hitter, damage);
+				}
 			}
 		}
 		CombatMechanics.setPostHitCooldown(target, 10);
@@ -424,6 +477,13 @@ public class CombatMechanics
         {
 			applyBalance((EntityPlayer)user);
         }
+	}
+	private void onArrowHit(Entity arrow, Entity target, Entity shooter, float damage)
+	{
+		if(RPGElements.isSystemActive && shooter instanceof EntityPlayer)
+		{
+			SkillList.archery.addXP((EntityPlayer) shooter, (int)damage);
+		}
 	}
 
 	protected static void performEffects(Map<PotionEffect, Float> map, EntityLivingBase entityHit) 
@@ -477,6 +537,7 @@ public class CombatMechanics
     	    //USED FOR PARRYING its harder to block arrows
            if(TacticalManager.canParry(source, user, entityHitting, weapon))
            {
+        	   float previousDam = dam;
         	   dam = Math.max(0F, dam - threshold);
         	   
         	   if(debugParry && !user.worldObj.isRemote){MFLogUtil.logDebug("Parried: dam = " + dam);}
@@ -486,7 +547,7 @@ public class CombatMechanics
 	        	   user.hurtResistantTime = user.maxHurtResistantTime;
 	        	   user.hurtTime = 0;
 	       		   
-        		   onParry(source, user, entityHitting, dam, parry);
+        		   onParry(source, user, entityHitting, dam, previousDam, parry);
 	        	   if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
 	        	   {
 	        		   ticks *= 2;
@@ -548,8 +609,12 @@ public class CombatMechanics
 		return "mob.zombie.metal";
 	}
 
-	private void onParry(DamageSource source, EntityLivingBase user, Entity attacker, float dam, IParryable parry)
+	private void onParry(DamageSource source, EntityLivingBase user, Entity attacker, float dam, float prevDam, IParryable parry)
 	{
+		if(RPGElements.isSystemActive && user instanceof EntityPlayer)
+		{
+			SkillList.block.addXP((EntityPlayer)user, 10 + (int)prevDam*2);
+		}
 		if(parry != null)
 		{
 			parry.onParry(source, user, attacker, dam);
@@ -577,11 +642,21 @@ public class CombatMechanics
 	 */
 	private boolean canEvade(EntityLivingBase user)
 	{
+		float stamModifier = 1.0F;
 		if(user instanceof EntityPlayer)
 		{
 			if(!user.isSneaking())
 			{
 				return false;
+			}
+			if(RPGElements.isSystemActive)
+			{
+				//REQUIRED LEVEL: 10 for evade, 25 for jump
+				stamModifier = RPGElements.getStaminaCostModifier((EntityPlayer) user, SkillList.block, user.onGround ? 10 : 25);
+				if(stamModifier == -1)
+				{
+					return false;
+				}
 			}
 		}
 		else
@@ -592,28 +667,28 @@ public class CombatMechanics
 			}
 		}
 		
-		if(!user.onGround && !tryJumpEvade(user))
+		if(!user.onGround && !tryJumpEvade(user, stamModifier))
 		{
 			return false;
 		}
-		return tryGroundEvade(user);
+		return tryGroundEvade(user, stamModifier);
 	}
 	/**
 	 * If the player can slip past enemies
 	 * Should be any armour but heavy
 	 */
-	private boolean tryGroundEvade(EntityLivingBase user) 
+	private boolean tryGroundEvade(EntityLivingBase user, float cost) 
 	{
-		return ItemWeaponMF.tryPerformAbility(user, evade_cost, true, false);
+		return ItemWeaponMF.tryPerformAbility(user, evade_cost*cost, true, false);
 	}
 
 	/**
 	 * If the player can jump over enemies in evading
 	 * Only ment for unarmoured/Lightarmour
 	 */
-	private boolean tryJumpEvade(EntityLivingBase user) 
+	private boolean tryJumpEvade(EntityLivingBase user, float cost) 
 	{
-		return ItemWeaponMF.tryPerformAbility(user, jumpEvade_cost, true, false);
+		return ItemWeaponMF.tryPerformAbility(user, jumpEvade_cost*cost, true, false);
 	}
 
 	@SubscribeEvent
@@ -759,9 +834,16 @@ public class CombatMechanics
 	@SubscribeEvent
 	public void jump(LivingJumpEvent event)
 	{
-		if(event.entityLiving instanceof EntityPlayer && StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(event.entityLiving))
+		if(event.entityLiving instanceof EntityPlayer)
 		{
-			StaminaMechanics.onJump(event.entityLiving);
+			if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(event.entityLiving))
+			{
+				StaminaMechanics.onJump(event.entityLiving);
+			}
+			if(RPGElements.isSystemActive)
+			{
+				SkillList.acrobatics.addXP((EntityPlayer) event.entityLiving, 4);
+			}
 		}
 	}
 }

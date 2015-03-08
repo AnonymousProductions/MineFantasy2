@@ -3,6 +3,7 @@ package minefantasy.mf2.item.weapon;
 import java.util.Random;
 
 import minefantasy.mf2.api.stamina.StaminaBar;
+import minefantasy.mf2.api.weapon.WeaponClass;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -135,5 +136,10 @@ public class ItemKatanaMF extends ItemHeavyWeapon
 	protected float getStaminaMod() 
 	{
 		return katanaStaminaCost;
+	}
+	@Override
+	public WeaponClass getWeaponClass() 
+	{
+		return WeaponClass.BLADE;
 	}
 }
