@@ -617,7 +617,7 @@ public class ForgingRecipes
 			'H', Items.flint
 		});
 		KnowledgeListMF.kaoDustR =
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.kaolinite_dust, 4), "", false, -1, -1, 4, new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.kaolinite_dust, 8), "", false, -1, -1, 4, new Object[]
 		{
 			"H",
 			'H', ComponentListMF.kaolinite
@@ -771,43 +771,43 @@ public class ForgingRecipes
 			material = BaseMaterialMF.iron;
 			//HELMET
 			time = 10;
-			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 0), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 0), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				" I ",
 				"IAI",
 				" I ",
 				'I', Items.iron_ingot,
-				'A', Items.leather_helmet,
+				'A', ArmourListMF.armour(ArmourListMF.leather, 1, 0),
 			});
 			//CHEST
 			time = 20;
-			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 1), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 1), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				" I ",
 				"IAI",
 				" I ",
 				'I', Items.iron_ingot,
-				'A', Items.leather_chestplate,
+				'A', ArmourListMF.armour(ArmourListMF.leather, 1, 1),
 			});
 			//LEGS
 			time = 15;
-			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 2), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 2), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				" I ",
 				"IAI",
 				" I ",
 				'I', Items.iron_ingot,
-				'A', Items.leather_leggings,
+				'A', ArmourListMF.armour(ArmourListMF.leather, 1, 2),
 			});
 			//BOOTS
 			time = 6;
-			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 3), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 3), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				" I ",
 				"IAI",
 				" I ",
 				'I', Items.iron_ingot,
-				'A', Items.leather_boots,
+				'A', ArmourListMF.armour(ArmourListMF.leather, 1, 3),
 			});
 			
 			//SCALED
@@ -816,43 +816,43 @@ public class ForgingRecipes
 			{
 				//HELMET
 				time = 10;
-				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 0), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 0), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					" I ",
 					"IAI",
 					" I ",
 					'I', ingot,
-					'A', Items.leather_helmet,
+					'A', ArmourListMF.armour(ArmourListMF.leather, 1, 0),
 				});
 				//CHEST
 				time = 20;
-				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 1), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 1), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					" I ",
 					"IAI",
 					" I ",
 					'I', ingot,
-					'A', Items.leather_chestplate,
+					'A', ArmourListMF.armour(ArmourListMF.leather, 1, 1),
 				});
 				//LEGS
 				time = 15;
-				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 2), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 2), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					" I ",
 					"IAI",
 					" I ",
 					'I', ingot,
-					'A', Items.leather_leggings,
+					'A', ArmourListMF.armour(ArmourListMF.leather, 1, 2),
 				});
 				//BOOTS
 				time = 6;
-				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 3), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 3), "craftArmour", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					" I ",
 					"IAI",
 					" I ",
 					'I', ingot,
-					'A', Items.leather_boots,
+					'A', ArmourListMF.armour(ArmourListMF.leather, 1, 3),
 				});
 			}
 		}

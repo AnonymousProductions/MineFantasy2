@@ -36,6 +36,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityChicken;
@@ -51,6 +52,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -148,6 +150,26 @@ public class EventManagerMF
 		if(dropper instanceof EntityWitch)
 		{
 			dropper.entityDropItem(ItemResearchScroll.getRandomDrop(), 0.0F);
+		}
+		if(dropper instanceof EntitySkeleton)
+		{
+			EntitySkeleton skeleton = (EntitySkeleton)dropper;
+			
+			if((skeleton.getHeldItem() == null || !(skeleton.getHeldItem().getItem() instanceof ItemBow)) && event.drops != null && !event.drops.isEmpty())
+			{
+				Iterator<EntityItem> list = event.drops.iterator();
+				
+				while(list.hasNext())
+				{
+					EntityItem entItem = list.next();
+					ItemStack drop = entItem.getEntityItem();
+					
+					if(drop.getItem() == Items.arrow)
+					{
+						entItem.setDead();
+					}
+				}
+			}
 		}
 	}
 	

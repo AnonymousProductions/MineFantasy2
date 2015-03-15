@@ -68,4 +68,4 @@ Issues: //WRITE ISSUES FOUND IN GAMEPLAY HERE//
  Issue                                | Check |
 +++++++++++++++++++++++++++++++++++++++++++++++
 Hot cricibles drop                        X
-Sword skeleton drops arrows               -
+Sword skeleton drops arrows               X

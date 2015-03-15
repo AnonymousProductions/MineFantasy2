@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -81,6 +82,10 @@ public class TacticalManager
 		{
 			return false;
 		}
+		if(user.getHeldItem() != null && !canWeaponBlock(user.getHeldItem()))
+		{
+			return false;
+		}
 		if(user instanceof EntityPlayer)
 		{
 			if(!((EntityPlayer)user).isBlocking())
@@ -128,6 +133,10 @@ public class TacticalManager
 			return false;
 		}
 		return arc > 0 && canBlock(entityHitting, user, arc);
+	}
+	private static boolean canWeaponBlock(ItemStack item)
+	{
+		return item.getItem() instanceof ItemSword || item.getItem() instanceof IParryable;
 	}
 	private static boolean isMobBlocking(EntityLivingBase user)
 	{
