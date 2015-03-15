@@ -21,9 +21,8 @@ import net.minecraft.world.World;
 public class ConstructionBlockMF extends Block {
 
 	public IIcon[] m_icons = new IIcon[4];
-	public static final String[] m_names = new String[] {};
-	
-	
+	public static final String[] m_names = new String[] {"", "_cobblestone", "_brick", "_pavement"};
+	public Block[] stairblocks = new Block[4];
 	public ConstructionBlockMF(String unlocName)
 	{
 		super(Material.rock);
@@ -31,28 +30,88 @@ public class ConstructionBlockMF extends Block {
 		this.setBlockName(unlocName);
 		
 		this.setCreativeTab(CreativeTabs.tabBlock);
-		
 		GameRegistry.registerBlock(this, ItemConstBlock.class, unlocName);
+		for(int i = 0; i < 4; i ++)
+		{
+			GameRegistry.registerBlock(stairblocks[i] = new StairsConstBlock(unlocName + m_names[i] + "_stair", this, i).setHardness(1.5F).setResistance(10F),  unlocName + m_names[i] + "_stair");
+		}
 		
-		GameRegistry.registerBlock(new StairsConstBlock(unlocName + "_stair", this), unlocName + "_stair");
-		
-		addConstructRecipes(Item.getItemFromBlock(this));
+		setHardness(1.5F);
+		setResistance(10F);
+		setHarvestLevel("pickaxe", 0);
+		addConstructRecipes();
 		
 	}
 	
-	public Item getItemDropped(int meta, Random rand, int i) { return null; };
+	@Override
+	public Block setHardness(float level)
+    {
+		if(stairblocks != null)
+		{
+			for(Block stairblock : stairblocks)
+			stairblock.setHardness(level);
+		}
+        return super.setHardness(level);
+    }
+	@Override
+	public Block setResistance(float level)
+    {
+		if(stairblocks != null)
+		{
+			for(Block stairblock : stairblocks)
+			stairblock.setResistance(level);
+		}
+        return super.setResistance(level);
+    }
 	
-	public static final void addConstructRecipes(Item item)
+	//public Item getItemDropped(int meta, Random rand, int i) { return null; };
+	
+	public void addConstructRecipes()
 	{
-		GameRegistry.addSmelting(new ItemStack(item, 1, 1), new ItemStack(item, 1, 0), 0);
-		GameRegistry.addSmelting(new ItemStack(item, 1, 0), new ItemStack(item, 1, 1), 0);
+		GameRegistry.addSmelting(new ItemStack(this, 1, 0), new ItemStack(this, 1, 1), 0);
 		
-		GameRegistry.addRecipe(new ItemStack(item, 4, 2), new Object[] {"XX ", "XX ", 'X', new ItemStack(item, 1, 0)});
-		GameRegistry.addRecipe(new ItemStack(item, 4, 2), new Object[] {"XX ", "XX ", 'X', new ItemStack(item, 1, 1)});
-		
-		GameRegistry.addRecipe(new ItemStack(item.getItemFromBlock(GameRegistry.findBlock(MineFantasyII.MODID, item.getUnlocalizedName().substring(5) + "_stair"))), new Object[] {"X  ", "XX ", "XXX", 'X', new ItemStack(item, 1, 0)});
+		GameRegistry.addRecipe(new ItemStack(this, 4, 3), new Object[] 
+		{
+			"XX", 
+			"XX",
+			'X', new ItemStack(this, 1, 1)
+		});
+		GameRegistry.addRecipe(new ItemStack(this, 4, 2), new Object[] 
+		{
+			"X X",
+			"   ",
+			"X X",
+			'X', new ItemStack(this, 1, 1)
+		});
+		GameRegistry.addRecipe(new ItemStack(this, 1, 1), new Object[] 
+		{
+			"X", 
+			'X', new ItemStack(this, 1, 2)
+		});
+		GameRegistry.addRecipe(new ItemStack(this, 1, 1), new Object[] 
+		{
+			"X", 
+			'X', new ItemStack(this, 1, 3)
+		});
+		for(int i = 0; i < 4; i++)
+		GameRegistry.addRecipe(new ItemStack(stairblocks[i], 4), new Object[] 
+		{
+			"  X",
+			" XX",
+			"XXX",
+			'X', new ItemStack(this, 1, i)
+		});
 	}
 	
+	@Override
+	public int damageDropped(int meta)
+	{
+		if(meta == 0)return 1;
+		
+		return meta;
+	}
+	
+	@Override
 	public void registerBlockIcons(IIconRegister register)
 	{
 		m_icons[0] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5));
@@ -65,6 +124,7 @@ public class ConstructionBlockMF extends Block {
 		return getUnlocalizedName() + "." + m_names[itemstack.getItemDamage()];
 	}
 	
+	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list)
 	{
 		
@@ -73,7 +133,7 @@ public class ConstructionBlockMF extends Block {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-	
+	@Override
 	public IIcon getIcon(int side, int meta)
 	{
 		switch(meta)
@@ -140,6 +200,11 @@ public class ConstructionBlockMF extends Block {
 		    }
 		}
 		
+		@Override
+		public int getMetadata(int d)
+		{
+			return d;
+		}
 	}
 	
 }
