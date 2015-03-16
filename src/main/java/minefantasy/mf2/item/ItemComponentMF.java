@@ -123,6 +123,10 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.strong_brick);
 		add(list, ComponentListMF.dragon_heart);
 		
+		add(list, ComponentListMF.silver_rod);
+		add(list, ComponentListMF.gold_rod);
+		add(list, ComponentListMF.obsidian_rod);
+		
     }
     private void add(List list, Item item)
     {

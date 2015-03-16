@@ -39,7 +39,7 @@ public class ForgingRecipes
 					"SSI",
 					"L I",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -55,7 +55,7 @@ public class ForgingRecipes
 					"SSI",
 					"L  ",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -71,7 +71,7 @@ public class ForgingRecipes
 					"SSI",
 					"L  ",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -87,7 +87,7 @@ public class ForgingRecipes
 					"SSI",
 					"L  ",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -103,7 +103,7 @@ public class ForgingRecipes
 					"SLI",
 					" S ",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -119,7 +119,7 @@ public class ForgingRecipes
 					"L",
 					"S",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -146,7 +146,7 @@ public class ForgingRecipes
 				{
 					"SIIII",
 					"SIII ",
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -162,7 +162,7 @@ public class ForgingRecipes
 					" I",
 					"LS",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -195,7 +195,7 @@ public class ForgingRecipes
 						"SSII",
 						"L II",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -210,7 +210,7 @@ public class ForgingRecipes
 						"SSII",
 						"L II",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -225,7 +225,7 @@ public class ForgingRecipes
 						"SI",
 						"L ",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -240,7 +240,7 @@ public class ForgingRecipes
 						"SI",
 						"L ",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -272,7 +272,7 @@ public class ForgingRecipes
 						"SSSI",
 						
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -315,7 +315,7 @@ public class ForgingRecipes
 					"SII",
 					"L  ",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -331,7 +331,7 @@ public class ForgingRecipes
 					"SIII",
 					"LI  ",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -347,7 +347,7 @@ public class ForgingRecipes
 					"SSI",
 					"L I",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -363,7 +363,7 @@ public class ForgingRecipes
 					"SSII",
 					"L   ",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -379,7 +379,7 @@ public class ForgingRecipes
 					"SSSSI",
 					" L I ",
 					'L', Items.leather,
-					'S', ComponentListMF.plank,
+					'S', getHaft(material),
 					'I', ingot,
 				});
 			}
@@ -412,7 +412,7 @@ public class ForgingRecipes
 						"SSSSI",
 						" L I ",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -428,7 +428,7 @@ public class ForgingRecipes
 						"SIIII",
 						"LI   ",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -444,7 +444,7 @@ public class ForgingRecipes
 						"SIIII ",
 						"LI    ",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -460,7 +460,7 @@ public class ForgingRecipes
 						"SSSI",
 						"L II",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -476,7 +476,7 @@ public class ForgingRecipes
 						"SSSII",
 						"L   I",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -491,7 +491,7 @@ public class ForgingRecipes
 						"SIIIII",
 						"I     ",
 						'L', Items.leather,
-						'S', ComponentListMF.plank,
+						'S', getHaft(material),
 						'I', ingot,
 					});
 				}
@@ -625,7 +625,7 @@ public class ForgingRecipes
 		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.flux, 4), false, -1, -1, 2, new Object[]
 		{
 			"H",
-			'H', new ItemStack(Item.getItemFromBlock(BlockListMF.limestone), 1),
+			'H',BlockListMF.limestone
 		});
 		
 		
@@ -950,7 +950,7 @@ public class ForgingRecipes
 		});
 		time=15;
 		KnowledgeListMF.blastChamR = 
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_chamber), "blastfurn", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_chamber), "blastfurn", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 			"II II",
 			"I   I",
 			"I   I",
@@ -959,7 +959,7 @@ public class ForgingRecipes
 		});
 		time=30;
 		KnowledgeListMF.blastHeatR = 
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_heater), "blastfurn", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_heater), "blastfurn", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 			"II II",
 			"I   I",
 			"IIFII",
@@ -969,6 +969,42 @@ public class ForgingRecipes
 		for(ItemStack silver : OreDictionary.getOres("ingotSilver"))
 		{
 			addOrnate(silver);
+		}
+		time=5;
+		material = BaseMaterialMF.silver;
+		for(ItemStack hunk : OreDictionary.getOres("hunkSilver"))
+		{
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.silver_rod), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+				" H ",
+				"HPH",
+				" H ",
+				'H', hunk,
+				'P', ComponentListMF.plank,
+			});
+		}
+		material = BaseMaterialMF.gold;
+		for(ItemStack hunk : OreDictionary.getOres("hunkGold"))
+		{
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.gold_rod), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+				" H ",
+				"HPH",
+				" H ",
+				'H', hunk,
+				'P', ComponentListMF.plank,
+			});
+		}
+		material = BaseMaterialMF.blacksteel;
+		for(ItemStack hunk : OreDictionary.getOres("hunkBlackSteel"))
+		{
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.obsidian_rod), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+				" O ",
+				" H ",
+				"HPH",
+				" H ",
+				'O', Blocks.obsidian,
+				'H', hunk,
+				'P', ComponentListMF.plank,
+			});
 		}
 	}
 
@@ -989,7 +1025,7 @@ public class ForgingRecipes
 			"SGI",
 			"L  ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1005,7 +1041,7 @@ public class ForgingRecipes
 			"SJII",
 			"LG  ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1021,7 +1057,7 @@ public class ForgingRecipes
 			"SSJ",
 			"L G",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1037,7 +1073,7 @@ public class ForgingRecipes
 			"SSGJ",
 			"L   ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1053,7 +1089,7 @@ public class ForgingRecipes
 			"SSSJIG",
 			" L I  ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1085,7 +1121,7 @@ public class ForgingRecipes
 			"SSSJIG",
 			" L I  ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1101,7 +1137,7 @@ public class ForgingRecipes
 			"SJIII",
 			"LG   ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1117,7 +1153,7 @@ public class ForgingRecipes
 			"SJIII ",
 			"LG    ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1133,7 +1169,7 @@ public class ForgingRecipes
 			"SSSGJ",
 			"L II ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1149,7 +1185,7 @@ public class ForgingRecipes
 			"SSSIJ",
 			"L   G",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
@@ -1164,10 +1200,27 @@ public class ForgingRecipes
 			"SJIIII",
 			"G     ",
 			'L', Items.leather,
-			'S', ComponentListMF.plank,
+			'S', getHaft(material),
 			'G', gold,
 			'I', silver,
 			'J', lapis
 		}));
+	}
+	
+	public static Object getHaft(BaseMaterialMF mat)
+	{
+		if(mat == BaseMaterialMF.ignotumite)
+		{
+			return ComponentListMF.gold_rod;
+		}
+		if(mat == BaseMaterialMF.mithium)
+		{
+			return ComponentListMF.silver_rod;
+		}
+		if(mat == BaseMaterialMF.enderforge)
+		{
+			return ComponentListMF.obsidian_rod;
+		}
+		return ComponentListMF.plank;
 	}
 }

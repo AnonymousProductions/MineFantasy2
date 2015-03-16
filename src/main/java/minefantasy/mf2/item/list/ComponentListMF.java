@@ -124,6 +124,10 @@ public class ComponentListMF
 	
 	public static Item padding = new ItemComponentMF("padding", 0);
 	
+	public static Item silver_rod = new ItemComponentMF("silver_rod", 0);
+	public static Item gold_rod = new ItemComponentMF("gold_rod", 0);
+	public static Item obsidian_rod = new ItemComponentMF("obsidian_rod", 1);
+	
 	public static void init() 
 	{
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
@@ -195,6 +199,7 @@ public class ComponentListMF
 
 	private static void addRandomDrops()
 	{
+		RandomOre.addOre(new ItemStack(kaolinite),    1.5F,  Blocks.stone,         	  -1, 32,128, false);
 		RandomOre.addOre(new ItemStack(flux),       	2F,  Blocks.stone,         	  -1, 0, 128, false);
 		RandomOre.addOre(new ItemStack(flux),       	10F, BlockListMF.limestone,   -1, 0, 256, true);
 		RandomOre.addOre(new ItemStack(flux_strong),    0.5F,Blocks.stone,         	   2, 0, 128, false);

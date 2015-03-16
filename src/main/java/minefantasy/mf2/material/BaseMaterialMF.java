@@ -52,8 +52,8 @@ public class BaseMaterialMF
 	public static BaseMaterialMF pigiron = addMaterial("PigIron",             0, 250,     0,        1.5F,       3 ,       1.00F);
 	//public static BaseMaterialMF nickel =  addMaterial("Nickel", 		   -1, 300,     0,        1.0F,       6 ,       1.00F);
 	
-	public static BaseMaterialMF silver =  addMaterial("Silver", 		     -1, 300,     0,        0.5F,       10,       0.70F);
-	public static BaseMaterialMF gold =    addMaterial("Gold", 	     	     -1, 150,     0,        0.0F,       25,       1.50F);
+	public static BaseMaterialMF silver =  addMaterial("Silver", 		     -1, 300,     0,        0.5F,       10,       0.70F).setForgeStats(1, 1, 3F);
+	public static BaseMaterialMF gold =    addMaterial("Gold", 	     	     -1, 150,     0,        0.0F,       25,       1.50F).setForgeStats(1, 1, 3F);
 	public static BaseMaterialMF goldPure =    addMaterial("PureGold", 	     -1, 50 ,     0,        0.0F,       50,       2.00F).setRarity(1);
 	public static BaseMaterialMF ornate =  addMaterial("Ornate", 		     -1, 500,     0,        1.0F,       30,       1.00F).setRarity(1).setForgeStats(1, 1, 4F);
 	

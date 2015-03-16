@@ -278,6 +278,7 @@ item.hunkPigIron.name=Pig Iron Nugget
 item.hunkSteel.name=Steel Nugget
 item.hunkEncrusted.name=Encrusted Nugget
 item.hunkSilver.name=Silver Nugget
+item.hunkGold.name=Gold Nugget
 item.hunkPureGold.name=Pure Gold Nugget
 item.hunkRedSteel.name=Red Steel Nugget
 item.hunkDragonforge.name=Dragonforge Steel Nugget
@@ -289,6 +290,9 @@ item.hunkIgnotumite.name=Ignotumite Nugget
 item.hunkMithium.name=Mithium Nugget
 item.hunkEnder.name=Enderforge Nugget
 
+item.silver_rod.name=Silver Shaft
+item.gold_rod.name=Golden Shaft
+item.obsidian_rod.name=Obsidian Shaft
 item.padding.name=Padding
 item.plateBronze.name=Bronze Plate
 item.plateIron.name=Iron Plate
@@ -384,6 +388,18 @@ tile.limestone_cobblestone.name=Limestone Cobblestone
 tile.limestone_brick.name=Limestone Brick
 tile.limestone_pavement.name=Limestone Pavement
 tile.limestone_stair.name=Limestone Stairs
+tile.limestone_cobblestone_stair.name=Limestone Cobblestone Stairs
+tile.limestone_brick_stair.name=Limestone Brick Stairs
+tile.limestone_pavement_stair.name=Limestone Pavement Stairs
+
+tile.slate.name=Slate
+tile.slate_cobblestone.name=Slate Cobblestone
+tile.slate_brick.name=Slate Brick
+tile.slate_pavement.name=Slate Pavement
+tile.slate_stair.name=Slate Stairs
+tile.slate_cobblestone_stair.name=Slate Cobblestone Stairs
+tile.slate_brick_stair.name=Slate Brick Stairs
+tile.slate_pavement_stair.name=Slate Pavement Stairs
 
 tile.framed_glass.name=Framed Glass
 tile.framed_pane.name=Framed Glass Pane
