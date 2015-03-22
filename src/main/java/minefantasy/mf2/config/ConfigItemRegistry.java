@@ -7,6 +7,7 @@ import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.api.armour.CustomDamageRatioEntry;
 import minefantasy.mf2.api.farming.CustomHoeEntry;
+import minefantasy.mf2.mechanics.HotItemsHelper;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.item.Item;
 
@@ -26,10 +27,17 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 	
 	public static String[] customDamagerList = new String[0];
 	public static String[] customDamagerEntityList = new String[0];
+	
+	public static final String CATEGORY_HI = "Hot Items";
+	
+	public static int[] temperatures = new int[0];
+	public static final int[] def_temps = new int[] {0, 0, 0};
 
 	@Override
 	protected void loadConfig() 
 	{
+		//Weight
+		
 		String AAdesc = 
 		"This will register items under a certain 'Design' calculating the variables itself.\n Each entry has it's own line:\n" +
 		"Order itemid|Design|WeightModifier \n" +
@@ -46,6 +54,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 		armourListAC = config.get(CATEGORY_ARMOUR, "Auto-Armour Registry", new String[0], AAdesc).getStringList();
 	    Arrays.sort(armourListAC);
 	    
+	    //Hoes
 	    
 	    String hoeDesc = 
 		"This Registers Hoe items to an efficiency level: (It uses the same variable as efficiency, you may need to find that out first, by default: it should be able to guess it:\n" +
@@ -54,6 +63,8 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 		
 		hoeList = config.get(CATEGORY_FARM, "Hoe Registry", new String[0], hoeDesc).getStringList();
 	    Arrays.sort(hoeList);
+	    
+	    //Weapons
 	    
 	    String damageDesc = 
 	    "[Experimental] This registers weapons for the damage variable mechanics implemented by option. \n" +
@@ -72,6 +83,21 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 		
 	    customDamagerEntityList = config.get(CATEGORY_WEPS, "Custom Entity Damage Ratios", new String[0], damageEDesc).getStringList();
 	    Arrays.sort(customDamagerEntityList);
+	    
+	    //Hot Items
+	    
+	    String HTTDesc = 
+	    		"This will set the default temperatures of the hot items in this order:\n" + 
+	    		"Max temperature\n" + 
+	            "Min temperature\n" +
+	    		"Default temperature";
+	    		
+	    		temperatures = config.get(CATEGORY_HI, "Hot Items Temperatures", def_temps, HTTDesc).getIntList();
+	    		
+	    		HotItemsHelper.setDefaultMaxTemp(temperatures[0]);
+	    		HotItemsHelper.setDefaultMinTemp(temperatures[1]);
+	    		HotItemsHelper.setDefaultCurrTemp(temperatures[2]);
+	    		
 	}
 	
 	public static void readCustoms()
