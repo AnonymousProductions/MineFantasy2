@@ -21,6 +21,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -157,6 +158,7 @@ public class MineFantasyII
 		try 
 		{
 			Class.forName("mods.battlegear2.Battlegear");
+			//return Loader.isModLoaded("battlegear2");
 		} 
 		catch (ClassNotFoundException e) 
 		{

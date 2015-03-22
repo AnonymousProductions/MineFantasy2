@@ -8,7 +8,6 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.IFuelHandler;
-
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
@@ -17,6 +16,7 @@ import minefantasy.mf2.api.knowledge.KnowledgeType;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,10 +33,7 @@ public class MineFantasyAPI
 
 	public static void debugMsg(String msg)
 	{
-		if(isInDebugMode)
-		{
-			System.out.println("[MineFantasyAPI](Debug) " + msg);
-		}
+		MFLogUtil.logDebug(msg);
 	}
 
 	public static void removeAllRecipes(Item result)
@@ -68,6 +65,7 @@ public class MineFantasyAPI
 	{
 		CraftingManagerAnvil.getInstance().addRecipe(result, "", hot, 0F, toolType, hammerType, anvil, forgeTime, input);
 	}
+	/** {@link MineFantasyAPI#addCarpenterRecipe} */
 	public static void addAnvilRecipe(ItemStack result, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
 	{
 		addAnvilRecipe(result, hot, "hammer", hammerType, anvil, forgeTime, input);
@@ -90,6 +88,7 @@ public class MineFantasyAPI
 	{
 		return CraftingManagerAnvil.getInstance().addRecipe(result, research, hot, 0F, toolType, hammerType, anvil, forgeTime, input);
 	}
+	/** {@link MineFantasyAPI#addCarpenterRecipe} */
 	public static IAnvilRecipe addAnvilRecipe(ItemStack result, String research, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
 	{
 		return addAnvilRecipe(result, research, hot, "hammer", hammerType, anvil, forgeTime, input);
@@ -110,14 +109,17 @@ public class MineFantasyAPI
 	{
 		CraftingManagerCarpenter.getInstance().addRecipe(result, "", sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
+	/** {@link MineFantasyAPI#addCarpenterRecipe} */
 	public static void addCarpenterRecipe(ItemStack result, String sound, int craftTime, Object... input)
 	{
 		addCarpenterRecipe(result, "", sound, "hands", -1, craftTime, input);
 	}
+	/** {@link MineFantasyAPI#addCarpenterRecipe} */
 	public static void addShapelessCarpenterRecipe(ItemStack result, String sound, String toolType, int toolTier, int craftTime, Object... input)
 	{
 		CraftingManagerCarpenter.getInstance().addShapelessRecipe(result, "", sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
+	/** {@link MineFantasyAPI#addCarpenterRecipe} */
 	public static void addShapelessCarpenterRecipe(ItemStack result, String sound, int craftTime, Object... input)
 	{
 		addShapelessCarpenterRecipe(result,  sound, "hands", -1, craftTime, input);
@@ -140,14 +142,17 @@ public class MineFantasyAPI
 	{
 		return CraftingManagerCarpenter.getInstance().addRecipe(result, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
+	/** {@link MineFantasyAPI#addCarpenterRecipe} */
 	public static ICarpenterRecipe addCarpenterRecipe(ItemStack result, String research, String sound, int craftTime, Object... input)
 	{
 		return addCarpenterRecipe(result, research, sound, "hands", -1, craftTime, input);
 	}
+	/** {@link MineFantasyAPI#addCarpenterRecipe} */
 	public static ICarpenterRecipe addShapelessCarpenterRecipe(ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
 	{
 		return CraftingManagerCarpenter.getInstance().addShapelessRecipe(result, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
+	/** {@link MineFantasyAPI#addCarpenterRecipe} */
 	public static ICarpenterRecipe addShapelessCarpenterRecipe(ItemStack result, String research, String sound, int craftTime, Object... input)
 	{
 		return addShapelessCarpenterRecipe(result, research,  sound, "hands", -1, craftTime, input);
