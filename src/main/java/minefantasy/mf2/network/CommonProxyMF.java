@@ -90,7 +90,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 			EntityRegistry.registerModEntity(EntityShrapnel.class, "shrapnel_mf", IDBase, MineFantasyII.instance, 16, 1, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityFireBlast.class, "fire_blast", IDBase, MineFantasyII.instance, 64, 2, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntitySmoke.class, "smoke_mf", IDBase, MineFantasyII.instance, 64, 2, true);IDBase ++;
-			
+			EntityRegistry.registerModEntity(EntityItemUnbreakable.class, "special_eitem_mf", IDBase, MineFantasyII.instance, 64, 2, true);IDBase ++;
 		}
 		else
 		{
@@ -99,6 +99,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 			EntityRegistry.registerModEntity(EntityShrapnel.class, "shrapnel_mf", IDBase, MineFantasyII.instance, 16, 20, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntityFireBlast.class, "fire_blast", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 			EntityRegistry.registerModEntity(EntitySmoke.class, "smoke_mf", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
+			EntityRegistry.registerModEntity(EntityItemUnbreakable.class, "special_eitem_mf", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 		}
 		EntityRegistry.registerModEntity(EntityMine.class, "landmineMF", IDBase, MineFantasyII.instance, 16, 10, true);IDBase ++;
 		registerTileEntities();

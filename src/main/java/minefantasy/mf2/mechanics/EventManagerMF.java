@@ -22,6 +22,7 @@ import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.config.ConfigStamina;
+import minefantasy.mf2.entity.EntityItemUnbreakable;
 import minefantasy.mf2.farming.FarmingHelper;
 import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.item.food.FoodListMF;
@@ -291,6 +292,26 @@ public class EventManagerMF
 		if(event.entity.isDead)
 		{
 			event.setCanceled(true);
+			return;
+		}
+		if(event.entity instanceof EntityItem && !(event.entity instanceof EntityItemUnbreakable))
+		{
+			EntityItem eitem = (EntityItem)event.entity;
+			if(eitem.getEntityItem() != null)
+			{
+				if(eitem.getEntityItem().hasTagCompound() && eitem.getEntityItem().getTagCompound().hasKey("Unbreakable"))
+				{
+					EntityItem newEntity = new EntityItemUnbreakable(event.world, eitem);
+					event.world.spawnEntityInWorld(newEntity);
+					eitem.setDead();
+				}
+				if(eitem.getEntityItem().getUnlocalizedName().contains("dragon"))
+				{
+					EntityItem newEntity = new EntityItemUnbreakable(event.world, eitem);
+					event.world.spawnEntityInWorld(newEntity);
+					eitem.setDead();
+				}
+			}
 		}
     }
 	public void alterDrops(EntityLivingBase dropper, LivingDropsEvent event)

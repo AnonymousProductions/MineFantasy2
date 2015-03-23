@@ -48,7 +48,6 @@ Big Furnace
 Ignotumite/Mithium ores
 Enderforge smelting
 Coke
-Ornate Crafting
 Repair
 Crossbow
 Uncraftable recipes (saddles, tags)

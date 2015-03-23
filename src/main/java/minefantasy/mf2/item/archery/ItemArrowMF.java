@@ -44,8 +44,10 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	}
 	public ItemArrowMF(String name, int rarity, ToolMaterial material, ArrowType type)
 	{
-		super.setUnlocalizedName(name+"_arrow");
+		name = convertName(name);
+		material = convertMaterial(material);
 		
+		super.setUnlocalizedName(name+"_arrow");
 		name = getName(name, type);
 		design = type;
 		arrowName = name;
@@ -61,6 +63,22 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenser);
 	}
 	
+	private ToolMaterial convertMaterial(ToolMaterial material) 
+	{
+		if(material == BaseMaterialMF.ornate.getToolConversion())
+		{
+			return BaseMaterialMF.silver.getToolConversion();
+		}
+		return material;
+	}
+	private String convertName(String name) 
+	{
+		if(name.equalsIgnoreCase("ornate"))
+		{
+			return "silver";
+		}
+		return name;
+	}
 	@Override
 	public String getItemStackDisplayName(ItemStack item)
     {
