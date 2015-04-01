@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.Loader;
+import minefantasy.mf2.api.item.HotItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -17,100 +18,18 @@ public class HotItemsHelper {
 	
 	public static final String HI_NBT_KEY = "MineFantasyII_HotItem_";
 	public static final String HI_NBT_KEY_MAIN = HI_NBT_KEY + "Main";
-	public static final String HI_NBT_KEY_MAX_TEMP = HI_NBT_KEY + "MaxTemp";
-	public static final String HI_NBT_KEY_MIN_TEMP = HI_NBT_KEY + "MinTemp";
-	public static final String HI_NBT_KEY_DEF_TEMP = HI_NBT_KEY + "DefTemp";
 	public static final String HI_NBT_KEY_CURR_TEMP = HI_NBT_KEY + "CurrTemp";
 	
-	private static int m_defaultCurrTemp;
-	private static int m_defaultMinTemp;
-	private static int m_defaultMaxTemp;
+	private static int m_burnTemp = 0;
 	
-	private static HashMap<Object[], Integer[]> m_temps;
-	
-	static {
-		m_defaultCurrTemp = 0;
-		m_defaultMinTemp = 0;
-		m_defaultMaxTemp = 0;
-		m_temps = Maps.newHashMap();
-	}
-	
-	public static final void setDefaults(int max, int min, int curr)
+	public static void setBurnTemp(int temp)
 	{
-		m_defaultMaxTemp = max;
-		m_defaultMinTemp = min;
-		m_defaultCurrTemp = curr;
+		m_burnTemp = temp;
 	}
 	
-	public static final void setDefaultMaxTemp(int max)
+	public static final int getBurnTemp()
 	{
-		setDefaults(max, m_defaultMinTemp, m_defaultCurrTemp);
-	}
-	
-	public static final void setDefaultMinTemp(int min)
-	{
-		setDefaults(m_defaultMaxTemp, min, m_defaultCurrTemp);
-	}
-	
-	public static final void setDefaultCurrTemp(int curr)
-	{
-		setDefaults(m_defaultMaxTemp, m_defaultMinTemp, curr);
-	}
-	
-	public static final boolean isItemRegistered(String unloc, Integer dam)
-	{
-		return m_temps.containsKey(new Object[] {unloc, dam});
-	}
-	
-	public static final boolean isItemRegistered(ItemStack stack)
-	{
-		return isItemRegistered(stack.getItem().getUnlocalizedName(), stack.getItemDamage());
-	}
-	
-	public static final void addHotItem(Object[][] keys, Integer[][] temps)
-	{	
-		for(int i = 0; i < keys.length; i++)
-		{
-			if(keys[i].length == 2 && temps.length == 3)
-			{
-				if(!((keys[i][0] instanceof String && keys[i][1] instanceof Integer) && (temps[i][0] instanceof Integer && temps[i][1] instanceof Integer && temps[i][2] instanceof Integer)))
-				return;
-					
-				m_temps.put(keys[i], temps[i]);
-			}
-		}
-	}
-	
-	public static final Integer[] getTemps(String unlocName, int dam)
-	{
-		Object[] key = new Object[] {unlocName, dam};
-		
-		if(m_temps.containsKey(key))
-		{
-			return m_temps.get(key);
-		}
-		
-		return new Integer[] {m_defaultMaxTemp, m_defaultMinTemp, m_defaultCurrTemp};
-	}
-	
-	public static final Integer[] getTemps(ItemStack stack)
-	{
-		return getTemps(stack.getItem().getUnlocalizedName(), stack.getItemDamage());
-	}
-	
-	public static final ItemStack initHotItem(ItemStack stack)
-	{
-		NBTTagCompound temp = new NBTTagCompound();
-		
-		temp.setInteger(HI_NBT_KEY_MAX_TEMP, getTemps(stack.getItem().getUnlocalizedName(), stack.getItemDamage())[0]);
-		temp.setInteger(HI_NBT_KEY_MIN_TEMP, getTemps(stack.getItem().getUnlocalizedName(), stack.getItemDamage())[1]);
-		temp.setInteger(HI_NBT_KEY_DEF_TEMP, getTemps(stack.getItem().getUnlocalizedName(), stack.getItemDamage())[2]);
-		temp.setInteger(HI_NBT_KEY_CURR_TEMP, getTemps(stack.getItem().getUnlocalizedName(), stack.getItemDamage())[2]);
-		
-		stack.stackTagCompound.setTag(HI_NBT_KEY_MAIN, temp);
-		
-		ItemStack res = stack;
-		return res;
+		return m_burnTemp;
 	}
 	
 	public final static NBTTagCompound getHICompound(ItemStack stack)
@@ -120,12 +39,9 @@ public class HotItemsHelper {
 	
 	public static final boolean isHotItem(ItemStack stack)
 	{
-		if(!(getHICompound(stack) == null))
+		if(stack.getItem() instanceof HotItem)
 		{
-			NBTTagCompound temp = getHICompound(stack);
-			
-			if(temp.hasKey(HI_NBT_KEY_MAX_TEMP) && temp.hasKey(HI_NBT_KEY_MAX_TEMP) && temp.hasKey(HI_NBT_KEY_CURR_TEMP))
-				return true;
+			return true;
 		}
 		
 		return false;
@@ -133,17 +49,26 @@ public class HotItemsHelper {
 	
 	public static final int getMaxTemp(ItemStack stack)
 	{
-		return getHICompound(stack).getInteger(HI_NBT_KEY_MAX_TEMP);
+		if(isHotItem(stack))
+		return ((HotItem) stack.getItem()).getMaxTemp();
+		
+		return 0;
 	}
 	
 	public static final int getMinTemp(ItemStack stack)
 	{
-		return getHICompound(stack).getInteger(HI_NBT_KEY_MIN_TEMP);
+		if(isHotItem(stack))
+			return ((HotItem) stack.getItem()).getMinTemp();
+			
+			return 0;
 	}
 	
 	public static final int getDefTemp(ItemStack stack)
 	{
-		return getHICompound(stack).getInteger(HI_NBT_KEY_DEF_TEMP);
+		if(isHotItem(stack))
+			return ((HotItem) stack.getItem()).getDefaultTemp();
+			
+			return 0;
 	}
 	
 	public static final int getCurrTemp(ItemStack stack)

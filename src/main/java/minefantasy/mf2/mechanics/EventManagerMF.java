@@ -667,6 +667,7 @@ public class EventManagerMF
 		if(event.entity.ticksExisted == 1 && event.entity instanceof EntityPlayer && !event.entity.worldObj.isRemote)
 		{
 		}
+		
 	}
 	public static void tickHitSpeeds(EntityLivingBase user)
 	{

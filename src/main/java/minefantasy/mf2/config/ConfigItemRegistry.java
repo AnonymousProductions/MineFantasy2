@@ -31,7 +31,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 	public static final String CATEGORY_HI = "Hot Items";
 	
 	public static int[] temperatures = new int[0];
-	public static final int[] def_temps = new int[] {0, 0, 0};
+	public static final int[] def_temps = new int[] {0};
 
 	@Override
 	protected void loadConfig() 
@@ -94,9 +94,8 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 	    		
 	    		temperatures = config.get(CATEGORY_HI, "Hot Items Temperatures", def_temps, HTTDesc).getIntList();
 	    		
-	    		HotItemsHelper.setDefaultMaxTemp(temperatures[0]);
-	    		HotItemsHelper.setDefaultMinTemp(temperatures[1]);
-	    		HotItemsHelper.setDefaultCurrTemp(temperatures[2]);
+	    		HotItemsHelper.setBurnTemp(temperatures[0]);
+	    		
 	    		
 	}
 	
