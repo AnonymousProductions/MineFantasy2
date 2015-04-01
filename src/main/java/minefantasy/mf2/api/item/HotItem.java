@@ -16,10 +16,19 @@ import net.minecraft.world.World;
  */
 public abstract class HotItem extends Item {
 
+	/**
+	 * @return The max temperature this Item can have.
+	 */
 	public abstract int getMaxTemp();
 	
+	/**
+	 * @return The min temperature this Item can have.
+	 */
 	public abstract int getMinTemp();
 	
+	/**
+	 * @return The temperature this item will be initialized to.
+	 */
 	public abstract int getDefaultTemp();
 	
 	public void onUpdate(ItemStack stack, World world, Entity entity, int dam, boolean held)
@@ -33,6 +42,16 @@ public abstract class HotItem extends Item {
 		onHIUpdate(stack, world, entity, dam, held);
 	}
 	
+	/**
+	 * Method that gets called after the normal {@link net.minecraft.item.Item#onUpdate() onUpdate()} method
+	 * 
+	 * @param stack
+	 * @param world
+	 * @param entity
+	 * @param dam
+	 * @param held
+	 * 
+	 */
 	public abstract void onHIUpdate(ItemStack stack, World world, Entity entity, int dam, boolean held);
 	
 	

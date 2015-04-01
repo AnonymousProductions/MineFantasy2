@@ -22,21 +22,40 @@ public class HotItemsHelper {
 	
 	private static int m_burnTemp = 0;
 	
+	/**
+	 * 
+	 * Sets the burn temperature externally.
+	 * 
+	 * @param temp 
+	 */
 	public static void setBurnTemp(int temp)
 	{
 		m_burnTemp = temp;
 	}
 	
+	/**
+	 * 
+	 * @return The current burn temperature, as set in the config.
+	 */
 	public static final int getBurnTemp()
 	{
 		return m_burnTemp;
 	}
 	
+	
+	/**
+	 * Helper method to get the NBTtag of a Hot item.
+	 */
 	public final static NBTTagCompound getHICompound(ItemStack stack)
 	{
 		return stack.stackTagCompound.getCompoundTag(HI_NBT_KEY_MAIN);
 	}
 	
+	/**
+	 * 
+	 * @param stack
+	 * @return If the stack contains a hot item
+	 */
 	public static final boolean isHotItem(ItemStack stack)
 	{
 		if(stack.getItem() instanceof HotItem)
