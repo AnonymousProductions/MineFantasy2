@@ -87,6 +87,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int limestoneFrequencyMin;
 	public static int limestoneLayerMax;
 	public static int limestoneLayerMin;
+	public static int limestoneSize;
 	
 	public static String berry = "[Plant Gen] Berry Bush";
 	public static float berryRarity;
@@ -108,7 +109,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 		copperLayerMax = Integer.parseInt(config.get(copper, "Copper Layer Max", 96, "Copper veins spawn below this layer").getString());
 		copperSize = Integer.parseInt(config.get(copper, "Copper Size", 8, "How many blocks consist of the vein").getString());
 		
-		tinRarity = Float.parseFloat(config.get(tin, "Tin Rarity", 1.0F, "The chance for copper to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any copper").getString());
+		tinRarity = Float.parseFloat(config.get(tin, "Tin Rarity", 1.0F, "The chance for tin to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any tin").getString());
 		tinFrequencyMin = Integer.parseInt(config.get(tin, "Tin Frequency Min", 2, "Tin will try spawn between this and max veins per chunk").getString());
 		tinFrequencyMax = Integer.parseInt(config.get(tin, "Tin Frequency Max", 3, "Tin will try spawn between min and this veins per chunk").getString());
 		tinLayerMin = Integer.parseInt(config.get(tin, "Tin Layer Min", 48, "Tin veins spawn above this layer").getString());
@@ -170,6 +171,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 		limestoneFrequencyMax = Integer.parseInt(config.get(limestone, "Limestone Frequency Max", 1, "Limestone will try spawn between min and this deposits per chunk").getString());
 		limestoneLayerMin = Integer.parseInt(config.get(limestone, "Limestone Layer Min", 48, "Limestone deposits spawn above this layer").getString());
 		limestoneLayerMax = Integer.parseInt(config.get(limestone, "Limestone Layer Max", 96, "Limestone deposits spawn below this layer").getString());
+		limestoneSize = Integer.parseInt(config.get(limestone, "Limestone Size", 128, "How many blocks consist of the deposit").getString());
 		
 		berryRarity = Float.parseFloat(config.get(berry, "Berry Bush Rarity", 0.15F, "The chance for berry bushes to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any berries").getString());
 		berryMinTemp = Float.parseFloat(config.get(berry, "Berry Bush Spawn Temp Min", 0.2F, "The minimal biome temperature berries can spawn").getString());
