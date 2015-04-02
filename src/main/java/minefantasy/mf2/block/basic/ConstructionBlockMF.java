@@ -68,7 +68,7 @@ public class ConstructionBlockMF extends Block {
 	
 	public void addConstructRecipes()
 	{
-		GameRegistry.addSmelting(new ItemStack(this, 1, 0), new ItemStack(this, 1, 1), 0);
+		GameRegistry.addSmelting(new ItemStack(this, 1, 1), new ItemStack(this, 1, 0), 0);
 		
 		GameRegistry.addRecipe(new ItemStack(this, 4, 3), new Object[] 
 		{
