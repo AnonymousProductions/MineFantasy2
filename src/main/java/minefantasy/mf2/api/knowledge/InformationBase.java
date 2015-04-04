@@ -33,7 +33,6 @@ public class InformationBase
     private final String idName;
     private final int baseLevelCost;
     private ArrayList<SkillRequirement> skills = new ArrayList<SkillRequirement>();
-    @SideOnly(Side.CLIENT)
     public String[] requirements = null;
 
     public InformationBase(String name, int x, int y, int cost, Item icon, InformationBase parent)
