@@ -31,7 +31,7 @@ public class ItemHalbeardMF extends ItemSpearMF
 	@Override
 	public float getReachModifierInBlocks(ItemStack stack)
 	{
-		return 2.5F;
+		return 3.0F;
 	}
 	
 	@Override

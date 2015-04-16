@@ -1,11 +1,12 @@
 package minefantasy.mf2.item.weapon;
 
+import mods.battlegear2.api.weapons.IExtendedReachWeapon;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
-public abstract class ItemHeavyWeapon extends ItemWeaponMF
+public abstract class ItemHeavyWeapon extends ItemWeaponMF implements IExtendedReachWeapon
 {
 
 	/**
@@ -108,5 +109,11 @@ public abstract class ItemHeavyWeapon extends ItemWeaponMF
 	protected float getStaminaMod() 
 	{
 		return heavyStaminaCost;
+	}
+	
+	@Override
+	public float getReachModifierInBlocks(ItemStack stack)
+	{
+		return 2.0F;
 	}
 }

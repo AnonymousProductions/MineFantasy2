@@ -142,4 +142,9 @@ public class ItemKatanaMF extends ItemHeavyWeapon
 	{
 		return WeaponClass.BLADE;
 	}
+	@Override
+	protected float[] getWeaponRatio(ItemStack implement)
+	{
+		return new float[]{1F, 0F};
+	}
 }

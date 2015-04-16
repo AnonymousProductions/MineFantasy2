@@ -81,7 +81,7 @@ public class SmeltingRecipesMF {
 		{
 			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[13]), 1, new Object[]
 			{
-				steel, silver, ComponentListMF.diamond_dust, ComponentListMF.flux_strong, Items.blaze_powder
+				steel, silver, new ItemStack(Items.dye, 1, 4), ComponentListMF.flux_strong, Items.blaze_powder
 			});
 		}
 		}

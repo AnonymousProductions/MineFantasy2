@@ -91,7 +91,6 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.flux_strong);
 		add(list, ComponentListMF.coke);
 		add(list, ComponentListMF.diamond_shards);
-		add(list, ComponentListMF.diamond_dust);
 		add(list, ComponentListMF.fletching);
 		
 		add(list, ComponentListMF.coalDust);

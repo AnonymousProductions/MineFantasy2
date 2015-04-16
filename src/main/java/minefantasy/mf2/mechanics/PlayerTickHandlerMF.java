@@ -36,6 +36,7 @@ public class PlayerTickHandlerMF
 	{
 		if(event.phase == TickEvent.Phase.END)
         {
+			//COMMON
         	TacticalManager.applyArmourWeight(event.player);
         	if(event.player.ticksExisted % 20 == 0)
         	{
@@ -43,10 +44,9 @@ public class PlayerTickHandlerMF
             	{
             		event.player.extinguish();
             	}
+        		if(event.player.worldObj.isRemote)
     			Arrows.updateArrowCount(event.player);
         	}
-        	playSounds(event.player);
-        	
         	if(RPGElements.isSystemActive)
         	{
         		if(event.player.isSprinting() && event.player.ticksExisted % 10 == 0)
@@ -57,6 +57,11 @@ public class PlayerTickHandlerMF
         		{
         			SkillList.sneak.addXP(event.player, 1);
         		}
+        	}
+        	//CLIENT
+        	if(event.player.worldObj.isRemote)
+        	{
+        		playSounds(event.player);
         	}
         }
 		

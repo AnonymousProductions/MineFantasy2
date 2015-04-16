@@ -132,7 +132,7 @@ public class MineFantasyII
 	{
     	if(WorldGenPlants.isBiomeInConstraint(biome, ConfigWorldGen.berryMinTemp, ConfigWorldGen.berryMaxTemp, ConfigWorldGen.berryMinRain, ConfigWorldGen.berryMaxRain))
 		{
-    		biome.addFlower(BlockListMF.berryBush, 0, 10);
+    		biome.addFlower(BlockListMF.berryBush, 0, 5);
     	}
 	}
 

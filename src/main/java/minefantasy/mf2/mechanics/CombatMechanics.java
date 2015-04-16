@@ -524,7 +524,10 @@ public class CombatMechanics
     			threshold = parry.getMaxDamageParry(user, weapon);
     			weaponFatigue = parry.getParryStaminaDecay(source, weapon);
     		}
-    		
+    		if(StaminaBar.isSystemActive && !StaminaBar.isAnyStamina(user, false))
+    		{
+    			threshold /= 2;
+    		}
     	    threshold *= TacticalManager.getHighgroundModifier(user, entityHitting, 1.15F);
     	    
     	    if(ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote)
@@ -547,8 +550,14 @@ public class CombatMechanics
 	        	   user.hurtResistantTime = user.maxHurtResistantTime;
 	        	   user.hurtTime = 0;
 	       		   
-        		   onParry(source, user, entityHitting, dam, previousDam, parry);
-	        	   if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
+        		   int result = onParry(source, user, entityHitting, dam, previousDam, parry);
+	        	   
+        		   if(result == 1)
+        		   {
+        			   dam = 0;
+        		   }
+        		   
+        		   if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
 	        	   {
 	        		   ticks *= 2;
 	        	   }
@@ -609,7 +618,10 @@ public class CombatMechanics
 		return "mob.zombie.metal";
 	}
 
-	private void onParry(DamageSource source, EntityLivingBase user, Entity attacker, float dam, float prevDam, IParryable parry)
+	/**
+	 * @return 0 for normal parry and 1 for evade
+	 */
+	private int onParry(DamageSource source, EntityLivingBase user, Entity attacker, float dam, float prevDam, IParryable parry)
 	{
 		if(RPGElements.isSystemActive && user instanceof EntityPlayer)
 		{
@@ -633,8 +645,10 @@ public class CombatMechanics
 				attacker.setSprinting(false);
 				TacticalManager.lungeEntity(attacker, user, powerMod, 0.0F);
 				TacticalManager.lungeEntity(user, attacker, 3F, 0.0F);
+				return 1;
 			}
 		}
+		return 0;
 	}
 	
 	/**

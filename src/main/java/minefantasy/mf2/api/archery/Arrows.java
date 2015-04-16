@@ -3,7 +3,6 @@ package minefantasy.mf2.api.archery;
 import java.util.ArrayList;
 import java.util.List;
 
-import minefantasy.mf2.config.ConfigClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -101,9 +100,10 @@ public class Arrows
 	 * This updates the nbt to recount the arrows(used after firing bows, picking up and ticking)
 	 * @param player
 	 */
+	public static boolean displayArrowCount = true;
 	public static void updateArrowCount(EntityPlayer player)
 	{
-		if(ConfigClient.displayArrowCount && player.worldObj.isRemote)
+		if(displayArrowCount && player.worldObj.isRemote)
 		{
 			player.getEntityData().setInteger("MF_ArrowCount", countArrows(player));
 		}
@@ -111,7 +111,7 @@ public class Arrows
 
 	private static int countArrows(EntityPlayer player)
 	{
-		if(!ConfigClient.displayArrowCount)
+		if(!displayArrowCount)
 		{
 			return -1;
 		}

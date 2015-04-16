@@ -104,7 +104,6 @@ public class ComponentListMF
 	
 	public static Item coke = new ItemComponentMF("coke", 0);
 	public static Item diamond_shards = new ItemComponentMF("diamond_shards", 0);
-	public static Item diamond_dust = new ItemComponentMF("diamond_dust", 0);
 	
 	public static Item clay_brick = new ItemComponentMF("clay_brick", 0);
 	public static Item kaolinite = new ItemComponentMF("kaolinite", 0);

@@ -541,12 +541,6 @@ public class ForgingRecipes
 			"D",
 			'D', Items.diamond,
 		});
-		time = 2;
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.diamond_dust, 8), false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
-		{
-			"D",
-			'D', ComponentListMF.diamond_shards
-		});
 		
 		time = 3;
 		for(ItemStack ingot: OreDictionary.getOres("ingotSteel"))

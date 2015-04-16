@@ -57,7 +57,7 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
 	@Override
 	public float getReachModifierInBlocks(ItemStack stack)
 	{
-		return 2.0F;
+		return 3.0F;
 	}
 	
 	@Override

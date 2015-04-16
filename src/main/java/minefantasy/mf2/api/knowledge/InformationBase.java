@@ -218,9 +218,7 @@ public class InformationBase
 		return baseLevelCost;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	private ArrayList<EntryPage> pages = new ArrayList<EntryPage>();
-	@SideOnly(Side.CLIENT)
 	public void addPages(EntryPage... info)
 	{
 		for(EntryPage page: info)
@@ -228,13 +226,11 @@ public class InformationBase
 			pages.add(page);
 		}
 	}
-	@SideOnly(Side.CLIENT)
 	public ArrayList<EntryPage> getPages()
 	{
 		return pages;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public String[] getRequiredSkills()
 	{
 		if(this.requirements == null)

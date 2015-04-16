@@ -102,7 +102,7 @@ public class MineFantasyHUD extends Gui
         	if(arrow != null)
         	{
         		String text = arrow.getDisplayName();
-        		if(ConfigClient.displayArrowCount)
+        		if(Arrows.displayArrowCount)
         		{
         			text += " x"+Arrows.getArrowCount(player);
         		}
