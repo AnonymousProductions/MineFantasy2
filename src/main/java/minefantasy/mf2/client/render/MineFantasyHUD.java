@@ -11,6 +11,7 @@ import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.config.ConfigClient;
+import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -79,7 +80,6 @@ public class MineFantasyHUD extends Gui
         }
 		return null;
 	}
-
 	private void renderArmourRating(EntityPlayer player)
 	{
 		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
@@ -92,8 +92,14 @@ public class MineFantasyHUD extends Gui
         int yPosAR = orientationAR[1] + ConfigClient.AR_yPos;
         
 		int AR = ArmourCalculator.getTotalArmourRating(player);
-        mc.fontRenderer.drawStringWithShadow("AR: "+ AR, xPosAR, yPosAR, Color.WHITE.getRGB());
-        
+        if(ArmourCalculator.usePercentage)
+        {
+        	mc.fontRenderer.drawStringWithShadow("AR: "+ ItemWeaponMF.decimal_format.format(AR)+"%", xPosAR, yPosAR, Color.WHITE.getRGB());
+        }
+        else
+        {
+        	mc.fontRenderer.drawStringWithShadow("AR: "+ (int)AR, xPosAR, yPosAR, Color.WHITE.getRGB());
+        }
         ItemStack held = player.getHeldItem();
         if(held != null && (held.getItem() instanceof IDisplayMFArrows || held.getItem() == Items.bow))
         {

@@ -50,8 +50,6 @@ public class BaseMaterialMF
 	public static BaseMaterialMF stone =   addMaterial("Stone",		          0, 60 ,     0,     0.1F, 0.0F,    0,        2.00F).setForgeStats(0, 0, 0.75F);
 	public static BaseMaterialMF tin  =    addMaterial("Tin",   	          0, 100,     0,        0.2F,       5 ,       0.80F);
 	public static BaseMaterialMF pigiron = addMaterial("PigIron",             0, 250,     0,        1.5F,       3 ,       1.00F);
-	//public static BaseMaterialMF nickel =  addMaterial("Nickel", 		   -1, 300,     0,        1.0F,       6 ,       1.00F);
-	
 	public static BaseMaterialMF silver =  addMaterial("Silver", 		     -1, 500,     0,        1.0F,       10,       0.70F).setForgeStats(1, 1, 3F);
 	public static BaseMaterialMF gold =    addMaterial("Gold", 	     	     -1, 150,     0,        0.0F,       25,       1.50F).setForgeStats(1, 1, 3F);
 	public static BaseMaterialMF goldPure =    addMaterial("PureGold", 	     -1, 50 ,     0,        0.0F,       50,       2.00F).setRarity(1);
@@ -60,10 +58,10 @@ public class BaseMaterialMF
 	
 	//Basic / Common Materials (0-2) Levels 0-50
 	public static BaseMaterialMF copper		 = addMaterial("Copper",		  0, 250,   1,     1.5F, 1.0F,    5,        1.00F).setForgeStats(0, 0, 1.0F);
-	public static BaseMaterialMF bronze    	 = addMaterial("Bronze", 	      1, 750,  	2,        1.5F,       8 ,       1.00F).setForgeStats(1, 1, 2.5F);
+	public static BaseMaterialMF bronze    	 = addMaterial("Bronze", 	      1, 750,  	2,        1.5F,       5 ,       1.00F).setForgeStats(1, 1, 2.5F);
 	public static BaseMaterialMF iron   	 = addMaterial("Iron",            1, 500,  	2,        2.0F,       5 ,       1.00F).setForgeStats(1, 1, 2.0F);
 	public static BaseMaterialMF steel       = addMaterial("Steel",           2, 1000, 	2,        2.5F,       10,       1.00F).setForgeStats(2, 2, 2.5F);
-	public static BaseMaterialMF encrusted   = addMaterial("Encrusted",       2, 2000, 	3,        3.0F,       12,       1.00F).setForgeStats(2, 2, 5.0F);
+	public static BaseMaterialMF encrusted   = addMaterial("Encrusted",       2, 2500, 	3,        3.0F,       18,       1.00F).setForgeStats(2, 2, 5.0F);
 	
 	//Advanced Materials (3 - 4) Levels 50-75
 	public static BaseMaterialMF blacksteel  = addMaterial("BlackSteel",      3, 2500, 	4,        4.0F,       12,       1.00F).setForgeStats(3, 3, 4.0F);

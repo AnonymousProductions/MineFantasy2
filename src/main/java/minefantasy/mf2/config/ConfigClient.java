@@ -1,6 +1,7 @@
 package minefantasy.mf2.config;
 
 import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.block.list.BlockListMF;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -51,6 +52,7 @@ public class ConfigClient extends ConfigurationBaseMF
 		playHitsound = Boolean.parseBoolean(config.get(CATEGORY_AESTHETIC, "Make Hit Sound", true, "Plays sounds when hitting entities with different items").getString());
 		
 		Arrows.displayArrowCount = Boolean.parseBoolean(config.get(CATEGORY_GUI, "Count Arrows", true, "This option displays how many of your selected arrow are left. It works for all arrows with added support(MineFantasy arrows)").getString());
+		ArmourCalculator.usePercentage = Boolean.parseBoolean(config.get(CATEGORY_GUI, "Use Percentage Values", true, "When true: the armour rating counts the total percentage of damage resisted, when false it uses a special value").getString());
 		
 		stam_xOrient = Integer.parseInt(config.get(GUI_STAMINA, "X Orient", 1, "The orientation for the X axis (-1 = left, 0 = middle, 1 = right). Determines what point in the axis to snap to").getString());
 		stam_yOrient = Integer.parseInt(config.get(GUI_STAMINA, "Y Orient", 1, "The orientation for the Y axis (-1 = top, 0 = middle, 1 = bottom). Determines what point in the axis to snap to").getString());

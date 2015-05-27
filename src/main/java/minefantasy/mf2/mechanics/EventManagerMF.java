@@ -538,12 +538,13 @@ public class EventManagerMF
 		int slot = ((ItemArmor)armour.getItem()).armorType;
         String attatch = "";
         
-        int rating = ArmourCalculator.getArmourRatingLevel(user, armour, slot);
-        int equipped = ArmourCalculator.getArmourRatingLevel(user, user.getCurrentArmor(3-slot), slot);
+        float rating = ArmourCalculator.getArmourRatingLevel(user, armour, slot);
+        float equipped = ArmourCalculator.getArmourRatingLevel(user, user.getCurrentArmor(3-slot), slot);
+        boolean percent = ArmourCalculator.usePercentage;
         
         if(equipped > 0 && rating != equipped)
         {
-        	int d = rating-equipped;
+        	float d = rating-equipped;
         	if(d > 0)
         	{
         		attatch += EnumChatFormatting.DARK_GREEN;
@@ -552,11 +553,18 @@ public class EventManagerMF
         	{
         		attatch += EnumChatFormatting.RED;
         	}
-        	attatch += " (" + (d > 0 ? "+" : "") + d +")";
+        	String d2 = percent ? ItemWeaponMF.decimal_format.format(d) : (""+(int)d);
+        	attatch += " (" + (d > 0 ? "+" : "") + d2 + (percent ? "%)" : ")");
         }
-        list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection") + " " + rating + attatch);
+        if(percent)
+        {
+        	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection") + " " + ItemWeaponMF.decimal_format.format(rating)+"%" + attatch);
+        }
+        else
+        {
+        	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection") + " " + (int)rating + attatch);
+        }
     }
-	
 	private void showCrafterTooltip(ItemStack tool, List<String> list)
 	{
 		String toolType = ToolHelper.getCrafterTool(tool);

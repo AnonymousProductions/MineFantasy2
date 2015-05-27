@@ -2,6 +2,7 @@ package minefantasy.mf2.entity;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.item.gadget.EnumCasingType;
@@ -28,6 +29,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import minefantasy.mf2.mechanics.CombatMechanics;
 
 public class EntityBomb extends Entity
 {
@@ -186,7 +188,9 @@ public class EntityBomb extends Entity
         if(!worldObj.isRemote && this.ridingEntity != null && ridingEntity instanceof EntityLivingBase)
         {
         	if(!(ridingEntity instanceof EntityChicken))
-        	panic((EntityLivingBase)ridingEntity);
+        	{
+        		CombatMechanics.panic((EntityLivingBase)ridingEntity, 1.0F, 30);
+        	}
         }
         if(isStuckInBlock())
         {
@@ -221,27 +225,6 @@ public class EntityBomb extends Entity
     private boolean isStuckInBlock()
 	{
 		return false;//isSticky() && isAABBInSolid(boundingBox.expand(0.5D, 0.5D, 0.5D));
-	}
-
-	private void panic(EntityLivingBase victim)
-	{
-		double moveX = victim.getEntityData().getDouble("MF2_PanicX");
-		double moveZ = victim.getEntityData().getDouble("MF2_PanicZ");
-    	victim.setJumping(true);
-    	
-    	if(moveX == 0 || moveZ == 0 || rand.nextInt(30) == 0)
-    	{
-    		 moveX = (rand.nextDouble()-0.5D)*0.85D;
-    		 moveZ = (rand.nextDouble()-0.5D)*0.85D;
-    		 
-    		 victim.getEntityData().setDouble("MF2_PanicX", moveX);
-    		 victim.getEntityData().setDouble("MF2_PanicZ", moveZ);
-    		 if(victim.onGround)victim.motionY = 0.25F;
-    		 victim.rotationYaw = (float)(Math.atan2(moveX, moveZ));
-    	}
-    	victim.swingItem();
-    	victim.limbSwing = 1.0F;
-    	victim.moveEntity(moveX, 0D, moveZ);
 	}
 
 	private boolean isSticky()

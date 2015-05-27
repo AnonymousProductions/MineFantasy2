@@ -93,6 +93,10 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		{
 			AC = getMagicAC(AC, source, damage, player);
 		}
+		else if(source == DamageSource.onFire)
+		{
+			AC *= getACForBurn();
+		}
 		else if(source.isUnblockable())
 		{
 			AC *= getUnblockableResistance(armour, source);
@@ -120,6 +124,10 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		return new ArmorProperties(0, percent, (int)max);
 	}
 	
+	private float getACForBurn() 
+	{
+		return armourWeight >= ArmourCalculator.ACArray[1] ? 0.1F : armourWeight >= ArmourCalculator.ACArray[0] ? 0.05F : 0F;
+	}
 	public float getUnblockableResistance(ItemStack item, DamageSource source)
 	{
 		return 0F;

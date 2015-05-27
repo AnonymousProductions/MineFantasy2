@@ -43,6 +43,7 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -212,6 +213,10 @@ public class CombatMechanics
 		{
 			dam = modifyUserHitDamage(dam, (EntityLivingBase)hitter, source, hitter == source, hit, properHit);
 		}
+		if(src.isExplosion() && isSkeleton(hit))
+		{
+			dam *= 5F;
+		}
 		
 		//TODO: Elemental resistance
     	dam *= TacticalManager.getResistance(hit, src);
@@ -224,6 +229,11 @@ public class CombatMechanics
     	}
     	dam = onUserHit(hit, hitter, src, dam, properHit);
 		return dam;
+	}
+
+	private boolean isSkeleton(Entity target) 
+	{
+		return target instanceof EntitySkeleton;
 	}
 
 	//TODO: damage modifier
@@ -239,6 +249,26 @@ public class CombatMechanics
 				if(powerAttack == 1)
 				{
 					dam *= (2F/1.5F);
+					if(isSkeleton(target))
+					{
+						dam *= 1.5F;
+						if(properHit)
+						{
+							if(rand.nextInt(2) == 0)
+							{
+								target.entityDropItem(new ItemStack(Items.bone), 0.5F);
+							}
+							if(rand.nextInt(10) == 0)
+							{
+								dam = 100;
+								for(int a = 0; a < 3 + rand.nextInt(3); a++)
+								{
+									target.entityDropItem(new ItemStack(Items.bone), 1F);
+									target.worldObj.createExplosion(target, target.posX, target.posY, target.posZ, 0F, false);
+								}
+							}
+						}
+					}
 					onPowerAttack(dam, user, target, properHit);
 				}
 				if(powerAttack == -1)
@@ -766,6 +796,10 @@ public class CombatMechanics
 					mob.setSprinting(true);
 				}
 			}
+			if(living.isBurning())
+			{
+				panic(living, 0.25F, 5);
+			}
 		}
 	}
 	private boolean isAxe(ItemStack held) 
@@ -859,5 +893,29 @@ public class CombatMechanics
 				SkillList.acrobatics.addXP((EntityPlayer) event.entityLiving, 4);
 			}
 		}
+	}
+	
+	/*
+	 * Causes the victim to 'Spaz out' which never stops being funny (Apply every tick)
+	 */
+	public static void panic(EntityLivingBase victim, float speed, int directionTimer)
+	{
+		double moveX = victim.getEntityData().getDouble("MF2_PanicX");
+		double moveZ = victim.getEntityData().getDouble("MF2_PanicZ");
+    	victim.setJumping(true);
+    	
+    	if((moveX == 0 && moveZ == 0) || rand.nextInt(directionTimer) == 0)
+    	{
+    		 moveX = (rand.nextDouble()-0.5D)*0.85D * speed;
+    		 moveZ = (rand.nextDouble()-0.5D)*0.85D * speed;
+    		 
+    		 victim.getEntityData().setDouble("MF2_PanicX", moveX);
+    		 victim.getEntityData().setDouble("MF2_PanicZ", moveZ);
+    		 if(victim.onGround)victim.motionY = 0.25F;
+    		 victim.rotationYaw = (float)(Math.atan2(moveX, moveZ));
+    	}
+    	victim.swingItem();
+    	victim.limbSwing = 1.0F;
+    	victim.moveEntity(moveX, 0D, moveZ);
 	}
 }

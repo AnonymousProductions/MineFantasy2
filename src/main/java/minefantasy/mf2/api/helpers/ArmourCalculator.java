@@ -93,15 +93,18 @@ public class ArmourCalculator
 		return (1F - (1F/ratio));
 	}
 
-	private static final String ARNBT = "MineFantasy_Armour_Rating";
-	public static int getArmourRatingLevel(EntityLivingBase user, ItemStack item, int slot)
+	private static final String ARNBT = "MineFantasy_Armour_Percentage";
+	private static final String APNBT = "MineFantasy_Armour_Rating";
+	public static float getArmourRatingLevel(EntityLivingBase user, ItemStack item, int slot)
 	{
 		float pieceScale;
 		if(item == null)return 0;
 		
-		if(item.hasTagCompound() && item.getTagCompound().hasKey(ARNBT))
+		String nbt = usePercentage ? APNBT : ARNBT;
+		
+		if(item.hasTagCompound() && item.getTagCompound().hasKey(nbt))
 		{
-			return item.getTagCompound().getInteger(ARNBT);
+			return item.getTagCompound().getFloat(nbt);
 		}
 		if(item.getItem() instanceof IArmourRating)
 		{
@@ -112,15 +115,21 @@ public class ArmourCalculator
 			pieceScale = estimateScale(item, slot);
 		}
 		
-		double totalPercent = getArmourPercentage(user, item, slot)/pieceScale;
+		double totalPercent = getArmourPercentage(user, item, slot);
+		if(!usePercentage)
+		{
+			totalPercent /= pieceScale;
+		}
 		double ratio = (1D / (1D - totalPercent) - 1)*pieceScale;
 		
 		int AR = (int)Math.round(ratio*armourRatingScale);
+		float value = usePercentage ? (float)(totalPercent*100F) : AR;
 		
 		if(!item.hasTagCompound())item.setTagCompound(new NBTTagCompound());
-		item.getTagCompound().setInteger(ARNBT, AR);
-		return AR;
+		item.getTagCompound().setFloat(ARNBT, value);
+		return value;
 	}
+	public static boolean usePercentage = true;
 	
 	private static float estimateScale(ItemStack item, int slot) 
 	{
