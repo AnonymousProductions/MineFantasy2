@@ -303,4 +303,11 @@ public class ToolHelper
 		}
 		return stringList;
 	}
+	public static boolean isToolSufficient(ItemStack heldItem, String toolNeeded, int toolTierNeeded) 
+	{
+		String toolType = getCrafterTool(heldItem);
+		int tier = getCrafterTier(heldItem);
+		
+		return toolType.equalsIgnoreCase(toolNeeded) && tier >= toolTierNeeded;
+	}
 }

@@ -5,6 +5,7 @@ import java.awt.Color;
 import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.archery.IDisplayMFArrows;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
@@ -233,10 +234,11 @@ public class MineFantasyHUD extends Gui
         
         if(knowsCraft && !tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
         {
-        	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPos-20, yPos);
+        	boolean available = ToolHelper.isToolSufficient(player.getHeldItem(), tile.getToolNeeded(), tile.getToolTierNeeded());
+        	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPos-20, yPos, available);
         	if(tile.getAnvilTierNeeded() > -1)
         	{
-        		GuiHelper.renderToolIcon(this, "anvil", tile.getAnvilTierNeeded(), xPos+172, yPos);
+        		GuiHelper.renderToolIcon(this, "anvil", tile.getAnvilTierNeeded(), xPos+172, yPos, tile.tier >= tile.getAnvilTierNeeded());
         	}
         }
         
@@ -265,7 +267,8 @@ public class MineFantasyHUD extends Gui
         
         if(knowsCraft && !tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
         {
-        	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPos-20, yPos);
+        	boolean available = ToolHelper.isToolSufficient(player.getHeldItem(), tile.getToolNeeded(), tile.getToolTierNeeded());
+        	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPos-20, yPos, available);
         }
         
         GL11.glPopMatrix();
@@ -296,9 +299,11 @@ public class MineFantasyHUD extends Gui
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         
         String resName = tile.getResultName();
+        
         if(knowsCraft && !resName.equalsIgnoreCase("") && tile.toolType != null)
         {
-        	GuiHelper.renderToolIcon(this, tile.toolType, tile.tier, xPos-20, yPos);
+        	boolean available = ToolHelper.isToolSufficient(player.getHeldItem(), "knife", -1);
+        	GuiHelper.renderToolIcon(this, tile.toolType, tile.tier, xPos-20, yPos, available);
         }
         
         GL11.glPopMatrix();

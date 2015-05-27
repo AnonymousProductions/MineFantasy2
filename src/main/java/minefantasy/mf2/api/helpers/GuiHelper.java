@@ -1,5 +1,7 @@
 package minefantasy.mf2.api.helpers;
 
+import org.lwjgl.opengl.GL11;
+
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -7,18 +9,23 @@ import net.minecraft.client.gui.Gui;
 public class GuiHelper
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
-	public static void renderToolIcon(Gui screen, String toolType, int tier, int x, int y)
+	public static void renderToolIcon(Gui screen, String toolType, int tier, int x, int y, boolean available)
 	{
-		renderToolIcon(screen, toolType, tier, x, y, false);
+		renderToolIcon(screen, toolType, tier, x, y, false, available);
 	}
-	public static void renderToolIcon(Gui screen, String toolType, int tier, int x, int y, boolean outline)
+	public static void renderToolIcon(Gui screen, String toolType, int tier, int x, int y, boolean outline, boolean available)
 	{
+		if(!available)
+		{
+			GL11.glColor3f(1.0F, 0.3F, 0.3F);
+		}
 		mc.getTextureManager().bindTexture(TextureHelperMF.getResource("textures/gui/icons.png"));
         int[] icon = getToolTypeIcon(toolType);
         screen.drawTexturedModalRect(x, y, outline ? 20 : 0, 0, 20, 20);
         screen.drawTexturedModalRect(x, y, icon[0], icon[1]+20, 20, 20);
         if(tier > -1)
         mc.fontRenderer.drawStringWithShadow(""+tier, x + 4, y + 10, 16777215);
+        GL11.glColor3f(1F, 1F, 1F);
 	}
 	public static int[] getToolTypeIcon(String s)
 	{
@@ -71,5 +78,7 @@ public class GuiHelper
 		}
 		return new int[]{0, 0};
 	}
-
+	public static int getColourForRGB(int red, int green, int blue) {
+		return (red << 16) + (green << 8) + blue;
+	}
 }

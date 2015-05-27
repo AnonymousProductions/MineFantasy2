@@ -315,8 +315,8 @@ public class CombatMechanics
     		}
     		if(weapon.getItem() instanceof IToolMaterial)
     		{
-    			//TODO: Undead Bonus
-    			if(isMaterialUndeadKiller(((IToolMaterial)weapon.getItem()).getMaterial()))
+    			IToolMaterial mat = (IToolMaterial)weapon.getItem();
+    			if(this.isMaterialUndeadKiller(mat.getMaterial()))
     			{
     				dam = hurtUndead(user, target, dam, properHit);
     			}
@@ -425,11 +425,16 @@ public class CombatMechanics
     {
     	if(entityHit instanceof EntityLivingBase && ((EntityLivingBase)entityHit).isEntityUndead())
 		{
+    		EntityLivingBase living = (EntityLivingBase)entityHit;
     		dam *= specialUndeadModifier;
     		if(properHit)
 			{
-	    		entityHit.setFire(10);
 	    		entityHit.playSound("random.fizz", 0.5F, 0.5F);
+	    		if(living.getHealth() <= dam || rand.nextInt(10) == 0)
+	    		{
+	    			dam *= 100F;
+	    			living.worldObj.createExplosion(living, living.posX, living.posY+living.getEyeHeight(), living.posZ, 0.0F, false);
+	    		}
 			}
 		}
 		if(entityHit.getClass().getName().contains("Werewolf"))
@@ -438,7 +443,6 @@ public class CombatMechanics
 			
 			if(properHit)
 			{
-	    		entityHit.setFire(10);
 	    		entityHit.playSound("random.fizz", 0.6F, 0.5F);
 			}
 		}

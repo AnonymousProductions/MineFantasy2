@@ -2,6 +2,7 @@ package minefantasy.mf2.client.gui;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.GuiHelper;
+import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.container.ContainerCarpenterMF;
@@ -48,7 +49,7 @@ public class GuiCarpenterMF extends GuiContainer
 		        if(x < xPoint && x > xPoint-20 && y < yPoint+20 && y > yPoint)
 		        {
 		        	String s2 = StatCollector.translateToLocal("tooltype."+tile.getToolNeeded()) + ", "  + (tile.getToolTierNeeded() > -1 ? StatCollector.translateToLocal("attribute.mfcrafttier.name") + " " + tile.getToolTierNeeded() : StatCollector.translateToLocal("attribute.nomfcrafttier.name"));
-		        	this.fontRendererObj.drawStringWithShadow(s2, -18, -12, 16777215);
+		        	this.fontRendererObj.drawStringWithShadow(s2, -18, -12, isToolSufficient() ? 16777215 : GuiHelper.getColourForRGB(150, 0, 0));
 		        }
 	        }
 	        if(x < xPoint+regularXSize+20 && x > xPoint+regularXSize && y < yPoint+20 && y > yPoint)
@@ -75,16 +76,24 @@ public class GuiCarpenterMF extends GuiContainer
         }
         if(tile.doesPlayerKnowCraft(mc.thePlayer) && !tile.resName.equalsIgnoreCase(""))
         {
-        	GuiHelper.renderToolIcon(this, "carpenter", tile.getCarpenterTierNeeded(), xPoint+regularXSize, yPoint);
+        	GuiHelper.renderToolIcon(this, "carpenter", tile.getCarpenterTierNeeded(), xPoint+regularXSize, yPoint, true);
         	
 	        if(tile.getToolNeeded() != null)
 	        {
-	        	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPoint-20, yPoint);
+	        	GuiHelper.renderToolIcon(this, tile.getToolNeeded(), tile.getToolTierNeeded(), xPoint-20, yPoint, isToolSufficient());
 	        }
         }
     }
-    
-    @Override
+    private boolean isToolSufficient() 
+    {
+    	if(mc.thePlayer != null)
+    	{
+    		return ToolHelper.isToolSufficient(mc.thePlayer.getHeldItem(), tile.getToolNeeded(), tile.getToolTierNeeded());
+    	}
+		return false;
+	}
+
+	@Override
     public void drawScreen(int x, int y, float f)
     {
         super.drawScreen(x, y, f);

@@ -27,7 +27,7 @@ import net.minecraft.world.WorldServer;
 
 public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 {
-	private int tier;
+	public int tier;
 	private ItemStack[] inventory;
 	private Random rand = new Random();
 	private int	ticksExisted;
