@@ -22,7 +22,7 @@ public class KnowledgePageRegistry
 		KnowledgeListMF.ores.addPages(new EntryPageText("knowledge.ores.paragraph_1"));
 		KnowledgeListMF.ores.addPages(assembleOreDesc("copper", BlockListMF.oreCopper, ComponentListMF.ingots[0]));
 		KnowledgeListMF.ores.addPages(assembleOreDesc("tin", BlockListMF.oreTin, ComponentListMF.ingots[1]));
-		KnowledgeListMF.ores.addPages(assembleOreDesc("silver", BlockListMF.oreSilver, ComponentListMF.ingots[9]));
+		KnowledgeListMF.ores.addPages(assembleOreDesc("silver", BlockListMF.oreSilver, ComponentListMF.ingots[8]));
 		KnowledgeListMF.ores.addPages(assembleOreDesc("mythic", BlockListMF.oreMythic));
 		KnowledgeListMF.ores.addPages(new EntryPageText("knowledge.ores.paragraph_2"));
 		KnowledgeListMF.ores.addPages(assembleOreDesc("clay", BlockListMF.oreClay));
@@ -39,7 +39,7 @@ public class KnowledgePageRegistry
 		KnowledgeListMF.crucible2.addPages(new EntryPageText("knowledge.crucible2.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.advCrucibleRecipe));
 		KnowledgeListMF.smeltBronze.addPages(new EntryPageText("knowledge.smeltBronze.paragraph_1"), new EntryPageSmelting(new ItemStack(BlockListMF.oreCopper), new ItemStack(ComponentListMF.ingots[0])), new EntryPageSmelting(new ItemStack(BlockListMF.oreTin), new ItemStack(ComponentListMF.ingots[1])));
     	KnowledgeListMF.anvil.addPages(new EntryPageText("knowledge.anvil.paragraph_1", "knowledge.anvil.paragraph_2", "knowledge.anvil.paragraph_3"), new EntryPageRecipeBase(BasicRecipesMF.recipeMap.get("anvilCrafting")), new EntryPageText( "knowledge.anvil.paragraph_4", "knowledge.anvil.paragraph_5"), new EntryPageImage("textures/gui/knowledge/anvilGuiExample.png", 128, 128, "knowledge.guiSubtitle"), new EntryPageText( "knowledge.anvil.paragraph_6", "knowledge.anvil.paragraph_7"));
-	    KnowledgeListMF.smeltDragonforge.addPages(new EntryPageText("knowledge.smeltDragonforge.paragraph_1"), new EntryPageRecipeAnvil(KnowledgeListMF.blackSteelNuggetR), new EntryPageRecipeAnvil(KnowledgeListMF.dragonforgeIngotRecipe));
+	    KnowledgeListMF.smeltDragonforge.addPages(new EntryPageText("knowledge.smeltDragonforge.paragraph_1"), new EntryPageText("knowledge.smeltDragonforge.paragraph_2"));
 	    KnowledgeListMF.craftArmourAdv.addPages(new EntryPageText("knowledge.craftPlate.paragraph_1"), new EntryPageRecipeAnvil(KnowledgeListMF.plateRecipes), new EntryPageRecipeAnvil(KnowledgeListMF.plateHelmetR), new EntryPageRecipeAnvil(KnowledgeListMF.plateChestR), new EntryPageRecipeAnvil(KnowledgeListMF.plateLegsR), new EntryPageRecipeAnvil(KnowledgeListMF.plateBootsR));
 	
 	    KnowledgeListMF.blastfurn.addPages(new EntryPageText("knowledge.blastfurn.paragraph_1"), new EntryPageText("knowledge.blastfurn.paragraph_2"), new EntryPageText("knowledge.blastfurn.paragraph_3"), new EntryPageText("knowledge.blastfurn.paragraph_4"));

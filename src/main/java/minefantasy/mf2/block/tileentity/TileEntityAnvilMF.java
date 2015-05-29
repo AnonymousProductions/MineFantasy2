@@ -1,5 +1,6 @@
 package minefantasy.mf2.block.tileentity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -7,17 +8,23 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvil;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
+import minefantasy.mf2.api.crafting.exotic.SpecialForging;
+import minefantasy.mf2.api.heating.Heatable;
+import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerAnvilMF;
+import minefantasy.mf2.item.heatable.ItemHeated;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.AnvilPacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -36,6 +43,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	private String lastPlayerHit = "";
 	private String toolTypeRequired = "hammer";
 	private String researchRequired = "";
+	private boolean outputHot = false;
 	
 	public TileEntityAnvilMF()
 	{
@@ -74,6 +82,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         toolTypeRequired = nbt.getString("toolTypeRequired");
         researchRequired = nbt.getString("researchRequired");
         texName = nbt.getString("TextureName");
+        outputHot = nbt.getBoolean("outputHot");
 	}
 	
 	@Override
@@ -103,6 +112,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         nbt.setString("toolTypeRequired", toolTypeRequired);
         nbt.setString("researchRequired", researchRequired);
         nbt.setString("TextureName", texName);
+        nbt.setBoolean("outputHot", outputHot);
 	}
 
 	@Override
@@ -290,25 +300,95 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	{
 		if (this.canCraft())
         {
+			ItemStack result = modifySpecials(recipe);
 			int output = getSizeInventory()-1;
-					
-            if (this.inventory[output] == null)
-            {
-            	if(recipe.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
+			
+			if(outputHot && this.inventory[output] == null)
+			{
+				MFLogUtil.logDebug("Hot Output");
+				ItemStack out = ItemHeated.createHotItem(result, averageTemp());
+            	if(result.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
             	{
-            		getNBT(recipe).setString("MF_CraftedByName", lastPlayerHit);
+            		getNBT(out).setString("MF_CraftedByName", lastPlayerHit);
             	}
-                this.inventory[output] = recipe;
-            }
-            else if (this.inventory[output].getItem() == recipe.getItem())
-            {
-                this.inventory[output].stackSize += recipe.stackSize; // Forge BugFix: Results may have multiple items
-            }
-            EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
-            consumeResources();
+                this.inventory[output] = out;
+				EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
+	            consumeResources();
+			}
+			else if (!outputHot)
+			{
+	            if (this.inventory[output] == null)
+	            {
+	            	if(result.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
+	            	{
+	            		getNBT(result).setString("MF_CraftedByName", lastPlayerHit);
+	            	}
+	                this.inventory[output] = result;
+	            }
+	            else if (this.inventory[output].getItem() == result.getItem())
+	            {
+	                this.inventory[output].stackSize += result.stackSize; // Forge BugFix: Results may have multiple items
+	            }
+	            EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
+	            consumeResources();
+			}
         }
 		onInventoryChanged();
 		progress = 0;
+	}
+	private ItemStack modifySpecials(ItemStack result) 
+	{
+		boolean hasHeart = false;
+		EntityPlayer player = worldObj.getPlayerEntityByName(lastPlayerHit);
+		//DRAGONFORGE
+		for(int x = -4; x <= 4; x++)
+		{
+			for(int y = -4; y <= 4; y++)
+			{
+				for(int z = -4; z <= 4; z++)
+				{
+					TileEntity tile = worldObj.getTileEntity(xCoord+x, yCoord+y, zCoord+z);
+					if(player != null && ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.smeltDragonforge) && tile != null && tile instanceof TileEntityForge)
+					{
+						if(((TileEntityForge)tile).dragonHeartPower > 0)
+						{
+							hasHeart = true;
+							((TileEntityForge)tile).dragonHeartPower = 0;
+							worldObj.createExplosion(null, xCoord+x, yCoord+y, zCoord+z, 1F, false);
+							break;
+						}
+					}
+				}	
+			}	
+		}
+		if(hasHeart)
+		{
+			Item DF = SpecialForging.getDragonCraft(result);
+			if(DF != null)
+			{
+				return new ItemStack(DF, result.stackSize, result.getItemDamage());
+			}
+		}
+		return result;
+	}
+	private int averageTemp() 
+	{
+		float totalTemp = 0;
+		int itemCount = 0;
+		for(int a = 0; a < getSizeInventory()-1; a++)
+		{
+			ItemStack item = getStackInSlot(a);
+			if(item != null)
+			{
+				++itemCount;
+				totalTemp += (float)Heatable.getTemp(item);
+			}
+		}
+		if(totalTemp > 0 && itemCount > 0)
+		{
+			return (int)(totalTemp / itemCount);
+		}
+		return 0;
 	}
 	private NBTTagCompound getNBT(ItemStack item)
 	{
@@ -434,6 +514,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		ItemStack resSlot = inventory[getSizeInventory()-1];
 		if(resSlot != null && result != null)
 		{
+			if(outputHot)
+			{
+				return false;
+			}
 			if(!resSlot.isItemEqual(result))
 			{
 				return false;
@@ -527,6 +611,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	@Override
 	public void setHotOutput(boolean i)
 	{
+		outputHot = i;
 	}
 	public void setContainer(ContainerAnvilMF container)
 	{

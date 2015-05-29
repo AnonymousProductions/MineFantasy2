@@ -169,6 +169,10 @@ public class ClientProxyMF extends CommonProxyMF
 			{
 				return new GuiCrucible(player.inventory, (TileEntityCrucible) tile);
 			}
+			if(tile != null && tile instanceof TileEntityForge)
+			{
+				return new GuiForge(player.inventory, (TileEntityForge) tile);
+			}
 			 return null;
 		}
 		if(ID == 1)

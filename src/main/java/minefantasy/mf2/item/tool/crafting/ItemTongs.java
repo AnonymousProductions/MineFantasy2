@@ -3,23 +3,33 @@ package minefantasy.mf2.item.tool.crafting;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.heating.TongsHelper;
+import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.tier.IToolMaterial;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -88,5 +98,122 @@ public class ItemTongs extends ItemTool implements IToolMaterial
     		ToolMaterialMF.setUnbreakable(stack);
 		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean fullInfo) {
+		super.addInformation(stack, player, list, fullInfo);
+
+		ItemStack held = TongsHelper.getHeldItem(stack);
+		if (held != null) {
+			list.add("");
+			list.add(held.getItem().getItemStackDisplayName(held));
+			held.getItem().addInformation(held, player, list, fullInfo);
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(ItemStack stack, int renderPass) 
+	{
+		ItemStack item = TongsHelper.getHeldItem(stack);
+
+		if (renderPass == 0 && item != null) {
+			return item.getItem().getIcon(item, renderPass);
+		}
+		return itemIcon;
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player)
+	{
+		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);
+
+		if (movingobjectposition == null) {
+			return item;
+		} else {
+			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+				int i = movingobjectposition.blockX;
+				int j = movingobjectposition.blockY;
+				int k = movingobjectposition.blockZ;
+
+				if (!world.canMineBlock(player, i, j, k)) {
+					return item;
+				}
+
+				if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, item)) {
+					return item;
+				}
+
+				if (isWaterSource(world, i, j, k) && TongsHelper.getHeldItem(item) != null) {
+					ItemStack drop = TongsHelper.getHeldItem(item).copy();
+					if (TongsHelper.isCoolableItem(drop)) {
+						drop = TongsHelper.getHotItem(drop);
+
+						player.playSound("random.splash", 1F, 1F);
+						player.playSound("random.fizz", 2F, 0.5F);
+
+						for (int a = 0; a < 5; a++) {
+							world.spawnParticle("largesmoke", i + 0.5F, j + 1, k + 0.5F, 0, 0.065F, 0);
+						}
+					}
+					drop.stackSize = item.stackSize;
+					if (drop != null) {
+						player.entityDropItem(drop, 0);
+					}
+
+					return TongsHelper.clearHeldItem(item, player);
+				}
+			}
+
+			return item;
+		}
+	}
+
+	private boolean isWaterSource(World world, int i, int j, int k)
+	{
+		if (world.getBlock(i, j, k).getMaterial() == Material.water) 
+		{
+			return true;
+		}
+		if (isCauldron(world, i, j, k)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isCauldron(World world, int x, int y, int z)
+	{
+		return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z) > 0;
+	}
+
+	@Override
+	public Item setUnlocalizedName(String name) {
+		this.setTextureName("mf:tool/tong/" + name);
+		return super.setUnlocalizedName(name);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses() 
+	{
+		return true;
+	}
+
+	@Override
+	public int getColorFromItemStack(ItemStack item, int renderPass)
+	{
+		if (renderPass == 1) 
+		{
+			return  GuiHelper.getColourForRGB(255, 255, 255);
+		}
+
+		ItemStack held = TongsHelper.getHeldItem(item);
+		if (held != null)
+		{
+			return held.getItem().getColorFromItemStack(held, 0);
+		}
+
+		return GuiHelper.getColourForRGB(255, 255, 255);
 	}
 }

@@ -158,6 +158,11 @@ public class CarpenterRecipes
 	
 	private static void addStonemason()
 	{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.forge), "crucible", "carving", "hammer", -1, 20 , new Object[]{
+			"S S",
+			"SSS",
+			'S', Blocks.stone,
+		});
 		KnowledgeListMF.crucibleRecipe = 
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.crucible), "crucible", "carving", "hammer", -1, 20 , new Object[]{
 			"SSS",

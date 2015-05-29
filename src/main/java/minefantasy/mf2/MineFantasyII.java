@@ -173,4 +173,12 @@ public class MineFantasyII
 	}
 	
 	private static boolean isBGLoaded;
+
+	/**
+	 * Determines if a player name is that of a MF modder
+	 */
+	public static boolean isNameModder(String name) 
+	{
+		return name.equals("Galactic_Hiker") || name.equals("tim4200");
+	}
 }

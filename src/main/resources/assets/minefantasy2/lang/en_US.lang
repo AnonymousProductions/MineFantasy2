@@ -144,6 +144,9 @@ knowledge.mineCrystal.desc=Highly sensetive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+prefix.hotitem.name=Hot %1$s
+state.workable=Workable
+state.unstable=Unstable
 attribute.nomfcrafttier.name=Any Tier
 attribute.mfcrafttier.name=Tier
 attribute.mfcrafttool.name=Crafting Tool
@@ -434,6 +437,8 @@ tile.ignotumite_block.name=Block of Ignotumite
 tile.mithium_block.name=Block of Mithium
 
 tile.ender_block.name=Block of Enderforge
+
+tile.forge.stone.name=Stone Forge
 
 tile.crucible.stone.name=Stone Crucible
 tile.crucible.fireclay.name=Fireclay Crucible

@@ -7,7 +7,6 @@ import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.api.armour.CustomDamageRatioEntry;
 import minefantasy.mf2.api.farming.CustomHoeEntry;
-import minefantasy.mf2.mechanics.HotItemsHelper;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.item.Item;
 
@@ -27,11 +26,6 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 	
 	public static String[] customDamagerList = new String[0];
 	public static String[] customDamagerEntityList = new String[0];
-	
-	public static final String CATEGORY_HI = "Hot Items";
-	
-	public static int[] temperatures = new int[0];
-	public static final int[] def_temps = new int[] {0};
 
 	@Override
 	protected void loadConfig() 
@@ -83,20 +77,6 @@ public class ConfigItemRegistry extends ConfigurationBaseMF
 		
 	    customDamagerEntityList = config.get(CATEGORY_WEPS, "Custom Entity Damage Ratios", new String[0], damageEDesc).getStringList();
 	    Arrays.sort(customDamagerEntityList);
-	    
-	    //Hot Items
-	    
-	    String HTTDesc = 
-	    		"This will set the default temperatures of the hot items in this order:\n" + 
-	    		"Max temperature\n" + 
-	            "Min temperature\n" +
-	    		"Default temperature";
-	    		
-	    		temperatures = config.get(CATEGORY_HI, "Hot Items Temperatures", def_temps, HTTDesc).getIntList();
-	    		
-	    		HotItemsHelper.setBurnTemp(temperatures[0]);
-	    		
-	    		
 	}
 	
 	public static void readCustoms()

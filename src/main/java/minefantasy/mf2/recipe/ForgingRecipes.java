@@ -556,15 +556,6 @@ public class ForgingRecipes
 		
 		material = BaseMaterialMF.dragonforge;
 		time = 5;
-		KnowledgeListMF.dragonforgeIngotRecipe = 
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[8]), "smeltDragonforge", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
-		{
-			" I ",
-			"IDI",
-			" I ",
-			'D', ComponentListMF.dragon_heart,
-			'I', ComponentListMF.hunks[7],
-		});
 		
 		//HUNKS
 		time = 1;
@@ -578,10 +569,6 @@ public class ForgingRecipes
 				{
 					"I", 'I', ingot
 				});
-				if(ingot.getItem() == ComponentListMF.ingots[7])
-				{
-					KnowledgeListMF.blackSteelNuggetR = recipe;
-				}
 				MineFantasyAPI.addAnvilRecipe(ingot, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"II",

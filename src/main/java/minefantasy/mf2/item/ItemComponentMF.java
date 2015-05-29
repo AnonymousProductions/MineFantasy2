@@ -71,7 +71,7 @@ public class ItemComponentMF extends Item
 			{
 				add(list, Items.iron_ingot);
 			}
-			if(ingot == ComponentListMF.ingots[8])
+			if(ingot == ComponentListMF.ingots[7])
 			{
 				add(list, Items.gold_ingot);
 			}

@@ -126,6 +126,9 @@ public class BlockListMF
 	
 	public static Block tanner = new BlockTanningRack();
 	
+	public static Block forge = new BlockForge("stone", 0, false);
+	public static Block forge_active = new BlockForge("stone", 0, true).setLightLevel(10F);
+	
 	public static void init()
 	{
 		for(int a = 0; a < specialMetalBlocks.length; a++)

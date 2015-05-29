@@ -30,16 +30,6 @@ public class TempRecipesMF
 		ArrayList<ItemStack> silvers = OreDictionary.getOres("ingotSilver");
 		ArrayList<ItemStack> blacks = OreDictionary.getOres("ingotBlackSteel");
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.golden_rail, 64), new Object[]
-		{
-			"I I",
-			"ISI",
-			"IRI",
-			'I', ComponentListMF.ingots[10],
-			'S', Items.stick,
-			'R', Items.redstone
-		});
-		
 		for(ItemStack steel: steels)
 		{
 			GameRegistry.addRecipe(new ItemStack(FoodListMF.pie_tray), new Object[]

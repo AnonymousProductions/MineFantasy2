@@ -9,6 +9,7 @@ import minefantasy.mf2.item.FuelHandlerMF;
 import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.ItemHide;
 import minefantasy.mf2.item.gadget.ItemBombComponent;
+import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -31,9 +32,9 @@ public class ComponentListMF
 		BaseMaterialMF.encrusted,
 		BaseMaterialMF.weakblacksteel,
 		BaseMaterialMF.blacksteel,
-		BaseMaterialMF.dragonforge,
+		//BaseMaterialMF.dragonforge,
 		BaseMaterialMF.silver,
-		BaseMaterialMF.goldPure,
+		//BaseMaterialMF.goldPure,
 		BaseMaterialMF.weakredsteel,
 		BaseMaterialMF.redsteel,
 		BaseMaterialMF.weakbluesteel,
@@ -54,7 +55,7 @@ public class ComponentListMF
 		BaseMaterialMF.steel,
 		BaseMaterialMF.encrusted,
 		BaseMaterialMF.blacksteel,
-		BaseMaterialMF.dragonforge,
+		//BaseMaterialMF.dragonforge,
 		BaseMaterialMF.silver,
 		BaseMaterialMF.gold,
 		BaseMaterialMF.redsteel,
@@ -127,6 +128,8 @@ public class ComponentListMF
 	public static Item gold_rod = new ItemComponentMF("gold_rod", 0);
 	public static Item obsidian_rod = new ItemComponentMF("obsidian_rod", 1);
 	
+	public static Item hotItem = new ItemHeated();
+	
 	public static void init() 
 	{
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
@@ -144,9 +147,11 @@ public class ComponentListMF
 			
 			ingots[a] = new ItemComponentMF("ingot"+name, rarity);
 			OreDictionary.registerOre("ingot"+name, ingots[a]);
+			MineFantasyAPI.addHeatableItems("ingot"+name, mat.workableTemp, mat.unstableTemp, mat.unstableTemp*2);
 			
 			if(name.equalsIgnoreCase("PigIron"))
 			{
+				MineFantasyAPI.addHeatableItems("ingotRefinedIron", mat.workableTemp, mat.unstableTemp, mat.unstableTemp*2);
 				OreDictionary.registerOre("ingotRefinedIron", ingots[a]);
 			}
 		}
@@ -159,6 +164,7 @@ public class ComponentListMF
 			
 			hunks[a] = new ItemComponentMF("hunk"+name, rarity);
 			OreDictionary.registerOre("hunk"+name, hunks[a]);
+			MineFantasyAPI.addHeatableItems("hunk"+name, mat.workableTemp, mat.unstableTemp, mat.unstableTemp*2);
 		}
 		
 		for(int a = 0; a < ArmourListMF.mats.length; a ++)

@@ -258,15 +258,6 @@ public class CombatMechanics
 							{
 								target.entityDropItem(new ItemStack(Items.bone), 0.5F);
 							}
-							if(rand.nextInt(10) == 0)
-							{
-								dam = 100;
-								for(int a = 0; a < 3 + rand.nextInt(3); a++)
-								{
-									target.entityDropItem(new ItemStack(Items.bone), 1F);
-									target.worldObj.createExplosion(target, target.posX, target.posY, target.posZ, 0F, false);
-								}
-							}
 						}
 					}
 					onPowerAttack(dam, user, target, properHit);

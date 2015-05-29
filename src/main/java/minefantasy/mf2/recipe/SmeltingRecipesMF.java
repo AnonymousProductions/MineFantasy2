@@ -20,21 +20,19 @@ public class SmeltingRecipesMF {
 		GameRegistry.addSmelting(BlockListMF.anvil[1], new ItemStack(Items.iron_ingot, 6), 0.0F);
 		GameRegistry.addSmelting(BlockListMF.anvil[2], new ItemStack(ComponentListMF.ingots[4], 6), 0.0F);
 		GameRegistry.addSmelting(BlockListMF.anvil[3], new ItemStack(ComponentListMF.ingots[7], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[4], new ItemStack(ComponentListMF.ingots[14], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[5], new ItemStack(ComponentListMF.ingots[12], 6), 0.0F);
+		GameRegistry.addSmelting(BlockListMF.anvil[4], new ItemStack(ComponentListMF.ingots[12], 6), 0.0F);
+		GameRegistry.addSmelting(BlockListMF.anvil[5], new ItemStack(ComponentListMF.ingots[10], 6), 0.0F);
 		
 		
 		GameRegistry.addSmelting(BlockListMF.oreCopper, new ItemStack(ComponentListMF.ingots[0]), 0.4F);
 		GameRegistry.addSmelting(BlockListMF.oreTin, new ItemStack(ComponentListMF.ingots[1]), 0.5F);
-		GameRegistry.addSmelting(BlockListMF.oreSilver, new ItemStack(ComponentListMF.ingots[9]), 0.9F);
+		GameRegistry.addSmelting(BlockListMF.oreSilver, new ItemStack(ComponentListMF.ingots[8]), 0.9F);
 		
 		GameRegistry.addSmelting(BlockListMF.oreBorax, new ItemStack(ComponentListMF.flux_strong, 4), 0.25F);
 		GameRegistry.addSmelting(BlockListMF.oreKaolinite, new ItemStack(ComponentListMF.kaolinite), 0.25F);
 		GameRegistry.addSmelting(BlockListMF.oreNitre, new ItemStack(ComponentListMF.nitre, 4), 0.25F);
 		GameRegistry.addSmelting(BlockListMF.oreSulfur, new ItemStack(ComponentListMF.sulfur, 4), 0.25F);
 		GameRegistry.addSmelting(BlockListMF.oreClay, new ItemStack(Items.clay_ball, 4), 0.25F);
-		
-		GameRegistry.addSmelting(ComponentListMF.ingots[6], new ItemStack(ComponentListMF.ingots[7]), 0.8F);
 		
 		GameRegistry.addSmelting(ComponentListMF.fireclay_brick, new ItemStack(ComponentListMF.strong_brick), 0.1F);
 		GameRegistry.addSmelting(ComponentListMF.bomb_casing_uncooked, new ItemStack(ComponentListMF.bomb_casing), 0F);
@@ -44,10 +42,6 @@ public class SmeltingRecipesMF {
 		MineFantasyAPI.addRatioAlloy(3, new ItemStack(ComponentListMF.ingots[2], 3), new Object[]{
 			ComponentListMF.ingots[0], ComponentListMF.ingots[0], ComponentListMF.ingots[1]
 		});
-		
-		MineFantasyAPI.addRatioAlloy(3, new ItemStack(ComponentListMF.ingots[10]), new Object[]{
-			Items.gold_ingot, Items.gold_ingot, ComponentListMF.flux_strong
-		});	
 		
 		ArrayList<ItemStack> pigs = OreDictionary.getOres("ingotPigIron");
 		ArrayList<ItemStack> steels = OreDictionary.getOres("ingotSteel");
@@ -73,32 +67,32 @@ public class SmeltingRecipesMF {
 		}
 		for(ItemStack steel: blacks)
 		{
-			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[11]), 1, new Object[]
+			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[9]), 1, new Object[]
 			{
 				steel, Items.gold_ingot, Items.redstone, ComponentListMF.flux_strong, Items.blaze_powder
 			});
 		for(ItemStack silver: silvers)
 		{
-			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[13]), 1, new Object[]
+			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[11]), 1, new Object[]
 			{
 				steel, silver, new ItemStack(Items.dye, 1, 4), ComponentListMF.flux_strong, Items.blaze_powder
 			});
 		}
 		}
-		MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[15], 2), 1, new Object[]
+		MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[13], 2), 1, new Object[]
 		{
-			ComponentListMF.ingots[12], BlockListMF.oreMythic, Items.gold_ingot, Items.gold_ingot
+			ComponentListMF.ingots[10], BlockListMF.oreMythic, Items.gold_ingot, Items.gold_ingot
 		});
 		for(ItemStack silver: silvers)
 		{
-			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[16], 2), 1, new Object[]
+			MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[14], 2), 1, new Object[]
 			{
-				ComponentListMF.ingots[14], BlockListMF.oreMythic, silver, silver
+				ComponentListMF.ingots[12], BlockListMF.oreMythic, silver, silver
 			});
 		}
 		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[6], new ItemStack(ComponentListMF.ingots[7]));
+		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[9], new ItemStack(ComponentListMF.ingots[10]));
 		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[11], new ItemStack(ComponentListMF.ingots[12]));
-		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[13], new ItemStack(ComponentListMF.ingots[14]));
 	}
 
 }

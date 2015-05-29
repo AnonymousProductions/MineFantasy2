@@ -485,7 +485,7 @@ public class EventManagerMF
 			if(event.itemStack.hasTagCompound() && event.itemStack.getTagCompound().hasKey("MF_CraftedByName"))
 			{
 				String name = event.itemStack.getTagCompound().getString("MF_CraftedByName");
-				boolean special = name.equals("Galactic_Hiker") || name.equals("tim4200");//Mod creators have highlights
+				boolean special = MineFantasyII.isNameModder(name);//Mod creators have highlights
 				
 				event.toolTip.add((special ? EnumChatFormatting.GREEN : "") + StatCollector.translateToLocal("attribute.mfcraftedbyname.name") + ": " + name + EnumChatFormatting.GRAY);
 			}

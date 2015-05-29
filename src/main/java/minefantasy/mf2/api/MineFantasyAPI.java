@@ -12,6 +12,9 @@ import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
+import minefantasy.mf2.api.heating.ForgeFuel;
+import minefantasy.mf2.api.heating.ForgeItemHandler;
+import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.knowledge.KnowledgeType;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
@@ -23,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class MineFantasyAPI 
 {
@@ -275,5 +279,138 @@ public class MineFantasyAPI
         }
         
         return arraylist;
+	}
+	
+	/**
+	 * Adds a fuel for forges
+	 * 
+	 * @param item
+	 *            the item ID to be used
+	 * @param meta
+	 *            the item Meta to be used
+	 * @param dura
+	 *            the amount of ticks said item gives
+	 * @param temperature
+	 *            the base temperature given
+	 * @param willLight
+	 *            weather the fuel lights forges(like lava)
+	 */
+	public static void addForgeFuel(Item item, int meta, float dura, int temperature, boolean willLight) {
+		addForgeFuel(new ItemStack(item, 1, meta), dura, temperature, willLight);
+	}
+
+	/**
+	 * Adds a fuel for forges
+	 * 
+	 * @param item
+	 *            the item ID to be used
+	 * @param meta
+	 *            the item Meta to be used
+	 * @param dura
+	 *            the amount of ticks said item gives
+	 * @param temperature
+	 *            the base temperature given
+	 */
+	public static void addForgeFuel(Item item, int meta, float dura, int temperature) {
+		addForgeFuel(item, meta, dura, temperature, false);
+	}
+
+	/**
+	 * Adds a fuel for forges
+	 * 
+	 * @param item
+	 *            the item to be used
+	 * @param dura
+	 *            the amount of ticks said item gives
+	 * @param temperature
+	 *            the base temperature given
+	 * @param willLight
+	 *            weather the fuel lights forges(like lava)
+	 */
+	public static void addForgeFuel(ItemStack item, float dura, int temperature, boolean willLight) {
+		ForgeItemHandler.forgeFuel.add(new ForgeFuel(item, dura, temperature, willLight));
+		if ((int) (temperature * 1.25) > ForgeItemHandler.forgeMaxTemp) {
+			ForgeItemHandler.forgeMaxTemp = (int) (temperature * 1.25);
+		}
+	}
+
+	/**
+	 * Adds a fuel for forges
+	 * 
+	 * @param item
+	 *            the item to be used
+	 * @param dura
+	 *            the amount of ticks said item gives
+	 * @param temperature
+	 *            the base temperature given
+	 * @param willLight
+	 *            weather the fuel lights forges(like lava)
+	 */
+	public static void addForgeFuel(Item id, float dura, int temperature, boolean willLight) {
+		addForgeFuel(new ItemStack(id, 2, OreDictionary.WILDCARD_VALUE), dura, temperature, willLight);
+	}
+
+	/**
+	 * Adds a fuel for forges
+	 * 
+	 * @param item
+	 *            the item to be used
+	 * @param dura
+	 *            the amount of ticks said item gives
+	 * @param temperature
+	 *            the base temperature given
+	 */
+	public static void addForgeFuel(ItemStack item, float dura, int temperature) {
+		addForgeFuel(item, dura, temperature, false);
+	}
+
+	/**
+	 * Adds a fuel for forges
+	 * 
+	 * @param item
+	 *            the item to be used
+	 * @param dura
+	 *            the amount of ticks said item gives
+	 * @param temperature
+	 *            the base temperature given
+	 */
+	public static void addForgeFuel(Item id, float dura, int temperature) {
+		addForgeFuel(id, dura, temperature, false);
+	}
+
+	/**
+	 * Allows an item to be heated
+	 * 
+	 * @param item
+	 *            the item to heat
+	 * @param min
+	 *            the minimum heat to forge with(celcius)
+	 * @param max
+	 *            the maximum heat until the item is ruined(celcius)
+	 */
+	public static void addHeatableItem(ItemStack item, int min, int unstable, int max) {
+		Heatable.addItem(item, min, unstable, max);
+	}
+
+	/**
+	 * Allows an item to be heated ignoring subId
+	 * 
+	 * @param id
+	 *            the item to heat
+	 * @param min
+	 *            the minimum heat to forge with(celcius)
+	 * @param max
+	 *            the maximum heat until the item is ruined(celcius)
+	 */
+	public static void addHeatableItem(Item id, int min, int unstable, int max) {
+		Heatable.addItem(new ItemStack(id, 1, OreDictionary.WILDCARD_VALUE), min, unstable, max);
+	}
+	
+	public static void addHeatableItems(String oredict, int min, int unstable, int max)
+	{
+		for(ItemStack item : OreDictionary.getOres(oredict))
+		{
+			addHeatableItem(item, min, unstable, max);
+		}
 	}
 }

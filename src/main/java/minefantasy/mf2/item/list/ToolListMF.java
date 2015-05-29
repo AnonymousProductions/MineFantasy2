@@ -1,5 +1,6 @@
 package minefantasy.mf2.item.list;
 
+import minefantasy.mf2.api.crafting.exotic.SpecialForging;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.ItemBandage;
 import minefantasy.mf2.item.ItemBucketMF;
@@ -212,6 +213,25 @@ public class ToolListMF
 				hvyshovels[a-1] = new ItemHvyShovel(matName+"_hvyShovel", mat, rarity);
 				mattocks[a-1] = new ItemMattock(matName+"_mattock", mat, rarity);
 			}
+			SpecialForging.addDragonforgeCraft(picks[5], picks[6]);
+			SpecialForging.addDragonforgeCraft(axes[5], axes[6]);
+			SpecialForging.addDragonforgeCraft(spades[5], spades[6]);
+			SpecialForging.addDragonforgeCraft(hoes[5], hoes[6]);
+			
+			SpecialForging.addDragonforgeCraft(shears[5], shears[6]);
+			SpecialForging.addDragonforgeCraft(knives[5], knives[6]);
+			SpecialForging.addDragonforgeCraft(hammers[5], hammers[6]);
+			SpecialForging.addDragonforgeCraft(tongs[5], tongs[6]);
+			SpecialForging.addDragonforgeCraft(needles[5], needles[6]);
+			SpecialForging.addDragonforgeCraft(saws[5], saws[6]);
+			
+			SpecialForging.addDragonforgeCraft(hvyHammers[4], hvyHammers[5]);
+			SpecialForging.addDragonforgeCraft(hvypicks[4], hvypicks[5]);
+			SpecialForging.addDragonforgeCraft(handpicks[4], handpicks[5]);
+			SpecialForging.addDragonforgeCraft(trows[4], trows[5]);
+			SpecialForging.addDragonforgeCraft(scythes[4], scythes[5]);
+			SpecialForging.addDragonforgeCraft(hvyshovels[4], hvyshovels[5]);
+			SpecialForging.addDragonforgeCraft(mattocks[4], mattocks[5]);
 		}
 		
 		
@@ -246,6 +266,21 @@ public class ToolListMF
 				bodkinArrows[a-1] = new ItemArrowMF(matName, rarity, mat, ArrowType.BODKIN);
 				broadArrows[a-1] = new ItemArrowMF(matName, rarity, mat, ArrowType.BROADHEAD);
 			}
+			
+			SpecialForging.addDragonforgeCraft(swords[6], swords[7]);
+			SpecialForging.addDragonforgeCraft(waraxes[6], waraxes[7]);
+			SpecialForging.addDragonforgeCraft(maces[6], maces[7]);
+			SpecialForging.addDragonforgeCraft(spears[6], spears[7]);
+			SpecialForging.addDragonforgeCraft(bows[6], bows[7]);
+			SpecialForging.addDragonforgeCraft(arrows[6], arrows[7]);
+			
+			SpecialForging.addDragonforgeCraft(greatswords[5], greatswords[6]);
+			SpecialForging.addDragonforgeCraft(battleaxes[5], battleaxes[6]);
+			SpecialForging.addDragonforgeCraft(warhammers[5], warhammers[6]);
+			SpecialForging.addDragonforgeCraft(halbeards[5], halbeards[6]);
+			SpecialForging.addDragonforgeCraft(lances[5], lances[6]);
+			SpecialForging.addDragonforgeCraft(bodkinArrows[5], bodkinArrows[6]);
+			SpecialForging.addDragonforgeCraft(broadArrows[5], broadArrows[6]);
 		}
 		
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(hammers[2]), 5, 5, 5));

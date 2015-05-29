@@ -2,6 +2,7 @@ package minefantasy.mf2.item.list;
 
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
+import minefantasy.mf2.api.crafting.exotic.SpecialForging;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.entity.EntityLivingBase;
@@ -84,6 +85,11 @@ public class ArmourListMF
 				fieldplate[id2+2] = new ItemArmourMF(matName.toLowerCase()+"_plate_legs", baseMat, ArmourDesign.PLATE, 2, matName.toLowerCase()+"_plate_layer_2", rarity);
 				fieldplate[id2+3] = new ItemArmourMF(matName.toLowerCase()+"_plate_boots", baseMat, ArmourDesign.PLATE, 3, matName.toLowerCase()+"_plate_layer_1", rarity);
 			}
+		}
+		for(int a = 0; a < 4; a++)
+		{
+			SpecialForging.addDragonforgeCraft(chainmail[5*4+a], chainmail[6*4+a]);
+			SpecialForging.addDragonforgeCraft(fieldplate[4*4+a], fieldplate[5*4+a]);
 		}
 	}
 	
