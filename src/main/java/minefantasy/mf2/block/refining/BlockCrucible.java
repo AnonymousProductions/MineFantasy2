@@ -205,11 +205,11 @@ public class BlockCrucible extends BlockContainer
 	@SideOnly(Side.CLIENT)
     public Item getItem(World world, int x, int y, int z)
     {
-        return Item.getItemFromBlock(BlockListMF.crucible);
+        return Item.getItemFromBlock(getInactiveBlock(tier));
     }
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fort)
     {
-        return Item.getItemFromBlock(BlockListMF.crucible);
+        return Item.getItemFromBlock(getInactiveBlock(tier));
     }
 }

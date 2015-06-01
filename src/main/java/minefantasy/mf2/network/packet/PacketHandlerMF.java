@@ -30,6 +30,7 @@ public class PacketHandlerMF
         packetList.put(ChimneyPacket.packetName, new ChimneyPacket());
         packetList.put(SkillPacket.packetName, new SkillPacket());
         packetList.put(LevelupPacket.packetName, new LevelupPacket());
+        packetList.put(ForgePacket.packetName, new ForgePacket());
     }
 
     @SubscribeEvent

@@ -43,7 +43,6 @@ public class ItemTongs extends ItemTool implements IToolMaterial
         this.material = material;
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
-        
         setTextureName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
@@ -185,12 +184,6 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 	public boolean isCauldron(World world, int x, int y, int z)
 	{
 		return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z) > 0;
-	}
-
-	@Override
-	public Item setUnlocalizedName(String name) {
-		this.setTextureName("mf:tool/tong/" + name);
-		return super.setUnlocalizedName(name);
 	}
 
 	@Override

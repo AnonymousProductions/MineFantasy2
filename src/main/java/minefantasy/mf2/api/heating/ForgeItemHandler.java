@@ -12,6 +12,29 @@ public class ForgeItemHandler
 	public static List<ForgeFuel> forgeFuel = new ArrayList();
 	public static int forgeMaxTemp = 0;
 
+	public static void addFuel(ItemStack item, int fuel, int heat, boolean willLight)
+	{
+		forgeFuel.add(new ForgeFuel(item, fuel, heat, willLight));
+	}
+	public static ForgeFuel getStats(ItemStack item)
+	{
+		if (item == null)
+			return null;
+
+		for (ForgeFuel fuel : forgeFuel) 
+		{
+			if (fuel != null) 
+			{
+				if (fuel.fuel.getItem() == item.getItem()) 
+				{
+					if (fuel.fuel.getItemDamage() == OreDictionary.WILDCARD_VALUE || fuel.fuel.getItemDamage() == item.getItemDamage()) {
+						return fuel;
+					}
+				}
+			}
+		}
+		return null;
+	}
 	/**
 	 * Gets the amount of smelts for an item
 	 * 

@@ -60,7 +60,7 @@ public class BaseMaterialMF
 	//Basic / Common Materials (0-2) Levels 0-50
 	public static BaseMaterialMF copper		 = addMaterial("Copper",		  0, 250,   1,     1.5F, 1.0F,    5,        1.00F, 0).setForgeStats(0, 0, 1.0F,  95, 150); //lvl 0
 	public static BaseMaterialMF bronze    	 = addMaterial("Bronze", 	      1, 500,  	2,        1.5F,       5 ,       1.00F, 5).setForgeStats(1, 1, 2.5F,  100, 150); //lvl 5
-	public static BaseMaterialMF iron   	 = addMaterial("Iron",            2, 600,  	2,        2.0F,       5 ,       1.00F, 15).setForgeStats(2, 2, 2.0F, 100, 175); //lvl 15
+	public static BaseMaterialMF iron   	 = addMaterial("Iron",            2, 600,  	2,        2.0F,       5 ,       1.00F, 15).setForgeStats(2, 2, 2.0F, 90, 175); //lvl 15
 	public static BaseMaterialMF steel       = addMaterial("Steel",           3, 1000, 	2,        2.5F,       10,       1.00F, 25).setForgeStats(3, 3, 2.5F, 120, 200); //lvl 25
 	public static BaseMaterialMF encrusted   = addMaterial("Encrusted",       3, 2500, 	3,        3.0F,       18,       1.00F, 35).setForgeStats(3, 3, 5.0F, 175, 200); //lvl 30
 	

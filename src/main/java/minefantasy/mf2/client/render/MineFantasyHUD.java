@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.archery.IDisplayMFArrows;
+import minefantasy.mf2.api.crafting.IBasicMetre;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -64,6 +65,10 @@ public class MineFantasyHUD extends Gui
 				if(tile instanceof TileEntityTanningRack)
 				{
 					this.renderCraftMetre(world, player, (TileEntityTanningRack)tile);
+				}
+				if(tile instanceof IBasicMetre)
+				{
+					this.renderCraftMetre(world, player, (IBasicMetre)tile);
 				}
 			}
 		}
@@ -306,6 +311,26 @@ public class MineFantasyHUD extends Gui
         	GuiHelper.renderToolIcon(this, tile.toolType, tile.tier, xPos-20, yPos, available);
         }
         
+        GL11.glPopMatrix();
+	}
+	
+	private void renderCraftMetre(World world, EntityPlayer player, IBasicMetre tile) 
+	{
+		GL11.glPushMatrix();
+		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
+        int width = scaledresolution.getScaledWidth();
+        int height = scaledresolution.getScaledHeight();
+        
+        bindTexture("textures/gui/hud_overlay.png");
+        int xPos = width/2 + -86;
+        int yPos = height - 69;
+        
+        this.drawTexturedModalRect(xPos, yPos, 84, 0, 172, 20);
+        this.drawTexturedModalRect(xPos+6, yPos+12, 90, 20, tile.getMetreScale(160), 3);
+        
+        String s = tile.getLocalisedName();
+        mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
+        GL11.glColor3f(1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
 	}
 }

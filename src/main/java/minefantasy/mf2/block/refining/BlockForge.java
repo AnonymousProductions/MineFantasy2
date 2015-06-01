@@ -7,7 +7,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.heating.ForgeFuel;
+import minefantasy.mf2.api.heating.ForgeItemHandler;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.tool.ILighter;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityForge;
 import minefantasy.mf2.item.list.ComponentListMF;
@@ -22,6 +25,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -53,6 +57,8 @@ public class BlockForge extends BlockContainer
 		this.setHardness(5F);
 		this.setResistance(8F);
         this.setCreativeTab(CreativeTabMF.tabUtil);
+        setBlockBounds(0F, 0F, 0F, 1F, 0.5F, 1F);
+        this.setLightOpacity(0);
 	}
 	
 	@Override
@@ -183,6 +189,35 @@ public class BlockForge extends BlockContainer
     	{
     		if(held != null)
     		{
+    			if(!isActive && held.getItem() instanceof ILighter || held.getItem() instanceof ItemFlintAndSteel)
+    			{
+    				if(held.getItem() instanceof ILighter)
+    				{
+    					ILighter custom = (ILighter)held.getItem();
+    					if(custom.canLight() && rand.nextDouble() >= custom.getChance())
+    					{
+    						tile.fireUpForge();
+    					}
+    				}
+    				else if(held.getItem() instanceof ItemFlintAndSteel)
+    				{
+    					tile.fireUpForge();
+    				}
+    				return true;
+    			}
+    			ForgeFuel stats = ForgeItemHandler.getStats(held);
+    			if(stats != null && tile.addFuel(stats, true))
+    			{
+    				if(user.getHeldItem().stackSize == 1)
+    				{
+    					user.setCurrentItemOrArmor(0, null);
+    				}
+    				else
+    				{
+    					user.getHeldItem().stackSize --;
+    				}
+    				return true;
+    			}
     			if(ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.smeltDragonforge) && held.getItem() == ComponentListMF.dragon_heart && tile.temperature >= 300F)
     			{
     				if(user.getHeldItem().stackSize == 1)
@@ -217,11 +252,28 @@ public class BlockForge extends BlockContainer
 	@SideOnly(Side.CLIENT)
     public Item getItem(World world, int x, int y, int z)
     {
-        return Item.getItemFromBlock(BlockListMF.crucible);
+        return Item.getItemFromBlock(getInactiveBlock(tier));
     }
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fort)
     {
-        return Item.getItemFromBlock(BlockListMF.crucible);
+        return Item.getItemFromBlock(getInactiveBlock(tier));
     }
+	
+	@Override
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+	@Override
+	public int getRenderType()
+	{
+		return BlockListMF.forge_RI;
+	}
 }

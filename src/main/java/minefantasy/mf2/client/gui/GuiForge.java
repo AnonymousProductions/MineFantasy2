@@ -20,7 +20,7 @@ public class GuiForge extends GuiContainer
     public GuiForge(InventoryPlayer user, TileEntityForge tile)
     {
         super(new ContainerForge(user, tile));
-        this.ySize = 186;
+        this.ySize = 175;
         this.tile = tile;
     }
 
@@ -49,7 +49,7 @@ public class GuiForge extends GuiContainer
     
     private String getTex() 
     {
-		return "textures/gui/crucible.png";
+		return "textures/gui/" + tile.getTextureName() + ".png";
 	}
 
 	@Override

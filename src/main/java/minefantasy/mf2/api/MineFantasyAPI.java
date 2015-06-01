@@ -413,4 +413,21 @@ public class MineFantasyAPI
 			addHeatableItem(item, min, unstable, max);
 		}
 	}
+
+	private static ItemStack convertItem(Object object) 
+	{
+		if(object instanceof ItemStack)
+		{
+			return ((ItemStack)object);
+		}
+		if(object instanceof Item)
+		{
+			return new ItemStack((Item)object, 1, OreDictionary.WILDCARD_VALUE);
+		}
+		if(object instanceof Block)
+		{
+			return new ItemStack((Block)object, 1, OreDictionary.WILDCARD_VALUE);
+		}
+		return null;
+	}
 }

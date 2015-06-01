@@ -11,16 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
-
-/**
- *
- * @author Anonymous Productions
- * 
- * Sources are provided for educational reasons.
- * though small bits of code, or methods can be used in your own creations.
- * 
- * Custom renderers based off render tutorial by MC_DucksAreBest
- */
 public class TileEntityAnvilMFRenderer extends TileEntitySpecialRenderer {
 
     public TileEntityAnvilMFRenderer() 

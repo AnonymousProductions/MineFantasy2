@@ -26,23 +26,23 @@ public class ContainerForge extends Container
         	for (int y = 0; y < height; y ++)
         	{
         		int slot = y*width+x;
-        		this.addSlotToContainer(new Slot(tile, slot, 62 + x * 18, 14 + y * 18));
+        		this.addSlotToContainer(new Slot(tile, slot, 80 + x * 18, 14 + y * 18));
         	}
         }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 129, 32));
+        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 44, 44));
         int i;
 
         for (i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
             {
-                this.addSlotToContainer(new Slot(user, j + i * 9 + 9, 8 + j * 18, 104 + i * 18));
+                this.addSlotToContainer(new Slot(user, j + i * 9 + 9, 8 + j * 18, 93 + i * 18));
             }
         }
 
         for (i = 0; i < 9; ++i)
         {
-            this.addSlotToContainer(new Slot(user, i, 8 + i * 18, 162));
+            this.addSlotToContainer(new Slot(user, i, 8 + i * 18, 151));
         }
     }
 

@@ -26,7 +26,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	public void updateEntity()
 	{
 		super.updateEntity();
-		boolean isHot = temperature > 0;
+		boolean isHot = temperature > 0 && progressMax > 0;
 		temperature = getTemperature();
 		
 		int time = 400;
@@ -58,12 +58,27 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 			SmokeMechanics.emitSmoke(worldObj, xCoord, yCoord, zCoord, 1);
 		}
 		
-		if(isHot != getTemperature() >0)
+		if(isHot != (getTemperature() >0 && progressMax > 0) && !isOutside())
 		{
 			BlockCrucible.updateFurnaceBlockState(getTemperature() > 0, worldObj, xCoord, yCoord, zCoord);
 		}
 	}
 	
+	private boolean isOutside()
+	{
+		for(int x = -1; x <= 1; x++)
+		{
+			for(int y = -1; y <= 1; y++)
+			{
+				if(!worldObj.canBlockSeeTheSky(xCoord + x, yCoord+1, zCoord + y))
+				{
+					return false;
+				}
+			}	
+		}
+		return true;
+	}
+
 	public void smeltItem() {
 		if (!canSmelt()) 
 		{

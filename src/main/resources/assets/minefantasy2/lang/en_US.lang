@@ -1,6 +1,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /INFORMATION/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+forge.fuel.name=~Fuel~
+
 item.infobook.name=Research Book
 item.research_scroll.name=Common Scroll
 item.research_scroll_uncommon.name=Uncommon Scroll

@@ -2,8 +2,8 @@ package minefantasy.mf2.client.render.block;
 
 import java.util.Random;
 
+import minefantasy.mf2.block.tileentity.TileEntityForge;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
-import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,30 +11,24 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer 
+public class TileEntityForgeRenderer extends TileEntitySpecialRenderer
 {
-    public TileEntityCarpenterRenderer() 
+    public TileEntityForgeRenderer() 
     {
-        model = new ModelCarpenter();
+        model = new ModelForge();
     }
 
-	public void renderAModelAt(TileEntity tile, double d, double d1, double d2, float f) 
+    public void renderAModelAt(TileEntityForge tile, double d, double d1, double d2, float f) 
     {
     	int i = 0;
 		if (tile.getWorldObj() != null)
 		{
         	i = tile.getBlockMetadata();
         }
-    	for(int a = 0; a < 2; a ++)
-    	{
-    		if(shouldRender(tile, a))
-    		{
-    			this.renderModelAt("carpenter", i, d, d1, d2, f, a);
-    		}
-    	}
+		this.renderModelAt(tile, tile.getTextureName(), i, d, d1, d2, f, tile.getWorldObj() == null, tile.hasFuel());
     }
     
-	public void renderModelAt(String tex, int meta, double d, double d1, double d2, float f, int renderPass) 
+	public void renderModelAt(TileEntityForge tile, String tex, int meta, double d, double d1, double d2, float f, boolean inv, boolean hasFuel) 
     {
         int i = meta;
         
@@ -60,21 +54,21 @@ public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer
             j = 90;
         }
 
-        if(renderPass == 1)
-        {
-        	bindTextureByName("textures/models/tileentity/anvilGrid.png"); //texture
-        }
-        else
-        {
-        	bindTextureByName("textures/models/tileentity/"+tex+".png"); //texture
-        }
+    	bindTextureByName("textures/models/tileentity/"+tex+".png"); //texture
         
         GL11.glPushMatrix(); //start
-        GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.0F, (float) d2 + 0.5F); //size
-        GL11.glRotatef(j+180F, 0.0F, 1.0F, 0.0F); //rotate based on metadata
-        GL11.glScalef(1F, -1F, -1F); //if you read this comment out this line and you can see what happens
+        float scale = 1.0F;
+        float yOffset = inv ? 1.75F : 1.5F;
+        GL11.glTranslatef((float) d + 0.5F, (float) d1 + yOffset, (float) d2 + 0.5F); //size
+        GL11.glRotatef(j-90F, 0.0F, 1.0F, 0.0F); //rotate based on metadata
+        GL11.glScalef(scale, -scale, -scale); //if you read this comment out this line and you can see what happens
         GL11.glPushMatrix();
-        model.renderModel(0.0625F); 
+        float level = 0F;
+        if(tile.fuel > 0 && tile.maxFuel > 0)
+        {
+        	level = tile.fuel / tile.maxFuel;
+        }
+        model.renderModel(tile, 0.0625F, hasFuel, level); 
         
         GL11.glPopMatrix();
         GL11.glColor3f(255, 255, 255);
@@ -87,14 +81,14 @@ public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer
 	}
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
-        renderAModelAt (tileentity, d, d1, d2, f); //where to render
+        renderAModelAt((TileEntityForge) tileentity, d, d1, d2, f); //where to render
     }
 	
-    private ModelCarpenter model;
+    private ModelForge model;
     private Random random = new Random();
     
     
-    private boolean shouldRender(TileEntity tile, int p) 
+    private boolean shouldRender(TileEntityForge tile, int p) 
     {
     	Minecraft mc = Minecraft.getMinecraft();
     	EntityPlayer sp = mc.thePlayer;
