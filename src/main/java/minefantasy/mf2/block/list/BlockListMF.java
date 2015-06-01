@@ -129,6 +129,9 @@ public class BlockListMF
 	public static Block forge = new BlockForge("stone", 0, false);
 	public static Block forge_active = new BlockForge("stone", 0, true).setLightLevel(10F);
 	
+	public static Block repair_basic = new BlockRepairKit("basic", 0.4F, 0.1F, 0.1F);
+	public static Block repair_advanced = new BlockRepairKit("advanced", 0.75F, 0.2F, 0F);
+	
 	public static void init()
 	{
 		for(int a = 0; a < specialMetalBlocks.length; a++)

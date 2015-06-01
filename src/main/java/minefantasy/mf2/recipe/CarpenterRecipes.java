@@ -131,6 +131,31 @@ public class CarpenterRecipes
 			'P', Items.leather_boots,
 			'U', Items.leather
 		});
+		KnowledgeListMF.repairBasicR =
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_basic), "repair_basic", sewing, "needle", 3, 20 , new Object[]
+		{
+			"LHL",
+			"PPP",
+			"LCL",
+			'L', Items.leather,
+			'P', ComponentListMF.plates[0],
+			'H', ToolListMF.hammers[1],
+			'C', Blocks.wool,
+		});
+		KnowledgeListMF.repairAdvancedR =
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_advanced), "repair_advanced", sewing, "needle", 5, 50 , new Object[]
+		{
+			"SHS",
+			"LCL",
+			"PKP",
+			"LCL",
+			'K', BlockListMF.repair_basic,
+			'L', Items.leather,
+			'P', ComponentListMF.plates[2],
+			'H', ToolListMF.hammers[3],
+			'C', Items.slime_ball,
+			'S', Items.string
+		});
 	}
 
 	private static void addWoodworks()

@@ -88,6 +88,9 @@ public class KnowledgeListMF
     public static InformationBase bombCrystal = (new InformationBase("bombCrystal", 		   -1, 9, 50, ComponentListMF.bomb_casing_crystal, bombObsidian)).registerStat().setPage(engineering);
     public static InformationBase mineCrystal = (new InformationBase("mineCrystal", 		   -2, 9, 65, ComponentListMF.mine_casing_crystal, mineObsidian)).registerStat().setPage(engineering);
     
+    public static InformationBase repair_basic = (new InformationBase("repair_basic",  		   2, -2, 5, BlockListMF.repair_basic, (InformationBase)null)).registerStat().setPage(smithing);
+    public static InformationBase repair_advanced = (new InformationBase("repair_advanced",    4, -2, 20, BlockListMF.repair_advanced, repair_basic)).registerStat().setPage(smithing);
+    
     public static void init()
 	{
 	}
@@ -109,6 +112,8 @@ public class KnowledgeListMF
     public static IAnvilRecipe ironPrepR, ironPrepR2;
     public static IAnvilRecipe blastChamR, blastHeatR;
     
+    public static ICarpenterRecipe repairBasicR;
+    public static ICarpenterRecipe repairAdvancedR;
     public static ICarpenterRecipe blackpowderRec, advblackpowderRec;
     public static IAnvilRecipe bombBenchCraft;
     public static ICarpenterRecipe bombFuseR, longFuseR;

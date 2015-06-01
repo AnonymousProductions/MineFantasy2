@@ -69,6 +69,10 @@ public class KnowledgePageRegistry
 	    KnowledgeListMF.stickybomb.addPages(new EntryPageText("knowledge.stickybomb.paragraph_1", "knowledge.stickybomb.paragraph_2"));
 	    
 	    KnowledgeListMF.craftOrnateWeapons.addPages(new EntryPageText("knowledge.ornateweps.paragraph_1"));
+	    
+	    KnowledgeListMF.repair_basic.addPages(new EntryPageText("knowledge.repair_basic.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.repairBasicR), new EntryPageText("knowledge.repair_basic.paragraph_2"));
+	    KnowledgeListMF.repair_advanced.addPages(new EntryPageText("knowledge.repair_advanced.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.repairAdvancedR));
+	    
 	    for(int a = 0; a < KnowledgeListMF.ornateWepsR.size(); a++)
 	    {
 	    	KnowledgeListMF.craftOrnateWeapons.addPages(new EntryPageRecipeAnvil(KnowledgeListMF.ornateWepsR.get(a)));
