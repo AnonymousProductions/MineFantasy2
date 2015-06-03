@@ -24,6 +24,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
@@ -177,7 +178,7 @@ public class BlockForge extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
-		return side == 1 ? topTex : sideTex;
+		return BlockListMF.crucible.getIcon(side, meta);
 	}
 	
 	@Override
@@ -239,14 +240,10 @@ public class BlockForge extends BlockContainer
     	}
         return true;
     }
-	private IIcon sideTex, topTex;
-	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		topTex = isActive ? reg.registerIcon("minefantasy2:processor/crucible_top_active_"+type) : reg.registerIcon("minefantasy2:processor/crucible_top_"+type);
-		sideTex = reg.registerIcon("minefantasy2:processor/crucible_side_"+type);
 	}
 	@Override
 	@SideOnly(Side.CLIENT)

@@ -87,31 +87,29 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	public static int maxFurnaceHeight = 8;
 	private void smeltItem() 
 	{
-		ItemStack result = null;
-		
 		for(int y = 0; y < maxFurnaceHeight; y++)
 		{
 			TileEntity tileEntity = worldObj.getTileEntity(xCoord, yCoord+y+1, zCoord);
 			if(tileEntity != null && tileEntity instanceof TileEntityBlastFC && !(tileEntity instanceof TileEntityBlastFH))
 			{
-				result = stackResult((TileEntityBlastFC) tileEntity, y+1, result);
+				ItemStack result = getSmeltedResult((TileEntityBlastFC) tileEntity, y+1);
+				if(result != null)
+				{
+					dropItem(result);
+				}
 			}
 			else
 			{
 				break;
 			}
 		}
-		if(result != null)
-		{
-			dropItem(result);
-			fireTime = 20;
-			worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "random.fizz", 2.0F, 0.5F);
-			worldObj.playSoundEffect(xCoord+0.5, yCoord+0.25, zCoord+0.5, "fire.fire", 1.0F, 0.75F);
-			startFire(1, 0, 0);
-			startFire(-1, 0, 0);
-			startFire(0, 0, 1);
-			startFire(0, 0, -1);
-		}
+		fireTime = 20;
+		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "random.fizz", 2.0F, 0.5F);
+		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.25, zCoord+0.5, "fire.fire", 1.0F, 0.75F);
+		startFire(1, 0, 0);
+		startFire(-1, 0, 0);
+		startFire(0, 0, 1);
+		startFire(0, 0, -1);
 	}
 	
 	private void dropItem(ItemStack result)
@@ -174,7 +172,7 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 		worldObj.spawnEntityInWorld(fireball);
 	}
 	
-	private ItemStack stackResult(TileEntityBlastFC shaft, int y, ItemStack result) 
+	private ItemStack getSmeltedResult(TileEntityBlastFC shaft, int y) 
 	{
 		if(shaft.getIsBuilt())
 		{
@@ -185,29 +183,18 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 			}
 			if(input != null)
 			{
-				ItemStack newResult = getResult(input);
-				if(result == null)
+				ItemStack result = getResult(input);
+				if(result != null)
 				{
 					for(int a = 0; a < shaft.getSizeInventory(); a++)
 					{
 						shaft.decrStackSize(a, 1);
 					}
-					return newResult;
-				}
-				else
-				{
-					if(result.isItemEqual(newResult))
-					{
-						for(int a = 0; a < shaft.getSizeInventory(); a++)
-						{
-							shaft.decrStackSize(a, 1);
-						}
-						result.stackSize += newResult.stackSize;
-					}
+					return result;
 				}
 			}
 		}
-		return result;
+		return null;
 	}
 	@Override
 	protected void interact(TileEntityBlastFC tile)

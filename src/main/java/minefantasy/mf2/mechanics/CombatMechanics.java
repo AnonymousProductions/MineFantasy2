@@ -40,6 +40,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -414,14 +415,19 @@ public class CombatMechanics
 	}
 	private float hurtUndead(Entity entityHitting, Entity entityHit, float dam, boolean properHit) 
     {
-    	if(entityHit instanceof EntityLivingBase && ((EntityLivingBase)entityHit).isEntityUndead())
+    	if(entityHit instanceof EntityLivingBase && isUnholyCreature((EntityLivingBase)entityHit))
 		{
     		EntityLivingBase living = (EntityLivingBase)entityHit;
     		dam *= specialUndeadModifier;
     		if(properHit)
 			{
 	    		entityHit.playSound("random.fizz", 0.5F, 0.5F);
-	    		if(living.getHealth() <= dam || rand.nextInt(10) == 0)
+	    		living.addPotionEffect(new PotionEffect(Potion.weakness.id, 1200, 2));
+	    		if(rand.nextInt(10) == 0)
+	    		{
+	    			living.setFire(3);
+	    		}
+	    		if(living.getHealth() <= dam || rand.nextInt(20) == 0)
 	    		{
 	    			dam *= 100F;
 	    			living.worldObj.createExplosion(living, living.posX, living.posY+living.getEyeHeight(), living.posZ, 0.0F, false);
@@ -440,6 +446,19 @@ public class CombatMechanics
     	return dam;
 	}
 	
+	private boolean isUnholyCreature(EntityLivingBase entityHit) 
+	{
+		if(((EntityLivingBase)entityHit).isEntityUndead())
+		{
+			return true;
+		}
+		if(entityHit instanceof EntityWitch)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	private void onOfficialHit(DamageSource src, EntityLivingBase target, float damage)
 	{
 		Entity source = src.getSourceOfDamage();

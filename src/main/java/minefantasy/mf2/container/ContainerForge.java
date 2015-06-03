@@ -26,10 +26,10 @@ public class ContainerForge extends Container
         	for (int y = 0; y < height; y ++)
         	{
         		int slot = y*width+x;
-        		this.addSlotToContainer(new Slot(tile, slot, 80 + x * 18, 14 + y * 18));
+        		this.addSlotToContainer(new Slot(tile, slot, 70 + x * 18, 14 + y * 18));
         	}
         }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 44, 44));
+        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 32, 60));
         int i;
 
         for (i = 0; i < 3; ++i)

@@ -132,18 +132,20 @@ public class CarpenterRecipes
 			'U', Items.leather
 		});
 		KnowledgeListMF.repairBasicR =
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_basic), "repair_basic", sewing, "needle", 3, 20 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_basic), "repair_basic", sewing, "needle", 2, 20 , new Object[]
 		{
-			"LHL",
-			"PPP",
+			"LWL",
+			"HPN",
 			"LCL",
+			'W', ComponentListMF.plank,
 			'L', Items.leather,
 			'P', ComponentListMF.plates[0],
+			'N', ToolListMF.needles[1],
 			'H', ToolListMF.hammers[1],
 			'C', Blocks.wool,
 		});
 		KnowledgeListMF.repairAdvancedR =
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_advanced), "repair_advanced", sewing, "needle", 5, 50 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_advanced), "repair_advanced", sewing, "needle", 2, 50 , new Object[]
 		{
 			"SHS",
 			"LCL",
@@ -217,6 +219,11 @@ public class CarpenterRecipes
 			"C",
 			'C', BlockListMF.chimney_stone,
 			'S', Blocks.stone,
+		});
+		KnowledgeListMF.extractChimneyRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.chimney_stone_extractor), "", "carving", "hammer", -1, 15 , new Object[]{
+			"C",
+			'C', BlockListMF.chimney_stone_wide,
 		});
 	}
 	

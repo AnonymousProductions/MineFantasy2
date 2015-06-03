@@ -109,14 +109,19 @@ public class SmokeMechanics
 	
 	public static boolean tryUseChimney(World world, int x, int y, int z, int value)
 	{
+		return tryUseChimney(world, x, y, z, value, true);
+	}
+	public static boolean tryUseChimney(World world, int x, int y, int z, int value, boolean indirect)
+	{
 		TileEntity tile = world.getTileEntity(x, y, z);//The block
 		if(tile != null)
 		{
 			if(tile instanceof ISmokeCarrier)
 			{
-				if(((ISmokeCarrier)tile).getSmokeValue() < ((ISmokeCarrier)tile).getMaxSmokeStorage())
+				ISmokeCarrier chimney = (ISmokeCarrier) tile;
+				if((!indirect || chimney.canAbsorbIndirect()) && chimney.getSmokeValue() < chimney.getMaxSmokeStorage())
 				{
-					modifySmoke((ISmokeCarrier)tile, value);
+					modifySmoke(chimney, value);
 					return true;
 				}
 			}
@@ -125,7 +130,7 @@ public class SmokeMechanics
 	}
 	public static void emitSmokeIndirect(World world, int xCoord, int yCoord, int zCoord, int value) 
 	{
-		if(!tryUseChimney(world, xCoord, yCoord + 1, zCoord, value) && !tryUseChimney(world, xCoord, yCoord + 2, zCoord, value))
+		if(!tryUseChimney(world, xCoord, yCoord + 1, zCoord, value, false) && !tryUseChimney(world, xCoord, yCoord + 2, zCoord, value))
 		{
 			if(!tryUseChimney(world, xCoord - 1, yCoord + 1, zCoord, value) && !tryUseChimney(world, xCoord + 1, yCoord + 1, zCoord, value) &&!tryUseChimney(world, xCoord, yCoord + 1, zCoord - 1, value) &&!tryUseChimney(world, xCoord, yCoord + 1, zCoord + 1, value))
 			{

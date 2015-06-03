@@ -32,7 +32,7 @@ public class KnowledgePageRegistry
 		KnowledgeListMF.ores.addPages(assembleOreDesc("nitre", BlockListMF.oreNitre));
 		KnowledgeListMF.ores.addPages(assembleOreDesc("sulfur", BlockListMF.oreSulfur));
 		
-		KnowledgeListMF.chimney.addPages(new EntryPageText("knowledge.chimney.paragraph_1", "knowledge.chimney.paragraph_2"), new EntryPageRecipeCarpenter(KnowledgeListMF.chimneyRecipe), new EntryPageRecipeCarpenter(KnowledgeListMF.wideChimneyRecipe), new EntryPageText("knowledge.chimney.paragraph_3"));
+		KnowledgeListMF.chimney.addPages(new EntryPageText("knowledge.chimney.paragraph_1", "knowledge.chimney.paragraph_2"), new EntryPageRecipeCarpenter(KnowledgeListMF.chimneyRecipe), new EntryPageRecipeCarpenter(KnowledgeListMF.wideChimneyRecipe), new EntryPageText("knowledge.chimney.paragraph_3"), new EntryPageRecipeCarpenter(KnowledgeListMF.extractChimneyRecipe));
 		KnowledgeListMF.tanning.addPages(new EntryPageText("knowledge.tanning.paragraph_1"), new EntryPageRecipeBase(KnowledgeListMF.tannerRecipe), new EntryPageText("knowledge.tanning.paragraph_2"));
 		
 		KnowledgeListMF.crucible.addPages(new EntryPageText("knowledge.crucible.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.crucibleRecipe), new EntryPageText("knowledge.crucible.paragraph_2"));

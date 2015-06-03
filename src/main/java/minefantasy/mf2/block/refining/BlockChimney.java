@@ -39,10 +39,15 @@ public class BlockChimney extends BlockContainer
 	public IIcon sideTex;
 	public int size;
 	private boolean isWide;
+	/**
+	 * Weather it can absorb smoke indirectly (not directly above a source)
+	 */
+	public boolean isIndirect;
 	private String chimneyType;
-	public BlockChimney(String type, boolean wide, int size) 
+	public BlockChimney(String type, boolean wide, boolean indirect, int size) 
 	{
 		super(Material.rock);
+		this.isIndirect = indirect;
 		isWide = wide;
 		this.chimneyType = type;
 		this.size = size;

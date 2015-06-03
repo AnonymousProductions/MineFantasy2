@@ -121,16 +121,17 @@ public class BlockListMF
 	public static Block crucibleadv = new BlockCrucible("fireclay", 1, false);
 	public static Block crucibleadv_active = new BlockCrucible("fireclay", 1, true).setLightLevel(12F);
 	
-	public static Block chimney_stone = new BlockChimney("stone", false, 5);
-	public static Block chimney_stone_wide = new BlockChimney("stone", true, 10);
+	public static Block chimney_stone = new BlockChimney("stone", false, false, 5);
+	public static Block chimney_stone_wide = new BlockChimney("stone", true, false, 10);
+	public static Block chimney_stone_extractor = new BlockChimney("stone_extractor", true, true, 15);
 	
 	public static Block tanner = new BlockTanningRack();
 	
 	public static Block forge = new BlockForge("stone", 0, false);
 	public static Block forge_active = new BlockForge("stone", 0, true).setLightLevel(10F);
 	
-	public static Block repair_basic = new BlockRepairKit("basic", 0.4F, 0.1F, 0.1F);
-	public static Block repair_advanced = new BlockRepairKit("advanced", 0.75F, 0.2F, 0F);
+	public static Block repair_basic = new BlockRepairKit("basic", 0.5F, 0.1F, 0.02F);
+	public static Block repair_advanced = new BlockRepairKit("advanced", 1.0F, 0.2F, 0F);
 	
 	public static void init()
 	{

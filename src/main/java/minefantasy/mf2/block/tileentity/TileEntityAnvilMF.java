@@ -303,10 +303,13 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			ItemStack result = modifySpecials(recipe);
 			int output = getSizeInventory()-1;
 			
-			if(outputHot && this.inventory[output] == null)
+			int temp = this.averageTemp();
+			boolean hot = outputHot && temp > 0;
+			
+			if(hot && this.inventory[output] == null)
 			{
 				MFLogUtil.logDebug("Hot Output");
-				ItemStack out = ItemHeated.createHotItem(result, averageTemp());
+				ItemStack out = ItemHeated.createHotItem(result, temp);
             	if(result.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
             	{
             		getNBT(out).setString("MF_CraftedByName", lastPlayerHit);
@@ -315,7 +318,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
 	            consumeResources();
 			}
-			else if (!outputHot)
+			else if (!hot)
 			{
 	            if (this.inventory[output] == null)
 	            {

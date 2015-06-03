@@ -41,10 +41,23 @@ public class GuiForge extends GuiContainer
         int yPoint = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPoint, yPoint, 0, 0, this.xSize, this.ySize);
         
-        if (this.tile.temperature > 0)
+        if (this.tile.fuel > 0 && tile.maxFuel > 0)
         {
-            this.drawTexturedModalRect(xPoint + 81, yPoint + 75, 243, 0, 14, 12);
+        	int scale = tile.getMetreScale(12);
+            this.drawTexturedModalRect(xPoint + 33, yPoint + 63 + 11 - scale, 176, 11 - scale+8, 14, scale + 1);
         }
+        int[] scale = tile.getTempsScaled(53);
+
+        if (this.tile.temperature > 0) 
+        {
+			if (this.tile.isLit) 
+			{
+				int heatScM = scale[1];
+				this.drawTexturedModalRect(xPoint + 32, yPoint + 58 - heatScM, 176, 0, 16, 3);
+			}
+			int heatSc = scale[0];
+			this.drawTexturedModalRect(xPoint + 35, yPoint + 58 - heatSc, 176, 3, 10, 5);
+		}
     }
     
     private String getTex() 

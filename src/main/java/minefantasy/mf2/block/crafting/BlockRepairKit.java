@@ -81,7 +81,7 @@ public class BlockRepairKit extends Block
     		return true;
     	}
     	ItemStack held = user.getHeldItem();
-    	if(held != null && held.isItemDamaged())
+    	if(held != null && held.isItemDamaged() && held.getItem().isRepairable())
     	{
     		if(rand.nextFloat() < successRate)
     		{

@@ -135,6 +135,7 @@ public class ComponentListMF
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
 		MineFantasyAPI.registerFuelHandler(new AdvancedFuelHandlerMF());
 		OreDictionary.registerOre("ingotIron", Items.iron_ingot);
+		OreDictionary.registerOre("ingotGold", Items.gold_ingot);
 		Items.potionitem.setMaxStackSize(16);
 		Items.iron_ingot.setTextureName("minefantasy2:component/ingotWroughtIron");
 		Blocks.iron_block.setBlockTextureName("minefantasy2:metal/iron_block");
@@ -205,17 +206,17 @@ public class ComponentListMF
 
 	private static void initFuels() 
 	{
-		MineFantasyAPI.addForgeFuel(new ItemStack(Items.coal, 1, 0), 900, 100);//	150* , 45s
-		MineFantasyAPI.addForgeFuel(new ItemStack(Items.coal, 1, 0), 1200, 150);//	200* , 1m
+		MineFantasyAPI.addForgeFuel(new ItemStack(Items.coal, 1, 0), 900, 120);//	120* , 45s
+		MineFantasyAPI.addForgeFuel(new ItemStack(Items.coal, 1, 1), 1200, 160);//	160* , 1m
 		MineFantasyAPI.addForgeFuel(Items.blaze_powder, 200, 300, true);//			300* , 10s
 		MineFantasyAPI.addForgeFuel(Items.blaze_rod,    300, 300, true);//			300* , 15s
-		MineFantasyAPI.addForgeFuel(Items.fire_charge,  1200, 300,true);//			300* , 1m
+		MineFantasyAPI.addForgeFuel(Items.fire_charge,  1200, 350,true);//			350* , 1m
 		MineFantasyAPI.addForgeFuel(Items.lava_bucket,  2400, 500, true);//			500* , 2m
-		MineFantasyAPI.addForgeFuel(Items.magma_cream,  2400, 100);//				150* , 2m
+		MineFantasyAPI.addForgeFuel(Items.magma_cream,  2400, 400);//				400* , 2m
 		
-		MineFantasyAPI.addForgeFuel(ComponentListMF.coalDust, 200, 100);//				150* , 10s
-		MineFantasyAPI.addForgeFuel(ComponentListMF.coke, 1200, 200);//					250* , 1m
-		MineFantasyAPI.addForgeFuel(ComponentListMF.magma_cream_refined, 2400, 200);//	300* , 2m
+		MineFantasyAPI.addForgeFuel(ComponentListMF.coalDust, 200, 120);//				120* , 10s
+		MineFantasyAPI.addForgeFuel(ComponentListMF.coke, 1200, 250);//					250* , 1m
+		MineFantasyAPI.addForgeFuel(ComponentListMF.magma_cream_refined, 2400, 200);//	500* , 2m
 	}
 
 	private static void addRandomDrops()

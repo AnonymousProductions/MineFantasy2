@@ -11,6 +11,7 @@ public class ForgePacket extends PacketMF
 	public static final String packetName = "MF2_ForgePacket";
 	private int[] coords = new int[3];
 	private float[] fuels = new float[2];
+	private float[] temps = new float[2];
 
 	public ForgePacket(TileEntityForge tile)
 	{
@@ -20,6 +21,7 @@ public class ForgePacket extends PacketMF
 		{
 			fuels[0] = fuels[1];
 		}
+		temps = new float[]{tile.temperature, tile.fuelTemperature};
 	}
 
 	public ForgePacket() {
@@ -35,10 +37,14 @@ public class ForgePacket extends PacketMF
         {
 	        fuels[0] = packet.readFloat();
 	        fuels[1] = packet.readFloat();
+	        temps[0] = packet.readFloat();
+	        temps[1] = packet.readFloat();
 	        
 	        TileEntityForge tile = (TileEntityForge)entity;
 	        tile.fuel = fuels[0];
 	        tile.maxFuel = fuels[1];
+	        tile.temperature = temps[0];
+	        tile.fuelTemperature = temps[1];
         }
 	}
 
@@ -57,5 +63,7 @@ public class ForgePacket extends PacketMF
 		}
 		packet.writeFloat(fuels[0]);
 		packet.writeFloat(fuels[1]);
+		packet.writeFloat(temps[0]);
+		packet.writeFloat(temps[1]);
 	}
 }

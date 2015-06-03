@@ -458,6 +458,7 @@ tile.crucible.stone.name=Stone Crucible
 tile.crucible.fireclay.name=Fireclay Crucible
 tile.chimney.stone.name=Stone Chimney
 tile.chimney.stone.wide.name=Wide Stone Chimney
+tile.chimney.stone_extractor.wide.name=Stone Extractor Chimney
 
 tile.tanner.name=Tanning Rack
 tile.bombBench.name=Bomb Crafting Table
@@ -1583,7 +1584,7 @@ knowledge.guiSubtitle=This is the GUI
 
 knowledge.chimney.paragraph_1=Smoke is emitted from many industrial devices, though it usually dissapears into the atmosphere; it can be dangerous to breathe in.
 knowledge.chimney.paragraph_2=Breathing in smoke can be debilitating and effects can build up. Building chimneys allow you to redirect the smoke upwards. Just stack them on top of the block.
-knowledge.chimney.paragraph_3=Chimneys can explode under pressure, but this is uncommon. Wide chimneys can hold more smoke.
+knowledge.chimney.paragraph_3=Although any chimney can take smoke when above a source, extractor chimneys work at different positions. Some(not all) blocks like forges and crucibles can send their smoke to these so long as their 1 block above and adjacent.
 
 knowledge.tanning.paragraph_1=Leather is a useful commodity across a wide range of trades but it can be difficult to find pure samples naturally. The best way to get a workable piece of leather is to refine it from raw hide: with this you use the tanning rack.
 knowledge.tanning.paragraph_2=The tanning rack is a very simple process. All you need to do is first clean a hide, apply flux to it or right-click it in water for a short time, this creates a clean hide. Right-click clean hides on the rack to place them (one at a time) and click the rack with a knife to turn it into leather.

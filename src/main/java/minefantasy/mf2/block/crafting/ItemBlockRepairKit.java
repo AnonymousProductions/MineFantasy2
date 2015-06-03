@@ -21,9 +21,9 @@ public class ItemBlockRepairKit extends ItemBlock
 	@Override
 	public void addInformation(ItemStack item, EntityPlayer user, List list, boolean extra)
 	{
-		list.add(StatCollector.translateToLocal("attribute.kit.repairRate.name") + ": " + kit.repairLevel*100F);
-		list.add(StatCollector.translateToLocal("attribute.kit.repairChance.name") + ": " + kit.successRate*100F);
-		list.add(StatCollector.translateToLocal("attribute.kit.breakChance.name") + ": " + kit.breakChance*100F);
+		list.add(StatCollector.translateToLocal("attribute.kit.repairRate.name") + ": " + kit.repairLevel*100F + "%");
+		list.add(StatCollector.translateToLocal("attribute.kit.repairChance.name") + ": " + kit.successRate*100F + "%");
+		list.add(StatCollector.translateToLocal("attribute.kit.breakChance.name") + ": " + kit.breakChance*100F + "%");
 		super.addInformation(item, user, list, extra);
 	}
 }

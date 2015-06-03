@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import minefantasy.mf2.api.heating.Heatable;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
@@ -78,6 +80,17 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
                     {
                         ItemStack recipeItem = (ItemStack)var7.next();
 
+                        //HEATING
+                    	if (Heatable.requiresHeating && Heatable.canHeatItem(inputItem)) 
+                    	{
+    						return false;
+    					}
+                    	if(!Heatable.isWorkable(inputItem))
+                    	{
+                    		return false;
+                    	}
+    					inputItem = getHotItem(inputItem);
+    					
                         if(inputItem == null)
                         {
                         	return false;
@@ -101,21 +114,28 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
 
         return var2.isEmpty();
     }
-    public static int getTemp(ItemStack item)
-	{
+    
+    private ItemStack getHotItem(ItemStack item) 
+    {
+    	if(item == null)return null;
+    	
+		ItemStack hotItem = null;
+		
 		NBTTagCompound tag = getNBT(item);
+
+		if (tag.hasKey(Heatable.NBT_ItemID) && tag.hasKey(Heatable.NBT_SubID)) 
+		{
+			return new ItemStack(Item.getItemById(tag.getInteger(Heatable.NBT_ItemID)), 1, tag.getInteger(Heatable.NBT_SubID));
+		}
 		
-		if(tag.hasKey("MFtemp"))return tag.getInteger("MFtemp");
-		
-		return 0;
+		return item;
 	}
-	
-	private static NBTTagCompound getNBT(ItemStack item)
-	{
-		if(!item.hasTagCompound())item.setTagCompound(new NBTTagCompound());
+
+	private static NBTTagCompound getNBT(ItemStack item) {
+		if (!item.hasTagCompound())
+			item.setTagCompound(new NBTTagCompound());
 		return item.getTagCompound();
 	}
-	
     /**
      * Returns an Item that is the result of this recipe
      */

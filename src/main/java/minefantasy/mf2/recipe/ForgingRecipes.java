@@ -905,12 +905,12 @@ public class ForgingRecipes
 		material = BaseMaterialMF.iron;
 		if(ConfigCrafting.allowIronResmelt)
 		{
-			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep), "blastfurn", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep), "blastfurn", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 				"IFI",
 				'I', Items.iron_ingot,
 				'F', ComponentListMF.flux,
 			});
-			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep, 2), "blastfurn", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep, 2), "blastfurn", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 				"IFI",
 				'I', Items.iron_ingot,
 				'F', ComponentListMF.flux_strong,
@@ -918,20 +918,20 @@ public class ForgingRecipes
 		}
 		
 		KnowledgeListMF.ironPrepR = 
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep), "blastfurn", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep), "blastfurn", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 			"IFI",
 			'I', Blocks.iron_ore,
 			'F', ComponentListMF.flux,
 		});
 		KnowledgeListMF.ironPrepR2 = 
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep, 2), "blastfurn", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep, 2), "blastfurn", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 			"IFI",
 			'I', Blocks.iron_ore,
 			'F', ComponentListMF.flux_strong,
 		});
 		time=15;
 		KnowledgeListMF.blastChamR = 
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_chamber), "blastfurn", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_chamber), "blastfurn", false, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 			"II II",
 			"I   I",
 			"I   I",
@@ -940,7 +940,7 @@ public class ForgingRecipes
 		});
 		time=30;
 		KnowledgeListMF.blastHeatR = 
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_heater), "blastfurn", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_heater), "blastfurn", false, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 			"II II",
 			"I   I",
 			"IIFII",

@@ -33,6 +33,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	public float fuel;
 	public float maxFuel = 6000;//5m
 	public float temperature, fuelTemperature;
+	public float maxTemperature = 1000;
 	private Random rand = new Random();
 	private int ticksExisted;
 	public float dragonHeartPower = 0F;
@@ -53,10 +54,6 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		super.updateEntity();
 		
-		if(extinguishBonus > 0)
-		{
-			--extinguishBonus;
-		}
 		if(++ticksExisted % 20 == 0)
 		{
 			for(int a = 0; a < 10; a++)
@@ -126,8 +123,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		}
 		return true;
 	}
-	boolean isLit;
-	private int extinguishBonus;
+	public boolean isLit;
 	private void shareTemp()
 	{
 		isLit = isLit();
@@ -151,7 +147,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		{
 			TileEntityForge forge = (TileEntityForge) tile;
 
-			if (isLit && !forge.isLit && forge.fuel > 0 && forge.extinguishBonus <= 0) 
+			if (isLit && !forge.isLit && forge.fuel > 0) 
 			{
 				forge.fireUpForge();
 			}
@@ -242,7 +238,6 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		super.writeToNBT(nbt);
 		
-		nbt.setInteger("extinguishBonus", extinguishBonus);
 		nbt.setFloat("temperature", temperature);
 		nbt.setFloat("fuelTemperature", fuelTemperature);
 		nbt.setFloat("dragonHeartPower", dragonHeartPower);
@@ -269,7 +264,6 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		super.readFromNBT(nbt);
 		
-		extinguishBonus = nbt.getInteger("extinguishBonus");
 		temperature = nbt.getFloat("temperature");
 		fuelTemperature = nbt.getFloat("fuelTemperature");
 		dragonHeartPower = nbt.getFloat("dragonHeartPower");
@@ -481,6 +475,19 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			return (int)((float)size / maxFuel * fuel);
 		}
 		return 0;
+	}
+
+	public int[] getTempsScaled(int size)
+	{
+		int[] temps = new int[2];
+		if(shouldShowMetre())
+		{
+			temps[0] = (int)((float)size / this.maxTemperature * this.temperature);
+			temps[1] = (int)((float)size / this.maxTemperature * this.fuelTemperature);
+		}
+		if(temps[0] > size)temps[0] = size;
+		if(temps[1] > size)temps[1] = size;
+		return temps;
 	}
 
 	@Override

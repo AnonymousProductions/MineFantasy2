@@ -9,6 +9,8 @@ import minefantasy.mf2.api.refine.ISmokeCarrier;
 import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.refining.BlockChimney;
+import minefantasy.mf2.block.refining.BlockChimney;
+import minefantasy.mf2.block.refining.BlockForge;
 import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.network.packet.ChimneyPacket;
@@ -29,6 +31,7 @@ public class TileEntityChimney extends TileEntity implements ISmokeCarrier
 {
 	public Block maskBlock = Blocks.air;
 	public int maskMeta = 0;
+	private int isIndirect = -1;
 	
 	protected int smokeStorage;
 	public int ticksExisted;
@@ -137,5 +140,32 @@ public class TileEntityChimney extends TileEntity implements ISmokeCarrier
 		MineFantasyII.debugMsg("Syncing Render " + xCoord + ", " + yCoord + ", " + zCoord);
 		worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
 		*/
+	}
+
+	public BlockChimney getActiveBlock()
+	{
+		if(worldObj == null)return null;
+		
+		Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
+		
+		if(block != null && block instanceof BlockChimney)
+		{
+			return (BlockChimney)block;
+		}
+		return null;
+	}
+	public boolean isIndirect()
+	{
+		BlockChimney block =  getActiveBlock();
+		return block != null && block.isIndirect;
+	}
+	@Override
+	public boolean canAbsorbIndirect() 
+	{
+		if(isIndirect == -1)
+		{
+			isIndirect = isIndirect() ? 1 : 0;
+		}
+		return isIndirect == 1;
 	}
 }

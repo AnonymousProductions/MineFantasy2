@@ -320,4 +320,9 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	{
 		return 10;
 	}
+	@Override
+	public boolean canAbsorbIndirect()
+	{
+		return false;
+	}
 }
