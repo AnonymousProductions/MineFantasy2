@@ -6,6 +6,7 @@ import minefantasy.mf2.api.crafting.exotic.SpecialForging;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -22,6 +23,7 @@ public class ArmourListMF
 		BaseMaterialMF.reinforced,
 		BaseMaterialMF.studded,
 		BaseMaterialMF.scaled,
+		BaseMaterialMF.padding,
 	};
 	
 	public static final BaseMaterialMF[] mats = new BaseMaterialMF[]
@@ -56,11 +58,12 @@ public class ArmourListMF
 			int rarity = baseMat.rarity;
 			int id = a*4;
 			float bulk = baseMat.weight;
+			ArmourDesign design = baseMat == BaseMaterialMF.padding ? ArmourDesign.PADDING : ArmourDesign.LEATHER;
 			
-			leather[id+0] = new ItemArmourMF(matName.toLowerCase()+"_helmet", baseMat, ArmourDesign.LEATHER, 0, matName.toLowerCase()+"_layer_1", rarity, bulk);
-			leather[id+1] = new ItemArmourMF(matName.toLowerCase()+"_chest", baseMat, ArmourDesign.LEATHER, 1, matName.toLowerCase()+"_layer_1", rarity, bulk);
-			leather[id+2] = new ItemArmourMF(matName.toLowerCase()+"_legs", baseMat, ArmourDesign.LEATHER, 2, matName.toLowerCase()+"_layer_2", rarity, bulk);
-			leather[id+3] = new ItemArmourMF(matName.toLowerCase()+"_boots", baseMat, ArmourDesign.LEATHER, 3, matName.toLowerCase()+"_layer_1", rarity, bulk);
+			leather[id+0] = new ItemArmourMF(matName.toLowerCase()+"_helmet", baseMat, design, 0, matName.toLowerCase()+"_layer_1", rarity, bulk);
+			leather[id+1] = new ItemArmourMF(matName.toLowerCase()+"_chest", baseMat, design, 1, matName.toLowerCase()+"_layer_1", rarity, bulk);
+			leather[id+2] = new ItemArmourMF(matName.toLowerCase()+"_legs", baseMat, design, 2, matName.toLowerCase()+"_layer_2", rarity, bulk);
+			leather[id+3] = new ItemArmourMF(matName.toLowerCase()+"_boots", baseMat, design, 3, matName.toLowerCase()+"_layer_1", rarity, bulk);
 		}
 		for(int a = 0; a < mats.length; a ++)
 		{
@@ -111,6 +114,19 @@ public class ArmourListMF
 			slot = pool.length-1;
 		}
 		return new ItemStack(pool[slot]);
+	}
+	public static Item armourItem(ItemArmourMF[] pool, int tier, int piece)
+	{
+		if(pool == fieldplate)
+		{
+			tier-=1;
+		}
+		int slot = tier*4+piece;
+		if(slot >= pool.length)
+		{
+			slot = pool.length-1;
+		}
+		return pool[slot];
 	}
 	
 	

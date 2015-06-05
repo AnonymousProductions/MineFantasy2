@@ -12,12 +12,14 @@ import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerCarpenterMF;
+import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.network.packet.CarpenterPacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -304,24 +306,56 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	{
 		if (this.canCraft())
         {
+			ItemStack result = recipe.copy();
+			if(result != null && result.getItem() instanceof ItemArmourMF)
+			{
+				result = modifyArmour(result);
+			}
 			int output = getSizeInventory()-1;
 					
             if (this.inventory[output] == null)
             {
-            	if(recipe.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
+            	if(result.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
             	{
-            		getNBT(recipe).setString("MF_CraftedByName", lastPlayerHit);
+            		getNBT(result).setString("MF_CraftedByName", lastPlayerHit);
             	}
-                this.inventory[output] = recipe;
+                this.inventory[output] = result;
             }
-            else if (this.inventory[output].getItem() == recipe.getItem())
+            else if (this.inventory[output].getItem() == result.getItem())
             {
-                this.inventory[output].stackSize += recipe.stackSize; // Forge BugFix: Results may have multiple items
+                this.inventory[output].stackSize += result.stackSize; // Forge BugFix: Results may have multiple items
             }
             consumeResources();
         }
 		onInventoryChanged();
 		progress = 0;
+	}
+	private ItemStack modifyArmour(ItemStack result)
+	{
+		ItemArmourMF item = (ItemArmourMF)result.getItem();
+		boolean canColour = item.canColour();
+		int colour = item.defaultColour;
+		for(int a = 0; a < getSizeInventory()-1; a++)
+		{
+			ItemStack slot = getStackInSlot(a);
+			if(slot != null && slot.getItem() instanceof ItemArmor)
+			{
+				ItemArmor slotitem = (ItemArmor)slot.getItem();
+				if(canColour && slotitem.hasColor(slot))
+				{
+					colour = slotitem.getColor(slot);
+				}
+				if(result.isItemStackDamageable())
+				{
+					result.setItemDamage(slot.getItemDamage());
+				}
+			}
+		}
+		if(canColour)
+		{
+			item.func_82813_b(result, colour);
+		}
+		return result;
 	}
 	private NBTTagCompound getNBT(ItemStack item)
 	{

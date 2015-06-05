@@ -40,7 +40,7 @@ public class KnowledgePageRegistry
 		KnowledgeListMF.smeltBronze.addPages(new EntryPageText("knowledge.smeltBronze.paragraph_1"), new EntryPageSmelting(new ItemStack(BlockListMF.oreCopper), new ItemStack(ComponentListMF.ingots[0])), new EntryPageSmelting(new ItemStack(BlockListMF.oreTin), new ItemStack(ComponentListMF.ingots[1])));
     	KnowledgeListMF.anvil.addPages(new EntryPageText("knowledge.anvil.paragraph_1", "knowledge.anvil.paragraph_2", "knowledge.anvil.paragraph_3"), new EntryPageRecipeBase(BasicRecipesMF.recipeMap.get("anvilCrafting")), new EntryPageText( "knowledge.anvil.paragraph_4", "knowledge.anvil.paragraph_5"), new EntryPageImage("textures/gui/knowledge/anvilGuiExample.png", 128, 128, "knowledge.guiSubtitle"), new EntryPageText( "knowledge.anvil.paragraph_6", "knowledge.anvil.paragraph_7"));
 	    KnowledgeListMF.smeltDragonforge.addPages(new EntryPageText("knowledge.smeltDragonforge.paragraph_1"), new EntryPageText("knowledge.smeltDragonforge.paragraph_2"));
-	    KnowledgeListMF.craftArmourAdv.addPages(new EntryPageText("knowledge.craftPlate.paragraph_1"), new EntryPageRecipeAnvil(KnowledgeListMF.plateRecipes), new EntryPageRecipeAnvil(KnowledgeListMF.plateHelmetR), new EntryPageRecipeAnvil(KnowledgeListMF.plateChestR), new EntryPageRecipeAnvil(KnowledgeListMF.plateLegsR), new EntryPageRecipeAnvil(KnowledgeListMF.plateBootsR));
+	    KnowledgeListMF.craftArmourAdv.addPages(new EntryPageText("knowledge.craftPlate.paragraph_1"), new EntryPageRecipeAnvil(KnowledgeListMF.plateRecipes), new EntryPageRecipeCarpenter(KnowledgeListMF.padding), new EntryPageRecipeAnvil(KnowledgeListMF.plateHelmetR), new EntryPageRecipeAnvil(KnowledgeListMF.plateChestR), new EntryPageRecipeAnvil(KnowledgeListMF.plateLegsR), new EntryPageRecipeAnvil(KnowledgeListMF.plateBootsR));
 	
 	    KnowledgeListMF.blastfurn.addPages(new EntryPageText("knowledge.blastfurn.paragraph_1"), new EntryPageText("knowledge.blastfurn.paragraph_2"), new EntryPageText("knowledge.blastfurn.paragraph_3"), new EntryPageText("knowledge.blastfurn.paragraph_4"));
 	    KnowledgeListMF.blastfurn.addPages(new EntryPageRecipeAnvil(KnowledgeListMF.kaoDustR), new EntryPageRecipeBase(KnowledgeListMF.fireclayR), new EntryPageRecipeBase(KnowledgeListMF.fireBrickR), new EntryPageSmelting(new ItemStack(ComponentListMF.fireclay_brick), new ItemStack(ComponentListMF.strong_brick)), new EntryPageRecipeBase(KnowledgeListMF.fireBricksR));
@@ -72,6 +72,7 @@ public class KnowledgePageRegistry
 	    
 	    KnowledgeListMF.repair_basic.addPages(new EntryPageText("knowledge.repair_basic.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.repairBasicR), new EntryPageText("knowledge.repair_basic.paragraph_2"));
 	    KnowledgeListMF.repair_advanced.addPages(new EntryPageText("knowledge.repair_advanced.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.repairAdvancedR));
+	    KnowledgeListMF.repair_ornate.addPages(new EntryPageText("knowledge.repair_ornate.paragraph_1"), new EntryPageRecipeCarpenter(KnowledgeListMF.repairOrnateR));
 	    
 	    for(int a = 0; a < KnowledgeListMF.ornateWepsR.size(); a++)
 	    {

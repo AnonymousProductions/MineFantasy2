@@ -4,6 +4,9 @@
 forge.fuel.name=~Fuel~
 
 attribute.kit.repairRate.name=Repair Value
+attribute.kit.repairRate_enchant.name=Repair Value (Enchanted Items) 
+attribute.kit.repairRate_normal.name=Repair Value (Normal Items) 
+
 attribute.kit.repairChance.name=Repair Success Rate
 attribute.kit.breakChance.name=Tool Break Chance
 
@@ -121,6 +124,8 @@ knowledge.repair_basic=Repair Kits
 knowledge.repair_basic.desc=Keeping tools in condition
 knowledge.repair_advanced=Advanced Repair Kits
 knowledge.repair_advanced.desc=Highly Effective
+knowledge.repair_ornate=Ornate Repair Kits
+knowledge.repair_ornate.desc=Repair Enchantments
 
 knowledge.blackpowder=Explosives
 knowledge.blackpowder.desc=Boom!
@@ -211,14 +216,18 @@ arrow.head.broad.name=Broad Head
 /COMPONENT/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item.plank.name=Plank
+item.rivet.name=Rivets
+item.nail.name=Nails
 
 tile.repair_basic.name=Basic Repair Kit
 tile.repair_advanced.name=Advanced Repair Kit
+tile.repair_ornate.name=Ornate Repair Kit
 
 item.rawhideSmall.name=Small Hide
 item.rawhideMedium.name=Medium Hide
 item.rawhideLarge.name=Large Hide
 
+item.leather_strip.name=Leather Strip
 item.hideSmall.name=Clean Small Hide
 item.hideMedium.name=Clean Medium Hide
 item.hideLarge.name=Clean Large Hide
@@ -310,7 +319,6 @@ item.hunkEnder.name=Enderforge Nugget
 item.silver_rod.name=Silver Shaft
 item.gold_rod.name=Golden Shaft
 item.obsidian_rod.name=Obsidian Shaft
-item.padding.name=Padding
 item.plateBronze.name=Bronze Plate
 item.plateIron.name=Iron Plate
 item.plateSteel.name=Steel Plate
@@ -527,6 +535,11 @@ item.scaleleather_helmet.name=Scaled Helmet
 item.scaleleather_chest.name=Scaled Armor
 item.scaleleather_legs.name=Scaled Leggings
 item.scaleleather_boots.name=Scaled Boots
+
+item.padded_helmet.name=Padded Helmet
+item.padded_chest.name=Padded Armor
+item.padded_legs.name=Padded Leggings
+item.padded_boots.name=Padded Boots
 
 
 
@@ -1617,6 +1630,7 @@ knowledge.anvil.paragraph_7=When that's ready, hit the anvil with a hammer in th
 knowledge.repair_basic.paragraph_1=The last thing anyone needs is for their tools to break mid-travel, and just carrying spares is hefty on your inventory. Repair kits allow you to touch up on the durability of items when ever you need. Note however- There is a chance you could screw it up
 knowledge.repair_basic.paragraph_2=Repair kits are made out of bronze. They consist of a small anvil and hammer. To use these: place them on the ground and right-click the pack until it repairs, these only have one use. There is also a small chance for the item to break.
 knowledge.repair_advanced.paragraph_1=This new kit consists of steel tools, string and glue, capable of repairing far more duability and it will not break items.
+knowledge.repair_ornate.paragraph_1=This repair kit is capable of repairing enchanted items, though it can also repair normal items.. It isn't more effective than a steel kit.
 
 knowledge.blastfurn.paragraph_1=You have come to know the fact that simply melting down your ores just doesn't quite do it, materials such as iron are full of impurities and can never reach their full potential.
 knowledge.blastfurn.paragraph_2=Refining aims to deal with this issue. The blast furnace is able to smelt iron ore and process it into a more pure ingot, this produces pig iron that can be refined into steel.

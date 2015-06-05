@@ -216,7 +216,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 		{
 			return false;
 		}
-		return design == ArmourDesign.LEATHER || design == ArmourDesign.CLOTH || isMetal();
+		return design == ArmourDesign.PADDING || design == ArmourDesign.LEATHER || design == ArmourDesign.CLOTH || isMetal();
 	}
 	public boolean isMetal()
 	{
@@ -224,7 +224,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	}
 	
 	//COLOURING
-	private int defaultColour = 10511680;
+	public int defaultColour = 10511680;
 	
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -295,7 +295,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
     {
         if (!canColour())
         {
-            throw new UnsupportedOperationException("Can\'t dye non-leather!");
+            return;
         }
         else
         {

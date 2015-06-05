@@ -43,6 +43,7 @@ public class BaseMaterialMF
 	public static BaseMaterialMF hide =  addArmourSpecificMaterial("Hide",   	     	   0, 20 ,          0.2F,        0,        1.00F, 0);
 	public static BaseMaterialMF rough = addArmourSpecificMaterial("RoughLeather",    	   0, 35 ,          0.3F,        1,        1.00F, 0);
 	public static BaseMaterialMF reinforced = addArmourSpecificMaterial("StrongLeather",   1, 250,          1.8F,        1,        1.00F, 5);
+	public static BaseMaterialMF padding =  addArmourSpecificMaterial("Padded",   	       1, 100 ,         1.5F,        0,        0.50F, 5);
 	public static BaseMaterialMF studded = addArmourSpecificMaterial("StudLeather",        1, 500,          2.4F,        5,        1.20F, 15);
 	public static BaseMaterialMF scaled = addArmourSpecificMaterial("ScaleLeather",        2, 1000,         2.7F,        8,        1.50F, 25);
 	public static BaseMaterialMF dragonscale = addArmourSpecificMaterial("Dragonscale",    3, 3000,         8.0F,        20,       1.20F, 85).setRarity(2);

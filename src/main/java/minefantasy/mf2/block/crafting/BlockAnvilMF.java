@@ -3,9 +3,12 @@ package minefantasy.mf2.block.crafting;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.heating.TongsHelper;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
+import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.item.tool.crafting.ItemTongs;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.network.CommonProxyMF;
 import net.minecraft.block.Block;
@@ -81,17 +84,28 @@ public class BlockAnvilMF extends BlockContainer
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
     {
-        {
-        	TileEntityAnvilMF tile = getTile(world, x, y, z);
-        	if(tile != null)
-        	{
-        		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
-        		{
-        			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
-        		}
-        	}
-            return true;
-        }
+    	ItemStack held = user.getHeldItem();
+    	TileEntityAnvilMF tile = getTile(world, x, y, z);
+    	if(tile != null)
+    	{
+    		if(side == 1 && held != null && held.getItem() instanceof ItemTongs)
+    		{
+    			ItemStack result = tile.getStackInSlot(tile.getSizeInventory()-1);
+    			if(result != null && result.getItem() == ComponentListMF.hotItem)
+    			{
+    				if(TongsHelper.getHeldItem(held) == null && TongsHelper.trySetHeldItem(held, result))
+    				{
+    					tile.setInventorySlotContents(tile.getSizeInventory()-1, null);
+    					return true;
+    				}
+    			}
+    		}
+    		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
+    		{
+    			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
+    		}
+    	}
+        return true;
     }
     @Override
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)

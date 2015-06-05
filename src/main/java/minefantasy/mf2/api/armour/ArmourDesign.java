@@ -11,6 +11,7 @@ public class ArmourDesign
 	//                                                            Reg         Name        Prot     Dura    Weight   Bulk
 	public static final ArmourDesign CLOTH = new ArmourDesign(   "clothing", "Clothing",  1.0F,    1.0F,    0F,     0.0F).calibrateTraits(0.5F, 1.0F);
 	public static final ArmourDesign LEATHER = new ArmourDesign( "leather",  "Leather",   1.0F,    1.0F,   10F,     0.0F).calibrateTraits(1.0F, 0.5F);
+	public static final ArmourDesign PADDING = new ArmourDesign( "padding",  "Padding",   1.0F,    1.0F,   10F,     0.5F).calibrateTraits(0.5F, 2.0F);
 	public static final ArmourDesign SOLID = new ArmourDesign(   "default",  "Basic",     1.0F,    1.0F,   40F,     0.5F);//Basic Armour
 	public static final ArmourDesign MAIL = new ArmourDesign(    "mail",     "Mail",      1.0F,    1.0F,   35F,     0.2F).calibrateTraits(1.0F, 0.8F);
 	public static final ArmourDesign PLATE = new ArmourDesign(   "plate",    "Plate",     1.5F,    2.0F,   60F,     1.0F).calibrateTraits(1.0F, 1.0F);//All round

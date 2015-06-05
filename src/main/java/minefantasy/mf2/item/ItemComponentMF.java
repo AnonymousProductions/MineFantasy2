@@ -78,14 +78,16 @@ public class ItemComponentMF extends Item
 			add(list, ingot);
 		}
 		add(list, ComponentListMF.plank);
-
+		add(list, ComponentListMF.nail);
+		add(list, ComponentListMF.rivet);
+		
+		add(list, ComponentListMF.leather_strip);
 		add(list, ComponentListMF.rawhideSmall);
 		add(list, ComponentListMF.rawhideMedium);
 		add(list, ComponentListMF.rawhideLarge);
 		add(list, ComponentListMF.hideSmall);
 		add(list, ComponentListMF.hideMedium);
 		add(list, ComponentListMF.hideLarge);
-		add(list, ComponentListMF.padding);
 		
 		add(list, ComponentListMF.flux);
 		add(list, ComponentListMF.flux_strong);

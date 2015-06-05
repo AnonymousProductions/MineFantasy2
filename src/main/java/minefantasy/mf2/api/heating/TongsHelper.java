@@ -108,13 +108,13 @@ public class TongsHelper
 	/**
 	 * Gets a hot item
 	 */
-	public static ItemStack getHotItem(ItemStack item) {
+	public static ItemStack getHotItem(ItemStack item)
+	{
 		NBTTagCompound tag = getNBT(item);
-
-		if (tag.hasKey("ingotID") && tag.hasKey("ingotMeta")) 
+		if (tag.hasKey(Heatable.NBT_ItemID) && tag.hasKey(Heatable.NBT_SubID)) 
 		{
-			Item metal = Item.getItemById(tag.getInteger("ingotID"));
-			return new ItemStack(metal, 1, tag.getInteger("ingotMeta"));
+			Item metal = Item.getItemById(tag.getInteger(Heatable.NBT_ItemID));
+			return new ItemStack(metal, 1, tag.getInteger(Heatable.NBT_SubID));
 		}
 
 		return null;

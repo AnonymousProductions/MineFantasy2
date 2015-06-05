@@ -3,6 +3,7 @@ package minefantasy.mf2.item.tool;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.tier.IToolMaterial;
+import minefantasy.mf2.api.tool.IToolMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.item.EnumRarity;
@@ -13,12 +14,14 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /**
  * @author Anonymous Productions
  */
-public class ItemShearsMF extends ItemShears implements IToolMaterial
+public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
 {
 	private ToolMaterial toolMaterial;
-    public ItemShearsMF(String name, ToolMaterial material, int rarity)
+	private int tier;
+    public ItemShearsMF(String name, ToolMaterial material, int rarity, int tier)
     {
         super();
+        this.tier = tier;
         itemRarity = rarity;
         toolMaterial = material;
         setCreativeTab(CreativeTabMF.tabTool);
@@ -62,5 +65,22 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial
     		ToolMaterialMF.setUnbreakable(stack);
 		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
+	}
+    @Override
+	public float getEfficiency(ItemStack item) 
+	{
+		return ToolHelper.modifyDigOnQuality(item, toolMaterial.getEfficiencyOnProperMaterial());
+	}
+
+	@Override
+	public int getTier(ItemStack item) 
+	{
+		return tier;
+	}
+
+	@Override
+	public String getToolType(ItemStack item)
+	{
+		return "shears";
 	}
 }

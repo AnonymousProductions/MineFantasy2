@@ -16,6 +16,7 @@ import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerAnvilMF;
+import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.AnvilPacket;
@@ -25,6 +26,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -301,6 +303,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		if (this.canCraft())
         {
 			ItemStack result = modifySpecials(recipe);
+			if(result != null && result.getItem() instanceof ItemArmourMF)
+			{
+				result = modifyArmour(result);
+			}
 			int output = getSizeInventory()-1;
 			
 			int temp = this.averageTemp();
@@ -338,6 +344,33 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         }
 		onInventoryChanged();
 		progress = 0;
+	}
+	private ItemStack modifyArmour(ItemStack result)
+	{
+		ItemArmourMF item = (ItemArmourMF)result.getItem();
+		boolean canColour = item.canColour();
+		int colour = item.defaultColour;
+		for(int a = 0; a < getSizeInventory()-1; a++)
+		{
+			ItemStack slot = getStackInSlot(a);
+			if(slot != null && slot.getItem() instanceof ItemArmor)
+			{
+				ItemArmor slotitem = (ItemArmor)slot.getItem();
+				if(canColour && slotitem.hasColor(slot))
+				{
+					colour = slotitem.getColor(slot);
+				}
+				if(result.isItemStackDamageable())
+				{
+					result.setItemDamage(slot.getItemDamage());
+				}
+			}
+		}
+		if(canColour)
+		{
+			item.func_82813_b(result, colour);
+		}
+		return result;
 	}
 	private ItemStack modifySpecials(ItemStack result) 
 	{

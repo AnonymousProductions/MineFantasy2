@@ -30,10 +30,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ItemNeedle extends ItemTool implements IToolMaterial, IToolMF
 {
 	private ToolMaterial material;
-    public ItemNeedle(String name, ToolMaterial material, int rarity)
+	private int tier;
+    public ItemNeedle(String name, ToolMaterial material, int rarity, int tier)
     {
         super(0F, material, Sets.newHashSet(new Block[] {}));
-        
+        this.tier=tier;
         this.material = material;
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
@@ -92,7 +93,7 @@ public class ItemNeedle extends ItemTool implements IToolMaterial, IToolMF
 	@Override
 	public int getTier(ItemStack item) 
 	{
-		return material.getHarvestLevel();
+		return tier;
 	}
 
 	@Override

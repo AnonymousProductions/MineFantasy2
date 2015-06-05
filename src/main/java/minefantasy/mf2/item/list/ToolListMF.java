@@ -147,10 +147,10 @@ public class ToolListMF
 	public static ItemHvyShovel[] hvyshovels = new ItemHvyShovel[mats.length-1];
 	public static ItemMattock[] mattocks = new ItemMattock[mats.length-1];
 	
-	public static Item knifeStone = new ItemKnifeMF("stone_knife", ToolMaterialMF.STONE, -1, 3.5F);
+	public static Item knifeStone = new ItemKnifeMF("stone_knife", ToolMaterialMF.STONE, -1, 3.5F, 0);
 	public static Item hammerStone = new ItemHammer("stone_hammer", ToolMaterialMF.STONE, 0, false, -1);
 	public static Item tongsStone = new ItemTongs("stone_tongs", ToolMaterialMF.STONE, -1);
-	public static Item needleBone = new ItemNeedle("bone_needle", ToolMaterialMF.STONE, -1);
+	public static Item needleBone = new ItemNeedle("bone_needle", ToolMaterialMF.STONE, -1, 0);
 	
 	//public static Item pickStone = new ItemPickMF("stone_pick", ToolMaterialMF.STONE, -1);
 	//public static Item axeStone = new ItemAxeMF("stone_axe", ToolMaterialMF.STONE, -1);
@@ -196,11 +196,11 @@ public class ToolListMF
 			axes[a] = new ItemAxeMF(matName+"_axe", mat, rarity);
 			spades[a] = new ItemSpadeMF(matName+"_spade", mat, rarity);
 			hoes[a] = new ItemHoeMF(matName+"_hoe", mat, rarity);
-			shears[a] = new ItemShearsMF(matName+"_shears", mat, rarity);
-			knives[a] = new ItemKnifeMF(matName+"_knife", mat, rarity, weight);
+			shears[a] = new ItemShearsMF(matName+"_shears", mat, rarity, tier);
+			knives[a] = new ItemKnifeMF(matName+"_knife", mat, rarity, weight, tier);
 			hammers[a] = new ItemHammer(matName+"_hammer", mat, tier, false, rarity);
 			tongs[a] = new ItemTongs(matName+"_tongs", mat, rarity);
-			needles[a] = new ItemNeedle(matName+"_needle", mat, rarity);
+			needles[a] = new ItemNeedle(matName+"_needle", mat, rarity, tier);
 			saws[a] = new ItemSaw(matName+"_saw", mat, rarity);
 			
 			if(a > 0)

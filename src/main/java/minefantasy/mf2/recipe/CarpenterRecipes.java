@@ -20,6 +20,7 @@ public class CarpenterRecipes
 	//private static final String engineering = "engineering";
 	private static final String sewing = "step.cloth";
 	private static final String carving = "dig.stone";
+	private static final String snipping = "mob.sheep.shear";
 	//private static final String sawing = "step.gravel";
 	private static final String mallet = "minefantasy2:block.carpentermallet";
 	private static final String mixing = "step.wood";
@@ -37,7 +38,11 @@ public class CarpenterRecipes
 		addStonemason();
 		addCooking();
 		addMisc();
-		
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.leather_strip, 4), snipping, "shears", -1, 10 , new Object[]
+		{
+			"L",
+			'L', Items.leather,
+		});
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.swordTraining), carving, "knife", 1, 40 , new Object[]
 		{
 			" I  ",
@@ -92,19 +97,8 @@ public class CarpenterRecipes
 		{
 			"L",
 			"B",
-			'L', Items.leather,
+			'L', ComponentListMF.leather_strip,
 			'B', ToolListMF.bandage_wool
-		});
-		
-		
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.padding), sewing, "needle", 2, 50 , new Object[]
-		{
-			" L ",
-			"FFF",
-			" C ",
-			'L', Items.leather,
-			'F', Items.feather,
-			'C', Blocks.wool
 		});
 		
 		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 0),"craftArmour", sewing, "needle", 2, 50 , new Object[]
@@ -131,18 +125,62 @@ public class CarpenterRecipes
 			'P', Items.leather_boots,
 			'U', Items.leather
 		});
-		KnowledgeListMF.repairBasicR =
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_basic), "repair_basic", sewing, "needle", 2, 20 , new Object[]
+		
+		//PADDING
+		KnowledgeListMF.padding[0]=
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 0),"craftArmour", sewing, "needle", 2, 50 , new Object[]
 		{
-			"LWL",
-			"HPN",
-			"LCL",
-			'W', ComponentListMF.plank,
+			"SWS",
+			"FPF",
+			"SFS",
+			'P', Items.leather_helmet,
+			'W', Blocks.wool,
+			'F', Items.feather,
+			'S', Items.string,
+		});
+		KnowledgeListMF.padding[1]=
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 1),"craftArmour", sewing, "needle", 2, 80 , new Object[]
+		{
+			"SWS",
+			"FPF",
+			"SFS",
+			'P', Items.leather_chestplate,
+			'W', Blocks.wool,
+			'F', Items.feather,
+			'S', Items.string,
+		});
+		KnowledgeListMF.padding[2]=
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 2),"craftArmour", sewing, "needle", 2, 70 , new Object[]
+		{
+			"SWS",
+			"FPF",
+			"SFS",
+			'P', Items.leather_leggings,
+			'W', Blocks.wool,
+			'F', Items.feather,
+			'S', Items.string,
+		});
+		KnowledgeListMF.padding[3]=
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 3),"craftArmour", sewing, "needle", 2, 40 , new Object[]
+		{
+			"SWS",
+			"FPF",
+			"SFS",
+			'P', Items.leather_boots,
+			'W', Blocks.wool,
+			'F', Items.feather,
+			'S', Items.string,
+		});
+				
+		KnowledgeListMF.repairBasicR =
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_basic), "repair_basic", sewing, "needle", 1, 20 , new Object[]
+		{
+			"PHP",
+			"SLS",
+			'S', ComponentListMF.leather_strip,
 			'L', Items.leather,
 			'P', ComponentListMF.plates[0],
-			'N', ToolListMF.needles[1],
 			'H', ToolListMF.hammers[1],
-			'C', Blocks.wool,
 		});
 		KnowledgeListMF.repairAdvancedR =
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_advanced), "repair_advanced", sewing, "needle", 2, 50 , new Object[]
@@ -157,6 +195,17 @@ public class CarpenterRecipes
 			'H', ToolListMF.hammers[3],
 			'C', Items.slime_ball,
 			'S', Items.string
+		});
+		KnowledgeListMF.repairOrnateR =
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_ornate), "repair_ornate", sewing, "needle", 3, 100 , new Object[]
+		{
+			"GDG",
+			"LKL",
+			"GLG",
+			'K', BlockListMF.repair_advanced,
+			'G', Items.gold_ingot,
+			'L', new ItemStack(Items.dye, 1, 4),
+			'D', Items.diamond,
 		});
 	}
 

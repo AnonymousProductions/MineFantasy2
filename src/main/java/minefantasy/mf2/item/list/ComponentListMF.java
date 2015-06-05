@@ -122,11 +122,12 @@ public class ComponentListMF
 	
 	public static Item dragon_heart = new ItemComponentMF("dragon_heart", 1);
 	
-	public static Item padding = new ItemComponentMF("padding", 0);
-	
 	public static Item silver_rod = new ItemComponentMF("silver_rod", 0);
 	public static Item gold_rod = new ItemComponentMF("gold_rod", 0);
 	public static Item obsidian_rod = new ItemComponentMF("obsidian_rod", 1);
+	public static Item leather_strip = new ItemComponentMF("leather_strip", 0);
+	public static Item nail = new ItemComponentMF("nail", 0);
+	public static Item rivet = new ItemComponentMF("rivet", 0);
 	
 	public static Item hotItem = new ItemHeated();
 	
@@ -202,6 +203,7 @@ public class ComponentListMF
 		}
 		addRandomDrops();
 		initFuels();
+		MineFantasyAPI.addHeatableItem(rivet, 100, 500, 1000);
 	}
 
 	private static void initFuels() 

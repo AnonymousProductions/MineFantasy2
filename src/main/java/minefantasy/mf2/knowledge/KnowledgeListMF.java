@@ -90,6 +90,7 @@ public class KnowledgeListMF
     
     public static InformationBase repair_basic = (new InformationBase("repair_basic",  		   2, -2, 5, BlockListMF.repair_basic, (InformationBase)null)).registerStat().setPage(smithing);
     public static InformationBase repair_advanced = (new InformationBase("repair_advanced",    4, -2, 20, BlockListMF.repair_advanced, repair_basic)).registerStat().setPage(smithing);
+    public static InformationBase repair_ornate = (new InformationBase("repair_ornate",    6, -3, 35, BlockListMF.repair_ornate, repair_advanced)).registerStat().setPage(smithing);
     
     public static void init()
 	{
@@ -112,8 +113,8 @@ public class KnowledgeListMF
     public static IAnvilRecipe ironPrepR, ironPrepR2;
     public static IAnvilRecipe blastChamR, blastHeatR;
     
-    public static ICarpenterRecipe repairBasicR;
-    public static ICarpenterRecipe repairAdvancedR;
+    public static ICarpenterRecipe padding[] = new ICarpenterRecipe[4];
+    public static ICarpenterRecipe repairBasicR, repairAdvancedR, repairOrnateR;
     public static ICarpenterRecipe blackpowderRec, advblackpowderRec;
     public static IAnvilRecipe bombBenchCraft;
     public static ICarpenterRecipe bombFuseR, longFuseR;

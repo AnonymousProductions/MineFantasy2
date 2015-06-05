@@ -145,9 +145,12 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 				}
 
 				if (isWaterSource(world, i, j, k) && TongsHelper.getHeldItem(item) != null) {
-					ItemStack drop = TongsHelper.getHeldItem(item).copy();
-					if (TongsHelper.isCoolableItem(drop)) {
-						drop = TongsHelper.getHotItem(drop);
+					ItemStack drop = TongsHelper.getHeldItem(item).copy(), cooled = drop;
+					
+					if (TongsHelper.isCoolableItem(drop)) 
+					{
+						cooled = TongsHelper.getHotItem(drop);
+						cooled.stackSize = drop.stackSize;
 
 						player.playSound("random.splash", 1F, 1F);
 						player.playSound("random.fizz", 2F, 0.5F);
@@ -156,9 +159,9 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 							world.spawnParticle("largesmoke", i + 0.5F, j + 1, k + 0.5F, 0, 0.065F, 0);
 						}
 					}
-					drop.stackSize = item.stackSize;
-					if (drop != null) {
-						player.entityDropItem(drop, 0);
+					if (cooled != null && !world.isRemote) 
+					{
+						player.entityDropItem(cooled, 0);
 					}
 
 					return TongsHelper.clearHeldItem(item, player);

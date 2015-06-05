@@ -22,12 +22,14 @@ import net.minecraft.world.World;
 public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 {
 	private Random rand = new Random();
+	private int tier;
 	/**
 	 * Knives are weapons used for hunting, and tools used for processing
 	 */
-    public ItemKnifeMF(String name, ToolMaterial material, int rarity, float weight)
+    public ItemKnifeMF(String name, ToolMaterial material, int rarity, float weight, int tier)
     {
     	super(material, name, rarity, weight);
+    	this.tier=tier;
     	baseDamage -= 3;
     	setCreativeTab(CreativeTabMF.tabCraftTool);
         setTextureName("minefantasy2:Tool/Crafting/"+name);
@@ -64,7 +66,7 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 	@Override
 	public int getTier(ItemStack item) 
 	{
-		return material.getHarvestLevel();
+		return tier;
 	}
 
 	@Override

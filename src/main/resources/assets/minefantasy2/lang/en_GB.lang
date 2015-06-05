@@ -28,6 +28,7 @@ item.hide_chest.name=Hide Armour
 item.strongleather_chest.name=Reinforced Leather Armour
 item.studleather_chest.name=Studded Armour
 item.scaleleather_chest.name=Scaled Armour
+item.padded_chest.name=Padded Armour
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /TOOL/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

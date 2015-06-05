@@ -23,6 +23,8 @@ public class BlockRepairKit extends Block
 	protected float breakChance;
 	protected IIcon top, side, bottom;
 	private String type;
+	protected boolean isOrnate = false;
+	protected float repairLevelEnchant = 0.0F;
 	
 	public BlockRepairKit(String name, float repairLevel, float rate, float breakChance)
 	{
@@ -43,6 +45,12 @@ public class BlockRepairKit extends Block
 		this.setResistance(0F);
         this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabMF.tabGadget);
+	}
+	public BlockRepairKit setOrnate(float enc)
+	{
+		repairLevelEnchant = enc;
+		isOrnate = true;
+		return this;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -81,7 +89,7 @@ public class BlockRepairKit extends Block
     		return true;
     	}
     	ItemStack held = user.getHeldItem();
-    	if(held != null && held.isItemDamaged() && held.getItem().isRepairable())
+    	if(held != null && held.isItemDamaged() && held.getItem().isRepairable() && (!held.isItemEnchanted() || isOrnate))
     	{
     		if(rand.nextFloat() < successRate)
     		{
@@ -93,7 +101,8 @@ public class BlockRepairKit extends Block
     			}
     			else
     			{
-    				int repairAmount = (int)((float)held.getMaxDamage()*repairLevel);
+    				float lvl = held.isItemEnchanted() ? repairLevelEnchant : repairLevel;
+    				int repairAmount = (int)((float)held.getMaxDamage()*lvl);
     				held.setItemDamage(Math.max(0, held.getItemDamage() - repairAmount));
     				world.playAuxSFX(1021, x, y, z, 0);
     			}
