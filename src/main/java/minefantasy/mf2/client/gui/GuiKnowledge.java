@@ -476,7 +476,7 @@ public class GuiKnowledge extends GuiScreen
                 else if (ResearchLogic.canUnlockInfo(player, achievement2))
                 {
                     f6 = 1.0F;
-                    GL11.glColor4f(f6, f6, f6, 1.0F);
+                    GL11.glColor4f(0.5F, 1.0F, 0.5F, 1.0F);
                 }
                 else if (researchVisibility < getVisibleRange()[1])
                 {

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -39,6 +41,7 @@ public class SmeltingRecipesMF {
 		GameRegistry.addSmelting(ComponentListMF.mine_casing_uncooked, new ItemStack(ComponentListMF.mine_casing), 0F);
 		
 		//ALLOY
+		KnowledgeListMF.bronze = 
 		MineFantasyAPI.addRatioAlloy(3, new ItemStack(ComponentListMF.ingots[2], 3), new Object[]{
 			ComponentListMF.ingots[0], ComponentListMF.ingots[0], ComponentListMF.ingots[1]
 		});
@@ -60,10 +63,15 @@ public class SmeltingRecipesMF {
 		}
 		for(ItemStack ingot: pigs)
 		{
+			Alloy[] alloy = 
 			MineFantasyAPI.addRatioAlloy(9, new ItemStack(ComponentListMF.ingots[4]), 1, new Object[]
 			{
 				ingot
 			});
+			if(KnowledgeListMF.steel == null)
+			{
+				KnowledgeListMF.steel = alloy;
+			}
 		}
 		for(ItemStack steel: blacks)
 		{

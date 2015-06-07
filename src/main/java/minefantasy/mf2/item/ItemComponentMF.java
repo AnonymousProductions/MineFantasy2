@@ -80,6 +80,7 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.plank);
 		add(list, ComponentListMF.nail);
 		add(list, ComponentListMF.rivet);
+		add(list, ComponentListMF.thread);
 		
 		add(list, ComponentListMF.leather_strip);
 		add(list, ComponentListMF.rawhideSmall);

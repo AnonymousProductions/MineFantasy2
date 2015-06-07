@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class Alloy{
-	private final List recipeItems;
+	public final List recipeItems;
 	private final ItemStack recipeOutput;
 	private final int level;
 	private Map props = new HashMap();

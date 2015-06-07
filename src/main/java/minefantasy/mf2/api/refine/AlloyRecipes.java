@@ -8,9 +8,11 @@ import net.minecraft.item.ItemStack;
 public class AlloyRecipes {
 	private static List<Alloy>alloys = new ArrayList();
 	
-	public static void addAlloy(ItemStack out, int level, List in)
+	public static Alloy addAlloy(ItemStack out, int level, List in)
 	{
-		alloys.add(new Alloy(out, level, in));
+		Alloy alloy = new Alloy(out, level, in);
+		alloys.add(alloy);
+		return alloy;
 	}
 	public static void addAlloy(ItemStack out, List in)
 	{
@@ -38,16 +40,18 @@ public class AlloyRecipes {
 	 * eg a recipe with 2 'x' ore and 1 'y' ore can be made with 4 'x' ore and 2 'y' ore...
 	 * @param the amount of times the ratio can be added
 	 */
-	public static void addRatioRecipe(ItemStack out, int level, List in, int levels)
+	public static Alloy[] addRatioRecipe(ItemStack out, int level, List in, int levels)
 	{
+		Alloy[] alloys = new Alloy[levels];
 		for(int a = 1; a <= levels; a ++)
 		{
 			List list2 = createDupeList(in, a);
 			ItemStack out2 = out.copy();
 			int ss = Math.min(out2.getMaxStackSize(), out2.stackSize * a);
 			out2.stackSize = ss;
-			addAlloy(out2, level, list2);
+			alloys[a-1] = addAlloy(out2, level, list2);
 		}
+		return alloys;
 	}
 	public static List createDupeList(List list)
 	{

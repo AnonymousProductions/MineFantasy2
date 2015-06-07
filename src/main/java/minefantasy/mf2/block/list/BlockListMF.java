@@ -134,6 +134,8 @@ public class BlockListMF
 	public static Block repair_advanced = new BlockRepairKit("advanced", 1.0F, 0.2F, 0F);
 	public static Block repair_ornate = new BlockRepairKit("ornate", 1.0F, 0.05F, 0F).setOrnate(0.5F);
 	
+	public static Block bellows = new BlockBellows();
+	
 	public static void init()
 	{
 		for(int a = 0; a < specialMetalBlocks.length; a++)
@@ -167,4 +169,5 @@ public class BlockListMF
 	public static int bomb_RI = 102;
 	public static int tanner_RI = 103;
 	public static int forge_RI = 104;
+	public static int bellows_RI = 105;
 }

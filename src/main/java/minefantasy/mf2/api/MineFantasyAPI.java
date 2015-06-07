@@ -221,9 +221,9 @@ public class MineFantasyAPI
 	 * @param level The minimal furnace level
 	 * @param in The list of required items
 	 */
-	public static void addRatioAlloy(int dupe, ItemStack out, int level, Object... in)
+	public static Alloy[] addRatioAlloy(int dupe, ItemStack out, int level, Object... in)
 	{
-		AlloyRecipes.addRatioRecipe(out, level, convertList(in), dupe);
+		return AlloyRecipes.addRatioRecipe(out, level, convertList(in), dupe);
 	}
 	
 	/**
@@ -233,9 +233,9 @@ public class MineFantasyAPI
 	 * @param level The minimal furnace level
 	 * @param in The list of required items
 	 */
-	public static void addRatioAlloy(int dupe, ItemStack out, Object... in)
+	public static Alloy[] addRatioAlloy(int dupe, ItemStack out, Object... in)
 	{
-		AlloyRecipes.addRatioRecipe(out, 0, convertList(in), dupe);
+		return AlloyRecipes.addRatioRecipe(out, 0, convertList(in), dupe);
 	}
 	
 	/**

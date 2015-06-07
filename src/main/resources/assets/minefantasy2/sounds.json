@@ -33,14 +33,13 @@
       ]
     },
 	
-
-	
 	"weapon.hit.blunt.wood": {
     "category": "neutral",
     "sounds": [
         "Weapon/hit/blunt/wood1"
       ]
     },
+    
 	"weapon.hit.blunt.stone": {
     "category": "neutral",
     "sounds": [
@@ -60,12 +59,14 @@
         "Weapon/hit/blade/wood1"
       ]
     },
+	
 	"weapon.hit.blade.stone": {
     "category": "neutral",
     "sounds": [
         "Weapon/hit/blade/stone1"
       ]
     },
+	
 	"weapon.hit.blade.metal": {
     "category": "neutral",
     "sounds": [
@@ -95,6 +96,7 @@
 		  "blocks/AnvilFail3"
       ]
     },
+    
 	"block.anvilsucceed": {
     "category": "neutral",
     "sounds": [
@@ -103,10 +105,18 @@
 		  "blocks/AnvilSucceed3"
       ]
     },
+	
 	"updateResearch": {
     "category": "player",
     "sounds": [
         "updateResearch"
+      ]
+    },
+    
+    "block.bellows": {
+    "category": "neutral",
+    "sounds": [
+        "blocks/Bellows"
       ]
     }
 }

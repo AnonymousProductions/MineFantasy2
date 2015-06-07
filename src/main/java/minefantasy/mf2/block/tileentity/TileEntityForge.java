@@ -9,6 +9,7 @@ import minefantasy.mf2.api.heating.ForgeItemHandler;
 import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
+import minefantasy.mf2.api.refine.IBellowsUseable;
 import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.refining.BlockForge;
 import minefantasy.mf2.item.heatable.ItemHeated;
@@ -27,7 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldServer;
 
-public class TileEntityForge extends TileEntity implements IInventory, IBasicMetre
+public class TileEntityForge extends TileEntity implements IInventory, IBasicMetre, IBellowsUseable
 {
 	private ItemStack[] inv = new ItemStack[10];
 	public float fuel;
@@ -52,6 +53,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	@Override
 	public void updateEntity()
 	{
+		if(justShared > 0)--justShared;
 		super.updateEntity();
 		
 		if(++ticksExisted % 20 == 0)
@@ -91,7 +93,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		{
 			temperature += 0.2F;
 		}
-		else if(temperature > maxTemp)
+		else if(temperature > maxTemp && rand.nextInt(20) == 0)
 		{
 			--temperature;
 		}
@@ -432,6 +434,14 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		BlockForge.updateFurnaceBlockState(true, worldObj, xCoord, yCoord, zCoord);
 	}
+	public float getBellowsEffect()
+	{
+		return 1.5F;
+	}
+	private float getBellowsMax() 
+	{
+		return Math.min(fuelTemperature*getBellowsEffect(), getMaxTemp());
+	}
 	public int getMaxTemp() 
 	{
 		return 1000;
@@ -527,6 +537,51 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		{
 			EntityPlayer player = players.get(i);
 			((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new ForgePacket(this).generatePacket());
+		}
+	}
+	int justShared;
+	public void onUsedWithBellows(float powerLevel) 
+	{
+		if(!isBurning())return;
+		if(justShared > 0)
+		{
+			return;
+		}
+		if(fuel <= 0)
+		{
+			return;
+		}
+		float max = getBellowsMax();
+		justShared = 5;
+		if(temperature < max)
+        {
+        	temperature = Math.min(max, temperature + (50F*powerLevel));
+        }
+		
+		for(int a = 0; a < 10; a ++)
+		{
+			worldObj.spawnParticle("flame", xCoord+(rand.nextDouble()*0.8D)+0.1D, yCoord + 0.4D, zCoord+(rand.nextDouble()*0.8D)+0.1D, 0, 0.01, 0);
+		}
+		
+		pumpBellows(-1, 0, powerLevel*0.9F);
+		pumpBellows(0, -1, powerLevel*0.9F);
+		pumpBellows(0, 1, powerLevel*0.9F);
+		pumpBellows(1, 0, powerLevel*0.9F);
+	
+	}
+
+	private void pumpBellows(int x, int z, float pump)
+	{
+		if(fuel <= 0)return;
+		
+		int share = 2;
+		TileEntity tile = worldObj.getTileEntity(xCoord+x, yCoord, zCoord+z);
+		if(tile == null)return;
+		
+		if(tile instanceof TileEntityForge)
+		{
+			TileEntityForge forge = (TileEntityForge)tile;
+			forge.onUsedWithBellows(pump);
 		}
 	}
 }

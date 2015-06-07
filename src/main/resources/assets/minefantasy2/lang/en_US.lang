@@ -39,37 +39,39 @@ knowledge.chimney=Smoke and Chimnies
 knowledge.chimney.desc=What greenhouse gasses?
 knowledge.tanning=Tanning
 knowledge.tanning.desc=Refined skins
+knowledge.commodities=Commodities
+knowledge.commodities.desc=Useful Resources
 
 knowledge.research1=Improved Research
 knowledge.research1.desc=The big picture
 knowledge.research2=Master Research
 knowledge.research2.desc=Know your field
 
-knowledge.smeltCopper=Copper Smelting
+knowledge.smeltCopper=Copper Smithing
 knowledge.smeltCopper.desc=Early metallurgy
-knowledge.smeltBronze=Bronze Smelting
+knowledge.smeltBronze=Bronze Smithing
 knowledge.smeltBronze.desc=A simple alloy
-knowledge.smeltIron=Iron Smelting
+knowledge.smeltIron=Iron Smithing
 knowledge.smeltIron.desc=The most common material
-knowledge.smeltSteel=Steel Smelting
+knowledge.smeltSteel=Steel Smithing
 knowledge.smeltSteel.desc=A common, strong material
 knowledge.smeltSteel2=Steel Mastery
 knowledge.smeltSteel2.desc=Mass Produce Steel
-knowledge.encrusted=Encrusted Metals
-knowledge.encrusted.desc=Adding diamond to steel
-knowledge.smeltBlackSteel=Black Steel Smelting
+knowledge.smeltEncrusted=Encrusted Metals
+knowledge.smeltEncrusted.desc=Adding diamond to steel
+knowledge.smeltBlackSteel=Black Steel Smithing
 knowledge.smeltBlackSteel.desc=Upgraded steel
-knowledge.smeltDragonforge=Dragonforge Smelting
+knowledge.smeltDragonforge=Dragonforge Smithing
 knowledge.smeltDragonforge.desc=A mystical craft
-knowledge.smeltRedSteel=Red Steel Smelting
+knowledge.smeltRedSteel=Red Steel Smithing
 knowledge.smeltRedSteel.desc=A heavy, but strong material
-knowledge.smeltBlueSteel=Blue Steel Smelting
+knowledge.smeltBlueSteel=Blue Steel Smithing
 knowledge.smeltBlueSteel.desc=Light and mystical
-knowledge.smeltAdamant=Adamantium Smelting
+knowledge.smeltAdamant=Adamantium Smithing
 knowledge.smeltAdamant.desc=A heavy and resistant material
-knowledge.smeltMithril=Mithril Smelting
+knowledge.smeltMithril=Mithril Smithing
 knowledge.smeltMithril.desc=The lightest of materials
-knowledge.smeltIgnotumite=Ignotumite Smelting
+knowledge.smeltIgnotumite=Ignotumite Smithing
 knowledge.smeltIgnotumite.desc=A rare power
 
 knowledge.craftCrafters=Crafting tools
@@ -86,10 +88,12 @@ knowledge.craftOrnateWeapons=Ornate Weapon Crafting
 knowledge.craftOrnateWeapons.desc=Fancy
 knowledge.craftAdvOrnateWeapons=Heavy Ornate Weapon Crafting
 knowledge.craftAdvOrnateWeapons.desc=Fancier
-knowledge.craftArmour=Armor Crafting
-knowledge.craftArmour.desc=Protective and durable
-knowledge.craftArmourAdv=Plate Armor
-knowledge.craftArmourAdv.desc=Heavy duty protection
+knowledge.craftArmourLight=Light Armor
+knowledge.craftArmourLight.desc=Cheap and Practical
+knowledge.craftArmourMedium=Medium Armor
+knowledge.craftArmourMedium.desc=Protective and durable
+knowledge.craftArmourHeavy=Heavy Armor
+knowledge.craftArmourHeavy.desc=Heavy duty protection
 knowledge.arrows=Fletching
 knowledge.arrows.desc=Arrow Crafting
 knowledge.arrowsBodkin=Bodkin Arrows
@@ -212,63 +216,19 @@ arrow.head.normal.name=Regular Head
 arrow.head.bodkin.name=Bodkin Head
 arrow.head.broad.name=Broad Head
 
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/COMPONENT/
+/COMMODITY/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-item.plank.name=Plank
+item.plank.name=Timber
 item.rivet.name=Rivets
 item.nail.name=Nails
-
-tile.repair_basic.name=Basic Repair Kit
-tile.repair_advanced.name=Advanced Repair Kit
-tile.repair_ornate.name=Ornate Repair Kit
-
-item.rawhideSmall.name=Small Hide
-item.rawhideMedium.name=Medium Hide
-item.rawhideLarge.name=Large Hide
-
-item.leather_strip.name=Leather Strip
-item.hideSmall.name=Clean Small Hide
-item.hideMedium.name=Clean Medium Hide
-item.hideLarge.name=Clean Large Hide
-
-item.vine.name=Vine
-item.sharp_rock.name=Sharp Rock
-
+item.thread.name=Thread
 item.flux.name=Flux
 item.flux_strong.name=Strong Flux
-item.iron_prep.name=Prepared Iron Ore
 item.coke.name=Coke
-item.diamond_shards.name=Diamond Shards
-item.diamond_dust.name=Diamond Dust
-item.fletching.name=Fletching
-
-item.coalDust.name=Coal Dust
-item.nitre.name=Niter
-item.sulfur.name=Sulfur
 item.blackpowder.name=Blackpowder
 item.blackpowder_advanced.name=Advanced Blackpowder
-item.bomb_casing_uncooked.name=Clay Bomb Casing
-item.bomb_casing.name=Bomb Casing
-item.mine_casing_uncooked.name=Clay Mine Casing
-item.mine_casing.name=Mine Casing
-item.shrapnel.name=Shrapnel
-item.magma_cream_refined.name=Refined Magma Cream
-item.bomb_fuse.name=Bomb Fuse
-item.bomb_fuse_long.name=Long Bomb Fuse
-item.bomb_casing_iron.name=Iron Bomb Casing
-item.mine_casing_iron.name=Iron Mine Casing
-item.bomb_casing_obsidian.name=Obsidian Bomb Casing
-item.mine_casing_obsidian.name=Obsidian Mine Casing
-item.bomb_casing_crystal.name=Crystal Bomb Casing
-item.mine_casing_crystal.name=Crystal Mine Casing
-
-item.clay_brick.name=Clay Brick
-item.kaolinite.name=Kaolinite
-item.kaolinite_dust.name=Kaolinite Dust
-item.fireclay.name=Fire Clay
-item.fireclay_brick.name=Fire Clay Brick
-item.strong_brick.name=Fire Brick
 
 item.ingotCopper.name=Copper Ingot
 item.ingotTin.name=Tin Ingot
@@ -295,6 +255,58 @@ item.ingotIgnotumite.name=Ignotumite Ingot
 item.ingotMithium.name=Mithium Ingot
 
 item.ingotEnder.name=Enderforge Ingot
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/COMPONENT/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tile.repair_basic.name=Basic Repair Kit
+tile.repair_advanced.name=Advanced Repair Kit
+tile.repair_ornate.name=Ornate Repair Kit
+
+item.rawhideSmall.name=Small Hide
+item.rawhideMedium.name=Medium Hide
+item.rawhideLarge.name=Large Hide
+
+item.leather_strip.name=Leather Strip
+item.hideSmall.name=Clean Small Hide
+item.hideMedium.name=Clean Medium Hide
+item.hideLarge.name=Clean Large Hide
+
+item.vine.name=Vine
+item.sharp_rock.name=Sharp Rock
+
+item.iron_prep.name=Prepared Iron Ore
+item.diamond_shards.name=Diamond Shards
+item.diamond_dust.name=Diamond Dust
+item.fletching.name=Fletching
+
+item.coalDust.name=Coal Dust
+item.nitre.name=Niter
+item.sulfur.name=Sulfur
+item.bomb_casing_uncooked.name=Clay Bomb Casing
+item.bomb_casing.name=Bomb Casing
+item.mine_casing_uncooked.name=Clay Mine Casing
+item.mine_casing.name=Mine Casing
+item.shrapnel.name=Shrapnel
+item.magma_cream_refined.name=Refined Magma Cream
+item.bomb_fuse.name=Bomb Fuse
+item.bomb_fuse_long.name=Long Bomb Fuse
+item.bomb_casing_iron.name=Iron Bomb Casing
+item.mine_casing_iron.name=Iron Mine Casing
+item.bomb_casing_obsidian.name=Obsidian Bomb Casing
+item.mine_casing_obsidian.name=Obsidian Mine Casing
+item.bomb_casing_crystal.name=Crystal Bomb Casing
+item.mine_casing_crystal.name=Crystal Mine Casing
+
+item.clay_brick.name=Clay Brick
+item.kaolinite.name=Kaolinite
+item.kaolinite_dust.name=Kaolinite Dust
+item.fireclay.name=Fire Clay
+item.fireclay_brick.name=Fire Clay Brick
+item.strong_brick.name=Fire Brick
 
 item.hunkCopper.name=Copper Nugget
 item.hunkTin.name=Tin Nugget
@@ -467,7 +479,7 @@ tile.crucible.fireclay.name=Fireclay Crucible
 tile.chimney.stone.name=Stone Chimney
 tile.chimney.stone.wide.name=Wide Stone Chimney
 tile.chimney.stone_extractor.wide.name=Stone Extractor Chimney
-
+tile.bellows.name=Bellows
 tile.tanner.name=Tanning Rack
 tile.bombBench.name=Bomb Crafting Table
 tile.carpenterBench.name=Carpenter Bench
@@ -1592,6 +1604,8 @@ method.workbench=Basic Workbench
 method.furnace=Smelting
 method.anvil=Anvil
 method.carpenter=Carpenter
+method.crucible=Crucible
+method.crucibleT2=Firebrick Crucible
 
 knowledge.guiSubtitle=This is the GUI
 

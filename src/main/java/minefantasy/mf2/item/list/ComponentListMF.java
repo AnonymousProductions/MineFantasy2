@@ -128,6 +128,7 @@ public class ComponentListMF
 	public static Item leather_strip = new ItemComponentMF("leather_strip", 0);
 	public static Item nail = new ItemComponentMF("nail", 0);
 	public static Item rivet = new ItemComponentMF("rivet", 0);
+	public static Item thread = new ItemComponentMF("thread", 0);
 	
 	public static Item hotItem = new ItemHeated();
 	
