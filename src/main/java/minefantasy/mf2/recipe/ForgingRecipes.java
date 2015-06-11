@@ -561,7 +561,7 @@ public class ForgingRecipes
 		for(ItemStack ingot: OreDictionary.getOres("ingotSteel"))
 		{
 			IAnvilRecipe recipe = 
-			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[5]), "encrusted", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[5]), "smeltEncrusted", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				"D",
 				"I",

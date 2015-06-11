@@ -95,7 +95,8 @@ public class BlockRepairKit extends Block
     		{
     			if(rand.nextFloat() < breakChance)
     			{
-    				user.destroyCurrentEquippedItem();
+    				int repairAmount = (int)((float)held.getMaxDamage()*(repairLevel/2));
+    				held.damageItem(repairAmount, user);
     				world.playAuxSFX(1020, x, y, z, 0);
     				world.playSoundEffect(x+0.5D, y+0.3D, z+0.5D, "random.break", 1.0F, 1.0F);
     			}

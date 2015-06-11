@@ -130,7 +130,7 @@ public class BlockListMF
 	public static Block forge = new BlockForge("stone", 0, false);
 	public static Block forge_active = new BlockForge("stone", 0, true).setLightLevel(10F);
 	
-	public static Block repair_basic = new BlockRepairKit("basic", 0.5F, 0.1F, 0.02F);
+	public static Block repair_basic = new BlockRepairKit("basic", 0.5F, 0.1F, 5F);
 	public static Block repair_advanced = new BlockRepairKit("advanced", 1.0F, 0.2F, 0F);
 	public static Block repair_ornate = new BlockRepairKit("ornate", 1.0F, 0.05F, 0F).setOrnate(0.5F);
 	
