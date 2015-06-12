@@ -107,18 +107,18 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 		copperFrequencyMax = Integer.parseInt(config.get(copper, "Copper Frequency Max", 5, "Copper will try spawn between min and this veins per chunk").getString());
 		copperLayerMin = Integer.parseInt(config.get(copper, "Copper Layer Min", 48, "Copper veins spawn above this layer").getString());
 		copperLayerMax = Integer.parseInt(config.get(copper, "Copper Layer Max", 96, "Copper veins spawn below this layer").getString());
-		copperSize = Integer.parseInt(config.get(copper, "Copper Size", 4, "How many blocks consist of the vein").getString());
+		copperSize = Integer.parseInt(config.get(copper, "Copper Size", 8, "How many blocks consist of the vein").getString());
 		
 		tinRarity = Float.parseFloat(config.get(tin, "Tin Rarity", 1.0F, "The chance for tin to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any tin").getString());
 		tinFrequencyMin = Integer.parseInt(config.get(tin, "Tin Frequency Min", 2, "Tin will try spawn between this and max veins per chunk").getString());
 		tinFrequencyMax = Integer.parseInt(config.get(tin, "Tin Frequency Max", 3, "Tin will try spawn between min and this veins per chunk").getString());
 		tinLayerMin = Integer.parseInt(config.get(tin, "Tin Layer Min", 48, "Tin veins spawn above this layer").getString());
 		tinLayerMax = Integer.parseInt(config.get(tin, "Tin Layer Max", 96, "Tin veins spawn below this layer").getString());
-		tinSize = Integer.parseInt(config.get(tin, "Tin Size", 4, "How many blocks consist of the vein").getString());
+		tinSize = Integer.parseInt(config.get(tin, "Tin Size", 8, "How many blocks consist of the vein").getString());
 		
 		silverRarity = Float.parseFloat(config.get(silver, "Silver Rarity", 1.0F, "The chance for silver to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any ").getString());
-		silverFrequencyMin = Integer.parseInt(config.get(silver, "Silver Frequency Min", 2, "Silver will try spawn between this and max veins per chunk").getString());
-		silverFrequencyMax = Integer.parseInt(config.get(silver, "Silver Frequency Max", 3, "Silver will try spawn between min and this veins per chunk").getString());
+		silverFrequencyMin = Integer.parseInt(config.get(silver, "Silver Frequency Min", 3, "Silver will try spawn between this and max veins per chunk").getString());
+		silverFrequencyMax = Integer.parseInt(config.get(silver, "Silver Frequency Max", 4, "Silver will try spawn between min and this veins per chunk").getString());
 		silverLayerMin = Integer.parseInt(config.get(silver, "Silver Layer Min", 0, "Silver veins spawn above this layer").getString());
 		silverLayerMax = Integer.parseInt(config.get(silver, "Silver Layer Max", 32, "Silver veins spawn below this layer").getString());
 		silverSize = Integer.parseInt(config.get(silver, "Silver Size", 8, "How many blocks consist of the vein").getString());

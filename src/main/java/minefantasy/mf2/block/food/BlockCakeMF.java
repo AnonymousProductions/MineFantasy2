@@ -6,6 +6,7 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -198,6 +199,9 @@ public class BlockCakeMF extends Block
     {
         if (!this.canBlockStay(world, x, y, z))
         {
+        	ItemStack item = new ItemStack(this, 1, damageDropped(world.getBlockMetadata(x, y, z)));
+        	EntityItem drop = new EntityItem(world, x+0.5D, y+0.5D, z+0.5D, item);
+        	world.spawnEntityInWorld(drop);
             world.setBlockToAir(x, y, z);
         }
     }

@@ -121,7 +121,7 @@ public class CarpenterRecipes
 			'B', ToolListMF.bandage_wool
 		});
 		
-		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 0),"craftArmour", sewing, "needle", 2, 50 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 0),"craftArmourLight", sewing, "needle", 2, 50 , new Object[]
 		{
 			"TTT",
 			"UPU",
@@ -129,7 +129,7 @@ public class CarpenterRecipes
 			'P', Items.leather_helmet,
 			'U', Items.leather
 		});
-		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 1),"craftArmour", sewing, "needle", 2, 80 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 1),"craftArmourLight", sewing, "needle", 2, 80 , new Object[]
 		{
 			"TTT",
 			"UPU",
@@ -137,7 +137,7 @@ public class CarpenterRecipes
 			'P', Items.leather_chestplate,
 			'U', Items.leather
 		});
-		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 2),"craftArmour", sewing, "needle", 2, 70 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 2),"craftArmourLight", sewing, "needle", 2, 70 , new Object[]
 		{
 			"TTT",
 			"UPU",
@@ -145,7 +145,7 @@ public class CarpenterRecipes
 			'P', Items.leather_leggings,
 			'U', Items.leather
 		});
-		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 3),"craftArmour", sewing, "needle", 2, 40 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 3),"craftArmourLight", sewing, "needle", 2, 40 , new Object[]
 		{
 			"TTT",
 			"UPU",
@@ -156,7 +156,7 @@ public class CarpenterRecipes
 		
 		//PADDING
 		KnowledgeListMF.padding[0]=
-		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 0),"craftArmour", sewing, "needle", 2, 50 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 0),"craftArmourLight", sewing, "needle", 2, 50 , new Object[]
 		{
 			"SWS",
 			"FPF",
@@ -167,7 +167,7 @@ public class CarpenterRecipes
 			'S', ComponentListMF.thread,
 		});
 		KnowledgeListMF.padding[1]=
-		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 1),"craftArmour", sewing, "needle", 2, 80 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 1),"craftArmourLight", sewing, "needle", 2, 80 , new Object[]
 		{
 			"SWS",
 			"FPF",
@@ -178,7 +178,7 @@ public class CarpenterRecipes
 			'S', ComponentListMF.thread,
 		});
 		KnowledgeListMF.padding[2]=
-		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 2),"craftArmour", sewing, "needle", 2, 70 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 2),"craftArmourLight", sewing, "needle", 2, 70 , new Object[]
 		{
 			"SWS",
 			"FPF",
@@ -189,7 +189,7 @@ public class CarpenterRecipes
 			'S', ComponentListMF.thread,
 		});
 		KnowledgeListMF.padding[3]=
-		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 3),"craftArmour", sewing, "needle", 2, 40 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 4, 3),"craftArmourLight", sewing, "needle", 2, 40 , new Object[]
 		{
 			"SWS",
 			"FPF",

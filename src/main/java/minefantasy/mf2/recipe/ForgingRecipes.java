@@ -1060,7 +1060,7 @@ public class ForgingRecipes
 		Item gold = Items.gold_ingot;
 		
 		KnowledgeListMF.ornateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LJ ",
 			"SGI",
@@ -1076,7 +1076,7 @@ public class ForgingRecipes
 		time = 25;
 		tool = ToolListMF.swords[id];
 		KnowledgeListMF.ornateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LG  ",
 			"SJII",
@@ -1092,7 +1092,7 @@ public class ForgingRecipes
 		time = 20;
 		tool = ToolListMF.waraxes[id];
 		KnowledgeListMF.ornateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LII",
 			"SSJ",
@@ -1108,7 +1108,7 @@ public class ForgingRecipes
 		time = 18;
 		tool = ToolListMF.maces[id];
 		KnowledgeListMF.ornateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"L II",
 			"SSGJ",
@@ -1124,7 +1124,7 @@ public class ForgingRecipes
 		time = 20;
 		tool = ToolListMF.spears[id];
 		KnowledgeListMF.ornateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			" L I  ",
 			"SSSJIG",
@@ -1139,7 +1139,7 @@ public class ForgingRecipes
 		time = 30;
 		tool = ToolListMF.bows[id];
 		KnowledgeListMF.ornateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"ISSSI",
 			" GLG ",
@@ -1156,7 +1156,7 @@ public class ForgingRecipes
 		time = 30;
 		tool = ToolListMF.halbeards[id-1];
 		KnowledgeListMF.advOrnateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			" LRII ",
 			"SSSJIG",
@@ -1173,7 +1173,7 @@ public class ForgingRecipes
 		time = 35;
 		tool = ToolListMF.greatswords[id-1];
 		KnowledgeListMF.advOrnateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LGR  ",
 			"SJIII",
@@ -1190,7 +1190,7 @@ public class ForgingRecipes
 		time = 40;
 		tool = ToolListMF.katanas[id-1];
 		KnowledgeListMF.advOrnateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LR   I",
 			"SJIII ",
@@ -1207,7 +1207,7 @@ public class ForgingRecipes
 		time = 30;
 		tool = ToolListMF.battleaxes[id-1];
 		KnowledgeListMF.advOrnateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LRII ",
 			"SSSGJ",
@@ -1224,7 +1224,7 @@ public class ForgingRecipes
 		time = 28;
 		tool = ToolListMF.warhammers[id-1];
 		KnowledgeListMF.advOrnateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"L RII",
 			"SSSIJ",
@@ -1240,7 +1240,7 @@ public class ForgingRecipes
 		time = 50;
 		tool = ToolListMF.lances[id-1];
 		KnowledgeListMF.advOrnateWepsR.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftAdvOrnateWeapons", true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"GR    ",
 			"SJIIII",

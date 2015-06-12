@@ -45,7 +45,7 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
 		
-		this.setHarvestLevel("pickaxe", Math.max(0, material.getHarvestLevel()-2));
+		this.setHarvestLevel("pickaxe", material.getHarvestLevel());
 		this.setMaxDamage(material.getMaxUses()*2);
     }
     
