@@ -65,7 +65,7 @@ public class ArmourCalculator
 		return CustomArmourEntry.getEntryVars(armour)[1];
 	}
 	
-	public static float slowRate;
+	public static float slowRate = 1.0F;
 
 	/**
 	 * Converts a hit:damage ratio into vanilla AR(rounding off as it is an int)

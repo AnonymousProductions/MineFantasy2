@@ -39,14 +39,16 @@ public class CarpenterRecipes
 		addCooking();
 		addMisc();
 		
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.thread, 4), sewing, "hands", -1, 5 , new Object[]
+		KnowledgeListMF.threadR =
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.thread, 4), "commodities", sewing, "hands", -1, 5 , new Object[]
 		{
 			"W",
 			"S",
 			'W', Blocks.wool,
 			'S', Items.stick,
 		});
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(Items.string), sewing, "hands", -1, 10 , new Object[]
+		KnowledgeListMF.stringR = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(Items.string), "commodities", sewing, "hands", -1, 10 , new Object[]
 		{
 			"T",
 			"T",
@@ -55,7 +57,8 @@ public class CarpenterRecipes
 			'T', ComponentListMF.thread
 		});
 		
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.leather_strip, 4), snipping, "shears", -1, 10 , new Object[]
+		KnowledgeListMF.lStripsR =
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.leather_strip, 4), "commodities", snipping, "shears", -1, 10 , new Object[]
 		{
 			"L",
 			'L', Items.leather,
@@ -204,27 +207,26 @@ public class CarpenterRecipes
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_basic), "repair_basic", sewing, "needle", 1, 20 , new Object[]
 		{
 			"TTT",
-			"PHP",
+			"FNH",
 			"SLS",
-			'S', ComponentListMF.thread,
+			'T', ComponentListMF.thread,
 			'S', ComponentListMF.leather_strip,
 			'L', Items.leather,
-			'P', ComponentListMF.plates[0],
+			'F', Items.flint,
 			'H', ToolListMF.hammers[1],
+			'N', ComponentListMF.nail,
 		});
 		KnowledgeListMF.repairAdvancedR =
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_advanced), "repair_advanced", sewing, "needle", 2, 50 , new Object[]
 		{
-			"SHS",
-			"LCL",
-			"PKP",
-			"LCL",
+			"SCS",
+			"PKH",
+			"CSC",
 			'K', BlockListMF.repair_basic,
-			'L', Items.leather,
-			'P', ComponentListMF.plates[2],
+			'P', ComponentListMF.plates[0],
 			'H', ToolListMF.hammers[3],
 			'C', Items.slime_ball,
-			'S', ComponentListMF.thread
+			'S', Items.string,
 		});
 		KnowledgeListMF.repairOrnateR =
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.repair_ornate), "repair_ornate", sewing, "needle", 3, 100 , new Object[]
@@ -276,6 +278,7 @@ public class CarpenterRecipes
 	
 	private static void addStonemason()
 	{
+		KnowledgeListMF.forgeRecipe = 
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.forge), "crucible", "carving", "hammer", -1, 20 , new Object[]{
 			"S S",
 			"SSS",
@@ -518,6 +521,7 @@ public class CarpenterRecipes
 	private static void addMisc()
 	{
 		//Fletching
+		KnowledgeListMF.fletchingR = 
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ComponentListMF.fletching, 16), "arrows", chopping, 4, new Object[]
 		{
 			"PFP",
@@ -527,6 +531,7 @@ public class CarpenterRecipes
 		
 		for(int id = 0; id < ToolListMF.weaponMats.length; id ++)
 		{
+			KnowledgeListMF.arrowR.add(
 			MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.arrows[id]), "arrows", chopping, 1, new Object[]
 			{
 				"H",
@@ -535,7 +540,7 @@ public class CarpenterRecipes
 				'H', ComponentListMF.arrowheads[id],
 				'S', Items.stick,
 				'F', ComponentListMF.fletching,
-			});
+			}));
 		}
 		for(int id = 0; id < ToolListMF.weaponMats.length-1; id ++)
 		{

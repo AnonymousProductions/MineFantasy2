@@ -10,6 +10,7 @@ import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.mechanics.CombatMechanics;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
@@ -421,5 +422,29 @@ public class TacticalManager
 	public static boolean isEntityMoving(EntityLivingBase player)
 	{
 		return player.moveForward != 0 || player.moveStrafing != 0;
+	}
+	public static boolean isMelee(DamageSource source) 
+	{
+		if(source.getEntity() != null && source.getSourceOfDamage() != null)
+		{
+			return source.getEntity() == source.getSourceOfDamage() && !source.isProjectile();
+		}
+		return false;
+	}
+	public static boolean isUnholyCreature(EntityLivingBase entityHit) 
+	{
+		if(((EntityLivingBase)entityHit).isEntityUndead())
+		{
+			return true;
+		}
+		if(entityHit instanceof EntityWitch)
+		{
+			return true;
+		}
+		if(entityHit.getClass().getName().contains("Wraith"))
+		{
+			return true;
+		}
+		return false;
 	}
 }

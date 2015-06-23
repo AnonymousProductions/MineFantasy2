@@ -25,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldServer;
 
@@ -583,5 +584,22 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			TileEntityForge forge = (TileEntityForge)tile;
 			forge.onUsedWithBellows(pump);
 		}
+	}
+
+	public float getBlockTemperature()
+	{
+		if(this.isLit)
+		{
+			return temperature;
+		}
+		return 0;
+	}
+	
+	public boolean hasCrucibleAbove()
+	{
+		if(worldObj == null)return false;
+		
+		TileEntity tile = worldObj.getTileEntity(xCoord, yCoord+1, zCoord);
+		return tile != null && tile instanceof TileEntityCrucible || tile instanceof TileEntityFurnace;
 	}
 }

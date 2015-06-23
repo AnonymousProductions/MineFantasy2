@@ -78,10 +78,11 @@ public class PlayerTickHandlerMF
 		//TODO Sounds when walking
 		float bulk = ArmourCalculator.getTotalWeightOfWorn(user, false);
 		
-        if(speed > 0.01D && bulk >= 50)
+        if(user.isSprinting() && speed > 0.01D && bulk >= 50)
         {
-        	float volume = 0.2F * bulk / 50F;
-        	if(rand.nextInt(20) == 0)
+        	float volume = 0.1F * bulk / 50F;
+        	
+        	if(user.ticksExisted % 8 == 0)
         	{
         		user.playSound("mob.irongolem.throw", volume, 1.0F);
         	}

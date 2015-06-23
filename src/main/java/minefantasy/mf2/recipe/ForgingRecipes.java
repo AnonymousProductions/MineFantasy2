@@ -34,6 +34,7 @@ public class ForgingRecipes
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
 					String smeltMat = "smelt"+material.name;
+					KnowledgeListMF.pickR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"L I",
@@ -42,7 +43,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//AXES
@@ -50,6 +51,7 @@ public class ForgingRecipes
 				tool = ToolListMF.axes[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.axeR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"LII",
@@ -58,7 +60,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//SPADES
@@ -66,6 +68,7 @@ public class ForgingRecipes
 				tool = ToolListMF.spades[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.spadeR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"L  ",
@@ -74,7 +77,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//HOES
@@ -82,6 +85,7 @@ public class ForgingRecipes
 				tool = ToolListMF.hoes[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.hoeR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"L I",
@@ -90,7 +94,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//SHEARS
@@ -98,6 +102,7 @@ public class ForgingRecipes
 				tool = ToolListMF.shears[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.shearsR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						" I ",
@@ -106,7 +111,7 @@ public class ForgingRecipes
 						'L', getLeather(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 			
 				//HAMMERS
@@ -114,6 +119,7 @@ public class ForgingRecipes
 				tool = ToolListMF.hammers[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.hammerR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier-1, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"I",
@@ -122,7 +128,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//TONGS
@@ -130,12 +136,13 @@ public class ForgingRecipes
 				tool = ToolListMF.tongs[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.tongsR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"I ",
 						" I",
 						'I', ingot,
-					});
+					}));
 				}
 			
 				//SAWS
@@ -143,13 +150,14 @@ public class ForgingRecipes
 				tool = ToolListMF.saws[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.sawsR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"SIIII",
 						"SIII ",
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 			
 				//KNIVES
@@ -157,6 +165,7 @@ public class ForgingRecipes
 				tool = ToolListMF.knives[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.knifeR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						" I",
@@ -165,7 +174,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 			
 				//NEEDLES
@@ -173,6 +182,7 @@ public class ForgingRecipes
 				tool = ToolListMF.needles[id];
 				for(ItemStack ingot: OreDictionary.getOres("hunk"+material.name))
 				{
+					KnowledgeListMF.needleR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"I",
@@ -180,7 +190,7 @@ public class ForgingRecipes
 						"I",
 						"I",
 						'I', ingot,
-					});
+					}));
 				}
 				
 				if(id > 0)
@@ -190,6 +200,7 @@ public class ForgingRecipes
 					tool = ToolListMF.hvypicks[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.hvyPickR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"LRI ",
@@ -199,13 +210,14 @@ public class ForgingRecipes
 							'S', getHaft(material),
 							'I', ingot,
 							'R', ComponentListMF.rivet,
-						});
+						}));
 					}
 					//HVYSHOVELS
 					time = 20;
 					tool = ToolListMF.hvyshovels[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.hvyShovelR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"LRII",
@@ -215,13 +227,14 @@ public class ForgingRecipes
 							'S', getHaft(material),
 							'I', ingot,
 							'R', ComponentListMF.rivet,
-						});
+						}));
 					}
 					//HANDPICKS
 					time = 12;
 					tool = ToolListMF.handpicks[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.handpickR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"LI ",
@@ -231,13 +244,14 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 					//TROWS
 					time = 15;
 					tool = ToolListMF.trows[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.trowR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"L  ",
@@ -247,14 +261,15 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 					//HVYHAMMERS
 					time = 25;
 					tool = ToolListMF.hvyHammers[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
-						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "hvyHammer", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+						KnowledgeListMF.hvyHammerR.add(
+						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							" II",
 							"RLI",
@@ -263,13 +278,14 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', ComponentListMF.plank,
 							'I', ingot,
-						});
+						}));
 					}
 					//SCYTHES
 					time = 30;
 					tool = ToolListMF.scythes[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.scytheR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"  I ",
@@ -280,7 +296,7 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 				}
 			}
@@ -299,6 +315,7 @@ public class ForgingRecipes
 				tool = ComponentListMF.arrowheads[id];
 				for(ItemStack ingot: OreDictionary.getOres("hunk"+material.name))
 				{
+					KnowledgeListMF.arrowheadR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool, 4), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"I ",
@@ -306,7 +323,7 @@ public class ForgingRecipes
 						"I ",
 						
 						'I', ingot,
-					});
+					}));
 				}
 				
 				if(material != BaseMaterialMF.ornate)
@@ -317,6 +334,7 @@ public class ForgingRecipes
 				tool = ToolListMF.daggers[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.daggerR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"L  ",
@@ -325,7 +343,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//SWORDS
@@ -333,6 +351,7 @@ public class ForgingRecipes
 				tool = ToolListMF.swords[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.swordR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"LI  ",
@@ -341,7 +360,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//AXES
@@ -349,6 +368,7 @@ public class ForgingRecipes
 				tool = ToolListMF.waraxes[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.waraxeR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"LII",
@@ -357,7 +377,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//MACES
@@ -365,6 +385,7 @@ public class ForgingRecipes
 				tool = ToolListMF.maces[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.maceR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"L II",
@@ -373,7 +394,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				
 				//SPEARS
@@ -381,6 +402,7 @@ public class ForgingRecipes
 				tool = ToolListMF.spears[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.spearR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						" L I ",
@@ -389,13 +411,14 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', getHaft(material),
 						'I', ingot,
-					});
+					}));
 				}
 				//BOWS
 				time = 30;
 				tool = ToolListMF.bows[id];
 				for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 				{
+					KnowledgeListMF.bowR.add(
 					MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
 						"ISSSI",
@@ -404,7 +427,7 @@ public class ForgingRecipes
 						'L', getStrips(material),
 						'S', Items.string,
 						'I', ingot,
-					});
+					}));
 				}
 				
 				if(id > 0)
@@ -414,6 +437,7 @@ public class ForgingRecipes
 					tool = ToolListMF.halbeards[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.halbeardR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							" LRII",
@@ -423,7 +447,7 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 					
 					//GREATSWORDS
@@ -431,6 +455,7 @@ public class ForgingRecipes
 					tool = ToolListMF.greatswords[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.gswordR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"LIR  ",
@@ -440,7 +465,7 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 					
 					//KATANAS
@@ -448,6 +473,7 @@ public class ForgingRecipes
 					tool = ToolListMF.katanas[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.katanaR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"LR   I",
@@ -457,7 +483,7 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 					
 					//BATTLEAXES
@@ -465,6 +491,7 @@ public class ForgingRecipes
 					tool = ToolListMF.battleaxes[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.battleaxeR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"LRII",
@@ -474,7 +501,7 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 					
 					//WARHAMMERS
@@ -482,6 +509,7 @@ public class ForgingRecipes
 					tool = ToolListMF.warhammers[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.whammerR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"L RII",
@@ -491,13 +519,14 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 					//LANCES
 					time = 50;
 					tool = ToolListMF.lances[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 					{
+						KnowledgeListMF.lanceR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "smelt"+material.name, true, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"IR    ",
@@ -507,7 +536,7 @@ public class ForgingRecipes
 							'L', getStrips(material),
 							'S', getHaft(material),
 							'I', ingot,
-						});
+						}));
 					}
 					
 					//ARROWS
@@ -515,6 +544,7 @@ public class ForgingRecipes
 					tool = ComponentListMF.bodkinheads[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("hunk"+material.name))
 					{
+						KnowledgeListMF.bodkinheadR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool, 4), "arrowsBodkin", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"I  ",
@@ -522,12 +552,13 @@ public class ForgingRecipes
 							"I  ",
 							
 							'I', ingot,
-						});
+						}));
 					}
 					time = 15;
 					tool = ComponentListMF.broadheads[id-1];
 					for(ItemStack ingot: OreDictionary.getOres("hunk"+material.name))
 					{
+						KnowledgeListMF.broadheadR.add(
 						MineFantasyAPI.addAnvilRecipe(new ItemStack(tool, 4), "arrowsBroad", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 						{
 							"I ",
@@ -536,7 +567,7 @@ public class ForgingRecipes
 							"I ",
 							
 							'I', ingot,
-						});
+						}));
 					}
 				}
 			}
@@ -551,6 +582,11 @@ public class ForgingRecipes
 		time = 1;
 		material = BaseMaterialMF.encrusted;
 		
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.obsidian_dust, 4), false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		{
+			"D",
+			'D', Blocks.obsidian,
+		});
 		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.diamond_shards), false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"D",
@@ -623,7 +659,8 @@ public class ForgingRecipes
 			"H",
 			'H', ComponentListMF.kaolinite
 		});
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.flux, 4), false, -1, -1, 2, new Object[]
+		KnowledgeListMF.fluxR =
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.flux, 4), "", false, -1, -1, 2, new Object[]
 		{
 			"H",
 			'H',BlockListMF.limestone
@@ -646,9 +683,9 @@ public class ForgingRecipes
 				if(id > 0)
 				{
 					KnowledgeListMF.plateRecipes.add(
-					MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.plates[id-1], 2), "smelt"+material.name, true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+					MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.plates[id-1]), "smelt"+material.name, true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 					{
-						"III",
+						"II",
 						'I', ingot
 					}));
 				}
@@ -656,13 +693,14 @@ public class ForgingRecipes
 			for(ItemStack hunk: OreDictionary.getOres("hunk"+material.name))
 			{
 				time = 5;
+				KnowledgeListMF.mailRecipes.add(
 				MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.chainmeshes[id]), "smelt"+material.name, true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					" I ",
 					"I I",
 					" I ",
 					'I', hunk
-				});
+				}));
 			}
 			}
 		}
@@ -674,6 +712,7 @@ public class ForgingRecipes
 			{
 			//HELMET
 			time = 10;
+			KnowledgeListMF.mailHelmetR.add(
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.chainmail, id, 0), "craftArmourMedium", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				"RMR",
@@ -682,10 +721,11 @@ public class ForgingRecipes
 				'R', ComponentListMF.rivet,
 				'M', ComponentListMF.chainmeshes[id],
 				'P', Items.leather_helmet,
-			});
+			}));
 			
 			//CHEST
 			time = 20;
+			KnowledgeListMF.mailChestR.add(
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.chainmail, id, 1), "craftArmourMedium", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				"RM MR",
@@ -694,10 +734,11 @@ public class ForgingRecipes
 				'R', ComponentListMF.rivet,
 				'M', ComponentListMF.chainmeshes[id],
 				'P', Items.leather_chestplate,
-			});
+			}));
 			
 			//HELMET
 			time = 15;
+			KnowledgeListMF.mailLegsR.add(
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.chainmail, id, 2), "craftArmourMedium", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				"RMPMR",
@@ -705,10 +746,11 @@ public class ForgingRecipes
 				'R', ComponentListMF.rivet,
 				'M', ComponentListMF.chainmeshes[id],
 				'P', Items.leather_leggings
-			});
+			}));
 			
 			//BOOTS
 			time = 8;
+			KnowledgeListMF.mailBootsR.add(
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.chainmail, id, 3), "craftArmourMedium", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				"R R",
@@ -716,7 +758,7 @@ public class ForgingRecipes
 				'R', ComponentListMF.rivet,
 				'M', ComponentListMF.chainmeshes[id],
 				'P', Items.leather_boots
-			});
+			}));
 			}
 		}
 				
@@ -733,10 +775,11 @@ public class ForgingRecipes
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.fieldplate, id, 0), "craftArmourHeavy", false, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				"RMR",
-				"MHM",
+				"PHP",
 				"RMR",
+				'M', ComponentListMF.chainmeshes[id],
 				'R', ComponentListMF.rivet,
-				'M', ComponentListMF.plates[id-1],
+				'P', ComponentListMF.plates[id-1],
 				'H', ArmourListMF.armourItem(ArmourListMF.leather, 4, 0)
 			}));
 			
@@ -745,11 +788,12 @@ public class ForgingRecipes
 			KnowledgeListMF.plateChestR.add(
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.fieldplate, id, 1), "craftArmourHeavy", false, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
-				"RM MR",
+				"RPMPR",
 				"RMCMR",
-				"RM MR",
+				" RPR ",
+				'M', ComponentListMF.chainmeshes[id],
 				'R', ComponentListMF.rivet,
-				'M', ComponentListMF.plates[id-1],
+				'P', ComponentListMF.plates[id-1],
 				'C', ArmourListMF.armourItem(ArmourListMF.leather, 4, 1)
 			}));
 			
@@ -758,10 +802,11 @@ public class ForgingRecipes
 			KnowledgeListMF.plateLegsR.add(
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.fieldplate, id, 2), "craftArmourHeavy", false, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
-				"RMLMR",
+				"RPLPR",
 				"RM MR",
+				'M', ComponentListMF.chainmeshes[id],
 				'R', ComponentListMF.rivet,
-				'M', ComponentListMF.plates[id-1],
+				'P', ComponentListMF.plates[id-1],
 				'L', ArmourListMF.armourItem(ArmourListMF.leather, 4, 2)
 			}));
 			
@@ -770,10 +815,12 @@ public class ForgingRecipes
 			KnowledgeListMF.plateBootsR.add(
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.fieldplate, id, 3), "craftArmourHeavy", false, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
-				"R R",
-				"MBM",
+				" P ",
+				"RBR",
+				" M ",
+				'M', ComponentListMF.chainmeshes[id],
 				'R', ComponentListMF.rivet,
-				'M', ComponentListMF.plates[id-1],
+				'P', ComponentListMF.plates[id-1],
 				'B', ArmourListMF.armourItem(ArmourListMF.leather, 4, 3)
 			}));
 			}
@@ -783,6 +830,7 @@ public class ForgingRecipes
 			material = BaseMaterialMF.iron;
 			//HELMET
 			time = 10;
+			KnowledgeListMF.studHelmetR = 
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 0), "craftArmourLight", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				" I ",
@@ -793,6 +841,7 @@ public class ForgingRecipes
 			});
 			//CHEST
 			time = 20;
+			KnowledgeListMF.studChestR = 
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 1), "craftArmourLight", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				" I ",
@@ -803,6 +852,7 @@ public class ForgingRecipes
 			});
 			//LEGS
 			time = 15;
+			KnowledgeListMF.studLegsR = 
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 2), "craftArmourLight", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				" I ",
@@ -813,6 +863,7 @@ public class ForgingRecipes
 			});
 			//BOOTS
 			time = 6;
+			KnowledgeListMF.studBootsR = 
 			MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 2, 3), "craftArmourLight", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 			{
 				" I ",
@@ -827,6 +878,7 @@ public class ForgingRecipes
 			{
 				//HELMET
 				time = 10;
+				KnowledgeListMF.scaleHelmR = 
 				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 0), "craftArmourLight", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"RIR",
@@ -838,6 +890,7 @@ public class ForgingRecipes
 				});
 				//CHEST
 				time = 20;
+				KnowledgeListMF.scaleChestR = 
 				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 1), "craftArmourLight", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"RIR",
@@ -849,6 +902,7 @@ public class ForgingRecipes
 				});
 				//LEGS
 				time = 15;
+				KnowledgeListMF.scaleLegsR = 
 				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 2), "craftArmourLight", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"RIR",
@@ -860,6 +914,7 @@ public class ForgingRecipes
 				});
 				//BOOTS
 				time = 6;
+				KnowledgeListMF.scaleBootsR = 
 				MineFantasyAPI.addAnvilRecipe(ArmourListMF.armour(ArmourListMF.leather, 3, 3), "craftArmourLight", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 				{
 					"RIR",
@@ -965,6 +1020,21 @@ public class ForgingRecipes
 			'I', Blocks.iron_ore,
 			'F', ComponentListMF.flux_strong,
 		});
+		
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep), "blastfurn", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+			" I ",
+			"IFI",
+			" I ",
+			'I', ComponentListMF.oreIron,
+			'F', ComponentListMF.flux,
+		});
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.iron_prep, 2), "blastfurn", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
+			" I ",
+			"IFI",
+			" I ",
+			'I', ComponentListMF.oreIron,
+			'F', ComponentListMF.flux_strong,
+		});
 		time=15;
 		KnowledgeListMF.blastChamR = 
 		MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.blast_chamber), "blastfurn", false, "hvyHammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
@@ -1029,12 +1099,14 @@ public class ForgingRecipes
 		material = BaseMaterialMF.bronze;
 		for(ItemStack hunk : OreDictionary.getOres("hunkIron"))
 		{
+			KnowledgeListMF.nailR = 
 			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.nail, 8), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 				"HH",
 				"H ",
 				"H ",
 				'H', hunk,
 			});
+			KnowledgeListMF.rivetR = 
 			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.rivet, 4), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 				"H H",
 				" H ",

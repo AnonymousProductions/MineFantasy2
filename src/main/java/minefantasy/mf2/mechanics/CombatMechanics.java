@@ -141,7 +141,7 @@ public class CombatMechanics
 			EventManagerMF.setHitTime(hitter, hitTime);
 		}
 	}
-	
+
 	/**
 	 * gets the melee hitter
 	 */
@@ -391,13 +391,18 @@ public class CombatMechanics
 		}
 		else if(user instanceof EntityPlayer)
 		{
-			if(!user.isSneaking())return false;
+			if(!isFightStance(user))return false;
 		}
 		else
 		{
 			return false;
 		}
 		return user.fallDistance > 0 && !user.isOnLadder();
+	}
+
+	private static boolean isFightStance(EntityLivingBase user) 
+	{
+		return user.isSneaking();
 	}
 
 	private float modifyMobDamage(EntityLivingBase user, float dam)
@@ -415,7 +420,7 @@ public class CombatMechanics
 	}
 	private float hurtUndead(Entity entityHitting, Entity entityHit, float dam, boolean properHit) 
     {
-    	if(entityHit instanceof EntityLivingBase && isUnholyCreature((EntityLivingBase)entityHit))
+    	if(entityHit instanceof EntityLivingBase && TacticalManager.isUnholyCreature((EntityLivingBase)entityHit))
 		{
     		EntityLivingBase living = (EntityLivingBase)entityHit;
     		dam *= specialUndeadModifier;
@@ -427,7 +432,7 @@ public class CombatMechanics
 	    		{
 	    			living.setFire(3);
 	    		}
-	    		if(living.getHealth() <= dam || rand.nextInt(20) == 0)
+	    		if(living.getHealth() <= living.getHealth()/2F && rand.nextInt(20) == 0)
 	    		{
 	    			dam *= 100F;
 	    			living.worldObj.createExplosion(living, living.posX, living.posY+living.getEyeHeight(), living.posZ, 0.0F, false);
@@ -446,19 +451,6 @@ public class CombatMechanics
     	return dam;
 	}
 	
-	private boolean isUnholyCreature(EntityLivingBase entityHit) 
-	{
-		if(((EntityLivingBase)entityHit).isEntityUndead())
-		{
-			return true;
-		}
-		if(entityHit instanceof EntityWitch)
-		{
-			return true;
-		}
-		return false;
-	}
-
 	private void onOfficialHit(DamageSource src, EntityLivingBase target, float damage)
 	{
 		Entity source = src.getSourceOfDamage();
@@ -603,7 +595,7 @@ public class CombatMechanics
         		   
         		   if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
 	        	   {
-	        		   ticks *= 2;
+	        		   ticks *= 3;
 	        	   }
 	        	   if(ticks > getParryCooldown(user))
 	        	   {
@@ -645,6 +637,10 @@ public class CombatMechanics
 			   		}
         	   }
            }
+    	}
+    	if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
+    	{
+    		dam *= Math.max(1.0F, ConfigStamina.exhaustDamage);
     	}
     	if(user instanceof EntityPlayer || (entityHitting != null && entityHitting instanceof EntityPlayer))
     	{
@@ -703,7 +699,7 @@ public class CombatMechanics
 		float stamModifier = 1.0F;
 		if(user instanceof EntityPlayer)
 		{
-			if(!user.isSneaking())
+			if(!isFightStance(user))
 			{
 				return false;
 			}

@@ -8,6 +8,7 @@ import minefantasy.mf2.item.AdvancedFuelHandlerMF;
 import minefantasy.mf2.item.FuelHandlerMF;
 import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.ItemHide;
+import minefantasy.mf2.item.ItemRawOreMF;
 import minefantasy.mf2.item.gadget.ItemBombComponent;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -129,6 +130,13 @@ public class ComponentListMF
 	public static Item nail = new ItemComponentMF("nail", 0);
 	public static Item rivet = new ItemComponentMF("rivet", 0);
 	public static Item thread = new ItemComponentMF("thread", 0);
+	public static Item obsidian_dust = new ItemComponentMF("obsidian_dust", 0);
+	
+	public static Item oreCopper = new ItemRawOreMF("oreCopper", -1);
+	public static Item oreTin = new ItemRawOreMF("oreTin", -1);
+	public static Item oreIron = new ItemRawOreMF("oreIron", 0);
+	public static Item oreSilver = new ItemRawOreMF("oreSilver", 0);
+	public static Item oreGold = new ItemRawOreMF("oreGold", 0);
 	
 	public static Item hotItem = new ItemHeated();
 	
@@ -226,14 +234,16 @@ public class ComponentListMF
 	{
 		RandomOre.addOre(new ItemStack(kaolinite),    1.5F,  Blocks.stone,         	  -1, 32,128, false);
 		RandomOre.addOre(new ItemStack(flux),       	2F,  Blocks.stone,         	  -1, 0, 128, false);
-		RandomOre.addOre(new ItemStack(flux),       	10F, BlockListMF.limestone,   -1, 0, 256, true);
-		RandomOre.addOre(new ItemStack(flux_strong),    0.5F,Blocks.stone,         	   2, 0, 128, false);
+		RandomOre.addOre(new ItemStack(flux_strong),    1F,  Blocks.stone,         	   2, 0, 128, false);
+		RandomOre.addOre(new ItemStack(flux),       	20F, BlockListMF.limestone,   -1, 0, 256, true);
+		RandomOre.addOre(new ItemStack(flux_strong),    10F, BlockListMF.limestone,    2, 0, 256, false);
 		RandomOre.addOre(new ItemStack(Items.coal), 	1F,  Blocks.stone, 			  -1, 0, 128, false);
 		RandomOre.addOre(new ItemStack(sulfur),     	2F,  Blocks.stone, 			  -1, 0, 16,  false);
 		RandomOre.addOre(new ItemStack(nitre),      	3F,  Blocks.stone, 			  -1, 0, 64,  false);
 		RandomOre.addOre(new ItemStack(Items.redstone), 5F,  Blocks.stone, 			   2, 0, 16,  false);
 		RandomOre.addOre(new ItemStack(Items.flint),    1F,  Blocks.stone, 			  -1, 0, 64,  false);
-		RandomOre.addOre(new ItemStack(diamond_shards), 0.1F,Blocks.stone, 		       2, 0, 16,  false);
+		RandomOre.addOre(new ItemStack(diamond_shards), 0.2F,Blocks.stone, 		       2, 0, 16,  false);
+		RandomOre.addOre(new ItemStack(obsidian_dust),  0.3F,Blocks.stone, 		       2, 0, 16,  false);
 		RandomOre.addOre(new ItemStack(Items.quartz),   0.5F,Blocks.stone, 		       3, 0, 16,  false);
 		
 		RandomOre.addOre(new ItemStack(sulfur), 			 	10F,Blocks.netherrack, 	 -1, 0, 512,  	false);
@@ -241,7 +251,7 @@ public class ComponentListMF
 		RandomOre.addOre(new ItemStack(Items.quartz), 			5F, Blocks.netherrack, 	 -1, 0, 512,  	false);
 		RandomOre.addOre(new ItemStack(Items.blaze_powder), 	5F, Blocks.netherrack,   -1, 0, 512,  	false);
 		RandomOre.addOre(new ItemStack(Items.nether_wart), 		1F, Blocks.netherrack,   -1, 0, 512,  	false);
-		RandomOre.addOre(new ItemStack(Items.nether_star), 	0.001F, Blocks.netherrack,   -1, 0, 512,false);
+		RandomOre.addOre(new ItemStack(Items.nether_star), 	    0.01F, Blocks.netherrack,   -1, 0, 512,false);
 		
 		RandomDigs.addOre(new ItemStack(Blocks.skull, 1, 1), 0.1F, Blocks.soul_sand,3, 0, 256,  false);
 		RandomDigs.addOre(new ItemStack(Items.bone),   		 5F, Blocks.dirt,  -1, 0, 256,  false);
@@ -250,5 +260,11 @@ public class ComponentListMF
 		
 		RandomDigs.addOre(new ItemStack(Items.melon_seeds),   5F, Blocks.grass,  -1, 0, 256,  false);
 		RandomDigs.addOre(new ItemStack(Items.pumpkin_seeds), 8F, Blocks.grass,  -1, 0, 256,  false);
+		
+		RandomOre.addOre(new ItemStack(oreCopper),            4F, Blocks.stone, 0, 48, 96,  false);
+		RandomOre.addOre(new ItemStack(oreTin),               2F,Blocks.stone, 0, 48, 96,  false);
+		RandomOre.addOre(new ItemStack(oreIron),              5F,   Blocks.stone, 0, 0, 64,  false);
+		RandomOre.addOre(new ItemStack(oreSilver),            1.5F, Blocks.stone, 0, 0, 32,  false);
+		RandomOre.addOre(new ItemStack(oreGold),              1F, Blocks.stone, 0, 0, 32,  false);
 	}
 }

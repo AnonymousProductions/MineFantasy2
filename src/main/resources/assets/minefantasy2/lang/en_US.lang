@@ -67,8 +67,8 @@ knowledge.smeltRedSteel=Red Steel Smithing
 knowledge.smeltRedSteel.desc=A heavy, but strong material
 knowledge.smeltBlueSteel=Blue Steel Smithing
 knowledge.smeltBlueSteel.desc=Light and mystical
-knowledge.smeltAdamant=Adamantium Smithing
-knowledge.smeltAdamant.desc=A heavy and resistant material
+knowledge.smeltAdamantium=Adamantium Smithing
+knowledge.smeltAdamantium.desc=A heavy and resistant material
 knowledge.smeltMithril=Mithril Smithing
 knowledge.smeltMithril.desc=The lightest of materials
 knowledge.smeltIgnotumite=Ignotumite Smithing
@@ -281,6 +281,7 @@ item.sharp_rock.name=Sharp Rock
 item.iron_prep.name=Prepared Iron Ore
 item.diamond_shards.name=Diamond Shards
 item.diamond_dust.name=Diamond Dust
+item.obsidian_dust.name=Obsidian Dust
 item.fletching.name=Fletching
 
 item.coalDust.name=Coal Dust
@@ -327,6 +328,12 @@ item.hunkMithril.name=Mithril Nugget
 item.hunkIgnotumite.name=Ignotumite Nugget
 item.hunkMithium.name=Mithium Nugget
 item.hunkEnder.name=Enderforge Nugget
+
+item.oreCopper.name=Raw Copper Ore
+item.oreTin.name=Raw Tin Ore
+item.oreIron.name=Raw Iron Ore
+item.oreSilver.name=Raw Silver Ore
+item.oreGold.name=Raw Gold Ore
 
 item.silver_rod.name=Silver Shaft
 item.gold_rod.name=Golden Shaft
@@ -1641,9 +1648,9 @@ knowledge.anvil.paragraph_5=With your tools, place the anvil in the world, with 
 knowledge.anvil.paragraph_6=The GUI for anvils is similar to regular crafting: items in the grid(4) will be used to set up. the name of the item appears in the text box(1).
 knowledge.anvil.paragraph_7=When that's ready, hit the anvil with a hammer in the world, keep hits apart from about a second, the progress bar(2) will fill then when finished the result comes out in the slot(4)
 
-knowledge.repair_basic.paragraph_1=The last thing anyone needs is for their tools to break mid-travel, and just carrying spares is hefty on your inventory. Repair kits allow you to touch up on the durability of items when ever you need. Note however- There is a chance you could screw it up
-knowledge.repair_basic.paragraph_2=Repair kits are made out of bronze. They consist of a small anvil and hammer. To use these: place them on the ground and right-click the pack until it repairs, these only have one use. There is also a small chance for the item to break.
-knowledge.repair_advanced.paragraph_1=This new kit consists of steel tools, string and glue, capable of repairing far more duability and it will not break items.
+knowledge.repair_basic.paragraph_1=The last thing anyone needs is for their tools to break mid-travel, and just carrying spares is hefty on your inventory. Repair kits allow you to touch up on the durability of items when ever you need. Note however- It's not perfect and you can screw it up.
+knowledge.repair_basic.paragraph_2=Repair kits are made from mostly renewable materials. They consist of a basic hammer, nails, leather scraps, thread and a shrapening stone. To use these: place them on the ground and right-click the pack until it repairs, these only have one use. There is also a small chance for the item to be damaged instead.
+knowledge.repair_advanced.paragraph_1=This new kit consists of steel tools, string, glue and a big solid steel anvil. This is capable of repairing full duability and it will not damage items.
 knowledge.repair_ornate.paragraph_1=This repair kit is capable of repairing enchanted items, though it can also repair normal items.. It isn't more effective than a steel kit.
 
 knowledge.blastfurn.paragraph_1=You have come to know the fact that simply melting down your ores just doesn't quite do it, materials such as iron are full of impurities and can never reach their full potential.
@@ -1657,6 +1664,9 @@ knowledge.blastfurn.paragraph_8=With the structure built: there are a few safety
 knowledge.blastfurn.paragraph_9=To use the blast furnace all you need to do is put coal and input in the top-most chamber block (it will distribute itself down). Coal goes in the top slot, input in the bottom slot. Then put fuel (only coal or similar can be used) in the heater block. result will spit out into the hopper underneath.
 knowledge.blastfurn.paragraph_10=Pig iron can be made from prepared iron ore. You can prepare iron on an anvil. Using strong flux doubles output.
 
+knowledge.smeltDragonforge.paragraph_1=Dragons are known for their unique ability to breath fire as well as their natural resistance to burning. These traits have allowed them to not only to survive, but to also redecorate ones home as a pile of ash. 
+knowledge.smeltDragonforge.paragraph_2=All that aside: It is possible to put such powerful madness into that of your own works. Dragonforge infuses the magical energies in dragon hearts into black steel, creating a powerful material.
+knowledge.smeltDragonforge.paragraph_3=To create this you must begin crafting a black steel item in the usual sense, just before finishing however: you must throw(right-click) a dragon heart into a forge, if it is hot enough it will consume the heart, then quickly finish crafting the item.
 knowledge.blackpowder.paragraph_1=Explosives are an interesting concept to research. You have found the powder found within creepers is all well and good but it seems too unstable and impractical to use.
 knowledge.blackpowder.paragraph_2=Blackpowder however when made correctly will be able to detonate with a controlled force, with this particular mixture you should be able to set off a damaging yet safe blast.
 knowledge.advblackpowder.paragraph_1=You now have a further understanding on what makes explosions tick. Blackpowder uses 3 main elements to cause an explosion and elements such as redstone and glowstone are able to add more of a punch to this, increasing damage.

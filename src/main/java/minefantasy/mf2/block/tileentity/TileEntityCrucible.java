@@ -53,12 +53,12 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 		{
 			progress = 0;
 		}
-		if(progress > 0 && rand.nextInt(4) == 0)
+		if(progress > 0 && rand.nextInt(4) == 0 && !isOutside())
 		{
-			SmokeMechanics.emitSmoke(worldObj, xCoord, yCoord, zCoord, 1);
+			SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord, zCoord, 1);
 		}
 		
-		if(isHot != (getTemperature() >0 && progressMax > 0) && !isOutside())
+		if(isHot != (getTemperature() >0 && progressMax > 0))
 		{
 			BlockCrucible.updateFurnaceBlockState(getTemperature() > 0, worldObj, xCoord, yCoord, zCoord);
 		}
@@ -169,11 +169,16 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 		
 		if(under.getMaterial() == Material.fire)
 		{
-			return 100F;
+			return 10F;
 		}
 		if(under.getMaterial() == Material.lava)
 		{
-			return 500F;
+			return 50F;
+		}
+		TileEntity tile = worldObj.getTileEntity(xCoord, yCoord-1, zCoord);
+		if(tile != null && tile instanceof TileEntityForge)
+		{
+			return ((TileEntityForge)tile).getBlockTemperature();
 		}
 		return 0F;
 	}

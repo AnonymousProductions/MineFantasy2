@@ -17,6 +17,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
  */
 public class ItemComponentMF extends Item 
 {
+	public ItemComponentMF(int rarity)
+	{
+		itemRarity = rarity;
+	}
 	public ItemComponentMF(String name)
 	{
 		this(name, 0);
@@ -90,6 +94,12 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.hideMedium);
 		add(list, ComponentListMF.hideLarge);
 		
+		add(list, ComponentListMF.oreCopper);
+		add(list, ComponentListMF.oreTin);
+		add(list, ComponentListMF.oreIron);
+		add(list, ComponentListMF.oreSilver);
+		add(list, ComponentListMF.oreGold);
+		
 		add(list, ComponentListMF.flux);
 		add(list, ComponentListMF.flux_strong);
 		add(list, ComponentListMF.coke);
@@ -98,6 +108,7 @@ public class ItemComponentMF extends Item
 		
 		add(list, ComponentListMF.coalDust);
 		add(list, ComponentListMF.iron_prep);
+		add(list, ComponentListMF.obsidian_dust);
 		add(list, ComponentListMF.sulfur);
 		add(list, ComponentListMF.nitre);
 		add(list, ComponentListMF.blackpowder);

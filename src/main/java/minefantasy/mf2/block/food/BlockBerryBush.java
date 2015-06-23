@@ -51,7 +51,7 @@ public class BlockBerryBush extends BlockBush implements IShearable
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
     	int meta = world.getBlockMetadata(x, y, z);
-    	if(meta >= 1 && rand.nextInt(80) == 0)
+    	if(meta >= 1 && rand.nextInt(120) == 0)
     	{
     		world.setBlockMetadataWithNotify(x, y, z, 0, 2);
     	}

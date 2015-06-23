@@ -35,12 +35,11 @@ public class KnowledgeListMF
 	public static InformationBase tanning = (new InformationBase("tanning", 					0, -2 ,0, Items.leather, (InformationBase)null)).registerStat().setUnlocked().setSpecial();
 	public static InformationBase commodities = (new InformationBase("commodities",				-1 ,-2 ,0, ComponentListMF.plank, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase craftCrafters = (new InformationBase("craftCrafters", 		-1, 1, 5, ToolListMF.hammers[3], (InformationBase)null)).registerStat().setUnlocked();
-    public static InformationBase hvyHammer = (new InformationBase("hvyHammer", 				-3, 1, 5, ToolListMF.hvyHammers[2], craftCrafters)).registerStat().setUnlocked();
     
-	public static InformationBase crucible = (new InformationBase("crucible", 					1, 0,  5, BlockListMF.crucible, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
-	public static InformationBase crucible2 = (new InformationBase("crucible2",  				3, 0, 10, BlockListMF.crucibleadv_active, crucible)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 40);
+	public static InformationBase crucible = (new InformationBase("crucible", 					4, 0,  5, BlockListMF.crucible, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
+	public static InformationBase crucible2 = (new InformationBase("crucible2",  				6, 0, 10, BlockListMF.crucibleadv_active, crucible)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 40);
 	
-	public static InformationBase smeltCopper = (new InformationBase("smeltCopper",  			1, -2, 0, ComponentListMF.ingots[0], (InformationBase)null)).registerStat().setPage(smithing).setUnlocked();
+	public static InformationBase smeltCopper = (new InformationBase("smeltCopper",  			1, 0, 0, ComponentListMF.ingots[0], (InformationBase)null)).registerStat().setPage(smithing).setUnlocked();
 	public static InformationBase smeltBronze = (new InformationBase("smeltBronze",  			1, 2,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 5);
     public static InformationBase smeltIron = (new InformationBase("smeltIron",  			    1, 4,  5, Items.iron_ingot, smeltBronze)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 15);
     public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 5, 15, BlockListMF.blast_heater_active, smeltIron)).registerStat().setPage(smithing).setSpecial().addSkill(SkillList.metallurgy, 30);
@@ -51,9 +50,10 @@ public class KnowledgeListMF
     public static InformationBase smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 15, ComponentListMF.ingots[10], smeltBlackSteel)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 65);
     public static InformationBase smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		5, 9, 15, ComponentListMF.ingots[12], smeltBlackSteel)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 65);
     public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			5, 11, 30, ComponentListMF.ingots[14], smeltBlueSteel)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 75);
-    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamant", 			3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 75);
+    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamantium", 			3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(smithing).addSkill(SkillList.metallurgy, 75);
     
-    public static InformationBase anvil = (new InformationBase("anvil", 						-1, 0, 5, BlockListMF.anvil[1], (InformationBase)null)).registerStat().setPage(smithing).setUnlocked().setSpecial();
+    public static InformationBase forge = (new InformationBase("forge", 						 0, 0, 5, BlockListMF.forge, (InformationBase)null)).registerStat().setPage(smithing).setUnlocked();
+    public static InformationBase anvil = (new InformationBase("anvil", 						-1, 0, 5, BlockListMF.anvil[1], forge)).registerStat().setPage(smithing).setUnlocked().setSpecial();
     public static InformationBase craftTools = (new InformationBase("craftTools", 				-3, 2, 5, ToolListMF.picks[3], anvil)).registerStat().setPage(smithing).setUnlocked();
     public static InformationBase craftAdvTools = (new InformationBase("craftAdvTools", 		-5, 2, 10, ToolListMF.hvypicks[2], craftTools)).registerStat().setPage(smithing).setUnlocked();
     public static InformationBase craftWeapons = (new InformationBase("craftWeapons", 			-3, 1, 5, ToolListMF.swords[4], anvil)).registerStat().setPage(smithing).setUnlocked();
@@ -71,32 +71,42 @@ public class KnowledgeListMF
     public static InformationBase advblackpowder = (new InformationBase("advblackpowder", 		2, -2, 30, ComponentListMF.blackpowder_advanced, blackpowder)).registerStat().setPage(engineering);
     public static InformationBase bombs = (new InformationBase("bombs", 						0, 2, 20, ToolListMF.bomb_custom, blackpowder)).registerStat().setPage(engineering).setSpecial();
     public static InformationBase bombFuse = (new InformationBase("bombFuse", 		 		    2, 2, 0, ComponentListMF.bomb_fuse, bombs)).registerStat().setUnlocked().setPage(engineering);
-    public static InformationBase bombCeramic = (new InformationBase("bombCeramic", 		   -1, 3, 0, ComponentListMF.bomb_casing, bombs)).registerStat().setUnlocked().setPage(engineering);
-    public static InformationBase bombIron = (new InformationBase("bombIron", 				   -1, 5, 20, ComponentListMF.bomb_casing_iron, bombCeramic)).registerStat().setPage(engineering);
-    public static InformationBase bombObsidian = (new InformationBase("bombObsidian", 		   -1, 7, 35, ComponentListMF.bomb_casing_obsidian, bombIron)).registerStat().setPage(engineering);
+    public static InformationBase shrapnel = (new InformationBase("shrapnel", 				    0, 4, 30, ComponentListMF.shrapnel, bombs)).registerStat().setPage(engineering);
+    public static InformationBase firebomb = (new InformationBase("firebomb", 		  		    0, 6, 50, Items.blaze_powder, shrapnel)).registerStat().setPage(engineering);
+    public static InformationBase stickybomb = (new InformationBase("stickybomb", 			   -2, 2, 50, Items.slime_ball, bombs)).registerStat().setPage(engineering);
+    public static InformationBase bombCeramic = (new InformationBase("bombCeramic", 		    2, 3, 0, ComponentListMF.bomb_casing, bombs)).registerStat().setUnlocked().setPage(engineering);
+    public static InformationBase bombIron = (new InformationBase("bombIron", 				    4, 5, 20, ComponentListMF.bomb_casing_iron, bombCeramic)).registerStat().setPage(engineering);
+    public static InformationBase bombObsidian = (new InformationBase("bombObsidian", 		    4, 7, 35, ComponentListMF.bomb_casing_obsidian, bombIron)).registerStat().setPage(engineering);
+    public static InformationBase bombCrystal = (new InformationBase("bombCrystal", 		    2, 9, 50, ComponentListMF.bomb_casing_crystal, bombObsidian)).registerStat().setPage(engineering);
     public static InformationBase mineCeramic = (new InformationBase("mineCeramic", 		   -2, 3, 10,  ComponentListMF.mine_casing, bombCeramic)).registerStat().setPage(engineering);
-    public static InformationBase mineIron = (new InformationBase("mineIron", 				   -2, 5, 30, ComponentListMF.mine_casing_iron, mineCeramic)).registerStat().setPage(engineering);
-    public static InformationBase mineObsidian = (new InformationBase("mineObsidian", 		   -2, 7, 40, ComponentListMF.mine_casing_obsidian, mineIron)).registerStat().setPage(engineering);
-    public static InformationBase shrapnel = (new InformationBase("shrapnel", 				    1, 3, 30, ComponentListMF.shrapnel, bombs)).registerStat().setPage(engineering);
-    public static InformationBase firebomb = (new InformationBase("firebomb", 		  		    1, 5, 50, Items.blaze_powder, shrapnel)).registerStat().setPage(engineering);
-    public static InformationBase stickybomb = (new InformationBase("stickybomb", 			   -4, 2, 50, Items.slime_ball, bombs)).registerStat().setPage(engineering);
-    public static InformationBase bombCrystal = (new InformationBase("bombCrystal", 		   -1, 9, 50, ComponentListMF.bomb_casing_crystal, bombObsidian)).registerStat().setPage(engineering);
+    public static InformationBase mineIron = (new InformationBase("mineIron", 				   -4, 5, 30, ComponentListMF.mine_casing_iron, mineCeramic)).registerStat().setPage(engineering);
+    public static InformationBase mineObsidian = (new InformationBase("mineObsidian", 		   -4, 7, 40, ComponentListMF.mine_casing_obsidian, mineIron)).registerStat().setPage(engineering);
     public static InformationBase mineCrystal = (new InformationBase("mineCrystal", 		   -2, 9, 65, ComponentListMF.mine_casing_crystal, mineObsidian)).registerStat().setPage(engineering);
     
-    public static InformationBase repair_basic = (new InformationBase("repair_basic",  		   4, -2, 5, BlockListMF.repair_basic, (InformationBase)null)).registerStat().setPage(smithing);
-    public static InformationBase repair_advanced = (new InformationBase("repair_advanced",    6, -2, 20, BlockListMF.repair_advanced, repair_basic)).registerStat().setPage(smithing);
-    public static InformationBase repair_ornate = (new InformationBase("repair_ornate",        7, -3, 35, BlockListMF.repair_ornate, repair_advanced)).registerStat().setPage(smithing);
+    public static InformationBase repair_basic = (new InformationBase("repair_basic",  		   8, 0, 5, BlockListMF.repair_basic, (InformationBase)null)).registerStat().setPage(smithing);
+    public static InformationBase repair_advanced = (new InformationBase("repair_advanced",    10, 0, 20, BlockListMF.repair_advanced, repair_basic)).registerStat().setPage(smithing);
+    public static InformationBase repair_ornate = (new InformationBase("repair_ornate",        12, 2, 35, BlockListMF.repair_ornate, repair_advanced)).registerStat().setPage(smithing);
     
     public static void init()
 	{
 	}
     
+    public static IRecipe plankRecipe;
+    public static IAnvilRecipe rivetR, nailR, fluxR;
+    public static ICarpenterRecipe lStripsR, threadR, stringR;
+    
     public static Alloy[] bronze, steel, black, red, blue, mithril, adamantium;
     public static IRecipe tannerRecipe;
     public static IAnvilRecipe coalDustR, kaoDustR, encrustedR;
     public static IRecipe fireclayR, fireBrickR, fireBricksR;
-    public static ICarpenterRecipe crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe;
+    public static ICarpenterRecipe crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe, forgeRecipe;
     
+    public static IAnvilRecipe studHelmetR, studChestR, studLegsR, studBootsR, scaleHelmR, scaleChestR, scaleLegsR, scaleBootsR;
+    public static final ArrayList<IAnvilRecipe> mailRecipes = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> mailHelmetR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> mailChestR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> mailLegsR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> mailBootsR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> plateRecipes = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> plateHelmetR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> plateChestR = new ArrayList<IAnvilRecipe>();
@@ -105,6 +115,46 @@ public class KnowledgeListMF
     
     public static final ArrayList<IAnvilRecipe> ornateWepsR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> advOrnateWepsR = new ArrayList<IAnvilRecipe>();
+    
+    public static final ArrayList<IAnvilRecipe> pickR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> axeR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> spadeR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> hoeR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> shearsR = new ArrayList<IAnvilRecipe>();
+    
+    public static final ArrayList<IAnvilRecipe> daggerR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> swordR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> waraxeR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> maceR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> spearR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> bowR = new ArrayList<IAnvilRecipe>();
+    
+    public static final ArrayList<IAnvilRecipe> katanaR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> gswordR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> whammerR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> battleaxeR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> halbeardR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> lanceR = new ArrayList<IAnvilRecipe>();
+    
+    public static final ArrayList<IAnvilRecipe> trowR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> hvyShovelR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> handpickR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> hvyPickR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> scytheR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> matockR = new ArrayList<IAnvilRecipe>();
+    
+    public static final ArrayList<IAnvilRecipe> hammerR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> tongsR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> hvyHammerR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> needleR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> sawsR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> knifeR = new ArrayList<IAnvilRecipe>();
+    
+    public static final ArrayList<IAnvilRecipe> arrowheadR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> bodkinheadR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> broadheadR = new ArrayList<IAnvilRecipe>();
+    public static ICarpenterRecipe fletchingR;
+    public static final ArrayList<ICarpenterRecipe> arrowR = new ArrayList<ICarpenterRecipe>();
     
     public static IAnvilRecipe ironPrepR, ironPrepR2;
     public static IAnvilRecipe blastChamR, blastHeatR;
