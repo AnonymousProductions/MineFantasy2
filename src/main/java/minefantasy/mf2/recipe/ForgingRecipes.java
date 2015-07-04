@@ -582,12 +582,14 @@ public class ForgingRecipes
 		time = 1;
 		material = BaseMaterialMF.encrusted;
 		
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.obsidian_dust, 4), false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		KnowledgeListMF.obsidianDustR = 
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.obsidian_dust, 4), "", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"D",
 			'D', Blocks.obsidian,
 		});
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.diamond_shards), false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		KnowledgeListMF.diamondR = 
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.diamond_shards), "", false, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"D",
 			'D', Items.diamond,
@@ -635,6 +637,7 @@ public class ForgingRecipes
 		}
 		for(ItemStack ore: OreDictionary.getOres("ingotPigIron"))
 		{
+			KnowledgeListMF.steelR = 
 			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.ingots[4], 1), "smeltSteel", true, 1, 1, 5, new Object[]
 			{
 				"H",

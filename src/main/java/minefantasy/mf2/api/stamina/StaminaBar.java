@@ -472,7 +472,7 @@ public class StaminaBar
 	
 	public static float getBaseRegenModifier(EntityLivingBase user, boolean countArmour, boolean countHeld)
 	{
-		float value = configRegenModifier * regenModifier;
+		float value = configRegenModifier * regenModifier * (5F/3F);
 		
 		if(countHeld)
 		{
@@ -495,7 +495,7 @@ public class StaminaBar
 			float weightMod = ArmourCalculator.getTotalWeightOfWorn(user, false)*bulkModifier*configBulk;
 			if(weightMod > 0)
 			{
-				value /= (1.0F+(weightMod/50F));
+				value /= (1.0F+(weightMod/30F));//30kg = half regen speed 60kg is a third
 			}
 			value *= armourMod;
 		}

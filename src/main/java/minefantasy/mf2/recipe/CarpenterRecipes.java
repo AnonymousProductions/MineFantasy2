@@ -124,6 +124,7 @@ public class CarpenterRecipes
 			'B', ToolListMF.bandage_wool
 		});
 		
+		KnowledgeListMF.reHelmetR = 
 		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 0),"craftArmourLight", sewing, "needle", 2, 50 , new Object[]
 		{
 			"TTT",
@@ -132,6 +133,7 @@ public class CarpenterRecipes
 			'P', Items.leather_helmet,
 			'U', Items.leather
 		});
+		KnowledgeListMF.reChestR = 
 		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 1),"craftArmourLight", sewing, "needle", 2, 80 , new Object[]
 		{
 			"TTT",
@@ -140,6 +142,7 @@ public class CarpenterRecipes
 			'P', Items.leather_chestplate,
 			'U', Items.leather
 		});
+		KnowledgeListMF.reLegsR = 
 		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 2),"craftArmourLight", sewing, "needle", 2, 70 , new Object[]
 		{
 			"TTT",
@@ -148,6 +151,7 @@ public class CarpenterRecipes
 			'P', Items.leather_leggings,
 			'U', Items.leather
 		});
+		KnowledgeListMF.reBootsR = 
 		MineFantasyAPI.addCarpenterRecipe(ArmourListMF.armour(ArmourListMF.leather, 1, 3),"craftArmourLight", sewing, "needle", 2, 40 , new Object[]
 		{
 			"TTT",
@@ -256,8 +260,8 @@ public class CarpenterRecipes
 				'P', ComponentListMF.plank,
 				'L', Items.leather,
 			});
-			
-			GameRegistry.addRecipe(new ItemStack(ToolListMF.malletWood), new Object[]
+			KnowledgeListMF.malletR =
+			GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.malletWood), new Object[]
 			{
 				"W",
 				"P",
@@ -266,7 +270,8 @@ public class CarpenterRecipes
 				'W', planks,
 			});
 		}
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.spoonWood), new Object[]
+		KnowledgeListMF.spoonR =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.spoonWood), new Object[]
 		{
 			"W",
 			"P",

@@ -2,8 +2,16 @@
 /INFORMATION/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 knowledge.craftArmourLight=Light Armour
+knowledge.craftArmourLight.1=
+knowledge.craftArmourLight.1=Light armour weighs pretty much nothing and will not restrict any stamina regeneration.^It however isn't likely to protect you from much, so think about that before catching broadswords with your face.
+
 knowledge.craftArmourMedium=Medium Armour
+knowledge.craftArmourMedium.1=
+knowledge.craftArmourMedium.1=Medium armour is the base average. Nothing more to say there but the protection is decent but stamina regeneration is slowed by about half, but you should be able to take a decent whack with it.
+
 knowledge.craftArmourHeavy=Heavy Armour
+knowledge.craftArmourHeavy.1=
+knowledge.craftArmourHeavy.1=This stuff is strong and much like medium armour, crafted from metal. Heavy armour not only significantly slows your stamina regeneration to roughly a third, but it also increases the rate of decay.^But really, you can probably cuddle a creeper and survive... maybe...
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

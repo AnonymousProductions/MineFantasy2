@@ -204,6 +204,7 @@ public class BlockForge extends BlockContainer
     				{
     					tile.fireUpForge();
     				}
+    				held.damageItem(1, user);
     				return true;
     			}
     			ForgeFuel stats = ForgeItemHandler.getStats(held);
@@ -219,7 +220,7 @@ public class BlockForge extends BlockContainer
     				}
     				return true;
     			}
-    			if(!world.isRemote && ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.smeltDragonforge) && held.getItem() == ComponentListMF.dragon_heart && tile.temperature >= 200F)
+    			if(!world.isRemote && ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.smeltDragonforge) && held.getItem() == ComponentListMF.dragon_heart && tile.temperature >= TileEntityForge.dragonHeat)
     			{
     				if(user.getHeldItem().stackSize == 1)
     				{

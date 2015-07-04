@@ -25,9 +25,9 @@ public class SmeltingRecipesMF {
 		refineRawOre(ComponentListMF.oreSilver, ComponentListMF.ingots[8]);
 		refineRawOre(ComponentListMF.oreGold, Items.gold_ingot);
 		
-		MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[2]), 0, new Object[]
+		MineFantasyAPI.addRatioAlloy(3, new ItemStack(ComponentListMF.ingots[2], 3), 0, new Object[]
 		{
-			ComponentListMF.oreCopper, ComponentListMF.oreCopper, ComponentListMF.oreTin, ComponentListMF.flux
+			ComponentListMF.oreCopper, ComponentListMF.oreCopper, ComponentListMF.oreTin
 		});
 		
 		GameRegistry.addSmelting(BlockListMF.anvil[0], new ItemStack(ComponentListMF.ingots[2], 6), 0.0F);
@@ -138,10 +138,7 @@ public class SmeltingRecipesMF {
 
 	private static void refineRawOre(Item ore, Item ingot)
 	{
-		MineFantasyAPI.addRatioAlloy(3, new ItemStack(ingot), 0, new Object[]
-		{
-			ore, ore, ComponentListMF.flux
-		});
+		GameRegistry.addSmelting(ore, new ItemStack(ingot), 0F);
 	}
 
 }

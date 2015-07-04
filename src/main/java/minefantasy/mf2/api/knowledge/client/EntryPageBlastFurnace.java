@@ -27,18 +27,18 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-public class EntryPageSmelting extends EntryPage
+public class EntryPageBlastFurnace extends EntryPage
 {
 	private Minecraft mc = Minecraft.getMinecraft();
 	private ItemStack input, output;
 	
-	public EntryPageSmelting(ItemStack in, ItemStack out)
+	public EntryPageBlastFurnace(ItemStack in, ItemStack out)
 	{
 		this.input = in;
 		this.output = out;
 	}
 	
-	public EntryPageSmelting(Item i1, Item i2)
+	public EntryPageBlastFurnace(Item i1, Item i2)
 	{
 		this(new ItemStack(i1), new ItemStack(i2));
 	}
@@ -51,10 +51,10 @@ public class EntryPageSmelting extends EntryPage
 		int xPoint = (parent.width - universalBookImageWidth) / 2;
         int yPoint = (parent.height - universalBookImageHeight) / 2;
         
-		this.mc.getTextureManager().bindTexture(TextureHelperMF.getResource("textures/gui/knowledge/furnaceGrid.png"));
+		this.mc.getTextureManager().bindTexture(TextureHelperMF.getResource("textures/gui/knowledge/blastfurnaceGrid.png"));
         parent.drawTexturedModalRect(xPoint, yPoint, 0, 0, this.universalBookImageWidth, this.universalBookImageHeight);
         
-        String cft = "<" + StatCollector.translateToLocal("method.furnace") + ">";
+        String cft = "<" + StatCollector.translateToLocal("method.blastfurnace") + ">";
         mc.fontRenderer.drawSplitString(cft, posX+(universalBookImageWidth/2) - (mc.fontRenderer.getStringWidth(cft)/2), posY+150, 117, 0);
         
         renderRecipe(parent, x, y, f, posX, posY);

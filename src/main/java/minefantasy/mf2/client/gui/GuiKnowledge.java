@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.InformationPage;
@@ -96,8 +97,8 @@ public class GuiKnowledge extends GuiScreen
 	public void initGui()
     {
         this.buttonList.clear();
-        this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.format("gui.done", new Object[0])));
-        this.buttonList.add(button = new GuiButton(2, (width - field_146555_f) / 2 + 24, height / 2 + 74, 125, 20, InformationPage.getTitle(currentPage)));
+        this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 24, this.height / 2 + 101, 80, 20, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(button = new GuiButton(2, (width - field_146555_f) / 2 + 24, height / 2 + 101, 125, 20, InformationPage.getTitle(currentPage)));
     }
 
     @Override
@@ -280,7 +281,7 @@ public class GuiKnowledge extends GuiScreen
         
         this.fontRendererObj.drawString(I18n.format("gui.information", new Object[0]), i + 15, j + 5, 4210752);
         if(!GuiKnowledge.allDiscovered)
-        this.fontRendererObj.drawStringWithShadow(StatCollector.translateToLocalFormatted("gui.knowledgePoints", pts), i + 20, j + 158, 16777215);
+        this.fontRendererObj.drawStringWithShadow(StatCollector.translateToLocalFormatted("gui.knowledgePoints", pts), i + 20, j + 173, GuiHelper.getColourForRGB(50, 255, 50));
     }
 
     protected void func_146552_b(int p_146552_1_, int p_146552_2_, float p_146552_3_)
@@ -344,44 +345,7 @@ public class GuiKnowledge extends GuiScreen
 
             for (j3 = 0; j3 * f2 - k2 < 224.0F; ++j3)
             {
-                random.setSeed(this.mc.getSession().getPlayerID().hashCode() + i2 + j3 + (j2 + i3) * 16);
-                k3 = random.nextInt(1 + j2 + i3) + (j2 + i3) / 2;
-                IIcon iicon = Blocks.sand.getIcon(0, 0);
-
-                if (k3 <= 37 && j2 + i3 != 35)
-                {
-                    if (k3 == 22)
-                    {
-                        if (random.nextInt(2) == 0)
-                        {
-                            iicon = BlockListMF.oreMythic.getIcon(0, 0);
-                        }
-                        else
-                        {
-                            iicon = BlockListMF.oreSulfur.getIcon(0, 0);
-                        }
-                    }
-                    else if (k3 == 10)
-                    {
-                        iicon = BlockListMF.oreTin.getIcon(0, 0);
-                    }
-                    else if (k3 == 8)
-                    {
-                        iicon = BlockListMF.oreCopper.getIcon(0, 0);
-                    }
-                    else if (k3 > 4)
-                    {
-                        iicon = Blocks.stone.getIcon(0, 0);
-                    }
-                    else if (k3 > 0)
-                    {
-                        iicon = Blocks.dirt.getIcon(0, 0);
-                    }
-                }
-                else
-                {
-                    iicon = Blocks.bedrock.getIcon(0, 0);
-                }
+                IIcon iicon = Blocks.planks.getIcon(0, 0);
 
                 this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
                 this.drawTexturedModelRectFromIcon(j3 * 16 - k2, i3 * 16 - l2, iicon, 16, 16);

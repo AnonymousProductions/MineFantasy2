@@ -14,6 +14,7 @@ import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.anvil.ShapedAnvilRecipes;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
+import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.helpers.ClientTickHandler;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
@@ -210,8 +211,17 @@ public class EntryPageRecipeAnvil extends EntryPage
 		ItemStack stack1 = stack.copy();
 		if(stack1.getItemDamage() == -1)
 			stack1.setItemDamage(0);
-
+		
 		renderItem(gui, xPos, yPos, stack1, accountForContainer, mx, my);
+		
+		if(Heatable.canHeatItem(stack1))
+		{
+			GL11.glPushMatrix();
+			GL11.glColor3f(255, 255, 255);
+			this.mc.getTextureManager().bindTexture(TextureHelperMF.getResource("textures/gui/knowledge/anvilGrid.png"));
+	        gui.drawTexturedModalRect(xPos, yPos, 248, 0, 8,8);
+			GL11.glPopMatrix();
+		}
 	}
 	
 	private ItemStack tooltipStack;

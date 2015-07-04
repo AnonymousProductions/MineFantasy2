@@ -23,144 +23,13 @@ knowledge.gainPts=You have gained %1$s Knowledge Points
 knowledge.unknownUse=You don't know how to use this!
 
 infoPage.basic=Basic Information
-infoPage.smithing=Smithing
+infoPage.artisanry=Artisanry
 infoPage.construction=Construction
 infoPage.engineering=Engineering
-infoPage.cooking=Cooking
+infoPage.provisioning=Provisioning
 infoPage.mastery=Mastery
 
 knowledge.unlocked=Research Completed
-
-knowledge.gettingStarted=Getting Started
-knowledge.gettingStarted.desc=How to start out
-knowledge.ores=Ores and Minerals
-knowledge.ores.desc=Ore/Mineral Generation
-knowledge.chimney=Smoke and Chimnies
-knowledge.chimney.desc=What greenhouse gasses?
-knowledge.tanning=Tanning
-knowledge.tanning.desc=Refined skins
-knowledge.commodities=Commodities
-knowledge.commodities.desc=Useful Resources
-
-knowledge.research1=Improved Research
-knowledge.research1.desc=The big picture
-knowledge.research2=Master Research
-knowledge.research2.desc=Know your field
-
-knowledge.smeltCopper=Copper Smithing
-knowledge.smeltCopper.desc=Early metallurgy
-knowledge.smeltBronze=Bronze Smithing
-knowledge.smeltBronze.desc=A simple alloy
-knowledge.smeltIron=Iron Smithing
-knowledge.smeltIron.desc=The most common material
-knowledge.smeltSteel=Steel Smithing
-knowledge.smeltSteel.desc=A common, strong material
-knowledge.smeltSteel2=Steel Mastery
-knowledge.smeltSteel2.desc=Mass Produce Steel
-knowledge.smeltEncrusted=Encrusted Metals
-knowledge.smeltEncrusted.desc=Adding diamond to steel
-knowledge.smeltBlackSteel=Black Steel Smithing
-knowledge.smeltBlackSteel.desc=Upgraded steel
-knowledge.smeltDragonforge=Dragonforge Smithing
-knowledge.smeltDragonforge.desc=A mystical craft
-knowledge.smeltRedSteel=Red Steel Smithing
-knowledge.smeltRedSteel.desc=A heavy, but strong material
-knowledge.smeltBlueSteel=Blue Steel Smithing
-knowledge.smeltBlueSteel.desc=Light and mystical
-knowledge.smeltAdamantium=Adamantium Smithing
-knowledge.smeltAdamantium.desc=A heavy and resistant material
-knowledge.smeltMithril=Mithril Smithing
-knowledge.smeltMithril.desc=The lightest of materials
-knowledge.smeltIgnotumite=Ignotumite Smithing
-knowledge.smeltIgnotumite.desc=A rare power
-
-knowledge.craftCrafters=Crafting tools
-knowledge.craftCrafters.desc=The tools of the trade
-knowledge.craftTools=Tool Crafting
-knowledge.craftTools.desc=Basic tools
-knowledge.craftAdvTools=Advanced Tool Crafting
-knowledge.craftAdvTools.desc=Special Tools
-knowledge.craftWeapons=Weapon Crafting
-knowledge.craftWeapons.desc=Basic weapons
-knowledge.craftAdvWeapons=Heavy Weapon Crafting
-knowledge.craftAdvWeapons.desc=For more of a whack
-knowledge.craftOrnateWeapons=Ornate Weapon Crafting
-knowledge.craftOrnateWeapons.desc=Fancy
-knowledge.craftAdvOrnateWeapons=Heavy Ornate Weapon Crafting
-knowledge.craftAdvOrnateWeapons.desc=Fancier
-knowledge.craftArmourLight=Light Armor
-knowledge.craftArmourLight.desc=Cheap and Practical
-knowledge.craftArmourMedium=Medium Armor
-knowledge.craftArmourMedium.desc=Protective and durable
-knowledge.craftArmourHeavy=Heavy Armor
-knowledge.craftArmourHeavy.desc=Heavy duty protection
-knowledge.arrows=Fletching
-knowledge.arrows.desc=Arrow Crafting
-knowledge.arrowsBodkin=Bodkin Arrows
-knowledge.arrowsBodkin.desc=Light-Fliers
-knowledge.arrowsBroad=Broad Arrows
-knowledge.arrowsBroad.desc=Heavy Duty
-
-knowledge.hvyHammer=Heavy Hammers
-knowledge.hvyHammer.desc=For more of an impact
-
-knowledge.crucible=Basic Alloying
-knowledge.crucible.desc=Mixing metals
-knowledge.blastfurn=Refining
-knowledge.blastfurn.desc=Purifying your ores
-knowledge.smeltSmart2=Adept Smelter
-knowledge.smeltSmart2.desc=Getting the hang of it
-knowledge.crucible2=Refined Alloying
-knowledge.crucible2.desc=Near perfection
-knowledge.crucible3=Master Alloying
-knowledge.crucible3.desc=The ultimate alloys
-knowledge.smeltSmart3=Expert Smelter
-knowledge.smeltSmart3.desc=For it is an art
-knowledge.mythic=Mythic Forging
-knowledge.mythic.desc=Extending beyond simple metals
-knowledge.smeltSmart4=Master Smelter
-knowledge.smeltSmart4.desc=Bend the elements to your will
-
-knowledge.anvil=Anvil
-knowledge.anvil.desc=Forge metals
-
-knowledge.repair_basic=Repair Kits
-knowledge.repair_basic.desc=Keeping tools in condition
-knowledge.repair_advanced=Advanced Repair Kits
-knowledge.repair_advanced.desc=Highly Effective
-knowledge.repair_ornate=Ornate Repair Kits
-knowledge.repair_ornate.desc=Repair Enchantments
-
-knowledge.blackpowder=Explosives
-knowledge.blackpowder.desc=Boom!
-knowledge.advblackpowder=Refined Explosions
-knowledge.advblackpowder.desc=Fine-tuned
-knowledge.bombs=Bomb Crafting
-knowledge.bombs.desc=A deadly ranged weapon
-knowledge.stickybomb=Sticky Bombs
-knowledge.stickybomb.desc=As fun as it sounds...
-knowledge.bombFuse=Bomb Fuse
-knowledge.bombFuse.desc=Ready for the bang...
-knowledge.bombCeramic=Ceramic Bomb Casing
-knowledge.bombCeramic.desc=Basic bomb case
-knowledge.bombIron=Iron Bomb Casing
-knowledge.bombIron.desc=More controlled blast
-knowledge.bombObsidian=Obsidian Bomb Casing
-knowledge.bombObsidian.desc=Highly concentrated
-knowledge.mineCeramic=Ceramic Mine Casing
-knowledge.mineCeramic.desc=Explosive Traps
-knowledge.mineIron=Iron Mine Casing
-knowledge.mineIron.desc=More Stable Traps
-knowledge.mineObsidian=Obsidian Mine Casing
-knowledge.mineObsidian.desc=Direct Blasting
-knowledge.shrapnel=Shrapnel Bombs
-knowledge.shrapnel.desc=Adding more damage
-knowledge.firebomb=Incineration Bombs
-knowledge.firebomb.desc=Blow them away
-knowledge.bombCrystal=Crystal Bomb Casing
-knowledge.bombCrystal.desc=Give em' a glassing
-knowledge.mineCrystal=Crystal Mine Casing
-knowledge.mineCrystal.desc=Highly sensetive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1605,10 +1474,11 @@ weaponclass.polearm=Polearm
 weaponclass.exotic=Exotic
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/LONG KNOWLEDGE STATS/
+/KNOWLEDGE INFORMATION/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 method.workbench=Basic Workbench
 method.furnace=Smelting
+method.blastfurnace=Blast Furnace
 method.anvil=Anvil
 method.carpenter=Carpenter
 method.crucible=Crucible
@@ -1616,79 +1486,290 @@ method.crucibleT2=Firebrick Crucible
 
 knowledge.guiSubtitle=This is the GUI
 
-knowledge.chimney.paragraph_1=Smoke is emitted from many industrial devices, though it usually dissapears into the atmosphere; it can be dangerous to breathe in.
-knowledge.chimney.paragraph_2=Breathing in smoke can be debilitating and effects can build up. Building chimneys allow you to redirect the smoke upwards. Just stack them on top of the block.
-knowledge.chimney.paragraph_3=Although any chimney can take smoke when above a source, extractor chimneys work at different positions. Some(not all) blocks like forges and crucibles can send their smoke to these so long as their 1 block above and adjacent.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/KNOWLEDGE TEXT/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+knowledge.title=
+knowledge.title.desc=
+knowledge.title.1=
 
-knowledge.tanning.paragraph_1=Leather is a useful commodity across a wide range of trades but it can be difficult to find pure samples naturally. The best way to get a workable piece of leather is to refine it from raw hide: with this you use the tanning rack.
-knowledge.tanning.paragraph_2=The tanning rack is a very simple process. All you need to do is first clean a hide, apply flux to it or right-click it in water for a short time, this creates a clean hide. Right-click clean hides on the rack to place them (one at a time) and click the rack with a knife to turn it into leather.
+knowledge.commodities=Commodities
+knowledge.commodities.desc=Useful Items
+knowledge.commodities.1=Commidities are just basic items, only without the disgrace of calling them junk.^^In other words: these items will be greatly used in recipes, so it's good to stock up.
+knowledge.commodities.plank=Timber planks are nice solid pieces of wood. Used pretty much everywhere.
+knowledge.commodities.flux=Flux is commonly used in refining metals. Standard flux can be used in devices such as blast furnaces for refining ingots. Strong flux is used in advanced alloys.
+knowledge.commodities.nail=Nails are basic items used in woodworking. Iron doesn't need to be researched to craft these.
+knowledge.commodities.rivet=Rivets are similar to nails, these are used in metalworking.
+knowledge.commodities.leatherstrip=Leather strips are useful mainly in tool crafting.
+knowledge.commodities.thread=Thread is used in sewing recipes. Thread can be turned into string
 
-knowledge.ores.paragraph_1=There are many ores generating in the world of MineFantasy, many can be refined into new metals for use in their own purposes or in alloys.
-knowledge.ores.paragraph_2=As well as ores you may also find minerals: Minerals are like ores and generate in a similar way. Minerals can't be refined much but usually drop an item when mined.
-knowledge.ores.copper.paragraph_1=Copper ore is a commonly found material in the world. It can be found both above and below sea level and is smelted into ingots.
-knowledge.ores.tin.paragraph_1=Tin is less common than copper and found in similar areas. When mining you will often find some tin every once in awhile, it's main use is making bronze but buckets can also be made from this material.
-knowledge.ores.silver.paragraph_1=Silver is slightly more common than gold and found in the same levels. Silver has limited uses but you believe more use can be discovered later on.
-knowledge.minerals.mythic.paragraph_1=Little is known of this mystyrious ore only that it appears periodically near bedrock. Known as "Mythic" Ore this strange element gives off humming sounds when nearby and seems to be extremely hard to mine. No known tools seem to be strong enough to mine this material, not even diamond.
-knowledge.minerals.clay.paragraph_1=Clay is commonly known to be found near water in thick chunks, but it also can be found within dirt underneath the grass layer.
-knowledge.minerals.kaolinite.paragraph_1=Kaolinite can be found occasionally in large underground chunks. When mixed with clay: kaolinite can be used to create fireclay, this can be useful in refining technology.
-knowledge.minerals.limestone.paragraph_1=Limestone can be found in massive chunks anywhere near sea level. It's main use is flux creation for refinment purposes.
-knowledge.minerals.borax.paragraph_1=Borax is an uncommon mineral that can be found both above and below sea level. It's dust can be used as a strong flux for more efficient processing. Strong flux can be used in substitute for normal flux, but is recommended you save for later use.
-knowledge.minerals.nitre.paragraph_1=Nitre (or Niter if you're wrong) is a mineral found in the walls of caves, it's not very useful now but you may discover more use later.
-knowledge.minerals.sulfur.paragraph_1=Sulfur is found low underground where magma bubbles. This certainally could be useful for something.
+knowledge.ores=Ores and Minerals
+knowledge.ores.desc=Worldly resources
+knowledge.ores.1=There is a small range of ores that generate in the world. Each of these can be smelted into ingots in one way or another.
+knowledge.ores.copper=Copper ore is a common occurence between layers 48-96. It can easily be smelted into ingots and turned into tools.^Copper can also be used to make bronze
+knowledge.ores.tin=Tin is about half as common as copper but can be found in the same levels.^Tin is smelted into ingots and is used with copper to make bronze.
+knowledge.ores.silver=Silver is found in the same areas as gold. It's not very useful early on but more uses may be discovered.
+knowledge.minerals.mythic=Little is known about this "Mythic ore" only that it is somewhat rare and found near bedrock. This strange ore seems to emit tingling sounds, for what reason is unknown...
 
-knowledge.crucible.paragraph_1=Crucibles are a simple device used for alloying. To create a crucible simply craft one with 8 blocks on a carpenter bench and place it down on a heat source. Heat sources include fire, lava and forges. Hotter sources mean faster alloy speed.
-knowledge.crucible.paragraph_2=To smelt with a crucible, put in the required amount of inputs. bronze for example is 2 copper : 1 tin, so 2 slots have copper ingots and 1 slot has a tin ingot: you can put more in so long as the ratio is the same (eg. 4 copper : 2 tin), the more items you have the slower it smelts, but it's still more efficient to smelt multiple items at once.
-knowledge.crucible2.paragraph_1=Fire clay has proven extremely useful at handling high temperatures, if you coat a crucible in this material it will be able to smelt more advanced alloys. This can also smelt pig iron into steel.
+knowledge.ores.2=Minerals also can be found generating within the world. Unlike ores: these can't be smelted into ingots, but have other uses instead.
+knowledge.minerals.clay=Just as well as sand, clay can be found within dirt. Dirt-bearing clay can be found underneath grass, grass cannot grow on it either so it can be easy to find in hills.
+knowledge.minerals.kaolinite=Kaolinite has a rather specific use. Mixed with clay: this mineral can beef up the strength of bricks.
+knowledge.minerals.limestone=A common source of flux. Limestone generates in large hunks throughout the world.
+knowledge.minerals.borax=This is a relitively rare substance, Borax is the best source of strong flux: which is needed for powerful alloys.
+knowledge.minerals.nitre=A common occurance within some cave walls. Nitre is used in explosive creation.
+knowledge.minerals.sulfur=Sulfur is found deep underground near lava. It can be used to make explosives.
 
-knowledge.anvil.paragraph_1=Anvils are used to work metals easily into many forms.
-knowledge.anvil.paragraph_2=You will need one of these for nearly anything, anvils are tiered and need upgrading.
-knowledge.anvil.paragraph_3=They can be made with 6 ingots from bronze, iron, steel, black steel, blue steel and red steel.
-knowledge.anvil.paragraph_4=To use the anvil you need the proper tools; most recipes use regular hammers, while others (like heavy armour and advanced tools) require heavy hammers.
-knowledge.anvil.paragraph_5=With your tools, place the anvil in the world, with that done, you will need a water source (or cauldron/barrel), and atleast 1 forge for heating ingots.
-knowledge.anvil.paragraph_6=The GUI for anvils is similar to regular crafting: items in the grid(4) will be used to set up. the name of the item appears in the text box(1).
-knowledge.anvil.paragraph_7=When that's ready, hit the anvil with a hammer in the world, keep hits apart from about a second, the progress bar(2) will fill then when finished the result comes out in the slot(4)
+knowledge.chimney=Smoke and Chimneys
+knowledge.chimney.desc=What greenhouse gasses?
+knowledge.chimney.1=It is a well-known fact that burning fuel produces smoke. You will also need to understand that breathing smoke is not wise.^But if you're reading this you probably already figured that out after attempting to smoke it like a pipe.^In any case: Chimneys can be used to
+knowledge.chimney.2=redirect smoke away from your precious breathing air and into the sky! Leave it for someone else a few centuries later to complain about.
+knowledge.chimney.3=Extractor chimneys can also be used on some devices (forge and crucible mainly) to absorb smoke indirectly.^"Indirectly" of course just means 1 block adjacent to where it normally would go.
 
-knowledge.repair_basic.paragraph_1=The last thing anyone needs is for their tools to break mid-travel, and just carrying spares is hefty on your inventory. Repair kits allow you to touch up on the durability of items when ever you need. Note however- It's not perfect and you can screw it up.
-knowledge.repair_basic.paragraph_2=Repair kits are made from mostly renewable materials. They consist of a basic hammer, nails, leather scraps, thread and a shrapening stone. To use these: place them on the ground and right-click the pack until it repairs, these only have one use. There is also a small chance for the item to be damaged instead.
-knowledge.repair_advanced.paragraph_1=This new kit consists of steel tools, string, glue and a big solid steel anvil. This is capable of repairing full duability and it will not damage items.
-knowledge.repair_ornate.paragraph_1=This repair kit is capable of repairing enchanted items, though it can also repair normal items.. It isn't more effective than a steel kit.
+knowledge.tanning=Leather Tanning
+knowledge.tanning.desc=Dead animal working
+knowledge.tanning.1=Leather is a useful resource to have. Nearly any tool, weapon or armour uses leather.^Tanning is a simple method of cleaning up raw hide into a useable commodity.^To start off: You will need a tanning rack.
+knowledge.tanning.2=To tan hide you first need to clean it. Either right-click the hide on water or put flux and hide on a crafting grid. When cleaned; right-click the tanning rack with hide to place it. then right-click with a knife steadily to prepare.
 
-knowledge.blastfurn.paragraph_1=You have come to know the fact that simply melting down your ores just doesn't quite do it, materials such as iron are full of impurities and can never reach their full potential.
-knowledge.blastfurn.paragraph_2=Refining aims to deal with this issue. The blast furnace is able to smelt iron ore and process it into a more pure ingot, this produces pig iron that can be refined into steel.
-knowledge.blastfurn.paragraph_3=To create the blast furnace: you will need quite a few components for it to work: The first thing you need is fire clay.
-knowledge.blastfurn.paragraph_4=The furnace generates huge temperatures and needs to be made from a heat-resistant material. Fire clay is capable of handling extreme temperatures and is what you need to craft the structure.
-knowledge.blastfurn.paragraph_5=With that ready, the second thing you need is the furnace blocks. Make a furnace heater, and as many chambers as you want. The more chambers the more you can smelt.
-knowledge.blastfurn.paragraph_6=Now that you're familliar with the blocks- it's time to make the furnace. Start off in a nice big room. place the heater down in the middle (with a hopper underneath to catch the output). Surround it's 4 corners with fire brick blocks.
-knowledge.blastfurn.paragraph_7=Then you can place as many as 16 chambers on top. make sure all 4 sides are covered in bricks, the top must not be obstructed
-knowledge.blastfurn.paragraph_8=With the structure built: there are a few safety mesures to take note of: Firstly: each time the furnace smelts it will eject firey jets out the sides, be careful and don't obstruct them, Secondly: be careful with the top smoke is dangerous to breathe in.
-knowledge.blastfurn.paragraph_9=To use the blast furnace all you need to do is put coal and input in the top-most chamber block (it will distribute itself down). Coal goes in the top slot, input in the bottom slot. Then put fuel (only coal or similar can be used) in the heater block. result will spit out into the hopper underneath.
-knowledge.blastfurn.paragraph_10=Pig iron can be made from prepared iron ore. You can prepare iron on an anvil. Using strong flux doubles output.
+knowledge.smeltCopper=Copper Smithing
+knowledge.smeltCopper.desc=Tier 0, Common material
+knowledge.smeltCopper.1=The path of metalworking is a long and difficult one to learn. Copper is an easily workable and risk-free material.^It's still a piece of junk though, and is unable to make advanced tools, heavy weapons or heavy armour. But it's your piece of junk!
 
-knowledge.smeltDragonforge.paragraph_1=Dragons are known for their unique ability to breath fire as well as their natural resistance to burning. These traits have allowed them to not only to survive, but to also redecorate ones home as a pile of ash. 
-knowledge.smeltDragonforge.paragraph_2=All that aside: It is possible to put such powerful madness into that of your own works. Dragonforge infuses the magical energies in dragon hearts into black steel, creating a powerful material.
-knowledge.smeltDragonforge.paragraph_3=To create this you must begin crafting a black steel item in the usual sense, just before finishing however: you must throw(right-click) a dragon heart into a forge, if it is hot enough it will consume the heart, then quickly finish crafting the item.
-knowledge.blackpowder.paragraph_1=Explosives are an interesting concept to research. You have found the powder found within creepers is all well and good but it seems too unstable and impractical to use.
-knowledge.blackpowder.paragraph_2=Blackpowder however when made correctly will be able to detonate with a controlled force, with this particular mixture you should be able to set off a damaging yet safe blast.
-knowledge.advblackpowder.paragraph_1=You now have a further understanding on what makes explosions tick. Blackpowder uses 3 main elements to cause an explosion and elements such as redstone and glowstone are able to add more of a punch to this, increasing damage.
-knowledge.bombs.paragraph_1=With blackpowder you believe it is possible to create tiny explosive devices capable of doing great damage.
-knowledge.bombs.paragraph_2=Bombs are throwable grenade-like objects capable of doing serious damage to multiple enemies. To craft bombs you will need a bomb crafting table.
-knowledge.bombs.paragraph_3=The bomb crafting table is made by reinfocing a standard carpenters bench. 
-knowledge.bombs.paragraph_4=Bombs are made from a variety of componts (1) is the bomb casing this can be made from many materials and designs.
-knowledge.bombs.paragraph_5=(2) is the powder, right now blackpowder will work well enough.
-knowledge.bombs.paragraph_6=(3) is optional for more filling, to add effect to the blast.
-knowledge.bombs.paragraph_7=(4) is for the bomb fuse.
-knowledge.bombs.paragraph_8=To throw bombs, hold right-click until their thrown.
-knowledge.bombFuse.paragraph_1=For bombs to work you will need a fuse. Fuses use a redstone reaction down a string of coal powder to create a spark, these fuses are able to detonate explosives safely at a pre -determined time. Thank god for redstone!
-knowledge.bombFuse.paragraph_2=Long bomb fuses have double the time
-knowledge.bombCeramic.paragraph_1=Bomb casings are used to store the components of a bomb. each casing has different stats usually in range and damage.
-knowledge.bombCeramic.paragraph_2=Ceramic cases are brittle and far less resistant to exploding hence: they will have a high blast radius.
-knowledge.bombIron.paragraph_1=You have discovered a practical way of constructing bomb cases out of iron. Iron is hard and rather explosion resistant; but a few weak-points and a soft lining and these bombs can be designed to concentrate the blast, reducing the range but increasing the damage.
-knowledge.bombObsidian.paragraph_1=You have discovered a way to make bombs out of obsidian. Like iron casings: obsidian can resist the blast and concentrate it, only this is so effective the range is extremely small.
-knowledge.mineCeramic.paragraph_1=You can now create mine casings. Mines work similar to bombs, only their fuse ignites when they sense movement, even the slightest vibration can set them off. Mines take a few seconds to arm.
-knowledge.mineCeramic.paragraph_2=Ceramic mines are extremely sensetive, they do average damage but have a wide range.
-knowledge.mineIron.paragraph_1=You have discovered how to make mine casings out of iron. These casings are more resistant to explosions and have weak points designed to focus the blast more efficiently, doing more damage at less range.
-knowledge.mineObsidian.paragraph_1=You have discovered how to make mine casings out of obsidian. With this material; mines will be extremely concentrated and have a very small range. Great at doing huge damage in a small choke point.
-knowledge.stickybomb.paragraph_1=Your understanding of bomb projectiles is thorough enough to try a new experiment... what if you rolled a bomb in slime... this may stick well enough to attatch to targets when hit, and who said explosions aren't fun.
-knowledge.stickybomb.paragraph_2=All you need to do is right-click the top of a bomb crafting table with a slime ball with a bomb in the output slot
-knowledge.bombCrystal.paragraph_1=You may be on to something here... Ordinarily glass would make a terrible material for bombs as the casing would simply shatter and disrupt the powder charge- but a new diamond mesh set around the glass will not only allow it to hold together, but deliver a damaging array of diamond shrapnel with it.
-knowledge.mineCrystal.paragraph_1=Mines have been found useful for protecting what's yours, if only you could have damage and range. Crystal bombs are so fragile that they will detonate with a large diamond-lined blast on the slightest vibration!
+knowledge.smeltBronze=Bronze Smithing
+knowledge.smeltBronze.desc=Tier 1, Common material
+knowledge.smeltBronze.1=By mixing a small amount of tin with some copper, you can create bronze. This alloy is far superior to copper alone and can make advanced items.
+
+knowledge.smeltIron=Iron Smithing
+knowledge.smeltIron.desc=Tier 2, Common material
+knowledge.smeltIron.1=Iron is by far the most common ore you can find and knowing how to work it makes it all the more useful. Iron tools are pretty average, yet superior to bronze.
+
+knowledge.smeltSteel=Steel Smithing
+knowledge.smeltSteel.desc=Tier 3, Common material
+knowledge.smeltSteel.1=Finally make that blast furnace did you? now to put it to use. This material is far stronger than iron but can be expensive.^Steel is made from pig iron from either working it on an anvil(the suckers way) or finding a way to create a fireclay curcible and throwing it in there(the easy way).
+
+knowledge.smeltEncrusted=Encrusted Smithing
+knowledge.smeltEncrusted.desc=Tier 3, Exotic material
+knowledge.smeltEncrusted.1=You can now merge the power of diamonds to the workablility of steel for some reason! Encrusted tools are much stronger and sharper than steel and are able to mine stronger blocks (like obsidian).^Now go ahead: show off your shiny new tools.
+
+knowledge.smeltBlackSteel=Black Steel Smithing
+knowledge.smeltBlackSteel.desc=Tier 4, Common material
+knowledge.smeltBlackSteel.1=It is now possible to further refine steel into a far superior alloy. This process takes all the best qualities from lesser materials to create an extremely powerful metal.
+
+knowledge.smeltDragonforge=Dragonforge Smithing
+knowledge.smeltDragonforge.desc=Tier 5, Exotic material
+knowledge.smeltDragonforge.1=See that flying nonsense that's eager to redecorate your home into ash! Certainally do and you killed it! Well- with dragonforge you get all the power of those deadly reptiles to yourself through a process that binds elemental magic from dragon hearts into black steel items.
+knowledge.smeltDragonforge.2=To create dragonforge: Start by making a standard black steel tool, armour or weapon. Just before finishing however: throw (right-click) a dragon heart on a forge above 200*, then quickly (less than 5 seconds) finish the craft.^If all goes well you will have a dragonforge item.
+
+knowledge.smeltBlueSteel=Blue Steel Smithing
+knowledge.smeltBlueSteel.desc=Tier 6, Common material
+knowledge.smeltBlueSteel.1=You are now able to create Blue Steel. This metal is extremely lighter than inferior metals and excellent for the creation of tools and armour for limiting stamina decay.
+
+knowledge.smeltRedSteel=Red Steel Smithing
+knowledge.smeltRedSteel.desc=Tier 6, Common material
+knowledge.smeltRedSteel.1=You are now able to create Red Steel. This metal is much heavier than other materials, and tiring to use with tools and armour, but is very strong and far better than other materials of this tier.
+
+knowledge.smeltMithril=Mithril Smithing
+knowledge.smeltMithril.desc=Tier 7, Exotic material
+knowledge.smeltMithril.1=Mythic ore is strange: Depending on how it is refined depends on what properties the metal processed is. Through mixing light elements with mythic: along with silver, you can create mithril.^Mithril is an extremely light material, even lighter than blue steel.
+
+knowledge.smeltAdamantium=Adamantium Smithing
+knowledge.smeltAdamantium.desc=Tier 7, Exotic material
+knowledge.smeltAdamantium.1=Mythic ore is strange: Depending on how it is refined depends on what properties the metal processed is. Through mixing heavy elements with mythic: along with gold, you can create adamantium.^Adamantium is extremely heavy, more than red steel, but is very strong.
+
+knowledge.blastfurn=Refining
+knowledge.blastfurn.desc=More than smelting
+knowledge.blastfurn.1=There's a time that comes when simply smelting ingots in a furnace just won't do the job. In this case: you will need a Blast Furnace.^Blast furnaces are both large and expensive to build. Each furnace however can be built to nearly any height and smelt multiple items at once.
+knowledge.blastfurn.2=Of course before making the furnace: you will need to make a decent casing around them. For that, there's fire bricks.^Firebricks are able to sustain the extreme temperatures of the blast furnace and are used in its creation.
+#Firebrick Recipes
+knowledge.blastfurn.3=The furnace is made of two blocks: Heaters and Chambers. Make one heater and up to 16 chamber blocks. The more chambers you put in, the more it can smelt.
+#Furnace Recipes
+knowledge.blastfurn.4=Now with fire bricks, a heater, and some chambers: You can now assemble the furnace.^To start off: place the heater on the ground.^If a crucible is under the heater: It will catch the output.^Also make sure to leave plenty of room (about 4 blocks) all 4 sides.
+knowledge.blastfurn.5=The heater should have firebricks on 4 corners at its level. And by the life of you: don't cover the sides.^With that ready, stack the shafts on top of the heater, and put fire bricks on all 4 sides. leaving the top exposed to the sky (or a chimney).
+#Structure
+knowledge.blastfurn.6=Using the blast furnace is pretty simple, but does consume a lot of fuel.^Start off by putting input (such as prepared iron) in the bottom slot and coal in the top slot of the top-most chamber block, (its recommended to use a small chimney to catch the smoke while remaining in access to
+knowledge.blastfurn.7=the block). When done properly the items will fall down the chute stacking 1 per chamber. After that: put some fuel in the bottom, fuel burns regardless of smelting so it's wise to take note of how much you may need. Upon finishing: all chambers will process one item, and the heater will evacuate its pressure, leaving a spectacular
+knowledge.blastfurn.8=jet of flames.^Just make sure not to obstruct these jets or the furnace could explode.
+#Prepared Iron
+knowledge.blastfurn.9=Prepared iron ore is used to make pig iron.^Pig iron can be turned into steel.^You may use strong flux to double production, but strong flux is rare and should be used wisely.
+
+knowledge.crucible=Alloying
+knowledge.crucible.desc=Mixing metals
+knowledge.crucible.1=There's only so far you can go by relying on one metal or another to fit your needs. For this: there's the crucible.^Crucibles are designed for alloying, where you can get multiple materials and mix them to make even better materials.
+knowledge.crucible.2=In order to function, Crucibles need a heat source below them(such as a $hForge$r), lava also works but is very slow.^Crucible recipes are shapeless and run off "ratio".^For example: 3 Bronze is 2 copper and 1 tin. This means you can put copper in 2 slots, and tin in 1, and each smelt gives 3 bronze. But you can put 4 and 2 in to get 6, and so on...
+
+knowledge.crucible2=Advanced Alloying
+knowledge.crucible2.desc=More Mixing...
+knowledge.crucible2.1=Fire bricks have proven useful fore their ability to sustain high temperatures. Creating a crucible out of this means the heat of the alloy is more stable and can be used to further process materials.^Fireclay crucibles are able to create more advanced alloys.
+
+knowledge.anvil=Forging
+knowledge.anvil.desc=The basis of metalworks
+knowledge.anvil.1=Not that crafting tables are obsolete or anything but there's many better ways to craft items. Forging is the most common means to craft anything metal.^This process includes using the Forge to heat metals, and working them on an anvil using a selection of hammers.
+#Recipe
+knowledge.anvil.2=Anvils are simple to craft and can be recycled in a furnace.^Place the anvil on the ground, somewhere near water and a forge. Right-clicking the anvil from the side or without a hammer opens the GUI.
+#Gui
+knowledge.anvil.3=Crafting items can be complicated, there are two stages to crafting.^Firstly some items(mostly metal ingots and hunks) need to be heated in the $hForge$r. If an items heatable, it needs to be heated.^Secondly is the recipe itself: Start by assembling the components on the
+knowledge.anvil.4=grid$h[3]$r (just as you're used to), then: equip a proper hammer (either heavy or normal depending on the recipe). Both hammer and anvil need to be of proper tier, Tiers will appear above the title$h[1]$r.^Hit the anvil with the hammer by clicking. The progress bar$h[2]$r will now fill in, when finished: The result
+knowledge.anvil.5=appears in the output slot$h[4]$r.^Some items will be hot, you can right-click them on water or a cauldron(shift click), to cool them. Right-click the anvil with tongs if you want to pick items up that way.
+
+knowledge.forge=Forge
+knowledge.forge.desc=Its getting hot in here.
+knowledge.forge.1=The forge is a simple device, put fuel in it (Right-click an item). and light it with a firestarter (like flint and steel).^It's easy! Just throw stuff in it and set it on fire!
+knowledge.forge.2=Forges burn at different temperatures depending on the fuel, the temperature depends on the last item thrown. $hBellows$r can be used to temporarily increase the temperature.^You can place heatable items(like ingots and hunks) in the forge, and they slowly will heat up.
+knowledge.forge.3=$y"WORKABLE"$r items are needed to use an anvil, $d"UNSTABLE"$r Items are too hot.^Use different fuels and bellows to get the temperature where you want it, and make sure to monitor your items.
+
+knowledge.repair_basic=Repair Kits
+knowledge.repair_basic.desc=Keeping tools in condition
+knowledge.repair_basic.1=It's likely that by now one of your precious tools has broken. And it also is likely that you looked like a right idiot when it happened.^Repair kits allow you to touch up on the durability of items when they get damaged. These kits don't repair much but do the job alright, just Right-Click the block with an item to
+knowledge.repair_basic.2=eventually repair it.^There of course is a small chance to damage (But not destroy) the item instead.
+
+knowledge.repair_advanced=Advanced Repairing
+knowledge.repair_advanced.desc=Better conditioning
+knowledge.repair_advanced.1=You still look silly damaging items when using repair kits... These new kits, though more expensive, can repair items without a fail.^They will also repair more durability.
+
+knowledge.repair_ornate=Ornate Repair Kits
+knowledge.repair_ornate.desc=Enchantment Repair
+knowledge.repair_ornate.1=It may already been known that repairing enchanted items is hard. It's like they don't like being repaired or something...^Anyway this kit should do the trick, it might have more jewels in it than the thing you're fixing but it works!^picky enchanted items...
+
+knowledge.craftArmourLight=Light Armor
+knowledge.craftArmourLight.desc=Cheap and practical
+knowledge.craftArmourLight.1=Light armor weighs pretty much nothing and will not restrict any stamina regeneration.^It however isn't likely to protect you from much, so think about that before catching broadswords with your face.
+
+knowledge.craftArmourMedium=Medium Armor
+knowledge.craftArmourMedium.desc=Average protection
+knowledge.craftArmourMedium.1=Medium armor is the base average. Nothing more to say there but the protection is decent but stamina regeneration is slowed by about half, but you should be able to take a decent whack with it.
+
+knowledge.craftArmourHeavy=Heavy Armor
+knowledge.craftArmourHeavy.desc=Strong but restricted
+knowledge.craftArmourHeavy.1=This stuff is strong and much like medium armor, crafted from metal. Heavy armour not only significantly slows your stamina regeneration to roughly a third, but it also increases the rate of decay.^But really, you can probably cuddle a creeper and survive... maybe...
+
+knowledge.craftTools=Forged Tools
+knowledge.craftTools.desc=Properly crafted
+knowledge.craftTools.1=What is that? you throw a stick on some rocks and call that a tool? HA! These are how REAL tools are made!^All the goodness of normal tools only made properly, these tools have double the durability... and double the style.
+
+knowledge.craftAdvTools=Advanced Tools
+knowledge.craftAdvTools.desc=Fit for purpose
+knowledge.craftAdvTools.1=Not only can you forge proper tools but there is also a selection of additional tools with their own uses. Most of these tools are alternatives to existing tools, only... different.
+knowledge.handpick.info=Handpicks have a chance to drop random items (like ores and minerals) from mining some blocks like stone and netherrack^Also they drop additional items from ore like coal and diamond.
+knowledge.hvypick.info=Heavy picks mean business! Upon breaking blocks; heavy picks mine a 3x3x3 block around them, with lower drop rates. Perfect for digging large caverns or mineshafts.
+knowledge.trow.info=This little cute spade works like a handpick. When digging dirt it can drop random items, grass can drop seeds.
+knowledge.hvyshovel.info=Apart from looking like a door on a haft; Heavy shovels are rather useful tools for digging.^When digging, these shovels will break a disc shaped hole, ignoring hills. Great for levelling terrain out.
+knowledge.scythe.info=Scythes can break grass or leaves within a large area when right-clicked, their good for farming and clearing up. Also: If you wear a black hood with it: You can scare old people!
+knowledge.mattock.info=$uMattocks Not Implemented$r
+
+knowledge.craftWeapons=Forged Weapons
+knowledge.craftWeapons.desc=For "Defense"
+knowledge.craftWeapons.1=What is that? A wooden sword... you can do better than that...^Different combat styles use different weapons, there should be one to fit your style.
+knowledge.dagger.info=Daggers are tiny little blades that... well their pretty lame really.^But their light and quick to the strike! Pretty good for a spammy-attack style
+knowledge.sword.info=A good old sword. Swords block the most damage and at the best arc. A finesse based blocking and countering style suits this weapon.
+knowledge.mace.info=For a good bop across the bonce!. Maces aren't that special and blocking damages the weapon more. But they have good durability and damage.
+knowledge.waraxe.info=A heavy hand axe for brutal hacking at your foes. War axes do decent damage and have bonuses when sprinting and jumping attacks. Good for the barbaric types. They also take more damage from blocking.
+knowledge.spear.info=If you're too scared for close combat, spears allow you to poke them from afar.. you know like you're just pushing them away with a long stick!
+knowledge.bow.info=Standard bow for some reason made from metal. These are strong and versitile for all your ranged needs.
+
+knowledge.craftAdvWeapons=Heavy Weapons
+knowledge.craftAdvWeapons.desc=Big enough?
+knowledge.craftAdvWeapons.1=I'm not sure what you're intending on killing but here's some of the... larger pieces.
+knowledge.katana.info=Katanas are the lightest heavy weapon and aren't much heavier than a normal sword. This weapon strikes fast and is the least tiring to use. Power attacks will also knock enemies back.^^Ninja approved!
+knowledge.greatsword.info=A heavy, flat blade. Greatswords are the best defensive heavy weapon. Like swords: Greatswords are decent for blocking.
+knowledge.warhammer.info=If you ever wanted to hit something across the skull with a weapon the size of the anvil it was made of. Warhammers pack a punch!
+knowledge.battleaxe.info=For when a waraxe won't cut it (pun not intended). Battleaxes do more damage then waraxes and are heavier(obviously). for an even crazier barbaric type.^Tiring to use though
+knowledge.halbeard.info=Well if a spear is too whimpy! You can put an axe on it. Halbeards do more damage than spears but are heavier.
+knowledge.lance.info=Lances are pretty useless as a weapon. But when mounted they do more damage based on the speed you're going.^More suited for jousting if you haven't figured that out.
+
+knowledge.craftCrafters=Crafting Tools
+knowledge.craftCrafters.desc=That's tools for crafting
+knowledge.craftCrafters.1=There's a variety of different tools for the purpose of crafting. A lot of recipes require you to interact with the block with these tools.
+knowledge.hammer.info=Hammers are used mostly in forging. hammers are highly useful for both metalworks and some woodworks.
+knowledge.hvyhammer.info=There also are heavier counterparts of the hammer, used for forging some of the larger metal items.
+knowledge.tongs.info=Tongs are used for picking up hot items from the anvil, to transfer to a water source.
+knowledge.knife.info=Knives can be used in cooking and tanning. Knives are useful.^^Just don't run with them.
+knowledge.needle.info=Needles are used for sewing based recipes. Needles are used wherever thread is used.
+knowledge.mallet.info=Mallets are not really common... It's pretty much only used where a hammer may be a bit too much. So basically: some woodworks use this.
+knowledge.spoon.info=Spoons. Used for cooking, generally mixing... What else to say... it's a spoon...
+
+knowledge.craftOrnateWeapons=Ornate Weapons
+knowledge.craftOrnateWeapons.desc=Fancy
+knowledge.craftOrnateWeapons.1=If you just didn't look enough like a ponce without a gleaming sword made of jewels and silver.^Ornate weapons do more damage to undead in witches, so they sizzle like saussages!^But their not good on anything else so you may be asked why you hold two swords.
+
+knowledge.craftAdvOrnateWeapons=Heavy Ornate Weapons
+knowledge.craftAdvOrnateWeapons.desc=Fancy. Er
+knowledge.craftAdvOrnateWeapons.1=Ofcourse you want bigger! Because you have silver, and silver is kinda useless.^I get it.
+
+knowledge.arrows=Fletching
+knowledge.arrows.desc=Arrow crafting
+knowledge.arrows.1=Crafting arrows can take some time, but still remains moderately low-cost. There are three components to an arrow: The head which you make out of metal. The fletching is made of paper and feathers to guide the arrow. And the shaft is just a stick!
+
+knowledge.arrowsBodkin=Bodkin Arrows
+knowledge.arrowsBodkin.desc=Light and fast
+knowledge.arrowsBodkin.1=Bodkin heads can be fitted the same way as normal arrows. Although these arrows do less damage, they do fly much further.
+
+knowledge.arrowsBroad=Broad arrows
+knowledge.arrowsBroad.desc=Heavy and strong
+knowledge.arrowsBroad.1=Broad head arrows are heavy and slow but firing them packs a punch!
+
+knowledge.blackpowder=Explosives
+knowledge.blackpowder.desc=Boom!
+knowledge.blackpowder.1=Using generic gunpowder and TNT to blow things up may be satisfying but it makes one hell of a mess. It is possible however to create devices with more controlled explosions that limit the environmental damage.^Blackpowder is an explosive substance capable of doing large damage while limiting
+knowledge.blackpowder.2=the destruction of blocks.^It's not world-shatteringly powerful like the stuff creepers use.^Blackpowder is made from various minerals found while mining.
+
+knowledge.advblackpowder=Refined Blackpowder
+knowledge.advblackpowder.desc=Ka Boom!
+knowledge.advblackpowder.1=Blackpowder has proven useful for explosive creation but sometimes you may need more of a blast.^Through the use of redstone and glowstone: you can beef-up the power of blackpowder to increase damage.
+
+knowledge.bombs=Bomb Crafting
+knowledge.bombs.desc=Explosion Delivery
+knowledge.bombs.1=What use is blackpowder without something to put it in? Well these little gadgets will do serious damage to a small area.^Bomb crafting is more... experimental than other works. First of all: you need a workstation set up.
+knowledge.bombs.2=Now put that down... Wherever.^With this table you will be able to create both bombs and mines. Bombs can be thrown by holding right-click for a short time and they will explode at after a time. Mines however will be placed with holding right click and explode when something steps near them.
+knowledge.bombs.3=Bombs and Mines require 3-4 components in their creation.^The casing$h[1]$r determines the damage and range of the device. Powder$h[2]$r will modify damage. Filling$h[3]$r can be empty and is used to add effects to the bomb. Finally the fuse$h[4]$r determines the time until detonation.
+knowledge.bombs.4=To craft a bomb: simply put components in their respective slots for example cermic casing, blackpowder and a short fuse. then click the block to make a single bomb.
+
+knowledge.shrapnel=Shrapnel Bombs
+knowledge.shrapnel.desc=Simple Filling
+knowledge.shrapnel.1=Bombs seem all well and good so far, but there seems to be room to improve. Each bomb is able to fit in a layer of filling that modifies the detonation of the device.^Shrapnel can be added in bomb crafting to increase the damage dealt from explosions.
+
+knowledge.firebomb=Firey Explosions
+knowledge.firebomb.desc=Deadly Incineration
+knowledge.firebomb.1=Adding shrapnel to bombs is very effective at elimiting ones fellow critters of the land. But there can be more insane carnage.^A mixture of magma cream can release a massive blast of pure flame upon detonation. Refined magma cream burns at such a high temperature few can withstand its blast.
+knowledge.firebomb.2=How it works is the magma cream (being a mixture of burning embers and sticky slime) is able to keep a self-sustaining flame while remaining as a spreadable substance. Additional blaze powder then reacts with a dragon heart to release a magical catalyst that increases the temperature of the flame.
+
+knowledge.bombCeramic=Ceramic Bomb Casing
+knowledge.bombCeramic.desc=Basic Bombs
+knowledge.bombCeramic.1=Bombs are one of the simplest forms of explosives: Just throw it and it explodes.^Ceramic casings however are brittle and don't restrict the blast much. Bombs made from these will have an average explosion radius.
+
+knowledge.mineCeramic=Ceramic Mine Casing
+knowledge.mineCeramic.desc=Basic Mines
+knowledge.mineCeramic.1=Mines aren't as useful as your conventional bomb but still have their place. A mine will explode when something walks near it.^Ceramic cases are brittle and unstable, this means their both sensetive and don't restrict blasts much. Ceramic mines have an average explosion radius.
+
+knowledge.bombIron=Iron Bomb Casing
+knowledge.bombIron.desc=Compacted Blasts
+knowledge.bombIron.1=It normally would be wise to make a bomb easy to detonate... But why not let it build up some pressure?^Iron casings take a bit more force to break. This means when they do detonate the explosion(though smaller) has a bit more force behind it. 
+
+knowledge.mineIron=Iron Mine Casing
+knowledge.mineIron.desc=Compacted Blasts
+knowledge.mineIron.1=Ceramic casings may bit too sensetive. Iron bomb casings not only allow the blast to build more pressure, but their solid construction makes them harder to trigger, reducing their range but increasing their damage.
+
+knowledge.bombObsidian=Obisidian Bomb Casing
+knowledge.bombObsidian.desc=Sealing in the freshness
+knowledge.bombObsidian.1=You've taken one step with iron bombs, but why not go further?^Obsidian bombs restrict the blast so much the range is tiny, but the resulting blast is highly damaging.
+
+knowledge.mineObsidian=Obisidian Mine Casing
+knowledge.mineObsidian.desc=Sealing in the freshness
+knowledge.mineObsidian.1=Mines may not be as useful as bombs, but they can pack a suprising punch.^Obsidian mines are hard and not very sensetive. These are only set off when something practically is standing on it... But that just means more of a lethal result.
+
+knowledge.bombCrystal=Crystal Bomb Casing
+knowledge.bombCrystal.desc=Stylish
+knowledge.bombCrystal.1=Reducing the blast radius to focus more on damage seems decent, but why not increase the blast radius?^Glass casings have no resistence meaning all the power spreads as far as possible.^And add some diamond into the mix so the shards cause more damage anyway!
+
+knowledge.mineCrystal=Crystal Mine Casing
+knowledge.mineCrystal.desc=Stylish
+knowledge.mineCrystal.1=A delicate glass mine. This can be set off real easy with a large explosion.^Not only that but adding diamond shards into the workings of the case just makes it hurt all the more (and by that I mean the person who stands on it, not the fact it cost you a diamond to make).
+
+knowledge.bombFuse=Bomb Fuses
+knowledge.bombFuse.desc=Timed destruction
+knowledge.bombFuse.1=What's a bomb without a fuse? A massively blown up hand! Fuses are a vital part of any explosive devices, even mines use them to some extent.^The fuse you create determines how long until the device explodes.
+knowledge.bombFuse.2=You can also make an extended fuse. With this: bombs can be thrown much farther before exploding. Not much use on mines though...
+
+knowledge.stickybomb=Sticky Bombs
+knowledge.stickybomb.desc=Catch this!
+knowledge.stickybomb.1=Sticky bombs- as the name might suggest, are bombs that are sticky. And with this amazing trait: will attatch themselves to whatever poor sod gets in its way.^So what you have here is a bomb that does a lot of damage sticking to someone! Which never stops being funny.
+knowledge.stickybomb.2=To create these: Leave(or put) a bomb in the output slot and right-click the block with a slime ball. A single slimeball can coat a stack of any size.
+

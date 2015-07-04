@@ -414,7 +414,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		for(int a = 0; a < getSizeInventory()-1; a++)
 		{
 			ItemStack item = getStackInSlot(a);
-			if(item != null)
+			if(item != null && item.getItem() instanceof IHotItem)
 			{
 				++itemCount;
 				totalTemp += (float)Heatable.getTemp(item);

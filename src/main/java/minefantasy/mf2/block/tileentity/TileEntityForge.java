@@ -31,6 +31,7 @@ import net.minecraft.world.WorldServer;
 
 public class TileEntityForge extends TileEntity implements IInventory, IBasicMetre, IBellowsUseable
 {
+	public static final float dragonHeat = 200F; //200*
 	private ItemStack[] inv = new ItemStack[10];
 	public float fuel;
 	public float maxFuel = 6000;//5m
@@ -106,7 +107,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		if(dragonHeartPower > 0)
 		{
 			dragonHeartPower -= 1F/100F;//5Seconds
-			if(temperature < 300)//Must be 300+
+			if(temperature < dragonHeat)//Must be 300+
 			{
 				dragonHeartPower = 0;
 			}

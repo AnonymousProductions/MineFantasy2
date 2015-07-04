@@ -173,7 +173,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 		limestoneLayerMax = Integer.parseInt(config.get(limestone, "Limestone Layer Max", 96, "Limestone deposits spawn below this layer").getString());
 		limestoneSize = Integer.parseInt(config.get(limestone, "Limestone Size", 128, "How many blocks consist of the deposit").getString());
 		
-		berryRarity = Float.parseFloat(config.get(berry, "Berry Bush Rarity", 0.15F, "The chance for berry bushes to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any berries").getString());
+		berryRarity = Float.parseFloat(config.get(berry, "Berry Bush Rarity", 0.05F, "The chance for berry bushes to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any berries").getString());
 		berryMinTemp = Float.parseFloat(config.get(berry, "Berry Bush Spawn Temp Min", 0.2F, "The minimal biome temperature berries can spawn").getString());
 		berryMaxTemp = Float.parseFloat(config.get(berry, "Berry Bush Spawn Temp Max", 1.0F, "The maximum biome temperature berries can spawn").getString());
 		berryMinRain = Float.parseFloat(config.get(berry, "Berry Bush Spawn Rain Min", 0.3F, "The minimal biome rainfall berries can spawn").getString());

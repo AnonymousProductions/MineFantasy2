@@ -106,24 +106,28 @@ public class BasicRecipesMF
 		}
 		recipeMap.put("anvilCrafting", anvilRecs);
 		
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.hammerStone), new Object[]{
+		KnowledgeListMF.stoneHammerR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.hammerStone), new Object[]{
 			"C",
 			"P",
 			'C', Blocks.cobblestone,
 			'P', ComponentListMF.plank,
 		});
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.tongsStone), new Object[]{
+		KnowledgeListMF.stoneTongsR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.tongsStone), new Object[]{
 			"C ",
 			"PC",
 			'C', Blocks.cobblestone,
 			'P', ComponentListMF.plank,
 		});
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.needleBone), new Object[]{
+		KnowledgeListMF.boneNeedleR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.needleBone), new Object[]{
 			"B",
 			"B",
 			'B', Items.bone
 		});
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.knifeStone), new Object[]{
+		KnowledgeListMF.stoneKnifeR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.knifeStone), new Object[]{
 			"F",
 			"P",
 			'F', Items.flint,
