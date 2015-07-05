@@ -16,10 +16,10 @@ item.research_scroll_uncommon.name=Uncommon Scroll
 item.research_scroll_rare.name=Rare Scroll
 
 gui.information=Research
-gui.knowledgePoints=Knowledge Pts: %1$s
+gui.knowledgePoints=Experience Pts: %1$s
 information.discovered=Researched
 information.cost=Research for %1$s Points
-knowledge.gainPts=You have gained %1$s Knowledge Points
+knowledge.gainPts=You have gained %1$s Experience Pts
 knowledge.unknownUse=You don't know how to use this!
 
 infoPage.basic=Basic Information
@@ -1493,6 +1493,11 @@ knowledge.title=
 knowledge.title.desc=
 knowledge.title.1=
 
+knowledge.research=Research Book
+knowledge.research.desc=Keeping track
+knowledge.research.1=The research book doubles off as an unlocking section as well as a "What do I do now!". Here you can view different pieces of content including what they do as well as how their obtained.^Although a lot of this stuff is unavailable and researching is required to unlock them.
+knowledge.research.2=If an icon is green: It can be unlocked: Each entry has a cost, this is taken from your experience level.
+
 knowledge.commodities=Commodities
 knowledge.commodities.desc=Useful Items
 knowledge.commodities.1=Commidities are just basic items, only without the disgrace of calling them junk.^^In other words: these items will be greatly used in recipes, so it's good to stock up.
@@ -1525,7 +1530,7 @@ knowledge.chimney.1=It is a well-known fact that burning fuel produces smoke. Yo
 knowledge.chimney.2=redirect smoke away from your precious breathing air and into the sky! Leave it for someone else a few centuries later to complain about.
 knowledge.chimney.3=Extractor chimneys can also be used on some devices (forge and crucible mainly) to absorb smoke indirectly.^"Indirectly" of course just means 1 block adjacent to where it normally would go.
 
-knowledge.tanning=Leather Tanning
+knowledge.tanning=Tanning
 knowledge.tanning.desc=Dead animal working
 knowledge.tanning.1=Leather is a useful resource to have. Nearly any tool, weapon or armour uses leather.^Tanning is a simple method of cleaning up raw hide into a useable commodity.^To start off: You will need a tanning rack.
 knowledge.tanning.2=To tan hide you first need to clean it. Either right-click the hide on water or put flux and hide on a crafting grid. When cleaned; right-click the tanning rack with hide to place it. then right-click with a knife steadily to prepare.
@@ -1615,6 +1620,11 @@ knowledge.forge.desc=Its getting hot in here.
 knowledge.forge.1=The forge is a simple device, put fuel in it (Right-click an item). and light it with a firestarter (like flint and steel).^It's easy! Just throw stuff in it and set it on fire!
 knowledge.forge.2=Forges burn at different temperatures depending on the fuel, the temperature depends on the last item thrown. $hBellows$r can be used to temporarily increase the temperature.^You can place heatable items(like ingots and hunks) in the forge, and they slowly will heat up.
 knowledge.forge.3=$y"WORKABLE"$r items are needed to use an anvil, $d"UNSTABLE"$r Items are too hot.^Use different fuels and bellows to get the temperature where you want it, and make sure to monitor your items.
+
+knowledge.bellows=Bellows
+knowledge.bellows.desc=Heat Injection
+knowledge.bellows.1=Sometimes the fire just isn't hot enough, or it may be taking to long to warm up. Using hotter fuels only takes you so far and can be wasteful when not needed.^Bellows can temporarily boost the temperature of forges by up to 50%. To use: Place them pointing at the desired block and right-click them
+knowledge.bellows.2=constantly. They can also work through solid walls.
 
 knowledge.repair_basic=Repair Kits
 knowledge.repair_basic.desc=Keeping tools in condition

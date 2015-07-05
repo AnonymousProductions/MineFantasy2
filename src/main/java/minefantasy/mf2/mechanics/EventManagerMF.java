@@ -724,13 +724,6 @@ public class EventManagerMF
 			EntityHelper.cloneNBT(origin, spawn);
 		}
 	}
-	
-    @SubscribeEvent
-    public void pickupXP(PlayerPickupXpEvent event)
-    {
-    	if(event.orb.worldObj.isRemote)return;
-    	ResearchLogic.addKnowledgeExperience(event.entityPlayer, event.orb.xpValue);
-    }
     
     @SubscribeEvent
     public void startUseItem(PlayerUseItemEvent.Start event)

@@ -1216,8 +1216,8 @@ public class ForgingRecipes
 		KnowledgeListMF.ornateWepsR.add(
 		MineFantasyAPI.addAnvilRecipe(new ItemStack(tool), "craftOrnateWeapons", true, material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
-			"ISSSI",
-			" GLG ",
+			"GSSSG",
+			" ILI ",
 			"  J  ",
 			
 			'L', getStrips(material),

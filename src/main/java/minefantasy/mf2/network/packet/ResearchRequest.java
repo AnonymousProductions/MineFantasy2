@@ -37,14 +37,15 @@ public class ResearchRequest extends PacketMF
             InformationBase research = InformationList.knowledgeList.get(researchID);
             if(entity != null && research != null)
             {
+            	boolean noCost = player.capabilities.isCreativeMode;
             	int points = ResearchLogic.getKnowledgePoints(entity);
             	int cost = ResearchLogic.getCost(player, research);
-            	if(!player.worldObj.isRemote && (MineFantasyII.isDebug() || points >= cost))
+            	if(!player.worldObj.isRemote && (noCost || points >= cost))
             	{
 	            	if(research.trigger(player, true))
 	            	{
-	            		if(!MineFantasyII.isDebug())
-	            		ResearchLogic.modifyKnowledgePoints(entity, -cost);
+	            		if(!noCost)
+	            		ResearchLogic.takeXP(entity, cost);
 	            		ResearchLogic.syncData(entity);
 	            	}
             	}

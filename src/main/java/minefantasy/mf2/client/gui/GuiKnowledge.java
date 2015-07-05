@@ -601,14 +601,6 @@ public class GuiKnowledge extends GuiScreen
     
     private int[] getVisibleRange()
     {
-    	if(ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.research2))
-    	{
-    		return new int[]{5, 10, 20};
-    	}
-    	if(ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.research1))
-    	{
-    		return new int[]{3, 5, 7};
-    	}
     	return new int[]{1, 2, 3};
     }
 }

@@ -31,6 +31,8 @@ public class KnowledgePacket extends PacketMF
 	@Override
 	public void process(ByteBuf packet, EntityPlayer player) 
 	{
+		int lvl = packet.readInt();
+		
 		int size = InformationList.knowledgeList.size();
 		ArrayList<InformationBase> completed = new ArrayList<InformationBase>();
 		
@@ -60,8 +62,8 @@ public class KnowledgePacket extends PacketMF
             	{
             		InformationBase base = (InformationBase) researches.next();
             		ResearchLogic.tryUnlock(player, base);
-            		ResearchLogic.setKnowledgePoints(entity, pts);
             	}
+            	entity.experienceLevel = lvl;
             }
         }
 	}
@@ -75,6 +77,7 @@ public class KnowledgePacket extends PacketMF
 	@Override
 	public void write(ByteBuf packet) 
 	{
+		packet.writeInt(user.experienceLevel);
 		int size = InformationList.knowledgeList.size();
 		
 		for(int a = 0; a < size; a++)

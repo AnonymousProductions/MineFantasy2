@@ -139,7 +139,6 @@ public class PlayerTickHandlerMF
     		if(event.player.capabilities.isCreativeMode)return;
     		
     		event.player.inventory.addItemStackToInventory(new ItemStack(ToolListMF.researchBook));
-    		ResearchLogic.setKnowledgePoints(event.player, ResearchLogic.startersPoints);
     	}
     	if(RPGElements.isSystemActive)
     	{

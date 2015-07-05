@@ -28,7 +28,7 @@ public class ItemResearchScroll extends ItemComponentMF
 	@Override
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
 	{
-		ResearchLogic.modifyKnowledgePoints(user, pointsWorth);
+		user.addExperienceLevel(pointsWorth);
 		if(RPGElements.isSystemActive)
 		{
 			for(int a = 0; a < 1 + rand.nextInt(pointsWorth); a++)

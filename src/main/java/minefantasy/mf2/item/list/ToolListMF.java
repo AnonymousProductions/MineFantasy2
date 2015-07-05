@@ -174,9 +174,9 @@ public class ToolListMF
 	public static ItemMine mine_custom = new ItemMine("mine_basic");
 	
 	public static ItemResearchBook researchBook = new ItemResearchBook();
-	public static Item research_scroll = new ItemResearchScroll("research_scroll", 5, 1);
-	public static Item research_scroll_uncommon = new ItemResearchScroll("research_scroll_uncommon", 10, 2).setTextureName("minefantasy2:Other/research_scroll");
-	public static Item research_scroll_rare = new ItemResearchScroll("research_scroll_rare", 25, 3).setTextureName("minefantasy2:Other/research_scroll");
+	public static Item research_scroll = new ItemResearchScroll("research_scroll", 2, 1);
+	public static Item research_scroll_uncommon = new ItemResearchScroll("research_scroll_uncommon", 5, 2).setTextureName("minefantasy2:Other/research_scroll");
+	public static Item research_scroll_rare = new ItemResearchScroll("research_scroll_rare", 10, 3).setTextureName("minefantasy2:Other/research_scroll");
 	public static void init() 
 	{
 		BlockListMF.init();

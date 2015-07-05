@@ -1,5 +1,6 @@
 package minefantasy.mf2.api.knowledge;
 
+import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.PlayerTagData;
 import minefantasy.mf2.network.packet.KnowledgePacket;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,8 +11,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ResearchLogic
 {
-	public static int xpToKnowledge = 25;
-	public static int startersPoints = 10;
 	public static boolean tryUnlock(EntityPlayer player, InformationBase base)
     {
 		if(base.startedUnlocked || !canUnlockInfo(player, base))
@@ -27,42 +26,10 @@ public class ResearchLogic
 		return false;
     }
 	
-	public static void modifyKnowledgePoints(EntityPlayer player, int mod)
-	{
-		int pts = getKnowledgePoints(player)+mod;
-		if(pts < 0)pts = 0;
-		setKnowledgePoints(player, pts);
-	}
-	public static void setKnowledgePoints(EntityPlayer player, int pts)
-	{
-		NBTTagCompound nbt = getNBT(player);
-		nbt.setInteger("KnowledgePts", pts);
-	}
-	public static int getKnowledgePoints(EntityPlayer player)
-	{
-		NBTTagCompound nbt = getNBT(player);
-		if(nbt.hasKey("KnowledgePts"))
-		{
-			return nbt.getInteger("KnowledgePts");
-		}
-		return 0;
-	}
-	
 	public static int getCost(EntityPlayer player, InformationBase base)
 	{
 		int baseCost = base.getCost();
 		
-		if(!base.getUnlocalisedName().equalsIgnoreCase("research2"))//to avoid research1 from lowering research2's cost
-		{
-			if(ResearchLogic.hasInfoUnlocked(player, "research2"))
-			{
-				baseCost = (int)((double)baseCost * 0.75F);
-			}
-			else if(ResearchLogic.hasInfoUnlocked(player, "research1"))
-			{
-				baseCost = (int)((double)baseCost * 0.9F);
-			}
-		}
 		return baseCost;
 	}
 
@@ -150,39 +117,14 @@ public class ResearchLogic
 		}
     }
 
-	public static void addKnowledgeExperience(EntityPlayer player, float xp)
-    {
-		if(xp <= 0.5F)
-		{
-			return;
-		}
-		
-		float experience = getKnowledgeXP(player) + xp;
-		float xpCap = xpBarCap(player);
-		
-		boolean playedSound = false;
-		while(experience >= xpCap)
-		{
-			experience -= xpCap;
-			ResearchLogic.modifyKnowledgePoints(player, 1);
-			if(!playedSound)
-			{
-				player.worldObj.playSoundAtEntity(player, "random.orb", 0.5F, 0.5F);
-				playedSound = true;
-			}
-		}
-			
-		player.getEntityData().setFloat(knowledgeXP, experience);
-    }
-	
-	public static String knowledgeXP = "MF_KnowledgeXP";
-	
-	private static float xpBarCap(EntityPlayer player)
+	public static int getKnowledgePoints(EntityPlayer entity) 
 	{
-		return xpToKnowledge;
+		return entity.experienceLevel;
 	}
-	public static float getKnowledgeXP(EntityPlayer player)
+
+	public static void takeXP(EntityPlayer entity, int i) 
 	{
-		return player.getEntityData().getFloat(knowledgeXP);
+		MineFantasyAPI.debugMsg("Taken "+i+" xp from player");
+		entity.experienceLevel -= i;
 	}
 }

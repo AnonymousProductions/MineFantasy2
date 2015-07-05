@@ -249,7 +249,8 @@ public class CarpenterRecipes
 	{
 		for(ItemStack planks : OreDictionary.getOres("plankWood"))
 		{
-			MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.bellows), mallet, "hammer", 1, 50 , new Object[]
+			KnowledgeListMF.bellowsRecipe = 
+			MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.bellows), "", mallet, "hammer", 1, 50 , new Object[]
 			{
 				"NNN",
 				"WWP",

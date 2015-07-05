@@ -30,8 +30,7 @@ public class KnowledgeListMF
 	public static InformationBase gettingStarted = (new InformationBase("gettingStarted", 		0, 0,  0, Items.book, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase ores = (new InformationBase("ores",  						    1, -2, 0, BlockListMF.oreCopper, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase chimney = (new InformationBase("chimney",  				    0, 2, 0, BlockListMF.chimney_stone, (InformationBase)null)).registerStat().setUnlocked();
-	public static InformationBase research1 = (new InformationBase("research1", 				1, 1, 50, ToolListMF.researchBook, (InformationBase)null)).registerStat().setPerk();
-	public static InformationBase research2 = (new InformationBase("research2", 				3, 1, 80, Items.enchanted_book, research1)).registerStat().setPerk();
+	public static InformationBase research = (new InformationBase("research", 				    1, 1, 0, ToolListMF.researchBook, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase tanning = (new InformationBase("tanning", 					0, -2 ,0, Items.leather, (InformationBase)null)).registerStat().setUnlocked().setSpecial();
 	public static InformationBase commodities = (new InformationBase("commodities",				-1 ,-2 ,0, ComponentListMF.plank, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase craftCrafters = (new InformationBase("craftCrafters", 		-1, 1, 5, ToolListMF.hammers[3], (InformationBase)null)).registerStat().setUnlocked();
@@ -52,9 +51,10 @@ public class KnowledgeListMF
     public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			5, 11, 30, ComponentListMF.ingots[14], smeltBlueSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75);
     public static InformationBase smeltAdamant = (new InformationBase("smeltAdamantium", 			3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75);
     
-    public static InformationBase forge = (new InformationBase("forge", 						 0, 0, 5, BlockListMF.forge, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
-    public static InformationBase anvil = (new InformationBase("anvil", 						-1, 0, 5, BlockListMF.anvil[1], forge)).registerStat().setPage(artisanry).setUnlocked().setSpecial();
-    public static InformationBase craftTools = (new InformationBase("craftTools", 				-3, 2, 5, ToolListMF.picks[3], anvil)).registerStat().setPage(artisanry).setUnlocked();
+    public static InformationBase bellows = (new InformationBase("bellows", 					 0, -1,0, BlockListMF.bellows, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
+    public static InformationBase forge = (new InformationBase("forge", 						 0, 0, 0, BlockListMF.forge, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
+    public static InformationBase anvil = (new InformationBase("anvil", 						-1, 0, 0, BlockListMF.anvil[1], forge)).registerStat().setPage(artisanry).setUnlocked().setSpecial();
+    public static InformationBase craftTools = (new InformationBase("craftTools", 				-3, 2, 0, ToolListMF.picks[3], anvil)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase craftAdvTools = (new InformationBase("craftAdvTools", 		-5, 2, 10, ToolListMF.hvypicks[2], craftTools)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase craftWeapons = (new InformationBase("craftWeapons", 			-3, 1, 5, ToolListMF.swords[4], anvil)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase craftAdvWeapons = (new InformationBase("craftAdvWeapons",     -5, 1, 10, ToolListMF.battleaxes[3], craftWeapons)).registerStat().setPage(artisanry).setUnlocked();
@@ -99,7 +99,7 @@ public class KnowledgeListMF
     public static IRecipe tannerRecipe;
     public static IAnvilRecipe coalDustR, kaoDustR, encrustedR, steelR, obsidianDustR, diamondR;
     public static IRecipe fireclayR, fireBrickR, fireBricksR;
-    public static ICarpenterRecipe crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe, forgeRecipe;
+    public static ICarpenterRecipe bellowsRecipe, crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe, forgeRecipe;
     
     public static ICarpenterRecipe reHelmetR, reChestR, reLegsR, reBootsR;
     public static IAnvilRecipe studHelmetR, studChestR, studLegsR, studBootsR, scaleHelmR, scaleChestR, scaleLegsR, scaleBootsR;

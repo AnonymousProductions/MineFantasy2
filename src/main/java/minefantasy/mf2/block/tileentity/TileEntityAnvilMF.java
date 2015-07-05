@@ -277,7 +277,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				{
 					float xpGained = progressMax / toolEfficiency;
 					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)xpGained);
-					ResearchLogic.addKnowledgeExperience(user, xpGained);
 					craftItem();
 				}
 			}

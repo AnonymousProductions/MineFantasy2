@@ -43,10 +43,6 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 			{
 				decrStackSize(a, 1);
 			}
-			if(rand.nextInt(24) == 0 && user.swingProgress == 0.0F)
-			{
-				ResearchLogic.modifyKnowledgePoints(user, 1);
-			}
 			return true;
 		}
 		return false;

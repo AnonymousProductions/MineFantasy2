@@ -266,12 +266,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				if(progress >= progressMax)
 				{
 					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)(progressMax/2));
-					ResearchLogic.addKnowledgeExperience(user, progressMax/20F);
 					craftItem();
-				}
-				if(rand.nextInt(30) == 0 && user.swingProgress == 0.0F)
-				{
-					ResearchLogic.modifyKnowledgePoints(user, 1);
 				}
 			}
 			else
