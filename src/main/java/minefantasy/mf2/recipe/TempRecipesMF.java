@@ -6,6 +6,7 @@ import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -55,63 +56,86 @@ public class TempRecipesMF
 		}
 		GameRegistry.addSmelting(FoodListMF.horse_raw, new ItemStack(FoodListMF.horse_cooked), 0.2F);
 		GameRegistry.addSmelting(FoodListMF.wolf_raw, new ItemStack(FoodListMF.wolf_cooked), 0.2F);
-		GameRegistry.addSmelting(Items.milk_bucket, new ItemStack(BlockListMF.cheese_wheel), 0F);
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.cheese_wheel), new Object[]
+		{
+			"CCC",
+			'C', Items.milk_bucket
+		});
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.cobblestone), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.cobblestone), new Object[]
 		{
 			"C",
 			'C', BlockListMF.cobble_brick
 		});
-		GameRegistry.addRecipe(new ItemStack(Blocks.cobblestone), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.cobblestone), new Object[]
 		{
 			"C",
 			'C', BlockListMF.cobble_pavement
 		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.cobble_brick, 4), new Object[]
+		KnowledgeListMF.stoneBricksR.add(
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.cobble_brick, 4), new Object[]
 		{
 			"C C",
 			"   ",
 			"C C",
 			'C', Blocks.cobblestone
-		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.cobble_pavement, 4), new Object[]
+		}));
+		KnowledgeListMF.stoneBricksR.add(
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.cobble_pavement, 4), new Object[]
 		{
 			"CC",
 			"CC",
 			'C', Blocks.cobblestone
-		});
+		}));
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.dirt), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.reinforced_stone), new Object[]
+		{
+			"C",
+			'C', BlockListMF.reinforced_stone_bricks
+		});
+		KnowledgeListMF.stoneBricksR.add(
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.reinforced_stone_bricks, 4), new Object[]
+		{
+			"CC",
+			"CC",
+			'C', BlockListMF.reinforced_stone
+		}));
+		
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.dirt), new Object[]
 		{
 			"C",
 			'C', BlockListMF.mud_brick
 		});
-		GameRegistry.addRecipe(new ItemStack(Blocks.dirt), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.dirt), new Object[]
 		{
 			"C",
 			'C', BlockListMF.mud_pavement
 		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.mud_brick, 4), new Object[]
+		KnowledgeListMF.stoneBricksR.add(
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.mud_brick, 4), new Object[]
 		{
 			"C C",
 			"   ",
 			"C C",
 			'C', Blocks.dirt
-		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.mud_pavement, 4), new Object[]
+		}));
+		KnowledgeListMF.stoneBricksR.add(
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.mud_pavement, 4), new Object[]
 		{
 			"CC",
 			"CC",
 			'C', Blocks.dirt
-		});
+		}));
 		
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.framed_glass), new Object[]
+		KnowledgeListMF.framedGlassR =
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.framed_glass), new Object[]
 		{
 			"PGP",
 			'P', ComponentListMF.plank,
 			'G', Blocks.glass
 		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.window), new Object[]
+		KnowledgeListMF.windowR =
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.window), new Object[]
 		{
 			" P ",
 			"PGP",
@@ -119,25 +143,27 @@ public class TempRecipesMF
 			'P', ComponentListMF.plank,
 			'G', Blocks.glass
 		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.framed_pane, 16), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.framed_pane, 16), new Object[]
 		{
 			"GGG",
 			"GGG",
 			'G', BlockListMF.framed_glass
 		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.window_pane, 16), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.window_pane, 16), new Object[]
 		{
 			"GGG",
 			"GGG",
 			'G', BlockListMF.window
 		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.thatch, 1), new Object[]
+		KnowledgeListMF.thatchR =
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.thatch, 1), new Object[]
 		{
 			"HH",
 			"HH",
-			'H', Blocks.tallgrass
+			'H', new ItemStack(Blocks.tallgrass, 1, 1)
 		});
-		GameRegistry.addRecipe(new ItemStack(BlockListMF.clayWall, 4), new Object[]
+		KnowledgeListMF.clayWallR =
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.clayWall, 4), new Object[]
 		{
 			" P ",
 			"PCP",

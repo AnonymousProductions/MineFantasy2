@@ -26,14 +26,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockTanningRack extends BlockContainer
 {
-	public BlockTanningRack() 
+	public int tier;
+	public String tex;
+	public BlockTanningRack(int tier, String tex) 
 	{
 		super(Material.wood);
 		
-		String name = "tanner";
+		this.tier=tier;
+		this.tex=tex;
+		String name = "tanner"+tex;
 		this.setBlockName(name);
 		GameRegistry.registerBlock(this, name);
-		this.setHardness(1F);
+		this.setHardness(1F + 0.5F*tier);
 		this.setResistance(1F);
         this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabMF.tabUtil);
@@ -42,7 +46,7 @@ public class BlockTanningRack extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) 
 	{
-		return new TileEntityTanningRack();
+		return new TileEntityTanningRack(tier, tex);
 	}
 	
 	@Override

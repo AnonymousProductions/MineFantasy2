@@ -73,6 +73,7 @@ public class ComponentListMF
 	public static ItemComponentMF[] chainmeshes = new ItemComponentMF[ArmourListMF.mats.length];
 	public static ItemComponentMF[] plates = new ItemComponentMF[ArmourListMF.mats.length-1];
 	public static Item plank = new ItemComponentMF("plank", 0);
+	public static Item plankRefined = new ItemComponentMF("plankRefined", 0);
 	//public static Item vine = new ItemComponentMF("vine", -1);
 	//public static Item sharp_rock = new ItemComponentMF("sharp_rock", -1);
 	public static ItemComponentMF[] arrowheads = new ItemComponentMF[ToolListMF.weaponMats.length];

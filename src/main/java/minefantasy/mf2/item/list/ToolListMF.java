@@ -281,6 +281,7 @@ public class ToolListMF
 			SpecialForging.addDragonforgeCraft(lances[5], lances[6]);
 			SpecialForging.addDragonforgeCraft(bodkinArrows[5], bodkinArrows[6]);
 			SpecialForging.addDragonforgeCraft(broadArrows[5], broadArrows[6]);
+			SpecialForging.addDragonforgeCraft(BlockListMF.bars[3], BlockListMF.bars[4]);
 		}
 		
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(hammers[2]), 5, 5, 5));

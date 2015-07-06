@@ -1,12 +1,18 @@
 package minefantasy.mf2.block.tileentity;
 
+import java.util.Random;
+
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
+import minefantasy.mf2.block.crafting.BlockTanningRack;
 import minefantasy.mf2.container.ContainerTanner;
+import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.util.MFLogUtil;
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -20,14 +26,22 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	public ItemStack[] items = new ItemStack[2];
 	public float progress;
 	public float maxProgress;
-	public int tier;
+	public String tex = "";
+	public int tier = 0;
 	public String toolType = "knife";
 	public final ContainerTanner container;
 	private int tempTicksExisted = 0;
+	private Random rand = new Random();
 	
 	public TileEntityTanningRack()
 	{
+		this(0, "Basic");
+	}
+	public TileEntityTanningRack(int tier, String tex)
+	{
 		container = new ContainerTanner(this);
+		this.tier=tier;
+		this.tex=tex;
 	}
 	
 	@Override
@@ -71,6 +85,17 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 					progress = 0;
 					setInventorySlotContents(0, items[1].copy());
 					updateRecipe();
+					if(isShabbyRack() && rand.nextInt(10) == 0 && !worldObj.isRemote)
+					{
+						for(int a = 0; a < rand.nextInt(10); a++)
+						{
+							ItemStack plank = new ItemStack(ComponentListMF.plank);
+							worldObj.playSoundEffect(xCoord, yCoord, zCoord, "mob.zombie.woodbreak", 1.0F, 1.5F);
+							dropItem(plank);
+						}
+						worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+						return true;
+					}
 				}
 			}
 			return true;
@@ -107,6 +132,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 		}
 		return false;
 	}
+
 	private void tryDecrMainItem(EntityPlayer player) 
 	{
 		int held = player.inventory.currentItem;
@@ -155,6 +181,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
+		tex = nbt.getString("tex");
 		tier = nbt.getInteger("tier");
 		progress = nbt.getFloat("Progress");
         maxProgress = nbt.getFloat("maxProgress");
@@ -178,6 +205,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
+		nbt.setString("tex", tex);
 		nbt.setInteger("tier", tier);
 		nbt.setFloat("Progress", progress);
         nbt.setFloat("maxProgress", maxProgress);
@@ -299,5 +327,44 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	public boolean isItemValidForSlot(int slot, ItemStack item)
 	{
 		return false;
+	}
+	
+	private boolean isShabbyRack()
+	{
+		return tier == 0;
+	}
+	
+	private void dropItem(ItemStack itemstack)
+	{
+		if (itemstack != null)
+        {
+            float f = this.rand .nextFloat() * 0.8F + 0.1F;
+            float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
+            float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
+
+            while (itemstack.stackSize > 0)
+            {
+                int j1 = this.rand.nextInt(21) + 10;
+
+                if (j1 > itemstack.stackSize)
+                {
+                    j1 = itemstack.stackSize;
+                }
+
+                itemstack.stackSize -= j1;
+                EntityItem entityitem = new EntityItem(worldObj, xCoord + f, yCoord + f1, zCoord + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+
+                if (itemstack.hasTagCompound())
+                {
+                    entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
+                }
+
+                float f3 = 0.05F;
+                entityitem.motionX = (float)this.rand.nextGaussian() * f3;
+                entityitem.motionY = (float)this.rand.nextGaussian() * f3 + 0.2F;
+                entityitem.motionZ = (float)this.rand.nextGaussian() * f3;
+                worldObj.spawnEntityInWorld(entityitem);
+            }
+        }
 	}
 }

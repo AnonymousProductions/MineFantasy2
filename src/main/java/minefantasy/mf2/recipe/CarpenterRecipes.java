@@ -27,6 +27,12 @@ public class CarpenterRecipes
 	
 	public static void init()
 	{
+	
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(ToolListMF.researchBook), "", sewing, "hands", -1, 1 , new Object[]
+		{
+			"B",
+			'B', Items.book,
+		});
 		
 		GameRegistry.addRecipe(new ItemStack(BlockListMF.carpenter), new Object[]{
 			"PBP",
@@ -247,20 +253,40 @@ public class CarpenterRecipes
 
 	private static void addWoodworks()
 	{
+		KnowledgeListMF.refinedPlankBlockR=
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.refined_planks), "", mallet, "hammer", 1, 10 , new Object[]
+		{
+			"NN",
+			"PP",
+			"PP",
+			'N', ComponentListMF.nail,
+			'P', ComponentListMF.plankRefined,
+		});
+		
+		KnowledgeListMF.bellowsRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.bellows), "", mallet, "hammer", 1, 50 , new Object[]
+		{
+			"NNN",
+			"PPP",
+			"LL ",
+			"PP ",
+			'N', ComponentListMF.nail,
+			'P', ComponentListMF.plankRefined,
+			'L', Items.leather,
+		});
+		
+		KnowledgeListMF.strongRackR = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.advTanner), "", mallet, "hammer", 1, 80 , new Object[]
+		{
+			"NNN",
+			"PPP",
+			"P P",
+			"PPP",
+			'N', ComponentListMF.nail,
+			'P', ComponentListMF.plankRefined,
+		});
 		for(ItemStack planks : OreDictionary.getOres("plankWood"))
 		{
-			KnowledgeListMF.bellowsRecipe = 
-			MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.bellows), "", mallet, "hammer", 1, 50 , new Object[]
-			{
-				"NNN",
-				"WWP",
-				"LL ",
-				"WW ",
-				'W', planks,
-				'N', ComponentListMF.nail,
-				'P', ComponentListMF.plank,
-				'L', Items.leather,
-			});
 			KnowledgeListMF.malletR =
 			GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.malletWood), new Object[]
 			{
@@ -284,8 +310,15 @@ public class CarpenterRecipes
 	
 	private static void addStonemason()
 	{
+		KnowledgeListMF.stoneAnvilRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.anvilStone), "", "carving", "hammer", -1, 25 , new Object[]{
+			"SS ",
+			"SSS",
+			" S ",
+			'S', Blocks.stone,
+		});
 		KnowledgeListMF.forgeRecipe = 
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.forge), "crucible", "carving", "hammer", -1, 20 , new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.forge), "", "carving", "hammer", -1, 20 , new Object[]{
 			"S S",
 			"SSS",
 			'S', Blocks.stone,

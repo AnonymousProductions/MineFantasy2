@@ -90,6 +90,7 @@ arrow.head.broad.name=Broad Head
 /COMMODITY/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item.plank.name=Timber
+item.plankRefined.name=Refined Timber
 item.rivet.name=Rivets
 item.nail.name=Nails
 item.thread.name=Thread
@@ -320,6 +321,10 @@ tile.firebricks.name=Fire Bricks
 tile.cobble_pavement.name=Cobblestone Pavement
 tile.cobble_brick.name=Cobblestone Bricks
 tile.clayWall.name=Clay Wall Panel
+tile.refined_planks.name=Refined Planks
+tile.reinforced_stone.name=Reinforced Stone
+tile.reinforced_stone_bricks.name=Reinforced Stone Bricks
+tile.reinforced_stone_framed.name=Framed Reinforced Stone
 
 tile.bronze_bars.name=Bronze Bars
 tile.iron_bars.name=Iron Bars
@@ -356,7 +361,8 @@ tile.chimney.stone.name=Stone Chimney
 tile.chimney.stone.wide.name=Wide Stone Chimney
 tile.chimney.stone_extractor.wide.name=Stone Extractor Chimney
 tile.bellows.name=Bellows
-tile.tanner.name=Tanning Rack
+tile.tanner.name=Shabby Tanning Rack
+tile.tannerStrong.name=Tanning Rack
 tile.bombBench.name=Bomb Crafting Table
 tile.carpenterBench.name=Carpenter Bench
 tile.anvilStone.name=Stone Anvil
@@ -1493,15 +1499,24 @@ knowledge.title=
 knowledge.title.desc=
 knowledge.title.1=
 
+knowledge.gettingStarted=Getting Started
+knowledge.gettingStarted.desc=From the ground-up
+knowledge.gettingStarted.1=There isn't much detail... yet... Anyway when you start off in the world, fresh and dandy: start off with a carpenters bench, go ahead and make a stone knife, hammer, tanning rack, anvil and forge. Make some copper shears for strips. Now you should have enough for a basic toolset.^A decent start is to
+knowledge.gettingStarted.2=make every process unlocked (tanners rack, anvil, forge, crucible, carpenter)
+
 knowledge.research=Research Book
 knowledge.research.desc=Keeping track
 knowledge.research.1=The research book doubles off as an unlocking section as well as a "What do I do now!". Here you can view different pieces of content including what they do as well as how their obtained.^Although a lot of this stuff is unavailable and researching is required to unlock them.
 knowledge.research.2=If an icon is green: It can be unlocked: Each entry has a cost, this is taken from your experience level.
 
+knowledge.scroll=Scrolls
+knowledge.scroll.desc=Outside experience
+knowledge.scroll.1=Across your travels you may discover scrolls. These items will give you experience levels when used.^They can be found in dungeons or dropped by witches.
 knowledge.commodities=Commodities
 knowledge.commodities.desc=Useful Items
 knowledge.commodities.1=Commidities are just basic items, only without the disgrace of calling them junk.^^In other words: these items will be greatly used in recipes, so it's good to stock up.
 knowledge.commodities.plank=Timber planks are nice solid pieces of wood. Used pretty much everywhere.
+knowledge.commodities.refinedplank=Timber can be refined with a simple mixture, hardening its finish. Refined timber will be used for more advanced works.
 knowledge.commodities.flux=Flux is commonly used in refining metals. Standard flux can be used in devices such as blast furnaces for refining ingots. Strong flux is used in advanced alloys.
 knowledge.commodities.nail=Nails are basic items used in woodworking. Iron doesn't need to be researched to craft these.
 knowledge.commodities.rivet=Rivets are similar to nails, these are used in metalworking.
@@ -1533,7 +1548,27 @@ knowledge.chimney.3=Extractor chimneys can also be used on some devices (forge a
 knowledge.tanning=Tanning
 knowledge.tanning.desc=Dead animal working
 knowledge.tanning.1=Leather is a useful resource to have. Nearly any tool, weapon or armour uses leather.^Tanning is a simple method of cleaning up raw hide into a useable commodity.^To start off: You will need a tanning rack.
-knowledge.tanning.2=To tan hide you first need to clean it. Either right-click the hide on water or put flux and hide on a crafting grid. When cleaned; right-click the tanning rack with hide to place it. then right-click with a knife steadily to prepare.
+knowledge.tanning.2=To tan hide you first need to clean it. Either right-click the hide on water or put flux and hide on a crafting grid. When cleaned; right-click the tanning rack with hide to place it. then right-click with a knife steadily to prepare. For shabby tanning racks: there's a 1/10 chance to break the block.
+knowledge.tanning.3=A properly crafted tanning rack however does not break. It's recommended to craft these when their affordable.
+
+knowledge.stamina=Stamina Mechanics
+knowledge.stamina.desc=Keep fit
+knowledge.stamina.1=It's not so easy to be running and mining all day you know. Stamina mechanics keep track of such.^Stamina (Represented as the green bar on the screen) decays when perfoming a variety of actions. It regenerates naturally and its speed is modified by equipped items. MF foods can modify stamina
+knowledge.stamina.2=variables and sweet food can give regeneration. It's wise to consider the effects of some heavier items and how they may fit with your play style.
+
+knowledge.combat=Combat mechanics
+knowledge.combat.desc=More than one way to slay a skeleton
+knowledge.combat.1=You may have noticed that constantly swinging aimlessly at monsters without a care in the world has lost it's effect some times. Combat (being a thing that you just have to deal with some times) has been modified to incorperate more complicated techniques.
+knowledge.combat.2=Not only that but monsters can also use these meaning a zombie with a weapon is more dangerous than ever, as they can block attacks, power attack, and use other abilities mentioned.
+knowledge.parry.info=$hParrying and Blocking$r^When holding right-click on most weapons, you block, simple right? Well now: blocking is much more effective. When you block an attack from straight-up, you immidiately reduce(and can remove) the damage of the hit, blades are best at this while hafted weapons
+knowledge.parry.info2=(like axes and blunt) take damage based on the hit.^It is recommended to block attacks rather than try take them, this technique can save lives.
+knowledge.advparry.info=$hParrying abilities$r^When a parry succeeds: if you're holding shift, you will lunge forward, and even past an attacker, throwing them your way. This consumes stamina but timed right, can change the battlefield to your favor. It is also possible to do this while jumping.
+knowledge.poweratt.info=$hPower attacks$r^If you hold sneak and attack while falling down, you will attempt a power attack. A power attack cost stamina, but when it succeeds will double damage and bypass through a blocking target. This can be interrupted if attacked just before the attempt.
+knowledge.blade.info=
+knowledge.fastblade.info=
+knowledge.axe.info=
+knowledge.blunt.info=
+knowledge.polearms.info=
 
 knowledge.smeltCopper=Copper Smithing
 knowledge.smeltCopper.desc=Tier 0, Common material
@@ -1782,4 +1817,33 @@ knowledge.stickybomb=Sticky Bombs
 knowledge.stickybomb.desc=Catch this!
 knowledge.stickybomb.1=Sticky bombs- as the name might suggest, are bombs that are sticky. And with this amazing trait: will attatch themselves to whatever poor sod gets in its way.^So what you have here is a bomb that does a lot of damage sticking to someone! Which never stops being funny.
 knowledge.stickybomb.2=To create these: Leave(or put) a bomb in the output slot and right-click the block with a slime ball. A single slimeball can coat a stack of any size.
+
+knowledge.refined_planks=Refined Planks
+knowledge.refined_planks.desc=Structually stable
+knowledge.refined_planks.1=Refined planks are both strong and resistent to weathering and should prove a decent building material. By nailing some of these together, you can make a block for building. This block cannot be taken apart.
+
+knowledge.reinforced_stone=Reinforced Stone
+knowledge.reinforced_stone.desc=Heavy Duty
+knowledge.reinforced_stone.1=Stone is a useful material being strong, non-flammable and resists explosions. You can however, increase the capabilities of stone by melting some obsidian and kaolinite with it.
+knowledge.reinforced_stone.2=Reinforced stone can also be trimmed with bronze, improving strength and looks.
+
+knowledge.clay_wall=Clay Pannel
+knowledge.clay_wall.desc=Decorative Walls
+knowledge.clay_wall.1=These walls are mainly for decorative purposes. Excellent for 2-story buildings and lining rooftops.
+
+knowledge.glass=Glass Blocks
+knowledge.glass.desc=Decorative Windows
+knowledge.glass.1=Glass is decorative, but extremely fragile. Putting a frame around glass not only improves its strength, but allows it to be picked up safely without ruining its shape.
+
+knowledge.brickworks=Basic Brickworks
+knowledge.brickworks.desc=Expanded stone
+knowledge.brickworks.1=There's more than one way to build with stone. Dirt and stone can make bricks and pavement.
+
+knowledge.bars=Metal Bars
+knowledge.bars.desc=Strong Fencing
+knowledge.bars.1=These bars are great for letting light in while remaining strong. Bars can be made out of common materials (not rare or exotic though).^It however is possible to make dragonforge bars that burn what touches it.
+
+knowledge.thatch=Thatch
+knowledge.thatch.desc=Soft Roofing
+knowledge.thatch.1=Simple roofing made from grass. These go well with mud bricks and are easy to make.
 

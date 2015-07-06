@@ -51,7 +51,7 @@ public class TileEntityTanningRackRenderer extends TileEntitySpecialRenderer
         if (i == 4) {
             j = 90;
         }
-        bindTextureByName("textures/models/tileentity/tanner.png"); //texture
+        bindTextureByName("textures/models/tileentity/tanner"+tile.tex+".png"); //texture
         GL11.glPushMatrix(); //start
         GL11.glTranslatef((float) d + 0.5F, (float) d1+1.45F, (float) d2 + 0.5F); //size
         GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata

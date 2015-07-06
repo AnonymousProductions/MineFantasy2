@@ -678,16 +678,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	}
 	private boolean isMythicReady()
 	{
-		TileEntity tile = worldObj.getTileEntity(xCoord, yCoord-1, zCoord);
-		if(tile != null && tile instanceof TileEntityBeacon)
-		{
-			TileEntityBeacon beacon = (TileEntityBeacon)tile;
-			if(beacon.getLevels() > 0)
-			{
-				return true;
-			}
-		}
-		return false;
+		return true;
 	}
 	public String texName = "";
 	public String getTextureName()

@@ -19,20 +19,18 @@ public class BlockListMF
 		BaseMaterialMF.copper,
 		BaseMaterialMF.tin,
 		BaseMaterialMF.silver,
-		BaseMaterialMF.pigiron,
-		
 		BaseMaterialMF.bronze,
+		BaseMaterialMF.pigiron,
 		BaseMaterialMF.steel,
-		//BaseMaterialMF.dragonforge,
-		BaseMaterialMF.redsteel,
 		BaseMaterialMF.blacksteel,
+		
+		BaseMaterialMF.redsteel,
 		BaseMaterialMF.bluesteel,
 		
 		BaseMaterialMF.adamantium,
-		//BaseMaterialMF.deepiron,
 		BaseMaterialMF.mithril,
+		
 		BaseMaterialMF.ignotumite,
-		//BaseMaterialMF.deepsteel,
 		BaseMaterialMF.mithium,
 		
 		BaseMaterialMF.enderforge,
@@ -42,9 +40,9 @@ public class BlockListMF
 		BaseMaterialMF.bronze,
 		BaseMaterialMF.iron,
 		BaseMaterialMF.steel,
+		BaseMaterialMF.blacksteel,
 		BaseMaterialMF.dragonforge,
 		BaseMaterialMF.redsteel,
-		BaseMaterialMF.blacksteel,
 		BaseMaterialMF.bluesteel,
 	};
 	public static final BaseMaterialMF[] anvils = new BaseMaterialMF[]
@@ -93,6 +91,7 @@ public class BlockListMF
 	
 	public static BlockMetalBarsMF[] bars = new BlockMetalBarsMF[specialMetalBlocks.length];
 	public static BlockMetalMF[] storage = new BlockMetalMF[metalBlocks.length];
+	public static BlockAnvilMF anvilStone = new BlockAnvilMF(BaseMaterialMF.stone);
 	public static BlockAnvilMF[] anvil = new BlockAnvilMF[anvils.length];
 	public static BlockCarpenter carpenter = new BlockCarpenter();
 	public static BlockBombBench bombBench = new BlockBombBench();
@@ -125,7 +124,7 @@ public class BlockListMF
 	public static Block chimney_stone_wide = new BlockChimney("stone", true, false, 10);
 	public static Block chimney_stone_extractor = new BlockChimney("stone_extractor", true, true, 15);
 	
-	public static Block tanner = new BlockTanningRack();
+	public static Block tanner = new BlockTanningRack(0, "");
 	
 	public static Block forge = new BlockForge("stone", 0, false);
 	public static Block forge_active = new BlockForge("stone", 0, true).setLightLevel(10F);
@@ -136,8 +135,18 @@ public class BlockListMF
 	
 	public static Block bellows = new BlockBellows();
 	
+	public static Block refined_planks = new BasicBlockMF("refined_planks", Material.wood).setHardness(2.5F).setResistance(6.5F).setStepSound(Block.soundTypeWood);
+	
+	public static Block reinforced_stone = new BasicBlockMF("reinforced_stone", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
+	public static Block reinforced_stone_bricks = new BasicBlockMF("reinforced_stone_bricks", Material.rock).setHardness(2.0F).setResistance(10F).setStepSound(Block.soundTypeStone);
+	public static Block reinforced_stone_framed = new BasicBlockMF("reinforced_stone_framed", Material.rock).setHardness(2.5F).setResistance(20F).setStepSound(Block.soundTypeStone);
+	
+	public static Block advTanner = new BlockTanningRack(1, "Strong");
+	
 	public static void init()
 	{
+		//5:20 default planks
+		Blocks.fire.setFireInfo(refined_planks, 3, 10);//Half
 		for(int a = 0; a < specialMetalBlocks.length; a++)
 		{
 			BaseMaterialMF material = specialMetalBlocks[a];

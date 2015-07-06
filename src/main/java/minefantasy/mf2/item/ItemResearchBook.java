@@ -56,8 +56,8 @@ public class ItemResearchBook extends Item
     	{
     		list.add("Gives information on MineFantasy Content");
     		list.add("");
-    		list.add("This item can be re-crafted with an iron hammer");
-    		list.add("on 2 books(vertical) on crafting table.");
+    		list.add("This item can be re-crafted by placing");
+    		list.add("a regular book on a carpenter bench");
     	}
     }
 }

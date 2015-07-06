@@ -1,5 +1,9 @@
 package minefantasy.mf2.recipe;
 
+import java.util.HashMap;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
@@ -14,7 +18,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ForgingRecipes
@@ -1072,7 +1075,7 @@ public class ForgingRecipes
 				"HPH",
 				" H ",
 				'H', hunk,
-				'P', ComponentListMF.plank,
+				'P', ComponentListMF.plankRefined,
 			});
 		}
 		material = BaseMaterialMF.gold;
@@ -1083,7 +1086,7 @@ public class ForgingRecipes
 				"HPH",
 				" H ",
 				'H', hunk,
-				'P', ComponentListMF.plank,
+				'P', ComponentListMF.plankRefined,
 			});
 		}
 		material = BaseMaterialMF.blacksteel;
@@ -1096,7 +1099,7 @@ public class ForgingRecipes
 				" H ",
 				'O', Blocks.obsidian,
 				'H', hunk,
-				'P', ComponentListMF.plank,
+				'P', ComponentListMF.plankRefined,
 			});
 		}
 		material = BaseMaterialMF.bronze;
@@ -1116,6 +1119,59 @@ public class ForgingRecipes
 				" H ",
 				'H', hunk,
 			});
+		}
+		
+		IAnvilRecipe[] anvilRecs = new IAnvilRecipe[BlockListMF.anvils.length];
+		for(int id = 0; id < BlockListMF.anvils.length; id ++)
+		{
+			time = 20;
+			material = BlockListMF.anvils[id];
+			
+			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
+			{
+				IAnvilRecipe recipe = 
+				MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.anvil[id]), "smelt"+material.name, false, "hammer", material.hammerTier-1, material.anvilTier-1, (int)(time*material.craftTimeModifier), new Object[]
+				{
+					"IIII",
+					"III ",
+					" I  ",
+					"III ",
+					'I', ingot,
+				});
+				anvilRecs[id] = recipe;
+			}
+		}
+		recipeMap.put("anvilCrafting", anvilRecs);
+		
+		for(ItemStack hunk: OreDictionary.getOres("hunkBronze"))
+		{
+			time = 4;
+			KnowledgeListMF.framedStoneR =
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.reinforced_stone_framed), "smelt"+material.name, false, "hammer", material.hammerTier-1, material.anvilTier-1, (int)(time*material.craftTimeModifier), new Object[]
+			{
+				" N ",
+				"NSN",
+				" N ",
+				'N', hunk,
+				'S', BlockListMF.reinforced_stone,
+			});
+		}
+		
+		for(int id = 0; id < BlockListMF.specialMetalBlocks.length; id ++)
+		{
+			time = 2;
+			material = BlockListMF.specialMetalBlocks[id];
+			
+			for(ItemStack ingot: OreDictionary.getOres("hunk"+material.name))
+			{
+				KnowledgeListMF.barsR.add(
+				MineFantasyAPI.addAnvilRecipe(new ItemStack(BlockListMF.bars[id]), "smelt"+material.name, false, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]
+				{
+					"I I",
+					"I I",
+					'I', ingot,
+				}));
+			}
 		}
 	}
 
@@ -1354,4 +1410,5 @@ public class ForgingRecipes
 	{
 		return Items.leather;
 	}
+	public static final HashMap<String, IAnvilRecipe[]>recipeMap = new HashMap<String, IAnvilRecipe[]>();
 }

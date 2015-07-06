@@ -25,6 +25,15 @@ public class BasicRecipesMF
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
 		
+		KnowledgeListMF.refinedPlankR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plankRefined), new Object[]
+		{
+			"C",
+			"P",
+			'C', new ItemStack(Items.dye, 1, 2),
+			'P', ComponentListMF.plank,
+		});
+		
 		KnowledgeListMF.tannerRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
 			"PPP",
@@ -33,15 +42,6 @@ public class BasicRecipesMF
 			'P', ComponentListMF.plank,
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.researchBook), new Object[]
-		{
-			"H",
-			"B",
-			"B",
-			'H', ToolListMF.hammers[2],
-			'B', Items.book,
-		});
-
 		GameRegistry.addRecipe(new RecipeArmourDyeMF());
 		//Just a way on making the overpowered gunpowder from black powder
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.gunpowder), new Object[]
@@ -52,13 +52,15 @@ public class BasicRecipesMF
 			//new ItemStack(ComponentListMF.flux_strong),
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(ComponentListMF.plank), new Object[]
+		KnowledgeListMF.plankRecipe =
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plank), new Object[]
 		{
 			"S",
 			"S",
 			'S', Items.stick,
 		});
-		GameRegistry.addRecipe(new ItemStack(Items.stick, 4), new Object[]
+		KnowledgeListMF.stickRecipe =
+		GameRegistry.addShapedRecipe(new ItemStack(Items.stick, 4), new Object[]
 		{
 			"S",
 			"S",
@@ -86,25 +88,6 @@ public class BasicRecipesMF
 				});
 			}
 		}
-		IRecipe[] anvilRecs = new IRecipe[BlockListMF.anvils.length];
-		for(int id = 0; id < BlockListMF.anvils.length; id ++)
-		{
-			BaseMaterialMF material = BlockListMF.anvils[id];
-			
-			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
-			{
-				IRecipe recipe = 
-				GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.anvil[id]), new Object[]
-				{
-					" II",
-					"III",
-					" I ",
-					'I', ingot
-				});
-				anvilRecs[id] = recipe;
-			}
-		}
-		recipeMap.put("anvilCrafting", anvilRecs);
 		
 		KnowledgeListMF.stoneHammerR = 
 		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.hammerStone), new Object[]{
@@ -176,5 +159,4 @@ public class BasicRecipesMF
 		TanningRecipe.addRecipe(ComponentListMF.hideMedium, mat.craftTimeModifier*8F, -1, new ItemStack(Items.leather, 3));
 		TanningRecipe.addRecipe(ComponentListMF.hideLarge, mat.craftTimeModifier*12F, -1, new ItemStack(Items.leather, 5));
 	}
-	public static final HashMap<String, IRecipe[]>recipeMap = new HashMap<String, IRecipe[]>();
 }

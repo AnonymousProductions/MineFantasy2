@@ -82,6 +82,7 @@ public class ItemComponentMF extends Item
 			add(list, ingot);
 		}
 		add(list, ComponentListMF.plank);
+		add(list, ComponentListMF.plankRefined);
 		add(list, ComponentListMF.nail);
 		add(list, ComponentListMF.rivet);
 		add(list, ComponentListMF.thread);

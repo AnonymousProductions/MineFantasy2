@@ -35,6 +35,17 @@ public class EntryPageRecipeBase extends EntryPage
 	private boolean shapelessRecipe = false;
 	private boolean oreDictRecipe = false;
 	
+	public EntryPageRecipeBase(List<IRecipe> recipes)
+	{
+		IRecipe[] array = new IRecipe[recipes.size()];
+		for(int a = 0; a < recipes.size(); a++)
+		{
+			array[a] = recipes.get(a);
+		}
+		this.recipes = array;
+				
+	}
+	
 	public EntryPageRecipeBase(IRecipe... recipes)
 	{
 		this.recipes = recipes;

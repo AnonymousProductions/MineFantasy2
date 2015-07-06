@@ -19,6 +19,12 @@ public class SmeltingRecipesMF {
 
 	public static void init() 
 	{
+		KnowledgeListMF.reStone =
+		MineFantasyAPI.addRatioAlloy(3, new ItemStack(BlockListMF.reinforced_stone), 1, new Object[]
+		{
+			Blocks.stone, ComponentListMF.kaolinite_dust, ComponentListMF.obsidian_dust
+		});
+		
 		refineRawOre(ComponentListMF.oreCopper, ComponentListMF.ingots[0]);
 		refineRawOre(ComponentListMF.oreTin, ComponentListMF.ingots[1]);
 		refineRawOre(ComponentListMF.oreIron, Items.iron_ingot);
