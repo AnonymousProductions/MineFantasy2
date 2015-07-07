@@ -106,6 +106,7 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.coke);
 		add(list, ComponentListMF.diamond_shards);
 		add(list, ComponentListMF.fletching);
+		add(list, ComponentListMF.plant_oil);
 		
 		add(list, ComponentListMF.coalDust);
 		add(list, ComponentListMF.iron_prep);

@@ -250,7 +250,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 			
 			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= CarpenterTierRequired && hammerTier >= hammerTierRequired)
 			{
-				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, getUseSound(), 1.25F, rand.nextFloat()+0.5F);
+				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, getUseSound(), 1.0F, 1.0F);
 				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem());
 				
 				if(user.swingProgress > 0 && user.swingProgress <= 1.0)

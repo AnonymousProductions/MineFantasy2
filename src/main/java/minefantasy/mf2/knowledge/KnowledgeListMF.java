@@ -27,6 +27,7 @@ public class KnowledgeListMF
 	public static InformationPage provisioning = InformationList.provisioning;
 	public static InformationPage mastery = InformationList.mastery;
 	
+	public static InformationBase carpenter = (new InformationBase("carpenter", 		        0, -3,  0, BlockListMF.carpenter, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase gettingStarted = (new InformationBase("gettingStarted", 		0, 0,  0, Items.book, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase research = (new InformationBase("research", 				    1, 1, 0, ToolListMF.researchBook, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase scroll = (new InformationBase("scroll", 						3, 1,  0, ToolListMF.research_scroll, research)).registerStat().setUnlocked();
@@ -107,15 +108,15 @@ public class KnowledgeListMF
     public static final ArrayList<IAnvilRecipe> barsR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IRecipe> stoneBricksR = new ArrayList<IRecipe>();
     
-    public static IRecipe plankRecipe, refinedPlankR, stickRecipe, stoneHammerR, stoneTongsR, boneNeedleR, stoneKnifeR, malletR, spoonR;
+    public static IRecipe plantOilR, plankRecipe, refinedPlankR, stickRecipe, stoneHammerR, stoneTongsR, boneNeedleR, stoneKnifeR, malletR, spoonR;
     public static IAnvilRecipe rivetR, nailR, fluxR;
     public static ICarpenterRecipe lStripsR, threadR, stringR;
     
     public static Alloy[] reStone, bronze, steel, black, red, blue, mithril, adamantium;
-    public static IRecipe tannerRecipe;
+    public static IRecipe carpenterRecipe, tannerRecipe, stoneAnvilRecipe, forgeRecipe;
     public static IAnvilRecipe coalDustR, kaoDustR, encrustedR, steelR, obsidianDustR, diamondR;
     public static IRecipe fireclayR, fireBrickR, fireBricksR;
-    public static ICarpenterRecipe strongRackR, stoneAnvilRecipe, bellowsRecipe, crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe, forgeRecipe;
+    public static ICarpenterRecipe strongRackR, bellowsRecipe, crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe;
     
     public static ICarpenterRecipe reHelmetR, reChestR, reLegsR, reBootsR;
     public static IAnvilRecipe studHelmetR, studChestR, studLegsR, studBootsR, scaleHelmR, scaleChestR, scaleLegsR, scaleBootsR;

@@ -90,6 +90,7 @@ arrow.head.broad.name=Broad Head
 /COMMODITY/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item.plank.name=Timber
+item.plant_oil.name=Plant Oil
 item.plankRefined.name=Refined Timber
 item.rivet.name=Rivets
 item.nail.name=Nails
@@ -1501,13 +1502,22 @@ knowledge.title.1=
 
 knowledge.gettingStarted=Getting Started
 knowledge.gettingStarted.desc=From the ground-up
-knowledge.gettingStarted.1=There isn't much detail... yet... Anyway when you start off in the world, fresh and dandy: start off with a carpenters bench, go ahead and make a stone knife, hammer, tanning rack, anvil and forge. Make some copper shears for strips. Now you should have enough for a basic toolset.^A decent start is to
-knowledge.gettingStarted.2=make every process unlocked (tanners rack, anvil, forge, crucible, carpenter)
+knowledge.gettingStarted.1=This is where you start working on MineFantasy. At this stage, it's recommended you atleast have a hole to live in and somewhere to build, as well you should have a supply of wood, coal, copper, stone and hide. With these resources you can begin. To start in your world you will need to ready the three main processes.
+knowledge.gettingStarted.2=Crafting blocks require some interaction on your part to function. First: Set up the recipe as instructed(heating items for anvils). Then select the correct tool with the correct tier (such as fists, knives, hammers, etc). You will then need to click the block with the item keeping hits about a second apart until it finishes.
+knowledge.gettingStarted.carpenter=$hCarpenter Bench-$r^The carpenter bench is a basic crafting table for a selection of recipes. The tools needed for this vary and some recipes require bare fists. See the crafting tools section for more information on tools.
+knowledge.gettingStarted.tanning=$hTanning-$r^By now you likely would have gathered some hide you can't use. Tanning is a simple method of creating leather from hide.^To start off, build a shabby tanning rack and a stone knife. These tools are poor quality and should be upgraded when convinient.
+knowledge.gettingStarted.forging=$hForging-$r^Forging is the main method of crafting. Pretty much every tool and metal object is made through this process. Start off by making a stone forge, anvil and tools. Place the anvil near the forge and some water. The artisanty tab has an entry of how forging works.
+knowledge.gettingStarted.3=Now you should gather 1 leather 2 timber planks and 2 copper ingots. With the forge, create a pair of copper shears, then quench them. Shears allow you to make leather strips on the carpenter bench. When you have some strips, you can now make a set of tools.
+knowledge.gettingStarted.4=By now you should have the resources to make copper tools. This is where the starting guide ends: Level up experience and unlock more crafting recipes and see what you can make. A good path from here would to be to look into cooking, tool development as well as some weapons to help you survive.
 
 knowledge.research=Research Book
 knowledge.research.desc=Keeping track
 knowledge.research.1=The research book doubles off as an unlocking section as well as a "What do I do now!". Here you can view different pieces of content including what they do as well as how their obtained.^Although a lot of this stuff is unavailable and researching is required to unlock them.
 knowledge.research.2=If an icon is green: It can be unlocked: Each entry has a cost, this is taken from your experience level.
+
+knowledge.carpenter=Carpenter Bench
+knowledge.carpenter.desc=Simple crafting
+knowledge.carpenter.1=The carpenter bench is used for mostly wood related recipes, but should be built early on anyway. This bench can use a variety of tools such as bare hands(no item), hammers, and knives just to name a few. To use this, just assemble the recipe and click the block slowly with the proper tool.
 
 knowledge.scroll=Scrolls
 knowledge.scroll.desc=Outside experience

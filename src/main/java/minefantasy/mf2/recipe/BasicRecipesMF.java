@@ -25,12 +25,20 @@ public class BasicRecipesMF
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
 		
+		KnowledgeListMF.plantOilR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plant_oil), new Object[]
+		{
+			"F",
+			"B",
+			'F', Items.wheat_seeds,
+			'B', Items.glass_bottle,
+		});
 		KnowledgeListMF.refinedPlankR = 
 		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plankRefined), new Object[]
 		{
 			"C",
 			"P",
-			'C', new ItemStack(Items.dye, 1, 2),
+			'C', ComponentListMF.plant_oil,
 			'P', ComponentListMF.plank,
 		});
 		
@@ -40,6 +48,23 @@ public class BasicRecipesMF
 			"P P",
 			"PPP",
 			'P', ComponentListMF.plank,
+		});
+		
+		KnowledgeListMF.stoneAnvilRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.anvilStone), new Object[]
+		{
+			"SS ",
+			"SSS",
+			" S ",
+			'S', Blocks.stone
+		});
+		KnowledgeListMF.forgeRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.forge), new Object[]
+		{
+			"S S",
+			"SCS",
+			'C', Items.coal,
+			'S', Blocks.stone
 		});
 		
 		GameRegistry.addRecipe(new RecipeArmourDyeMF());
@@ -111,9 +136,10 @@ public class BasicRecipesMF
 		});
 		KnowledgeListMF.stoneKnifeR = 
 		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.knifeStone), new Object[]{
-			"F",
+			"S",
+			"S",
 			"P",
-			'F', Items.flint,
+			'S', Blocks.cobblestone,
 			'P', ComponentListMF.plank,
 		});
 		

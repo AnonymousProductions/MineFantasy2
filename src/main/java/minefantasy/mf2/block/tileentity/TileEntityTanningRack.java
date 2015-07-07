@@ -16,6 +16,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -66,6 +67,10 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 			if(ToolHelper.getCrafterTier(held) >= tier)
 			{
 				held.damageItem(1, player);
+				if(held.getItemDamage() <= 0)
+				{
+					player.destroyCurrentEquippedItem();
+				}
 				
 				float efficiency = ToolHelper.getCrafterEfficiency(held);
 				if(player.swingProgress > 0 && player.swingProgress <= 1.0)
@@ -107,7 +112,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 			ItemStack item = items[0];
 			if(item == null)
 			{
-				if(held != null)
+				if(held != null && !(held.getItem() instanceof ItemBlock))
 				{
 					ItemStack item2 = held.copy();
 					item2.stackSize = 1;

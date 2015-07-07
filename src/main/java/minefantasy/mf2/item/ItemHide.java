@@ -67,7 +67,7 @@ public class ItemHide extends ItemComponentMF
         if (!world.isRemote) 
         {
             world.playSoundAtEntity(player, "random.splash", 0.125F + rand.nextFloat()/4F, 0.5F + rand.nextFloat());
-            if (rand.nextFloat()*10*hardness < 1.0F)
+            if (rand.nextFloat()*2*hardness < 1.0F)
             {
                 item.stackSize--;
                 EntityItem resultItem = new EntityItem(world, player.posX, player.posY, player.posZ, new ItemStack(result));

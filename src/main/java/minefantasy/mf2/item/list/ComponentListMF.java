@@ -141,6 +141,8 @@ public class ComponentListMF
 	
 	public static Item hotItem = new ItemHeated();
 	
+	public static Item plant_oil = new ItemComponentMF("plant_oil", 0).setContainerItem(Items.glass_bottle);
+	
 	public static void init() 
 	{
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
