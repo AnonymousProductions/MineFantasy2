@@ -12,6 +12,7 @@ import minefantasy.mf2.api.knowledge.InformationPage;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -98,6 +99,34 @@ public class KnowledgeListMF
     public static InformationBase brickworks = (new InformationBase("brickworks",   3,  0, 0, BlockListMF.cobble_brick, reinforced_stone)).registerStat().setPage(construction).setUnlocked();
     public static InformationBase bars = (new InformationBase("bars",               0,  3, 0, BlockListMF.bars[2], glass)).registerStat().setPage(construction).setUnlocked();
     public static InformationBase thatch = (new InformationBase("thatch",           0,  -3, 0, BlockListMF.thatch, clay_wall)).registerStat().setPage(construction).setUnlocked();
+    
+    public static InformationBase cookingutensil = (new InformationBase("cookingutensil",-1, 0, 0, FoodListMF.pie_tray, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
+    
+    public static InformationBase generic_meat = (new InformationBase("generic_meat", 0,  -1, 0, FoodListMF.generic_meat_uncooked, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
+    public static InformationBase stew = (new InformationBase("stew",               0,  -3, 0, FoodListMF.stew, generic_meat)).registerStat().setPage(provisioning).setUnlocked();
+    public static InformationBase jerky = (new InformationBase("jerky",             0,  -5, 10, FoodListMF.jerky, stew)).registerStat().setPage(provisioning);
+    public static InformationBase sandwitch = (new InformationBase("sandwitch",     1,  -7, 15, FoodListMF.sandwitch_meat, jerky)).registerStat().setPage(provisioning);
+    public static InformationBase meatpie = (new InformationBase("meatpie",   		-1,  -7, 20, BlockListMF.pie_meat, jerky)).registerStat().setPage(provisioning);
+    public static InformationBase shepardpie = (new InformationBase("shepardpie",  	-2,  -9, 25, BlockListMF.pie_shepards, meatpie)).registerStat().setPage(provisioning);
+    public static InformationBase bread = (new InformationBase("bread",             1,   0, 0, FoodListMF.breadroll, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
+    public static InformationBase oats = (new InformationBase("oats",               3,   0, 0, FoodListMF.oats, bread)).registerStat().setPage(provisioning).setUnlocked();
+    
+    public static InformationBase berry = (new InformationBase("berry",            	 0,  1, 0, FoodListMF.berries, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
+    public static InformationBase icing = (new InformationBase("icing",             -1,  2, 0, FoodListMF.icing, berry)).registerStat().setPage(provisioning).setUnlocked();
+    public static InformationBase sweetroll = (new InformationBase("sweetroll",      0,  3, 10, FoodListMF.sweetroll, berry)).registerStat().setPage(provisioning);
+    public static InformationBase cake = (new InformationBase("cake",	 	         0,  5, 15, BlockListMF.cake_vanilla, sweetroll)).registerStat().setPage(provisioning);
+    public static InformationBase carrotcake = (new InformationBase("carrotcake",	-1,  7, 10, BlockListMF.cake_carrot, cake)).registerStat().setPage(provisioning);
+    public static InformationBase chococake = (new InformationBase("chococake",	 	 1,  7, 20, BlockListMF.cake_chocolate, cake)).registerStat().setPage(provisioning);
+    public static InformationBase bfcake = (new InformationBase("bfcake",	 	     1,  9, 25, BlockListMF.cake_bf, chococake)).registerStat().setPage(provisioning);
+    public static InformationBase berrypie = (new InformationBase("berrypie",	 	 2,  1, 10, BlockListMF.pie_berry, berry)).registerStat().setPage(provisioning);
+    public static InformationBase applepie = (new InformationBase("applepie",	 	 4,  1, 10, BlockListMF.pie_apple, berrypie)).registerStat().setPage(provisioning);
+    
+    public static InformationBase cheese = (new InformationBase("cheese",	 		 1, -1, 0, BlockListMF.cheese_wheel, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
+    public static InformationBase cheeseroll = (new InformationBase("cheeseroll",	 3, -1, 10, FoodListMF.cheese_roll, cheese)).registerStat().setPage(provisioning);
+    
+    public static InformationBase bandage = (new InformationBase("bandage",	        -3, 0, 10,  ToolListMF.bandage_wool, (InformationBase)null)).registerStat().setPage(provisioning);
+    public static InformationBase bandageadv = (new InformationBase("bandageadv",	-5, -1, 20, ToolListMF.bandage_tough, bandage)).registerStat().setPage(provisioning);
+    
     
     public static void init()
 	{
@@ -187,4 +216,12 @@ public class KnowledgeListMF
     
     public static ICarpenterRecipe bombCaseCeramicR, mineCaseCeramicR, bombCaseCrystalR, mineCaseCrystalR;
     public static IAnvilRecipe bombCaseIronR, mineCaseIronR, bombCaseObsidianR, mineCaseObsidianR;
+    
+    public static final ArrayList<ICarpenterRecipe> meatRecipes = new ArrayList<ICarpenterRecipe>();
+    public static ICarpenterRecipe meatStripR, meatHunkR, minceR;
+    public static IRecipe cheeseR, meatpieOut, shepardOut, berryOut, appleOut, caketinRecipe, pietrayRecipe;
+    public static ICarpenterRecipe flourRecipe, rollRecipe, oatsRecipe, icingRecipe, stewRecipe, jerkyRecipe, meatPieRecipe, sandwitchRecipe, shepardRecipe, sweetrollRecipe, iceSR;
+    public static ICarpenterRecipe berryR, appleR, cheeserollR, cakeR, carrotCakeR, chocoCakeR, bfCakeR, cakeI, carrotCakeI, chocoCakeI, bfCakeI;
+
+    public static ICarpenterRecipe bandageR, badBandageR, goodBandageR;
 }

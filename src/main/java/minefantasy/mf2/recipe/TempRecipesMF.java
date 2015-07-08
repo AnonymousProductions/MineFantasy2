@@ -33,12 +33,14 @@ public class TempRecipesMF
 		
 		for(ItemStack steel: steels)
 		{
-			GameRegistry.addRecipe(new ItemStack(FoodListMF.pie_tray), new Object[]
+			KnowledgeListMF.pietrayRecipe =
+			GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.pie_tray), new Object[]
 			{
 				"III",
 				'I', steel,
 			});
-			GameRegistry.addRecipe(new ItemStack(FoodListMF.cake_tin), new Object[]
+			KnowledgeListMF.caketinRecipe =
+			GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.cake_tin), new Object[]
 			{
 				" I ",
 				"I I",
@@ -56,6 +58,14 @@ public class TempRecipesMF
 		}
 		GameRegistry.addSmelting(FoodListMF.horse_raw, new ItemStack(FoodListMF.horse_cooked), 0.2F);
 		GameRegistry.addSmelting(FoodListMF.wolf_raw, new ItemStack(FoodListMF.wolf_cooked), 0.2F);
+		
+		GameRegistry.addSmelting(FoodListMF.flour, new ItemStack(Items.bread), 0);
+		GameRegistry.addSmelting(FoodListMF.generic_meat_uncooked, new ItemStack(FoodListMF.generic_meat_cooked), 0);
+		GameRegistry.addSmelting(FoodListMF.generic_meat_strip_uncooked, new ItemStack(FoodListMF.generic_meat_strip_cooked), 0);
+		GameRegistry.addSmelting(FoodListMF.generic_meat_chunk_uncooked, new ItemStack(FoodListMF.generic_meat_chunk_cooked), 0);
+		GameRegistry.addSmelting(FoodListMF.generic_meat_mince_uncooked, new ItemStack(FoodListMF.generic_meat_mince_cooked), 0);
+		
+		KnowledgeListMF.cheeseR =
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.cheese_wheel), new Object[]
 		{
 			"CCC",
@@ -187,21 +197,28 @@ public class TempRecipesMF
 		GameRegistry.addSmelting(FoodListMF.pie_apple_uncooked, new ItemStack(FoodListMF.pie_apple_cooked), 0F);
 		GameRegistry.addSmelting(FoodListMF.pie_berry_uncooked, new ItemStack(FoodListMF.pie_berry_cooked), 0F);
 
-		GameRegistry.addShapelessRecipe(new ItemStack(BlockListMF.pie_meat), new Object[]
+		KnowledgeListMF.meatpieOut =
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.pie_meat), new Object[]
 		{
-			FoodListMF.pie_meat_cooked
+			"F",
+			'F', FoodListMF.pie_meat_cooked
 		});
-		GameRegistry.addShapelessRecipe(new ItemStack(BlockListMF.pie_shepards), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.pie_shepards), new Object[]
 		{
-			FoodListMF.pie_shepard_cooked
+			"F",
+			'F', FoodListMF.pie_shepard_cooked
 		});
-		GameRegistry.addShapelessRecipe(new ItemStack(BlockListMF.pie_apple), new Object[]
+		KnowledgeListMF.appleOut =
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.pie_apple), new Object[]
 		{
-			FoodListMF.pie_apple_cooked
+			"F",
+			'F', FoodListMF.pie_apple_cooked
 		});
-		GameRegistry.addShapelessRecipe(new ItemStack(BlockListMF.pie_berry), new Object[]
+		KnowledgeListMF.berryOut =
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.pie_berry), new Object[]
 		{
-			FoodListMF.pie_berry_cooked
+			"F",
+			'F', FoodListMF.pie_berry_cooked
 		});
 	}
 }

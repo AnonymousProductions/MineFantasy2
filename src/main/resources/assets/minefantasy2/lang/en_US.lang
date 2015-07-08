@@ -1328,6 +1328,15 @@ item.silver_broad_head.name=Silver Broad Head
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item.berries.name=Berries
 item.berriesJuicy.name=Juicy Berries
+item.generic_meat_uncooked.name=Raw Generic Meat
+item.generic_meat_cooked.name=Cooked Generic Meat
+item.generic_meat_strip_uncooked.name=Raw Meat Strips
+item.generic_meat_strip_cooked.name=Cooked Meat Strips
+item.generic_meat_chunk_uncooked.name=Raw Meat Chunks
+item.generic_meat_chunk_cooked.name=Cooked Meat Chunks
+item.generic_meat_mince_uncooked.name=Raw Mince
+item.generic_meat_mince_cooked.name=Cooked Mince
+
 tile.berries.name=Berry Bush
 item.breadroll.name=Bread Roll
 item.horse_raw.name=Raw Horse Meat
@@ -1857,4 +1866,93 @@ knowledge.bars.1=These bars are great for letting light in while remaining stron
 knowledge.thatch=Thatch
 knowledge.thatch.desc=Soft Roofing
 knowledge.thatch.1=Simple roofing made from grass. These go well with mud bricks and are easy to make.
+
+knowledge.generic_meat=Generic Meat
+knowledge.generic_meat.desc=Good for any recipe
+knowledge.generic_meat.1=There's a lot of meat out there. But sometimes, it shouldn't matter. Generic meat is made from a variety of meat types cooked or uncooked, used for easier storage and use in recipes.
+
+knowledge.stew=Stew
+knowledge.stew.desc=Kind of bland
+knowledge.stew.1=You're no cook... not yet anyway. Stew is the food of the novice. Just throw some diced meat in a bowl and call it a meal! Stew can be made from steak, chicken, pork wolf, horse and even fish.
+
+knowledge.jerky=Jerky
+knowledge.jerky.desc=For the traveller
+knowledge.jerky.1=Jerky may not be the tastiest or warmest of food, but it has its own purpose. This is one of the few stackable foods and has a decent stamina bonus across the board. Good for mining trips and explorations.
+
+knowledge.sandwitch=Sandwitches
+knowledge.sandwitch.desc=Simple
+knowledge.sandwitch.1=A piece of meat in between some bread, how could you not have known this before! Sandwitches though not stackable can be eaten twice.
+
+knowledge.meatpie=Meat Pie
+knowledge.meatpie.desc=Hearty and filling
+knowledge.meatpie.1=What's better than putting meat in a pie? nothing! Meat pies are filling and give a high stamina buff. Place the pie block and right-click with a knife to cut a slice.
+
+knowledge.shepardpie=Shepards Pie
+knowledge.shepardpie.desc=You can eat it if you're not a shepard too
+knowledge.shepardpie.1=Even better than a meat pie, now with potato! And a bigger stamina buff. Place the pie block and right-click with a knife to cut a slice.
+
+knowledge.berry=Berries
+knowledge.berry.desc=Nature's snack
+knowledge.berry.1=Berries generate throughout the world if the temperature and rainfall is right. These are a common sight in forests.^Juicy(purple) berries are less common drops, and cure poison.
+
+knowledge.bread=Bread
+knowledge.bread.desc=Grainy
+knowledge.bread.1=Bread may be a boring meal alone, but can be used in conjunction with other, more interesting food.^Flour however can be used for making all kinds of pastries.
+
+knowledge.oats=Oats
+knowledge.oats.desc=Wholesome and basic
+knowledge.oats.1=Not all meals are fancy multi-food mixtures. Keep it simple with this mixture of natural grains.
+
+knowledge.icing=Icing
+knowledge.icing.desc=Sugary Goodness
+knowledge.icing.1=Some food just isn't quite complete without icing. Icing is used in many sweet food recipes.
+
+knowledge.sweetroll=Sweet roll
+knowledge.sweetroll.desc=Let me guess...
+knowledge.sweetroll.1=Sweetrolls are a sugary treat anyone can enjoy. Eating one of these, though not filling restores stamina and gives stamina regen. Sweetrolls can be eaten twice.
+
+knowledge.cake=Cake
+knowledge.cake.desc=Made the RIGHT way!
+knowledge.cake.1=A big cake. Restores stamina and gives stamina regen. Place the cake block and right-click with a knife to cut a slice.
+
+knowledge.carrotcake=Carrot Cake
+knowledge.carrotcake.desc=Kind of healthy...
+knowledge.carrotcake.1=Standard cake with carrots in it. Restores stamina and gives stamina regen that lasts longer. Place the cake block and right-click with a knife to cut a slice.
+
+knowledge.chococake=Chocolate Cake
+knowledge.chococake.desc=Decedant
+knowledge.chococake.1=Dense with chocolate. Restores stamina and gives a faster stamina regen. Place the cake block and right-click with a knife to cut a slice.
+
+knowledge.bfcake=Black-Forest Cake
+knowledge.bfcake.desc=Fancy
+knowledge.bfcake.1=Layers of chocolate and fresh berries. Restores large stamina and gives fast stamina regen for longer. Place the cake block and right-click with a knife to cut a slice.
+
+knowledge.berrypie=Berry Pie
+knowledge.berrypie.desc=Simple dessert
+knowledge.berrypie.1=Berries are nice and juicy, but you may want to do something with them. Berry pies restore some stamina and give a stamina regen buff for a short time. Place the pie block and right-click with a knife to cut a slice.
+
+knowledge.applepie=Apple Pie
+knowledge.applepie.desc=Simple dessert
+knowledge.applepie.1=Similar to berry pies only with slightly better effects. Apple pies restore some stamina and give a stamina regen buff for a short time. Place the pie block and right-click with a knife to cut a slice.
+
+knowledge.cheese=Cheese
+knowledge.cheese.desc=Solid dairy
+knowledge.cheese.1=Cheese is made from refining milk. It has use in some recipes. Place the cheese block and right-click with a knife to cut a slice.
+
+knowledge.cheeseroll=Cheese Roll
+knowledge.cheeseroll.desc=Easy snack
+knowledge.cheeseroll.1=Cheese goes well with bread. Put some cheese in a roll to give it some flavour.
+
+knowledge.cookingutensil=Cooking Utensils
+knowledge.cookingutensil.desc=Tools for cooking
+knowledge.cookingutensil.1=For cooking, there's a variety of non-edible items that go into cooking. These include mostly trays and tins. For tools: see the basic section.
+
+knowledge.bandage=Bandages
+knowledge.bandage.desc=First Aid
+knowledge.bandage.1=There's times when someone gets badly injured, now simply asking them to shut up and eat a piece of chicken gets old fast. Bandages can restore health when used, hold right-click to use.^They don't work when you're starving, drowning, burning, poisoned, and... a lot of stuff really.
+
+knowledge.bandageadv=Strong Bandages
+knowledge.bandageadv.desc=Tough Stuff
+knowledge.bandageadv.1=These advanced leather bandages heal much more damage. They can be costly however.
+
 

@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import minefantasy.mf2.api.knowledge.client.*;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.recipe.ForgingRecipes;
@@ -182,6 +183,34 @@ public class KnowledgePageRegistry
 	    KnowledgeListMF.smeltBlueSteel.addPages(new EntryPageText("knowledge.smeltBlueSteel.1"), new EntryPageCrucible(KnowledgeListMF.blue), new EntryPageBlastFurnace(ComponentListMF.ingots[11], ComponentListMF.ingots[12]));
 	    KnowledgeListMF.smeltAdamant.addPages(new EntryPageText("knowledge.smeltAdamantium.1"), new EntryPageCrucible(KnowledgeListMF.adamantium));
 	    KnowledgeListMF.smeltMithril.addPages(new EntryPageText("knowledge.smeltMithril.1"), new EntryPageCrucible(KnowledgeListMF.mithril));
+	    
+	    KnowledgeListMF.cookingutensil.addPages(new EntryPageText("knowledge.cookingutensil.1"), new EntryPageRecipeBase(KnowledgeListMF.caketinRecipe), new EntryPageRecipeBase(KnowledgeListMF.pietrayRecipe));
+	    
+	    KnowledgeListMF.generic_meat.addPages(new EntryPageText("knowledge.generic_meat.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.meatRecipes), new EntryPageRecipeCarpenter(KnowledgeListMF.meatStripR), new EntryPageRecipeCarpenter(KnowledgeListMF.meatHunkR), new EntryPageRecipeCarpenter(KnowledgeListMF.minceR));
+	    KnowledgeListMF.stew.addPages(new EntryPageText("knowledge.stew.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.stewRecipe));
+	    KnowledgeListMF.jerky.addPages(new EntryPageText("knowledge.jerky.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.jerkyRecipe));
+	    KnowledgeListMF.sandwitch.addPages(new EntryPageText("knowledge.sandwitch.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.sandwitchRecipe));
+	    KnowledgeListMF.meatpie.addPages(new EntryPageText("knowledge.meatpie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.meatPieRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.pie_meat_uncooked), new ItemStack(BlockListMF.pie_meat)), new EntryPageRecipeBase(KnowledgeListMF.meatpieOut));
+	    KnowledgeListMF.shepardpie.addPages(new EntryPageText("knowledge.shepardpie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.shepardRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.pie_shepard_uncooked), new ItemStack(BlockListMF.pie_shepards)), new EntryPageRecipeBase(KnowledgeListMF.shepardOut));
+	    
+	    KnowledgeListMF.bread.addPages(new EntryPageText("knowledge.bread.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.flourRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.flour), new ItemStack(Items.bread)), new EntryPageRecipeCarpenter(KnowledgeListMF.rollRecipe));
+	    KnowledgeListMF.oats.addPages(new EntryPageText("knowledge.oats.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.oatsRecipe));
+	    
+	    KnowledgeListMF.berry.addPages(assembleImgPage("berry", BlockListMF.berryBush));
+	    KnowledgeListMF.icing.addPages(new EntryPageText("knowledge.icing.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.icingRecipe));
+	    KnowledgeListMF.sweetroll.addPages(new EntryPageText("knowledge.sweetroll.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.sweetrollRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.sweetroll_raw), new ItemStack(FoodListMF.sweetroll_uniced)), new EntryPageRecipeCarpenter(KnowledgeListMF.iceSR));
+	    KnowledgeListMF.cake.addPages(new EntryPageText("knowledge.cake.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.cakeR), new EntryPageSmelting(new ItemStack(FoodListMF.cake_raw), new ItemStack(FoodListMF.cake_uniced)), new EntryPageRecipeCarpenter(KnowledgeListMF.cakeI));
+	    KnowledgeListMF.carrotcake.addPages(new EntryPageText("knowledge.carrotcake.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.carrotCakeR), new EntryPageSmelting(new ItemStack(FoodListMF.cake_carrot_raw), new ItemStack(FoodListMF.cake_carrot_uniced)), new EntryPageRecipeCarpenter(KnowledgeListMF.carrotCakeI));
+	    KnowledgeListMF.chococake.addPages(new EntryPageText("knowledge.chococake.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.chocoCakeR), new EntryPageSmelting(new ItemStack(FoodListMF.cake_choc_raw), new ItemStack(FoodListMF.cake_choc_uniced)), new EntryPageRecipeCarpenter(KnowledgeListMF.chocoCakeI));
+	    KnowledgeListMF.bfcake.addPages(new EntryPageText("knowledge.bfcake.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.bfCakeR), new EntryPageSmelting(new ItemStack(FoodListMF.cake_bf_raw), new ItemStack(FoodListMF.cake_bf_uniced)), new EntryPageRecipeCarpenter(KnowledgeListMF.bfCakeI));
+	    KnowledgeListMF.berrypie.addPages(new EntryPageText("knowledge.berrypie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.berryR), new EntryPageSmelting(new ItemStack(FoodListMF.pie_berry_uncooked), new ItemStack(BlockListMF.pie_berry)), new EntryPageRecipeBase(KnowledgeListMF.berryOut));
+	    KnowledgeListMF.applepie.addPages(new EntryPageText("knowledge.applepie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.appleR), new EntryPageSmelting(new ItemStack(FoodListMF.pie_apple_uncooked), new ItemStack(BlockListMF.pie_apple)), new EntryPageRecipeBase(KnowledgeListMF.appleOut));
+	    
+	    KnowledgeListMF.cheese.addPages(new EntryPageText("knowledge.cheese.1"), new EntryPageRecipeBase(KnowledgeListMF.cheeseR));
+	    KnowledgeListMF.cheeseroll.addPages(new EntryPageText("knowledge.cheeseroll.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.cheeserollR));
+	    
+	    KnowledgeListMF.bandage.addPages(new EntryPageText("knowledge.bandage.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.badBandageR), new EntryPageRecipeCarpenter(KnowledgeListMF.bandageR));
+	    KnowledgeListMF.bandageadv.addPages(new EntryPageText("knowledge.bandageadv.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.goodBandageR));
 	}
 	
 	private static EntryPage[] assembleOreDesc(String orename, Block ore, Item ingot)
@@ -191,5 +220,9 @@ public class KnowledgePageRegistry
 	private static EntryPage[] assembleOreDesc(String orename, Block ore)
 	{
 		return new EntryPage[]{new EntryPageImage("textures/gui/knowledge/image/"+orename+".png", 96, 96, ore.getUnlocalizedName()+".name"), new EntryPageText("knowledge.minerals."+orename)};
+	}
+	private static EntryPage[] assembleImgPage(String name, Block blockname)
+	{
+		return new EntryPage[]{new EntryPageImage("textures/gui/knowledge/image/"+name+".png", 96, 96, blockname.getUnlocalizedName()+".name"), new EntryPageText("knowledge."+name+".1")};
 	}
 }

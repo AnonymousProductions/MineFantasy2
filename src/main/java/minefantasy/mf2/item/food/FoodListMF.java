@@ -14,6 +14,15 @@ public class FoodListMF
 	public static Item horse_raw = (new ItemFoodMF("horse_raw", 4, 0.4F, true)).setPotionEffect(Potion.hunger.id, 50, 0, 0.5F);
 	public static Item horse_cooked = (new ItemFoodMF("horse_cooked", 10, 1.0F, true));
 	
+	public static Item generic_meat_uncooked = (new ItemFoodMF("generic_meat_uncooked", 2, 0.2F, true));
+	public static Item generic_meat_cooked = (new ItemFoodMF("generic_meat_cooked", 	5, 0.5F, true));
+	public static Item generic_meat_strip_uncooked = (new ItemFoodMF("generic_meat_strip_uncooked", 2, 0.2F, true));
+	public static Item generic_meat_strip_cooked = (new ItemFoodMF("generic_meat_strip_cooked", 	5, 0.5F, true));
+	public static Item generic_meat_chunk_uncooked = (new ItemFoodMF("generic_meat_chunk_uncooked", 2, 0.2F, true));
+	public static Item generic_meat_chunk_cooked = (new ItemFoodMF("generic_meat_chunk_cooked", 	5, 0.5F, true));
+	public static Item generic_meat_mince_uncooked = (new ItemFoodMF("generic_meat_mince_uncooked", 2, 0.2F, true));
+	public static Item generic_meat_mince_cooked = (new ItemFoodMF("generic_meat_mince_cooked", 	5, 0.5F, true));
+	
 	public static Item tea_leaf = (new ItemFoodMF("tea_leaf", 1, 0F, false)).setStaminaModifier(10, 1);
 	public static Item spice_mild = (new ItemFoodMF("spice_mild", 1, 0F, false));
 	public static Item flour = new ItemComponentMF("flour", 0).setCreativeTab(CreativeTabMF.tabFood);
