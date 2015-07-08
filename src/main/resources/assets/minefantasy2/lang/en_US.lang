@@ -1508,7 +1508,7 @@ knowledge.gettingStarted.carpenter=$hCarpenter Bench-$r^The carpenter bench is a
 knowledge.gettingStarted.tanning=$hTanning-$r^By now you likely would have gathered some hide you can't use. Tanning is a simple method of creating leather from hide.^To start off, build a shabby tanning rack and a stone knife. These tools are poor quality and should be upgraded when convinient.
 knowledge.gettingStarted.forging=$hForging-$r^Forging is the main method of crafting. Pretty much every tool and metal object is made through this process. Start off by making a stone forge, anvil and tools. Place the anvil near the forge and some water. The artisanty tab has an entry of how forging works.
 knowledge.gettingStarted.3=Now you should gather 1 leather 2 timber planks and 2 copper ingots. With the forge, create a pair of copper shears, then quench them. Shears allow you to make leather strips on the carpenter bench. When you have some strips, you can now make a set of tools.
-knowledge.gettingStarted.4=By now you should have the resources to make copper tools. This is where the starting guide ends: Level up experience and unlock more crafting recipes and see what you can make. A good path from here would to be to look into cooking, tool development as well as some weapons to help you survive.
+knowledge.gettingStarted.4=At this point you should have the resources to make copper tools. This is where the starting guide ends: Level up experience and unlock more crafting recipes and see what you can make. A good path from here would to be to look into cooking, tool development as well as some weapons to help you survive.
 
 knowledge.research=Research Book
 knowledge.research.desc=Keeping track
@@ -1737,6 +1737,7 @@ knowledge.hammer.info=Hammers are used mostly in forging. hammers are highly use
 knowledge.hvyhammer.info=There also are heavier counterparts of the hammer, used for forging some of the larger metal items.
 knowledge.tongs.info=Tongs are used for picking up hot items from the anvil, to transfer to a water source.
 knowledge.knife.info=Knives can be used in cooking and tanning. Knives are useful.^^Just don't run with them.
+knowledge.saw.info=Saws can cut wood into planks more efficiently. Put a planks block on a carpenter bench and hit it with a saw
 knowledge.needle.info=Needles are used for sewing based recipes. Needles are used wherever thread is used.
 knowledge.mallet.info=Mallets are not really common... It's pretty much only used where a hammer may be a bit too much. So basically: some woodworks use this.
 knowledge.spoon.info=Spoons. Used for cooking, generally mixing... What else to say... it's a spoon...

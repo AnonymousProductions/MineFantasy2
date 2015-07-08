@@ -135,10 +135,10 @@ public class BlockListMF
 	
 	public static Block bellows = new BlockBellows();
 	
-	public static Block refined_planks = new BasicBlockMF("refined_planks", Material.wood).setHardness(2.5F).setResistance(6.5F).setStepSound(Block.soundTypeWood);
+	public static Block refined_planks = new BasicBlockMF("refined_planks", Material.wood).setHardness(2.5F).setResistance(10F).setStepSound(Block.soundTypeWood);
 	
 	public static Block reinforced_stone = new BasicBlockMF("reinforced_stone", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
-	public static Block reinforced_stone_bricks = new BasicBlockMF("reinforced_stone_bricks", Material.rock).setHardness(2.0F).setResistance(10F).setStepSound(Block.soundTypeStone);
+	public static Block reinforced_stone_bricks = new BasicBlockMF("reinforced_stone_bricks", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
 	public static Block reinforced_stone_framed = new BasicBlockMF("reinforced_stone_framed", Material.rock).setHardness(2.5F).setResistance(20F).setStepSound(Block.soundTypeStone);
 	
 	public static Block advTanner = new BlockTanningRack(1, "Strong");

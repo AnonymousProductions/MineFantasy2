@@ -147,6 +147,7 @@ public class KnowledgePageRegistry
 	    KnowledgeListMF.craftCrafters.addPages(new EntryPageText("knowledge.hvyhammer.info"), new EntryPageRecipeAnvil(KnowledgeListMF.hvyHammerR));
 	    KnowledgeListMF.craftCrafters.addPages(new EntryPageText("knowledge.tongs.info"), new EntryPageRecipeBase(KnowledgeListMF.stoneTongsR), new EntryPageRecipeAnvil(KnowledgeListMF.tongsR));
 	    KnowledgeListMF.craftCrafters.addPages(new EntryPageText("knowledge.knife.info"), new EntryPageRecipeBase(KnowledgeListMF.stoneKnifeR), new EntryPageRecipeAnvil(KnowledgeListMF.knifeR));
+	    KnowledgeListMF.craftCrafters.addPages(new EntryPageText("knowledge.saw.info"), new EntryPageRecipeAnvil(KnowledgeListMF.sawsR));
 	    KnowledgeListMF.craftCrafters.addPages(new EntryPageText("knowledge.needle.info"), new EntryPageRecipeBase(KnowledgeListMF.boneNeedleR), new EntryPageRecipeAnvil(KnowledgeListMF.needleR));
 	    KnowledgeListMF.craftCrafters.addPages(new EntryPageText("knowledge.mallet.info"), new EntryPageRecipeBase(KnowledgeListMF.malletR));
 	    KnowledgeListMF.craftCrafters.addPages(new EntryPageText("knowledge.spoon.info"), new EntryPageRecipeBase(KnowledgeListMF.spoonR));

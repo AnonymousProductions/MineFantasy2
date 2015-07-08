@@ -26,10 +26,11 @@ public class BasicRecipesMF
 		SmeltingRecipesMF.init();
 		
 		KnowledgeListMF.plantOilR = 
-		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plant_oil), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plant_oil, 4), new Object[]
 		{
-			"F",
-			"B",
+			" B ",
+			"BFB",
+			" B ",
 			'F', Items.wheat_seeds,
 			'B', Items.glass_bottle,
 		});
