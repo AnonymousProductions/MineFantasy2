@@ -15,6 +15,9 @@ item.research_scroll.name=Common Scroll
 item.research_scroll_uncommon.name=Uncommon Scroll
 item.research_scroll_rare.name=Rare Scroll
 
+item.talisman_lesser.name=Lesser Knowledge Talisman
+item.talisman_greater.name=Greater Knowledge Talisman
+
 gui.information=Research
 gui.knowledgePoints=Experience Pts: %1$s
 information.discovered=Researched
@@ -1500,6 +1503,9 @@ method.carpenter=Carpenter
 method.crucible=Crucible
 method.crucibleT2=Firebrick Crucible
 
+cost.talisman=Lesser Talisman x
+cost.talismanGreat=Greater Talisman x
+
 knowledge.guiSubtitle=This is the GUI
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1527,6 +1533,11 @@ knowledge.research.2=If an icon is green: It can be unlocked: Each entry has a c
 knowledge.carpenter=Carpenter Bench
 knowledge.carpenter.desc=Simple crafting
 knowledge.carpenter.1=The carpenter bench is used for mostly wood related recipes, but should be built early on anyway. This bench can use a variety of tools such as bare hands(no item), hammers, and knives just to name a few. To use this, just assemble the recipe and click the block slowly with the proper tool.
+
+knowledge.talisman=Knowledge Talismans
+knowledge.talisman.desc=Power to learn
+knowledge.talisman.1=Although some research is easy, simply figuring the basics, others are not as such. Knowledge talismans have a magical power that uses your life force to generate new knowledge, this means you can learn new processes that would normally take generations to learn.
+knowledge.talisman.2=Greater talismans are rare and creating one is extremely expensive. Few pieces of knowledge require these.
 
 knowledge.scroll=Scrolls
 knowledge.scroll.desc=Outside experience

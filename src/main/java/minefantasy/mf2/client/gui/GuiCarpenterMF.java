@@ -72,7 +72,7 @@ public class GuiCarpenterMF extends GuiContainer
         if(tile.progressMax > 0 && tile.progress > 0)
         {
         	int progressWidth = (int)(160F/tile.progressMax*tile.progress);
-        	this.drawTexturedModalRect(xPoint+8, yPoint+21, 0, 198, progressWidth, 3);
+        	this.drawTexturedModalRect(xPoint+8, yPoint+21, 0, 240, progressWidth, 3);
         }
         if(tile.doesPlayerKnowCraft(mc.thePlayer) && !tile.resName.equalsIgnoreCase(""))
         {

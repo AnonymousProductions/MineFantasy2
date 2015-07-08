@@ -1,6 +1,7 @@
 package minefantasy.mf2.item.list;
 
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.mining.RandomDigs;
 import minefantasy.mf2.api.mining.RandomOre;
 import minefantasy.mf2.block.list.BlockListMF;
@@ -143,6 +144,8 @@ public class ComponentListMF
 	
 	public static Item plant_oil = new ItemComponentMF("plant_oil", 0).setContainerItem(Items.glass_bottle);
 	
+	public static Item talisman_lesser= new ItemComponentMF("talisman_lesser", 1);
+	public static Item talisman_greater= new ItemComponentMF("talisman_greater", 3);
 	public static void init() 
 	{
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
@@ -216,6 +219,9 @@ public class ComponentListMF
 		addRandomDrops();
 		initFuels();
 		MineFantasyAPI.addHeatableItem(rivet, 100, 500, 1000);
+		
+		InformationBase.talismanItem = talisman_lesser;
+		InformationBase.greatTaliItem = talisman_greater;
 	}
 
 	private static void initFuels() 

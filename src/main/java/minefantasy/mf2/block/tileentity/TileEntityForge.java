@@ -7,6 +7,7 @@ import minefantasy.mf2.api.crafting.IBasicMetre;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
 import minefantasy.mf2.api.heating.Heatable;
+import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.IBellowsUseable;
@@ -67,6 +68,10 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 				{
 					modifyItem(item, a);
 				}
+			}
+			if(ticksExisted % 100 == 0)
+			{
+				this.averageAllItems();
 			}
 			syncData();
 		}
@@ -193,12 +198,19 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			int temp = ItemHeated.getTemp(item);
 			if(temp > temperature)
 			{
-				temp -= rand.nextInt(20);
+				temp -= (int)(temperature/5F);
 			}
 			else
 			{
-				int increase = (int) Math.min(temperature-temp, rand.nextFloat()*(temperature / 10F));
-				temp += increase;
+				int increase = (int)(temperature / 10F);
+				if(temp >= (temperature-increase))
+				{
+					temp = (int) temperature;
+				}
+				else
+				{
+					temp += increase;
+				}
 			}
 			if(temp <= 0)
 			{
@@ -602,5 +614,27 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		
 		TileEntity tile = worldObj.getTileEntity(xCoord, yCoord+1, zCoord);
 		return tile != null && tile instanceof TileEntityCrucible || tile instanceof TileEntityFurnace;
+	}
+	
+	private void averageAllItems()
+	{
+		int temp = 0;
+		int items = 0;
+		for(ItemStack item: inv)
+		{
+			if(item != null && item.getItem() instanceof IHotItem)
+			{
+				++items;
+				temp += Heatable.getTemp(item);
+			}
+		}
+		int average = (int)((float)temp / items);
+		for(ItemStack item: inv)
+		{
+			if(item != null && item.getItem() instanceof IHotItem)
+			{
+				ItemHeated.setTemp(item, average);
+			}
+		}
 	}
 }

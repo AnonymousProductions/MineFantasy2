@@ -115,7 +115,7 @@ public class ContainerForge extends Container
                     return null;
                 }
             }
-            else if (!this.mergeItemStack(itemstack1, 0, slotCount-1, false))
+            else if (!this.mergeItemStack(false, itemstack1, 0, slotCount-1, false))
             {
                 return null;
             }
@@ -131,5 +131,102 @@ public class ContainerForge extends Container
         }
 
         return itemstack;
+    }
+    
+    @Override
+    protected boolean mergeItemStack(ItemStack item, int minSlot, int maxSlot, boolean goBackwards)
+    {
+    	return mergeItemStack(true, item, minSlot, maxSlot, goBackwards);
+    }
+    protected boolean mergeItemStack(boolean allowStack, ItemStack item, int minSlot, int maxSlot, boolean goBackwards)
+    {
+        boolean flag1 = false;
+        int k = minSlot;
+
+        if (goBackwards)
+        {
+            k = maxSlot - 1;
+        }
+
+        Slot slot;
+        ItemStack itemstack1;
+
+        if (allowStack && item.isStackable())
+        {
+            while (item.stackSize > 0 && (!goBackwards && k < maxSlot || goBackwards && k >= minSlot))
+            {
+                slot = (Slot)this.inventorySlots.get(k);
+                itemstack1 = slot.getStack();
+
+                if (itemstack1 != null && itemstack1.getItem() == item.getItem() && (!item.getHasSubtypes() || item.getItemDamage() == itemstack1.getItemDamage()) && ItemStack.areItemStackTagsEqual(item, itemstack1))
+                {
+                    int l = itemstack1.stackSize + item.stackSize;
+
+                    if (l <= item.getMaxStackSize())
+                    {
+                        item.stackSize = 0;
+                        itemstack1.stackSize = l;
+                        slot.onSlotChanged();
+                        flag1 = true;
+                    }
+                    else if (itemstack1.stackSize < item.getMaxStackSize())
+                    {
+                        item.stackSize -= item.getMaxStackSize() - itemstack1.stackSize;
+                        itemstack1.stackSize = item.getMaxStackSize();
+                        slot.onSlotChanged();
+                        flag1 = true;
+                    }
+                }
+
+                if (goBackwards)
+                {
+                    --k;
+                }
+                else
+                {
+                    ++k;
+                }
+            }
+        }
+
+        if (item.stackSize > 0)
+        {
+            if (goBackwards)
+            {
+                k = maxSlot - 1;
+            }
+            else
+            {
+                k = minSlot;
+            }
+
+            while (!goBackwards && k < maxSlot || goBackwards && k >= minSlot)
+            {
+                slot = (Slot)this.inventorySlots.get(k);
+                itemstack1 = slot.getStack();
+
+                if (itemstack1 == null)
+                {
+                	ItemStack i2 = item.copy();
+                	i2.stackSize = 1;
+                    slot.putStack(i2);
+                    slot.onSlotChanged();
+                    item.stackSize--;
+                    flag1 = true;
+                    break;
+                }
+
+                if (goBackwards)
+                {
+                    --k;
+                }
+                else
+                {
+                    ++k;
+                }
+            }
+        }
+
+        return flag1;
     }
 }

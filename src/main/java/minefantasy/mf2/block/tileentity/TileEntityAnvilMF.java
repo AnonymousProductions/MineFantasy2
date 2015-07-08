@@ -348,7 +348,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	{
 		ItemArmourMF item = (ItemArmourMF)result.getItem();
 		boolean canColour = item.canColour();
-		int colour = item.defaultColour;
+		int colour = -1;
 		for(int a = 0; a < getSizeInventory()-1; a++)
 		{
 			ItemStack slot = getStackInSlot(a);
@@ -365,7 +365,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				}
 			}
 		}
-		if(canColour)
+		if(colour != -1 && canColour)
 		{
 			item.func_82813_b(result, colour);
 		}

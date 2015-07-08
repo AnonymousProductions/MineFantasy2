@@ -19,6 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class InformationBase
 {
 	public int ID = 0;
+	private int talismanCost, greatTaliCost;
 	private static int nextID = 0;
 	public boolean startedUnlocked = false;
     public final int displayColumn;
@@ -72,7 +73,7 @@ public class InformationBase
         {
             InformationList.maxDisplayRow = y;
         }
-
+        talismanCost = 1;
         this.parentInfo = parent;
     }
     
@@ -82,6 +83,17 @@ public class InformationBase
     	{
     		skills.add(new SkillRequirement(skill, level));
     	}
+    	return this;
+    }
+    
+    public InformationBase setTalismanCount(int count)
+    {
+    	this.talismanCost = count;
+    	return this;
+    }
+    public InformationBase setGreatTalismanCount(int count)
+    {
+    	this.greatTaliCost = count;
     	return this;
     }
     
@@ -156,6 +168,19 @@ public class InformationBase
     			}
     		}
     	}
+        if(allowTalisman)
+        {
+        	if(talismanCost > 0)
+        	{
+        		text += "\n\n";
+        		text += StatCollector.translateToLocal("cost.talisman") + talismanCost;
+        	}
+        	if(greatTaliCost > 0)
+        	{
+        		text += "\n\n";
+        		text += StatCollector.translateToLocal("cost.talismanGreat") + greatTaliCost;
+        	}
+        }
         
         return text;
     }
@@ -177,9 +202,13 @@ public class InformationBase
     {
         return this.isPerk;
     }
-
+    public static boolean allowTalisman = true;
 	public boolean trigger(EntityPlayer user, boolean makeEffect)
 	{
+		if(allowTalisman && !hasTalismans(user))
+		{
+			return false;
+		}
 		if(RPGElements.isSystemActive)
 		{
 			if(!hasSkillsUnlocked(user))
@@ -196,6 +225,44 @@ public class InformationBase
 		return success;
 	}
 
+	public static Item talismanItem, greatTaliItem;
+	private boolean hasTalismans(EntityPlayer user)
+	{
+		if(user.capabilities.isCreativeMode)
+		{
+			return true;
+		}
+		if(talismanCost > 0 && !hasItems(user, talismanItem, talismanCost))
+		{
+			return false;
+		}
+		if(greatTaliCost > 0 && !user.inventory.consumeInventoryItem(greatTaliItem))
+		{
+			return false;
+		}
+		return true;
+	}
+	private boolean hasItems(EntityPlayer user, Item item, int cost)
+	{
+		int total = 0;
+		for(int a = 0; a < user.inventory.getSizeInventory(); a++)
+		{
+			ItemStack slot = user.inventory.getStackInSlot(a);
+			if(slot != null && slot.getItem() == item)
+			{
+				total += slot.stackSize;
+			}
+		}
+		if(total >= cost)
+		{
+			for(int a = 0; a < cost; a++)
+			{
+				user.inventory.consumeInventoryItem(item);
+			}
+			return true;
+		}
+		return false;
+	}
 	private boolean hasSkillsUnlocked(EntityPlayer player)
 	{
 		for(int id = 0; id < skills.size(); id++)

@@ -329,7 +329,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	{
 		ItemArmourMF item = (ItemArmourMF)result.getItem();
 		boolean canColour = item.canColour();
-		int colour = item.defaultColour;
+		int colour = -1;
 		for(int a = 0; a < getSizeInventory()-1; a++)
 		{
 			ItemStack slot = getStackInSlot(a);
@@ -346,7 +346,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				}
 			}
 		}
-		if(canColour)
+		if(colour != -1 && canColour)
 		{
 			item.func_82813_b(result, colour);
 		}

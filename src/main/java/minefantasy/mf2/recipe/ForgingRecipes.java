@@ -1173,6 +1173,40 @@ public class ForgingRecipes
 				}));
 			}
 		}
+		KnowledgeListMF.talismanRecipe.add(
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.talisman_lesser, 2), "", true, "hammer", 1, 1, 20, new Object[]
+		{
+			"LGL",
+			"GIG",
+			" G ",
+			'L', new ItemStack(Items.dye, 1, 4),
+			'I', Items.iron_ingot,
+			'G', Items.gold_ingot,
+		}));
+		for(ItemStack silver: OreDictionary.getOres("ingotSilver"))
+		{
+			KnowledgeListMF.talismanRecipe.add(
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.talisman_lesser), "", true, "hammer", 1, 1, 20, new Object[]
+			{
+				"LSL",
+				"SIS",
+				" S ",
+				'L', new ItemStack(Items.dye, 1, 4),
+				'I', Items.iron_ingot,
+				'S', silver,
+			}));
+		}
+		KnowledgeListMF.greatTalismanRecipe =
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.talisman_greater), "", true, "hammer", 1, 1, 50, new Object[]
+		{
+			"GSG",
+			"DTD",
+			"GDG",
+			'G', Items.gold_ingot,
+			'D', Items.diamond,
+			'T', ComponentListMF.talisman_lesser,
+			'S', Items.nether_star,
+		});
 	}
 
 	private static boolean canCraftMaterial(BaseMaterialMF material) 

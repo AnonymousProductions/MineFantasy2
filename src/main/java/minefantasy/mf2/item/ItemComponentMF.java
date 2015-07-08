@@ -142,6 +142,9 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.gold_rod);
 		add(list, ComponentListMF.obsidian_rod);
 		
+		add(list, ComponentListMF.talisman_lesser);
+		add(list, ComponentListMF.talisman_greater);
+		
     }
     private void add(List list, Item item)
     {

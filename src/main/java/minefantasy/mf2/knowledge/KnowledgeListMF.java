@@ -32,6 +32,7 @@ public class KnowledgeListMF
 	public static InformationBase gettingStarted = (new InformationBase("gettingStarted", 		0, 0,  0, Items.book, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase research = (new InformationBase("research", 				    1, 1, 0, ToolListMF.researchBook, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase scroll = (new InformationBase("scroll", 						3, 1,  0, ToolListMF.research_scroll, research)).registerStat().setUnlocked();
+	public static InformationBase talisman = (new InformationBase("talisman", 				    4, 2,  0, ComponentListMF.talisman_lesser, research)).registerStat().setUnlocked();
 	public static InformationBase ores = (new InformationBase("ores",  						    1, -2, 0, BlockListMF.oreCopper, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase chimney = (new InformationBase("chimney",  				    0, 2, 0, BlockListMF.chimney_stone, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase tanning = (new InformationBase("tanning", 					0, -2 ,0, Items.leather, (InformationBase)null)).registerStat().setUnlocked().setSpecial();
@@ -41,20 +42,20 @@ public class KnowledgeListMF
 	public static InformationBase combat = (new InformationBase("combat", 						-5, 2, 0, Items.iron_sword, stamina)).registerStat().setUnlocked();
     	
 	public static InformationBase crucible = (new InformationBase("crucible", 					4, 0,  5, BlockListMF.crucible, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked().setSpecial();
-	public static InformationBase crucible2 = (new InformationBase("crucible2",  				6, 0, 10, BlockListMF.crucibleadv_active, crucible)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 40);
+	public static InformationBase crucible2 = (new InformationBase("crucible2",  				6, 0, 10, BlockListMF.crucibleadv_active, crucible)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 40).setTalismanCount(2);
 	
 	public static InformationBase smeltCopper = (new InformationBase("smeltCopper",  			1, 0, 0, ComponentListMF.ingots[0], (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
 	public static InformationBase smeltBronze = (new InformationBase("smeltBronze",  			1, 2,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 5);
     public static InformationBase smeltIron = (new InformationBase("smeltIron",  			    1, 4,  5, Items.iron_ingot, smeltBronze)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 15);
-    public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 5, 15, BlockListMF.blast_heater_active, smeltIron)).registerStat().setPage(artisanry).setSpecial().addSkill(SkillList.metallurgy, 30);
+    public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 5, 15, BlockListMF.blast_heater_active, smeltIron)).registerStat().setPage(artisanry).setSpecial().addSkill(SkillList.metallurgy, 30).setTalismanCount(4);
     public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 5, 10, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(artisanry).setUnlocked().addSkill(SkillList.metallurgy, 30);
-    public static InformationBase encrusted = (new InformationBase("smeltEncrusted",  			6, 5, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 35);
-    public static InformationBase smeltBlackSteel = (new InformationBase("smeltBlackSteel",		4, 7, 10, ComponentListMF.ingots[7], smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 50);
-    public static InformationBase smeltDragonforge = (new InformationBase("smeltDragonforge",	6, 7, 50, ToolListMF.swords[7], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 60);
-    public static InformationBase smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 15, ComponentListMF.ingots[10], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 65);
-    public static InformationBase smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		5, 9, 15, ComponentListMF.ingots[12], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 65);
-    public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			5, 11, 30, ComponentListMF.ingots[14], smeltBlueSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75);
-    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamantium", 			3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75);
+    public static InformationBase encrusted = (new InformationBase("smeltEncrusted",  			6, 5, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 35).setTalismanCount(4);
+    public static InformationBase smeltBlackSteel = (new InformationBase("smeltBlackSteel",		4, 7, 10, ComponentListMF.ingots[7], smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 50).setTalismanCount(8);
+    public static InformationBase smeltDragonforge = (new InformationBase("smeltDragonforge",	6, 7, 50, ToolListMF.swords[7], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 60).setTalismanCount(8);
+    public static InformationBase smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 15, ComponentListMF.ingots[10], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 65).setTalismanCount(16);
+    public static InformationBase smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		5, 9, 15, ComponentListMF.ingots[12], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 65).setTalismanCount(16);
+    public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			5, 11, 30, ComponentListMF.ingots[14], smeltBlueSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75).setTalismanCount(24);
+    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamantium", 			3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75).setTalismanCount(24);
     
     public static InformationBase bellows = (new InformationBase("bellows", 					 0, -1,0, BlockListMF.bellows, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase forge = (new InformationBase("forge", 						 0, 0, 0, BlockListMF.forge, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
@@ -63,8 +64,8 @@ public class KnowledgeListMF
     public static InformationBase craftAdvTools = (new InformationBase("craftAdvTools", 		-5, 2, 10, ToolListMF.hvypicks[2], craftTools)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase craftWeapons = (new InformationBase("craftWeapons", 			-3, 1, 5, ToolListMF.swords[4], anvil)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase craftAdvWeapons = (new InformationBase("craftAdvWeapons",     -5, 1, 10, ToolListMF.battleaxes[3], craftWeapons)).registerStat().setPage(artisanry).setUnlocked();
-    public static InformationBase craftOrnateWeapons = (new InformationBase("craftOrnateWeapons",  			-3, -1, 10, ToolListMF.swords[3], craftWeapons)).registerStat().setPage(artisanry);
-    public static InformationBase craftAdvOrnateWeapons = (new InformationBase("craftAdvOrnateWeapons", 	-5, -1, 25, ToolListMF.battleaxes[2], craftOrnateWeapons)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 0);
+    public static InformationBase craftOrnateWeapons = (new InformationBase("craftOrnateWeapons",  			-3, -1, 10, ToolListMF.swords[3], craftWeapons)).registerStat().setPage(artisanry).setTalismanCount(2);
+    public static InformationBase craftAdvOrnateWeapons = (new InformationBase("craftAdvOrnateWeapons", 	-5, -1, 25, ToolListMF.battleaxes[2], craftOrnateWeapons)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 0).setTalismanCount(4);
     public static InformationBase craftArmourLight = (new InformationBase("craftArmourLight", 			-3, 3, 5, ArmourListMF.armour(ArmourListMF.leather, 2, 1), anvil)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 0);
     public static InformationBase craftArmourMedium = (new InformationBase("craftArmourMedium", 		-4, 3, 10, ArmourListMF.armour(ArmourListMF.chainmail, 3, 1), craftArmourLight)).registerStat().setPage(artisanry);
     public static InformationBase craftArmourHeavy = (new InformationBase("craftArmourHeavy",       	-5, 3, 10, ArmourListMF.armour(ArmourListMF.fieldplate, 3, 1), craftArmourMedium)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 10);
@@ -73,24 +74,24 @@ public class KnowledgeListMF
     public static InformationBase arrowsBroad = (new InformationBase("arrowsBroad", 		  	 -5, 5, 20, ToolListMF.broadArrows[3], arrows)).registerStat().setPage(artisanry);
     
     public static InformationBase blackpowder = (new InformationBase("blackpowder", 			0, 0, 10, ComponentListMF.blackpowder, (InformationBase)null)).registerStat().setPage(engineering);
-    public static InformationBase advblackpowder = (new InformationBase("advblackpowder", 		2, -2, 30, ComponentListMF.blackpowder_advanced, blackpowder)).registerStat().setPage(engineering);
+    public static InformationBase advblackpowder = (new InformationBase("advblackpowder", 		2, -2, 30, ComponentListMF.blackpowder_advanced, blackpowder)).registerStat().setPage(engineering).setTalismanCount(2);
     public static InformationBase bombs = (new InformationBase("bombs", 						0, 2, 20, ToolListMF.bomb_custom, blackpowder)).registerStat().setPage(engineering).setSpecial().setUnlocked();
     public static InformationBase bombFuse = (new InformationBase("bombFuse", 		 		    2, 2, 0, ComponentListMF.bomb_fuse, bombs)).registerStat().setUnlocked().setPage(engineering);
     public static InformationBase shrapnel = (new InformationBase("shrapnel", 				    0, 4, 30, ComponentListMF.shrapnel, bombs)).registerStat().setPage(engineering);
-    public static InformationBase firebomb = (new InformationBase("firebomb", 		  		    0, 6, 50, Items.blaze_powder, shrapnel)).registerStat().setPage(engineering);
+    public static InformationBase firebomb = (new InformationBase("firebomb", 		  		    0, 6, 50, Items.blaze_powder, shrapnel)).registerStat().setPage(engineering).setTalismanCount(4);
     public static InformationBase stickybomb = (new InformationBase("stickybomb", 			   -2, 2, 50, Items.slime_ball, bombs)).registerStat().setPage(engineering);
     public static InformationBase bombCeramic = (new InformationBase("bombCeramic", 		    2, 3, 0, ComponentListMF.bomb_casing, bombs)).registerStat().setUnlocked().setPage(engineering);
-    public static InformationBase bombIron = (new InformationBase("bombIron", 				    4, 5, 20, ComponentListMF.bomb_casing_iron, bombCeramic)).registerStat().setPage(engineering);
-    public static InformationBase bombObsidian = (new InformationBase("bombObsidian", 		    4, 7, 35, ComponentListMF.bomb_casing_obsidian, bombIron)).registerStat().setPage(engineering);
-    public static InformationBase bombCrystal = (new InformationBase("bombCrystal", 		    2, 9, 50, ComponentListMF.bomb_casing_crystal, bombObsidian)).registerStat().setPage(engineering);
+    public static InformationBase bombIron = (new InformationBase("bombIron", 				    4, 5, 20, ComponentListMF.bomb_casing_iron, bombCeramic)).registerStat().setPage(engineering).setTalismanCount(2);
+    public static InformationBase bombObsidian = (new InformationBase("bombObsidian", 		    4, 7, 35, ComponentListMF.bomb_casing_obsidian, bombIron)).registerStat().setPage(engineering).setTalismanCount(4);
+    public static InformationBase bombCrystal = (new InformationBase("bombCrystal", 		    2, 9, 50, ComponentListMF.bomb_casing_crystal, bombObsidian)).registerStat().setPage(engineering).setTalismanCount(8);
     public static InformationBase mineCeramic = (new InformationBase("mineCeramic", 		   -2, 3, 10,  ComponentListMF.mine_casing, bombCeramic)).registerStat().setPage(engineering);
-    public static InformationBase mineIron = (new InformationBase("mineIron", 				   -4, 5, 30, ComponentListMF.mine_casing_iron, mineCeramic)).registerStat().setPage(engineering);
-    public static InformationBase mineObsidian = (new InformationBase("mineObsidian", 		   -4, 7, 40, ComponentListMF.mine_casing_obsidian, mineIron)).registerStat().setPage(engineering);
-    public static InformationBase mineCrystal = (new InformationBase("mineCrystal", 		   -2, 9, 65, ComponentListMF.mine_casing_crystal, mineObsidian)).registerStat().setPage(engineering);
+    public static InformationBase mineIron = (new InformationBase("mineIron", 				   -4, 5, 30, ComponentListMF.mine_casing_iron, mineCeramic)).registerStat().setPage(engineering).setTalismanCount(2);
+    public static InformationBase mineObsidian = (new InformationBase("mineObsidian", 		   -4, 7, 40, ComponentListMF.mine_casing_obsidian, mineIron)).registerStat().setPage(engineering).setTalismanCount(4);
+    public static InformationBase mineCrystal = (new InformationBase("mineCrystal", 		   -2, 9, 65, ComponentListMF.mine_casing_crystal, mineObsidian)).registerStat().setPage(engineering).setTalismanCount(8);
     
     public static InformationBase repair_basic = (new InformationBase("repair_basic",  		   8, 0, 5, BlockListMF.repair_basic, (InformationBase)null)).registerStat().setPage(artisanry);
-    public static InformationBase repair_advanced = (new InformationBase("repair_advanced",    10, 0, 20, BlockListMF.repair_advanced, repair_basic)).registerStat().setPage(artisanry);
-    public static InformationBase repair_ornate = (new InformationBase("repair_ornate",        12, 2, 35, BlockListMF.repair_ornate, repair_advanced)).registerStat().setPage(artisanry);
+    public static InformationBase repair_advanced = (new InformationBase("repair_advanced",    10, 0, 20, BlockListMF.repair_advanced, repair_basic)).registerStat().setPage(artisanry).setTalismanCount(2);
+    public static InformationBase repair_ornate = (new InformationBase("repair_ornate",        12, 2, 35, BlockListMF.repair_ornate, repair_advanced)).registerStat().setPage(artisanry).setTalismanCount(4);
     
     public static InformationBase refined_planks = (new InformationBase("refined_planks",      -1, 0, 0, BlockListMF.refined_planks, (InformationBase)null)).registerStat().setPage(construction).setUnlocked();
     public static InformationBase reinforced_stone = (new InformationBase("reinforced_stone",     1, 0, 0, BlockListMF.reinforced_stone, (InformationBase)null)).registerStat().setPage(construction).setUnlocked();
@@ -107,7 +108,7 @@ public class KnowledgeListMF
     public static InformationBase jerky = (new InformationBase("jerky",             0,  -5, 10, FoodListMF.jerky, stew)).registerStat().setPage(provisioning);
     public static InformationBase sandwitch = (new InformationBase("sandwitch",     1,  -7, 15, FoodListMF.sandwitch_meat, jerky)).registerStat().setPage(provisioning);
     public static InformationBase meatpie = (new InformationBase("meatpie",   		-1,  -7, 20, BlockListMF.pie_meat, jerky)).registerStat().setPage(provisioning);
-    public static InformationBase shepardpie = (new InformationBase("shepardpie",  	-2,  -9, 25, BlockListMF.pie_shepards, meatpie)).registerStat().setPage(provisioning);
+    public static InformationBase shepardpie = (new InformationBase("shepardpie",  	-2,  -9, 25, BlockListMF.pie_shepards, meatpie)).registerStat().setPage(provisioning).setTalismanCount(2);
     public static InformationBase bread = (new InformationBase("bread",             1,   0, 0, FoodListMF.breadroll, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
     public static InformationBase oats = (new InformationBase("oats",               3,   0, 0, FoodListMF.oats, bread)).registerStat().setPage(provisioning).setUnlocked();
     
@@ -117,7 +118,7 @@ public class KnowledgeListMF
     public static InformationBase cake = (new InformationBase("cake",	 	         0,  5, 15, BlockListMF.cake_vanilla, sweetroll)).registerStat().setPage(provisioning);
     public static InformationBase carrotcake = (new InformationBase("carrotcake",	-1,  7, 10, BlockListMF.cake_carrot, cake)).registerStat().setPage(provisioning);
     public static InformationBase chococake = (new InformationBase("chococake",	 	 1,  7, 20, BlockListMF.cake_chocolate, cake)).registerStat().setPage(provisioning);
-    public static InformationBase bfcake = (new InformationBase("bfcake",	 	     1,  9, 25, BlockListMF.cake_bf, chococake)).registerStat().setPage(provisioning);
+    public static InformationBase bfcake = (new InformationBase("bfcake",	 	     1,  9, 25, BlockListMF.cake_bf, chococake)).registerStat().setPage(provisioning).setTalismanCount(2);
     public static InformationBase berrypie = (new InformationBase("berrypie",	 	 2,  1, 10, BlockListMF.pie_berry, berry)).registerStat().setPage(provisioning);
     public static InformationBase applepie = (new InformationBase("applepie",	 	 4,  1, 10, BlockListMF.pie_apple, berrypie)).registerStat().setPage(provisioning);
     
@@ -125,12 +126,15 @@ public class KnowledgeListMF
     public static InformationBase cheeseroll = (new InformationBase("cheeseroll",	 3, -1, 10, FoodListMF.cheese_roll, cheese)).registerStat().setPage(provisioning);
     
     public static InformationBase bandage = (new InformationBase("bandage",	        -3, 0, 10,  ToolListMF.bandage_wool, (InformationBase)null)).registerStat().setPage(provisioning);
-    public static InformationBase bandageadv = (new InformationBase("bandageadv",	-5, -1, 20, ToolListMF.bandage_tough, bandage)).registerStat().setPage(provisioning);
+    public static InformationBase bandageadv = (new InformationBase("bandageadv",	-5, -1, 20, ToolListMF.bandage_tough, bandage)).registerStat().setPage(provisioning).setTalismanCount(2);
     
     
     public static void init()
 	{
 	}
+    public static final ArrayList<IAnvilRecipe> talismanRecipe = new ArrayList<IAnvilRecipe>();
+    public static IAnvilRecipe greatTalismanRecipe;
+    
     public static ICarpenterRecipe refinedPlankBlockR;
     public static IRecipe clayWallR, framedGlassR, windowR, thatchR, thatchStairR;
     public static IAnvilRecipe framedStoneR;
