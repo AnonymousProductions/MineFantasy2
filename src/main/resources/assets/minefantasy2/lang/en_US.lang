@@ -1692,7 +1692,7 @@ knowledge.forge=Forge
 knowledge.forge.desc=Its getting hot in here.
 knowledge.forge.1=The forge is a simple device, put fuel in it (Right-click an item). and light it with a firestarter (like flint and steel).^It's easy! Just throw stuff in it and set it on fire!
 knowledge.forge.2=Forges burn at different temperatures depending on the fuel, the temperature depends on the last item thrown. $hBellows$r can be used to temporarily increase the temperature.^You can place heatable items(like ingots and hunks) in the forge, and they slowly will heat up.
-knowledge.forge.3=$y"WORKABLE"$r items are needed to use an anvil, $d"UNSTABLE"$r Items are too hot.^Use different fuels and bellows to get the temperature where you want it, and make sure to monitor your items.
+knowledge.forge.3=$y"WORKABLE"$r items are needed to use an anvil, $d"UNSTABLE"$r Items are too hot.^Use different fuels and bellows to get the temperature where you want it, and make sure to monitor your items.^NOTE: if a crucible(or similar) is above the forge: it cannot be accessed.
 
 knowledge.bellows=Bellows
 knowledge.bellows.desc=Heat Injection

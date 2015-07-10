@@ -69,10 +69,6 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 					modifyItem(item, a);
 				}
 			}
-			if(ticksExisted % 100 == 0)
-			{
-				this.averageAllItems();
-			}
 			syncData();
 		}
 		if (ticksExisted % 10 == 0) {
@@ -98,7 +94,12 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		
 		if(temperature < maxTemp)
 		{
-			temperature += 0.2F;
+			float amount = 0.2F;
+			temperature += amount;
+			if(temperature > maxTemp)
+			{
+				temperature = maxTemp;
+			}
 		}
 		else if(temperature > maxTemp && rand.nextInt(20) == 0)
 		{
@@ -198,7 +199,10 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			int temp = ItemHeated.getTemp(item);
 			if(temp > temperature)
 			{
-				temp -= (int)(temperature/5F);
+				int i = (int)(temperature/5F);
+				MFLogUtil.logDebug("Taken " + i + " from slot " + slot);
+				MFLogUtil.logDebug("Forge Temp = " + temperature);
+				temp -= i;
 			}
 			else
 			{

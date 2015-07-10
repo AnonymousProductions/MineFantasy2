@@ -234,7 +234,7 @@ public class BlockForge extends BlockContainer
     				return true;
     			}
     		}
-    		if(!world.isRemote)
+    		if(!world.isRemote && !tile.hasCrucibleAbove())
     		{
     			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
     		}
