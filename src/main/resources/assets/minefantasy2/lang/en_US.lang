@@ -1351,6 +1351,9 @@ item.mutton_cooked.name=Cooked Mutton
 item.spider_raw.name=Raw Spider Meat
 item.spider_cooked.name=Cooked Spider Meat
 
+item.salt.name=Salt
+item.hard_bowl.name=Hardened Bowl
+item.bowl_water_salt.name=Salt Water
 item.cake_tin.name=Cake Tin
 item.pie_tin.name=Pie Tray
 item.flour.name=Flour
@@ -1358,9 +1361,14 @@ item.bread_uncooked.name=Uncooked Bread
 item.tea_leaf.name=Tea Leaf
 item.spice_mild.name=Mild Spice
 
+item.raw_bread.name=Bread Dough
+item.dough.name=Dough
+item.pastry.name=Pastry
 item.stew.name=Stew
 item.salad.name=Salad
 item.oats.name=Oats
+
+item.curds.name=Curds
 
 item.jerky.name=Jerky
 item.cheese_roll.name=Cheese Roll
@@ -1906,7 +1914,12 @@ knowledge.berry=Berries
 knowledge.berry.desc=Nature's snack
 knowledge.berry.1=Berries generate throughout the world if the temperature and rainfall is right. These are a common sight in forests.^Juicy(purple) berries are less common drops, and cure poison.
 
-knowledge.bread=Bread
+knowledge.salt=Salt
+knowledge.salt.desc=A little extra
+knowledge.salt.1=Salt is an additive for cooking sometimes used. To create salt, first gather some salt water.^Salt water is gathered by right-clicking a a special bowl on water that is directly above sand(such as a beach). Then cook this to produce salt.
+knowledge.salt.2=Hardened bowls are able to handle constant carrying and dying of salt water without decaying. These are used to gather salt water.^Salt water is detemined by being directly above sand OR being a beach/ocean biome.
+
+knowledge.bread=Bread And Pastry
 knowledge.bread.desc=Grainy
 knowledge.bread.1=Bread may be a boring meal alone, but can be used in conjunction with other, more interesting food.^Flour however can be used for making all kinds of pastries.
 

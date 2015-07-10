@@ -35,6 +35,7 @@ public class InformationBase
     private final int baseLevelCost;
     private ArrayList<SkillRequirement> skills = new ArrayList<SkillRequirement>();
     public String[] requirements = null;
+    public static int totalTaliCost = 0;
 
     public InformationBase(String name, int x, int y, int cost, Item icon, InformationBase parent)
     {
@@ -89,6 +90,7 @@ public class InformationBase
     public InformationBase setTalismanCount(int count)
     {
     	this.talismanCost = count;
+    	totalTaliCost += count;
     	return this;
     }
     public InformationBase setGreatTalismanCount(int count)
@@ -100,6 +102,8 @@ public class InformationBase
     public InformationBase setUnlocked()
     {
     	startedUnlocked = true;
+    	totalTaliCost -= talismanCost;
+    	this.talismanCost = 0;
     	return this;
     }
     public InformationBase setPage(InformationPage page)

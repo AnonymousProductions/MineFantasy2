@@ -186,6 +186,7 @@ public class KnowledgePageRegistry
 	    KnowledgeListMF.smeltMithril.addPages(new EntryPageText("knowledge.smeltMithril.1"), new EntryPageCrucible(KnowledgeListMF.mithril));
 	    
 	    KnowledgeListMF.cookingutensil.addPages(new EntryPageText("knowledge.cookingutensil.1"), new EntryPageRecipeBase(KnowledgeListMF.caketinRecipe), new EntryPageRecipeBase(KnowledgeListMF.pietrayRecipe));
+	    KnowledgeListMF.salt.addPages(new EntryPageText("knowledge.salt.1"), new EntryPageRecipeBase(KnowledgeListMF.refinedBowlR), new EntryPageSmelting(new ItemStack(FoodListMF.bowl_water_salt), new ItemStack(FoodListMF.salt)));
 	    
 	    KnowledgeListMF.generic_meat.addPages(new EntryPageText("knowledge.generic_meat.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.meatRecipes), new EntryPageRecipeCarpenter(KnowledgeListMF.meatStripR), new EntryPageRecipeCarpenter(KnowledgeListMF.meatHunkR), new EntryPageRecipeCarpenter(KnowledgeListMF.minceR));
 	    KnowledgeListMF.stew.addPages(new EntryPageText("knowledge.stew.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.stewRecipe));
@@ -194,7 +195,7 @@ public class KnowledgePageRegistry
 	    KnowledgeListMF.meatpie.addPages(new EntryPageText("knowledge.meatpie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.meatPieRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.pie_meat_uncooked), new ItemStack(BlockListMF.pie_meat)), new EntryPageRecipeBase(KnowledgeListMF.meatpieOut));
 	    KnowledgeListMF.shepardpie.addPages(new EntryPageText("knowledge.shepardpie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.shepardRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.pie_shepard_uncooked), new ItemStack(BlockListMF.pie_shepards)), new EntryPageRecipeBase(KnowledgeListMF.shepardOut));
 	    
-	    KnowledgeListMF.bread.addPages(new EntryPageText("knowledge.bread.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.flourRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.flour), new ItemStack(Items.bread)), new EntryPageRecipeCarpenter(KnowledgeListMF.rollRecipe));
+	    KnowledgeListMF.bread.addPages(new EntryPageText("knowledge.bread.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.flourRecipe), new EntryPageRecipeCarpenter(KnowledgeListMF.doughRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.dough), new ItemStack(FoodListMF.breadroll)), new EntryPageRecipeCarpenter(KnowledgeListMF.breadRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.raw_bread), new ItemStack(Items.bread)), new EntryPageRecipeCarpenter(KnowledgeListMF.pastryRecipe));
 	    KnowledgeListMF.oats.addPages(new EntryPageText("knowledge.oats.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.oatsRecipe));
 	    
 	    KnowledgeListMF.berry.addPages(assembleImgPage("berry", BlockListMF.berryBush));
@@ -207,7 +208,7 @@ public class KnowledgePageRegistry
 	    KnowledgeListMF.berrypie.addPages(new EntryPageText("knowledge.berrypie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.berryR), new EntryPageSmelting(new ItemStack(FoodListMF.pie_berry_uncooked), new ItemStack(BlockListMF.pie_berry)), new EntryPageRecipeBase(KnowledgeListMF.berryOut));
 	    KnowledgeListMF.applepie.addPages(new EntryPageText("knowledge.applepie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.appleR), new EntryPageSmelting(new ItemStack(FoodListMF.pie_apple_uncooked), new ItemStack(BlockListMF.pie_apple)), new EntryPageRecipeBase(KnowledgeListMF.appleOut));
 	    
-	    KnowledgeListMF.cheese.addPages(new EntryPageText("knowledge.cheese.1"), new EntryPageRecipeBase(KnowledgeListMF.cheeseR));
+	    KnowledgeListMF.cheese.addPages(new EntryPageText("knowledge.cheese.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.curdRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.curds), new ItemStack(BlockListMF.cheese_wheel)));
 	    KnowledgeListMF.cheeseroll.addPages(new EntryPageText("knowledge.cheeseroll.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.cheeserollR));
 	    
 	    KnowledgeListMF.bandage.addPages(new EntryPageText("knowledge.bandage.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.badBandageR), new EntryPageRecipeCarpenter(KnowledgeListMF.bandageR));

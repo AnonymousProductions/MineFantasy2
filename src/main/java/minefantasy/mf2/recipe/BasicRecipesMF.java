@@ -5,6 +5,7 @@ import java.util.HashMap;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -42,7 +43,14 @@ public class BasicRecipesMF
 			'C', ComponentListMF.plant_oil,
 			'P', ComponentListMF.plank,
 		});
-		
+		KnowledgeListMF.refinedBowlR = 
+		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.hard_bowl), new Object[]
+		{
+			"C",
+			"P",
+			'C', ComponentListMF.plant_oil,
+			'P', Items.bowl,
+		});
 		KnowledgeListMF.tannerRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
 			"PPP",

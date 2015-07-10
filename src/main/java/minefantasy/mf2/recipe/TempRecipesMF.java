@@ -59,18 +59,14 @@ public class TempRecipesMF
 		GameRegistry.addSmelting(FoodListMF.horse_raw, new ItemStack(FoodListMF.horse_cooked), 0.2F);
 		GameRegistry.addSmelting(FoodListMF.wolf_raw, new ItemStack(FoodListMF.wolf_cooked), 0.2F);
 		
-		GameRegistry.addSmelting(FoodListMF.flour, new ItemStack(Items.bread), 0);
+		GameRegistry.addSmelting(FoodListMF.raw_bread, new ItemStack(Items.bread), 0);
+		GameRegistry.addSmelting(FoodListMF.dough, new ItemStack(FoodListMF.breadroll), 0);
 		GameRegistry.addSmelting(FoodListMF.generic_meat_uncooked, new ItemStack(FoodListMF.generic_meat_cooked), 0);
 		GameRegistry.addSmelting(FoodListMF.generic_meat_strip_uncooked, new ItemStack(FoodListMF.generic_meat_strip_cooked), 0);
 		GameRegistry.addSmelting(FoodListMF.generic_meat_chunk_uncooked, new ItemStack(FoodListMF.generic_meat_chunk_cooked), 0);
 		GameRegistry.addSmelting(FoodListMF.generic_meat_mince_uncooked, new ItemStack(FoodListMF.generic_meat_mince_cooked), 0);
-		
-		KnowledgeListMF.cheeseR =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.cheese_wheel), new Object[]
-		{
-			"CCC",
-			'C', Items.milk_bucket
-		});
+		GameRegistry.addSmelting(FoodListMF.curds, new ItemStack(BlockListMF.cheese_wheel), 0);
+		GameRegistry.addSmelting(FoodListMF.bowl_water_salt, new ItemStack(FoodListMF.salt), 0);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(Blocks.cobblestone), new Object[]
 		{

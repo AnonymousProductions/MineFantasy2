@@ -8,6 +8,7 @@ import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.crafting.BlockTanningRack;
+import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.container.ContainerTanner;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.util.MFLogUtil;
@@ -336,7 +337,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	
 	private boolean isShabbyRack()
 	{
-		return tier == 0;
+		return worldObj.getBlock(xCoord, yCoord, zCoord) == BlockListMF.tanner;
 	}
 	
 	private void dropItem(ItemStack itemstack)

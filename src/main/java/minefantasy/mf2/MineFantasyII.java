@@ -5,6 +5,7 @@ import java.io.File;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
+import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.config.*;
 import minefantasy.mf2.item.list.ComponentListMF;
@@ -16,7 +17,9 @@ import minefantasy.mf2.network.CommonProxyMF;
 import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
 import minefantasy.mf2.util.MFLogUtil;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -42,7 +45,7 @@ public class MineFantasyII
 {
 	public static final String MODID = "minefantasy2";
 	public static final String NAME = "MineFantasyII";
-	public static final String VERSION = "Alpha_2.1.3";
+	public static final String VERSION = "Alpha_2.1.4";
 	public static final WorldGenMFBase worldGenManager = new WorldGenMFBase();
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
@@ -125,6 +128,7 @@ public class MineFantasyII
     	{
     		registerBiomeStuff(biome);
     	}
+    	MFLogUtil.logDebug("Total Talisman Cost: " + InformationBase.totalTaliCost + " GC: " + InformationBase.totalTaliCost*4);
     }
 
     private void registerBiomeStuff(BiomeGenBase biome)

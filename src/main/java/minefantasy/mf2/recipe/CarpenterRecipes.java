@@ -368,8 +368,8 @@ public class CarpenterRecipes
 	
 	private static void addCooking()
 	{
-		String meats = "isMeatCooked";
-		String meatsUC = "isMeatUncooked";
+		String meats = "rawMeat";
+		String meatsUC = "c";
 		OreDictionary.registerOre(meats, Items.cooked_beef);
 		OreDictionary.registerOre(meats, Items.cooked_chicken);
 		OreDictionary.registerOre(meats, Items.cooked_porkchop);
@@ -386,6 +386,16 @@ public class CarpenterRecipes
 		OreDictionary.registerOre(meatsUC, Items.fish);
 		OreDictionary.registerOre(meatsUC, new ItemStack(Items.fish, 1, 1));
 		
+		KnowledgeListMF.curdRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.curds), "", basic, "hands", -1, 10, new Object[]{
+			"T",
+			"S",
+			"M",
+			'T', FoodListMF.salt,
+			'S', Items.sugar,
+			'M', Items.milk_bucket,
+		});
+		
 		KnowledgeListMF.oatsRecipe = 
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.oats), "", chopping, "knife", -1, 20, new Object[]{
 			"M",
@@ -395,10 +405,25 @@ public class CarpenterRecipes
 			'M', Items.wheat,
 			'B', Items.bowl
 		});
-		KnowledgeListMF.rollRecipe = 
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.breadroll, 4), "", chopping, "knife", -1, 15, new Object[]{
-			"M",
-			'M', Items.bread,
+		KnowledgeListMF.doughRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.dough), "", basic, "hands", -1, 10, new Object[]{
+			"W",
+			"F",
+			'W', new ItemStack(Items.potionitem, 1, 0),
+			'F', FoodListMF.flour,
+		});
+		KnowledgeListMF.pastryRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pastry), "", basic, "hands", -1, 10, new Object[]{
+			" S ",
+			"FEF",
+			'F', FoodListMF.flour,
+			'E', Items.egg,
+			'S', FoodListMF.salt,
+		});
+		KnowledgeListMF.breadRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.raw_bread), "", basic, "hands", -1, 15, new Object[]{
+			"DDD",
+			'D', FoodListMF.dough,
 		});
 		KnowledgeListMF.sweetrollRecipe = 
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.sweetroll_raw), "sweetroll", basic, 12, new Object[]{
@@ -476,18 +501,19 @@ public class CarpenterRecipes
 			'B', Items.bowl
 		});
 		KnowledgeListMF.jerkyRecipe =
-		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.jerky, 2), "jerky", chopping, "knife", 2, 20, new Object[]{
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.jerky, 1), "jerky", chopping, "knife", 2, 20, new Object[]{
+			"S",
 			"M",
+			'S', FoodListMF.salt,
 			'M', FoodListMF.generic_meat_strip_cooked,
 		});
 		KnowledgeListMF.meatPieRecipe =
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_meat_uncooked), "meatpie", chopping, "knife", 2, 150, new Object[]{
-			"FFF",
+			"PPP",
 			"MMM",
-			"FEF",
+			"PPP",
 			" T ",
-			'F', FoodListMF.flour,
-			'E', Items.egg,
+			'P', FoodListMF.pastry,
 			'M', FoodListMF.generic_meat_mince_cooked,
 			'T', FoodListMF.pie_tray,
 		});
@@ -503,37 +529,34 @@ public class CarpenterRecipes
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_shepard_uncooked), "shepardpie", chopping, "knife", 3, 200, new Object[]{
 			"PPP",
 			"MMM",
-			"FEF",
+			"FFF",
 			" T ",
 			'P', Items.potato,
-			'F', FoodListMF.flour,
-			'E', Items.egg,
+			'F', FoodListMF.pastry,
 			'M', FoodListMF.generic_meat_mince_cooked,
 			'T', FoodListMF.pie_tray,
 		});
 			
 		KnowledgeListMF.appleR =
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_apple_uncooked), "applepie", chopping, "knife", 2, 120, new Object[]{
-			"FSF",
+			"PSP",
 			"MMM",
-			"FEF",
+			"PSP",
 			" T ",
-			'F', FoodListMF.flour,
-			'E', Items.egg,
-			'M', Items.apple,
 			'S', Items.sugar,
+			'P', FoodListMF.pastry,
+			'M', Items.apple,
 			'T', FoodListMF.pie_tray,
 		});
 		KnowledgeListMF.berryR =
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(FoodListMF.pie_berry_uncooked), "berrypie", chopping, "knife", 2, 100, new Object[]{
-			"FSF",
+			"PSP",
 			"MMM",
-			"FEF",
+			"PSP",
 			" T ",
-			'F', FoodListMF.flour,
-			'E', Items.egg,
-			'M', FoodListMF.berries,
 			'S', Items.sugar,
+			'P', FoodListMF.pastry,
+			'M', FoodListMF.berries,
 			'T', FoodListMF.pie_tray,
 		});
 		

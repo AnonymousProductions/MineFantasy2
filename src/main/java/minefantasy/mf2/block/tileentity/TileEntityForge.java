@@ -618,6 +618,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	
 	private void averageAllItems()
 	{
+		/*
 		int temp = 0;
 		int items = 0;
 		for(ItemStack item: inv)
@@ -625,7 +626,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			if(item != null && item.getItem() instanceof IHotItem)
 			{
 				++items;
-				temp += Heatable.getTemp(item);
+				temp += ItemHeated.getTemp(item);
 			}
 		}
 		int average = (int)((float)temp / items);
@@ -636,5 +637,6 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 				ItemHeated.setTemp(item, average);
 			}
 		}
+		*/
 	}
 }

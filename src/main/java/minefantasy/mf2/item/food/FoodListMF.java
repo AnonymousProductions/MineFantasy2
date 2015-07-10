@@ -1,7 +1,9 @@
 package minefantasy.mf2.item.food;
 
 import minefantasy.mf2.item.ItemComponentMF;
+import minefantasy.mf2.item.ItemMFBowl;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -29,6 +31,7 @@ public class FoodListMF
 	
 	public static Item breadroll = (new ItemFoodMF("breadroll", 5, 1.0F, false)).setMaxStackSize(8);
 	
+	public static Item curds = new ItemUnfinishedFood("curds");
 	public static Item cheese_slice = (new ItemFoodMF("cheese_slice",       6, 1.0F, 2F, false, 0)).setMaxStackSize(1);
 	
 	//T1 (basic mixing)
@@ -96,6 +99,13 @@ public class FoodListMF
 	public static Item pie_berry_cooked = new ItemUnfinishedFood("pie_berry_cooked").setContainerItem(pie_tray);
 	public static Item pie_shepard_cooked = new ItemUnfinishedFood("pie_shepard_cooked").setContainerItem(pie_tray);
 	
+	public static Item hard_bowl = new ItemMFBowl("hard_bowl").setCreativeTab(CreativeTabMF.tabFood);
+	public static Item salt = new ItemComponentMF("salt", 0).setCreativeTab(CreativeTabMF.tabFood).setContainerItem(hard_bowl);
+	public static Item bowl_water_salt = new ItemComponentMF("bowl_water_salt", 0).setCreativeTab(CreativeTabMF.tabFood);
+	
+	public static Item dough = new ItemUnfinishedFood("dough");
+	public static Item pastry = new ItemUnfinishedFood("pastry");
+	public static Item raw_bread = new ItemUnfinishedFood("raw_bread");
 	//SPECIAL RECIPES
 	
 	public static void init()

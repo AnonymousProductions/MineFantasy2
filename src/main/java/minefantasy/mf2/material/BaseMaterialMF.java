@@ -49,7 +49,7 @@ public class BaseMaterialMF
 	public static BaseMaterialMF dragonscale = addArmourSpecificMaterial("Dragonscale",    3, 3000,         8.0F,        20,       1.20F, 85).setRarity(2);
 	
 	//                                                   name    		    Tier dura,    harvest   sharpness   enchant   weight
-	public static BaseMaterialMF stone =   addMaterial("Stone",		          0, 60 ,     0,     0.1F, 0.0F,    0,        2.00F, 0).setForgeStats(0, 0, 0.75F, 0, 0);
+	public static BaseMaterialMF stone =   addMaterial("Stone",		          0, 100 ,     0,     0.1F, 0.0F,    0,        2.00F, 0).setForgeStats(0, 0, 0.75F, 0, 0);
 	public static BaseMaterialMF tin  =    addMaterial("Tin",   	          0, 100,     0,        0.2F,       5 ,       0.80F, 0).setForgeStats(0, 0, 0, 85, 100);
 	public static BaseMaterialMF pigiron = addMaterial("PigIron",             0, 250,     0,        1.5F,       3 ,       1.00F, 0).setForgeStats(2, 2, 2.0F, 100, 400);
 	public static BaseMaterialMF silver =  addMaterial("Silver", 		     -1, 500,     0,        0.0F,       10,       0.70F, 0).setForgeStats(1, 1, 3F, 90, 120);

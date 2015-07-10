@@ -1174,7 +1174,7 @@ public class ForgingRecipes
 			}
 		}
 		KnowledgeListMF.talismanRecipe.add(
-		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.talisman_lesser, 2), "", true, "hammer", 1, 1, 20, new Object[]
+		MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.talisman_lesser), "", true, "hammer", -1, -1, 20, new Object[]
 		{
 			"LGL",
 			"GIG",
@@ -1186,7 +1186,7 @@ public class ForgingRecipes
 		for(ItemStack silver: OreDictionary.getOres("ingotSilver"))
 		{
 			KnowledgeListMF.talismanRecipe.add(
-			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.talisman_lesser), "", true, "hammer", 1, 1, 20, new Object[]
+			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.talisman_lesser), "", true, "hammer", -1, -1, 20, new Object[]
 			{
 				"LSL",
 				"SIS",
