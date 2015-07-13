@@ -10,6 +10,7 @@ import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.config.*;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.knowledge.KnowledgeCostRegistry;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
@@ -45,7 +46,7 @@ public class MineFantasyII
 {
 	public static final String MODID = "minefantasy2";
 	public static final String NAME = "MineFantasyII";
-	public static final String VERSION = "Alpha_2.1.5";
+	public static final String VERSION = "Alpha_2.1.6";
 	public static final WorldGenMFBase worldGenManager = new WorldGenMFBase();
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
@@ -128,7 +129,7 @@ public class MineFantasyII
     	{
     		registerBiomeStuff(biome);
     	}
-    	MFLogUtil.logDebug("Total Talisman Cost: " + InformationBase.totalTaliCost + " GC: " + InformationBase.totalTaliCost*4);
+    	KnowledgeCostRegistry.init();
     }
 
     private void registerBiomeStuff(BiomeGenBase biome)

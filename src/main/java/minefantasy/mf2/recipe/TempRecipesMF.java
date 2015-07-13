@@ -31,22 +31,22 @@ public class TempRecipesMF
 		ArrayList<ItemStack> silvers = OreDictionary.getOres("ingotSilver");
 		ArrayList<ItemStack> blacks = OreDictionary.getOres("ingotBlackSteel");
 		
+		KnowledgeListMF.pietrayRecipe =
+		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.pie_tray), new Object[]
+		{
+			"III",
+			'I', Items.iron_ingot,
+		});
+		KnowledgeListMF.caketinRecipe =
+		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.cake_tin), new Object[]
+		{
+			" I ",
+			"I I",
+			" I ",
+			'I', Items.iron_ingot,
+		});
 		for(ItemStack steel: steels)
 		{
-			KnowledgeListMF.pietrayRecipe =
-			GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.pie_tray), new Object[]
-			{
-				"III",
-				'I', steel,
-			});
-			KnowledgeListMF.caketinRecipe =
-			GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.cake_tin), new Object[]
-			{
-				" I ",
-				"I I",
-				" I ",
-				'I', steel,
-			});
 			GameRegistry.addRecipe(new ItemStack(Blocks.rail, 64), new Object[]
 			{
 				"I I",

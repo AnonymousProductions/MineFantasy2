@@ -19,9 +19,8 @@ item.talisman_lesser.name=Lesser Knowledge Talisman
 item.talisman_greater.name=Greater Knowledge Talisman
 
 gui.information=Research
-gui.knowledgePoints=Experience Pts: %1$s
 information.discovered=Researched
-information.cost=Research for %1$s Points
+information.buy=Click for Research
 knowledge.gainPts=You have gained %1$s Experience Pts
 knowledge.unknownUse=You don't know how to use this!
 
@@ -1511,9 +1510,7 @@ method.carpenter=Carpenter
 method.crucible=Crucible
 method.crucibleT2=Firebrick Crucible
 
-cost.talisman=Lesser Talisman x
-cost.talismanGreat=Greater Talisman x
-
+gui.purchase=Purchase
 knowledge.guiSubtitle=This is the GUI
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1531,21 +1528,21 @@ knowledge.gettingStarted.carpenter=$hCarpenter Bench-$r^The carpenter bench is a
 knowledge.gettingStarted.tanning=$hTanning-$r^By now you likely would have gathered some hide you can't use. Tanning is a simple method of creating leather from hide.^To start off, build a shabby tanning rack and a stone knife. These tools are poor quality and should be upgraded when convinient.
 knowledge.gettingStarted.forging=$hForging-$r^Forging is the main method of crafting. Pretty much every tool and metal object is made through this process. Start off by making a stone forge, anvil and tools. Place the anvil near the forge and some water. The artisanty tab has an entry of how forging works.
 knowledge.gettingStarted.3=Now you should gather 1 leather 2 timber planks and 2 copper ingots. With the forge, create a pair of copper shears, then quench them. Shears allow you to make leather strips on the carpenter bench. When you have some strips, you can now make a set of tools.
-knowledge.gettingStarted.4=At this point you should have the resources to make copper tools. This is where the starting guide ends: Level up experience and unlock more crafting recipes and see what you can make. A good path from here would to be to look into cooking, tool development as well as some weapons to help you survive.
+knowledge.gettingStarted.4=At this point you should have the resources to make copper tools. This is where the starting guide ends: gather items and unlock more crafting recipes and see what you can make. A good path from here would to be to look into cooking, tool development as well as some weapons to help you survive.
 
 knowledge.research=Research Book
 knowledge.research.desc=Keeping track
 knowledge.research.1=The research book doubles off as an unlocking section as well as a "What do I do now!". Here you can view different pieces of content including what they do as well as how their obtained.^Although a lot of this stuff is unavailable and researching is required to unlock them.
-knowledge.research.2=If an icon is green: It can be unlocked: Each entry has a cost, this is taken from your experience level.
+knowledge.research.2=If an icon is green: It can be unlocked: Click it to view what is needed, gather these items and hit "Purchase" to unlock the entry.
 
 knowledge.carpenter=Carpenter Bench
 knowledge.carpenter.desc=Simple crafting
 knowledge.carpenter.1=The carpenter bench is used for mostly wood related recipes, but should be built early on anyway. This bench can use a variety of tools such as bare hands(no item), hammers, and knives just to name a few. To use this, just assemble the recipe and click the block slowly with the proper tool.
 
 knowledge.talisman=Knowledge Talismans
-knowledge.talisman.desc=Power to learn
-knowledge.talisman.1=Although some research is easy, simply figuring the basics, others are not as such. Knowledge talismans have a magical power that uses your life force to generate new knowledge, this means you can learn new processes that would normally take generations to learn.
-knowledge.talisman.2=Greater talismans are rare and creating one is extremely expensive. Few pieces of knowledge require these.
+knowledge.talisman.desc=NOLONGER IN USE
+knowledge.talisman.1=
+knowledge.talisman.2=
 
 knowledge.scroll=Scrolls
 knowledge.scroll.desc=Outside experience
@@ -1931,7 +1928,7 @@ knowledge.icing=Icing
 knowledge.icing.desc=Sugary Goodness
 knowledge.icing.1=Some food just isn't quite complete without icing. Icing is used in many sweet food recipes.
 
-knowledge.sweetroll=Sweet roll
+knowledge.sweetroll=Sweetroll
 knowledge.sweetroll.desc=Let me guess...
 knowledge.sweetroll.1=Sweetrolls are a sugary treat anyone can enjoy. Eating one of these, though not filling restores stamina and gives stamina regen. Sweetrolls can be eaten twice.
 

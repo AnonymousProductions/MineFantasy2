@@ -129,7 +129,7 @@ public class ArmourCalculator
 		item.getTagCompound().setFloat(ARNBT, value);
 		return value;
 	}
-	public static boolean usePercentage = true;
+	public static boolean usePercentage = false;
 	
 	private static float estimateScale(ItemStack item, int slot) 
 	{

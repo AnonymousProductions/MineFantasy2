@@ -37,16 +37,16 @@ public class BaseMaterialMF
 	//Rounding off to nearest 0.5 makes about an 0.03 difference, but the AR is cleaner
 	//Hardness isn't added, it calculats armour itself to match sharpness 
 	// 					                                            name   		      dura,         AC           enchant   weight
-	public static BaseMaterialMF linen =  addArmourSpecificMaterial("Linen",   	        0, 10 ,          0.1F,        0,        1.00F, 0);
-	public static BaseMaterialMF wool =  addArmourSpecificMaterial("Wool"  ,   	        1, 15 ,          0.15F,       0,        1.00F, 5);
+	public static BaseMaterialMF linen =  addArmourSpecificMaterial("Linen",   	        0, 10 ,          100,        0,        1.00F, 0);
+	public static BaseMaterialMF wool =  addArmourSpecificMaterial("Wool"  ,   	        1, 15 ,          150,       0,        1.00F, 5);
 	
-	public static BaseMaterialMF hide =  addArmourSpecificMaterial("Hide",   	     	   0, 20 ,          0.2F,        0,        1.00F, 0);
-	public static BaseMaterialMF rough = addArmourSpecificMaterial("RoughLeather",    	   0, 35 ,          0.3F,        1,        1.00F, 0);
-	public static BaseMaterialMF reinforced = addArmourSpecificMaterial("StrongLeather",   1, 250,          1.8F,        1,        1.00F, 5);
-	public static BaseMaterialMF padding =  addArmourSpecificMaterial("Padded",   	       1, 100 ,         1.5F,        0,        0.50F, 5);
-	public static BaseMaterialMF studded = addArmourSpecificMaterial("StudLeather",        1, 500,          2.4F,        5,        1.20F, 15);
-	public static BaseMaterialMF scaled = addArmourSpecificMaterial("ScaleLeather",        2, 1000,         2.7F,        8,        1.50F, 25);
-	public static BaseMaterialMF dragonscale = addArmourSpecificMaterial("Dragonscale",    3, 3000,         8.0F,        20,       1.20F, 85).setRarity(2);
+	public static BaseMaterialMF hide =  addArmourSpecificMaterial("Hide",   	     	   0, 20 ,       500,        0,        1.00F, 0);
+	public static BaseMaterialMF rough = addArmourSpecificMaterial("RoughLeather",    	   0, 35 ,       700,        1,        1.00F, 0);
+	public static BaseMaterialMF reinforced = addArmourSpecificMaterial("StrongLeather",   1, 250,      1000,        1,        1.00F, 5);
+	public static BaseMaterialMF padding =  addArmourSpecificMaterial("Padded",   	       1, 100 ,     1000,        0,        0.50F, 5);
+	public static BaseMaterialMF studded = addArmourSpecificMaterial("StudLeather",        1, 500,      1500,        5,        1.20F, 15);
+	public static BaseMaterialMF scaled = addArmourSpecificMaterial("ScaleLeather",        2, 1000,     2000,        8,        1.50F, 25);
+	public static BaseMaterialMF dragonscale = addArmourSpecificMaterial("Dragonscale",    3, 3000,     4000,        20,       1.20F, 85).setRarity(2);
 	
 	//                                                   name    		    Tier dura,    harvest   sharpness   enchant   weight
 	public static BaseMaterialMF stone =   addMaterial("Stone",		          0, 100 ,     0,     0.1F, 0.0F,    0,        2.00F, 0).setForgeStats(0, 0, 0.75F, 0, 0);
@@ -89,14 +89,14 @@ public class BaseMaterialMF
 	/**
 	 * This method auto-calculates the Armour Rating to scale the damage
 	 */
-	public static BaseMaterialMF addArmourSpecificMaterial(String name, int tier, int durability, float AC, int enchantment, float weight, int lvl)
+	public static BaseMaterialMF addArmourSpecificMaterial(String name, int tier, int durability, int AC, int enchantment, float weight, int lvl)
 	{
-		return addMaterial(name, tier, durability, -1, AC, -1, enchantment, weight, lvl);
+		return addMaterial(name, tier, durability, -1, (float)AC/2000F, -1, enchantment, weight, lvl);
 	}
 	
 	public static BaseMaterialMF addMaterial(String name, int tier, int durability, int harvestLevel, float sharpness, int enchantment, float weight, int lvl)
 	{
-		float AC = ((sharpness+swordDam)/ratioScale - 1.0F);//With mail: swords(dam+4), do 2 damage, -1 because 1.0 means no armour bonus, as it scales from there
+		float AC = ((sharpness+swordDam)/ratioScale - 2.0F);//With mail: swords(dam+4), do 2 damage, -1 because 1.0 means no armour bonus, as it scales from there
 		float initAc = AC;
 		
 		AC = Math.round(AC*(100F/ACrounding));

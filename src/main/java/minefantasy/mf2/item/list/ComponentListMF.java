@@ -220,8 +220,6 @@ public class ComponentListMF
 		initFuels();
 		MineFantasyAPI.addHeatableItem(rivet, 100, 500, 1000);
 		
-		InformationBase.talismanItem = talisman_lesser;
-		InformationBase.greatTaliItem = talisman_greater;
 	}
 
 	private static void initFuels() 

@@ -26,13 +26,6 @@ public class ResearchLogic
 		return false;
     }
 	
-	public static int getCost(EntityPlayer player, InformationBase base)
-	{
-		int baseCost = base.getCost();
-		
-		return baseCost;
-	}
-
 	public static boolean hasInfoUnlocked(EntityPlayer player, InformationBase base)
     {
 		if(base.startedUnlocked)return base.parentInfo == null || hasInfoUnlocked(player, base.parentInfo);
@@ -116,15 +109,4 @@ public class ResearchLogic
 			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new KnowledgePacket(player).generatePacket());
 		}
     }
-
-	public static int getKnowledgePoints(EntityPlayer entity) 
-	{
-		return entity.experienceLevel;
-	}
-
-	public static void takeXP(EntityPlayer entity, int i) 
-	{
-		MineFantasyAPI.debugMsg("Taken "+i+" xp from player");
-		entity.experienceLevel -= i;
-	}
 }

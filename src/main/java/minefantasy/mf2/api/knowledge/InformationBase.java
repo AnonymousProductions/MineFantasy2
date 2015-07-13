@@ -19,7 +19,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class InformationBase
 {
 	public int ID = 0;
-	private int talismanCost, greatTaliCost;
 	private static int nextID = 0;
 	public boolean startedUnlocked = false;
     public final int displayColumn;
@@ -32,10 +31,9 @@ public class InformationBase
     private boolean isSpecial;
     private boolean isPerk;
     private final String idName;
-    private final int baseLevelCost;
     private ArrayList<SkillRequirement> skills = new ArrayList<SkillRequirement>();
     public String[] requirements = null;
-    public static int totalTaliCost = 0;
+    private ItemStack[] requiredItems;
 
     public InformationBase(String name, int x, int y, int cost, Item icon, InformationBase parent)
     {
@@ -48,7 +46,6 @@ public class InformationBase
 
     public InformationBase(String name, int x, int y, int cost, ItemStack icon, InformationBase parent)
     {
-    	this.baseLevelCost = cost;
     	this.idName = name;
         this.theItemStack = icon;
         this.description = "knowledge." + idName + ".desc";
@@ -74,7 +71,6 @@ public class InformationBase
         {
             InformationList.maxDisplayRow = y;
         }
-        talismanCost = 1;
         this.parentInfo = parent;
     }
     
@@ -87,23 +83,10 @@ public class InformationBase
     	return this;
     }
     
-    public InformationBase setTalismanCount(int count)
-    {
-    	this.talismanCost = count;
-    	totalTaliCost += count;
-    	return this;
-    }
-    public InformationBase setGreatTalismanCount(int count)
-    {
-    	this.greatTaliCost = count;
-    	return this;
-    }
     
     public InformationBase setUnlocked()
     {
     	startedUnlocked = true;
-    	totalTaliCost -= talismanCost;
-    	this.talismanCost = 0;
     	return this;
     }
     public InformationBase setPage(InformationPage page)
@@ -137,6 +120,15 @@ public class InformationBase
         InformationList.knowledgeList.add(this);
         InformationList.nameMap.put(idName, this);
         return this;
+    }
+    public InformationBase setItems(ItemStack...items)
+    {
+    	this.requiredItems = items;
+    	return this;
+    }
+    public ItemStack[] getItems()
+    {
+    	return requiredItems;
     }
 
 /*
@@ -172,19 +164,6 @@ public class InformationBase
     			}
     		}
     	}
-        if(allowTalisman)
-        {
-        	if(talismanCost > 0)
-        	{
-        		text += "\n\n";
-        		text += StatCollector.translateToLocal("cost.talisman") + talismanCost;
-        	}
-        	if(greatTaliCost > 0)
-        	{
-        		text += "\n\n";
-        		text += StatCollector.translateToLocal("cost.talismanGreat") + greatTaliCost;
-        	}
-        }
         
         return text;
     }
@@ -206,10 +185,9 @@ public class InformationBase
     {
         return this.isPerk;
     }
-    public static boolean allowTalisman = true;
-	public boolean trigger(EntityPlayer user, boolean makeEffect)
+	public boolean trigger(EntityPlayer user, boolean wasBought)
 	{
-		if(allowTalisman && !hasTalismans(user))
+		if(!this.hasAllItems(user))
 		{
 			return false;
 		}
@@ -221,52 +199,15 @@ public class InformationBase
 			}
 		}
 		boolean success = ResearchLogic.tryUnlock(user, this);
-		if(success && makeEffect && !user.worldObj.isRemote)
+		if(success && wasBought && !user.worldObj.isRemote)
 		{
+			this.consumeItems(user);
 			user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unlocked") + ": " + StatCollector.translateToLocal(getName())));
 			user.worldObj.playSoundAtEntity(user, "minefantasy2:updateResearch", 1.0F, 1.0F);
 		}
 		return success;
 	}
 
-	public static Item talismanItem, greatTaliItem;
-	private boolean hasTalismans(EntityPlayer user)
-	{
-		if(user.capabilities.isCreativeMode)
-		{
-			return true;
-		}
-		if(talismanCost > 0 && !hasItems(user, talismanItem, talismanCost))
-		{
-			return false;
-		}
-		if(greatTaliCost > 0 && !user.inventory.consumeInventoryItem(greatTaliItem))
-		{
-			return false;
-		}
-		return true;
-	}
-	private boolean hasItems(EntityPlayer user, Item item, int cost)
-	{
-		int total = 0;
-		for(int a = 0; a < user.inventory.getSizeInventory(); a++)
-		{
-			ItemStack slot = user.inventory.getStackInSlot(a);
-			if(slot != null && slot.getItem() == item)
-			{
-				total += slot.stackSize;
-			}
-		}
-		if(total >= cost)
-		{
-			for(int a = 0; a < cost; a++)
-			{
-				user.inventory.consumeInventoryItem(item);
-			}
-			return true;
-		}
-		return false;
-	}
 	private boolean hasSkillsUnlocked(EntityPlayer player)
 	{
 		for(int id = 0; id < skills.size(); id++)
@@ -282,11 +223,6 @@ public class InformationBase
 	public String getUnlocalisedName()
 	{
 		return idName;
-	}
-	
-	public int getCost()
-	{
-		return baseLevelCost;
 	}
 	
 	private ArrayList<EntryPage> pages = new ArrayList<EntryPage>();
@@ -314,6 +250,50 @@ public class InformationBase
 			}
 		}
 		return requirements;
+	}
+	
+	public boolean hasAllItems(EntityPlayer user)
+	{
+		if(user.capabilities.isCreativeMode || this.requiredItems == null)
+		{
+			return true;
+		}
+		for(ItemStack item: requiredItems)
+		{
+			if(!hasItem(user, item.getItem(), item.stackSize))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean hasItem(EntityPlayer user, Item item, int cost)
+	{
+		int total = 0;
+		for(int a = 0; a < user.inventory.getSizeInventory(); a++)
+		{
+			ItemStack slot = user.inventory.getStackInSlot(a);
+			if(slot != null && slot.getItem() == item)
+			{
+				total += slot.stackSize;
+			}
+		}
+		return total >= cost;
+	}
+	public void consumeItems(EntityPlayer user)
+	{
+		if(user.capabilities.isCreativeMode || this.requiredItems == null)
+		{
+			return;
+		}
+		for(ItemStack item: requiredItems)
+		{
+			for(int a = 0; a < item.stackSize; a++)
+			{
+				user.inventory.consumeInventoryItem(item.getItem());
+			}
+		}
 	}
 }
 class SkillRequirement
