@@ -34,7 +34,7 @@ public class KnowledgeListMF
 	public static InformationBase carpenter = (new InformationBase("carpenter", 		        0, -3,  0, BlockListMF.carpenter, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase gettingStarted = (new InformationBase("gettingStarted", 		0, 0,  0, Items.book, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase research = (new InformationBase("research", 				    1, 1, 0, ToolListMF.researchBook, (InformationBase)null)).registerStat().setUnlocked();
-	public static InformationBase scroll = (new InformationBase("scroll", 						3, 1,  0, ToolListMF.research_scroll, research)).registerStat().setUnlocked();
+	//public static InformationBase scroll = (new InformationBase("scroll", 						3, 1,  0, ToolListMF.research_scroll, research)).registerStat().setUnlocked();
 	public static InformationBase talisman = (new InformationBase("talisman", 				    4, 2,  0, ComponentListMF.talisman_lesser, research)).registerStat().setUnlocked();
 	public static InformationBase ores = (new InformationBase("ores",  						    1, -2, 0, BlockListMF.oreCopper, (InformationBase)null)).registerStat().setUnlocked();
 	public static InformationBase chimney = (new InformationBase("chimney",  				    0, 2, 0, BlockListMF.chimney_stone, (InformationBase)null)).registerStat().setUnlocked();
@@ -229,7 +229,7 @@ public class KnowledgeListMF
     
     public static final ArrayList<ICarpenterRecipe> meatRecipes = new ArrayList<ICarpenterRecipe>();
     public static ICarpenterRecipe meatStripR, meatHunkR, minceR;
-    public static IRecipe refinedBowlR, meatpieOut, shepardOut, berryOut, appleOut, caketinRecipe, pietrayRecipe;
+    public static IRecipe researchTableRecipe, refinedBowlR, meatpieOut, shepardOut, berryOut, appleOut, caketinRecipe, pietrayRecipe;
     public static ICarpenterRecipe pastryRecipe, doughRecipe, breadRecipe, curdRecipe, flourRecipe, oatsRecipe, icingRecipe, stewRecipe, jerkyRecipe, meatPieRecipe, sandwitchRecipe, shepardRecipe, sweetrollRecipe, iceSR;
     public static ICarpenterRecipe berryR, appleR, cheeserollR, cakeR, carrotCakeR, chocoCakeR, bfCakeR, cakeI, carrotCakeI, chocoCakeI, bfCakeI;
 

@@ -148,10 +148,6 @@ public class EventManagerMF
 		}
 		dropLeather(event.entityLiving, event);
 		
-		if(dropper instanceof EntityWitch)
-		{
-			dropper.entityDropItem(ItemResearchScroll.getRandomDrop(), 0.0F);
-		}
 		if(dropper instanceof EntitySkeleton)
 		{
 			EntitySkeleton skeleton = (EntitySkeleton)dropper;

@@ -123,6 +123,8 @@ public class ClientProxyMF extends CommonProxyMF
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForge.class, new TileEntityForgeRenderer());
 		RenderingRegistry.registerBlockHandler(new RenderBellows());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBellows.class, new TileEntityBellowsRenderer());
+		RenderingRegistry.registerBlockHandler(new RenderResearch());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityResearch.class, new TileEntityResearchRenderer());
 	}
 	
 	public void registerEntityRenderer()
@@ -176,6 +178,10 @@ public class ClientProxyMF extends CommonProxyMF
 			if(tile != null && tile instanceof TileEntityForge)
 			{
 				return new GuiForge(player.inventory, (TileEntityForge) tile);
+			}
+			if(tile != null && tile instanceof TileEntityResearch)
+			{
+				return new GuiResearchBlock(player.inventory, (TileEntityResearch) tile);
 			}
 			 return null;
 		}

@@ -26,8 +26,8 @@ public class KnowledgePageRegistry
 		KnowledgeListMF.gettingStarted.addPages(new EntryPageText("knowledge.gettingStarted.forging"), new EntryPageRecipeBase(KnowledgeListMF.stoneAnvilRecipe), new EntryPageRecipeBase(KnowledgeListMF.forgeRecipe), new EntryPageRecipeBase(KnowledgeListMF.stoneHammerR), new EntryPageRecipeBase(KnowledgeListMF.stoneTongsR));
 		KnowledgeListMF.gettingStarted.addPages(new EntryPageText("knowledge.gettingStarted.3"), new EntryPageText("knowledge.gettingStarted.4"));
 		
-		KnowledgeListMF.research.addPages(new EntryPageText("knowledge.research.1"), new EntryPageText("knowledge.research.2"));
-		KnowledgeListMF.scroll.addPages(new EntryPageText("knowledge.scroll.1"));
+		KnowledgeListMF.research.addPages(new EntryPageText("knowledge.research.1"), new EntryPageText("knowledge.research.2"), new EntryPageRecipeBase(KnowledgeListMF.researchTableRecipe), new EntryPageText("knowledge.research.3"));
+		//KnowledgeListMF.scroll.addPages(new EntryPageText("knowledge.scroll.1"));
 		KnowledgeListMF.talisman.addPages(new EntryPageText("knowledge.talisman.1"), new EntryPageRecipeAnvil(KnowledgeListMF.talismanRecipe), new EntryPageText("knowledge.talisman.2"), new EntryPageRecipeAnvil(KnowledgeListMF.greatTalismanRecipe));
 		KnowledgeListMF.stamina.addPages(new EntryPageText("knowledge.stamina.1"), new EntryPageText("knowledge.stamina.2"));
 		KnowledgeListMF.combat.addPages(new EntryPageText("knowledge.combat.1"), new EntryPageText("knowledge.combat.2"), new EntryPageText("knowledge.parry.info"), new EntryPageText("knowledge.parry.info2"), new EntryPageText("knowledge.advparry.info"), new EntryPageText("knowledge.poweratt.info"));

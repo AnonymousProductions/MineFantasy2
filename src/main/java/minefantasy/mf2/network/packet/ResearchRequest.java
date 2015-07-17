@@ -39,7 +39,7 @@ public class ResearchRequest extends PacketMF
             {
             	if(!entity.worldObj.isRemote)
             	{
-	            	if(research.trigger(entity, true))
+	            	if(research.onPurchase(entity))
 	            	{
 	            		ResearchLogic.syncData(entity);
 	            	}

@@ -11,9 +11,8 @@ attribute.kit.repairChance.name=Repair Success Rate
 attribute.kit.breakChance.name=Tool Break Chance
 
 item.infobook.name=Research Book
-item.research_scroll.name=Common Scroll
-item.research_scroll_uncommon.name=Uncommon Scroll
-item.research_scroll_rare.name=Rare Scroll
+item.research_scroll.name=Research Scroll
+item.research_scroll_complete.name=Completed Research
 
 item.talisman_lesser.name=Lesser Knowledge Talisman
 item.talisman_greater.name=Greater Knowledge Talisman
@@ -21,8 +20,8 @@ item.talisman_greater.name=Greater Knowledge Talisman
 gui.information=Research
 information.discovered=Researched
 information.buy=Click for Research
-knowledge.gainPts=You have gained %1$s Experience Pts
 knowledge.unknownUse=You don't know how to use this!
+knowledge.known=You already know this
 
 infoPage.basic=Basic Information
 infoPage.artisanry=Artisanry
@@ -368,6 +367,7 @@ tile.tanner.name=Shabby Tanning Rack
 tile.tannerStrong.name=Tanning Rack
 tile.bombBench.name=Bomb Crafting Table
 tile.carpenterBench.name=Carpenter Bench
+tile.researchStation.name=Research Station
 tile.anvilStone.name=Stone Anvil
 tile.anvilBronze.name=Bronze Anvil
 tile.anvilIron.name=Iron Anvil
@@ -1533,20 +1533,18 @@ knowledge.gettingStarted.4=At this point you should have the resources to make c
 knowledge.research=Research Book
 knowledge.research.desc=Keeping track
 knowledge.research.1=The research book doubles off as an unlocking section as well as a "What do I do now!". Here you can view different pieces of content including what they do as well as how their obtained.^Although a lot of this stuff is unavailable and researching is required to unlock them.
-knowledge.research.2=If an icon is green: It can be unlocked: Click it to view what is needed, gather these items and hit "Purchase" to unlock the entry.
+knowledge.research.2=If an icon is green: It can be unlocked: Click it to view what is needed, gather these items and hit "Purchase" to unlock the entry. And then: you will need to take it to a $hResearch Table$r to process the knowledge. This takes time, but is faster if you contribute.
+knowledge.research.3=The research table is used to process scrolls. When you select a research to conduct, you must also spend time to actually figure it out, obviously. Put your scroll onto the research table slot and it will start to process. This takes a long time, but you can click it to speed it up... slowly.
 
 knowledge.carpenter=Carpenter Bench
 knowledge.carpenter.desc=Simple crafting
 knowledge.carpenter.1=The carpenter bench is used for mostly wood related recipes, but should be built early on anyway. This bench can use a variety of tools such as bare hands(no item), hammers, and knives just to name a few. To use this, just assemble the recipe and click the block slowly with the proper tool.
 
 knowledge.talisman=Knowledge Talismans
-knowledge.talisman.desc=NOLONGER IN USE
-knowledge.talisman.1=
-knowledge.talisman.2=
+knowledge.talisman.desc=Easy reading
+knowledge.talisman.1=Figuring out the essentials of how something works can be difficult. Normally: Using the research table takes a lot of time and effort to get what you want. Talismans can speed up this process when right-clicked on a table.
+knowledge.talisman.2=Greater talismans are rare and hardly used. These work like normal talismans only have infinite uses.
 
-knowledge.scroll=Scrolls
-knowledge.scroll.desc=Outside experience
-knowledge.scroll.1=Across your travels you may discover scrolls. These items will give you experience levels when used.^They can be found in dungeons or dropped by witches.
 knowledge.commodities=Commodities
 knowledge.commodities.desc=Useful Items
 knowledge.commodities.1=Commidities are just basic items, only without the disgrace of calling them junk.^^In other words: these items will be greatly used in recipes, so it's good to stock up.

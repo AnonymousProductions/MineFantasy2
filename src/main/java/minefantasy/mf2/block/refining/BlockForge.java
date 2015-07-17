@@ -269,6 +269,12 @@ public class BlockForge extends BlockContainer
     {
         return false;
     }
+    
+    @Override
+    public int getLightValue()
+    {
+        return 0;
+    }
 	@Override
 	public int getRenderType()
 	{

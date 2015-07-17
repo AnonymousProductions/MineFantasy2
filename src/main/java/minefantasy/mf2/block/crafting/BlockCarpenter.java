@@ -62,7 +62,7 @@ public class BlockCarpenter extends BlockContainer
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase user, ItemStack item)
     {
-        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D);
+        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
         world.setBlockMetadataWithNotify(x, y, z, direction, 2);
     }

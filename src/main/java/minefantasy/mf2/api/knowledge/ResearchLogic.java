@@ -11,6 +11,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ResearchLogic
 {
+	public static boolean canPurchase(EntityPlayer player, InformationBase base)
+    {
+		if(base.startedUnlocked || !canUnlockInfo(player, base))
+		{
+			return false;
+		}
+		NBTTagCompound nbt = getNBT(player);
+		if(!nbt.hasKey("Research_" + base.getUnlocalisedName()))
+		{
+			return true;
+		}
+		return false;
+    }
 	public static boolean tryUnlock(EntityPlayer player, InformationBase base)
     {
 		if(base.startedUnlocked || !canUnlockInfo(player, base))

@@ -18,6 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class InformationBase
 {
+	public static final float talismanPower = 20F;//20m taken
 	public int ID = 0;
 	private static int nextID = 0;
 	public boolean startedUnlocked = false;
@@ -34,17 +35,18 @@ public class InformationBase
     private ArrayList<SkillRequirement> skills = new ArrayList<SkillRequirement>();
     public String[] requirements = null;
     private ItemStack[] requiredItems;
+    private int minutes = 10;
 
-    public InformationBase(String name, int x, int y, int cost, Item icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, Item icon, InformationBase parent)
     {
-        this(name, x, y, cost, new ItemStack(icon), parent);
+        this(name, x, y, time, new ItemStack(icon), parent);
     }
-    public InformationBase(String name, int x, int y, int cost, Block icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, Block icon, InformationBase parent)
     {
-        this(name, x, y, cost, new ItemStack(icon), parent);
+        this(name, x, y, time, new ItemStack(icon), parent);
     }
 
-    public InformationBase(String name, int x, int y, int cost, ItemStack icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, ItemStack icon, InformationBase parent)
     {
     	this.idName = name;
         this.theItemStack = icon;
@@ -72,6 +74,7 @@ public class InformationBase
             InformationList.maxDisplayRow = y;
         }
         this.parentInfo = parent;
+        this.minutes = time;
     }
     
     public InformationBase addSkill(Skill skill, int level)
@@ -185,7 +188,7 @@ public class InformationBase
     {
         return this.isPerk;
     }
-	public boolean trigger(EntityPlayer user, boolean wasBought)
+	public boolean onPurchase(EntityPlayer user)
 	{
 		if(!this.hasAllItems(user))
 		{
@@ -198,15 +201,23 @@ public class InformationBase
 				return false;
 			}
 		}
-		boolean success = ResearchLogic.tryUnlock(user, this);
-		if(success && wasBought && !user.worldObj.isRemote)
+		
+		boolean success = ResearchLogic.canPurchase(user, this);
+		if(success && !user.worldObj.isRemote)
 		{
 			this.consumeItems(user);
-			user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unlocked") + ": " + StatCollector.translateToLocal(getName())));
 			user.worldObj.playSoundAtEntity(user, "minefantasy2:updateResearch", 1.0F, 1.0F);
 		}
-		return success;
+		
+		ItemStack item = new ItemStack(scroll, 1, ID);
+		if(!user.inventory.addItemStackToInventory(item))
+		{
+			user.entityDropItem(item, 0F);
+		}
+		
+		return true;
 	}
+	public static Item scroll;
 
 	private boolean hasSkillsUnlocked(EntityPlayer player)
 	{
@@ -294,6 +305,10 @@ public class InformationBase
 				user.inventory.consumeInventoryItem(item.getItem());
 			}
 		}
+	}
+	public int getTime() 
+	{
+		return minutes;
 	}
 }
 class SkillRequirement

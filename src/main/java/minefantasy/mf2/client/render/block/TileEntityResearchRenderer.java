@@ -3,7 +3,6 @@ package minefantasy.mf2.client.render.block;
 import java.util.Random;
 
 import minefantasy.mf2.api.helpers.TextureHelperMF;
-import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,11 +10,11 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer 
+public class TileEntityResearchRenderer extends TileEntitySpecialRenderer 
 {
-    public TileEntityCarpenterRenderer() 
+    public TileEntityResearchRenderer() 
     {
-        model = new ModelWoodCarpenter();
+        model = new ModelResearch();
     }
 
 	public void renderAModelAt(TileEntity tile, double d, double d1, double d2, float f) 
@@ -25,16 +24,10 @@ public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer
 		{
         	i = tile.getBlockMetadata();
         }
-    	for(int a = 0; a < 2; a ++)
-    	{
-    		if(shouldRender(tile, a))
-    		{
-    			this.renderModelAt("carpenter", i, d, d1, d2, f, a);
-    		}
-    	}
+		this.renderModelAt("researchTable", i, d, d1, d2, f);
     }
     
-	public void renderModelAt(String tex, int meta, double d, double d1, double d2, float f, int renderPass) 
+	public void renderModelAt(String tex, int meta, double d, double d1, double d2, float f) 
     {
         int i = meta;
         
@@ -60,14 +53,7 @@ public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer
             j = 90;
         }
 
-        if(renderPass == 1)
-        {
-        	bindTextureByName("textures/models/tileentity/anvilGrid.png"); //texture
-        }
-        else
-        {
-        	bindTextureByName("textures/models/tileentity/"+tex+".png"); //texture
-        }
+    	bindTextureByName("textures/models/tileentity/"+tex+".png"); //texture
         
         GL11.glPushMatrix(); //start
         GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.25F, (float) d2 + 0.5F); //size
@@ -90,7 +76,7 @@ public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer
         renderAModelAt (tileentity, d, d1, d2, f); //where to render
     }
 	
-    private ModelWoodCarpenter model;
+    private ModelResearch model;
     private Random random = new Random();
     
     

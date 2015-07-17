@@ -31,6 +31,7 @@ public class PacketHandlerMF
         packetList.put(SkillPacket.packetName, new SkillPacket());
         packetList.put(LevelupPacket.packetName, new LevelupPacket());
         packetList.put(ForgePacket.packetName, new ForgePacket());
+        packetList.put(ResearchTablePacket.packetName, new ResearchTablePacket());
     }
 
     @SubscribeEvent

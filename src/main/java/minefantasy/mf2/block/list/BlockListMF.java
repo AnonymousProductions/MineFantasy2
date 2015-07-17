@@ -127,7 +127,7 @@ public class BlockListMF
 	public static Block tanner = new BlockTanningRack(0, "");
 	
 	public static Block forge = new BlockForge("stone", 0, false);
-	public static Block forge_active = new BlockForge("stone", 0, true).setLightLevel(10F);
+	public static Block forge_active = new BlockForge("stone", 0, true);
 	
 	public static Block repair_basic = new BlockRepairKit("basic", 0.25F, 0.05F, 0.1F);
 	public static Block repair_advanced = new BlockRepairKit("advanced", 1.0F, 0.2F, 0F);
@@ -142,6 +142,7 @@ public class BlockListMF
 	public static Block reinforced_stone_framed = new BasicBlockMF("reinforced_stone_framed", Material.rock).setHardness(2.5F).setResistance(20F).setStepSound(Block.soundTypeStone);
 	
 	public static Block advTanner = new BlockTanningRack(1, "Strong");
+	public static Block research = new BlockResearchStation();
 	
 	public static void init()
 	{
@@ -179,4 +180,5 @@ public class BlockListMF
 	public static int tanner_RI = 103;
 	public static int forge_RI = 104;
 	public static int bellows_RI = 105;
+	public static int research_RI = 106;
 }

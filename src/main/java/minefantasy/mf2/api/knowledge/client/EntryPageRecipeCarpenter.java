@@ -105,6 +105,7 @@ public class EntryPageRecipeCarpenter extends EntryPage
 
 	private void renderRecipe(GuiScreen parent, int mx, int my, float f, int posX, int posY, ICarpenterRecipe recipe)
 	{
+		if(parent == null)return;
 		if(recipe == null)return;
 		shapelessRecipe = false;
 		oreDictRecipe = false;

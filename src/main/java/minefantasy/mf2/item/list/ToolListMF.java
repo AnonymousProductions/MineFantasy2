@@ -174,9 +174,8 @@ public class ToolListMF
 	public static ItemMine mine_custom = new ItemMine("mine_basic");
 	
 	public static ItemResearchBook researchBook = new ItemResearchBook();
-	public static Item research_scroll = new ItemResearchScroll("research_scroll", 2, 1);
-	public static Item research_scroll_uncommon = new ItemResearchScroll("research_scroll_uncommon", 5, 2).setTextureName("minefantasy2:Other/research_scroll");
-	public static Item research_scroll_rare = new ItemResearchScroll("research_scroll_rare", 10, 3).setTextureName("minefantasy2:Other/research_scroll");
+	public static Item research_scroll = new ItemResearchScroll("research_scroll", false);
+	public static Item research_scroll_complete = new ItemResearchScroll("research_scroll_complete", true);
 	public static void init() 
 	{
 		BlockListMF.init();
@@ -299,11 +298,6 @@ public class ToolListMF
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 3));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 3));
 		
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll_uncommon), 1, 2, 5));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll_uncommon), 1, 2, 20));
-		
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll_rare), 1, 1, 1));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll_rare), 1, 1, 5));
 	}
 	
 }

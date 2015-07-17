@@ -73,6 +73,10 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 		{
 			return new ContainerForge(player.inventory, (TileEntityForge) tile);
 		}
+		if(tile != null && tile instanceof TileEntityResearch)
+		{
+			return new ContainerResearch(player.inventory, (TileEntityResearch) tile);
+		}
         return null;
     }
 
@@ -122,6 +126,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 		GameRegistry.registerTileEntity(TileEntityTanningRack.class, "MF_Tanner");
 		GameRegistry.registerTileEntity(TileEntityForge.class, "MF_Forge");
 		GameRegistry.registerTileEntity(TileEntityBellows.class, "MF_Bellows");
+		GameRegistry.registerTileEntity(TileEntityResearch.class, "MF_Research");
 	}
 
 

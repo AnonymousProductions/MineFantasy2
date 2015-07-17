@@ -28,6 +28,7 @@ public class ItemResearchBook extends Item
 		GameRegistry.registerItem(this, "MF_ResearchBook", MineFantasyII.MODID);
 		this.setUnlocalizedName("infobook");
 		this.setTextureName("minefantasy2:Other/research_book");
+		setContainerItem(this);
     }
 
     @Override

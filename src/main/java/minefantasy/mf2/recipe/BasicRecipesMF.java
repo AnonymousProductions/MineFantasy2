@@ -26,6 +26,15 @@ public class BasicRecipesMF
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
 		
+		KnowledgeListMF.researchTableRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.research), new Object[]
+		{
+			"B",
+			"T",
+			'B', ToolListMF.researchBook,
+			'T', BlockListMF.carpenter,
+		});
+		
 		KnowledgeListMF.plantOilR = 
 		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plant_oil, 4), new Object[]
 		{
