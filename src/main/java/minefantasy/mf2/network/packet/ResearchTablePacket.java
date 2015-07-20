@@ -10,13 +10,13 @@ public class ResearchTablePacket extends PacketMF
 {
 	public static final String packetName = "MF2_ResearchTablePacket";
 	private int[] coords = new int[3];
-	private String resultName;
+	private int id;
 	private float[] progress = new float[2];
 
 	public ResearchTablePacket(TileEntityResearch tile)
 	{
 		coords = new int[]{tile.xCoord, tile.yCoord, tile.zCoord};
-		resultName = tile.lastName;
+		id = tile.researchID;
 		progress = new float[]{tile.progress, tile.lastMaxProgress};
 		if(progress[1] <= 0)
 		{
@@ -37,10 +37,10 @@ public class ResearchTablePacket extends PacketMF
         {
 	        progress[0] = packet.readFloat();
 	        progress[1] = packet.readFloat();
-	        resultName = ByteBufUtils.readUTF8String(packet);
+	        id = packet.readInt();
 	        
 	        TileEntityResearch carpenter = (TileEntityResearch)entity;
-	        carpenter.lastName = resultName;
+	        carpenter.researchID = id;
 	        carpenter.progress = progress[0];
 	        carpenter.lastMaxProgress = (int)progress[1];
         }
@@ -61,6 +61,6 @@ public class ResearchTablePacket extends PacketMF
 		}
 		packet.writeFloat(progress[0]);
 		packet.writeFloat(progress[1]);
-		ByteBufUtils.writeUTF8String(packet, resultName);
+		packet.writeInt(id);
 	}
 }

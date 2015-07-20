@@ -22,7 +22,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 	private ItemStack[] items = new ItemStack[1];
 	public float progress;
 	public int lastMaxProgress;
-	public String lastName = "";
+	public int researchID = -1;
 	
 	public boolean interact(EntityPlayer user)
 	{
@@ -73,7 +73,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		}
 		this.lastMaxProgress = 0;
 		this.progress = 0;
-		this.lastName = "";
+		researchID = -1;
 	}
 	private int getMaxTime()
 	{
@@ -81,20 +81,24 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		
 		if(item == null || !(item.getItem() == ToolListMF.research_scroll))
 		{
+			researchID = -1;
+			progress = 0;
 			return -1;
 		}
 		
 		if(item.getItemDamage() >= InformationList.knowledgeList.size())
 		{
+			researchID = -1;
+			progress = 0;
 			return -1;
 		}
 		InformationBase info = InformationList.knowledgeList.get(item.getItemDamage());
 		if(info != null)
 		{
-			lastName = info.getName();
+			researchID = info.ID;
 			return info.getTime();
 		}
-		lastName = "";
+		researchID = -1;
 		progress = 0;
 		return -1;
 	}
@@ -109,7 +113,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 			if(++ticksExisted % 20 == 0)
 			{
 				lastMaxProgress = getMaxTime();
-				progress += 1F;//+1 each minute
+				progress += 1F/60F;//+1 each minute
 			}
 			if(lastMaxProgress > 0 && progress >= lastMaxProgress)
 			{
@@ -137,6 +141,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 	{
 		super.writeToNBT(nbt);
 		
+		nbt.setInteger("researchID", researchID);
 		nbt.setInteger("ticksExisted", ticksExisted);
 		nbt.setFloat("progress", progress);
 		NBTTagList savedItems = new NBTTagList();
@@ -160,6 +165,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		super.readFromNBT(nbt);
 		
 		ticksExisted = nbt.getInteger("ticksExisted");
+		researchID = nbt.getInteger("researchID");
 		progress = nbt.getFloat("progress");
 		NBTTagList savedItems = nbt.getTagList("Items", 10);
         this.items = new ItemStack[this.getSizeInventory()];
@@ -293,6 +299,14 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 	@Override
 	public String getLocalisedName() 
 	{
-		return lastName;
+		if(researchID >= 0)
+		{
+			InformationBase base = InformationList.knowledgeList.get(researchID);
+			if(base != null)
+			{
+				return base.getName();
+			}
+		}
+		return "";
 	}
 }

@@ -437,6 +437,8 @@ public class EventManagerMF
 	}
 	public void playerMineBlock(BlockEvent.BreakEvent event)
 	{
+		if(event.getPlayer() == null)return;
+		
 		if(event.getPlayer().capabilities.isCreativeMode)return;
 		
 		ItemStack held = event.getPlayer().getHeldItem();

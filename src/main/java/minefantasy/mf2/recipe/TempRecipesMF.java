@@ -199,6 +199,7 @@ public class TempRecipesMF
 			"F",
 			'F', FoodListMF.pie_meat_cooked
 		});
+		KnowledgeListMF.shepardOut =
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.pie_shepards), new Object[]
 		{
 			"F",
