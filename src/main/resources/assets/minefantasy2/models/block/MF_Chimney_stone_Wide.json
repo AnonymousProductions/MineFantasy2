@@ -1,0 +1,11 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "up": "blocks/chimney/chimney_stone_top",
+	"down": "blocks/chimney/chimney_stone_top",
+        "north": "blocks/chimney/chimney_stone_side",
+	"south": "blocks/chimney/chimney_stone_side",
+	"east": "blocks/chimney/chimney_stone_side",
+	"west": "blocks/chimney/chimney_stone_side"
+    }
+}

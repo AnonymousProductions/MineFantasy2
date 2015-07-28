@@ -6,7 +6,6 @@ import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.block.tileentity.TileEntityBellows;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
@@ -21,7 +20,7 @@ public class TileEntityBellowsRenderer extends TileEntitySpecialRenderer
     public void renderAModelAt(TileEntityBellows tile, double d, double d1, double d2, float f) 
     {
     	int i = 0;
-		if (tile.getWorldObj() != null)
+		if (tile.getWorld() != null)
 		{
         	i = tile.getBlockMetadata();
         }
@@ -76,7 +75,7 @@ public class TileEntityBellowsRenderer extends TileEntitySpecialRenderer
     	Minecraft.getMinecraft().renderEngine.bindTexture(TextureHelperMF.getResource(image));
 	}
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f,int destroyStage) {
         renderAModelAt((TileEntityBellows) tileentity, d, d1, d2, f); //where to render
     }
 	

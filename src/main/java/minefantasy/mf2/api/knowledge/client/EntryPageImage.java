@@ -1,7 +1,5 @@
 package minefantasy.mf2.api.knowledge.client;
 
-import org.lwjgl.opengl.GL11;
-
 import minefantasy.mf2.api.helpers.RenderHelper;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
@@ -37,7 +35,7 @@ public class EntryPageImage extends EntryPage
 			text += StatCollector.translateToLocal(s);
 			text += "\n\n";
 		}
-		mc.fontRenderer.drawSplitString(text, posX+14, posY+117, 117, 0);
+		mc.fontRendererObj.drawSplitString(text, posX+14, posY+117, 117, 0);
 	}
 	@Override
 	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)

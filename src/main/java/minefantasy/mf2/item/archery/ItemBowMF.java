@@ -11,7 +11,6 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.material.BaseMaterialMF;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -26,15 +25,14 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 {
@@ -58,8 +56,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
         this.maxStackSize = 1;
         this.setMaxDamage(dura);
         itemRarity = rarity;
-        setTextureName("minefantasy2:Bow/"+name);
-		this.setUnlocalizedName(name);
+        setUnlocalizedName("minefantasy2:Bow/"+name);
         GameRegistry.registerItem(this, name, MineFantasyII.MODID);
         setCreativeTab(CreativeTabMF.tabArcher);
     }
@@ -186,7 +183,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     @Override
     public EnumAction getItemUseAction(ItemStack item)
     {
-        return EnumAction.bow;
+        return EnumAction.BOW;
     }
     
     @Override
@@ -245,7 +242,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     	super.onUpdate(item, world, entity, i, b);
     	if(!item.hasTagCompound())
     		item.setTagCompound(new NBTTagCompound());
-    	item.stackTagCompound.setInteger("Use", i);
+    	item.getTagCompound().setInteger("Use", i);
     }
     
     @SideOnly(Side.CLIENT)
@@ -288,7 +285,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 	{
 		int lvl = itemRarity;
 		
-		EnumRarity[] rarity = new EnumRarity[]{EnumRarity.common, EnumRarity.uncommon, EnumRarity.rare, EnumRarity.epic};
+		EnumRarity[] rarity = new EnumRarity[]{EnumRarity.COMMON, EnumRarity.UNCOMMON, EnumRarity.RARE, EnumRarity.EPIC};
 		if(item.isItemEnchanted())
 		{
 			if(lvl == 0)
@@ -311,7 +308,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 	
 	private EnumRarity rarity(ItemStack item, int lvl)
 	{
-		EnumRarity[] rarity = new EnumRarity[]{EnumRarity.common, EnumRarity.uncommon, EnumRarity.rare, EnumRarity.epic};
+		EnumRarity[] rarity = new EnumRarity[]{EnumRarity.COMMON, EnumRarity.UNCOMMON, EnumRarity.RARE, EnumRarity.EPIC};
 		if(item.isItemEnchanted())
 		{
 			if(lvl == 0)

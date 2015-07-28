@@ -16,10 +16,9 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.google.common.collect.Sets;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * @author Anonymous Productions
@@ -38,9 +37,8 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
         
-        setTextureName("minefantasy2:Tool/Crafting/"+name);
+        setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
     }
     private int itemRarity;
     @Override

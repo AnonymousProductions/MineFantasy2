@@ -1,11 +1,9 @@
 package minefantasy.mf2.util;
 
 import minefantasy.mf2.MineFantasyII;
+import net.minecraftforge.fml.common.FMLLog;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
-
-import cpw.mods.fml.common.FMLLog;
 
 public class MFLogUtil {
 

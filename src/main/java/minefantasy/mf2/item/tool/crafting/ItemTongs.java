@@ -19,17 +19,17 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -43,9 +43,8 @@ public class ItemTongs extends ItemTool implements IToolMaterial
         this.material = material;
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
-        setTextureName("minefantasy2:Tool/Crafting/"+name);
+        setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
     }
     
     @Override
@@ -132,19 +131,21 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 			return item;
 		} else {
 			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-				int i = movingobjectposition.blockX;
-				int j = movingobjectposition.blockY;
-				int k = movingobjectposition.blockZ;
+				int i = movingobjectposition.getBlockPos().getX();
+				int j = movingobjectposition.getBlockPos().getY();
+				int k = movingobjectposition.getBlockPos().getZ();
 
-				if (!world.canMineBlock(player, i, j, k)) {
+				BlockPos ijk = new BlockPos(i, j, k);
+				
+				if (!world.canMineBlockBody(player,ijk )) {
 					return item;
 				}
 
-				if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, item)) {
+				if (!player.canPlayerEdit(ijk, movingobjectposition.sideHit, item)) {
 					return item;
 				}
 
-				if (isWaterSource(world, i, j, k) && TongsHelper.getHeldItem(item) != null) {
+				if (isWaterSource(world, ijk) && TongsHelper.getHeldItem(item) != null) {
 					ItemStack drop = TongsHelper.getHeldItem(item).copy(), cooled = drop;
 					
 					if (TongsHelper.isCoolableItem(drop)) 
@@ -156,7 +157,7 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 						player.playSound("random.fizz", 2F, 0.5F);
 
 						for (int a = 0; a < 5; a++) {
-							world.spawnParticle("largesmoke", i + 0.5F, j + 1, k + 0.5F, 0, 0.065F, 0);
+							world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, i + 0.5F, j + 1, k + 0.5F, 0, 0.065F, 0);
 						}
 					}
 					if (cooled != null && !world.isRemote) 
@@ -172,21 +173,21 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 		}
 	}
 
-	private boolean isWaterSource(World world, int i, int j, int k)
+	private boolean isWaterSource(World world, BlockPos pos)
 	{
-		if (world.getBlock(i, j, k).getMaterial() == Material.water) 
+		if (world.getBlockState(pos).getBlock().getMaterial() == Material.water) 
 		{
 			return true;
 		}
-		if (isCauldron(world, i, j, k)) {
+		if (isCauldron(world, pos)) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isCauldron(World world, int x, int y, int z)
+	public boolean isCauldron(World world, BlockPos pos )
 	{
-		return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z) > 0;
+		return world.getBlockState(pos).getBlock() == Blocks.cauldron && world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos)) > 0;
 	}
 
 	@Override

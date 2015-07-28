@@ -5,49 +5,55 @@ import minefantasy.mf2.item.food.ItemFoodMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCakeMF extends Block
-{
-    @SideOnly(Side.CLIENT)
-    private IIcon topTex;
-    @SideOnly(Side.CLIENT)
-    private IIcon bottomTex;
-    @SideOnly(Side.CLIENT)
-    private IIcon insideTex;
+{    
     private Item cakeSlice;
-    protected int maxSlices = 8;
+    private static int maxSlices = 8;
+    
+    public static final PropertyInteger SLICES = PropertyInteger.create("slices", 0, maxSlices);
     protected float height = 0.5F;
 
+    private String NAME;
+    
     public BlockCakeMF(String name, Item slice)
     {
         super(Material.cake);
         GameRegistry.registerBlock(this, ItemBlockCake.class, name);
-		setBlockName(name);
-		setBlockTextureName("minefantasy2:food/"+name);
-        cakeSlice = slice;
+        setUnlocalizedName("minefantasy2:food/"+name);
+		//setBlockTextureName("minefantasy2:food/"+name);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(SLICES, Integer.valueOf(0)));
         this.setTickRandomly(true);
         setCreativeTab(CreativeTabMF.tabFood);
+        cakeSlice = slice;
+        NAME = name;
     }
-
+    
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos)
     {
-        int slices = world.getBlockMetadata(x, y, z);
+        int slices = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
         float border = 0.0625F;
         float size = (slices / (float)maxSlices) * (1.0F-(border*2));
         this.setBlockBounds(border + size, 0.0F, border, 1.0F-border, height, 1.0F - border);
@@ -69,12 +75,12 @@ public class BlockCakeMF extends Block
      * cleared to be reused)
      */
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
+    public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state)
     {
-    	int slices = world.getBlockMetadata(x, y, z);
-        float border = 0.0625F;
-        float size = border + (slices / (float)maxSlices) * (1.0F-(border*2));
-        return AxisAlignedBB.getBoundingBox(x + size, y, z + border, x + 1 - border, y + height - border, z + 1 - border);
+    	float border = 0.0625F;
+        float slices = (float)(1 + ((Integer)state.getValue(SLICES)).intValue() * 2) / 16.0F;
+        float size = 0.5F;
+        return new AxisAlignedBB((double)((float)pos.getX() + slices), (double)pos.getY(), (double)((float)pos.getZ() + border), (double)((float)(pos.getX() + 1) - border), (double)((float)pos.getY() + size), (double)((float)(pos.getZ() + 1) - border));
     }
 
     /**
@@ -82,43 +88,16 @@ public class BlockCakeMF extends Block
      */
     @SideOnly(Side.CLIENT)
     @Override
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
+    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos)
     {
-    	int slices = world.getBlockMetadata(x, y, z);
-        float border = 0.0625F;
-        float size = border + (slices / (float)maxSlices) * (1.0F-(border*2));
-        return AxisAlignedBB.getBoundingBox(x + size, y, z + border, x + 1 - border, y + height, z + 1 - border);
+    	return this.getCollisionBoundingBox(world, pos, world.getBlockState(pos));
     }
-
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
-    @SideOnly(Side.CLIENT)
+    
     @Override
-    public IIcon getIcon(int side, int meta)
-    {
-        return side == 1 ? this.topTex : (side == 0 ? this.bottomTex : (meta > 0 && side == 4 ? this.insideTex : this.blockIcon));
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerBlockIcons(IIconRegister reg)
-    {
-        this.blockIcon = reg.registerIcon(this.getTextureName() + "_side");
-        this.insideTex = reg.registerIcon(this.getTextureName() + "_inner");
-        this.topTex = reg.registerIcon(this.getTextureName() + "_top");
-        this.bottomTex = reg.registerIcon(this.getTextureName() + "_bottom");
-    }
-
-    /**
-     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-     */
-    @Override
-	public boolean renderAsNormalBlock()
+    public boolean isFullCube()
     {
         return false;
     }
-
     /**
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
      * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
@@ -128,16 +107,16 @@ public class BlockCakeMF extends Block
     {
         return false;
     }
-
+    
     /**
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xoffset, float yoffset, float zoffset)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
     	if(ToolHelper.getCrafterTool(user.getHeldItem()).equalsIgnoreCase("knife"))
     	{
-    		this.cutSlice(world, x, y, z, user);
+    		this.cutSlice(world, pos,state, user);
     		return true;
     	}
     	return false;
@@ -147,15 +126,15 @@ public class BlockCakeMF extends Block
      * Called when a player hits the block. Args: world, x, y, z, player
      */
     @Override
-    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)
+    public void onBlockClicked(World world, BlockPos pos, EntityPlayer user)
     {
     	if(ToolHelper.getCrafterTool(user.getHeldItem()).equalsIgnoreCase("knife"))
     	{
-    		this.cutSlice(world, x, y, z, user);
+    		this.cutSlice(world, pos,world.getBlockState(pos), user);
     	}
     }
 
-    private void cutSlice(World world, int x, int y, int z, EntityPlayer user)
+    private void cutSlice(World world, BlockPos pos,IBlockState state, EntityPlayer user)
     {
         if(cakeSlice != null)
         {
@@ -165,16 +144,18 @@ public class BlockCakeMF extends Block
         		user.entityDropItem(slice, 1.0F);
         	}
         }
-        int l = world.getBlockMetadata(x, y, z) + 1;
+        
+        int l = ((Integer)state.getValue(SLICES)).intValue() + 1;
 
         if (l >= maxSlices)
         {
-            world.setBlockToAir(x, y, z);
+            world.setBlockToAir(pos);
         }
         else
         {
-            world.setBlockMetadataWithNotify(x, y, z, l, 2);
+            world.setBlockState(pos, state.withProperty(SLICES,Integer.valueOf(l)), 3);
         }
+        
         if(user.getHeldItem() != null)
         {
         	user.getHeldItem().damageItem(1, user);
@@ -185,9 +166,9 @@ public class BlockCakeMF extends Block
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
      */
     @Override
-    public boolean canPlaceBlockAt(World world, int x, int y, int z)
+    public boolean canPlaceBlockAt(World world, BlockPos pos)
     {
-        return !super.canPlaceBlockAt(world, x, y, z) ? false : this.canBlockStay(world, x, y, z);
+        return !super.canPlaceBlockAt(world, pos) ? false : this.canBlockStay(world, pos);
     }
 
     /**
@@ -195,30 +176,72 @@ public class BlockCakeMF extends Block
      * their own) Args: x, y, z, neighbor Block
      */
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+    public void onNeighborBlockChange(World world, BlockPos pos,IBlockState state, Block block)
     {
-        if (!this.canBlockStay(world, x, y, z))
+        if (!this.canBlockStay(world, pos))
         {
-        	ItemStack item = new ItemStack(this, 1, damageDropped(world.getBlockMetadata(x, y, z)));
-        	EntityItem drop = new EntityItem(world, x+0.5D, y+0.5D, z+0.5D, item);
+        	ItemStack item = new ItemStack(this, 1, damageDropped(state));
+        	EntityItem drop = new EntityItem(world, pos.getX()+0.5D, pos.getY()+0.5D, pos.getZ()+0.5D, item);
         	world.spawnEntityInWorld(drop);
-            world.setBlockToAir(x, y, z);
+            world.setBlockToAir(pos);
         }
     }
 
     /**
      * Can this block stay at this position.  Similar to canPlaceBlockAt except gets checked often with plants.
      */
-    @Override
-    public boolean canBlockStay(World world, int x, int y, int z)
+    private boolean canBlockStay(World worldIn, BlockPos pos)
     {
-        return world.getBlock(x, y - 1, z).getMaterial().isSolid();
+        return worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid();
+    }
+    
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(SLICES, Integer.valueOf(meta));
+    }
+    
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((Integer)state.getValue(SLICES)).intValue();
+    }
+    
+    @Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {SLICES});
+    }
+    
+    public int getComparatorInputOverride(World worldIn, BlockPos pos)
+    {
+        return (7 - ((Integer)worldIn.getBlockState(pos).getValue(SLICES)).intValue()) * 2;
     }
 
-    @Override
-    public int damageDropped(int meta)
+    public boolean hasComparatorInputOverride()
     {
-    	return meta;
+        return true;
+    }
+    
+    
+    
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public Item getItem(World worldIn, BlockPos pos)
+//    {
+//        return FoodListMF.cake;
+//    }
+
+    @Override
+    public int damageDropped(IBlockState state)
+    {
+    	return getMetaFromState(state);
     }
 
 	public int getRarity()
@@ -229,4 +252,13 @@ public class BlockCakeMF extends Block
 		}
 		return 0;
 	}
+	
+    
+    public String getName()
+	{
+		return NAME;
+	}
+
+
+    
 }

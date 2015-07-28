@@ -2,10 +2,10 @@ package minefantasy.mf2.entity;
 
 import java.util.Iterator;
 
-import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -22,8 +22,7 @@ public class EntityItemUnbreakable extends EntityItem
 	{
 		super(world, parent.posX, parent.posY, parent.posZ, parent.getEntityItem());
 		this.setVelocity(parent.motionX, parent.motionY, parent.motionZ);
-		delayBeforeCanPickup = parent.delayBeforeCanPickup;
-		isImmuneToFire = true;
+		//this.getNBTTagCompound().setShort("PickupDelay", (short)parent.delayBeforeCanPickup);
 	}
 	
 	@Override
@@ -56,9 +55,9 @@ public class EntityItemUnbreakable extends EntityItem
         {
         	this.onEntityUpdate();
 
-            if (this.delayBeforeCanPickup > 0)
+            if (this.getEntityData().getShort("PickupDelay") > 0)
             {
-                --this.delayBeforeCanPickup;
+                this.getEntityData().setShort("PickupDelay", (short)(this.getEntityData().getShort("PickupDelay")-1));
             }
 
             this.prevPosX = this.posX;
@@ -72,13 +71,13 @@ public class EntityItemUnbreakable extends EntityItem
             {
             	this.motionY -= 0.03999999910593033D;
             }
-            this.noClip = this.func_145771_j(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
+            this.noClip = this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0D, this.posZ);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
             boolean flag = (int)this.prevPosX != (int)this.posX || (int)this.prevPosY != (int)this.posY || (int)this.prevPosZ != (int)this.posZ;
 
             if (flag || this.ticksExisted % 25 == 0)
             {
-                if (this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)).getMaterial() == Material.lava)
+                if (this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))).getBlock().getMaterial() == Material.lava)
                 {
                     this.motionY = 0.20000000298023224D;
                     this.motionX = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
@@ -95,7 +94,7 @@ public class EntityItemUnbreakable extends EntityItem
 
             if (this.onGround)
             {
-                f = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ)).slipperiness * 0.98F;
+                f = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.98F;
             }
 
             this.motionX *= (double)f;
@@ -107,13 +106,13 @@ public class EntityItemUnbreakable extends EntityItem
                 this.motionY *= -0.5D;
             }
 
-            ++this.age;
+            this.getEntityData().setInteger("Age",this.getAge());
 
             ItemStack item = getDataWatcher().getWatchableObjectItemStack(10);
     
             if(isBreakable())
             {
-            if (!this.worldObj.isRemote && this.age >= lifespan)
+            if (!this.worldObj.isRemote && this.getAge() >= lifespan)
             {
                 if (item != null)
                 {   
@@ -140,6 +139,7 @@ public class EntityItemUnbreakable extends EntityItem
             }
         }
     }
+	
 	private boolean isBreakable() 
 	{
 		if(getEntityItem() != null)
@@ -148,15 +148,10 @@ public class EntityItemUnbreakable extends EntityItem
 		}
 		return false;
 	}
+	
 	private void searchForOtherItemsNearby()
     {
-        Iterator iterator = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(0.5D, 0.0D, 0.5D)).iterator();
-
-        while (iterator.hasNext())
-        {
-            EntityItem entityitem = (EntityItem)iterator.next();
-            this.combineItems(entityitem);
-        }
+		this.searchForOtherItemsNearby();
     }
 	
 	@Override

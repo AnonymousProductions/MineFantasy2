@@ -18,7 +18,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonsterUpgrader 
 {
@@ -34,7 +34,7 @@ public class MonsterUpgrader
 	
 	public void upgradeMob(EntityLivingBase mob)
     {
-		int diff = mob.worldObj.difficultySetting.getDifficultyId();
+		int diff = mob.worldObj.getDifficulty().getDifficultyId();
 
 		if(ConfigHardcore.upgradeZombieWep)
 		{

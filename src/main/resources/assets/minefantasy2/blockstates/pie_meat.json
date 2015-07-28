@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "slices=0": { "model": "pie_meat_uneaten"},
+        "slices=1": { "model": "pie_meat_slice1" },
+        "slices=2": { "model": "pie_meat_slice2" },
+        "slices=3": { "model": "pie_meat_slice3" },
+        "slices=4": { "model": "pie_meat_slice4" },
+        "slices=5": { "model": "pie_meat_slice5" },
+        "slices=6": { "model": "pie_meat_slice6" },
+		"slices=7": { "model": "pie_meat_slice7" },
+		"slices=8": { "model": "pie_meat_slice8" }
+    }
+}

@@ -1,25 +1,30 @@
 package minefantasy.mf2.block.food;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.item.food.FoodListMF;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockBerryBush extends BlockBush implements IShearable
 {
@@ -27,15 +32,17 @@ public class BlockBerryBush extends BlockBush implements IShearable
 	int[] field_150128_a;
     @SideOnly(Side.CLIENT)
     protected int field_150127_b;
-    private IIcon[] berriedBush = new IIcon[2];
-    private IIcon[] emptyBush = new IIcon[2];
+    
+    public static final PropertyInteger GROWTH = PropertyInteger.create("growth", 0, 1);
+    private String NAME;
     
     public BlockBerryBush(String name)
     {
         super(Material.leaves);
         GameRegistry.registerBlock(this, ItemBlockBerries.class, name);
-		setBlockName(name);
-		
+        setUnlocalizedName("minefantasy2:" + name);
+		NAME=name;
+		this.setDefaultState(this.blockState.getBaseState().withProperty(GROWTH, Integer.valueOf(0)));
         this.setTickRandomly(true);
         this.setCreativeTab(CreativeTabs.tabDecorations);
         this.setHardness(0.3F);
@@ -44,21 +51,46 @@ public class BlockBerryBush extends BlockBush implements IShearable
         this.setLightOpacity(1);
         this.setStepSound(soundTypeGrass);
     }
+    
+    public String getName()
+	{
+		return NAME;
+	}
     /**
      * Ticks the block if it's been scheduled
      */
     @Override
-    public void updateTick(World world, int x, int y, int z, Random rand)
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand)
     {
-    	int meta = world.getBlockMetadata(x, y, z);
-    	if(meta >= 1 && rand.nextInt(80) == 0)
+    	int meta = getMetaFromState(state);
+    	if(meta >= 1 && rand.nextInt(120) == 0)
     	{
-    		world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+    		world.setBlockState(pos, getStateFromMeta(0), 2);
     	}
     }
+    
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((Integer)state.getValue(GROWTH)).intValue();
+    }
+    
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(GROWTH, Integer.valueOf(meta));
+    }
+    
+    @Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {GROWTH});
+    }
+    
+    
 
     @Override
-    public boolean renderAsNormalBlock()
+    public boolean isFullCube()
     {
         return false;
     }
@@ -69,51 +101,29 @@ public class BlockBerryBush extends BlockBush implements IShearable
         return false;
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerBlockIcons(IIconRegister reg)
-    {
-    	berriedBush[0] = reg.registerIcon("minefantasy2:food/berrybushfull");
-    	berriedBush[1] = reg.registerIcon("minefantasy2:food/berrybushfull_opaque");
-    	emptyBush[0] = reg.registerIcon("minefantasy2:food/berrybush");
-    	emptyBush[1] = reg.registerIcon("minefantasy2:food/berrybush_opaque");
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIcon(int side, int meta)
-    {
-    	int flag = Minecraft.getMinecraft().gameSettings.fancyGraphics ? 0 : 1;
-        if(meta == 0)
-        {
-        	return berriedBush[flag];
-        }
-        return emptyBush[flag];
-    }
-
-    @Override
-    public boolean isShearable(ItemStack item, IBlockAccess world, int x, int y, int z)
+    @Override	
+    public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos)
     {
         return true;
     }
 
     @Override
-    public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune)
+    public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world,BlockPos pos, int fortune)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ret.add(new ItemStack(this, 1, world.getBlockMetadata(x, y, z) & 3));
+        ret.add(new ItemStack(this, 1, getMetaFromState(world.getBlockState(pos)) & 3));
         return ret;
     }
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
-    	int meta = world.getBlockMetadata(x, y, z);
+    	int meta = getMetaFromState(state);
     	if(meta == 0 )
     	{
     		if(world.isRemote)return true;
     		
     		
-    		world.setBlockMetadataWithNotify(x, y, z, 1, 2);
+    		world.setBlockState(pos, getStateFromMeta(1), 2);
     		
     		ItemStack itemstack = rand.nextInt(10) == 0 ? new ItemStack(FoodListMF.berriesJuicy) : new ItemStack(FoodListMF.berries, 1);
     		if (itemstack != null)
@@ -132,7 +142,7 @@ public class BlockBerryBush extends BlockBush implements IShearable
                     }
 
                     itemstack.stackSize -= j1;
-                    EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                    EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                     if (itemstack.hasTagCompound())
                     {
@@ -153,13 +163,13 @@ public class BlockBerryBush extends BlockBush implements IShearable
     }
     
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+    public ArrayList<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
     	return new ArrayList<ItemStack>(){};
     }
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
     	return true;
     }
@@ -168,4 +178,11 @@ public class BlockBerryBush extends BlockBush implements IShearable
     {
         return 0;
     }
+    
+    @Override
+    public int damageDropped(IBlockState state)
+    {
+    	return 0;
+    }
+
 }

@@ -5,11 +5,13 @@ import java.util.Random;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockOreMF extends Block 
 {
@@ -18,6 +20,7 @@ public class BlockOreMF extends Block
 	private Item drop;
 	private int dropMin;
 	private int dropMax;
+	private String NAME;
 	
 	public BlockOreMF(String name, int harvestLevel)
 	{
@@ -39,11 +42,12 @@ public class BlockOreMF extends Block
 		this.rarity = rarity;
 		this.dropMin=min;
 		this.dropMax=max;
-		
+		NAME=name;
 		this.setStepSound(Block.soundTypePiston);
 		GameRegistry.registerBlock(this, ItemOreblockMF.class, name);
-		setBlockName(name);
-		setBlockTextureName("minefantasy2:ores/"+name);
+		setUnlocalizedName("minefantasy2:ores/"+name);
+		this.setDefaultState(this.blockState.getBaseState());
+		//setBlockTextureName("minefantasy2:ores/"+name);
 		
 		if(material == Material.rock)
 		{
@@ -52,8 +56,14 @@ public class BlockOreMF extends Block
 		this.setCreativeTab(CreativeTabMF.tabOres);
 	}
 	
+	public String getName()
+	{
+		return NAME;
+	}
+	
 	@Override
-	public Item getItemDropped(int meta, Random rand, int i)
+	//getItemDropped(IBlockState state, Random rand, int fortune)
+	public Item getItemDropped(IBlockState state, Random rand, int i)
     {
 		return drop != null ? drop : Item.getItemFromBlock(this);
     }
@@ -73,7 +83,8 @@ public class BlockOreMF extends Block
     @Override
     public int quantityDroppedWithBonus(int fortune, Random rand)
     {
-        if (fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(0, rand, fortune))
+    	
+    	if (fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(this.getDefaultState(), rand, fortune))
         {
             int j = rand.nextInt(fortune + 2) - 1;
 
@@ -94,17 +105,17 @@ public class BlockOreMF extends Block
      * Drops the block items with a specified chance of dropping the specified items
      */
     @Override
-    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int m, float f, int i)
+    public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float f, int i)
     {
-        super.dropBlockAsItemWithChance(world, x, y, z, m, f, i);
+        super.dropBlockAsItemWithChance(world, pos, state, f, i);
     }
 
     private Random rand = new Random();
     
     @Override
-    public int getExpDrop(IBlockAccess world, int meta, int fortune)
+    public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune)
     {
-        if (xp > 0 && this.getItemDropped(meta, rand, fortune) != Item.getItemFromBlock(this))
+        if (xp > 0 && this.getItemDropped(this.getDefaultState(), rand, fortune) != Item.getItemFromBlock(this))
         {
         	return MathHelper.getRandomIntegerInRange(rand, xp, xp*2);
         }

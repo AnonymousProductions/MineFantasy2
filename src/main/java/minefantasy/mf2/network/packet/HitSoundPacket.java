@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import minefantasy.mf2.config.ConfigClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class HitSoundPacket extends PacketMF
 {

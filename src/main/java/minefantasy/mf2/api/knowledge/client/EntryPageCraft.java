@@ -1,18 +1,9 @@
 package minefantasy.mf2.api.knowledge.client;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class EntryPageCraft extends EntryPage
 {

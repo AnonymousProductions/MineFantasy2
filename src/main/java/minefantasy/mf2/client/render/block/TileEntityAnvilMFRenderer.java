@@ -2,8 +2,8 @@ package minefantasy.mf2.client.render.block;
 
 import java.util.Random;
 
-import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +21,7 @@ public class TileEntityAnvilMFRenderer extends TileEntitySpecialRenderer {
     public void renderAModelAt(TileEntityAnvilMF tile, double d, double d1, double d2, float f) 
     {
     	int i = 0;
-		if (tile.getWorldObj() != null)
+		if (tile.getWorld() != null)
 		{
         	i = tile.getBlockMetadata();
         }
@@ -88,7 +88,7 @@ public class TileEntityAnvilMFRenderer extends TileEntitySpecialRenderer {
     	Minecraft.getMinecraft().renderEngine.bindTexture(TextureHelperMF.getResource(image));
 	}
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f,int destroyStage) {
         renderAModelAt((TileEntityAnvilMF) tileentity, d, d1, d2, f); //where to render
     }
 	

@@ -3,32 +3,28 @@ package minefantasy.mf2.block.refining;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityCrucible;
 import minefantasy.mf2.item.list.CreativeTabMF;
-import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCrucible extends BlockContainer 
 {
@@ -37,21 +33,29 @@ public class BlockCrucible extends BlockContainer
 	private static boolean keepInventory;
 	public int tier;
 	public String type;
+	private String NAME;
 	
 	public BlockCrucible(String tex, int tier, boolean isActive) 
 	{
 		super(Material.rock);
 		this.tier = tier;
 		this.type = tex;
+		NAME = tex;
 		this.isActive = isActive;
         GameRegistry.registerBlock(this, "MF_Crucible"+tex + (isActive ? "Active" : ""));
-		setBlockName("crucible."+tex);
+        setUnlocalizedName("crucible."+tex);
+        this.setDefaultState(this.blockState.getBaseState());
 		this.setStepSound(Block.soundTypeStone);
 		this.setHardness(8F);
 		this.setResistance(8F);
         this.setCreativeTab(CreativeTabMF.tabUtil);
 	}
 
+	public String getName()
+	{
+		return NAME;
+	}
+	
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list)
     {
@@ -67,18 +71,18 @@ public class BlockCrucible extends BlockContainer
 		return new TileEntityCrucible();
 	}
 	
-	private static TileEntityCrucible getTile(IBlockAccess world, int x, int y, int z)
+	private static TileEntityCrucible getTile(IBlockAccess world, BlockPos pos)
 	{
-		return (TileEntityCrucible)world.getTileEntity(x, y, z);
+		return (TileEntityCrucible)world.getTileEntity(pos);
 	}
 	
 	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
 		if(keepInventory)return;
 		
-		TileEntityCrucible tile = getTile(world, x, y, z);
+		TileEntityCrucible tile = getTile(world, pos);
 
         if (tile != null)
         {
@@ -102,7 +106,7 @@ public class BlockCrucible extends BlockContainer
                         }
 
                         itemstack.stackSize -= j1;
-                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                         if (itemstack.hasTagCompound())
                         {
@@ -118,39 +122,39 @@ public class BlockCrucible extends BlockContainer
                 }
             }
 
-            world.func_147453_f(x, y, z, block);
+            world.func_147453_f(pos, state);
         }
 
-        super.breakBlock(world, x, y, z, block, meta);
+        super.breakBlock(world,pos, state);
     }
 	
-	public static void updateFurnaceBlockState(boolean state, World world, int x, int y, int z)
+	public static void updateFurnaceBlockState(boolean state, World world, BlockPos pos)
     {
-        int l = world.getBlockMetadata(x, y, z);
-        TileEntityCrucible tileentity = getTile(world, x, y, z);
+        int l = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
+        TileEntityCrucible tileentity = getTile(world, pos);
         keepInventory = true;
-        Block block = world.getBlock(x, y, z);
+        Block block = world.getBlockState(pos).getBlock();
         
         if(block != null && block instanceof BlockCrucible)
         {
         	int blocktier = ((BlockCrucible)block).tier;
 	        if (state)
 	        {
-	            world.setBlock(x, y, z, getActiveBlock(blocktier));
+	            world.setBlockState(pos, getActiveBlock(blocktier).getDefaultState());
 	        }
 	        else
 	        {
-	            world.setBlock(x, y, z, getInactiveBlock(blocktier));
+	            world.setBlockState(pos, getInactiveBlock(blocktier).getDefaultState());
 	        }
         }
 
         keepInventory = false;
-        world.setBlockMetadataWithNotify(x, y, z, l, 2);
+        world.setBlockState(pos, world.getBlockState(pos).getBlock().getStateFromMeta(l), 2);
 
         if (tileentity != null)
         {
             tileentity.validate();
-            world.setTileEntity(x, y, z, tileentity);
+            world.setTileEntity(pos, tileentity);
         }
     }
 	
@@ -171,44 +175,29 @@ public class BlockCrucible extends BlockContainer
 		}
 		return BlockListMF.crucible;
 	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		return side == 1 ? topTex : sideTex;
-	}
 	
 	@Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
-		TileEntityCrucible tile = getTile(world, x, y, z);
+		TileEntityCrucible tile = getTile(world, pos);
     	if(tile != null)
     	{
     		if(!world.isRemote)
     		{
-    			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
+    			user.openGui(MineFantasyII.instance, 0, world, pos.getX(),pos.getY(),pos.getZ());
     		}
     	}
         return true;
     }
-	private IIcon sideTex, topTex;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg)
-	{
-		topTex = isActive ? reg.registerIcon("minefantasy2:processor/crucible_top_active_"+type) : reg.registerIcon("minefantasy2:processor/crucible_top_"+type);
-		sideTex = reg.registerIcon("minefantasy2:processor/crucible_side_"+type);
-	}
-	@Override
-	@SideOnly(Side.CLIENT)
-    public Item getItem(World world, int x, int y, int z)
+    public Item getItem(World world, BlockPos pos)
     {
         return Item.getItemFromBlock(getInactiveBlock(tier));
     }
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fort)
+	public Item getItemDropped(IBlockState state, Random rand, int fort)
     {
         return Item.getItemFromBlock(getInactiveBlock(tier));
     }

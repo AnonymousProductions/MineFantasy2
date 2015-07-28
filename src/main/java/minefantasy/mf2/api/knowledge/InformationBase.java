@@ -2,7 +2,6 @@ package minefantasy.mf2.api.knowledge;
 
 import java.util.ArrayList;
 
-import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.knowledge.client.EntryPage;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.Skill;
@@ -11,13 +10,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.IStatStringFormat;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class InformationBase
 {
+	public static final float talismanPower = 20F;//20m taken
 	public int ID = 0;
 	private static int nextID = 0;
 	public boolean startedUnlocked = false;
@@ -31,22 +30,22 @@ public class InformationBase
     private boolean isSpecial;
     private boolean isPerk;
     private final String idName;
-    private final int baseLevelCost;
     private ArrayList<SkillRequirement> skills = new ArrayList<SkillRequirement>();
     public String[] requirements = null;
+    private ItemStack[] requiredItems;
+    private int minutes = 10;
 
-    public InformationBase(String name, int x, int y, int cost, Item icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, Item icon, InformationBase parent)
     {
-        this(name, x, y, cost, new ItemStack(icon), parent);
+        this(name, x, y, time, new ItemStack(icon), parent);
     }
-    public InformationBase(String name, int x, int y, int cost, Block icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, Block icon, InformationBase parent)
     {
-        this(name, x, y, cost, new ItemStack(icon), parent);
+        this(name, x, y, time, new ItemStack(icon), parent);
     }
 
-    public InformationBase(String name, int x, int y, int cost, ItemStack icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, ItemStack icon, InformationBase parent)
     {
-    	this.baseLevelCost = cost;
     	this.idName = name;
         this.theItemStack = icon;
         this.description = "knowledge." + idName + ".desc";
@@ -72,8 +71,8 @@ public class InformationBase
         {
             InformationList.maxDisplayRow = y;
         }
-
         this.parentInfo = parent;
+        this.minutes = time;
     }
     
     public InformationBase addSkill(Skill skill, int level)
@@ -84,6 +83,7 @@ public class InformationBase
     	}
     	return this;
     }
+    
     
     public InformationBase setUnlocked()
     {
@@ -121,6 +121,15 @@ public class InformationBase
         InformationList.knowledgeList.add(this);
         InformationList.nameMap.put(idName, this);
         return this;
+    }
+    public InformationBase setItems(ItemStack...items)
+    {
+    	this.requiredItems = items;
+    	return this;
+    }
+    public ItemStack[] getItems()
+    {
+    	return requiredItems;
     }
 
 /*
@@ -177,9 +186,12 @@ public class InformationBase
     {
         return this.isPerk;
     }
-
-	public boolean trigger(EntityPlayer user, boolean makeEffect)
+	public boolean onPurchase(EntityPlayer user)
 	{
+		if(!this.hasAllItems(user))
+		{
+			return false;
+		}
 		if(RPGElements.isSystemActive)
 		{
 			if(!hasSkillsUnlocked(user))
@@ -187,14 +199,23 @@ public class InformationBase
 				return false;
 			}
 		}
-		boolean success = ResearchLogic.tryUnlock(user, this);
-		if(success && makeEffect && !user.worldObj.isRemote)
+		
+		boolean success = ResearchLogic.canPurchase(user, this);
+		if(success && !user.worldObj.isRemote)
 		{
-			user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unlocked") + ": " + StatCollector.translateToLocal(getName())));
+			this.consumeItems(user);
 			user.worldObj.playSoundAtEntity(user, "minefantasy2:updateResearch", 1.0F, 1.0F);
 		}
-		return success;
+		
+		ItemStack item = new ItemStack(scroll, 1, ID);
+		if(!user.inventory.addItemStackToInventory(item))
+		{
+			user.entityDropItem(item, 0F);
+		}
+		
+		return true;
 	}
+	public static Item scroll;
 
 	private boolean hasSkillsUnlocked(EntityPlayer player)
 	{
@@ -211,11 +232,6 @@ public class InformationBase
 	public String getUnlocalisedName()
 	{
 		return idName;
-	}
-	
-	public int getCost()
-	{
-		return baseLevelCost;
 	}
 	
 	private ArrayList<EntryPage> pages = new ArrayList<EntryPage>();
@@ -243,6 +259,54 @@ public class InformationBase
 			}
 		}
 		return requirements;
+	}
+	
+	public boolean hasAllItems(EntityPlayer user)
+	{
+		if(user.capabilities.isCreativeMode || this.requiredItems == null)
+		{
+			return true;
+		}
+		for(ItemStack item: requiredItems)
+		{
+			if(!hasItem(user, item.getItem(), item.stackSize))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean hasItem(EntityPlayer user, Item item, int cost)
+	{
+		int total = 0;
+		for(int a = 0; a < user.inventory.getSizeInventory(); a++)
+		{
+			ItemStack slot = user.inventory.getStackInSlot(a);
+			if(slot != null && slot.getItem() == item)
+			{
+				total += slot.stackSize;
+			}
+		}
+		return total >= cost;
+	}
+	public void consumeItems(EntityPlayer user)
+	{
+		if(user.capabilities.isCreativeMode || this.requiredItems == null)
+		{
+			return;
+		}
+		for(ItemStack item: requiredItems)
+		{
+			for(int a = 0; a < item.stackSize; a++)
+			{
+				user.inventory.consumeInventoryItem(item.getItem());
+			}
+		}
+	}
+	public int getTime() 
+	{
+		return minutes;
 	}
 }
 class SkillRequirement

@@ -3,9 +3,6 @@ package minefantasy.mf2.mechanics;
 import java.util.Map;
 import java.util.Random;
 
-import javax.xml.transform.Source;
-
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.TacticalManager;
@@ -40,7 +37,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -59,7 +55,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CombatMechanics
 {
@@ -141,7 +137,7 @@ public class CombatMechanics
 			EventManagerMF.setHitTime(hitter, hitTime);
 		}
 	}
-	
+
 	/**
 	 * gets the melee hitter
 	 */
@@ -175,7 +171,7 @@ public class CombatMechanics
     		{
     			armours[a-1]=event.entityLiving.getEquipmentInSlot(a);
     		}
-    		damage = ISpecialArmor.ArmorProperties.ApplyArmor(event.entityLiving, armours, event.source, damage);
+    		damage = ISpecialArmor.ArmorProperties.applyArmor(event.entityLiving, armours, event.source, damage);
     	}
     	//TODO: Stick arrows (EXPERIMENTAL)
     	if(ConfigExperiment.stickArrows && event.source.getSourceOfDamage() != null && event.source.getSourceOfDamage() instanceof EntityArrow)
@@ -391,13 +387,18 @@ public class CombatMechanics
 		}
 		else if(user instanceof EntityPlayer)
 		{
-			if(!user.isSneaking())return false;
+			if(!isFightStance(user))return false;
 		}
 		else
 		{
 			return false;
 		}
 		return user.fallDistance > 0 && !user.isOnLadder();
+	}
+
+	private static boolean isFightStance(EntityLivingBase user) 
+	{
+		return user.isSneaking();
 	}
 
 	private float modifyMobDamage(EntityLivingBase user, float dam)
@@ -415,7 +416,7 @@ public class CombatMechanics
 	}
 	private float hurtUndead(Entity entityHitting, Entity entityHit, float dam, boolean properHit) 
     {
-    	if(entityHit instanceof EntityLivingBase && isUnholyCreature((EntityLivingBase)entityHit))
+    	if(entityHit instanceof EntityLivingBase && TacticalManager.isUnholyCreature((EntityLivingBase)entityHit))
 		{
     		EntityLivingBase living = (EntityLivingBase)entityHit;
     		dam *= specialUndeadModifier;
@@ -427,7 +428,7 @@ public class CombatMechanics
 	    		{
 	    			living.setFire(3);
 	    		}
-	    		if(living.getHealth() <= dam || rand.nextInt(20) == 0)
+	    		if(living.getHealth() <= living.getHealth()/2F && rand.nextInt(20) == 0)
 	    		{
 	    			dam *= 100F;
 	    			living.worldObj.createExplosion(living, living.posX, living.posY+living.getEyeHeight(), living.posZ, 0.0F, false);
@@ -446,19 +447,6 @@ public class CombatMechanics
     	return dam;
 	}
 	
-	private boolean isUnholyCreature(EntityLivingBase entityHit) 
-	{
-		if(((EntityLivingBase)entityHit).isEntityUndead())
-		{
-			return true;
-		}
-		if(entityHit instanceof EntityWitch)
-		{
-			return true;
-		}
-		return false;
-	}
-
 	private void onOfficialHit(DamageSource src, EntityLivingBase target, float damage)
 	{
 		Entity source = src.getSourceOfDamage();
@@ -603,7 +591,7 @@ public class CombatMechanics
         		   
         		   if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
 	        	   {
-	        		   ticks *= 2;
+	        		   ticks *= 3;
 	        	   }
 	        	   if(ticks > getParryCooldown(user))
 	        	   {
@@ -639,17 +627,21 @@ public class CombatMechanics
 			   			}
 			   			if(hitTime > 0)
 			   			{
-			   				MFLogUtil.logDebug("Recoil hitter: " + hitter.getCommandSenderName() + " for " + hitTime*3 + " ticks.");
+			   				MFLogUtil.logDebug("Recoil hitter: " + hitter.getName() + " for " + hitTime*3 + " ticks.");
 			   				EventManagerMF.setHitTime(hitter, hitTime * 3);
 			   			}
 			   		}
         	   }
            }
     	}
+    	if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
+    	{
+    		dam *= Math.max(1.0F, ConfigStamina.exhaustDamage);
+    	}
     	if(user instanceof EntityPlayer || (entityHitting != null && entityHitting instanceof EntityPlayer))
     	{
     		if(!user.worldObj.isRemote)
-    			MFLogUtil.logDebug(dam + "x Damage inflicted to: " + user.getCommandSenderName() + " (" + user.getEntityId() + ")");
+    			MFLogUtil.logDebug(dam + "x Damage inflicted to: " + user.getName() + " (" + user.getEntityId() + ")");
     	}
 		return dam;
 	}
@@ -703,7 +695,7 @@ public class CombatMechanics
 		float stamModifier = 1.0F;
 		if(user instanceof EntityPlayer)
 		{
-			if(!user.isSneaking())
+			if(!isFightStance(user))
 			{
 				return false;
 			}

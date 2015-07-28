@@ -2,34 +2,29 @@ package minefantasy.mf2.entity;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.item.gadget.EnumCasingType;
 import minefantasy.mf2.item.gadget.EnumExplosiveType;
 import minefantasy.mf2.item.gadget.EnumFuseType;
 import minefantasy.mf2.item.gadget.EnumPowderType;
+import minefantasy.mf2.mechanics.CombatMechanics;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.mechanics.CombatMechanics;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityBomb extends Entity
 {
@@ -43,7 +38,7 @@ public class EntityBomb extends Entity
         this.fuse = getFuseTime();
         this.preventEntitySpawning = true;
         this.setSize(0.5F, 0.5F);
-        this.yOffset = this.height / 2.0F;
+        this.getEntityBoundingBox().offset(0, this.height / 2.0F, 0);
     }
 
     public EntityBomb(World world, EntityLivingBase thrower)
@@ -152,7 +147,7 @@ public class EntityBomb extends Entity
             this.motionZ *= d;
             this.motionY *= -0.99D;
         }
-        List collide = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox);
+        List collide = worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox());
         if (!collide.isEmpty() && !(thrower != null && collide.contains(thrower)))
         {
         	if(isSticky())
@@ -181,8 +176,8 @@ public class EntityBomb extends Entity
         }
         else
         {
-            this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.125D, this.posZ, 0.0D, 0.0D, 0.0D);
-            this.worldObj.spawnParticle("flame", this.posX, this.posY + 0.125D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.125D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY + 0.125D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
         
         if(!worldObj.isRemote && this.ridingEntity != null && ridingEntity instanceof EntityLivingBase)
@@ -206,7 +201,7 @@ public class EntityBomb extends Entity
     	if(object instanceof EntityChicken)
 		{
 			EntityChicken chook = (EntityChicken)object;
-			Entity target = worldObj.findNearestEntityWithinAABB(IMob.class, chook.boundingBox.expand(64, 8, 64),chook);
+			Entity target = worldObj.findNearestEntityWithinAABB(IMob.class, chook.getEntityBoundingBox().expand(64, 8, 64),chook);
 			if(target != null)
 			{
 				if(target instanceof EntityLivingBase)
@@ -261,13 +256,6 @@ public class EntityBomb extends Entity
         this.fuse = nbt.getByte("Fuse");
     }
 
-    @Override
-	@SideOnly(Side.CLIENT)
-    public float getShadowSize()
-    {
-        return 0.25F;
-    }
-
     /**
      * returns null or the entityliving it was placed or ignited by
      */
@@ -293,7 +281,7 @@ public class EntityBomb extends Entity
         if (!this.worldObj.isRemote)
         {
         	double area = getRangeOfBlast()*2D;
-            AxisAlignedBB var3 = this.boundingBox.expand(area, area/2, area);
+            AxisAlignedBB var3 = this.getEntityBoundingBox().expand(area, area/2, area);
             List var4 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, var3);
 
             if (var4 != null && !var4.isEmpty())
@@ -385,7 +373,7 @@ public class EntityBomb extends Entity
 	
 	public boolean canEntityBeSeen(Entity entity)
     {
-        return this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(this.posX, this.posY + this.getEyeHeight(), this.posZ), Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ)) == null;
+        return this.worldObj.rayTraceBlocks(new Vec3(this.posX, this.posY + this.getEyeHeight(), this.posZ), new Vec3(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ)) == null;
     }
 	
 	private final int typeId = 2;
@@ -448,11 +436,12 @@ public class EntityBomb extends Entity
             {
                 for (int i2 = i1; i2 < j1; ++i2)
                 {
-                    Block block = worldObj.getBlock(k1, l1, i2);
+                	BlockPos kPos = new BlockPos(k1, l1, i2);
+                    Block block = worldObj.getBlockState(kPos).getBlock();
 
                     if (block.getMaterial().isSolid())
                     {
-                        int j2 = worldObj.getBlockMetadata(k1, l1, i2);
+                        int j2 = worldObj.getBlockState(kPos).getBlock().getMetaFromState(worldObj.getBlockState(kPos));
                         double d0 = (double)(l1 + 1);
 
                         if (j2 < 8)

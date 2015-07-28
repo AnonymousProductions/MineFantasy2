@@ -2,8 +2,12 @@ package minefantasy.mf2.mechanics.worldGen;
 
 import java.util.Random;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -36,17 +40,17 @@ public class WorldGenMinableMF extends WorldGenerator
     }
 
     @Override
-	public boolean generate(World world, Random seed, int x, int y, int z)
+	public boolean generate(World world, Random seed, BlockPos pos)
     {
     	boolean success = false;
     	
         float f = seed.nextFloat() * (float)Math.PI;
-        double d0 = x + 8 + MathHelper.sin(f) * this.numberOfBlocks / 8.0F;
-        double d1 = x + 8 - MathHelper.sin(f) * this.numberOfBlocks / 8.0F;
-        double d2 = z + 8 + MathHelper.cos(f) * this.numberOfBlocks / 8.0F;
-        double d3 = z + 8 - MathHelper.cos(f) * this.numberOfBlocks / 8.0F;
-        double d4 = y + seed.nextInt(3) - 2;
-        double d5 = y + seed.nextInt(3) - 2;
+        double d0 = pos.getX() + 8 + MathHelper.sin(f) * this.numberOfBlocks / 8.0F;
+        double d1 = pos.getX() + 8 - MathHelper.sin(f) * this.numberOfBlocks / 8.0F;
+        double d2 = pos.getZ() + 8 + MathHelper.cos(f) * this.numberOfBlocks / 8.0F;
+        double d3 = pos.getZ() + 8 - MathHelper.cos(f) * this.numberOfBlocks / 8.0F;
+        double d4 = pos.getY() + seed.nextInt(3) - 2;
+        double d5 = pos.getY() + seed.nextInt(3) - 2;
 
         for (int l = 0; l <= this.numberOfBlocks; ++l)
         {
@@ -78,11 +82,12 @@ public class WorldGenMinableMF extends WorldGenerator
                             for (int oreZ = k1; oreZ <= j2; ++oreZ)
                             {
                                 double d14 = (oreZ + 0.5D - d8) / (d10 / 2.0D);
-
-                                if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlock(oreX, oreY, oreZ).isReplaceableOreGen(world, oreX, oreY, oreZ, beddingBlock))
+                                BlockPos orepos = new BlockPos(oreX, oreY, oreZ);
+                                
+                                if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlockState(orepos).getBlock().isReplaceableOreGen(world, orepos, (Predicate<IBlockState>) beddingBlock.getBlockState()))
                                 {
                                 	success = true;
-                                    world.setBlock(oreX, oreY, oreZ, this.oreBlock, mineableBlockMeta, 2);
+                                    world.setBlockState(orepos, this.oreBlock.getStateFromMeta(mineableBlockMeta), 2);
                                 }
                             }
                         }

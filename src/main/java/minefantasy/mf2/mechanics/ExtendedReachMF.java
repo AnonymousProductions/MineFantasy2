@@ -2,7 +2,7 @@ package minefantasy.mf2.mechanics;
 
 import java.util.List;
 
-import mods.battlegear2.api.weapons.IExtendedReachWeapon;
+import mod.battlegear2.api.weapons.IExtendedReachWeapon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 /**
  * This class exists because minecraft hunger seems to decrease faster than windows stock
@@ -92,7 +92,7 @@ public class ExtendedReachMF
                     if (entity.canBeCollidedWith())
                     {
                         float f2 = entity.getCollisionBorderSize();
-                        AxisAlignedBB axisalignedbb = entity.boundingBox.expand(f2, f2, f2);
+                        AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f2, f2, f2);
                         MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
 
                         if (axisalignedbb.isVecInside(vec3))

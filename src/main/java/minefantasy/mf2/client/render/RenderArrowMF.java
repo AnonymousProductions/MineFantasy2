@@ -1,18 +1,17 @@
 package minefantasy.mf2.client.render;
 
-import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.entity.EntityArrowMF;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
  
 @SideOnly(Side.CLIENT)
 public class RenderArrowMF extends Render
@@ -24,7 +23,7 @@ public class RenderArrowMF extends Render
         GL11.glTranslatef((float)x, (float)y, (float)z);
         GL11.glRotatef(arrow.prevRotationYaw + (arrow.rotationYaw - arrow.prevRotationYaw) * yr - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(arrow.prevRotationPitch + (arrow.rotationPitch - arrow.prevRotationPitch) * yr, 0.0F, 0.0F, 1.0F);
-        Tessellator var10 = Tessellator.instance;
+        Tessellator var10 = Tessellator.getInstance();
         byte var11 = 0;
         float var12 = 0.0F;
         float var13 = 0.5F;

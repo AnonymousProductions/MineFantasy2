@@ -3,13 +3,17 @@ package minefantasy.mf2.item.weapon;
 import java.util.List;
 
 import minefantasy.mf2.api.stamina.StaminaBar;
-import mods.battlegear2.api.shield.IShield;
+import mod.battlegear2.api.shield.IShield;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -121,4 +125,12 @@ public class ItemLance extends ItemSpearMF
 	{
 		return super.modifyHitTime(user, item) + speedModSpear*2;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

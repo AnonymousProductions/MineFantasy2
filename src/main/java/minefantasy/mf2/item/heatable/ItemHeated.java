@@ -9,30 +9,30 @@ import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.util.MFLogUtil;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemHeated extends Item implements IHotItem
 {
 	public ItemHeated() 
 	{
 		GameRegistry.registerItem(this, "MF_Hot_Item", MineFantasyII.MODID);
-		this.setUnlocalizedName("MF_Hot_Item");
+		setUnlocalizedName("MF_Hot_Item");
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(64);
 	}
@@ -127,7 +127,7 @@ public class ItemHeated extends Item implements IHotItem
 		if (item != null)
 			return item.getItem().getRarity(item);
 
-		return EnumRarity.common;
+		return EnumRarity.COMMON;
 	}
 
 	public static boolean showTemp(ItemStack stack) {
@@ -210,24 +210,22 @@ public class ItemHeated extends Item implements IHotItem
 			return item;
 		} else {
 			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-				int i = movingobjectposition.blockX;
-				int j = movingobjectposition.blockY;
-				int k = movingobjectposition.blockZ;
+				BlockPos pos = movingobjectposition.getBlockPos();
 
-				if (!world.canMineBlock(player, i, j, k)) {
+				if (!world.canMineBlockBody(player, pos)) {
 					return item;
 				}
 
-				if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, item)) {
+				if (!player.canPlayerEdit(pos, movingobjectposition.sideHit, item)) {
 					return item;
 				}
 
-				if (isWaterSource(world, i, j, k)) {
+				if (isWaterSource(world, pos)) {
 					player.playSound("random.splash", 1F, 1F);
 					player.playSound("random.fizz", 2F, 0.5F);
 
 					for (int a = 0; a < 5; a++) {
-						world.spawnParticle("largesmoke", i + 0.5F, j + 1, k + 0.5F, 0, 0.065F, 0);
+						world.spawnParticle(EnumParticleTypes.SMOKE_LARGE,pos.getX() + 0.5F, pos.getY() + 1, pos.getZ() + 0.5F, 0, 0.065F, 0);
 					}
 
 					ItemStack drop = getItem(item).copy();
@@ -246,13 +244,13 @@ public class ItemHeated extends Item implements IHotItem
 		}
 	}
 
-	private boolean isWaterSource(World world, int i, int j, int k) 
+	private boolean isWaterSource(World world, BlockPos pos) 
 	{
-		if (world.getBlock(i, j, k).getMaterial() == Material.water)
+		if (world.getBlockState(pos).getBlock().getMaterial() == Material.water)
 		{
 			return true;
 		}
-		if (isCauldron(world, i, j, k)) {
+		if (isCauldron(world, pos)) {
 			return true;
 		}
 		return false;
@@ -315,8 +313,8 @@ public class ItemHeated extends Item implements IHotItem
 		return 0;
 	}
 
-	public boolean isCauldron(World world, int x, int y, int z) {
-		return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z) > 0;
+	public boolean isCauldron(World world, BlockPos pos) {
+		return world.getBlockState(pos).getBlock() == Blocks.cauldron && world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos)) > 0;
 	}
 
 	@Override
@@ -328,4 +326,12 @@ public class ItemHeated extends Item implements IHotItem
 	public boolean isCoolable(ItemStack item) {
 		return true;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

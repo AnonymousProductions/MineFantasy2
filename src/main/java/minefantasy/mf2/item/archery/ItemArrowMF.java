@@ -11,7 +11,7 @@ import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.mechanics.MFArrowDispenser;
-import mods.battlegear2.api.quiver.QuiverArrowRegistry;
+import mod.battlegear2.api.quiver.QuiverArrowRegistry;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -22,7 +22,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * @author Anonymous Productions
  */
@@ -34,6 +36,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	private ToolMaterial arrowMat;
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
 	public static final MFArrowDispenser dispenser = new MFArrowDispenser();
+	
 	public ItemArrowMF(String name)
 	{
 		this(name, 0, ToolMaterial.WOOD);
@@ -47,14 +50,13 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		name = convertName(name);
 		material = convertMaterial(material);
 		
-		super.setUnlocalizedName(name+"_arrow");
+		setUnlocalizedName("minefantasy2:Ammo/"+name+"_arrow");
 		name = getName(name, type);
 		design = type;
 		arrowName = name;
 		arrowMat = material;
 		damage = ((material.getDamageVsEntity()/2F) + 3.0F)*type.damageModifier;
 		itemRarity = rarity;
-		setTextureName("minefantasy2:Ammo/"+name);
 		setCreativeTab(CreativeTabMF.tabArcher);
 		GameRegistry.registerItem(this, "MF_Com_"+name, MineFantasyII.MODID);
 		
@@ -107,7 +109,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	{
 		int lvl = itemRarity;
 		
-		EnumRarity[] rarity = new EnumRarity[]{EnumRarity.common, EnumRarity.uncommon, EnumRarity.rare, EnumRarity.epic};
+		EnumRarity[] rarity = new EnumRarity[]{EnumRarity.COMMON, EnumRarity.UNCOMMON, EnumRarity.RARE, EnumRarity.EPIC};
 		if(item.isItemEnchanted())
 		{
 			if(lvl == 0)
@@ -124,9 +126,12 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	}
     
     @Override
-    public void getSubItems(Item item, CreativeTabs tab, List list)
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
     {
-    }
+        parListSubItems.add(new ItemStack(this, 1));
+     }
     
     @Override
     public void addInformation(ItemStack item, EntityPlayer player, List desc, boolean flag) 

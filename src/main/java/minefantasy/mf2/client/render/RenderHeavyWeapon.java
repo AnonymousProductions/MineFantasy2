@@ -4,24 +4,21 @@ package minefantasy.mf2.client.render;
  *
  * @author Anonymous Productions
  */
-import minefantasy.mf2.api.weapon.IParryable;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.api.weapon.IParryable;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class RenderHeavyWeapon implements IItemRenderer
 {
@@ -90,7 +87,7 @@ public class RenderHeavyWeapon implements IItemRenderer
         boolean hasParried = false;
         if (mc == null) {
             mc = FMLClientHandler.instance().getClient();
-            itemRenderer = new RenderItem();
+            itemRenderer = Minecraft.getMinecraft().getRenderItem();
         }
         EntityLivingBase user = null;
         if(doesRenderParry)
@@ -108,7 +105,7 @@ public class RenderHeavyWeapon implements IItemRenderer
         }
         
         this.mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
 
         if (type == ItemRenderType.EQUIPPED)
         {
@@ -137,9 +134,9 @@ public class RenderHeavyWeapon implements IItemRenderer
                     icon.getMaxV(),
                     icon.getIconWidth(),
                     icon.getIconHeight(), 1F/16F);
-            if (item != null && item.hasEffect(0)) 
+            if (item != null && item.hasEffect()) 
             {
-            	TextureHelperMF.renderEnchantmentEffects(tessellator);
+            	TextureHelperMF.renderEnchantmentEffects(item);
             }
 
         }else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) 
@@ -148,7 +145,7 @@ public class RenderHeavyWeapon implements IItemRenderer
         	GL11.glTranslatef(-0.75F, -0.25F, 0);
             GL11.glScalef(scale,scale,1);
             IIcon icon = item.getIconIndex();
-
+            Minecraft.getMinecraft().getRenderItem().renderItemModel(item);
             ItemRenderer.renderItemIn2D(tessellator,
             		icon.getMaxU(),
                     icon.getMinV(),
@@ -157,8 +154,8 @@ public class RenderHeavyWeapon implements IItemRenderer
                     icon.getIconWidth(),
                     icon.getIconHeight(), 1F/16F);
 
-            if (item != null && item.hasEffect(0)) {
-               TextureHelperMF.renderEnchantmentEffects(tessellator);
+            if (item != null && item.hasEffect()) {
+               TextureHelperMF.renderEnchantmentEffects(item);
             }
         }
 

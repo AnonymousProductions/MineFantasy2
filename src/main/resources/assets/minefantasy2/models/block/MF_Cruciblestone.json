@@ -1,0 +1,11 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "up": "blocks/processor/crucible_top_stone",
+	"down": "blocks/processor/crucible_top_stone",
+        "north": "blocks/processor/crucible_side_stone",
+	"south": "blocks/processor/crucible_side_stone",
+	"east": "blocks/processor/crucible_side_stone",
+	"west": "blocks/processor/crucible_side_stone"
+    }
+}

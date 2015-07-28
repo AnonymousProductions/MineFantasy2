@@ -1,13 +1,18 @@
 package minefantasy.mf2.item.weapon;
 
+import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.api.weapon.WeaponClass;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -116,4 +121,12 @@ public class ItemGreatswordMF extends ItemHeavyWeapon
 	{
 		return WeaponClass.BLADE;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

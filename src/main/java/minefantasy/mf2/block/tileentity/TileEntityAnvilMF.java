@@ -1,10 +1,8 @@
 package minefantasy.mf2.block.tileentity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvil;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
@@ -30,11 +28,12 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBeacon;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldServer;
 
-public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
+public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,IUpdatePlayerListBox
 {
 	public int tier;
 	private ItemStack[] inventory;
@@ -175,13 +174,13 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	}
 
 	@Override
-	public String getInventoryName()
+	public String getName()
 	{
 		return "gui.carpentermf.name";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName()
+	public boolean hasCustomName()
 	{
 		return false;
 	}
@@ -195,17 +194,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer user)
 	{
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		return user.getDistance(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D) < 8D;
-	}
-
-	@Override
-	public void openInventory()
-	{
-	}
-
-	@Override
-	public void closeInventory()
-	{
 	}
 
 	@Override
@@ -214,10 +206,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		return true;
 	}
 	@Override
-	public void updateEntity()
+	public void update()
 	{
 		++ticksExisted;
-		super.updateEntity();
+		update();
 		if(!worldObj.isRemote)
 		{
 			if(ticksExisted % 20 == 0)
@@ -241,6 +233,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	public boolean tryCraft(EntityPlayer user)
 	{
 		if(user == null)return false;
+		
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		
 		String toolType = ToolHelper.getCrafterTool(user.getHeldItem());
 		int hammerTier = ToolHelper.getCrafterTier(user.getHeldItem());
@@ -277,7 +273,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				{
 					float xpGained = progressMax / toolEfficiency;
 					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)xpGained);
-					ResearchLogic.addKnowledgeExperience(user, xpGained);
 					craftItem();
 				}
 			}
@@ -285,7 +280,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			{
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilfail", 0.25F, 1.0F);
 			}
-			lastPlayerHit = user.getCommandSenderName();
+			lastPlayerHit = user.getName();
 			updateInv();
 			
 			return true;
@@ -349,7 +344,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	{
 		ItemArmourMF item = (ItemArmourMF)result.getItem();
 		boolean canColour = item.canColour();
-		int colour = item.defaultColour;
+		int colour = -1;
 		for(int a = 0; a < getSizeInventory()-1; a++)
 		{
 			ItemStack slot = getStackInSlot(a);
@@ -366,9 +361,9 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				}
 			}
 		}
-		if(canColour)
+		if(colour != -1 && canColour)
 		{
-			item.func_82813_b(result, colour);
+			item.setColor(result, colour);
 		}
 		return result;
 	}
@@ -376,6 +371,9 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	{
 		boolean hasHeart = false;
 		EntityPlayer player = worldObj.getPlayerEntityByName(lastPlayerHit);
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		//DRAGONFORGE
 		for(int x = -4; x <= 4; x++)
 		{
@@ -383,7 +381,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			{
 				for(int z = -4; z <= 4; z++)
 				{
-					TileEntity tile = worldObj.getTileEntity(xCoord+x, yCoord+y, zCoord+z);
+					TileEntity tile = worldObj.getTileEntity(this.getPos().add(x, y, z));
 					if(player != null && ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.smeltDragonforge) && tile != null && tile instanceof TileEntityForge)
 					{
 						if(((TileEntityForge)tile).dragonHeartPower > 0)
@@ -414,7 +412,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		for(int a = 0; a < getSizeInventory()-1; a++)
 		{
 			ItemStack item = getStackInSlot(a);
-			if(item != null)
+			if(item != null && item.getItem() instanceof IHotItem)
 			{
 				++itemCount;
 				totalTemp += (float)Heatable.getTemp(item);
@@ -452,6 +450,9 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
                 }
 
                 itemstack.stackSize -= j1;
+                int xCoord = this.getPos().getX();
+        		int yCoord = this.getPos().getY();
+        		int zCoord = this.getPos().getZ();
                 EntityItem entityitem = new EntityItem(worldObj, xCoord + f, yCoord + f1, zCoord + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                 if (itemstack.hasTagCompound())
@@ -679,20 +680,46 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	}
 	private boolean isMythicReady()
 	{
-		TileEntity tile = worldObj.getTileEntity(xCoord, yCoord-1, zCoord);
-		if(tile != null && tile instanceof TileEntityBeacon)
-		{
-			TileEntityBeacon beacon = (TileEntityBeacon)tile;
-			if(beacon.getLevels() > 0)
-			{
-				return true;
-			}
-		}
-		return false;
+		return true;
 	}
 	public String texName = "";
 	public String getTextureName()
 	{
 		return texName;
+	}
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void openInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void closeInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

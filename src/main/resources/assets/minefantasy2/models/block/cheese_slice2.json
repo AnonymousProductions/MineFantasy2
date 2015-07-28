@@ -1,0 +1,22 @@
+{
+    "textures": {
+        "particle": "blocks/food/cheese_side",
+        "bottom": "blocks/food/cheese_bottom",
+        "top": "blocks/food/cheese_top",
+        "side": "blocks/food/cheese_side",
+		"inner": "blocks/food/cheese_inner"
+    },
+    "elements": [
+        {   "from": [ 4.5, 0, 1 ],
+            "to": [ 15, 8, 15 ],
+            "faces": {
+                "down":  { "uv": [ 4.5, 1, 15, 15 ], "texture": "#bottom", "cullface": "down" },
+                "up":    { "uv": [ 4.5, 1, 15, 15 ], "texture": "#top" },
+                "north": { "uv": [ 1, 8, 11.5, 16 ], "texture": "#side" },
+                "south": { "uv": [ 1, 8, 11.5, 16 ], "texture": "#side" },
+                "west":  { "uv": [ 1, 8, 15, 16 ], "texture": "#inside" },
+                "east":  { "uv": [ 1, 8, 15, 16 ], "texture": "#side" }
+            }
+        }
+    ]
+}

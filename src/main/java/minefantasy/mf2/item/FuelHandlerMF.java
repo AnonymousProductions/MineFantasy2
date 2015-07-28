@@ -2,7 +2,7 @@ package minefantasy.mf2.item;
 
 import minefantasy.mf2.item.list.ComponentListMF;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.IFuelHandler;
 
 public class FuelHandlerMF implements IFuelHandler
 {

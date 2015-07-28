@@ -3,7 +3,7 @@ package minefantasy.mf2.network.packet;
 import io.netty.buffer.ByteBuf;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class StaminaPacket extends PacketMF
 {
@@ -14,7 +14,7 @@ public class StaminaPacket extends PacketMF
 	public StaminaPacket(float[]value, EntityPlayer user)
 	{
 		this.value = value;
-		this.username = user.getCommandSenderName();
+		this.username = user.getName();
 	}
 
 	public StaminaPacket() {
@@ -35,10 +35,10 @@ public class StaminaPacket extends PacketMF
             EntityPlayer entity = player.worldObj .getPlayerEntityByName(username);
             if(entity != null)
             {
-	            StaminaBar.setStaminaValue(player, value[0]);
-	            StaminaBar.setMaxStamina(player, value[1]);
-	            StaminaBar.setFlashTime(player, value[2]);
-	            StaminaBar.setBonusStamina(player, value[3]);
+	            StaminaBar.setStaminaValue(entity, value[0]);
+	            StaminaBar.setMaxStamina(entity, value[1]);
+	            StaminaBar.setFlashTime(entity, value[2]);
+	            StaminaBar.setBonusStamina(entity, value[3]);
             }
          }
 	}

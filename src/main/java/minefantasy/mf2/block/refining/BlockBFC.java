@@ -2,46 +2,50 @@ package minefantasy.mf2.block.refining;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
-import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFC;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockBFC extends BlockContainer 
 {
 	private Random rand = new Random();
-	public IIcon bottomTex;
-	public IIcon sideTex;
+	
+	private final String NAME = "blastfurnchamber";
+	
 	public BlockBFC() 
 	{
 		super(Material.anvil);
         GameRegistry.registerBlock(this, "MF_BlastChamber");
-		setBlockName("blastfurnchamber");
+        setUnlocalizedName("minefantasy2:"+NAME);
 		this.setStepSound(Block.soundTypeMetal);
 		this.setHardness(8F);
 		this.setResistance(10F);
         this.setCreativeTab(CreativeTabMF.tabUtil);
+	}
+	
+	public String getName()
+	{
+		return NAME;
 	}
 
 	@Override
@@ -50,21 +54,21 @@ public class BlockBFC extends BlockContainer
 		return new TileEntityBlastFC();
 	}
 	
-	private TileEntityBlastFC getTile(IBlockAccess world, int x, int y, int z)
+	private TileEntityBlastFC getTile(IBlockAccess world, BlockPos pos)
 	{
-		return (TileEntityBlastFC)world.getTileEntity(x, y, z);
+		return (TileEntityBlastFC)world.getTileEntity(pos);
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbour)
+	public void onNeighborBlockChange(World world, BlockPos pos,IBlockState state, Block neighbour)
     {
-		TileEntityBlastFC tile = getTile(world, x, y, z);
+		TileEntityBlastFC tile = getTile(world, pos);
 		if(tile != null)tile.updateBuild();
     }
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-		TileEntityBlastFC tile = getTile(world, x, y, z);
+		TileEntityBlastFC tile = getTile(world, pos);
 
         if (tile != null)
         {
@@ -88,7 +92,7 @@ public class BlockBFC extends BlockContainer
                         }
 
                         itemstack.stackSize -= j1;
-                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                         if (itemstack.hasTagCompound())
                         {
@@ -104,25 +108,14 @@ public class BlockBFC extends BlockContainer
                 }
             }
 
-            world.func_147453_f(x, y, z, block);
+            world.func_147453_f(pos, state);
         }
 
-        super.breakBlock(world, x, y, z, block, meta);
+        super.breakBlock(world, pos, state);
     }
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		if(side == 1 || side == 0)
-		{
-			return bottomTex;
-		}
-		return sideTex;
-	}
-	
-	@Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
 		if(!ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.blastfurn))
         {
@@ -130,12 +123,12 @@ public class BlockBFC extends BlockContainer
 		    	user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unknownUse")));
 			return false;
         }
-		TileEntityBlastFC tile = getTile(world, x, y, z);
+		TileEntityBlastFC tile = getTile(world, pos);
     	if(tile != null)
     	{
     		if(!world.isRemote)
     		{
-    			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
+    			user.openGui(MineFantasyII.instance, 0, world, pos.getX(),pos.getY(),pos.getZ());
     		}
     	}
         return true;

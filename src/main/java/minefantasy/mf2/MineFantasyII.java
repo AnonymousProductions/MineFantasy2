@@ -6,9 +6,22 @@ import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.config.*;
+import minefantasy.mf2.config.ConfigArmour;
+import minefantasy.mf2.config.ConfigClient;
+import minefantasy.mf2.config.ConfigCrafting;
+import minefantasy.mf2.config.ConfigExperiment;
+import minefantasy.mf2.config.ConfigFarming;
+import minefantasy.mf2.config.ConfigHardcore;
+import minefantasy.mf2.config.ConfigItemRegistry;
+import minefantasy.mf2.config.ConfigStamina;
+import minefantasy.mf2.config.ConfigTools;
+import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.config.ConfigWorldGen;
+import minefantasy.mf2.item.food.FoodListMF;
+import minefantasy.mf2.item.gadget.ItemMine;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.knowledge.KnowledgeCostRegistry;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
@@ -16,23 +29,27 @@ import minefantasy.mf2.network.CommonProxyMF;
 import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
 import minefantasy.mf2.util.MFLogUtil;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * @author Anonymous Productions
@@ -42,7 +59,7 @@ public class MineFantasyII
 {
 	public static final String MODID = "minefantasy2";
 	public static final String NAME = "MineFantasyII";
-	public static final String VERSION = "Indev_2.0.22";
+	public static final String VERSION = "Alpha_2.1.8";
 	public static final WorldGenMFBase worldGenManager = new WorldGenMFBase();
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
@@ -69,22 +86,26 @@ public class MineFantasyII
 		new ConfigItemRegistry().setConfig(getCfg(event, "Item_Registry"));
 		new ConfigFarming().setConfig(getCfg(event, "Farming"));
 		new ConfigWorldGen().setConfig(getCfg(event, "WorldGen"));
-		new ConfigResearch().setConfig(getCfg(event, "Research"));
 		new ConfigCrafting().setConfig(getCfg(event, "Crafting"));
 		
 		MineFantasyAPI.isInDebugMode = isDebug();
 		MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 		
-		ToolListMF.init();
-		
     	proxy.registerTickHandlers();
     	addModFlags();
-    	ComponentListMF.init();
-    	KnowledgeListMF.init();
-    	BasicRecipesMF.init();
+    	
     	proxy.preInit();
     }
-
+    
+    @EventHandler
+    public void Init(FMLPreInitializationEvent event)
+    {
+    	ToolListMF.init(event);
+    	ComponentListMF.init(event);
+    	KnowledgeListMF.init();
+    	BasicRecipesMF.init();
+    }
+    
     @EventHandler
     public void load(FMLInitializationEvent evt)
     {
@@ -126,13 +147,15 @@ public class MineFantasyII
     	{
     		registerBiomeStuff(biome);
     	}
+    	KnowledgeCostRegistry.init();
     }
 
     private void registerBiomeStuff(BiomeGenBase biome)
 	{
     	if(WorldGenPlants.isBiomeInConstraint(biome, ConfigWorldGen.berryMinTemp, ConfigWorldGen.berryMaxTemp, ConfigWorldGen.berryMinRain, ConfigWorldGen.berryMaxRain))
 		{
-    		biome.addFlower(BlockListMF.berryBush, 0, 5);
+    		//addFlower(IBlockState state, int weight)
+    		biome.addFlower(BlockListMF.berryBush.getStateFromMeta(0), 5);
     	}
 	}
 

@@ -2,8 +2,8 @@ package minefantasy.mf2.client.render.block;
 
 import java.util.Random;
 
-import minefantasy.mf2.block.tileentity.TileEntityForge;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.block.tileentity.TileEntityForge;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,16 +16,17 @@ public class TileEntityForgeRenderer extends TileEntitySpecialRenderer
     public TileEntityForgeRenderer() 
     {
         model = new ModelForge();
+        topModel = new ModelForgeTop();
     }
 
     public void renderAModelAt(TileEntityForge tile, double d, double d1, double d2, float f) 
     {
     	int i = 0;
-		if (tile.getWorldObj() != null)
+		if (tile.getWorld() != null)
 		{
         	i = tile.getBlockMetadata();
         }
-		this.renderModelAt(tile, tile.getTextureName(), i, d, d1, d2, f, tile.getWorldObj() == null, tile.hasFuel());
+		this.renderModelAt(tile, tile.getTextureName(), i, d, d1, d2, f, tile.getWorld() == null, tile.hasFuel());
     }
     
 	public void renderModelAt(TileEntityForge tile, String tex, int meta, double d, double d1, double d2, float f, boolean inv, boolean hasFuel) 
@@ -70,6 +71,11 @@ public class TileEntityForgeRenderer extends TileEntitySpecialRenderer
         }
         model.renderModel(tile, 0.0625F, hasFuel, level); 
         
+        if(tile.hasCrucibleAbove())
+        {
+        	bindTextureByName("textures/models/tileentity/forge_top.png"); //texture
+        	topModel.render(0.0625F);
+        }
         GL11.glPopMatrix();
         GL11.glColor3f(255, 255, 255);
         GL11.glPopMatrix(); //end
@@ -80,11 +86,12 @@ public class TileEntityForgeRenderer extends TileEntitySpecialRenderer
     	Minecraft.getMinecraft().renderEngine.bindTexture(TextureHelperMF.getResource(image));
 	}
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f,int destroyStage) {
         renderAModelAt((TileEntityForge) tileentity, d, d1, d2, f); //where to render
     }
 	
     private ModelForge model;
+    private ModelForgeTop topModel;
     private Random random = new Random();
     
     

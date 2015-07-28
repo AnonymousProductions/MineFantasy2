@@ -4,7 +4,8 @@ import io.netty.buffer.ByteBuf;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class CarpenterPacket extends PacketMF
 {
@@ -18,7 +19,7 @@ public class CarpenterPacket extends PacketMF
 
 	public CarpenterPacket(TileEntityCarpenterMF tile)
 	{
-		coords = new int[]{tile.xCoord, tile.yCoord, tile.zCoord};
+		coords = new int[]{tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ()};
 		resultName = tile.getResultName();
 		toolNeeded = tile.getToolNeeded();
 		progress = new float[]{tile.progress, tile.progressMax};
@@ -37,7 +38,7 @@ public class CarpenterPacket extends PacketMF
 	public void process(ByteBuf packet, EntityPlayer player) 
 	{
         coords = new int[]{packet.readInt(), packet.readInt(), packet.readInt()};
-        TileEntity entity = player.worldObj.getTileEntity(coords[0], coords[1], coords[2]);
+        TileEntity entity = player.worldObj.getTileEntity(new BlockPos(coords[0], coords[1], coords[2]));
         
         if(entity != null && entity instanceof TileEntityCarpenterMF)
         {

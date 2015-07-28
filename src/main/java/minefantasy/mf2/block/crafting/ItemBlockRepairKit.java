@@ -3,11 +3,15 @@ package minefantasy.mf2.block.crafting;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockRepairKit extends ItemBlock 
 {
@@ -42,12 +46,20 @@ public class ItemBlockRepairKit extends ItemBlock
 	{
 		if(kit.isOrnate)
 		{
-			return EnumRarity.rare;
+			return EnumRarity.RARE;
 		}
 		if(kit.repairLevel >= 1.0F)
 		{
-			return EnumRarity.uncommon;
+			return EnumRarity.UNCOMMON;
 		}
 		return super.getRarity(item);
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

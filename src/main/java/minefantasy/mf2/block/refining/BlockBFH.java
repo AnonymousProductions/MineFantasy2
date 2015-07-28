@@ -3,61 +3,66 @@ package minefantasy.mf2.block.refining;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockBFH extends BlockContainer 
 {
 	private static boolean keepInventory;
 	private Random rand = new Random();
-	public IIcon bottomTex;
-	public IIcon sideTex;
+
 	public boolean isActive;
+	private static String NAME = "blastfurnheater";
+	
 	public BlockBFH(boolean isActive)
 	{
 		super(Material.anvil);
 		this.isActive = isActive;
         GameRegistry.registerBlock(this, isActive ? "MF_BlastHeaterActive" : "MF_BlastHeater");
-		setBlockName("blastfurnheater");
+        setUnlocalizedName("minefantasy2:"+NAME);
+        this.setDefaultState(this.blockState.getBaseState());
 		this.setStepSound(Block.soundTypeMetal);
 		this.setHardness(10F);
 		this.setResistance(10F);
         this.setCreativeTab(CreativeTabMF.tabUtil);
 	}
 	
+	public String getName()
+	{
+		return NAME;
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand)
+    public void randomDisplayTick(World world, BlockPos pos,IBlockState state, Random rand)
     {
         if (isActive && rand.nextInt(20) == 0)
         {
-            world.playSound((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), "fire.fire", 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
+            world.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), "fire.fire", 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
         }
     }
 
@@ -76,23 +81,23 @@ public class BlockBFH extends BlockContainer
 		return new TileEntityBlastFH();
 	}
 	
-	private TileEntityBlastFH getTile(IBlockAccess world, int x, int y, int z)
+	private TileEntityBlastFH getTile(IBlockAccess world, BlockPos pos)
 	{
-		return (TileEntityBlastFH)world.getTileEntity(x, y, z);
+		return (TileEntityBlastFH)world.getTileEntity(pos);
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbour)
+	public void onNeighborBlockChange(World world, BlockPos pos,IBlockState state, Block neighbour)
     {
-		TileEntityBlastFH tile = getTile(world, x, y, z);
+		TileEntityBlastFH tile = getTile(world, pos);
 		if(tile != null)tile.updateBuild();
     }
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
 		if(keepInventory)return;
 		
-		TileEntityBlastFH tile = getTile(world, x, y, z);
+		TileEntityBlastFH tile = getTile(world, pos);
 
         if (tile != null)
         {
@@ -116,7 +121,7 @@ public class BlockBFH extends BlockContainer
                         }
 
                         itemstack.stackSize -= j1;
-                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                         if (itemstack.hasTagCompound())
                         {
@@ -132,25 +137,14 @@ public class BlockBFH extends BlockContainer
                 }
             }
 
-            world.func_147453_f(x, y, z, block);
+            world.func_147453_f(pos, state.getBlock());
         }
 
-        super.breakBlock(world, x, y, z, block, meta);
+        super.breakBlock(world, pos, state);
     }
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		if(side == 1 || side == 0)
-		{
-			return bottomTex;
-		}
-		return sideTex;
-	}
-	
-	@Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
 		if(!ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.blastfurn))
         {
@@ -158,53 +152,49 @@ public class BlockBFH extends BlockContainer
 		    	user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unknownUse")));
 			return false;
         }
-		TileEntityBlastFH tile = getTile(world, x, y, z);
+		TileEntityBlastFH tile = getTile(world, pos);
     	if(tile != null)
     	{
     		if(!world.isRemote)
     		{
-    			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
+    			user.openGui(MineFantasyII.instance, 0, world, pos.getX(),pos.getY(),pos.getZ());
     		}
     	}
         return true;
     }
 	
-	public static void updateFurnaceBlockState(boolean state, World world, int x, int y, int z)
+	public static void updateFurnaceBlockState(boolean b, World world, BlockPos pos,IBlockState state)
     {
-        int l = world.getBlockMetadata(x, y, z);
-        TileEntity tileentity = world.getTileEntity(x, y, z);
+        int l = world.getBlockState(pos).getBlock().getMetaFromState(state);
+        TileEntity tileentity = world.getTileEntity(pos);
         keepInventory = true;
 
-        if (state)
+        if (b)
         {
-            world.setBlock(x, y, z, BlockListMF.blast_heater_active);
+            world.setBlockState(pos, BlockListMF.blast_heater_active.getDefaultState());
         }
         else
         {
-            world.setBlock(x, y, z, BlockListMF.blast_heater);
+            world.setBlockState(pos, BlockListMF.blast_heater.getDefaultState());
         }
 
         keepInventory = false;
-        world.setBlockMetadataWithNotify(x, y, z, l, 2);
+        world.setBlockState(pos, state.getBlock().getStateFromMeta(l), 2);
 
         if (tileentity != null)
         {
             tileentity.validate();
-            world.setTileEntity(x, y, z, tileentity);
+            world.setTileEntity(pos, tileentity);
         }
     }
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg)
-	{
-		sideTex = isActive ? reg.registerIcon("minefantasy2:processor/blast_heater_active") : reg.registerIcon("minefantasy2:processor/blast_heater");
-		bottomTex = reg.registerIcon("minefantasy2:processor/blast_chamber_top");
-	}
+		//sideTex = isActive ? reg.registerIcon("minefantasy2:processor/blast_heater_active") : reg.registerIcon("minefantasy2:processor/blast_heater");
+		//bottomTex = reg.registerIcon("minefantasy2:processor/blast_chamber_top");
+
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public Item getItem(World world, int x, int y, int z)
+    public Item getItem(World world, BlockPos pos)
     {
         return Item.getItemFromBlock(BlockListMF.blast_heater);
     }

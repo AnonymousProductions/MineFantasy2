@@ -1,10 +1,9 @@
 package minefantasy.mf2.recipe;
 
-import java.util.HashMap;
-
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -12,9 +11,8 @@ import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BasicRecipesMF
 {
@@ -25,6 +23,40 @@ public class BasicRecipesMF
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
 		
+		KnowledgeListMF.researchTableRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.research), new Object[]
+		{
+			"B",
+			"T",
+			'B', ToolListMF.researchBook,
+			'T', BlockListMF.carpenter,
+		});
+		
+		KnowledgeListMF.plantOilR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plant_oil, 4), new Object[]
+		{
+			" B ",
+			"BFB",
+			" B ",
+			'F', Items.wheat_seeds,
+			'B', Items.glass_bottle,
+		});
+		KnowledgeListMF.refinedPlankR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plankRefined), new Object[]
+		{
+			"C",
+			"P",
+			'C', ComponentListMF.plant_oil,
+			'P', ComponentListMF.plank,
+		});
+		KnowledgeListMF.refinedBowlR = 
+		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.hard_bowl), new Object[]
+		{
+			"C",
+			"P",
+			'C', ComponentListMF.plant_oil,
+			'P', Items.bowl,
+		});
 		KnowledgeListMF.tannerRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
 			"PPP",
@@ -33,15 +65,23 @@ public class BasicRecipesMF
 			'P', ComponentListMF.plank,
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.researchBook), new Object[]
+		KnowledgeListMF.stoneAnvilRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.anvilStone), new Object[]
 		{
-			"H",
-			"B",
-			"B",
-			'H', ToolListMF.hammers[2],
-			'B', Items.book,
+			"SS ",
+			"SSS",
+			" S ",
+			'S', Blocks.stone
 		});
-
+		KnowledgeListMF.forgeRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.forge), new Object[]
+		{
+			"S S",
+			"SCS",
+			'C', Items.coal,
+			'S', Blocks.stone
+		});
+		
 		GameRegistry.addRecipe(new RecipeArmourDyeMF());
 		//Just a way on making the overpowered gunpowder from black powder
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.gunpowder), new Object[]
@@ -52,13 +92,15 @@ public class BasicRecipesMF
 			//new ItemStack(ComponentListMF.flux_strong),
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(ComponentListMF.plank), new Object[]
+		KnowledgeListMF.plankRecipe =
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plank), new Object[]
 		{
 			"S",
 			"S",
 			'S', Items.stick,
 		});
-		GameRegistry.addRecipe(new ItemStack(Items.stick, 4), new Object[]
+		KnowledgeListMF.stickRecipe =
+		GameRegistry.addShapedRecipe(new ItemStack(Items.stick, 4), new Object[]
 		{
 			"S",
 			"S",
@@ -86,47 +128,33 @@ public class BasicRecipesMF
 				});
 			}
 		}
-		IRecipe[] anvilRecs = new IRecipe[BlockListMF.anvils.length];
-		for(int id = 0; id < BlockListMF.anvils.length; id ++)
-		{
-			BaseMaterialMF material = BlockListMF.anvils[id];
-			
-			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
-			{
-				IRecipe recipe = 
-				GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.anvil[id]), new Object[]
-				{
-					" II",
-					"III",
-					" I ",
-					'I', ingot
-				});
-				anvilRecs[id] = recipe;
-			}
-		}
-		recipeMap.put("anvilCrafting", anvilRecs);
 		
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.hammerStone), new Object[]{
+		KnowledgeListMF.stoneHammerR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.hammerStone), new Object[]{
 			"C",
 			"P",
 			'C', Blocks.cobblestone,
 			'P', ComponentListMF.plank,
 		});
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.tongsStone), new Object[]{
+		KnowledgeListMF.stoneTongsR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.tongsStone), new Object[]{
 			"C ",
 			"PC",
 			'C', Blocks.cobblestone,
 			'P', ComponentListMF.plank,
 		});
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.needleBone), new Object[]{
+		KnowledgeListMF.boneNeedleR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.needleBone), new Object[]{
 			"B",
 			"B",
 			'B', Items.bone
 		});
-		GameRegistry.addRecipe(new ItemStack(ToolListMF.knifeStone), new Object[]{
-			"F",
+		KnowledgeListMF.stoneKnifeR = 
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.knifeStone), new Object[]{
+			"S",
+			"S",
 			"P",
-			'F', Items.flint,
+			'S', Blocks.cobblestone,
 			'P', ComponentListMF.plank,
 		});
 		
@@ -172,5 +200,4 @@ public class BasicRecipesMF
 		TanningRecipe.addRecipe(ComponentListMF.hideMedium, mat.craftTimeModifier*8F, -1, new ItemStack(Items.leather, 3));
 		TanningRecipe.addRecipe(ComponentListMF.hideLarge, mat.craftTimeModifier*12F, -1, new ItemStack(Items.leather, 5));
 	}
-	public static final HashMap<String, IRecipe[]>recipeMap = new HashMap<String, IRecipe[]>();
 }

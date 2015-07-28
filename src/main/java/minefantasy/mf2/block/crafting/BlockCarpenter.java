@@ -9,6 +9,7 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,36 +17,43 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCarpenter extends BlockContainer
 {
     @SideOnly(Side.CLIENT)
     public int CarpenterRenderSide;
     private int tier = 0;
-
+    
+    private static String NAME = "carpenterBench";
+    
     public BlockCarpenter()
     {
         super(Material.wood);
         
-        this.setBlockTextureName("minectaft:oak_planks");
+        //this.setBlockTextureName("minectaft:oak_planks");
         GameRegistry.registerBlock(this, "MF_CarpenterBench");
-		setBlockName("carpenterBench");
+        setUnlocalizedName("minefantasy2:" + NAME);
 		this.setStepSound(Block.soundTypeWood);
 		this.setHardness(5F);
 		this.setResistance(2F);
         this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabMF.tabUtil);
     }
+    
+    public String getName()
+    {
+    	return NAME;
+    }
+    
     @Override
-    public boolean renderAsNormalBlock()
+    public boolean isFullCube()
     {
         return false;
     }
@@ -60,36 +68,36 @@ public class BlockCarpenter extends BlockContainer
      * Called when the block is placed in the world.
      */
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase user, ItemStack item)
+    public void onBlockPlacedBy(World world, BlockPos pos,IBlockState state, EntityLivingBase user, ItemStack item)
     {
-        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D);
+        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-        world.setBlockMetadataWithNotify(x, y, z, direction, 2);
+        world.setBlockState(pos, getStateFromMeta(direction), 2);
     }
 
     /**
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
         {
-        	TileEntityCarpenterMF tile = getTile(world, x, y, z);
-        	if(tile != null && (world.isAirBlock(x, y+1, z) || !world.isSideSolid(x, y+1, z, ForgeDirection.DOWN)))
+        	TileEntityCarpenterMF tile = getTile(world, pos);
+        	if(tile != null && (world.isAirBlock(pos.add(0, 1, 0)) || !world.isSideSolid(pos.add(0, 1, 0), EnumFacing.DOWN)))
         	{
-        		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
+        		if(side != EnumFacing.NORTH || !tile.tryCraft(user) && !world.isRemote)
         		{
-        			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
+        			user.openGui(MineFantasyII.instance, 0, world, pos.getX(),pos.getY(),pos.getZ());
         		}
         	}
             return true;
         }
     }
     @Override
-    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)
+    public void onBlockClicked(World world, BlockPos pos, EntityPlayer user)
     {
         {
-        	TileEntityCarpenterMF tile = getTile(world, x, y, z);
+        	TileEntityCarpenterMF tile = getTile(world, pos);
         	if(tile != null)
         	{
         		tile.tryCraft(user);
@@ -103,15 +111,15 @@ public class BlockCarpenter extends BlockContainer
 		return new TileEntityCarpenterMF(tier);
 	}
 
-	private TileEntityCarpenterMF getTile(World world, int x, int y, int z)
+	private TileEntityCarpenterMF getTile(World world, BlockPos pos)
 	{
-		return (TileEntityCarpenterMF)world.getTileEntity(x, y, z);
+		return (TileEntityCarpenterMF)world.getTileEntity(pos);
 	}
 	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-		TileEntityCarpenterMF tile = getTile(world, x, y, z);
+		TileEntityCarpenterMF tile = getTile(world, pos);
 
         if (tile != null)
         {
@@ -135,7 +143,7 @@ public class BlockCarpenter extends BlockContainer
                         }
 
                         itemstack.stackSize -= j1;
-                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                         if (itemstack.hasTagCompound())
                         {
@@ -151,10 +159,10 @@ public class BlockCarpenter extends BlockContainer
                 }
             }
 
-            world.func_147453_f(x, y, z, block);
+            world.func_147453_f(pos,state.getBlock());
         }
 
-        super.breakBlock(world, x, y, z, block, meta);
+        super.breakBlock(world, pos, state);
     }
 	
 	@Override

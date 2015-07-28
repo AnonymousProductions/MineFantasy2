@@ -1,0 +1,19 @@
+{
+    "textures": {
+        "top": "blocks/chimney/chimney_stone_top",
+        "side": "blocks/chimney/chimney_stone_side"
+    },
+    "elements": [
+        {   "from": [ 4, 4, 1 ],
+            "to": [ 12, 12, 16 ],
+            "faces": {
+                "down":  { "uv": [ 4, 4, 12, 12 ], "texture": "#top", "cullface": "down" },
+                "up":    { "uv": [ 4, 4, 12, 12 ], "texture": "#top" },
+                "north": { "uv": [ 4, 4, 11, 16 ], "texture": "#side" },
+                "south": { "uv": [ 4, 4, 11, 16 ], "texture": "#side" },
+                "west":  { "uv": [ 4, 4, 11, 16 ], "texture": "#side" },
+                "east":  { "uv": [ 4, 4, 11, 16 ], "texture": "#side" }
+            }
+        }
+    ]
+}

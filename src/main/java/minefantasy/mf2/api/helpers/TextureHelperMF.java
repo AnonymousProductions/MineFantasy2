@@ -5,14 +5,13 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class TextureHelperMF 
 {
@@ -38,7 +37,7 @@ public class TextureHelperMF
     }
 	
 	
-	public static void renderEnchantmentEffects(Tessellator tessellator) 
+	public static void renderEnchantmentEffects(ItemStack stack) 
 	{
         GL11.glDepthFunc(GL11.GL_EQUAL);
         GL11.glDisable(GL11.GL_LIGHTING);
@@ -54,14 +53,14 @@ public class TextureHelperMF
         float f9 = Minecraft.getSystemTime() % 3000L / 3000.0F * 8.0F;
         GL11.glTranslatef(f9, 0.0F, 0.0F);
         GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
-        ItemRenderer.renderItemIn2D(tessellator, 0.0F, 0.0F, 1.0F, 1.0F, 256, 256, 0.0625F);
+        Minecraft.getMinecraft().getRenderItem().renderItemModel(stack);
         GL11.glPopMatrix();
         GL11.glPushMatrix();
         GL11.glScalef(f8, f8, f8);
         f9 = Minecraft.getSystemTime() % 4873L / 4873.0F * 8.0F;
         GL11.glTranslatef(-f9, 0.0F, 0.0F);
         GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
-        ItemRenderer.renderItemIn2D(tessellator, 0.0F, 0.0F, 1.0F, 1.0F, 256, 256, 0.0625F);
+        Minecraft.getMinecraft().getRenderItem().renderItemModel(stack);
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glDisable(GL11.GL_BLEND);

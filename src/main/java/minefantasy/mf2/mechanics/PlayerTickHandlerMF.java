@@ -2,8 +2,6 @@ package minefantasy.mf2.mechanics;
 
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.PlayerTagData;
@@ -19,10 +17,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.WorldServer;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class PlayerTickHandlerMF
 {
@@ -78,10 +75,11 @@ public class PlayerTickHandlerMF
 		//TODO Sounds when walking
 		float bulk = ArmourCalculator.getTotalWeightOfWorn(user, false);
 		
-        if(speed > 0.01D && bulk >= 50)
+        if(user.isSprinting() && speed > 0.01D && bulk >= 50)
         {
-        	float volume = 0.2F * bulk / 50F;
-        	if(rand.nextInt(20) == 0)
+        	float volume = 0.1F * bulk / 50F;
+        	
+        	if(user.ticksExisted % 8 == 0)
         	{
         		user.playSound("mob.irongolem.throw", volume, 1.0F);
         	}
@@ -124,25 +122,24 @@ public class PlayerTickHandlerMF
 	}
 	
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
+	public void onPlayerLogin(PlayerEvent event)
     {
-		if(event.player.worldObj.isRemote)return;
+		if(event.entityPlayer.getEntityWorld().isRemote)return;
 		
-		NBTTagCompound persist = PlayerTagData.getPersistedData(event.player);
+		NBTTagCompound persist = PlayerTagData.getPersistedData(event.entityPlayer);
 		MFLogUtil.logDebug("Sync data");
-    	ResearchLogic.syncData((EntityPlayer) event.player);
+    	ResearchLogic.syncData((EntityPlayer) event.entityPlayer);
     	
     	if(!persist.hasKey("MF_HasBook"))
     	{
     		persist.setBoolean("MF_HasBook", true);
-    		if(event.player.capabilities.isCreativeMode)return;
+    		if(event.entityPlayer.capabilities.isCreativeMode)return;
     		
-    		event.player.inventory.addItemStackToInventory(new ItemStack(ToolListMF.researchBook));
-    		ResearchLogic.setKnowledgePoints(event.player, ResearchLogic.startersPoints);
+    		event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(ToolListMF.researchBook));
     	}
     	if(RPGElements.isSystemActive)
     	{
-    		RPGElements.initSkills(event.player);
+    		RPGElements.initSkills(event.entityPlayer);
     	}
     }
 }

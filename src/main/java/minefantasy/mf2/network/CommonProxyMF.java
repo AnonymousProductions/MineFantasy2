@@ -6,11 +6,33 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.refine.ISmokeHandler;
 import minefantasy.mf2.api.refine.SmokeMechanics;
-import minefantasy.mf2.block.tileentity.*;
-import minefantasy.mf2.block.tileentity.blastfurnace.*;
+import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
+import minefantasy.mf2.block.tileentity.TileEntityBellows;
+import minefantasy.mf2.block.tileentity.TileEntityBombBench;
+import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
+import minefantasy.mf2.block.tileentity.TileEntityChimney;
+import minefantasy.mf2.block.tileentity.TileEntityCrucible;
+import minefantasy.mf2.block.tileentity.TileEntityForge;
+import minefantasy.mf2.block.tileentity.TileEntityResearch;
+import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
+import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFC;
+import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import minefantasy.mf2.config.ConfigExperiment;
-import minefantasy.mf2.container.*;
-import minefantasy.mf2.entity.*;
+import minefantasy.mf2.container.ContainerAnvilMF;
+import minefantasy.mf2.container.ContainerBlastChamber;
+import minefantasy.mf2.container.ContainerBlastHeater;
+import minefantasy.mf2.container.ContainerBombBench;
+import minefantasy.mf2.container.ContainerCarpenterMF;
+import minefantasy.mf2.container.ContainerCrucible;
+import minefantasy.mf2.container.ContainerForge;
+import minefantasy.mf2.container.ContainerResearch;
+import minefantasy.mf2.entity.EntityArrowMF;
+import minefantasy.mf2.entity.EntityBomb;
+import minefantasy.mf2.entity.EntityFireBlast;
+import minefantasy.mf2.entity.EntityItemUnbreakable;
+import minefantasy.mf2.entity.EntityMine;
+import minefantasy.mf2.entity.EntityShrapnel;
+import minefantasy.mf2.entity.EntitySmoke;
 import minefantasy.mf2.hunger.HungerSystemMF;
 import minefantasy.mf2.item.archery.ArrowFireFlint;
 import minefantasy.mf2.item.archery.ArrowFirerMF;
@@ -19,15 +41,15 @@ import minefantasy.mf2.mechanics.CombatMechanics;
 import minefantasy.mf2.mechanics.EventManagerMF;
 import minefantasy.mf2.mechanics.MonsterUpgrader;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
-import net.minecraft.block.BlockDispenser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 /**
  * @author Anonymous Productions
  */
@@ -42,8 +64,9 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
-    	TileEntity tile = world.getTileEntity(x, y, z);
-		int meta = world.getBlockMetadata(x, y, z);
+    	BlockPos pos = new BlockPos(x,y,z);
+    	TileEntity tile = world.getTileEntity(pos);
+		int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 		
 		if(tile != null && tile instanceof TileEntityAnvilMF)
 		{
@@ -72,6 +95,10 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 		if(tile != null && tile instanceof TileEntityForge)
 		{
 			return new ContainerForge(player.inventory, (TileEntityForge) tile);
+		}
+		if(tile != null && tile instanceof TileEntityResearch)
+		{
+			return new ContainerResearch(player.inventory, (TileEntityResearch) tile);
 		}
         return null;
     }
@@ -122,6 +149,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 		GameRegistry.registerTileEntity(TileEntityTanningRack.class, "MF_Tanner");
 		GameRegistry.registerTileEntity(TileEntityForge.class, "MF_Forge");
 		GameRegistry.registerTileEntity(TileEntityBellows.class, "MF_Bellows");
+		GameRegistry.registerTileEntity(TileEntityResearch.class, "MF_Research");
 	}
 
 

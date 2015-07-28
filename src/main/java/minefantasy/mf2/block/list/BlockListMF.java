@@ -1,5 +1,6 @@
 package minefantasy.mf2.block.list;
 
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.basic.*;
 import minefantasy.mf2.block.crafting.*;
 import minefantasy.mf2.block.food.*;
@@ -9,8 +10,14 @@ import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class BlockListMF
 {
@@ -19,20 +26,18 @@ public class BlockListMF
 		BaseMaterialMF.copper,
 		BaseMaterialMF.tin,
 		BaseMaterialMF.silver,
-		BaseMaterialMF.pigiron,
-		
 		BaseMaterialMF.bronze,
+		BaseMaterialMF.pigiron,
 		BaseMaterialMF.steel,
-		//BaseMaterialMF.dragonforge,
-		BaseMaterialMF.redsteel,
 		BaseMaterialMF.blacksteel,
+		
+		BaseMaterialMF.redsteel,
 		BaseMaterialMF.bluesteel,
 		
 		BaseMaterialMF.adamantium,
-		//BaseMaterialMF.deepiron,
 		BaseMaterialMF.mithril,
+		
 		BaseMaterialMF.ignotumite,
-		//BaseMaterialMF.deepsteel,
 		BaseMaterialMF.mithium,
 		
 		BaseMaterialMF.enderforge,
@@ -42,9 +47,9 @@ public class BlockListMF
 		BaseMaterialMF.bronze,
 		BaseMaterialMF.iron,
 		BaseMaterialMF.steel,
+		BaseMaterialMF.blacksteel,
 		BaseMaterialMF.dragonforge,
 		BaseMaterialMF.redsteel,
-		BaseMaterialMF.blacksteel,
 		BaseMaterialMF.bluesteel,
 	};
 	public static final BaseMaterialMF[] anvils = new BaseMaterialMF[]
@@ -81,7 +86,9 @@ public class BlockListMF
 	public static Block window_pane = new BlockPaneMF("window_pane", "window", "framed_glass_pane", Material.glass, true).setHardness(0.9F).setResistance(0.2F).setStepSound(Block.soundTypeGlass);
 	
 	public static Block thatch = new BasicBlockMF("thatch", Material.leaves).setHardness(1.0F).setStepSound(Block.soundTypeGrass);
-	public static Block thatch_stair = new ConstructionBlockMF.StairsConstBlock("thatch_stair", thatch).register("thatch_stair");
+	public static Block thatch_stairs = new ConstructionBlockMF.StairsConstBlock("thatch_stairs", thatch).register("thatch_stair");
+	
+	
 	
 //	public static Block limestone_cobblestone = new BasicBlockMF("limestone_cobblestone", Material.rock).setHardness(0.8F).setResistance(4.0F).setStepSound(Block.soundTypePiston);
 //	public static Block limestone = new BasicBlockMF("limestone", Material.rock, limestone_cobblestone).setHardness(1.0F).setResistance(5.0F).setStepSound(Block.soundTypeStone);
@@ -93,6 +100,7 @@ public class BlockListMF
 	
 	public static BlockMetalBarsMF[] bars = new BlockMetalBarsMF[specialMetalBlocks.length];
 	public static BlockMetalMF[] storage = new BlockMetalMF[metalBlocks.length];
+	public static BlockAnvilMF anvilStone = new BlockAnvilMF(BaseMaterialMF.stone);
 	public static BlockAnvilMF[] anvil = new BlockAnvilMF[anvils.length];
 	public static BlockCarpenter carpenter = new BlockCarpenter();
 	public static BlockBombBench bombBench = new BlockBombBench();
@@ -104,14 +112,14 @@ public class BlockListMF
 	public static Block cake_chocolate = new BlockCakeMF("cake_chocolate", FoodListMF.choccake_slice);
 	public static Block cake_bf = new BlockCakeMF("cake_bf", FoodListMF.bfcake_slice);
 	
-	public static Block pie_meat = new BlockPie("pie_meat", FoodListMF.meatpie_slice);
+	public static Block pie_meat = new BlockPie("pie_meat", FoodListMF.pieslice_meat);
 	
 	public static Block pie_apple = new BlockPie("pie_apple", FoodListMF.pieslice_apple);
 	public static Block pie_berry = new BlockPie("pie_berry", FoodListMF.pieslice_berry);
 	
 	public static Block pie_shepards = new BlockPie("pie_shepards", FoodListMF.pieslice_shepards);
 	
-	public static Block berryBush = new BlockBerryBush("berries");
+	public static Block berryBush = new BlockBerryBush("berryBush");
 	public static Block blast_chamber = new BlockBFC();
 	public static Block blast_heater = new BlockBFH(false);
 	public static Block blast_heater_active = new BlockBFH(true).setLightLevel(10F);
@@ -125,19 +133,31 @@ public class BlockListMF
 	public static Block chimney_stone_wide = new BlockChimney("stone", true, false, 10);
 	public static Block chimney_stone_extractor = new BlockChimney("stone_extractor", true, true, 15);
 	
-	public static Block tanner = new BlockTanningRack();
+	public static Block tanner = new BlockTanningRack(0, "");
 	
 	public static Block forge = new BlockForge("stone", 0, false);
-	public static Block forge_active = new BlockForge("stone", 0, true).setLightLevel(10F);
+	public static Block forge_active = new BlockForge("stone", 0, true);
 	
-	public static Block repair_basic = new BlockRepairKit("basic", 0.5F, 0.1F, 0.1F);
+	public static Block repair_basic = new BlockRepairKit("basic", 0.25F, 0.05F, 0.1F);
 	public static Block repair_advanced = new BlockRepairKit("advanced", 1.0F, 0.2F, 0F);
 	public static Block repair_ornate = new BlockRepairKit("ornate", 1.0F, 0.05F, 0F).setOrnate(0.5F);
 	
 	public static Block bellows = new BlockBellows();
 	
-	public static void init()
+	public static Block refined_planks = new BasicBlockMF("refined_planks", Material.wood).setHardness(2.5F).setResistance(10F).setStepSound(Block.soundTypeWood);
+	
+	public static Block reinforced_stone = new BasicBlockMF("reinforced_stone", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
+	public static Block reinforced_stone_bricks = new BasicBlockMF("reinforced_stone_bricks", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
+	public static Block reinforced_stone_framed = new BasicBlockMF("reinforced_stone_framed", Material.rock).setHardness(2.5F).setResistance(20F).setStepSound(Block.soundTypeStone);
+	
+	public static Block advTanner = new BlockTanningRack(1, "Strong");
+	public static Block research = new BlockResearchStation();
+	
+	
+	public static void init(FMLPreInitializationEvent event)
 	{
+		//5:20 default planks
+		Blocks.fire.setFireInfo(refined_planks, 3, 10);//Half
 		for(int a = 0; a < specialMetalBlocks.length; a++)
 		{
 			BaseMaterialMF material = specialMetalBlocks[a];
@@ -162,6 +182,34 @@ public class BlockListMF
 				anvil[a] = new BlockAnvilMF(material);
 			}
 		}
+		
+		
+		
+		if(event.getSide() == Side.CLIENT)
+    	{
+			
+    		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem(); 
+    		String MODID = MineFantasyII.MODID;
+    		
+    		Block[] blocks = {oreCopper,oreTin,oreSilver,oreMythic,oreKaolinite,oreNitre,oreSulfur,oreBorax,oreClay,mud_brick,mud_pavement,cobble_brick,cobble_pavement,window,framed_glass,
+    				framed_pane,window_pane,thatch,thatch_stairs,limestone,firebricks,clayWall,anvilStone,carpenter,bombBench,cheese_wheel,cake_vanilla,cake_carrot,cake_chocolate,cake_bf,
+    				pie_meat,pie_apple,pie_berry,pie_shepards,berryBush,blast_chamber,blast_heater,blast_heater_active,crucible,crucible_active,crucibleadv,crucibleadv_active,chimney_stone,
+    				chimney_stone_wide,chimney_stone_extractor,tanner,forge,forge_active,repair_basic,repair_advanced,repair_ornate,bellows,refined_planks,reinforced_stone,reinforced_stone_bricks,
+    				reinforced_stone_framed,advTanner,research};
+    		
+    		Block[][] typeblocks = {bars,storage,anvil};
+    		
+    		//OPTIMIZE
+    		for (Block block :blocks) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + block.getUnlocalizedName(), "inventory"));
+    		}	
+    		for (Block[] type :typeblocks) {
+    			for (Block block :type) {
+    				renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + block.getUnlocalizedName(), "inventory"));
+    			}
+    		}	
+    		
+    	}
 	}
 	
 	public static int anvil_RI = 100;
@@ -170,4 +218,5 @@ public class BlockListMF
 	public static int tanner_RI = 103;
 	public static int forge_RI = 104;
 	public static int bellows_RI = 105;
+	public static int research_RI = 106;
 }

@@ -1,10 +1,16 @@
 package minefantasy.mf2.item.weapon;
 
-import mods.battlegear2.api.weapons.IExtendedReachWeapon;
+import java.util.List;
+
+import mod.battlegear2.api.weapons.IExtendedReachWeapon;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ItemHeavyWeapon extends ItemWeaponMF implements IExtendedReachWeapon
 {
@@ -116,4 +122,12 @@ public abstract class ItemHeavyWeapon extends ItemWeaponMF implements IExtendedR
 	{
 		return 2.0F;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

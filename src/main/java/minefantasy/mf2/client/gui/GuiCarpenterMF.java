@@ -2,19 +2,18 @@ package minefantasy.mf2.client.gui;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.GuiHelper;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
-import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.container.ContainerCarpenterMF;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiCarpenterMF extends GuiContainer
@@ -72,7 +71,7 @@ public class GuiCarpenterMF extends GuiContainer
         if(tile.progressMax > 0 && tile.progress > 0)
         {
         	int progressWidth = (int)(160F/tile.progressMax*tile.progress);
-        	this.drawTexturedModalRect(xPoint+8, yPoint+21, 0, 198, progressWidth, 3);
+        	this.drawTexturedModalRect(xPoint+8, yPoint+21, 0, 240, progressWidth, 3);
         }
         if(tile.doesPlayerKnowCraft(mc.thePlayer) && !tile.resName.equalsIgnoreCase(""))
         {
@@ -100,12 +99,14 @@ public class GuiCarpenterMF extends GuiContainer
     }
     private void renderItem(ItemStack itemstack, int x, int y, int mouseX, int mouseY)
     {
-    	itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemstack, x, y);
-        itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemstack, x, y);
+    	itemRender.renderItemAndEffectIntoGUI( itemstack, x, y);
+        itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, itemstack, x, y, null);
     }
     private void renderItemName(ItemStack itemstack, int x, int y, int mouseX, int mouseY)
     {
-        if (this.func_146978_c(x-guiLeft, y-guiTop, 16, 16, mouseX, mouseY))
+        
+    	//isshiftkey//shouldRenderItemIn3D//doesGuiPauseGame
+    	if (this.isPointInRegion(x-guiLeft, y-guiTop, 16, 16, mouseX, mouseY))
         {
             this.renderToolTip(itemstack, mouseX, mouseY);
         }

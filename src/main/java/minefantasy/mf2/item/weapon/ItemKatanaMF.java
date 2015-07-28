@@ -1,14 +1,19 @@
 package minefantasy.mf2.item.weapon;
 
+import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.weapon.WeaponClass;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -96,7 +101,7 @@ public class ItemKatanaMF extends ItemHeavyWeapon
 	@Override
 	public float getRegenModifier(EntityLivingBase user, ItemStack item) 
 	{
-		return user.worldObj.difficultySetting.getDifficultyId() < 3 ? 1.25F : 1.0F;
+		return user.worldObj.getDifficulty().getDifficultyId() < 3 ? 1.25F : 1.0F;
 	}
 	
 	@Override
@@ -147,4 +152,12 @@ public class ItemKatanaMF extends ItemHeavyWeapon
 	{
 		return new float[]{1F, 0F};
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

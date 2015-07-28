@@ -1,8 +1,6 @@
 package minefantasy.mf2.mechanics;
 
 import minefantasy.mf2.api.archery.Arrows;
-import minefantasy.mf2.api.rpg.RPGElements;
-import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.config.ConfigStamina;
 import net.minecraft.enchantment.Enchantment;
@@ -14,9 +12,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 
 public class ArrowHandlerMF 
 {

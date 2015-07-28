@@ -1,11 +1,16 @@
 package minefantasy.mf2.block.food;
 
+import java.util.List;
+
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockCake extends ItemBlock
 {
@@ -36,4 +41,12 @@ public class ItemBlockCake extends ItemBlock
 		}
 		return ToolListMF.rarity[lvl]; 
     }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

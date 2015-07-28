@@ -2,16 +2,13 @@ package minefantasy.mf2.block.crafting;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,50 +16,66 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockTanningRack extends BlockContainer
 {
-	public BlockTanningRack() 
+	public int tier;
+	public String tex;
+	
+	private static String NAME = "tanner";
+	
+	public BlockTanningRack(int tier, String tex) 
 	{
 		super(Material.wood);
 		
-		String name = "tanner";
-		this.setBlockName(name);
+		this.tier=tier;
+		this.tex=tex;
+		String name = NAME+tex;
+		NAME = name;
+		setUnlocalizedName("minefantasy2:" +name);
 		GameRegistry.registerBlock(this, name);
-		this.setHardness(1F);
+		this.setHardness(1F + 0.5F*tier);
 		this.setResistance(1F);
         this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabMF.tabUtil);
+	}
+	
+	public String getName()
+	{
+		return NAME;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) 
 	{
-		return new TileEntityTanningRack();
+		return new TileEntityTanningRack(tier, tex);
 	}
 	
 	@Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase user, ItemStack item)
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase user, ItemStack stack)
     {
     	int dir = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-        world.setBlockMetadataWithNotify(x, y, z, dir, 2);
+        world.setBlockState(pos, getStateFromMeta(dir), 2);
     }
 	
-	public TileEntityTanningRack getTile(World  world, int x, int y, int z)
+	public TileEntityTanningRack getTile(World  world, BlockPos pos)
 	{
-		return (TileEntityTanningRack)world.getTileEntity(x, y, z);
+		return (TileEntityTanningRack)world.getTileEntity(pos);
 	}
 
 	@Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
         {
-        	TileEntityTanningRack tile = getTile(world, x, y, z);
+        	TileEntityTanningRack tile = getTile(world, pos);
         	if(tile != null)
         	{
         		return tile.interact(user, false);
@@ -71,10 +84,10 @@ public class BlockTanningRack extends BlockContainer
         }
     }
     @Override
-    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)
+    public void onBlockClicked(World world, BlockPos pos, EntityPlayer user)
     {
         {
-        	TileEntityTanningRack tile = getTile(world, x, y, z);
+        	TileEntityTanningRack tile = getTile(world, pos);
         	if(tile != null)
         	{
         		tile.interact(user, true);
@@ -84,9 +97,9 @@ public class BlockTanningRack extends BlockContainer
     
     public Random rand = new Random();
     @Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-    	TileEntityTanningRack tile = getTile(world, x, y, z);
+    	TileEntityTanningRack tile = getTile(world,pos);
 
         if (tile != null)
         {
@@ -108,7 +121,7 @@ public class BlockTanningRack extends BlockContainer
                     }
 
                     itemstack.stackSize -= j1;
-                    EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                    EntityItem entityitem = new EntityItem(world, pos.getX()+f, pos.getY()+f1, pos.getZ()+f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                     if (itemstack.hasTagCompound())
                     {
@@ -123,10 +136,10 @@ public class BlockTanningRack extends BlockContainer
                 }
             }
 
-            world.func_147453_f(x, y, z, block);
+            world.func_147453_f(pos, state.getBlock());
         }
 
-        super.breakBlock(world, x, y, z, block, meta);
+        super.breakBlock(world, pos,state);
     }
     
     @Override
@@ -137,7 +150,7 @@ public class BlockTanningRack extends BlockContainer
     }
     
     @Override
-    public boolean renderAsNormalBlock()
+    public boolean isFullCube()
     {
         return false;
     }

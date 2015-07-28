@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.IFuelHandler;
 
 public class AdvancedFuelHandlerMF implements IFuelHandler
 {

@@ -1,33 +1,19 @@
 package minefantasy.mf2.block.tileentity;
 
-import java.util.List;
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
 import minefantasy.mf2.api.refine.ISmokeCarrier;
 import minefantasy.mf2.api.refine.SmokeMechanics;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.refining.BlockChimney;
-import minefantasy.mf2.block.refining.BlockChimney;
-import minefantasy.mf2.block.refining.BlockForge;
-import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
-import minefantasy.mf2.item.list.ComponentListMF;
-import minefantasy.mf2.network.packet.ChimneyPacket;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.util.EnumFacing;
 
-public class TileEntityChimney extends TileEntity implements ISmokeCarrier
+public class TileEntityChimney extends TileEntity implements ISmokeCarrier, IUpdatePlayerListBox
 {
 	public Block maskBlock = Blocks.air;
 	public int maskMeta = 0;
@@ -39,9 +25,9 @@ public class TileEntityChimney extends TileEntity implements ISmokeCarrier
 	private Random rand = new Random();
 	
 	@Override
-	public void updateEntity()
+	public void update()
 	{
-		super.updateEntity();
+		update();
 		++ticksExisted;
 		++ticksExistedTemp;
 		
@@ -52,9 +38,13 @@ public class TileEntityChimney extends TileEntity implements ISmokeCarrier
 			sync();
 		}
 		*/
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
+		
 		if(smokeStorage > 0)
 		{
-			SmokeMechanics.emitSmokeFromCarrier(worldObj, xCoord, yCoord, zCoord, this, 5);
+			SmokeMechanics.emitSmokeFromCarrier(worldObj, this.getPos(), this, 5);
 		}
 		if(!worldObj.isRemote && smokeStorage > getMaxSmokeStorage() && rand.nextInt(500) == 0)
 		{
@@ -146,7 +136,7 @@ public class TileEntityChimney extends TileEntity implements ISmokeCarrier
 	{
 		if(worldObj == null)return null;
 		
-		Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
+		Block block = worldObj.getBlockState(this.getPos()).getBlock();
 		
 		if(block != null && block instanceof BlockChimney)
 		{
@@ -167,5 +157,17 @@ public class TileEntityChimney extends TileEntity implements ISmokeCarrier
 			isIndirect = isIndirect() ? 1 : 0;
 		}
 		return isIndirect == 1;
+	}
+
+	@Override
+	public void onEntityUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(EnumFacing side) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

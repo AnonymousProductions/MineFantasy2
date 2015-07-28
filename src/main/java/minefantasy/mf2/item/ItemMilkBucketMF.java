@@ -1,14 +1,19 @@
 package minefantasy.mf2.item;
 
+import java.util.List;
+
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMilkBucketMF extends Item
 {
@@ -18,14 +23,14 @@ public class ItemMilkBucketMF extends Item
     {
         this.maxStackSize = 1;
         this.setCreativeTab(CreativeTabMF.tabGadget);
-        
-        setTextureName("minefantasy2:Tool/"+name);
+            
+        setUnlocalizedName("minefantasy2:Tool/"+name);
+        //setTextureName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
     }
 
     @Override
-	public ItemStack onEaten(ItemStack bucket, World world, EntityPlayer user)
+	public ItemStack onItemUseFinish(ItemStack bucket, World world, EntityPlayer user)
     {
     	ItemStack empty = new ItemStack(ToolListMF.bucketwood_empty);
     	if (!world.isRemote)
@@ -66,7 +71,7 @@ public class ItemMilkBucketMF extends Item
     @Override
 	public EnumAction getItemUseAction(ItemStack p_77661_1_)
     {
-        return EnumAction.drink;
+        return EnumAction.DRINK;
     }
 
     /**
@@ -84,5 +89,13 @@ public class ItemMilkBucketMF extends Item
     {
     	return ToolListMF.bucketwood_empty;
     }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
     
 }

@@ -8,12 +8,11 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiDiscovery extends Gui
@@ -32,7 +31,7 @@ public class GuiDiscovery extends Gui
     public GuiDiscovery(Minecraft p_i1063_1_)
     {
         this.field_146259_f = p_i1063_1_;
-        this.field_146264_m = new RenderItem();
+        this.field_146264_m = Minecraft.getMinecraft().getRenderItem();
     }
 
     public void func_146256_a(InformationBase p_146256_1_)
@@ -123,12 +122,12 @@ public class GuiDiscovery extends Gui
 
             if (this.field_146262_n)
             {
-                this.field_146259_f.fontRenderer.drawSplitString(this.field_146265_j, i + 30, j + 7, 120, -1);
+                this.field_146259_f.fontRendererObj.drawSplitString(this.field_146265_j, i + 30, j + 7, 120, -1);
             }
             else
             {
-                this.field_146259_f.fontRenderer.drawString(this.field_146268_i, i + 30, j + 7, -256);
-                this.field_146259_f.fontRenderer.drawString(this.field_146265_j, i + 30, j + 18, -1);
+                this.field_146259_f.fontRendererObj.drawString(this.field_146268_i, i + 30, j + 7, -256);
+                this.field_146259_f.fontRendererObj.drawString(this.field_146265_j, i + 30, j + 18, -1);
             }
 
             RenderHelper.enableGUIStandardItemLighting();
@@ -136,7 +135,7 @@ public class GuiDiscovery extends Gui
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             GL11.glEnable(GL11.GL_LIGHTING);
-            this.field_146264_m.renderItemAndEffectIntoGUI(this.field_146259_f.fontRenderer, this.field_146259_f.getTextureManager(), this.field_146266_k.theItemStack, i + 8, j + 8);
+            this.field_146264_m.renderItemAndEffectIntoGUI(this.field_146266_k.theItemStack, i + 8, j + 8);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDepthMask(true);
             GL11.glEnable(GL11.GL_DEPTH_TEST);

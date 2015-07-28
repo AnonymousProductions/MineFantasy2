@@ -13,9 +13,11 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
 
-public class TileEntityCrucible extends TileEntity implements IInventory
+public class TileEntityCrucible extends TileEntity implements IInventory,IUpdatePlayerListBox
 {
 	private ItemStack[] inv = new ItemStack[10];
 	public float progress, progressMax;
@@ -23,11 +25,15 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	private Random rand = new Random();
 	
 	@Override
-	public void updateEntity()
+	public void update()
 	{
-		super.updateEntity();
+		update();
 		boolean isHot = temperature > 0 && progressMax > 0;
 		temperature = getTemperature();
+		
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		
 		int time = 400;
 		for(int a = 1; a < getSizeInventory()-1; a ++)
@@ -53,24 +59,25 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 		{
 			progress = 0;
 		}
-		if(progress > 0 && rand.nextInt(4) == 0)
+		if(progress > 0 && rand.nextInt(4) == 0 && !isOutside())
 		{
-			SmokeMechanics.emitSmoke(worldObj, xCoord, yCoord, zCoord, 1);
+			SmokeMechanics.emitSmokeIndirect(worldObj, this.getPos(), 1);
 		}
 		
-		if(isHot != (getTemperature() >0 && progressMax > 0) && !isOutside())
+		if(isHot != (getTemperature() >0 && progressMax > 0))
 		{
-			BlockCrucible.updateFurnaceBlockState(getTemperature() > 0, worldObj, xCoord, yCoord, zCoord);
+			BlockCrucible.updateFurnaceBlockState(getTemperature() > 0, worldObj, this.getPos());
 		}
 	}
 	
 	private boolean isOutside()
 	{
+		
 		for(int x = -1; x <= 1; x++)
 		{
 			for(int y = -1; y <= 1; y++)
 			{
-				if(!worldObj.canBlockSeeTheSky(xCoord + x, yCoord+1, zCoord + y))
+				if(!worldObj.canBlockSeeSky(this.getPos().add(x, 1, y)))
 				{
 					return false;
 				}
@@ -165,15 +172,20 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	}
 	public float getTemperature()
 	{
-		Block under = worldObj.getBlock(xCoord, yCoord-1, zCoord);
+		Block under = worldObj.getBlockState(this.getPos().add(0, -1, 0)).getBlock();
 		
 		if(under.getMaterial() == Material.fire)
 		{
-			return 100F;
+			return 10F;
 		}
 		if(under.getMaterial() == Material.lava)
 		{
-			return 500F;
+			return 50F;
+		}
+		TileEntity tile = worldObj.getTileEntity(this.getPos().add(0, -1, 0));
+		if(tile != null && tile instanceof TileEntityForge)
+		{
+			return ((TileEntityForge)tile).getBlockTemperature();
 		}
 		return 0F;
 	}
@@ -286,13 +298,13 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	}
 
 	@Override
-	public String getInventoryName()
+	public String getName()
 	{
 		return "gui.crucible.name";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName()
+	public boolean hasCustomName()
 	{
 		return false;
 	}
@@ -306,16 +318,19 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer user)
 	{
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		return user.getDistance(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D) < 8D;
 	}
 
 	@Override
-	public void openInventory()
+	public void openInventory(EntityPlayer player)
 	{
 	}
 
 	@Override
-	public void closeInventory()
+	public void closeInventory(EntityPlayer player)
 	{
 	}
 
@@ -323,5 +338,35 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	public boolean isItemValidForSlot(int slot, ItemStack item)
 	{
 		return true;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

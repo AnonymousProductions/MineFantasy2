@@ -8,12 +8,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityShrapnel extends Entity
 {
@@ -46,7 +48,7 @@ public class EntityShrapnel extends Entity
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double dist)
     {
-        double d1 = this.boundingBox.getAverageEdgeLength() * 4.0D;
+        double d1 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
         d1 *= 64.0D;
         return dist < d1 * d1;
     }
@@ -70,7 +72,6 @@ public class EntityShrapnel extends Entity
         this.setSize(1.0F, 1.0F);
         this.setLocationAndAngles(shooter.posX, shooter.posY, shooter.posZ, shooter.rotationYaw, shooter.rotationPitch);
         this.setPosition(this.posX, this.posY, this.posZ);
-        this.yOffset = 0.0F;
         this.motionX = this.motionY = this.motionZ = 0.0D;
         x += this.rand.nextGaussian() * 0.4D;
         y += this.rand.nextGaussian() * 0.4D;
@@ -87,7 +88,7 @@ public class EntityShrapnel extends Entity
     @Override
 	public void onUpdate()
     {
-        if (!this.worldObj.isRemote && (this.shootingEntity != null && this.shootingEntity.isDead || !this.worldObj.blockExists((int)this.posX, (int)this.posY, (int)this.posZ)))
+        if (!this.worldObj.isRemote && (this.shootingEntity != null && this.shootingEntity.isDead || this.worldObj.isAirBlock(new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ))))
         {
             this.setDead();
         }
@@ -112,19 +113,19 @@ public class EntityShrapnel extends Entity
                 if(ticksInAir >= 10)setDead();
             }
 
-            Vec3 vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-            Vec3 vec31 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
+            Vec3 vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
-            vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-            vec31 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            vec3 = new Vec3(this.posX, this.posY, this.posZ);
+            vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
             if (movingobjectposition != null)
             {
-                vec31 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+                vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
             }
 
             Entity entity = null;
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
             for (int i = 0; i < list.size(); ++i)
@@ -134,7 +135,7 @@ public class EntityShrapnel extends Entity
                 if (entity1.canBeCollidedWith() && (!entity1.isEntityEqual(this.shootingEntity) || this.ticksInAir >= 25))
                 {
                     float f = 0.3F;
-                    AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f, f, f);
+                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f, f, f);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
                     if (movingobjectposition1 != null)
@@ -195,7 +196,7 @@ public class EntityShrapnel extends Entity
                 for (int j = 0; j < 4; ++j)
                 {
                     float f3 = 0.25F;
-                    this.worldObj.spawnParticle("bubble", this.posX - this.motionX * f3, this.posY - this.motionY * f3, this.posZ - this.motionZ * f3, this.motionX, this.motionY, this.motionZ);
+                    this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f3, this.posY - this.motionY * f3, this.posZ - this.motionZ * f3, this.motionX, this.motionY, this.motionZ);
                 }
 
                 f2 = 0.8F;
@@ -207,7 +208,7 @@ public class EntityShrapnel extends Entity
             this.motionX *= f2;
             this.motionY *= f2;
             this.motionZ *= f2;
-            this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
             this.setPosition(this.posX, this.posY, this.posZ);
         }
     }
@@ -260,9 +261,9 @@ public class EntityShrapnel extends Entity
         if (p_70037_1_.hasKey("direction", 9))
         {
             NBTTagList nbttaglist = p_70037_1_.getTagList("direction", 6);
-            this.motionX = nbttaglist.func_150309_d(0);
-            this.motionY = nbttaglist.func_150309_d(1);
-            this.motionZ = nbttaglist.func_150309_d(2);
+            this.motionX = nbttaglist.getDouble(0);
+            this.motionY = nbttaglist.getDouble(1);
+            this.motionZ = nbttaglist.getDouble(2);
         }
         else
         {
@@ -283,13 +284,6 @@ public class EntityShrapnel extends Entity
 	public float getCollisionBorderSize()
     {
         return 1.0F;
-    }
-
-    @Override
-	@SideOnly(Side.CLIENT)
-    public float getShadowSize()
-    {
-        return 0.0F;
     }
 
     /**

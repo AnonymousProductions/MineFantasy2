@@ -1,10 +1,18 @@
 package minefantasy.mf2.item.food;
 
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.item.ItemComponentMF;
+import minefantasy.mf2.item.ItemMFBowl;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.item.list.ToolListMF;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class FoodListMF
 {
@@ -14,12 +22,22 @@ public class FoodListMF
 	public static Item horse_raw = (new ItemFoodMF("horse_raw", 4, 0.4F, true)).setPotionEffect(Potion.hunger.id, 50, 0, 0.5F);
 	public static Item horse_cooked = (new ItemFoodMF("horse_cooked", 10, 1.0F, true));
 	
+	public static Item generic_meat_uncooked = (new ItemFoodMF("generic_meat_uncooked", 2, 0.2F, true));
+	public static Item generic_meat_cooked = (new ItemFoodMF("generic_meat_cooked", 	5, 0.5F, true));
+	public static Item generic_meat_strip_uncooked = (new ItemFoodMF("generic_meat_strip_uncooked", 2, 0.2F, true));
+	public static Item generic_meat_strip_cooked = (new ItemFoodMF("generic_meat_strip_cooked", 	5, 0.5F, true));
+	public static Item generic_meat_chunk_uncooked = (new ItemFoodMF("generic_meat_chunk_uncooked", 2, 0.2F, true));
+	public static Item generic_meat_chunk_cooked = (new ItemFoodMF("generic_meat_chunk_cooked", 	5, 0.5F, true));
+	public static Item generic_meat_mince_uncooked = (new ItemFoodMF("generic_meat_mince_uncooked", 2, 0.2F, true));
+	public static Item generic_meat_mince_cooked = (new ItemFoodMF("generic_meat_mince_cooked", 	5, 0.5F, true));
+	
 	public static Item tea_leaf = (new ItemFoodMF("tea_leaf", 1, 0F, false)).setStaminaModifier(10, 1);
 	public static Item spice_mild = (new ItemFoodMF("spice_mild", 1, 0F, false));
 	public static Item flour = new ItemComponentMF("flour", 0).setCreativeTab(CreativeTabMF.tabFood);
 	
 	public static Item breadroll = (new ItemFoodMF("breadroll", 5, 1.0F, false)).setMaxStackSize(8);
 	
+	public static Item curds = new ItemUnfinishedFood("curds");
 	public static Item cheese_slice = (new ItemFoodMF("cheese_slice",       6, 1.0F, 2F, false, 0)).setMaxStackSize(1);
 	
 	//T1 (basic mixing)
@@ -35,18 +53,18 @@ public class FoodListMF
 	public static Item sweetroll_uniced = (new ItemFoodMF("sweetroll_uniced", 1,  1.0F, 2F, false, 0)).setStaminaRegenModifier (5F, 1F).setStaminaRestore(5F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
 	public static Item sweetroll = (new ItemMultiFood("sweetroll",                2, 2,  1.0F, 2F, 0)).setStaminaRegenModifier (10F, 1.5F).setStaminaRestore(10F).setEatTime(16).setAlwaysEdible();
 	
-	public static Item sandwitch_meat = (new ItemMultiFood("sandwitch_meat",       2, 10, 1.0F, 10F, 1)).setStaminaModifier(20F, 1.0F).setTextureName("minefantasy2:food/sandwitch");
+	public static Item sandwitch_meat = (new ItemMultiFood("sandwitch_meat",       2, 10, 1.0F, 10F, 1)).setStaminaModifier(20F, 1.0F);
 	
 	//T3 (Quality baking, metal oven)
 	//Util: Metal Oven, Prep Block, Steel Tools (Mid Iron Age)
-	public static Item meatpie_slice = (new ItemFoodMF("meatpie_slice",        10, 1.0F, 15F, false, 0)).setStaminaModifier(50F, 1.0F).setMaxStackSize(1);
+	public static Item pieslice_meat = (new ItemFoodMF("pieslice_meat",        10, 1.0F, 15F, false, 0)).setStaminaModifier(50F, 1.0F).setMaxStackSize(1);
 	
-	public static Item pieslice_apple = (new ItemFoodMF("pieslice_apple",      5,  1.0F, 1F, false, 0)).setStaminaRegenModifier(8, 3F).setStaminaRestore(20F).setEatTime(16).setAlwaysEdible().setAlwaysEdible().setTextureName("minefantasy2:food/applepie_slice").setMaxStackSize(1);
-	public static Item pieslice_berry = (new ItemFoodMF("pieslice_berry",      4 , 1.0F, 1F, false, 0)).setStaminaRegenModifier(10, 2.5F).setStaminaRestore(15F).setEatTime(16).setAlwaysEdible().setAlwaysEdible().setTextureName("minefantasy2:food/berrypie_slice").setMaxStackSize(1);
+	public static Item pieslice_apple = (new ItemFoodMF("pieslice_apple",      5,  1.0F, 1F, false, 0)).setStaminaRegenModifier(8, 3F).setStaminaRestore(20F).setEatTime(16).setAlwaysEdible().setAlwaysEdible().setMaxStackSize(1);
+	public static Item pieslice_berry = (new ItemFoodMF("pieslice_berry",      4 , 1.0F, 1F, false, 0)).setStaminaRegenModifier(10, 2.5F).setStaminaRestore(15F).setEatTime(16).setAlwaysEdible().setAlwaysEdible().setMaxStackSize(1);
 	
 	//T4 (Advanced baking, multiple processes, temperature regulation)
 	//Util : Metal Oven, Prep Block, Full tool set, Proper kitchen setup (Mid Iron Age)
-	public static Item pieslice_shepards = (new ItemFoodMF("pieslice_shepards",       10, 1.0F, 15F, false, 1)).setStaminaModifier(100F, 1.0F).setTextureName("minefantasy2:food/shepardspie_slice").setMaxStackSize(1);
+	public static Item pieslice_shepards = (new ItemFoodMF("pieslice_shepards",       10, 1.0F, 15F, false, 1)).setStaminaModifier(100F, 1.0F).setMaxStackSize(1);
 	
 	public static Item cake_slice = (new ItemFoodMF("cake_slice",            2, 0.8F, 2F, false, 0)).setStaminaRegenModifier(10F, 4F).setStaminaRestore(20F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
 	public static Item carrotcake_slice = (new ItemFoodMF("carrotcake_slice",2, 0.8F, 2F, false, 0)).setStaminaRegenModifier(10F, 4F).setStaminaRestore(40F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
@@ -75,22 +93,40 @@ public class FoodListMF
 	public static Item cake_choc_uniced = new ItemUnfinishedFood("cake_choc_uniced").setContainerItem(cake_tin);
 	public static Item cake_bf_uniced = new ItemUnfinishedFood("cake_bf_uniced").setContainerItem(cake_tin);
 	
-	public static Item pie_meat_uncooked = new ItemUnfinishedFood("pie_meat_uncooked").setTextureName("minefantasy2:food/unfinished/pie_meat_uncooked");
+	public static Item pie_meat_uncooked = new ItemUnfinishedFood("pie_meat_uncooked");
 	
 	public static Item pie_apple_uncooked = new ItemUnfinishedFood("pie_apple_uncooked");
 	public static Item pie_berry_uncooked = new ItemUnfinishedFood("pie_berry_uncooked");
 	public static Item pie_shepard_uncooked = new ItemUnfinishedFood("pie_shepard_uncooked");
 	
-	public static Item pie_meat_cooked = new ItemUnfinishedFood("pie_meat_cooked").setTextureName("minefantasy2:food/unfinished/pie_meat_cooked").setContainerItem(pie_tray);
+	public static Item pie_meat_cooked = new ItemUnfinishedFood("pie_meat_cooked").setContainerItem(pie_tray);
 	
 	public static Item pie_apple_cooked = new ItemUnfinishedFood("pie_apple_cooked").setContainerItem(pie_tray);
 	public static Item pie_berry_cooked = new ItemUnfinishedFood("pie_berry_cooked").setContainerItem(pie_tray);
 	public static Item pie_shepard_cooked = new ItemUnfinishedFood("pie_shepard_cooked").setContainerItem(pie_tray);
 	
+	public static Item hard_bowl = new ItemMFBowl("hard_bowl").setCreativeTab(CreativeTabMF.tabFood);
+	public static Item salt = new ItemComponentMF("salt", 0).setCreativeTab(CreativeTabMF.tabFood).setContainerItem(hard_bowl);
+	public static Item bowl_water_salt = new ItemComponentMF("bowl_water_salt", 0).setCreativeTab(CreativeTabMF.tabFood);
+	
+	public static Item dough = new ItemUnfinishedFood("dough");
+	public static Item pastry = new ItemUnfinishedFood("pastry");
+	public static Item raw_bread = new ItemUnfinishedFood("raw_bread");
 	//SPECIAL RECIPES
 	
-	public static void init()
+	private static Item[] foods ={wolf_cooked,wolf_raw,horse_raw,horse_cooked,generic_meat_uncooked,generic_meat_cooked,generic_meat_cooked,generic_meat_strip_uncooked,generic_meat_strip_cooked,generic_meat_chunk_uncooked,generic_meat_chunk_cooked,generic_meat_mince_uncooked,generic_meat_mince_cooked,tea_leaf,spice_mild,flour,breadroll,curds,cheese_slice,stew,salad,oats,cheese_roll,jerky,sweetroll_uniced,sweetroll,sandwitch_meat,meatpie_slice,pieslice_apple,pieslice_berry,pieslice_shepards,cake_slice,carrotcake_slice,choccake_slice,bfcake_slice,cake_tin,pie_tray,icing,berries,berriesJuicy,sweetroll_raw,cake_raw,cake_carrot_raw,cake_choc_raw,cake_bf_raw,cake_uniced,cake_carrot_uniced,cake_choc_uniced,cake_bf_uniced,pie_meat_uncooked,pie_apple_uncooked,pie_berry_uncooked,pie_shepard_uncooked,pie_meat_cooked,pie_apple_cooked,pie_berry_cooked,pie_shepard_cooked,hard_bowl,salt,bowl_water_salt,dough,pastry,raw_bread};
+	
+	public static void init(FMLPreInitializationEvent event)
 	{
+		if(event.getSide() == Side.CLIENT)
+    	{
+			RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+			String MODID = MineFantasyII.MODID;
+			
+			for (Item food : foods) {
+	    		renderItem.getItemModelMesher().register(food, 0, new ModelResourceLocation(MODID + ":" + food.getUnlocalizedName(), "inventory"));
+	    		}
+    	}
 	}
 	/**
 	 * FOOD TYPES:

@@ -1,14 +1,15 @@
 package minefantasy.mf2.api.helpers;
 
-import org.lwjgl.opengl.GL11;
-
-import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.FontRenderer;
+
+import org.lwjgl.opengl.GL11;
 
 public class GuiHelper
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
+	
 	public static void renderToolIcon(Gui screen, String toolType, int tier, int x, int y, boolean available)
 	{
 		renderToolIcon(screen, toolType, tier, x, y, false, available);
@@ -24,7 +25,7 @@ public class GuiHelper
         screen.drawTexturedModalRect(x, y, outline ? 20 : 0, 0, 20, 20);
         screen.drawTexturedModalRect(x, y, icon[0], icon[1]+20, 20, 20);
         if(tier > -1)
-        mc.fontRenderer.drawStringWithShadow(""+tier, x + 4, y + 10, 16777215);
+        mc.fontRendererObj.drawStringWithShadow(""+tier, x + 4, y + 10, 16777215);
         GL11.glColor3f(1F, 1F, 1F);
 	}
 	public static int[] getToolTypeIcon(String s)

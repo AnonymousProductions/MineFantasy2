@@ -1,27 +1,17 @@
 package minefantasy.mf2.block.tileentity.blastfurnace;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityHopper;
-import net.minecraftforge.common.util.ForgeDirection;
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.block.refining.BlockBFH;
 import minefantasy.mf2.block.tileentity.TileEntityCrucible;
 import minefantasy.mf2.entity.EntityFireBlast;
-import minefantasy.mf2.item.list.ComponentListMF;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3i;
 
 public class TileEntityBlastFH extends TileEntityBlastFC
 {
@@ -31,9 +21,13 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	public float progress;
 	
 	@Override
-	public void updateEntity()
+	public void onEntityUpdate()
 	{
-		super.updateEntity();
+		super.onEntityUpdate();
+		
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		
 		boolean wasBurning = isBurning();
 		if(fuel > 0)
@@ -76,20 +70,27 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 		}
 		if (!worldObj.isRemote && wasBurning != isBurning())
         {
-            BlockBFH.updateFurnaceBlockState(isBurning(), this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+            BlockBFH.updateFurnaceBlockState(isBurning(), this.worldObj, this.getPos(),this.getBlockType().getStateFromMeta(this.getBlockMetadata()));
         }
 	}
 	public static float maxProgress = 1200;
+	
 	private float getMaxProgress() 
 	{
 		return maxProgress;
 	}
+	
 	public static int maxFurnaceHeight = 8;
+	
 	private void smeltItem() 
 	{
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
+		
 		for(int y = 0; y < maxFurnaceHeight; y++)
 		{
-			TileEntity tileEntity = worldObj.getTileEntity(xCoord, yCoord+y+1, zCoord);
+			TileEntity tileEntity = worldObj.getTileEntity(this.getPos().add(0, y+1, 0));
 			if(tileEntity != null && tileEntity instanceof TileEntityBlastFC && !(tileEntity instanceof TileEntityBlastFH))
 			{
 				ItemStack result = getSmeltedResult((TileEntityBlastFC) tileEntity, y+1);
@@ -114,7 +115,11 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	
 	private void dropItem(ItemStack result)
 	{
-		TileEntity under = worldObj.getTileEntity(xCoord, yCoord-1, zCoord);
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
+		
+		TileEntity under = worldObj.getTileEntity(this.getPos().subtract(new Vec3i(0,1,0)));
 		if(under != null && under instanceof TileEntityCrucible)
 		{
 			TileEntityCrucible crucible = (TileEntityCrucible)under;
@@ -146,11 +151,12 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 		EntityItem entity = new EntityItem(worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5, result);
 		worldObj.spawnEntityInWorld(entity);
 	}
+	
 	private void startFire(int x, int y, int z) 
 	{
-		if(!worldObj.isRemote && worldObj.isAirBlock(x, y, z))
+		if(!worldObj.isRemote && worldObj.isAirBlock(new BlockPos(z, y, z)))
 		{
-			worldObj.setBlock(xCoord+x, yCoord+y, zCoord+z, Blocks.fire);
+			worldObj.setBlockState(this.getPos().add(x, y, z), Blocks.fire.getDefaultState());
 		}
 	}
 	private void shootFire()
@@ -166,7 +172,7 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 	private void shootFire(int x, int y, int z)
 	{
 		double v = 0.125D;
-		EntityFireBlast fireball = new EntityFireBlast(worldObj, xCoord+0.5+x, yCoord, zCoord+0.5+z, (double)x*v, (double)y*v, (double)z*v);
+		EntityFireBlast fireball = new EntityFireBlast(worldObj, this.getPos().getX()+0.5+x, this.getPos().getY(), this.getPos().getZ()+0.5+z, (double)x*v, (double)y*v, (double)z*v);
 		fireball.getEntityData().setString("Preset", "BlastFurnace");
 		fireball.modifySpeed(0.5F);
 		worldObj.spawnEntityInWorld(fireball);
@@ -235,20 +241,22 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 		return getItemBurnTime(item) > 0;
 	}
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) 
+	public int[] getAccessibleSlotsFromSide(EnumFacing side) 
 	{
-		return side > 0 ? new int[]{0} : new int[]{};
+		return side != EnumFacing.DOWN ? new int[]{0} : new int[]{};
+	}
+	
+	@Override
+	public boolean canInsertItem(int slot, ItemStack item, EnumFacing side)
+	{
+		return side != EnumFacing.DOWN && isItemValidForSlot(slot, item);
 	}
 	@Override
-	public boolean canInsertItem(int slot, ItemStack item, int side)
-	{
-		return side != 0 && isItemValidForSlot(slot, item);
-	}
-	@Override
-	public boolean canExtractItem(int slot, ItemStack item, int side)
+	public boolean canExtractItem(int slot, ItemStack item, EnumFacing side)
 	{
 		return false;
 	}
+	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack item)
 	{

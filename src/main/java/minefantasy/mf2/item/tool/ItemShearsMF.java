@@ -1,15 +1,21 @@
 package minefantasy.mf2.item.tool;
 
+import java.util.List;
+
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.tier.IToolMaterial;
 import minefantasy.mf2.api.tool.IToolMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -18,6 +24,7 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
 {
 	private ToolMaterial toolMaterial;
 	private int tier;
+	
     public ItemShearsMF(String name, ToolMaterial material, int rarity, int tier)
     {
         super();
@@ -26,9 +33,8 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
         toolMaterial = material;
         setCreativeTab(CreativeTabMF.tabTool);
         this.setMaxDamage(material.getMaxUses());
-        setTextureName("minefantasy2:Tool/"+name);
+        setUnlocalizedName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
     }
     
     private int itemRarity;
@@ -83,4 +89,12 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
 	{
 		return "shears";
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

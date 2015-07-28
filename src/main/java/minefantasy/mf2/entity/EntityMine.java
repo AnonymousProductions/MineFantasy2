@@ -19,8 +19,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityMine extends Entity
 {
@@ -33,7 +33,7 @@ public class EntityMine extends Entity
         super(world);
         this.preventEntitySpawning = true;
         this.setSize(0.5F, 0.25F);
-        this.yOffset = this.height / 2.0F;
+        this.getBoundingBox().offset(0, this.height / 2.0F, 0);
     }
 
     public EntityMine(World world, EntityLivingBase thrower)
@@ -166,7 +166,7 @@ public class EntityMine extends Entity
         
         if(ticksExisted % 5 == 0)
         {
-	        List<EntityLivingBase> list = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(radius*2, radius, radius*2));
+	        List<EntityLivingBase> list = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(radius*2, radius, radius*2));
 	        if (fuse == 0 && !list.isEmpty())
 	        {
 	        	boolean detonate = false;
@@ -228,13 +228,6 @@ public class EntityMine extends Entity
         this.fuse = nbt.getByte("Fuse");
     }
 
-    @Override
-	@SideOnly(Side.CLIENT)
-    public float getShadowSize()
-    {
-        return 0.25F;
-    }
-
     /**
      * returns null or the entityliving it was placed or ignited by
      */
@@ -250,7 +243,7 @@ public class EntityMine extends Entity
         if (!this.worldObj.isRemote)
         {
         	double area = getRangeOfBlast()*2D* getPowderType().rangeModifier;
-            AxisAlignedBB var3 = this.boundingBox.expand(area, area/2, area);
+            AxisAlignedBB var3 = this.getEntityBoundingBox().expand(area, area/2, area);
             List var4 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, var3);
 
             if (var4 != null && !var4.isEmpty())
@@ -335,7 +328,7 @@ public class EntityMine extends Entity
 	
 	public boolean canEntityBeSeen(Entity entity)
     {
-        return this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(this.posX, this.posY + this.getEyeHeight(), this.posZ), Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ)) == null;
+        return this.worldObj.rayTraceBlocks(new Vec3(this.posX, this.posY + this.getEyeHeight(), this.posZ), new Vec3(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ)) == null;
     }
 	
 	private final int typeId = 2;

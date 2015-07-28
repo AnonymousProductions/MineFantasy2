@@ -7,27 +7,20 @@ import minefantasy.mf2.entity.EntityBomb;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.mechanics.BombDispenser;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBomb extends Item
 {
@@ -35,16 +28,15 @@ public class ItemBomb extends Item
     {
         this.maxStackSize = 16;
         this.setCreativeTab(CreativeTabMF.tabGadget);
-        setTextureName("minefantasy2:Other/"+name);
+        setUnlocalizedName("minefantasy2:Other/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, new BombDispenser());
     }
 
     @Override
     public EnumAction getItemUseAction(ItemStack item)
     {
-        return EnumAction.block;
+        return EnumAction.BLOCK;
     }
     
     @Override
@@ -64,7 +56,7 @@ public class ItemBomb extends Item
         return 15;
     }
     @Override
-	public ItemStack onEaten(ItemStack item, World world, EntityPlayer user)
+	public ItemStack onItemUseFinish(ItemStack item, World world, EntityPlayer user)
     {
     	user.swingItem();
         if (!user.capabilities.isCreativeMode)
@@ -313,8 +305,8 @@ public class ItemBomb extends Item
     {
     	if(getFilling(item) >= 2 || getCasing(item) >= 2)
     	{
-    		return EnumRarity.uncommon;
+    		return EnumRarity.UNCOMMON;
     	}
-    	return EnumRarity.common;
+    	return EnumRarity.COMMON;
     }
 }

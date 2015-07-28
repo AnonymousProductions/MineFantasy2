@@ -17,7 +17,7 @@ public class BombDispenser implements IBehaviorDispenseItem
 	@Override
 	public ItemStack dispense(IBlockSource dispenser, ItemStack item)
 	{
-		EnumFacing direction = BlockDispenser.func_149937_b(dispenser.getBlockMetadata());
+		EnumFacing direction = BlockDispenser.getFacing(dispenser.getBlockMetadata());
 		//BlockDispenser
 		if(item == null)return null;
 		

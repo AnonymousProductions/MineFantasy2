@@ -15,6 +15,7 @@ import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,13 +26,13 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * @author Anonymous Productions
@@ -47,9 +48,8 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
         this.hitDamage = (2.0F + material.getDamageVsEntity())/2F;
-        setTextureName("minefantasy2:Tool/Crafting/"+name);
+        setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
 		
 		this.setHarvestLevel("axe", material.getHarvestLevel());
     }
@@ -90,28 +90,28 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 	}
     
 	@Override
-	public float getDigSpeed(ItemStack stack, Block block, int meta)
+	public float getDigSpeed(ItemStack stack, IBlockState state)
 	{
-		return super.getDigSpeed(stack, block, meta) / 10F;
+		return super.getDigSpeed(stack, state) / 10F;
 	}
 
-	public boolean onBlockDestroyedOld(ItemStack item, World world, Block block, int x, int y, int z, EntityLivingBase user)
+	public boolean onBlockDestroyedOld(ItemStack item, World world, Block block, BlockPos pos, EntityLivingBase user)
 	{
 		if(user instanceof EntityPlayer && canAcceptCost(user))
 		{
-			breakChain(world, x, y, z, item, block, user, 32, block, world.getBlockMetadata(x, y, z));
+			breakChain(world, pos, item, block, user, 32, block, block.getMetaFromState(world.getBlockState(pos)));
 		}
-		return super.onBlockDestroyed(item, world, block, x, y, z, user);
+		return super.onBlockDestroyed(item, world, block, pos, user);
 	}
 	
-	private void breakChain(World world, int x, int y, int z, ItemStack item, Block block, EntityLivingBase user, int maxLogs, Block orient, int orientM) 
+	private void breakChain(World world, BlockPos pos, ItemStack item, Block block, EntityLivingBase user, int maxLogs, Block orient, int orientM) 
 	{
-		if(maxLogs > 0 && isLog(world, x, y, z, orient, orientM))
+		if(maxLogs > 0 && isLog(world, pos, orient, orientM))
 		{
-			Block newblock = world.getBlock(x, y, z);
-			breakSurrounding(item, world, newblock, x, y, z, user);
-			newblock.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), EnchantmentHelper.getFortuneModifier(user));
-			world.setBlockToAir(x, y, z);
+			Block newblock = world.getBlockState(pos).getBlock();
+			breakSurrounding(item, world, newblock, pos, user);
+			newblock.dropBlockAsItem(world, pos, world.getBlockState(pos), EnchantmentHelper.getFortuneModifier(user));
+			world.setBlockToAir(pos);
 			item.damageItem(1, user);
 			
 			maxLogs --;
@@ -121,7 +121,7 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 				{
 					for(int z1 = -1; z1 <= 1; z1 ++)
 					{
-						breakChain(world, x+x1, y+y1, z+z1, item, newblock, user, maxLogs, orient, orientM);
+						breakChain(world, pos.add(x1, y1, z1), item, newblock, user, maxLogs, orient, orientM);
 					}
 				}
 			}
@@ -154,20 +154,17 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 		}
 	}
 
-	private boolean isLog(World world, int x, int y, int z, Block orient, int orientM) 
+	private boolean isLog(World world, BlockPos pos, Block orient, int orientM) 
 	{
-		Block block = world.getBlock(x, y, z);
-		int meta = world.getBlockMetadata(x, y, z);
-		if(block != null)
-		{
+		Block block = world.getBlockState(pos).getBlock();
+		int meta = block.getMetaFromState(world.getBlockState(pos));
+		
 			return block == orient && block.getMaterial() == Material.wood;
-		}
-		return false;
 	}
 
-	public void breakSurrounding(ItemStack item, World world, Block block, int x, int y, int z, EntityLivingBase user)
+	public void breakSurrounding(ItemStack item, World world, Block block, BlockPos pos, EntityLivingBase user)
 	{
-		if(!world.isRemote && ForgeHooks.isToolEffective(item, block, world.getBlockMetadata(x, y, z)))
+		if(!world.isRemote && ForgeHooks.isToolEffective(world,pos,item))
 		{
 			for(int x1 = -2; x1 <= 2; x1 ++)
 			{
@@ -175,23 +172,24 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 				{
 					for(int z1 = -2; z1 <= 2; z1 ++)
 					{
-						ForgeDirection FD = getFDFor(user);
-						int blockX = x+x1 + FD.offsetX;
-						int blockY = y+y1 + FD.offsetY;
-						int blockZ = z+z1 + FD.offsetZ;
+						EnumFacing FD = user.getHorizontalFacing();
+						int blockX = pos.getX()+x1 + FD.getFrontOffsetX();
+						int blockY = pos.getY()+y1 + FD.getFrontOffsetY();
+						int blockZ = pos.getZ()+z1 + FD.getFrontOffsetZ();
+						BlockPos newpos = new BlockPos(blockX,blockY,blockZ);
 						
-						if(!(x1+FD.offsetX == 0 && y1+FD.offsetY == 0 &&  z1+FD.offsetZ == 0))
+						if(!(x1+FD.getFrontOffsetX() == 0 && y1+FD.getFrontOffsetY() == 0 &&  z1+FD.getFrontOffsetZ() == 0))
 						{
-							Block newblock = world.getBlock(blockX, blockY, blockZ);
-							int m = world.getBlockMetadata(blockX, blockY, blockZ);
+							Block newblock = world.getBlockState(newpos).getBlock();
+							int m = block.getMetaFromState(world.getBlockState(newpos));
 							
 							if(item.getItemDamage() < item.getMaxDamage() && newblock != null && user instanceof EntityPlayer && newblock.getMaterial() == Material.leaves)
 							{
 								if(rand.nextFloat()*100F < (100F - ConfigTools.hvyDropChance))
 								{
-									newblock.dropBlockAsItem(world, blockX, blockY, blockZ, m, EnchantmentHelper.getFortuneModifier(user));
+									newblock.dropBlockAsItem(world, newpos, block.getStateFromMeta(m), EnchantmentHelper.getFortuneModifier(user));
 								}
-								world.setBlockToAir(blockX, blockY, blockZ);
+								world.setBlockToAir(newpos);
 								item.damageItem(1, user);
 							}
 						}
@@ -200,17 +198,11 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 			}
 		}
 	}
-
-	private ForgeDirection getFDFor(EntityLivingBase user) 
-	{
-		return ForgeDirection.UNKNOWN;//TODO: FD
-	}
-	
 	@Override
 	public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = super.getItemAttributeModifiers();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", this.hitDamage, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(this.itemModifierUUID, "Tool modifier", this.hitDamage, 0));
         return multimap;
     }
 	

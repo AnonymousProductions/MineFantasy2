@@ -1,17 +1,12 @@
 package minefantasy.mf2.network.packet;
 
 import io.netty.buffer.ByteBuf;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class SkillPacket extends PacketMF
 {
@@ -23,7 +18,7 @@ public class SkillPacket extends PacketMF
 
 	public SkillPacket(EntityPlayer user, Skill skill)
 	{
-		this.username = user.getCommandSenderName();
+		this.username = user.getName();
 		this.user = user;
 		NBTTagCompound skilltag = RPGElements.getSkill(user, skill.skillName);
 		skillName = skill.skillName;

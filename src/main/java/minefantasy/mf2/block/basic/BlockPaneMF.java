@@ -2,17 +2,25 @@ package minefantasy.mf2.block.basic;
 
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockPaneMF extends BlockPane 
 {
-
+	
+	private String NAME;
+	
 	public BlockPaneMF(String name, String frontTex, String sideTex, Material material, boolean recoverable) 
 	{
-		super("minefantasy2:basic/"+frontTex, "minefantasy2:basic/"+sideTex, material, recoverable);
-		
+		super( material, recoverable);
+		//"minefantasy2:basic/"+frontTex, "minefantasy2:basic/"+sideTex,
 		GameRegistry.registerBlock(this, name);
-		setBlockName(name);
+		setUnlocalizedName("minefantasy2:basic/" +name);
+		NAME=name;
+	}
+	
+	public String getName()
+	{
+		return NAME;
 	}
 
 }

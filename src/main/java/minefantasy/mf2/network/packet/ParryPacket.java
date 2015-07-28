@@ -3,7 +3,7 @@ package minefantasy.mf2.network.packet;
 import io.netty.buffer.ByteBuf;
 import minefantasy.mf2.mechanics.CombatMechanics;
 import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class ParryPacket extends PacketMF
 {
@@ -14,7 +14,7 @@ public class ParryPacket extends PacketMF
 	public ParryPacket(int value, EntityPlayer user)
 	{
 		this.value = value;
-		this.username = user.getCommandSenderName();
+		this.username = user.getName();
 	}
 
 	public ParryPacket() {

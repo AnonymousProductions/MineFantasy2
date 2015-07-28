@@ -1,15 +1,11 @@
 package minefantasy.mf2.api.helpers;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -50,7 +46,7 @@ public final class RenderHelper
 			int var5 = 0;
 			int var6;
 			int var7;
-			FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+			FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 			for (var6 = 0; var6 < tooltipData.size(); ++var6) {
 				var7 = fontRenderer.getStringWidth(tooltipData.get(var6));
 				if (var7 > var5)
@@ -102,14 +98,14 @@ public final class RenderHelper
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Tessellator var15 = Tessellator.instance;
-		var15.startDrawingQuads();
-		var15.setColorRGBA_F(var8, var9, var10, var7);
-		var15.addVertex(par3, par2, z);
-		var15.addVertex(par1, par2, z);
-		var15.setColorRGBA_F(var12, var13, var14, var11);
-		var15.addVertex(par1, par4, z);
-		var15.addVertex(par3, par4, z);
+		Tessellator var15 = Tessellator.getInstance();
+		var15.getWorldRenderer().startDrawingQuads();
+		var15.getWorldRenderer().setColorRGBA_F(var8, var9, var10, var7);
+		var15.getWorldRenderer().addVertex(par3, par2, z);
+		var15.getWorldRenderer().addVertex(par1, par2, z);
+		var15.getWorldRenderer().setColorRGBA_F(var12, var13, var14, var11);
+		var15.getWorldRenderer().addVertex(par1, par4, z);
+		var15.getWorldRenderer().addVertex(par3, par4, z);
 		var15.draw();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glDisable(GL11.GL_BLEND);
@@ -122,12 +118,12 @@ public final class RenderHelper
 	}
 
 	public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6, float f, float f1) {
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(par1 + 0, par2 + par6, z, (par3 + 0) * f, (par4 + par6) * f1);
-		tessellator.addVertexWithUV(par1 + par5, par2 + par6, z, (par3 + par5) * f, (par4 + par6) * f1);
-		tessellator.addVertexWithUV(par1 + par5, par2 + 0, z, (par3 + par5) * f, (par4 + 0) * f1);
-		tessellator.addVertexWithUV(par1 + 0, par2 + 0, z, (par3 + 0) * f, (par4 + 0) * f1);
+		Tessellator tessellator = Tessellator.getInstance();
+		tessellator.getWorldRenderer().startDrawingQuads();
+		tessellator.getWorldRenderer().addVertexWithUV(par1 + 0, par2 + par6, z, (par3 + 0) * f, (par4 + par6) * f1);
+		tessellator.getWorldRenderer().addVertexWithUV(par1 + par5, par2 + par6, z, (par3 + par5) * f, (par4 + par6) * f1);
+		tessellator.getWorldRenderer().addVertexWithUV(par1 + par5, par2 + 0, z, (par3 + par5) * f, (par4 + 0) * f1);
+		tessellator.getWorldRenderer().addVertexWithUV(par1 + 0, par2 + 0, z, (par3 + 0) * f, (par4 + 0) * f1);
 		tessellator.draw();
 	}
 

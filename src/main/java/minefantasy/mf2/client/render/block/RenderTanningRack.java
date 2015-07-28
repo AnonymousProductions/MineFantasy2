@@ -4,13 +4,10 @@ import minefantasy.mf2.block.crafting.BlockTanningRack;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderTanningRack implements ISimpleBlockRenderingHandler 
 {
@@ -20,8 +17,8 @@ public class RenderTanningRack implements ISimpleBlockRenderingHandler
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-		BlockTanningRack anvil = (BlockTanningRack)block;
-		TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityTanningRack(), 0.0D, 0.0D, 0.0D, 0.0F);
+		BlockTanningRack rack = (BlockTanningRack)block;
+		TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityTanningRack(rack.tier, rack.tex), 0.0D, 0.0D, 0.0D, 0.0F);
 		GL11.glPopMatrix();
 	}
 

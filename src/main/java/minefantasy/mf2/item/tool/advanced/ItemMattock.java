@@ -10,14 +10,21 @@ import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -30,10 +37,9 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabToolAdvanced);
         
-        setTextureName("minefantasy2:Tool/Advanced/"+name);
+        setUnlocalizedName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setHarvestLevel("pickaxe", Math.max(0, material.getHarvestLevel()-2));
-		this.setUnlocalizedName(name);
     }
     private int itemRarity;
     @Override
@@ -61,9 +67,9 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
 		return toolMaterial;
 	}
 	@Override
-	public float getDigSpeed(ItemStack stack, Block block, int meta)
+	public float getDigSpeed(ItemStack stack, IBlockState state)
 	{
-		return ToolHelper.modifyDigOnQuality(stack, super.getDigSpeed(stack, block, meta));
+		return ToolHelper.modifyDigOnQuality(stack, super.getDigSpeed(stack, state));
 	}
 	@Override
     public void addInformation(ItemStack item, EntityPlayer user, List list, boolean extra) 
@@ -86,7 +92,7 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
     	return super.canHarvestBlock(block, stack) || Items.iron_shovel.canHarvestBlock(block, stack);
     }
 	@Override
-	public boolean onBlockStartBreak(ItemStack item, int x, int y, int z, EntityPlayer user)
+	public boolean onBlockStartBreak(ItemStack item, BlockPos pos, EntityPlayer user)
 	{
 		World world = user.worldObj;
 		if(item.hasTagCompound())
@@ -99,12 +105,12 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
 			if(block2 != null)
 			{
 				MFLogUtil.logDebug("Set Block: " + id + " : " + meta);
-				world.setBlock(x, y, z, block2);
-				world.setBlockMetadataWithNotify(x, y, z, meta, 2);
+				world.setBlockState(pos, block2.getDefaultState());
+				world.setBlockState(pos, block2.getStateFromMeta(meta), 2);
 				return true;
 			}
 		}
-		return super.onBlockStartBreak(item, x, y, z, user);
+		return super.onBlockStartBreak(item, pos, user);
 	}
 	private void setBlock(ItemStack mattock, int id, int meta)
 	{
@@ -114,20 +120,20 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
 		MFLogUtil.logDebug("set Mattock Tile: " + id + " : " + meta);
 	}
 	@Override
-    public boolean onItemUse(ItemStack mattock, EntityPlayer player, World world, int x, int y, int z, int facing, float pitch, float yaw, float pan)
+    public boolean onItemUse(ItemStack mattock, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, float pitch, float yaw, float pan)
     {
-        if (!player.canPlayerEdit(x, y, z, facing, mattock))
+        if (!player.canPlayerEdit(pos, facing, mattock))
         {
             return false;
         }
         else
         {
-            Block block = world.getBlock(x, y, z);
+            Block block = world.getBlockState(pos).getBlock();
 
             if(block != null)
             {
             	int id = Block.getIdFromBlock(block);
-            	int meta = world.getBlockMetadata(x, y, z);
+            	int meta = block.getMetaFromState(world.getBlockState(pos));
         		setBlock(mattock, id, meta);
             }
         }
@@ -150,4 +156,12 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
 		}
 		return false;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

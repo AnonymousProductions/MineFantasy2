@@ -1,5 +1,6 @@
 package minefantasy.mf2.item.tool.advanced;
 
+import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
@@ -11,16 +12,22 @@ import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.item.tool.crafting.ItemSaw;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -41,9 +48,8 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabToolAdvanced);
         
-        setTextureName("minefantasy2:Tool/Advanced/"+name);
+        setUnlocalizedName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
 		
 		this.setHarvestLevel("pickaxe", material.getHarvestLevel());
 		this.setMaxDamage(material.getMaxUses()*2);
@@ -78,14 +84,14 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 	}
     
 	@Override
-	public float getDigSpeed(ItemStack stack, Block block, int meta)
+	public float getDigSpeed(ItemStack stack, IBlockState state)
 	{
-		return ToolHelper.modifyDigOnQuality(stack, super.getDigSpeed(stack, block, meta)) / 10F;
+		return ToolHelper.modifyDigOnQuality(stack, super.getDigSpeed(stack, state)) / 10F;
 	}
 	@Override
-	public boolean onBlockDestroyed(ItemStack item, World world, Block block, int x, int y, int z, EntityLivingBase user)
+	public boolean onBlockDestroyed(ItemStack item, World world, Block block, BlockPos pos, EntityLivingBase user)
 	{
-		if(!world.isRemote && ForgeHooks.isToolEffective(item, block, world.getBlockMetadata(x, y, z)) && ItemSaw.canAcceptCost(user))
+		if(!world.isRemote && ForgeHooks.isToolEffective(world, pos,item) && ItemSaw.canAcceptCost(user))
 		{
 			for(int x1 = -1; x1 <= 1; x1 ++)
 			{
@@ -93,23 +99,21 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 				{
 					for(int z1 = -1; z1 <= 1; z1 ++)
 					{
-						ForgeDirection FD = getFDFor(user);
-						int blockX = x+x1 + FD.offsetX;
-						int blockY = y+y1 + FD.offsetY;
-						int blockZ = z+z1 + FD.offsetZ;
+						EnumFacing FD = user.getHorizontalFacing();
+						BlockPos newpos = pos.add(x1 + FD.getFrontOffsetX(),y1 + FD.getFrontOffsetY(), z1 + FD.getFrontOffsetZ());
 						
-						if(!(x1+FD.offsetX == 0 && y1+FD.offsetY == 0 &&  z1+FD.offsetZ == 0))
+						if(!(x1+FD.getFrontOffsetX()== 0 && y1+FD.getFrontOffsetY() == 0 &&  z1+FD.getFrontOffsetZ() == 0))
 						{
-							Block newblock = world.getBlock(blockX, blockY, blockZ);
-							int m = world.getBlockMetadata(blockX, blockY, blockZ);
+							Block newblock = world.getBlockState(newpos).getBlock();
+							int m = block.getMetaFromState(world.getBlockState(newpos));
 							
-							if(newblock != null && user instanceof EntityPlayer && ForgeHooks.canHarvestBlock(newblock, (EntityPlayer) user, m) && ForgeHooks.isToolEffective(item, newblock, m))
+							if(newblock != null && user instanceof EntityPlayer && ForgeHooks.canHarvestBlock(newblock, (EntityPlayer) user, world, newpos) && ForgeHooks.isToolEffective(world,newpos,item))
 							{
 								if(rand.nextFloat()*100F < (100F - ConfigTools.hvyDropChance))
 								{
-									newblock.dropBlockAsItem(world, blockX, blockY, blockZ, m, EnchantmentHelper.getFortuneModifier(user));
+									newblock.dropBlockAsItem(world, newpos, block.getStateFromMeta(m), EnchantmentHelper.getFortuneModifier(user));
 								}
-								world.setBlockToAir(blockX, blockY, blockZ);
+								world.setBlockToAir(newpos);
 								item.damageItem(1, user);
 								ItemSaw.tirePlayer(user, 1F);
 							}
@@ -118,12 +122,7 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 				}	
 			}
 		}
-		return super.onBlockDestroyed(item, world, block, x, y, z, user);
-	}
-	
-	private ForgeDirection getFDFor(EntityLivingBase user) 
-	{
-		return ForgeDirection.UNKNOWN;//TODO: FD
+		return super.onBlockDestroyed(item, world, block, pos, user);
 	}
 
 	@Override
@@ -135,4 +134,12 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

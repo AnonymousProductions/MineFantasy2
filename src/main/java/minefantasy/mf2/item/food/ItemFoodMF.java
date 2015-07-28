@@ -22,7 +22,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemFoodMF extends ItemFood
 {
@@ -41,8 +41,8 @@ public class ItemFoodMF extends ItemFood
 		saturationLevel = saturation;
 		setCreativeTab(CreativeTabMF.tabFood);
 		GameRegistry.registerItem(this, "MF2_food_"+name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
-		this.setTextureName("minefantasy2:food/"+name);
+		setUnlocalizedName("minefantasy2:food/"+name);
+		//this.setTextureName("minefantasy2:food/"+name);
 	}
 	
 	public ItemFoodMF(String name, int hunger, float saturation, float noEatTime, boolean isMeat, int rarity)
@@ -224,14 +224,14 @@ public class ItemFoodMF extends ItemFood
 		return this;
 	}
 	@Override
-	public ItemStack onEaten(ItemStack food, World world, EntityPlayer consumer)
+	public ItemStack onItemUseFinish(ItemStack food, World world, EntityPlayer consumer)
     {
 		ItemStack left = getLeftOver(food);
         if(left != null)
         {
         	if(food.stackSize == 1)
         	{
-        		consumer.getFoodStats().func_151686_a(this, food);
+        		consumer.getFoodStats().addStats(this, food);
                 world.playSoundAtEntity(consumer, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
                 this.onFoodEaten(food, world, consumer);
         		return left;
@@ -242,7 +242,7 @@ public class ItemFoodMF extends ItemFood
     		}
         }
         setEatDelay(consumer, 10);
-        return super.onEaten(food, world, consumer);
+        return super.onItemUseFinish(food, world, consumer);
     }
 	
 	public static void setLeftOver(ItemStack food, ItemStack leftover)

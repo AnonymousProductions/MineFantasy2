@@ -1,0 +1,11 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "up": "blocks/processor/blast_chamber_top",
+	"down": "blocks/processor/blast_chamber_top",
+        "north": "blocks/processor/blast_heater_active",
+	"south": "blocks/processor/blast_heater_active",
+	"east": "blocks/processor/blast_heater_active",
+	"west": "blocks/processor/blast_heater_active"
+    }
+}

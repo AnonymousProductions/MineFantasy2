@@ -5,16 +5,11 @@ import java.util.Random;
 
 import minefantasy.mf2.api.crafting.IBasicMetre;
 import minefantasy.mf2.api.heating.ForgeFuel;
-import minefantasy.mf2.api.heating.ForgeItemHandler;
-import minefantasy.mf2.api.heating.Heatable;
-import minefantasy.mf2.api.refine.Alloy;
-import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.IBellowsUseable;
 import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.refining.BlockForge;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.item.list.ComponentListMF;
-import minefantasy.mf2.network.packet.AnvilPacket;
 import minefantasy.mf2.network.packet.ForgePacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
@@ -24,12 +19,17 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldServer;
 
-public class TileEntityForge extends TileEntity implements IInventory, IBasicMetre, IBellowsUseable
+public class TileEntityForge extends TileEntity implements IInventory, IBasicMetre, IBellowsUseable, IUpdatePlayerListBox
 {
+	public static final float dragonHeat = 200F; //200*
 	private ItemStack[] inv = new ItemStack[10];
 	public float fuel;
 	public float maxFuel = 6000;//5m
@@ -40,21 +40,26 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	public float dragonHeartPower = 0F;
 	public String texTypeForRender = "stone";
 	private boolean isBurning = false;
+	
 	public TileEntityForge(Block block, String type) 
 	{
 		texTypeForRender = type;
 		blockType = block;
-		blockMetadata = 0;
+		worldObj.setBlockState(pos, worldObj.getBlockState(pos).getBlock().getStateFromMeta(0));
 	}
 
 	public TileEntityForge() {
 	}
 
 	@Override
-	public void updateEntity()
+	public void update()
 	{
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
+		
 		if(justShared > 0)--justShared;
-		super.updateEntity();
+		update();
 		
 		if(++ticksExisted % 20 == 0)
 		{
@@ -91,7 +96,12 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		
 		if(temperature < maxTemp)
 		{
-			temperature += 0.2F;
+			float amount = 0.2F;
+			temperature += amount;
+			if(temperature > maxTemp)
+			{
+				temperature = maxTemp;
+			}
 		}
 		else if(temperature > maxTemp && rand.nextInt(20) == 0)
 		{
@@ -100,12 +110,12 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		
 		if(isBurning && temperature > 100 && rand.nextInt(20) == 0 && !isOutside())
 		{
-			SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord, zCoord, 1);
+			SmokeMechanics.emitSmokeIndirect(worldObj, this.getPos(), 1);
 		}
 		if(dragonHeartPower > 0)
 		{
 			dragonHeartPower -= 1F/100F;//5Seconds
-			if(temperature < 300)//Must be 300+
+			if(temperature < dragonHeat)//Must be 300+
 			{
 				dragonHeartPower = 0;
 			}
@@ -113,11 +123,12 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	}
 	private boolean isOutside()
 	{
+		
 		for(int x = -1; x <= 1; x++)
 		{
 			for(int y = -1; y <= 1; y++)
 			{
-				if(!worldObj.canBlockSeeTheSky(xCoord + x, yCoord+1, zCoord + y))
+				if(!worldObj.canBlockSeeSky(this.getPos().add(x, 1, y)))
 				{
 					return false;
 				}
@@ -137,11 +148,12 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 
 	private void shareTo(int x, int z) 
 	{
+		
 		if (fuel <= 0)
 			return;
 
 		int share = 2;
-		TileEntity tile = worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z);
+		TileEntity tile = worldObj.getTileEntity(this.getPos().add(x, 0, z));
 		if (tile == null)
 			return;
 
@@ -191,12 +203,22 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			int temp = ItemHeated.getTemp(item);
 			if(temp > temperature)
 			{
-				temp -= rand.nextInt(20);
+				int i = (int)(temperature/5F);
+				MFLogUtil.logDebug("Taken " + i + " from slot " + slot);
+				MFLogUtil.logDebug("Forge Temp = " + temperature);
+				temp -= i;
 			}
 			else
 			{
-				int increase = (int) Math.min(temperature-temp, rand.nextFloat()*(temperature / 10F));
-				temp += increase;
+				int increase = (int)(temperature / 10F);
+				if(temp >= (temperature-increase))
+				{
+					temp = (int) temperature;
+				}
+				else
+				{
+					temp += increase;
+				}
 			}
 			if(temp <= 0)
 			{
@@ -223,7 +245,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	}
 	public float getUnderTemperature()
 	{
-		Block under = worldObj.getBlock(xCoord, yCoord-1, zCoord);
+		Block under = worldObj.getBlockState(this.getPos().add(0, -1, 0)).getBlock();
 		
 		if(under.getMaterial() == Material.fire)
 		{
@@ -350,13 +372,13 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	}
 
 	@Override
-	public String getInventoryName()
+	public String getName()
 	{
 		return "gui.crucible.name";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName()
+	public boolean hasCustomName()
 	{
 		return false;
 	}
@@ -370,16 +392,19 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer user)
 	{
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		return user.getDistance(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D) < 8D;
 	}
 
 	@Override
-	public void openInventory()
+	public void openInventory(EntityPlayer player)
 	{
 	}
 
 	@Override
-	public void closeInventory()
+	public void closeInventory(EntityPlayer player)
 	{
 	}
 
@@ -393,7 +418,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		if(worldObj == null)return null;
 		
-		Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
+		Block block = worldObj.getBlockState(this.getPos()).getBlock();
 		
 		if(block != null && block instanceof BlockForge)
 		{
@@ -425,14 +450,14 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	 */
 	public void extinguish()
 	{
-		BlockForge.updateFurnaceBlockState(false, worldObj, xCoord, yCoord, zCoord);
+		BlockForge.updateFurnaceBlockState(false, worldObj,this.getPos());
 	}
 	/**
 	 * Fires the forge up
 	 */
 	public void fireUpForge()
 	{
-		BlockForge.updateFurnaceBlockState(true, worldObj, xCoord, yCoord, zCoord);
+		BlockForge.updateFurnaceBlockState(true, worldObj, this.getPos());
 	}
 	public float getBellowsEffect()
 	{
@@ -525,7 +550,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	}
 	
 	private boolean isForge(int x, int y, int z) {
-		return worldObj.getBlock(xCoord + x, yCoord + y, zCoord + z) instanceof BlockForge;
+		return worldObj.getBlockState(this.getPos().add(x, y, z)).getBlock() instanceof BlockForge;
 	}
 	public void syncData()
 	{
@@ -542,6 +567,9 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	int justShared;
 	public void onUsedWithBellows(float powerLevel) 
 	{
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		if(!isBurning())return;
 		if(justShared > 0)
 		{
@@ -560,7 +588,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		
 		for(int a = 0; a < 10; a ++)
 		{
-			worldObj.spawnParticle("flame", xCoord+(rand.nextDouble()*0.8D)+0.1D, yCoord + 0.4D, zCoord+(rand.nextDouble()*0.8D)+0.1D, 0, 0.01, 0);
+			worldObj.spawnParticle(EnumParticleTypes.FLAME, xCoord+(rand.nextDouble()*0.8D)+0.1D, yCoord + 0.4D, zCoord+(rand.nextDouble()*0.8D)+0.1D, 0, 0.01, 0);
 		}
 		
 		pumpBellows(-1, 0, powerLevel*0.9F);
@@ -575,7 +603,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		if(fuel <= 0)return;
 		
 		int share = 2;
-		TileEntity tile = worldObj.getTileEntity(xCoord+x, yCoord, zCoord+z);
+		TileEntity tile = worldObj.getTileEntity(this.getPos().add(x, 0, z));
 		if(tile == null)return;
 		
 		if(tile instanceof TileEntityForge)
@@ -583,5 +611,76 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			TileEntityForge forge = (TileEntityForge)tile;
 			forge.onUsedWithBellows(pump);
 		}
+	}
+
+	public float getBlockTemperature()
+	{
+		if(this.isLit)
+		{
+			return temperature;
+		}
+		return 0;
+	}
+	
+	public boolean hasCrucibleAbove()
+	{
+		if(worldObj == null)return false;
+		
+		TileEntity tile = worldObj.getTileEntity(this.getPos().add(0, 1, 0));
+		return tile != null && tile instanceof TileEntityCrucible || tile instanceof TileEntityFurnace;
+	}
+	
+	private void averageAllItems()
+	{
+		/*
+		int temp = 0;
+		int items = 0;
+		for(ItemStack item: inv)
+		{
+			if(item != null && item.getItem() instanceof IHotItem)
+			{
+				++items;
+				temp += ItemHeated.getTemp(item);
+			}
+		}
+		int average = (int)((float)temp / items);
+		for(ItemStack item: inv)
+		{
+			if(item != null && item.getItem() instanceof IHotItem)
+			{
+				ItemHeated.setTemp(item, average);
+			}
+		}
+		*/
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

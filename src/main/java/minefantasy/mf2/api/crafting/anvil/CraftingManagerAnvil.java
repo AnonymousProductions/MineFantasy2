@@ -180,8 +180,8 @@ public class CraftingManagerAnvil
         if (var2 == 2 && var3.getItem() == var4.getItem() && var3.stackSize == 1 && var4.stackSize == 1 && var3.getItem().isRepairable())
         {
             Item var10 = var3.getItem();
-            int var12 = var10.getMaxDamage() - var3.getItemDamageForDisplay();
-            int var7 = var10.getMaxDamage() - var4.getItemDamageForDisplay();
+            int var12 = var10.getMaxDamage() - var3.getItemDamage();
+            int var7 = var10.getMaxDamage() - var4.getItemDamage();
             int var8 = var12 + var7 + var10.getMaxDamage() * 10 / 100;
             int var9 = var10.getMaxDamage() - (var8)*2;
 
@@ -248,8 +248,8 @@ public class CraftingManagerAnvil
         if (var2 == 2 && var3.getItem() == var4.getItem() && var3.stackSize == 1 && var4.stackSize == 1 && var3.getItem().isRepairable())
         {
             Item var10 = var3.getItem();
-            int var12 = var10.getMaxDamage() - var3.getItemDamageForDisplay();
-            int var7 = var10.getMaxDamage() - var4.getItemDamageForDisplay();
+            int var12 = var10.getMaxDamage() - var3.getItemDamage();
+            int var7 = var10.getMaxDamage() - var4.getItemDamage();
             int var8 = var12 + var7 + var10.getMaxDamage() * 10 / 100;
             int var9 = var10.getMaxDamage() - var8;
 

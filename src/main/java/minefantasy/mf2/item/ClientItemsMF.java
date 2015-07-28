@@ -2,15 +2,15 @@ package minefantasy.mf2.item;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.lwjgl.input.Keyboard;
 
 @SideOnly(Side.CLIENT)
 public class ClientItemsMF

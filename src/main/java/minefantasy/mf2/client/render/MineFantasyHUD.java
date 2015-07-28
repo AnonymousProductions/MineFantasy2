@@ -6,12 +6,13 @@ import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.archery.IDisplayMFArrows;
 import minefantasy.mf2.api.crafting.IBasicMetre;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.helpers.GuiHelper;
+import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
-import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.config.ConfigClient;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.client.Minecraft;
@@ -22,9 +23,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import minefantasy.mf2.api.helpers.TextureHelperMF;
 
 import org.lwjgl.opengl.GL11;
 
@@ -51,7 +52,9 @@ public class MineFantasyHUD extends Gui
 			int z = coords[2];
 			EntityPlayer player = mc.thePlayer;
 			World world = player.worldObj;
-			TileEntity tile = world.getTileEntity(x, y, z);
+			
+			BlockPos pos = new BlockPos(x,y,z);
+			TileEntity tile = world.getTileEntity(pos);
 			if(tile != null)
 			{
 				if(tile instanceof TileEntityAnvilMF)
@@ -78,9 +81,10 @@ public class MineFantasyHUD extends Gui
 	{
 		if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
         {
-            int j = mc.objectMouseOver.blockX;
-            int k = mc.objectMouseOver.blockY;
-            int l = mc.objectMouseOver.blockZ;
+            
+			int j = mc.objectMouseOver.getBlockPos().getX();
+            int k = mc.objectMouseOver.getBlockPos().getY();
+            int l = mc.objectMouseOver.getBlockPos().getZ();
             
             return new int[]{j, k, l};
         }
@@ -100,11 +104,11 @@ public class MineFantasyHUD extends Gui
 		int AR = ArmourCalculator.getTotalArmourRating(player);
         if(ArmourCalculator.usePercentage)
         {
-        	mc.fontRenderer.drawStringWithShadow("AR: "+ ItemWeaponMF.decimal_format.format(AR)+"%", xPosAR, yPosAR, Color.WHITE.getRGB());
+        	mc.fontRendererObj.drawStringWithShadow("AR: "+ ItemWeaponMF.decimal_format.format(AR)+"%", xPosAR, yPosAR, Color.WHITE.getRGB());
         }
         else
         {
-        	mc.fontRenderer.drawStringWithShadow("AR: "+ (int)AR, xPosAR, yPosAR, Color.WHITE.getRGB());
+        	mc.fontRendererObj.drawStringWithShadow("AR: "+ (int)AR, xPosAR, yPosAR, Color.WHITE.getRGB());
         }
         ItemStack held = player.getHeldItem();
         if(held != null && (held.getItem() instanceof IDisplayMFArrows || held.getItem() == Items.bow))
@@ -123,7 +127,7 @@ public class MineFantasyHUD extends Gui
                 int xPosAC = orientationAR[0] + ConfigClient.AC_xPos;
                 int yPosAC = orientationAR[1] + ConfigClient.AC_yPos;
                 
-        		mc.fontRenderer.drawStringWithShadow(text, xPosAC, yPosAC, Color.WHITE.getRGB());
+        		mc.fontRendererObj.drawStringWithShadow(text, xPosAC, yPosAC, Color.WHITE.getRGB());
         	}
         }
 	}
@@ -170,7 +174,7 @@ public class MineFantasyHUD extends Gui
         
         if(mc.currentScreen != null && mc.currentScreen instanceof GuiInventory)
         {
-        	mc.fontRenderer.drawStringWithShadow(stamTxt, xPos + 41 - (mc.fontRenderer.getStringWidth(stamTxt)/2), yPos-2, bonus ? Color.CYAN.getRGB() : Color.WHITE.getRGB());
+        	mc.fontRendererObj.drawStringWithShadow(stamTxt, xPos + 41 - (mc.fontRendererObj.getStringWidth(stamTxt)/2), yPos-2, bonus ? Color.CYAN.getRGB() : Color.WHITE.getRGB());
         }
         GL11.glDisable(GL11.GL_BLEND);
 	}
@@ -234,7 +238,7 @@ public class MineFantasyHUD extends Gui
         this.drawTexturedModalRect(xPos+6, yPos+12, 90, 20, tile.getProgressBar(160), 3);
         
         String s = knowsCraft ? tile.getResultName() : "????";
-        mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
+        mc.fontRendererObj.drawString(s, xPos + 86 - (mc.fontRendererObj.getStringWidth(s) / 2), yPos+3, 0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         
         if(knowsCraft && !tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
@@ -267,7 +271,7 @@ public class MineFantasyHUD extends Gui
         this.drawTexturedModalRect(xPos+6, yPos+12, 90, 20, tile.getProgressBar(160), 3);
         
         String s = knowsCraft ? tile.getResultName() : "????";
-        mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
+        mc.fontRendererObj.drawString(s, xPos + 86 - (mc.fontRendererObj.getStringWidth(s) / 2), yPos+3, 0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         
         if(knowsCraft && !tile.resName.equalsIgnoreCase("") && tile.getToolNeeded() != null)
@@ -300,7 +304,7 @@ public class MineFantasyHUD extends Gui
         {
         	s += " x"+result.stackSize;
         }
-        mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
+        mc.fontRendererObj.drawString(s, xPos + 86 - (mc.fontRendererObj.getStringWidth(s) / 2), yPos+3, 0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         
         String resName = tile.getResultName();
@@ -329,7 +333,7 @@ public class MineFantasyHUD extends Gui
         this.drawTexturedModalRect(xPos+6, yPos+12, 90, 20, tile.getMetreScale(160), 3);
         
         String s = tile.getLocalisedName();
-        mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
+        mc.fontRendererObj.drawString(s, xPos + 86 - (mc.fontRendererObj.getStringWidth(s) / 2), yPos+3, 0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
 	}

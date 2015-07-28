@@ -8,7 +8,6 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.mechanics.BombDispenser;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -16,29 +15,33 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMine extends Item
 {
-    public ItemMine(String name)
+    
+	private String NAME = "";
+	
+	public ItemMine(String Name)
     {
+    	final String name = Name;
+    	NAME = Name;
+    	
     	this.maxStackSize = 16;
         this.setCreativeTab(CreativeTabMF.tabGadget);
-        setTextureName("minefantasy2:Other/"+name);
+        setUnlocalizedName("minefantasy2:Other/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, new BombDispenser());
     }
 
     @Override
     public EnumAction getItemUseAction(ItemStack item)
     {
-        return EnumAction.block;
+        return EnumAction.BLOCK;
     }
     
     @Override
@@ -56,8 +59,9 @@ public class ItemMine extends Item
     {
         return 35;
     }
+    
     @Override
-	public ItemStack onEaten(ItemStack item, World world, EntityPlayer user)
+	public ItemStack onItemUseFinish(ItemStack item, World world, EntityPlayer user)
     {
     	world.playSoundEffect(user.posX, user.posY+1.5, user.posZ, "random.click", 1.0F, 1.0F);
     	user.swingItem();
@@ -96,12 +100,14 @@ public class ItemMine extends Item
     	list.add(StatCollector.translateToLocal("bomb.damage.name")+": "+damage);
     	list.add(StatCollector.translateToLocalFormatted("bomb.range.metric.name", range));
     }
+    
     @Override
     public String getUnlocalizedName(ItemStack item)
     {
     	EnumExplosiveType type = EnumExplosiveType.getType(getFilling(item));
     	return "item.mine_"+type.name;
     }
+    
     private static final String powderNBT = "MineFantasy_PowderType";
     private static final String fuseNBT = "MineFantasy_FuseType";
     private static final String fillingNBT = "MineFantasy_ExplosiveType";
@@ -186,6 +192,7 @@ public class ItemMine extends Item
     {
     	return ItemBomb.createExplosive(this, casing, filling,  fuse, powder, stackSize);
     }
+    
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
@@ -212,6 +219,7 @@ public class ItemMine extends Item
 	{
 		return mines[type];
 	}
+    
     private IIcon[] mines = new IIcon[4];
     
     @Override
@@ -258,8 +266,13 @@ public class ItemMine extends Item
     {
     	if(getFilling(item) >= 2 || getCasing(item) >= 2)
     	{
-    		return EnumRarity.uncommon;
+    		return EnumRarity.UNCOMMON;
     	}
-    	return EnumRarity.common;
+    	return EnumRarity.COMMON;
     }
+
+	public String getName() {
+		// TODO Auto-generated method stub
+		return NAME;
+	}
 }

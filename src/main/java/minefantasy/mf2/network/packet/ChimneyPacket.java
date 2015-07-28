@@ -1,13 +1,12 @@
 package minefantasy.mf2.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.tileentity.TileEntityChimney;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraft.util.BlockPos;
 
 public class ChimneyPacket extends PacketMF
 {
@@ -17,9 +16,9 @@ public class ChimneyPacket extends PacketMF
 
 	public ChimneyPacket(TileEntityChimney tile)
 	{
-		coords = new int[]{tile.xCoord, tile.yCoord, tile.zCoord};
+		coords = new int[]{tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ()};
 		block = Block.getIdFromBlock(tile.maskBlock);
-		meta = tile.blockMetadata;
+		meta = tile.getBlockMetadata();
 	}
 
 	public ChimneyPacket() {
@@ -29,7 +28,7 @@ public class ChimneyPacket extends PacketMF
 	public void process(ByteBuf packet, EntityPlayer player) 
 	{
         coords = new int[]{packet.readInt(), packet.readInt(), packet.readInt()};
-        TileEntity entity = player.worldObj.getTileEntity(coords[0], coords[1], coords[2]);
+        TileEntity entity = player.worldObj.getTileEntity(new BlockPos(coords[0], coords[1], coords[2]));
         
         if(entity != null && entity instanceof TileEntityChimney)
         {

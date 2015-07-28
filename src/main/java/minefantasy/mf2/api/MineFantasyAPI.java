@@ -1,13 +1,8 @@
 package minefantasy.mf2.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.google.common.collect.Lists;
-
-import cpw.mods.fml.common.IFuelHandler;
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
@@ -15,7 +10,6 @@ import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
 import minefantasy.mf2.api.heating.Heatable;
-import minefantasy.mf2.api.knowledge.KnowledgeType;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
@@ -25,8 +19,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.oredict.OreDictionary;
+
+import com.google.common.collect.Lists;
 
 public class MineFantasyAPI 
 {

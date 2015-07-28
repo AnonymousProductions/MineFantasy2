@@ -1,39 +1,35 @@
 package minefantasy.mf2.block.basic;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.MineFantasyII;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlockWithMetadata;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ConstructionBlockMF extends Block {
 
-	public IIcon[] m_icons = new IIcon[4];
 	public static final String[] m_names = new String[] {"", "_cobblestone", "_brick", "_pavement"};
 	public Block[] stairblocks = new Block[4];
 	public ConstructionBlockMF(String unlocName)
 	{
 		super(Material.rock);
 		
-		this.setBlockName(unlocName);
+		this.setUnlocalizedName(unlocName);
 		
 		this.setCreativeTab(CreativeTabs.tabBlock);
-		GameRegistry.registerBlock(this, ItemConstBlock.class, unlocName);
+		GameRegistry.registerBlock((Block)this, unlocName);
+		// Is ItemConstBlock.class needed?
+		//GameRegistry.registerBlock((Block)this, ItemConstBlock.class, unlocName);
 		for(int i = 0; i < 4; i ++)
 		{
-			GameRegistry.registerBlock(stairblocks[i] = new StairsConstBlock(unlocName + m_names[i] + "_stair", this, i).setHardness(1.5F).setResistance(10F),  unlocName + m_names[i] + "_stair");
+			GameRegistry.registerBlock(stairblocks[i] = new StairsConstBlock(unlocName + m_names[i] + "_stair", getStateFromMeta(i)).setHardness(1.5F).setResistance(10F),  unlocName + m_names[i] + "_stair");
 		}
 		
 		setHardness(1.5F);
@@ -104,21 +100,22 @@ public class ConstructionBlockMF extends Block {
 	}
 	
 	@Override
-	public int damageDropped(int meta)
+	public int damageDropped(IBlockState state)
 	{
-		if(meta == 0)return 1;
+		if(getMetaFromState(state) == 0)
+			return 1;
 		
-		return meta;
+		return getMetaFromState(state);
 	}
 	
-	@Override
-	public void registerBlockIcons(IIconRegister register)
-	{
-		m_icons[0] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5));
-		m_icons[1] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5) + "_cobblestone");
-		m_icons[2] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5) + "_brick");
-		m_icons[3] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5) + "_pavement");
-	}
+//	@Override
+//	public void registerBlockIcons(IIconRegister register)
+//	{
+//		m_icons[0] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5));
+//		m_icons[1] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5) + "_cobblestone");
+//		m_icons[2] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5) + "_brick");
+//		m_icons[3] = register.registerIcon(MineFantasyII.MODID + ":" + "basic/" + getUnlocalizedName().substring(5) + "_pavement");
+//	}
 
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return getUnlocalizedName() + "." + m_names[itemstack.getItemDamage()];
@@ -133,42 +130,24 @@ public class ConstructionBlockMF extends Block {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-	@Override
-	public IIcon getIcon(int side, int meta)
-	{
-		switch(meta)
-		{
-		case 0:
-			return m_icons[0];
-			
-		case 1:
-			return m_icons[1];
-			
-		case 2:
-			return m_icons[2];
-			
-		case 3:
-			return m_icons[3];
-			
-		default:
-			return blockIcon;
-		}
-	}
+
 	
+
 	public static class StairsConstBlock extends BlockStairs
 	{
 
-		public StairsConstBlock(String unlocalizedName, Block baseBlock, int metaOfBaseBlock)
+		public StairsConstBlock(String unlocalizedName, IBlockState modelState)
 		{
-			super(baseBlock, metaOfBaseBlock);
-			this.setBlockName(unlocalizedName);
+			//IBlockState modelState
+			super(modelState);
+			this.setUnlocalizedName(unlocalizedName);
 		    this.setCreativeTab(CreativeTabs.tabBlock);
 		    this.setLightOpacity(0);//They seem to render shadows funny
 		}
 		
 		public StairsConstBlock(String unlocalizedName, Block baseBlock) 
 		{
-		    this(unlocalizedName, baseBlock, 0);
+		    this(unlocalizedName, baseBlock.getStateFromMeta(0));
 		}
 
 		public Block register(String name) 
@@ -178,12 +157,12 @@ public class ConstructionBlockMF extends Block {
 		}
 		
 	}
-	
-	public static class ItemConstBlock extends ItemBlockWithMetadata
+											// ItemBlockWithMetadata
+	public static class ItemConstBlock extends ItemBlock
 	{
 
 		public ItemConstBlock(Block block) {
-			super(block, block);
+			super(block);
 		}
 		
 		@Override

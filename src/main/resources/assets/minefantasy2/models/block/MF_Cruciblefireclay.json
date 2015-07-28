@@ -1,0 +1,11 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "up": "blocks/processor/crucible_top_fireclay",
+	"down": "blocks/processor/crucible_top_fireclay",
+        "north": "blocks/processor/crucible_side_fireclay",
+	"south": "blocks/processor/crucible_side_fireclay",
+	"east": "blocks/processor/crucible_side_fireclay",
+	"west": "blocks/processor/crucible_side_fireclay"
+    }
+}

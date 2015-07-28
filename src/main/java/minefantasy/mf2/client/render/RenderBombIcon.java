@@ -6,14 +6,12 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBombIcon extends Render
@@ -44,7 +42,7 @@ public class RenderBombIcon extends Render
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glScalef(0.5F, 0.5F, 0.5F);
             this.bindEntityTexture(bomb);
-            Tessellator tessellator = Tessellator.instance;
+            Tessellator tessellator = Tessellator.getInstance();
 
             this.func_77026_a(tessellator, iicon);
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);

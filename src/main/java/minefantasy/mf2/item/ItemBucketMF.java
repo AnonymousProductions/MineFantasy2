@@ -1,10 +1,13 @@
 package minefantasy.mf2.item;
 
+import java.util.List;
+
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +15,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBucketMF extends Item
 {
@@ -22,15 +30,16 @@ public class ItemBucketMF extends Item
     private Block isFull;
     private static final String __OBFID = "CL_00000000";
 
-    public ItemBucketMF(String name, Block filler)
+    public ItemBucketMF(String Name, Block filler)
     {
-        this.maxStackSize = 1;
+    	final String name = Name;
+    	this.maxStackSize = 1;
         this.isFull = filler;
         this.setCreativeTab(CreativeTabMF.tabGadget);
         
-        setTextureName("minefantasy2:Tool/"+name);
+        //setTextureName("minefantasy2:Tool/"+name);
+        setUnlocalizedName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
     }
 
     /**
@@ -50,35 +59,34 @@ public class ItemBucketMF extends Item
         {
             if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {
-                int x = movingobjectposition.blockX;
-                int y = movingobjectposition.blockY;
-                int z = movingobjectposition.blockZ;
+                BlockPos pos = movingobjectposition.getBlockPos();
 
-                if (!world.canMineBlock(user, x, y, z))
+                
+                if (!world.canMineBlockBody(user, pos))
                 {
                     return bucket;
                 }
 
                 if (flag)
                 {
-                    if (!user.canPlayerEdit(x, y, z, movingobjectposition.sideHit, bucket))
+                    if (!user.canPlayerEdit(pos, movingobjectposition.sideHit, bucket))
                     {
                         return bucket;
                     }
 
-                    Material material = world.getBlock(x, y, z).getMaterial();
-                    int l = world.getBlockMetadata(x, y, z);
+                    Material material = world.getBlockState(pos).getBlock().getMaterial();
+                    int l = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 
                     if (material == Material.water && l == 0)
                     {
-                        world.setBlockToAir(x, y, z);
+                        world.setBlockToAir(pos);
                         return this.createNewInstance(bucket, user, ToolListMF.bucketwood_water, 0);
                     }
 
                     if (material == Material.lava && l == 0)
                     {
-                    	world.playSound(x+0.5, y+0.5, z+0.5, "random.fizz", 1.0F, 1.0F, true);
-                        world.spawnParticle("largeSmoke", x+0.5, y+1F, z+0.5, 0F, 0.5F, 0F);
+                    	world.playSound(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, "random.fizz", 1.0F, 1.0F, true);
+                        world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX()+0.5, pos.getY()+1F, pos.getZ()+0.5, 0F, 0.5F, 0F);
                     	return this.createNewInstance(bucket, user, Items.coal, 1);
                     }
                 }
@@ -88,43 +96,40 @@ public class ItemBucketMF extends Item
                     {
                         return new ItemStack(ToolListMF.bucketwood_empty);
                     }
+                    
 
-                    if (movingobjectposition.sideHit == 0)
+                    switch(movingobjectposition.sideHit)
                     {
-                        --y;
+					case DOWN:
+						pos.subtract(new Vec3i(0,1,0));
+						break;
+					case EAST:
+						pos.subtract(new Vec3i(1,0,0));
+						break;
+					case NORTH:
+						pos.subtract(new Vec3i(0,0,1));
+						break;
+					case SOUTH:
+						pos.add(new Vec3i(0,0,1));
+						break;
+					case UP:
+						pos.add(new Vec3i(0,1,0));
+						break;
+					case WEST:
+						pos.add(new Vec3i(1,0,0));
+						break;
+					default:
+						break;
                     }
+                    	
+                }
 
-                    if (movingobjectposition.sideHit == 1)
-                    {
-                        ++y;
-                    }
-
-                    if (movingobjectposition.sideHit == 2)
-                    {
-                        --z;
-                    }
-
-                    if (movingobjectposition.sideHit == 3)
-                    {
-                        ++z;
-                    }
-
-                    if (movingobjectposition.sideHit == 4)
-                    {
-                        --x;
-                    }
-
-                    if (movingobjectposition.sideHit == 5)
-                    {
-                        ++x;
-                    }
-
-                    if (!user.canPlayerEdit(x, y, z, movingobjectposition.sideHit, bucket))
+                    if (!user.canPlayerEdit(pos, movingobjectposition.sideHit, bucket))
                     {
                         return bucket;
                     }
 
-                    if (this.tryPlaceContainedLiquid(world, x, y, z) && !user.capabilities.isCreativeMode)
+                    if (this.tryPlaceContainedLiquid(world, pos) && !user.capabilities.isCreativeMode)
                     {
                         return new ItemStack(ToolListMF.bucketwood_empty);
                     }
@@ -133,7 +138,6 @@ public class ItemBucketMF extends Item
 
             return bucket;
         }
-    }
 
     private ItemStack createNewInstance(ItemStack bucket, EntityPlayer user, Item newstack, int m)
     {
@@ -159,7 +163,7 @@ public class ItemBucketMF extends Item
     /**
      * Attempts to place the liquid contained inside the bucket.
      */
-    public boolean tryPlaceContainedLiquid(World world, int x, int y, int z)
+    public boolean tryPlaceContainedLiquid(World world, BlockPos pos)
     {
         if (this.isFull == Blocks.air)
         {
@@ -167,32 +171,32 @@ public class ItemBucketMF extends Item
         }
         else
         {
-            Material material = world.getBlock(x, y, z).getMaterial();
+            Material material = world.getBlockState(pos).getBlock().getMaterial();
             boolean flag = !material.isSolid();
 
-            if (!world.isAirBlock(x, y, z) && !flag)
+            if (!world.isAirBlock(pos) && !flag)
             {
                 return false;
             }
             else
             {
-                if (world.provider.isHellWorld && this.isFull == Blocks.flowing_water)
+                if (world.provider.doesWaterVaporize() && this.isFull == Blocks.flowing_water)
                 {
-                    world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+                    world.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 
                     for (int l = 0; l < 8; ++l)
                     {
-                        world.spawnParticle("largesmoke", x + Math.random(), y + Math.random(), z + Math.random(), 0.0D, 0.0D, 0.0D);
+                        world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX()+ Math.random(), pos.getY() + Math.random(), pos.getZ() + Math.random(), 0.0D, 0.0D, 0.0D);
                     }
                 }
                 else
                 {
                     if (!world.isRemote && flag && !material.isLiquid())
                     {
-                        world.func_147480_a(x, y, z, true);
+                        world.canBlockFreezeBody(pos, true);
                     }
 
-                    world.setBlock(x, y, z, this.isFull, 0, 3);
+                    world.setBlockState(pos, this.isFull.getStateFromMeta(0), 3);
                 }
 
                 return true;
@@ -211,4 +215,12 @@ public class ItemBucketMF extends Item
         }
         return super.itemInteractionForEntity(itemstack, player, entity);
     }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

@@ -7,11 +7,11 @@ import minefantasy.mf2.MineFantasyII;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.FMLNetworkEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class PacketHandlerMF
 {
@@ -31,6 +31,7 @@ public class PacketHandlerMF
         packetList.put(SkillPacket.packetName, new SkillPacket());
         packetList.put(LevelupPacket.packetName, new LevelupPacket());
         packetList.put(ForgePacket.packetName, new ForgePacket());
+        packetList.put(ResearchTablePacket.packetName, new ResearchTablePacket());
     }
 
     @SubscribeEvent

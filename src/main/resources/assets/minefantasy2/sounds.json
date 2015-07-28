@@ -91,18 +91,36 @@
 	"block.anvilfail": {
     "category": "neutral",
     "sounds": [
-        "blocks/AnvilFail1",
-		 "blocks/AnvilFail2",
-		  "blocks/AnvilFail3"
+        "process/anvil/AnvilFail1",
+		 "process/anvil/AnvilFail2",
+		  "process/anvil/AnvilFail3"
       ]
     },
     
 	"block.anvilsucceed": {
     "category": "neutral",
     "sounds": [
-        "blocks/AnvilSucceed1",
-		 "blocks/AnvilSucceed2",
-		  "blocks/AnvilSucceed3"
+        "process/anvil/AnvilSucceed1",
+		 "process/anvil/AnvilSucceed2",
+		  "process/anvil/AnvilSucceed3"
+      ]
+    },
+	
+	"block.hammercarpenter": {
+    "category": "neutral",
+    "sounds": [
+        "process/carpenter/HammerCarpenter1",
+		 "process/carpenter/HammerCarpenter2",
+		  "process/carpenter/HammerCarpenter3"
+      ]
+    },
+	
+	"block.sawcarpenter": {
+    "category": "neutral",
+    "sounds": [
+        "process/carpenter/SawCarpenter1",
+		 "process/carpenter/SawCarpenter2",
+		  "process/carpenter/SawCarpenter3"
       ]
     },
 	

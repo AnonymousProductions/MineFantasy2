@@ -26,13 +26,12 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.item.tool.crafting.ItemKnifeMF;
-import minefantasy.mf2.mechanics.CombatMechanics;
-import mods.battlegear2.api.PlayerEventChild.OffhandAttackEvent;
-import mods.battlegear2.api.weapons.IBackStabbable;
-import mods.battlegear2.api.weapons.IBattlegearWeapon;
-import mods.battlegear2.api.weapons.IExtendedReachWeapon;
-import mods.battlegear2.api.weapons.IHitTimeModifier;
-import mods.battlegear2.api.weapons.IPenetrateWeapon;
+import mod.battlegear2.api.PlayerEventChild.OffhandAttackEvent;
+import mod.battlegear2.api.weapons.IBackStabbable;
+import mod.battlegear2.api.weapons.IBattlegearWeapon;
+import mod.battlegear2.api.weapons.IExtendedReachWeapon;
+import mod.battlegear2.api.weapons.IHitTimeModifier;
+import mod.battlegear2.api.weapons.IPenetrateWeapon;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -53,16 +52,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 //Made this extend the sword class (allows them to be enchanted)
 public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, IDamageType, IKnockbackWeapon, IWeaponSpeed, IHeldStaminaItem, IStaminaWeapon, IBattlegearWeapon, IToolMaterial, IWeightedWeapon, IParryable, ISpecialEffect, IDamageModifier, IWeaponClass
@@ -104,9 +102,8 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		name = named;
 		this.material = material;
 		setCreativeTab(CreativeTabMF.tabWeapon);
-        setTextureName("minefantasy2:Weapon/"+name);
+		setUnlocalizedName("minefantasy2:Weapon/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
 		
 		this.baseDamage = 4 + material.getDamageVsEntity() + getDamageModifier();
 		
@@ -174,7 +171,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	public Multimap getItemAttributeModifiers()
 	{
 		Multimap map = HashMultimap.create();
-		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", this.baseDamage, 0));
+		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(this.itemModifierUUID, "Weapon modifier", this.baseDamage, 0));
 
         return map;
     }
@@ -523,7 +520,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	
 	protected void hurtInRange(EntityLivingBase user, double range) 
 	{
-		AxisAlignedBB bb = user.boundingBox.expand(range, range, range);
+		AxisAlignedBB bb = user.getEntityBoundingBox().expand(range, range, range);
 		List<Entity>hurt = user.worldObj.getEntitiesWithinAABBExcludingEntity(user, bb);
 		Iterator list = hurt.iterator();
 		while(list.hasNext())
@@ -540,8 +537,8 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 				if(hit instanceof EntityLivingBase)
 				{
 					for(int a = 0; a < 4; a ++)
-					{
-						hit.worldObj.spawnParticle("blockcrack_" + Block.getIdFromBlock(Blocks.redstone_block) + "_0", hit.posX, hit.posY+hit.getEyeHeight(), hit.posZ, rand.nextDouble()/2D, rand.nextDouble()/2D, rand.nextDouble()/2D);
+					{													//+ Block.getIdFromBlock(Blocks.redstone_block) + "_0"
+						hit.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK , hit.posX, hit.posY+hit.getEyeHeight(), hit.posZ, rand.nextDouble()/2D, rand.nextDouble()/2D, rand.nextDouble()/2D);
 					}
 					((EntityLivingBase) hit).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 0));
 				}

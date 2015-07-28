@@ -3,14 +3,12 @@ package minefantasy.mf2.block.tileentity;
 import minefantasy.mf2.api.refine.IBellowsUseable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 
-import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-
-public class TileEntityBellows extends TileEntity
+public class TileEntityBellows extends TileEntity implements IUpdatePlayerListBox 
 {
 	public int direction;
 	public int press = 0;
@@ -20,9 +18,9 @@ public class TileEntityBellows extends TileEntity
 	}
 	public void interact(EntityPlayer player, float powerLevel) 
 	{
-		int x = (int)xCoord;
-		int y = (int)yCoord;
-		int z = (int)zCoord;
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		IBellowsUseable forge = getFacingForge();
 		if(press < 10)
 		{
@@ -44,9 +42,9 @@ public class TileEntityBellows extends TileEntity
 	}
 	
 	@Override
-	public void updateEntity()
+	public void update()
 	{
-		super.updateEntity();
+		update();
 		if(press > 0)press -= 2;
 		if(press < 0)press = 0;
 		sendPacketToClients();
@@ -73,35 +71,38 @@ public class TileEntityBellows extends TileEntity
 	
 	
 	
-	public ForgeDirection getFacing()
+	public EnumFacing getFacing()
     {
-		int dir = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		int dir = worldObj.getBlockState(this.getPos()).getBlock().getMetaFromState(worldObj.getBlockState(this.getPos()));
     	switch(dir)//clockwise
         {
         	case 0: //SOUTH
-        	    return ForgeDirection.SOUTH;
+        	    return EnumFacing.SOUTH;
         	case 1: //WEST
-        	    return ForgeDirection.WEST;
+        	    return EnumFacing.WEST;
         	case 2: //NORTH
-        	    return ForgeDirection.NORTH;
+        	    return EnumFacing.NORTH;
         	case 3: //EAST
-        	    return ForgeDirection.EAST;
+        	    return EnumFacing.EAST;
         }
-    	return ForgeDirection.SOUTH;
+    	return EnumFacing.SOUTH;
     }
     public IBellowsUseable getFacingForge()
     {
-    	ForgeDirection dir = getFacing();    	
-    	int x2 = xCoord + dir.offsetX;
-    	int y2 = yCoord + dir.offsetY;
-    	int z2 = zCoord + dir.offsetZ;
+    	EnumFacing dir = getFacing();    
+    	int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
+    	int x2 = xCoord + dir.getFrontOffsetX();
+    	int y2 = yCoord + dir.getFrontOffsetY();
+    	int z2 = zCoord + dir.getFrontOffsetZ();
     	
-    	TileEntity tile = worldObj.getTileEntity(x2, y2, z2);
+    	TileEntity tile = worldObj.getTileEntity(new BlockPos(x2, y2, z2));
     	
     	if(tile != null && tile instanceof IBellowsUseable)
     		return (IBellowsUseable)tile;
     	
-    	if(worldObj.getBlock(x2, y2, z2).getMaterial() != null && worldObj.getBlock(x2, y2, z2).getMaterial().isSolid())
+    	if(worldObj.getBlockState(new BlockPos(x2, y2, z2)).getBlock().getMaterial() != null && worldObj.getBlockState(new BlockPos(x2, y2, z2)).getBlock().getMaterial().isSolid())
     	{
     		return getFacingForgeThroughWall();
     	}
@@ -110,12 +111,15 @@ public class TileEntityBellows extends TileEntity
     
     public IBellowsUseable getFacingForgeThroughWall()
     {
-    	ForgeDirection dir = getFacing();    	
-    	int x2 = xCoord + (dir.offsetX*2);
-    	int y2 = yCoord + (dir.offsetY*2);
-    	int z2 = zCoord + (dir.offsetZ*2);
+    	EnumFacing dir = getFacing();  
+    	int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
+    	int x2 = xCoord + (dir.getFrontOffsetX()*2);
+    	int y2 = yCoord + (dir.getFrontOffsetY()*2);
+    	int z2 = zCoord + (dir.getFrontOffsetZ()*2);
     	
-    	TileEntity tile = worldObj.getTileEntity(x2, y2, z2);
+    	TileEntity tile = worldObj.getTileEntity(new BlockPos(x2, y2, z2));
     	if(tile == null)
     		return null;
     	if(tile instanceof IBellowsUseable)

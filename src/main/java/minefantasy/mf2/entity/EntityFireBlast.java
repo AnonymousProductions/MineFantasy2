@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -74,39 +75,39 @@ public class EntityFireBlast extends EntityFireball
             }
             else
             {
-                int i = pos.blockX;
-                int j = pos.blockY;
-                int k = pos.blockZ;
+                int i = pos.getBlockPos().getX();
+                int j = pos.getBlockPos().getY();
+                int k = pos.getBlockPos().getZ();
 
                 switch (pos.sideHit)
                 {
-                    case 0:
+                    case DOWN:
                         --j;
                         break;
-                    case 1:
+                    case UP:
                         ++j;
                         break;
-                    case 2:
+                    case NORTH:
                         --k;
                         break;
-                    case 3:
+                    case SOUTH:
                         ++k;
                         break;
-                    case 4:
+                    case WEST:
                         --i;
                         break;
-                    case 5:
+                    case EAST:
                         ++i;
                 }
-
-                if (this.worldObj.isAirBlock(i, j, k))
+                	BlockPos NewPos = new BlockPos(i,j,k);
+                if (this.worldObj.isAirBlock(NewPos))
                 {
-                    this.worldObj.setBlock(i, j, k, Blocks.fire);
+                    this.worldObj.setBlockState(NewPos, Blocks.fire.getDefaultState());
                 }
-                boolean tnt = worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ).getMaterial() == Material.tnt;
+                boolean tnt = worldObj.getBlockState(pos.getBlockPos()).getBlock().getMaterial() == Material.tnt;
                 if(isPreset("BlastFurnace") && (rand.nextInt(100) == 0) || tnt)
                 {
-                	boolean solid = worldObj.isBlockNormalCubeDefault(pos.blockX, pos.blockY, pos.blockZ, false);
+                	boolean solid = worldObj.isBlockNormalCube(pos.getBlockPos(), false);
                 	worldObj.newExplosion(this, posX, posY, posZ, solid ? 1.5F : 0.5F, true, true);
                 }
             }

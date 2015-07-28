@@ -5,23 +5,20 @@ package minefantasy.mf2.client.render;
  * @author Anonymous Productions
  * 
  */
-import net.minecraft.client.Minecraft;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class RenderLance implements IItemRenderer 
 {
@@ -51,10 +48,10 @@ public class RenderLance implements IItemRenderer
         if (mc == null)
         {
             mc = FMLClientHandler.instance().getClient();
-            itemRenderer = new RenderItem();
+            itemRenderer = Minecraft.getMinecraft().getRenderItem();
         }
         this.mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
 
         if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.EQUIPPED)
         {
@@ -87,9 +84,9 @@ public class RenderLance implements IItemRenderer
                     icon.getIconWidth(),
                     icon.getIconHeight(), 1F/16F);
 
-            if (item != null && item.hasEffect(0)) 
+            if (item != null && item.hasEffect()) 
             {
-            	TextureHelperMF.renderEnchantmentEffects(tessellator);
+            	TextureHelperMF.renderEnchantmentEffects(item);
             }
             GL11.glPopMatrix();
             GL11.glPopMatrix();

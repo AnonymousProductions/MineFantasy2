@@ -6,15 +6,19 @@ import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
-import mods.battlegear2.api.shield.IShield;
-import mods.battlegear2.api.weapons.IExtendedReachWeapon;
+import mod.battlegear2.api.shield.IShield;
+import mod.battlegear2.api.weapons.IExtendedReachWeapon;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -171,4 +175,12 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
 	{
 		return WeaponClass.POLEARM;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

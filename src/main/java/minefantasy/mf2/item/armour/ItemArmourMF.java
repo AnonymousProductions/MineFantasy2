@@ -11,7 +11,6 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.mechanics.CombatMechanics;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,10 +20,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IIcon;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistance
 {
@@ -35,7 +33,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	{
 		super(name, material.getArmourConversion(), AD, slot, tex);
 		baseMaterial = material;
-		this.setTextureName("minefantasy2:Apparel/"+AD.getName()+"/"+name);
+		setUnlocalizedName("minefantasy2:Apparel/"+AD.getName()+"/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		setCreativeTab(CreativeTabMF.tabArmour);
 		
@@ -50,13 +48,15 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
-		String tex = "minefantasy2:textures/models/armour/"+design.getName()+"/"+texture;
 		if(type == null && canColour())//bottom layer
 		{
-			return tex + "_cloth.png";
+			return "minefantasy2:textures/models/armour/"+design.getName()+"/"+texture+ "_cloth.png";
 		}
-		return tex+".png";
+		return "minefantasy2:textures/models/armour/"+design.getName()+"/"+texture+".png";
 	}
+	
+	
+	
 	@Override
 	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
 	{
@@ -291,7 +291,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
     }
 
     @Override
-    public void func_82813_b(ItemStack item, int colour)
+    public void setColor(ItemStack item, int colour)
     {
         if (!canColour())
         {

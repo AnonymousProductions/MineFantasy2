@@ -3,8 +3,8 @@ package minefantasy.mf2.client.render;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class AnimationHandlerMF 
 {

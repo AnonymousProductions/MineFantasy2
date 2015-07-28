@@ -1,6 +1,6 @@
 package minefantasy.mf2.item.tool.advanced;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
@@ -14,6 +14,7 @@ import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.item.tool.crafting.ItemSaw;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
@@ -22,12 +23,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * @author Anonymous Productions
@@ -45,9 +50,8 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabToolAdvanced);
         this.hitDamage = 2.0F + material.getDamageVsEntity();
-        setTextureName("minefantasy2:Tool/Advanced/"+name);
+        setUnlocalizedName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
 		this.maxStackSize = 1;
         this.setMaxDamage(material.getMaxUses());
     }
@@ -81,7 +85,7 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 		return toolMaterial;
 	}
 	
-	private boolean cutGrass(World world, int x, int y, int z, int r, EntityPlayer entity, boolean leaf) 
+	private boolean cutGrass(World world, BlockPos pos, int r, EntityPlayer entity, boolean leaf) 
 	{
     	boolean flag = false;
     	ItemStack item = entity.getHeldItem();
@@ -93,21 +97,24 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 			{
 				for(int z2 = -r; z2 <= r; z2 ++)
 				{
-					Block block = world.getBlock(x+x2, y+y2, z+z2);
-					int meta = world.getBlockMetadata(x+x2, y+y2, z+z2);
+					
+					BlockPos expandedpos = pos.add(x2,y2,z2);
+					
+					Block block = world.getBlockState(expandedpos).getBlock();
+					int meta = block.getMetaFromState(world.getBlockState(expandedpos));
 					if(block != null)
 					{
 						Material m = block.getMaterial();
-						if(canCutMaterial(m, block.getBlockHardness(world, x+x2, y+y2, z+z2), leaf))
+						if(canCutMaterial(m, block.getBlockHardness(world, pos), leaf))
 						{
-							if(getDistance(x+x2, y+y2, z+z2, x, y, z) < r*1)
+							if(getDistance(expandedpos.getX(),expandedpos.getY(),expandedpos.getZ(), pos.getX(),pos.getY(),pos.getZ()) < r*1)
 							{
 								flag = true;
 								
-								ArrayList<ItemStack> items = block.getDrops(world, x+x2, y+y2, z+z2, meta, 0);
-								world.setBlockToAir(x+x2, y+y2, z+z2);
-								world.playAuxSFXAtEntity(entity, 2001, x+x2, y+y2, z+z2, Block.getIdFromBlock(block) + (world.getBlockMetadata(x+x2, y+y2, z+z2) << 16));
-								tryBreakFarmland(world, x+x2, y+y2-1, z+z2);
+								List<ItemStack> items = block.getDrops(world, expandedpos, block.getStateFromMeta(meta), 0);
+								world.setBlockToAir(expandedpos);
+								world.playAuxSFXAtEntity(entity, 2001, expandedpos, Block.getIdFromBlock(block) + (block.getMetaFromState(world.getBlockState(expandedpos)) << 16));
+								tryBreakFarmland(world, expandedpos.subtract(new Vec3i(0,1,0)));
 								if(!entity.capabilities.isCreativeMode)
 								{
 									ItemSaw.tirePlayer(entity, 1F);
@@ -115,7 +122,7 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 						            {
 						                if (world.rand.nextFloat() <= 1.0F)
 						                {
-						                    dropBlockAsItem_do(world, x+x2, y+y2, z+z2, drop);
+						                    dropBlockAsItem_do(world, expandedpos, drop);
 						                }
 						            }
 								}
@@ -129,17 +136,17 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 		return flag;
 	}
 	
-	private void tryBreakFarmland(World world, int x, int y, int z)
+	private void tryBreakFarmland(World world, BlockPos pos)
 	{
-		Block base = world.getBlock(x, y, z);
+		Block base = world.getBlockState(pos).getBlock();
 		
 		if(base != null && base == Blocks.farmland && FarmingHelper.didHarvestRuinBlock(world, true))
 		{
-			world.setBlock(x, y, z, Blocks.dirt);
+			world.setBlockState(pos, Blocks.dirt.getDefaultState());
 		}
 	}
 
-	protected void dropBlockAsItem_do(World world, int x, int y, int z, ItemStack drop)
+	protected void dropBlockAsItem_do(World world, BlockPos pos, ItemStack drop)
     {
         if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
         {
@@ -147,8 +154,8 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
             double var7 = world.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
             double var9 = world.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
             double var11 = world.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
-            EntityItem var13 = new EntityItem(world, x + var7, y + var9, z + var11, drop);
-            var13.delayBeforeCanPickup = 10;
+            EntityItem var13 = new EntityItem(world, pos.getX() + var7, pos.getY() + var9, pos.getZ() + var11, drop);
+            var13.setDefaultPickupDelay();
             world.spawnEntityInWorld(var13);
         }
     }
@@ -178,31 +185,31 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
     }
 	
 	@Override
-	public Multimap getItemAttributeModifiers()
+	public Multimap getAttributeModifiers(ItemStack stack)
     {
-        Multimap multimap = super.getItemAttributeModifiers();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", this.hitDamage, 0));
+        Multimap multimap = super.getAttributeModifiers(stack);
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(this.itemModifierUUID, "Tool modifier", this.hitDamage, 0));
         return multimap;
     }
 	
 	@Override
-    public boolean onItemUse(ItemStack hoe, EntityPlayer player, World world, int x, int y, int z, int facing, float pitch, float yaw, float pan)
+    public boolean onItemUse(ItemStack hoe, EntityPlayer player, World world, BlockPos pos,EnumFacing facing, float pitch, float yaw, float pan)
     {
-        if (!player.canPlayerEdit(x, y, z, facing, hoe) || !ItemSaw.canAcceptCost(player))
+        if (!player.canPlayerEdit(pos, facing, hoe) || !ItemSaw.canAcceptCost(player))
         {
             return false;
         }
         else
         {
-            Block block = world.getBlock(x, y, z);
+            Block block = world.getBlockState(pos).getBlock();
 
             if(block != null)
             {
             	Material m = block.getMaterial();
-            	float hard = block.getBlockHardness(world, x, y, z);
+            	float hard = block.getBlockHardness(world, pos);
             	if(this.canCutMaterial(m, hard, false))
             	{
-            		if(cutGrass(world, x, y, z, 5, player, false))
+            		if(cutGrass(world, pos, 5, player, false))
             		{
             			player.swingItem();
             		}
@@ -210,7 +217,7 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
             	else
             	if(this.canCutMaterial(m, hard, true))
             	{
-            		if(cutGrass(world, x, y, z, 3, player, true))
+            		if(cutGrass(world, pos, 3, player, true))
             		{
             			player.swingItem();
             		}
@@ -241,4 +248,12 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 	{
 		return 0F;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

@@ -3,22 +3,19 @@ package minefantasy.mf2.client.render;
 import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.item.archery.ItemBowMF;
-import mods.battlegear2.api.quiver.IArrowContainer2;
-import mods.battlegear2.api.quiver.QuiverArrowRegistry;
+import mod.battlegear2.api.quiver.IArrowContainer2;
+import mod.battlegear2.api.quiver.QuiverArrowRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class RenderBow implements IItemRenderer 
 {
@@ -41,7 +38,8 @@ public class RenderBow implements IItemRenderer
     }
 
 
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) 
     {
     	if(data.length <2 || !(data[1] instanceof EntityLivingBase))
@@ -130,7 +128,7 @@ public class RenderBow implements IItemRenderer
         	drawAmount = 2;
         }
 
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
         
         GL11.glPushMatrix();
         if(isLongbow)

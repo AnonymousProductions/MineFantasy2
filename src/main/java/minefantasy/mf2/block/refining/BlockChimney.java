@@ -1,42 +1,24 @@
 package minefantasy.mf2.block.refining;
 
-import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.knowledge.ResearchLogic;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityChimney;
 import minefantasy.mf2.item.list.CreativeTabMF;
-import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockChimney extends BlockContainer 
 {
 	private Random rand = new Random();
-	public IIcon bottomTex;
-	public IIcon sideTex;
+
 	public int size;
 	private boolean isWide;
 	/**
@@ -44,6 +26,7 @@ public class BlockChimney extends BlockContainer
 	 */
 	public boolean isIndirect;
 	private String chimneyType;
+	private String NAME;
 	public BlockChimney(String type, boolean wide, boolean indirect, int size) 
 	{
 		super(Material.rock);
@@ -56,11 +39,17 @@ public class BlockChimney extends BlockContainer
 			this.setBlockBounds(1F/4F, 0, 1F/4F, 3F/4F, 1F, 3F/4F);
 		}
         GameRegistry.registerBlock(this, "MF_Chimney_" + type + (isWide ? "_Wide" : "_Thin"));
-		setBlockName("chimney."+type + (isWide ? ".wide" : ""));
+        setUnlocalizedName("chimney."+type + (isWide ? ".wide" : ""));
+        NAME = "chimney."+type+(isWide ? ".wide" : "");
 		this.setStepSound(Block.soundTypeMetal);
 		this.setHardness(5F);
 		this.setResistance(10F);
         this.setCreativeTab(CreativeTabMF.tabUtil);
+	}
+	
+	public String getName()
+	{
+		return NAME;
 	}
 
 	@Override
@@ -69,9 +58,9 @@ public class BlockChimney extends BlockContainer
 		return new TileEntityChimney();
 	}
 	
-	private TileEntityChimney getTile(IBlockAccess world, int x, int y, int z)
+	private TileEntityChimney getTile(IBlockAccess world,BlockPos pos)
 	{
-		return (TileEntityChimney)world.getTileEntity(x, y, z);
+		return (TileEntityChimney)world.getTileEntity(pos);
 	}
 	
 	@Override
@@ -79,22 +68,13 @@ public class BlockChimney extends BlockContainer
 	{
 		return isWide;
 	}
+	
 	@Override
-	public boolean renderAsNormalBlock()
+	public boolean isFullCube()
 	{
 		return isWide;
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		if(side == 1 || side == 0)
-		{
-			return bottomTex;
-		}
-		return sideTex;
-	}
+}
 	
 	/*
 	 * 
@@ -142,12 +122,9 @@ public class BlockChimney extends BlockContainer
 		}
     }
 	*/
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg)
-	{
-		sideTex = reg.registerIcon("minefantasy2:chimney/chimney_"+chimneyType+"_side" + (isWide ? "Wide" : ""));
-		bottomTex = reg.registerIcon("minefantasy2:chimney/chimney_"+chimneyType+"_top" + (isWide ? "Wide" : ""));
-	}
 
-}
+		//sideTex = reg.registerIcon("minefantasy2:chimney/chimney_"+chimneyType+"_side" + (isWide ? "Wide" : ""));
+		//bottomTex = reg.registerIcon("minefantasy2:chimney/chimney_"+chimneyType+"_top" + (isWide ? "Wide" : ""));
+
+
+

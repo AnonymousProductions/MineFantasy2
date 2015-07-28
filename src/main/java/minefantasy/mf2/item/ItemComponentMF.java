@@ -11,12 +11,16 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 /**
  * @author Anonymous Productions
  */
 public class ItemComponentMF extends Item 
 {
+	public ItemComponentMF(int rarity)
+	{
+		itemRarity = rarity;
+	}
 	public ItemComponentMF(String name)
 	{
 		this(name, 0);
@@ -25,10 +29,11 @@ public class ItemComponentMF extends Item
 	{
 		super();
 		itemRarity = rarity;
-		setTextureName("minefantasy2:component/"+name);
+		
+		setUnlocalizedName("minefantasy2:component/"+name);
 		this.setCreativeTab(CreativeTabMF.tabMaterialsMF);
 		GameRegistry.registerItem(this, "MF_Com_"+name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
+	
 	}
 	
 	private int itemRarity;
@@ -78,6 +83,7 @@ public class ItemComponentMF extends Item
 			add(list, ingot);
 		}
 		add(list, ComponentListMF.plank);
+		add(list, ComponentListMF.plankRefined);
 		add(list, ComponentListMF.nail);
 		add(list, ComponentListMF.rivet);
 		add(list, ComponentListMF.thread);
@@ -90,14 +96,22 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.hideMedium);
 		add(list, ComponentListMF.hideLarge);
 		
+		add(list, ComponentListMF.oreCopper);
+		add(list, ComponentListMF.oreTin);
+		add(list, ComponentListMF.oreIron);
+		add(list, ComponentListMF.oreSilver);
+		add(list, ComponentListMF.oreGold);
+		
 		add(list, ComponentListMF.flux);
 		add(list, ComponentListMF.flux_strong);
 		add(list, ComponentListMF.coke);
 		add(list, ComponentListMF.diamond_shards);
 		add(list, ComponentListMF.fletching);
+		add(list, ComponentListMF.plant_oil);
 		
 		add(list, ComponentListMF.coalDust);
 		add(list, ComponentListMF.iron_prep);
+		add(list, ComponentListMF.obsidian_dust);
 		add(list, ComponentListMF.sulfur);
 		add(list, ComponentListMF.nitre);
 		add(list, ComponentListMF.blackpowder);
@@ -128,6 +142,9 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.silver_rod);
 		add(list, ComponentListMF.gold_rod);
 		add(list, ComponentListMF.obsidian_rod);
+		
+		add(list, ComponentListMF.talisman_lesser);
+		add(list, ComponentListMF.talisman_greater);
 		
     }
     private void add(List list, Item item)

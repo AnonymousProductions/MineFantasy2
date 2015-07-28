@@ -3,7 +3,6 @@ package minefantasy.mf2.client.render.block;
 import java.util.Random;
 
 import minefantasy.mf2.api.helpers.TextureHelperMF;
-import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,13 +14,13 @@ public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer
 {
     public TileEntityCarpenterRenderer() 
     {
-        model = new ModelCarpenter();
+        model = new ModelWoodCarpenter();
     }
 
 	public void renderAModelAt(TileEntity tile, double d, double d1, double d2, float f) 
     {
     	int i = 0;
-		if (tile.getWorldObj() != null)
+		if (tile.getWorld() != null)
 		{
         	i = tile.getBlockMetadata();
         }
@@ -70,7 +69,7 @@ public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer
         }
         
         GL11.glPushMatrix(); //start
-        GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.0F, (float) d2 + 0.5F); //size
+        GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.25F, (float) d2 + 0.5F); //size
         GL11.glRotatef(j+180F, 0.0F, 1.0F, 0.0F); //rotate based on metadata
         GL11.glScalef(1F, -1F, -1F); //if you read this comment out this line and you can see what happens
         GL11.glPushMatrix();
@@ -86,11 +85,11 @@ public class TileEntityCarpenterRenderer extends TileEntitySpecialRenderer
     	Minecraft.getMinecraft().renderEngine.bindTexture(TextureHelperMF.getResource(image));
 	}
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f,int destroyStage) {
         renderAModelAt (tileentity, d, d1, d2, f); //where to render
     }
 	
-    private ModelCarpenter model;
+    private ModelWoodCarpenter model;
     private Random random = new Random();
     
     

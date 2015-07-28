@@ -1,21 +1,20 @@
 package minefantasy.mf2.client.gui;
 
-import org.lwjgl.opengl.GL11;
+import java.io.IOException;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.knowledge.client.EntryPageCraft;
-import minefantasy.mf2.api.knowledge.client.EntryPage;
-import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.api.knowledge.InformationBase;
+import minefantasy.mf2.api.knowledge.client.EntryPage;
+import minefantasy.mf2.api.knowledge.client.EntryPageCraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiKnowledgeEntry extends GuiScreen
@@ -80,7 +79,7 @@ public class GuiKnowledgeEntry extends GuiScreen
 		}
         
         String s = I18n.format("book.pageIndicator", new Object[] {Integer.valueOf(this.currentPage + 1), Integer.valueOf(this.pages)});
-        int l = mc.fontRenderer.getStringWidth(s) / 2;
+        int l = mc.fontRendererObj.getStringWidth(s) / 2;
         this.fontRendererObj.drawString(s, xPoint + (bookImageWidth/2) - l, yPoint + bookImageHeight-16, 0);
     }
 	
@@ -117,7 +116,12 @@ public class GuiKnowledgeEntry extends GuiScreen
         }
         else
         {
-            super.keyTyped(p_73869_1_, p_73869_2_);
+            try {
+				super.keyTyped(p_73869_1_, p_73869_2_);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 	

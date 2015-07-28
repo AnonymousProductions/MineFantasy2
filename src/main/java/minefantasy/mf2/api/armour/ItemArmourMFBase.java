@@ -5,6 +5,7 @@ import java.util.List;
 
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -15,21 +16,24 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmourMF, IArmourRating
 {
-	public static ArmorMaterial baseMaterial = EnumHelper.addArmorMaterial("MF Armour Base", 0, new int[]{2, 6, 5, 2}, 0);
+																				//WHAT SHOULD THIS BE??
+	
 	private int piece;
 	private int baseRating;
 	public float baseAR;
 	public int enchantment;
-	public String texture;
+	public static String texture;
 	public float armourWeight;
 	public ArmourMaterialMF material;
-	public ArmourDesign design;
+	public static ArmourDesign design;
 	protected float suitBulk;
+	public static ArmorMaterial baseMaterial = EnumHelper.addArmorMaterial("MF Armour Base",
+			"minefantasy2:textures/models/armour/"+design.getName()+"/"+texture, 0, new int[]{2, 6, 5, 2}, 0);
 	
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.#");
 	

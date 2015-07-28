@@ -1,13 +1,15 @@
 package minefantasy.mf2.item.food;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
+import java.util.List;
+
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMultiFood extends ItemFoodMF
 {
@@ -30,9 +32,9 @@ public class ItemMultiFood extends ItemFoodMF
     }
 	
 	@Override
-	public ItemStack onEaten(ItemStack food, World world, EntityPlayer consumer)
+	public ItemStack onItemUseFinish(ItemStack food, World world, EntityPlayer consumer)
     {
-		consumer.getFoodStats().func_151686_a(this, food);
+		consumer.getFoodStats().addStats(this, food);
         world.playSoundAtEntity(consumer, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         this.onFoodEaten(food, world, consumer);
         
@@ -58,4 +60,12 @@ public class ItemMultiFood extends ItemFoodMF
             this.icons[i] = register.registerIcon(this.getIconString() + "_" + i);
         }
     }
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

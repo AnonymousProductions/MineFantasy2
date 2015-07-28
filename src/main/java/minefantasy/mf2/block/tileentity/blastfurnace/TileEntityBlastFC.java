@@ -2,12 +2,10 @@ package minefantasy.mf2.block.tileentity.blastfurnace;
 
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
 import minefantasy.mf2.api.refine.ISmokeCarrier;
 import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.item.list.ComponentListMF;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -17,7 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.Vec3i;
 
 public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedInventory, ISmokeCarrier
 {
@@ -29,15 +29,18 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	private Random rand = new Random();
 	
 	@Override
-	public void updateEntity()
+	public void onEntityUpdate()
 	{
-		super.updateEntity();
+		//super.onEntityUpdate();  //cant get to work, is needed?
 		++ticksExisted;
 		int dropFrequency = 5;
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
 		
 		if(!worldObj.isRemote && ticksExisted % dropFrequency == 0)
 		{
-			TileEntity neighbour = worldObj.getTileEntity(xCoord, yCoord-1, zCoord);
+			TileEntity neighbour = worldObj.getTileEntity(this.getPos().subtract(new Vec3i(0,1,0)));
 			if(neighbour != null && neighbour instanceof TileEntityBlastFC && !(neighbour instanceof TileEntityBlastFH))
 			{
 				interact((TileEntityBlastFC)neighbour);
@@ -49,7 +52,7 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 		}
 		if(smokeStorage > 0)
 		{
-			SmokeMechanics.emitSmokeFromCarrier(worldObj, xCoord, yCoord, zCoord, this, 5);
+			SmokeMechanics.emitSmokeFromCarrier(worldObj, this.getPos(), this, 5);
 		}
 		if(!worldObj.isRemote && smokeStorage > getMaxSmokeStorage() && rand.nextInt(1000) == 0)
 		{
@@ -100,9 +103,10 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	{
 		return (isFirebrick(-1, 0, 0) && isFirebrick(1, 0, 0) && isFirebrick(0, 0, -1) && isFirebrick(0, 0, 1));
 	}
+	
 	protected boolean isFirebrick(int x, int y, int z)
 	{
-		Block block = worldObj.getBlock(xCoord+x, yCoord+y, zCoord+z);
+		Block block = worldObj.getBlockState(this.getPos().add(x,y,z)).getBlock();
 		if(block != null)
 		{
 			return block == BlockListMF.firebricks;
@@ -111,7 +115,7 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	}
 	protected boolean isAir(int x, int y, int z)
 	{
-		return !worldObj.isBlockNormalCubeDefault(xCoord+x, yCoord+y, zCoord+z, false);
+		return !worldObj.isBlockNormalCube(this.getPos().add(x,y,z), false);
 	}
 	private int getMaxStackSizeForDistribute()
 	{
@@ -228,13 +232,13 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	}
 
 	@Override
-	public String getInventoryName()
+	public String getName()
 	{
 		return "gui.bombcraftmf.name";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName()
+	public boolean hasCustomName()
 	{
 		return false;
 	}
@@ -248,16 +252,16 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer user)
 	{
-		return user.getDistance(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D) < 8D;
+		return user.getDistance(user.getPosition().getX()+0.5D, user.getPosition().getY()+0.5D, user.getPosition().getZ()+0.5D) < 8D;
 	}
 
 	@Override
-	public void openInventory()
+	public void openInventory(EntityPlayer player)
 	{
 	}
 
 	@Override
-	public void closeInventory()
+	public void closeInventory(EntityPlayer player)
 	{
 	}
 
@@ -291,17 +295,17 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 		return null;
 	}
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) 
+	public int[] getAccessibleSlotsFromSide(EnumFacing side) 
 	{
-		return side == 1 ? new int[]{0, 1} : new int[]{};
+		return side == EnumFacing.UP ? new int[]{0, 1} : new int[]{};
 	}
 	@Override
-	public boolean canInsertItem(int slot, ItemStack item, int side)
+	public boolean canInsertItem(int slot, ItemStack item, EnumFacing direction)
 	{
 		return isItemValidForSlot(slot, item);
 	}
 	@Override
-	public boolean canExtractItem(int slot, ItemStack item, int side)
+	public boolean canExtractItem(int slot, ItemStack item, EnumFacing direction)
 	{
 		return false;
 	}
@@ -324,5 +328,36 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	public boolean canAbsorbIndirect()
 	{
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

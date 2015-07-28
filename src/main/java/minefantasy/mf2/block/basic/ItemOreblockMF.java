@@ -1,10 +1,16 @@
 package minefantasy.mf2.block.basic;
 
+import java.util.List;
+
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemOreblockMF extends ItemBlock 
 {
@@ -14,6 +20,14 @@ public class ItemOreblockMF extends ItemBlock
 		super(block);
 		ore = (BlockOreMF) block;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 	
 	@Override
 	public EnumRarity getRarity(ItemStack item)

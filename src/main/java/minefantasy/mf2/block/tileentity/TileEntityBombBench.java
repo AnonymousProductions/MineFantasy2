@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
 
 public class TileEntityBombBench extends TileEntity implements IInventory
 {
@@ -42,10 +43,6 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 			for(int a = 0; a < 4; a++)
 			{
 				decrStackSize(a, 1);
-			}
-			if(rand.nextInt(24) == 0 && user.swingProgress == 0.0F)
-			{
-				ResearchLogic.modifyKnowledgePoints(user, 1);
 			}
 			return true;
 		}
@@ -240,13 +237,13 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 	}
 
 	@Override
-	public String getInventoryName()
+	public String getName()
 	{
 		return "gui.bombcraftmf.name";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName()
+	public boolean hasCustomName()
 	{
 		return false;
 	}
@@ -260,17 +257,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer user)
 	{
-		return user.getDistance(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D) < 8D;
-	}
-
-	@Override
-	public void openInventory()
-	{
-	}
-
-	@Override
-	public void closeInventory()
-	{
+		return user.getDistance(this.getPos().getX()+0.5D, this.getPos().getY()+0.5D, this.getPos().getZ()+0.5D) < 8D;
 	}
 
 	@Override
@@ -319,5 +306,40 @@ public class TileEntityBombBench extends TileEntity implements IInventory
         }
 
         nbt.setTag("Items", savedItems);
+	}
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void openInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void closeInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -5,12 +5,10 @@ import minefantasy.mf2.block.tileentity.TileEntityForge;
 import minefantasy.mf2.container.ContainerForge;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiForge extends GuiContainer

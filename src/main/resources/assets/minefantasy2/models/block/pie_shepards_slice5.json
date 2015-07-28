@@ -1,0 +1,22 @@
+{
+    "textures": {
+        "particle": "blocks/food/pie_shepards_side",
+        "bottom": "blocks/food/pie_shepards_bottom",
+        "top": "blocks/food/pie_shepards_top",
+        "side": "blocks/food/pie_shepards_side",
+		"inner": "blocks/food/pie_shepards_inner"
+    },
+    "elements": [
+        {   "from": [ 9.75, 0, 1 ],
+            "to": [ 15, 8, 15 ],
+            "faces": {
+                "down":  { "uv": [ 9.75, 1, 15, 15 ], "texture": "#bottom", "cullface": "down" },
+                "up":    { "uv": [ 9.75, 1, 15, 15 ], "texture": "#top" },
+                "north": { "uv": [ 1, 8, 6.25, 16 ], "texture": "#side" },
+                "south": { "uv": [ 1, 8, 6.25, 16 ], "texture": "#side" },
+                "west":  { "uv": [ 1, 8, 15, 16 ], "texture": "#inside" },
+                "east":  { "uv": [ 1, 8, 15, 16 ], "texture": "#side" }
+            }
+        }
+    ]
+}

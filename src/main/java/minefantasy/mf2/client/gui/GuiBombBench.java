@@ -1,16 +1,15 @@
 package minefantasy.mf2.client.gui;
 
-import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import minefantasy.mf2.container.ContainerBombBench;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiBombBench extends GuiContainer

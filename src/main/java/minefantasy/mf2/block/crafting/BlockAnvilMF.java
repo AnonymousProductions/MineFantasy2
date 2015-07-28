@@ -10,11 +10,10 @@ import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.tool.crafting.ItemTongs;
 import minefantasy.mf2.material.BaseMaterialMF;
-import minefantasy.mf2.network.CommonProxyMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,12 +21,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockAnvilMF extends BlockContainer
 {
@@ -35,7 +35,8 @@ public class BlockAnvilMF extends BlockContainer
     public int anvilRenderSide;
     public BaseMaterialMF material;
     private int tier;
-
+    private String NAME;
+    
     public BlockAnvilMF(BaseMaterialMF material)
     {
         super(Material.anvil);
@@ -43,20 +44,26 @@ public class BlockAnvilMF extends BlockContainer
         this.material = material;
         float height = 1.0F / 16F * 13F;
         setBlockBounds(0F, 0F, 0F, 1F, height, 1F);
-        
-        this.setBlockTextureName("minefantasy2:metal/"+name.toLowerCase()+"_block");
+        NAME=name;
+        //this.setBlockTextureName("minefantasy2:metal/"+name.toLowerCase()+"_block");
         name = "anvil"+name;
         this.tier = material.tier;
         GameRegistry.registerBlock(this, ItemBlockAnvilMF.class, name);
-		setBlockName(name);
+        setUnlocalizedName("minefantasy2:metal/"+name.toLowerCase()+"_block");
 		this.setStepSound(Block.soundTypeMetal);
 		this.setHardness(material.hardness+1 / 2F);
 		this.setResistance(material.hardness+1);
         this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabMF.tabUtil);
     }
+    
+    public String getName()
+	{
+		return NAME;
+	}
+    
     @Override
-    public boolean renderAsNormalBlock()
+    public boolean isFullCube()
     {
         return false;
     }
@@ -71,24 +78,25 @@ public class BlockAnvilMF extends BlockContainer
      * Called when the block is placed in the world.
      */
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase user, ItemStack item)
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase user, ItemStack item)
     {
     	int dir = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-        world.setBlockMetadataWithNotify(x, y, z, dir, 2);
+        world.setBlockState(pos, getStateFromMeta(dir), 2);
+        
     }
 
     /**
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
     	ItemStack held = user.getHeldItem();
-    	TileEntityAnvilMF tile = getTile(world, x, y, z);
+    	TileEntityAnvilMF tile = getTile(world, pos);
     	if(tile != null)
     	{
-    		if(side == 1 && held != null && held.getItem() instanceof ItemTongs)
+    		if(side == EnumFacing.NORTH && held != null && held.getItem() instanceof ItemTongs)
     		{
     			ItemStack result = tile.getStackInSlot(tile.getSizeInventory()-1);
     			if(result != null && result.getItem() == ComponentListMF.hotItem)
@@ -100,18 +108,18 @@ public class BlockAnvilMF extends BlockContainer
     				}
     			}
     		}
-    		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
+    		if(side != EnumFacing.NORTH || !tile.tryCraft(user) && !world.isRemote)
     		{
-    			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
+    			user.openGui(MineFantasyII.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
     		}
     	}
         return true;
     }
     @Override
-    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)
+    public void onBlockClicked(World world, BlockPos pos, EntityPlayer user)
     {
         {
-        	TileEntityAnvilMF tile = getTile(world, x, y, z);
+        	TileEntityAnvilMF tile = getTile(world, pos);
         	if(tile != null)
         	{
         		tile.tryCraft(user);
@@ -125,15 +133,15 @@ public class BlockAnvilMF extends BlockContainer
 		return new TileEntityAnvilMF(tier, material.name);
 	}
 
-	private TileEntityAnvilMF getTile(World world, int x, int y, int z)
+	private TileEntityAnvilMF getTile(World world, BlockPos pos)
 	{
-		return (TileEntityAnvilMF)world.getTileEntity(x, y, z);
+		return (TileEntityAnvilMF)world.getTileEntity(pos);
 	}
 	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-		TileEntityAnvilMF tile = getTile(world, x, y, z);
+		TileEntityAnvilMF tile = getTile(world, pos);
 
         if (tile != null)
         {
@@ -157,7 +165,7 @@ public class BlockAnvilMF extends BlockContainer
                         }
 
                         itemstack.stackSize -= j1;
-                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, pos.getX()+f, pos.getY()+f1, pos.getZ()+f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                         if (itemstack.hasTagCompound())
                         {
@@ -173,16 +181,18 @@ public class BlockAnvilMF extends BlockContainer
                 }
             }
 
-            world.func_147453_f(x, y, z, block);
+            world.func_147453_f(pos, state.getBlock());
         }
 
-        super.breakBlock(world, x, y, z, block, meta);
+        super.breakBlock(world, pos,state);
     }
 	public int getTier()
 	{
 		return tier;
 	}
+	
 	@SideOnly(Side.CLIENT)
+	
 	@Override
 	public IIcon getIcon(int side, int meta)
 	{

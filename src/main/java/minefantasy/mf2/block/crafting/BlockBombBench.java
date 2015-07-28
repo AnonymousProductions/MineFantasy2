@@ -11,6 +11,10 @@ import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,32 +22,42 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockBombBench extends BlockContainer
 {
-    public BlockBombBench()
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	
+	private static String NAME = "bombBench";
+	public BlockBombBench()
     {
         super(Material.wood);
-        this.setBlockTextureName("minectaft:stone");
+        //this.setBlockTextureName("minectaft:stone");
         GameRegistry.registerBlock(this, "MF_BombCrafter");
-		setBlockName("bombBench");
+        setUnlocalizedName("minefantasy2:" + NAME);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setStepSound(Block.soundTypeStone);
 		this.setHardness(5F);
 		this.setResistance(2F);
         this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabMF.tabUtil);
     }
+    
+    public String getName()
+    {
+    	return NAME;
+    }
+    
     @Override
-    public boolean renderAsNormalBlock()
+    public boolean isFullCube()
     {
         return false;
     }
@@ -58,18 +72,19 @@ public class BlockBombBench extends BlockContainer
      * Called when the block is placed in the world.
      */
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase user, ItemStack item)
+    public void onBlockPlacedBy(World world, BlockPos pos,IBlockState state, EntityLivingBase user, ItemStack item)
     {
-        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D);
+        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-        world.setBlockMetadataWithNotify(x, y, z, direction, 2);
+        this.getDefaultState().withProperty(FACING, user.getHorizontalFacing());
     }
 
     /**
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
+    
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer user, EnumFacing side, float xOffset, float yOffset, float zOffset)
     {
     	if(!ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.bombs))
         {
@@ -77,22 +92,22 @@ public class BlockBombBench extends BlockContainer
 		    	user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unknownUse")));
 			return false;
         }
-    	TileEntityBombBench tile = getTile(world, x, y, z);
-    	if(tile != null && (world.isAirBlock(x, y+1, z) || !world.isSideSolid(x, y+1, z, ForgeDirection.DOWN)))
+    	TileEntityBombBench tile = getTile(world, pos);
+    	if(tile != null && (world.isAirBlock(pos.add(0, 1, 0)) || !world.isSideSolid(pos.add(0, 1, 0), EnumFacing.DOWN)))
     	{
-    		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
+    		if(side != EnumFacing.NORTH || !tile.tryCraft(user) && !world.isRemote)
     		{
-    			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
+    			user.openGui(MineFantasyII.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
     		}
     	}
         return true;
     }
     @Override
-    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)
+    public void onBlockClicked(World world, BlockPos pos, EntityPlayer user)
     {
     	if(ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.bombs))
         {
-        	TileEntityBombBench tile = getTile(world, x, y, z);
+        	TileEntityBombBench tile = getTile(world, pos);
         	if(tile != null)
         	{
         		tile.tryCraft(user);
@@ -106,15 +121,15 @@ public class BlockBombBench extends BlockContainer
 		return new TileEntityBombBench();
 	}
 
-	private TileEntityBombBench getTile(World world, int x, int y, int z)
+	private TileEntityBombBench getTile(World world, BlockPos pos)
 	{
-		return (TileEntityBombBench)world.getTileEntity(x, y, z);
+		return (TileEntityBombBench)world.getTileEntity(pos);
 	}
 	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+	public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-		TileEntityBombBench tile = getTile(world, x, y, z);
+		TileEntityBombBench tile = getTile(world, pos);
 
         if (tile != null)
         {
@@ -138,7 +153,7 @@ public class BlockBombBench extends BlockContainer
                         }
 
                         itemstack.stackSize -= j1;
-                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        EntityItem entityitem = new EntityItem(world, pos.getX() + f,pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                         if (itemstack.hasTagCompound())
                         {
@@ -154,22 +169,48 @@ public class BlockBombBench extends BlockContainer
                 }
             }
 
-            world.func_147453_f(x, y, z, block);
+            world.func_147453_f(pos, state.getBlock());
         }
 
-        super.breakBlock(world, x, y, z, block, meta);
+        super.breakBlock(world, pos, state);
     }
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		if(side == 1)
-		{
-			return Blocks.crafting_table.getIcon(1, meta);
-		}
-		return Blocks.anvil.getIcon(0, 0);
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int side, int meta)
+//	{
+//		if(side == 1)
+//		{
+//			return Blocks.crafting_table.getIcon(1, meta);
+//		}
+//		return Blocks.anvil.getIcon(0, 0);
+//	}
+    public IBlockState getStateFromMeta(int meta)
+    {
+        EnumFacing enumfacing = EnumFacing.getFront(meta);
+
+        if (enumfacing.getAxis() == EnumFacing.Axis.Y)
+        {
+            enumfacing = EnumFacing.NORTH;
+        }
+
+        return this.getDefaultState().withProperty(FACING, enumfacing);
+    }
+
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((EnumFacing)state.getValue(FACING)).getIndex();
+    }
+
+    
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {FACING});
+    }
+    
 	@Override
 	public int getRenderType()
 	{

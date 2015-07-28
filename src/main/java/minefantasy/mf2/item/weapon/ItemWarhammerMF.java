@@ -1,14 +1,20 @@
 package minefantasy.mf2.item.weapon;
 
+import java.util.List;
+
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.weapon.WeaponClass;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -35,9 +41,9 @@ public class ItemWarhammerMF extends ItemHeavyWeapon
 	}
 	
 	@Override
-	public float getDigSpeed(ItemStack itemstack, Block block, int metadata)
+	public float getDigSpeed(ItemStack stack, IBlockState state)
 	{
-		return super.getDigSpeed(itemstack, block, metadata)*1.5F;
+		return super.getDigSpeed(stack,state)*1.5F;
 	}
 
 	@Override
@@ -108,4 +114,11 @@ public class ItemWarhammerMF extends ItemHeavyWeapon
 	{
 		return WeaponClass.BLUNT;
 	}
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

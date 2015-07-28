@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.EntityHelper;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.helpers.ToolHelper;
-import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.LevelupEvent;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SyncSkillEvent;
@@ -24,21 +22,18 @@ import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.config.ConfigStamina;
 import minefantasy.mf2.entity.EntityItemUnbreakable;
 import minefantasy.mf2.farming.FarmingHelper;
-import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.network.packet.LevelupPacket;
 import minefantasy.mf2.network.packet.SkillPacket;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
@@ -59,9 +54,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -69,14 +67,13 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ChunkEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EventManagerMF
 {
@@ -148,10 +145,6 @@ public class EventManagerMF
 		}
 		dropLeather(event.entityLiving, event);
 		
-		if(dropper instanceof EntityWitch)
-		{
-			dropper.entityDropItem(ItemResearchScroll.getRandomDrop(), 0.0F);
-		}
 		if(dropper instanceof EntitySkeleton)
 		{
 			EntitySkeleton skeleton = (EntitySkeleton)dropper;
@@ -413,12 +406,12 @@ public class EventManagerMF
 	@SubscribeEvent
 	public void useHoe(UseHoeEvent event)
 	{
-		Block block = event.world.getBlock(event.x, event.y, event.z);
+		Block block = event.world.getBlockState(event.pos).getBlock();
 		if(block != Blocks.farmland && FarmingHelper.didHoeFail(event.current, event.world, block == Blocks.grass))
 		{
 			event.entityPlayer.swingItem();
 			event.current.damageItem(1, event.entityLiving);
-			event.world.playAuxSFXAtEntity(event.entityPlayer, 2001, event.x, event.y, event.z, Block.getIdFromBlock(block) + (event.world.getBlockMetadata(event.x, event.y, event.z) << 12));
+			event.world.playAuxSFXAtEntity(event.entityPlayer, 2001, event.pos, Block.getIdFromBlock(block) + (event.world.getBlockState(event.pos).getBlock().getMetaFromState(event.world.getBlockState(event.pos)) << 12));
 			event.setCanceled(true);
 		}
 	}
@@ -426,13 +419,14 @@ public class EventManagerMF
 	@SubscribeEvent
 	public void breakBlock(BreakEvent event)
 	{
-		Block block = event.block;
-		Block base = event.world.getBlock(event.x, event.y-1, event.z);
-		int meta = event.blockMetadata;
+		Block block = event.state.getBlock();
+		BlockPos updpos = event.pos.subtract(new Vec3i(0,1,0));
+		Block base = event.world.getBlockState(updpos).getBlock();
+		int meta = event.state.getBlock().getMetaFromState(event.state);
 		
 		if(base != null && base == Blocks.farmland && FarmingHelper.didHarvestRuinBlock(event.world, false))
 		{
-			event.world.setBlock(event.x, event.y-1, event.z, Blocks.dirt);
+			event.world.setBlockState(updpos, Blocks.dirt.getDefaultState());
 		}
 		if(event.getPlayer() != null)
 		{
@@ -441,14 +435,16 @@ public class EventManagerMF
 	}
 	public void playerMineBlock(BlockEvent.BreakEvent event)
 	{
+		if(event.getPlayer() == null)return;
+		
 		if(event.getPlayer().capabilities.isCreativeMode)return;
 		
 		ItemStack held = event.getPlayer().getHeldItem();
-		Block broken = event.block;
+		Block broken = event.state.getBlock();
 		
 		if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(event.getPlayer()) && ConfigStamina.affectMining)
 		{
-			float hardness = Math.max(event.block.getBlockHardness(event.world, event.x, event.y, event.z), 0.1F);
+			float hardness = Math.max(event.state.getBlock().getBlockHardness(event.world, event.pos), 0.1F);
 			float points = hardness*0.5F*ConfigStamina.miningSpeed;
 			ItemWeaponMF.applyFatigue(event.getPlayer(), points, hardness*25F);
 			if(points > 0 && !StaminaBar.isAnyStamina(event.getPlayer(), false))
@@ -653,7 +649,7 @@ public class EventManagerMF
 					float x = (float) (entity.posX + (rand.nextFloat()-0.5F)/4F);
 					float y = (float) (entity.posY + entity.getEyeHeight() + (rand.nextFloat()-0.5F)/4F);
 					float z = (float) (entity.posZ + (rand.nextFloat()-0.5F)/4F);
-					entity.worldObj.spawnParticle("reddust", x, y, z, 0F, 0F, 0F);
+					entity.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, x, y, z, 0F, 0F, 0F);
 				}
 			}
 			if(!entity.worldObj.isRemote && entity.getHealth() <= (lowHp/2) && entity.getRNG().nextInt(200) == 0)
@@ -724,19 +720,12 @@ public class EventManagerMF
 			EntityHelper.cloneNBT(origin, spawn);
 		}
 	}
-	
-    @SubscribeEvent
-    public void pickupXP(PlayerPickupXpEvent event)
-    {
-    	if(event.orb.worldObj.isRemote)return;
-    	ResearchLogic.addKnowledgeExperience(event.entityPlayer, event.orb.xpValue);
-    }
     
     @SubscribeEvent
     public void startUseItem(PlayerUseItemEvent.Start event)
     {
     	EntityPlayer player = event.entityPlayer;
-    	if(event.item.getItemUseAction() == EnumAction.block)
+    	if(event.item.getItemUseAction() == EnumAction.BLOCK)
     	{
     		if((StaminaBar.isSystemActive && TacticalManager.shouldStaminaBlock  && !StaminaBar.isAnyStamina(player, false)) || !CombatMechanics.isParryAvailable(player))
     		{

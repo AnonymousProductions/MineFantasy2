@@ -53,7 +53,7 @@ public class ArmourCalculator
 		if(armour.getItem() instanceof ItemArmor)
 		{
 			ItemArmor vanilla = (ItemArmor)armour.getItem();
-			if(vanilla.getArmorMaterial() == ArmorMaterial.CLOTH)
+			if(vanilla.getArmorMaterial() == ArmorMaterial.LEATHER)
 			{
 				return ArmourDesign.LEATHER.getBulk();
 			}
@@ -65,7 +65,7 @@ public class ArmourCalculator
 		return CustomArmourEntry.getEntryVars(armour)[1];
 	}
 	
-	public static float slowRate;
+	public static float slowRate = 1.0F;
 
 	/**
 	 * Converts a hit:damage ratio into vanilla AR(rounding off as it is an int)
@@ -129,7 +129,7 @@ public class ArmourCalculator
 		item.getTagCompound().setFloat(ARNBT, value);
 		return value;
 	}
-	public static boolean usePercentage = true;
+	public static boolean usePercentage = false;
 	
 	private static float estimateScale(ItemStack item, int slot) 
 	{

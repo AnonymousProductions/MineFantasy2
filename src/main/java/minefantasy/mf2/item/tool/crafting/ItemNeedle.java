@@ -17,12 +17,11 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * @author Anonymous Productions
@@ -39,9 +38,8 @@ public class ItemNeedle extends ItemTool implements IToolMaterial, IToolMF
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
         
-        setTextureName("minefantasy2:Tool/Crafting/"+name);
+        setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
     }
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
@@ -53,7 +51,7 @@ public class ItemNeedle extends ItemTool implements IToolMaterial, IToolMF
 	public Multimap getItemAttributeModifiers()
 	{
 		Multimap map = HashMultimap.create();
-		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 0.5D, 0));
+		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(this.itemModifierUUID, "Weapon modifier", 0.5D, 0));
 
         return map;
     }

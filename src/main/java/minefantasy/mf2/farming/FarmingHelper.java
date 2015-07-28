@@ -26,7 +26,7 @@ public class FarmingHelper
 		{
 			return false;
 		}
-		float chanceMax = 10F*(world.difficultySetting.getDifficultyId()+1)*hoeFailChanceModifier*hoeFailChanceCfg;
+		float chanceMax = 10F*(world.getDifficulty().getDifficultyId()+1)*hoeFailChanceModifier*hoeFailChanceCfg;
 		float chance = rand.nextFloat()*chanceMax;
 		float efficiency = (getHoeEfficiency(hoe)*(grass ? 2.0F : 3.0F));
 		
@@ -40,7 +40,7 @@ public class FarmingHelper
 		{
 			return false;
 		}
-		float chance = 20F + (world.difficultySetting.getDifficultyId()*10F);
+		float chance = 20F + (world.getDifficulty().getDifficultyId()*10F);
 		if(scythe)chance *= 2F;
 		return rand.nextFloat()*100F <= chance*farmBreakCfg ;
 	}
@@ -51,7 +51,7 @@ public class FarmingHelper
 		{
 			if(hoe.getItem() instanceof ItemHoe)
 			{
-				String name = ((ItemHoe)hoe.getItem()).getToolMaterialName();
+				String name = ((ItemHoe)hoe.getItem()).getMaterialName();
 				ToolMaterial mat = ToolMaterial.valueOf(name);
 				
 				if(mat != null)

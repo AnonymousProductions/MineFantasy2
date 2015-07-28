@@ -1,9 +1,12 @@
 package minefantasy.mf2.item;
 
+import java.util.List;
+
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.mechanics.EventManagerMF;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -11,11 +14,13 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBandage extends Item
 {
-    private String name;
+    private final String name;
     private float healPwr;
 	private float secondsToUse = 5F;
 
@@ -26,9 +31,9 @@ public class ItemBandage extends Item
         healPwr = healAmount;
         setMaxStackSize(16);
         setCreativeTab(CreativeTabMF.tabGadget);
-        setTextureName("minefantasy2:Other/"+name);
+        //setTextureName("minefantasy2:Other/"+name);
 		GameRegistry.registerItem(this, "MF_Aid_"+name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
+		setUnlocalizedName("minefantasy2:Other/"+name);
     }
 
     @Override
@@ -58,7 +63,7 @@ public class ItemBandage extends Item
     @Override
 	public EnumAction getItemUseAction(ItemStack item)
     {
-        return EnumAction.block;
+        return EnumAction.BLOCK;
     }
     @Override
 	public int getMaxItemUseDuration(ItemStack item)
@@ -66,7 +71,7 @@ public class ItemBandage extends Item
         return (int)(20F*secondsToUse);
     }
     @Override
-    public ItemStack onEaten(ItemStack item, World world, EntityPlayer player)
+    public ItemStack onItemUseFinish(ItemStack item, World world, EntityPlayer player)
     {
     	return heal(player, player, item);
     }
@@ -168,5 +173,13 @@ public class ItemBandage extends Item
 		}
 		return 0;
 	}
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 2));
+     }
+	
 	private static final String healingID = "MF_Bandage_progress";
 }

@@ -1,12 +1,11 @@
 package minefantasy.mf2.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class ResearchRequest extends PacketMF
 {
@@ -18,7 +17,7 @@ public class ResearchRequest extends PacketMF
 	public ResearchRequest(EntityPlayer user, int id)
 	{
 		this.researchID = id;
-		this.username = user.getCommandSenderName();
+		this.username = user.getName();
 		this.user = user;
 	}
 
@@ -37,14 +36,10 @@ public class ResearchRequest extends PacketMF
             InformationBase research = InformationList.knowledgeList.get(researchID);
             if(entity != null && research != null)
             {
-            	int points = ResearchLogic.getKnowledgePoints(entity);
-            	int cost = ResearchLogic.getCost(player, research);
-            	if(!player.worldObj.isRemote && (MineFantasyII.isDebug() || points >= cost))
+            	if(!entity.worldObj.isRemote)
             	{
-	            	if(research.trigger(player, true))
+	            	if(research.onPurchase(entity))
 	            	{
-	            		if(!MineFantasyII.isDebug())
-	            		ResearchLogic.modifyKnowledgePoints(entity, -cost);
 	            		ResearchLogic.syncData(entity);
 	            	}
             	}

@@ -10,6 +10,7 @@ import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -32,7 +33,7 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
     	this.tier=tier;
     	baseDamage -= 3;
     	setCreativeTab(CreativeTabMF.tabCraftTool);
-        setTextureName("minefantasy2:Tool/Crafting/"+name);
+    	setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
     }
 
     @Override
@@ -53,9 +54,9 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 	}
 	
 	@Override
-	public float getDigSpeed(ItemStack stack, Block block, int meta)
+	public float getDigSpeed(ItemStack stack, IBlockState state)
 	{
-		return ToolHelper.modifyDigOnQuality(stack, super.getDigSpeed(stack, block, meta));
+		return ToolHelper.modifyDigOnQuality(stack, super.getDigSpeed(stack, state));
 	}
 	@Override
 	public float getEfficiency(ItemStack item) 

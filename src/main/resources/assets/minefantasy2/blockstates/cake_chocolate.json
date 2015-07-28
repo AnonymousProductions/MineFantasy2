@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "slices=0": { "model": "cake_chocolate_uneaten"},
+        "slices=1": { "model": "cake_chocolate_slice1" },
+        "slices=2": { "model": "cake_chocolate_slice2" },
+        "slices=3": { "model": "cake_chocolate_slice3" },
+        "slices=4": { "model": "cake_chocolate_slice4" },
+        "slices=5": { "model": "cake_chocolate_slice5" },
+        "slices=6": { "model": "cake_chocolate_slice6" },
+		"slices=7": { "model": "cake_chocolate_slice7" },
+		"slices=8": { "model": "cake_chocolate_slice8" }
+    }
+}

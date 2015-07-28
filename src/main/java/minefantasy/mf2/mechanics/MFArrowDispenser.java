@@ -7,8 +7,8 @@ import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
@@ -20,8 +20,8 @@ public class MFArrowDispenser extends BehaviorDefaultDispenseItem
     public ItemStack dispenseStack(IBlockSource dispenser, ItemStack item)
     {
         World world = dispenser.getWorld();
-        IPosition iposition = BlockDispenser.func_149939_a(dispenser);
-        EnumFacing direction = BlockDispenser.func_149937_b(dispenser.getBlockMetadata());
+        IPosition iposition = BlockDispenser.getDispensePosition(dispenser);
+        EnumFacing direction = BlockDispenser.getFacing(dispenser.getBlockMetadata());
         double posX = dispenser.getX() + ((float)direction.getFrontOffsetX());
 		double posY = dispenser.getY() + ((float)direction.getFrontOffsetY());
 		double posZ = dispenser.getZ() + ((float)direction.getFrontOffsetZ());
@@ -43,7 +43,7 @@ public class MFArrowDispenser extends BehaviorDefaultDispenseItem
      */
     protected void playDispenseSound(IBlockSource p_82485_1_)
     {
-        p_82485_1_.getWorld().playAuxSFX(1002, p_82485_1_.getXInt(), p_82485_1_.getYInt(), p_82485_1_.getZInt(), 0);
+        p_82485_1_.getWorld().playAuxSFX(1002, new BlockPos(p_82485_1_.getX(), p_82485_1_.getY(), p_82485_1_.getZ()), 0);
     }
 
     protected float func_82498_a()

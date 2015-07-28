@@ -37,19 +37,19 @@ public class BaseMaterialMF
 	//Rounding off to nearest 0.5 makes about an 0.03 difference, but the AR is cleaner
 	//Hardness isn't added, it calculats armour itself to match sharpness 
 	// 					                                            name   		      dura,         AC           enchant   weight
-	public static BaseMaterialMF linen =  addArmourSpecificMaterial("Linen",   	        0, 10 ,          0.1F,        0,        1.00F, 0);
-	public static BaseMaterialMF wool =  addArmourSpecificMaterial("Wool"  ,   	        1, 15 ,          0.15F,       0,        1.00F, 5);
+	public static BaseMaterialMF linen =  addArmourSpecificMaterial("Linen",   	        0, 10 ,          100,        0,        1.00F, 0);
+	public static BaseMaterialMF wool =  addArmourSpecificMaterial("Wool"  ,   	        1, 15 ,          150,       0,        1.00F, 5);
 	
-	public static BaseMaterialMF hide =  addArmourSpecificMaterial("Hide",   	     	   0, 20 ,          0.2F,        0,        1.00F, 0);
-	public static BaseMaterialMF rough = addArmourSpecificMaterial("RoughLeather",    	   0, 35 ,          0.3F,        1,        1.00F, 0);
-	public static BaseMaterialMF reinforced = addArmourSpecificMaterial("StrongLeather",   1, 250,          1.8F,        1,        1.00F, 5);
-	public static BaseMaterialMF padding =  addArmourSpecificMaterial("Padded",   	       1, 100 ,         1.5F,        0,        0.50F, 5);
-	public static BaseMaterialMF studded = addArmourSpecificMaterial("StudLeather",        1, 500,          2.4F,        5,        1.20F, 15);
-	public static BaseMaterialMF scaled = addArmourSpecificMaterial("ScaleLeather",        2, 1000,         2.7F,        8,        1.50F, 25);
-	public static BaseMaterialMF dragonscale = addArmourSpecificMaterial("Dragonscale",    3, 3000,         8.0F,        20,       1.20F, 85).setRarity(2);
+	public static BaseMaterialMF hide =  addArmourSpecificMaterial("Hide",   	     	   0, 20 ,       500,        0,        1.00F, 0);
+	public static BaseMaterialMF rough = addArmourSpecificMaterial("RoughLeather",    	   0, 35 ,       700,        1,        1.00F, 0);
+	public static BaseMaterialMF reinforced = addArmourSpecificMaterial("StrongLeather",   1, 250,      1000,        1,        1.00F, 5);
+	public static BaseMaterialMF padding =  addArmourSpecificMaterial("Padded",   	       1, 100 ,     1000,        0,        0.50F, 5);
+	public static BaseMaterialMF studded = addArmourSpecificMaterial("StudLeather",        1, 500,      1500,        5,        1.20F, 15);
+	public static BaseMaterialMF scaled = addArmourSpecificMaterial("ScaleLeather",        2, 1000,     2000,        8,        1.50F, 25);
+	public static BaseMaterialMF dragonscale = addArmourSpecificMaterial("Dragonscale",    3, 3000,     4000,        20,       1.20F, 85).setRarity(2);
 	
 	//                                                   name    		    Tier dura,    harvest   sharpness   enchant   weight
-	public static BaseMaterialMF stone =   addMaterial("Stone",		          0, 60 ,     0,     0.1F, 0.0F,    0,        2.00F, 0).setForgeStats(0, 0, 0.75F, 0, 0);
+	public static BaseMaterialMF stone =   addMaterial("Stone",		          0, 100 ,     0,     0.1F, 0.0F,    0,        2.00F, 0).setForgeStats(0, 0, 0.75F, 0, 0);
 	public static BaseMaterialMF tin  =    addMaterial("Tin",   	          0, 100,     0,        0.2F,       5 ,       0.80F, 0).setForgeStats(0, 0, 0, 85, 100);
 	public static BaseMaterialMF pigiron = addMaterial("PigIron",             0, 250,     0,        1.5F,       3 ,       1.00F, 0).setForgeStats(2, 2, 2.0F, 100, 400);
 	public static BaseMaterialMF silver =  addMaterial("Silver", 		     -1, 500,     0,        0.0F,       10,       0.70F, 0).setForgeStats(1, 1, 3F, 90, 120);
@@ -59,17 +59,17 @@ public class BaseMaterialMF
 	
 	
 	//Basic / Common Materials (0-2) Levels 0-50
-	public static BaseMaterialMF copper		 = addMaterial("Copper",		  0, 250,   1,     1.5F, 1.0F,    5,        1.00F, 0).setForgeStats(0, 0, 1.0F,  95, 250); //lvl 0
-	public static BaseMaterialMF bronze    	 = addMaterial("Bronze", 	      1, 500,  	2,        1.5F,       5 ,       1.00F, 5).setForgeStats(1, 1, 2.5F,  100, 250); //lvl 5
-	public static BaseMaterialMF iron   	 = addMaterial("Iron",            2, 600,  	2,        2.0F,       5 ,       1.00F, 15).setForgeStats(2, 2, 2.0F, 90, 250); //lvl 15
-	public static BaseMaterialMF steel       = addMaterial("Steel",           3, 1000, 	2,        2.5F,       10,       1.00F, 25).setForgeStats(3, 3, 2.5F, 120, 250); //lvl 25
-	public static BaseMaterialMF encrusted   = addMaterial("Encrusted",       3, 2500, 	3,        3.0F,       18,       1.00F, 35).setForgeStats(3, 3, 5.0F, 130, 240); //lvl 30
+	public static BaseMaterialMF copper		 = addMaterial("Copper",		  0, 250,   1,     1.5F, 1.0F,    5,        1.00F, 0).setForgeStats(0, 0, 1.0F,  95, 250); //lvl 0-4
+	public static BaseMaterialMF bronze    	 = addMaterial("Bronze", 	      1, 500,  	2,        1.5F,       5 ,       1.00F, 5).setForgeStats(1, 1, 2.5F,  100, 250); //lvl 5-14
+	public static BaseMaterialMF iron   	 = addMaterial("Iron",            2, 600,  	2,        2.0F,       5 ,       1.00F, 15).setForgeStats(2, 2, 2.0F, 90, 250); //lvl 15-24
+	public static BaseMaterialMF steel       = addMaterial("Steel",           3, 1000, 	2,        2.5F,       10,       1.00F, 25).setForgeStats(3, 3, 2.5F, 120, 250); //lvl 25-39
+	public static BaseMaterialMF encrusted   = addMaterial("Encrusted",       3, 2500, 	3,        3.5F,       25,       1.00F, 40).setForgeStats(3, 3, 5.0F, 130, 240); //lvl 40-49
 	
 	//Advanced Materials (3 - 4) Levels 50-75
-	public static BaseMaterialMF blacksteel  = addMaterial("BlackSteel",      4, 2500, 	4,        4.0F,       12,       1.00F, 40).setForgeStats(4, 4, 4.0F, 150, 350);//lvl 40
-	public static BaseMaterialMF dragonforge = addMaterial("Dragonforge",     4, 3000, 	4,        5.0F,       14,       1.00F, 55).setForgeStats(4, 4, 8.0F, 250, 350).setRarity(1).setResistances(100F, 0F);//lvl 55
-	public static BaseMaterialMF redsteel    = addMaterial("RedSteel",        5, 4000, 	5,        6.0F,       1 ,       1.15F, 65).setForgeStats(5, 5, 6.5F, 200, 350).setResistances(20F, 0F);//lvl 65
-	public static BaseMaterialMF bluesteel   = addMaterial("BlueSteel",       5, 3000, 	5,        5.0F,       20,       0.75F, 65).setForgeStats(5, 5, 4.5F, 175, 325).setResistances(0F, 20F);//lvl 65
+	public static BaseMaterialMF blacksteel  = addMaterial("BlackSteel",      4, 2000, 	4,        4.0F,       12,       1.00F, 50).setForgeStats(4, 4, 4.0F, 150, 350);//lvl 50
+	public static BaseMaterialMF dragonforge = addMaterial("Dragonforge",     4, 3000, 	4,        5.0F,       14,       1.00F, 60).setForgeStats(4, 4, 8.0F, 250, 350).setRarity(1).setResistances(100F, 0F);//lvl 60
+	public static BaseMaterialMF redsteel    = addMaterial("RedSteel",        5, 4000, 	5,        6.0F,       1 ,       1.15F, 75).setForgeStats(5, 5, 6.5F, 200, 350).setResistances(20F, 0F);//lvl 75
+	public static BaseMaterialMF bluesteel   = addMaterial("BlueSteel",       5, 3000, 	5,        5.0F,       20,       0.75F, 75).setForgeStats(5, 5, 4.5F, 175, 325).setResistances(0F, 20F);//lvl 75
 	
 	//Mythic Materials (5) Levels 75-100
 	public static BaseMaterialMF adamantium  = addMaterial("Adamantium",      6, 6500, 	6,        8.0F,       10 ,      1.25F, 90).setForgeStats(6, 5, 9.0F, 300, 400).setRarity(1).setResistances(35F, 0F);//lvl 90
@@ -89,14 +89,14 @@ public class BaseMaterialMF
 	/**
 	 * This method auto-calculates the Armour Rating to scale the damage
 	 */
-	public static BaseMaterialMF addArmourSpecificMaterial(String name, int tier, int durability, float AC, int enchantment, float weight, int lvl)
+	public static BaseMaterialMF addArmourSpecificMaterial(String name, int tier, int durability, int AC, int enchantment, float weight, int lvl)
 	{
-		return addMaterial(name, tier, durability, -1, AC, -1, enchantment, weight, lvl);
+		return addMaterial(name, tier, durability, -1, (float)AC/2000F, -1, enchantment, weight, lvl);
 	}
 	
 	public static BaseMaterialMF addMaterial(String name, int tier, int durability, int harvestLevel, float sharpness, int enchantment, float weight, int lvl)
 	{
-		float AC = ((sharpness+swordDam)/ratioScale - 1.0F);//With mail: swords(dam+4), do 2 damage, -1 because 1.0 means no armour bonus, as it scales from there
+		float AC = ((sharpness+swordDam)/ratioScale - 2.0F);//With mail: swords(dam+4), do 2 damage, -1 because 1.0 means no armour bonus, as it scales from there
 		float initAc = AC;
 		
 		AC = Math.round(AC*(100F/ACrounding));

@@ -89,6 +89,10 @@ public class Heatable
 	 */
 	public static byte getHeatableStage(ItemStack item) 
 	{
+		if(item == null || !(item.getItem() instanceof IHotItem))
+		{
+			return 0;
+		}
 		if (item != null && item.hasTagCompound())
 		{
 			int temp = getTemp(item);
@@ -102,7 +106,12 @@ public class Heatable
 		return (byte) 0;
 	}
 
-	public static int getWorkTemp(ItemStack item) {
+	public static int getWorkTemp(ItemStack item) 
+	{
+		if(item == null || !(item.getItem() instanceof IHotItem))
+		{
+			return 0;
+		}
 		NBTTagCompound tag = getNBT(item);
 
 		if (tag.hasKey(NBT_WorkableTemp))
@@ -110,7 +119,12 @@ public class Heatable
 
 		return 0;
 	}
-	public static int getUnstableTemp(ItemStack item) {
+	public static int getUnstableTemp(ItemStack item) 
+	{
+		if(item == null || !(item.getItem() instanceof IHotItem))
+		{
+			return 0;
+		}
 		NBTTagCompound tag = getNBT(item);
 
 		if (tag.hasKey(NBT_UnstableTemp))
@@ -120,6 +134,10 @@ public class Heatable
 	}
 	public static int getTemp(ItemStack item)
 	{
+		if(item == null || !(item.getItem() instanceof IHotItem))
+		{
+			return 0;
+		}
 		NBTTagCompound tag = getNBT(item);
 
 		if (tag.hasKey(NBT_CurrentTemp))
@@ -129,6 +147,10 @@ public class Heatable
 	}
 	public static ItemStack getItem(ItemStack item) 
 	{
+		if(item == null || !(item.getItem() instanceof IHotItem))
+		{
+			return null;
+		}
 		NBTTagCompound tag = getNBT(item);
 
 		if (tag.hasKey(NBT_ItemID) && tag.hasKey(NBT_SubID)) 
@@ -153,6 +175,10 @@ public class Heatable
 
 	public static boolean isWorkable(ItemStack inputItem) 
 	{
+		if(inputItem == null || !(inputItem.getItem() instanceof IHotItem))
+		{
+			return true;
+		}
 		if(inputItem != null && inputItem.getItem() instanceof IHotItem)
 		{
 			return getHeatableStage(inputItem) == 1;

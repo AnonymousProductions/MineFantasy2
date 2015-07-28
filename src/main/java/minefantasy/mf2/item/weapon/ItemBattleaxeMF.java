@@ -1,17 +1,23 @@
 package minefantasy.mf2.item.weapon;
 
+import java.util.List;
+
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.mechanics.EventManagerMF;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -130,13 +136,13 @@ public class ItemBattleaxeMF extends ItemHeavyWeapon
 		return Math.max(a, -a);
 	}
 	@Override
-	public float getDigSpeed(ItemStack itemstack, Block block, int metadata)
+	public float getDigSpeed(ItemStack stack, IBlockState state)
 	{
-		if(Items.iron_axe.getDigSpeed(itemstack, block, metadata) > 2.0F)
+		if(Items.iron_axe.getDigSpeed(stack, state) > 2.0F)
 		{
 			return material.getEfficiencyOnProperMaterial()*0.75F;
 		}
-		return super.getDigSpeed(itemstack, block, metadata);
+		return super.getDigSpeed(stack, state);
 	}
 
 	public static void brutalise(EntityLivingBase entityHitting, EntityLivingBase entityHit, float power)
@@ -195,4 +201,12 @@ public class ItemBattleaxeMF extends ItemHeavyWeapon
 	{
 		return WeaponClass.AXE;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

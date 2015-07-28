@@ -4,7 +4,8 @@ import io.netty.buffer.ByteBuf;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class AnvilPacket extends PacketMF
 {
@@ -18,7 +19,7 @@ public class AnvilPacket extends PacketMF
 
 	public AnvilPacket(TileEntityAnvilMF tile)
 	{
-		coords = new int[]{tile.xCoord, tile.yCoord, tile.zCoord};
+		coords = new int[]{tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ()};
 		resultName = tile.getResultName();
 		toolNeeded = tile.getToolNeeded();
 		research = tile.getResearchNeeded();
@@ -37,7 +38,7 @@ public class AnvilPacket extends PacketMF
 	public void process(ByteBuf packet, EntityPlayer player) 
 	{
         coords = new int[]{packet.readInt(), packet.readInt(), packet.readInt()};
-        TileEntity entity = player.worldObj.getTileEntity(coords[0], coords[1], coords[2]);
+        TileEntity entity = player.worldObj.getTileEntity(new BlockPos(coords[0], coords[1], coords[2]));
         
         if(entity != null && entity instanceof TileEntityAnvilMF)
         {

@@ -3,7 +3,6 @@ package minefantasy.mf2.block.tileentity;
 import java.util.List;
 import java.util.Random;
 
-import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ShapelessCarpenterRecipes;
@@ -23,10 +22,12 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldServer;
 
-public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICarpenter
+public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICarpenter,IUpdatePlayerListBox
 {
 	private int tier;
 	private ItemStack[] inventory;
@@ -166,13 +167,13 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	}
 
 	@Override
-	public String getInventoryName()
+	public String getName()
 	{
 		return "gui.carpentermf.name";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName()
+	public boolean hasCustomName()
 	{
 		return false;
 	}
@@ -186,17 +187,11 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer user)
 	{
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
+		
 		return user.getDistance(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D) < 8D;
-	}
-
-	@Override
-	public void openInventory()
-	{
-	}
-
-	@Override
-	public void closeInventory()
-	{
 	}
 
 	@Override
@@ -205,10 +200,10 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 		return true;
 	}
 	@Override
-	public void updateEntity()
+	public void update()
 	{
 		++ticksExisted;
-		super.updateEntity();
+		update();
 		if(!worldObj.isRemote)
 		{
 			if(ticksExisted % 20 == 0)
@@ -233,6 +228,10 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	{
 		if(user == null)return false;
 		
+		int xCoord = this.getPos().getX();
+		int yCoord = this.getPos().getY();
+		int zCoord = this.getPos().getZ();
+		
 		String toolType = ToolHelper.getCrafterTool(user.getHeldItem());
 		int hammerTier = ToolHelper.getCrafterTier(user.getHeldItem());
 		if(!toolType.equalsIgnoreCase("nothing"))
@@ -250,7 +249,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 			
 			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= CarpenterTierRequired && hammerTier >= hammerTierRequired)
 			{
-				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, getUseSound(), 1.25F, rand.nextFloat()+0.5F);
+				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, getUseSound(), 1.0F, 1.0F);
 				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem());
 				
 				if(user.swingProgress > 0 && user.swingProgress <= 1.0)
@@ -266,19 +265,14 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				if(progress >= progressMax)
 				{
 					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)(progressMax/2));
-					ResearchLogic.addKnowledgeExperience(user, progressMax/20F);
 					craftItem();
-				}
-				if(rand.nextInt(30) == 0 && user.swingProgress == 0.0F)
-				{
-					ResearchLogic.modifyKnowledgePoints(user, 1);
 				}
 			}
 			else
 			{
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "step.stone", 1.25F, 1.5F);
 			}
-			lastPlayerHit = user.getCommandSenderName();
+			lastPlayerHit = user.getName();
 			updateInv();
 			return true;
 		}
@@ -334,7 +328,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	{
 		ItemArmourMF item = (ItemArmourMF)result.getItem();
 		boolean canColour = item.canColour();
-		int colour = item.defaultColour;
+		int colour = -1;
 		for(int a = 0; a < getSizeInventory()-1; a++)
 		{
 			ItemStack slot = getStackInSlot(a);
@@ -351,9 +345,9 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				}
 			}
 		}
-		if(canColour)
+		if(colour != -1 && canColour)
 		{
-			item.func_82813_b(result, colour);
+			item.setColor(result, colour);
 		}
 		return result;
 	}
@@ -372,7 +366,11 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
             float f = this.rand .nextFloat() * 0.8F + 0.1F;
             float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
             float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
-
+            
+            int xCoord = this.getPos().getX();
+    		int yCoord = this.getPos().getY();
+    		int zCoord = this.getPos().getZ();
+            
             while (itemstack.stackSize > 0)
             {
                 int j1 = this.rand.nextInt(21) + 10;
@@ -608,5 +606,40 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 			return true;
 		}
 		return ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
+	}
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void openInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void closeInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

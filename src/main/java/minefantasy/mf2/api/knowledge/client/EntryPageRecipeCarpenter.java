@@ -3,18 +3,9 @@ package minefantasy.mf2.api.knowledge.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.crafting.carpenter.ShapedCarpenterRecipes;
 import minefantasy.mf2.api.crafting.carpenter.ShapelessCarpenterRecipes;
-import minefantasy.mf2.api.helpers.ClientTickHandler;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import net.minecraft.client.Minecraft;
@@ -24,8 +15,10 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 public class EntryPageRecipeCarpenter extends EntryPage
 {
@@ -65,7 +58,7 @@ public class EntryPageRecipeCarpenter extends EntryPage
         
         ICarpenterRecipe recipe = recipes[recipeID];
         String cft = "<" + StatCollector.translateToLocal("method.carpenter") + ">";
-        mc.fontRenderer.drawSplitString(cft, posX+(universalBookImageWidth/2) - (mc.fontRenderer.getStringWidth(cft)/2), posY+150, 117, 0);
+        mc.fontRendererObj.drawSplitString(cft, posX+(universalBookImageWidth/2) - (mc.fontRendererObj.getStringWidth(cft)/2), posY+150, 117, 0);
         renderRecipe(parent, x, y, f, posX, posY, recipe);
         
         if(tooltipStack != null)
@@ -105,6 +98,7 @@ public class EntryPageRecipeCarpenter extends EntryPage
 
 	private void renderRecipe(GuiScreen parent, int mx, int my, float f, int posX, int posY, ICarpenterRecipe recipe)
 	{
+		if(parent == null)return;
 		if(recipe == null)return;
 		shapelessRecipe = false;
 		oreDictRecipe = false;
@@ -217,7 +211,7 @@ public class EntryPageRecipeCarpenter extends EntryPage
 	private ItemStack tooltipStack;
 	public void renderItem(GuiScreen gui, int xPos, int yPos, ItemStack stack, boolean accountForContainer, int mx, int my) 
 	{
-		RenderItem render = new RenderItem();
+		RenderItem render = Minecraft.getMinecraft().getRenderItem();
 		if(mx > xPos && mx < (xPos+16) && my > yPos && my < (yPos+16))
 		{
 			tooltipStack = stack;
@@ -230,8 +224,8 @@ public class EntryPageRecipeCarpenter extends EntryPage
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		render.renderItemAndEffectIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), stack, xPos, yPos);
-		render.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), stack, xPos, yPos);
+		render.renderItemAndEffectIntoGUI(stack, xPos, yPos);
+		render.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj, stack, xPos, yPos,null);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 

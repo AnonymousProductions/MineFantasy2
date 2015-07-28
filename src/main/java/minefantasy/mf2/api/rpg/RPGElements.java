@@ -49,7 +49,7 @@ public class RPGElements
 			Skill skill = skillsMap.get(skillname);
 			if(skill != null)
 			{
-				MineFantasyAPI.debugMsg("New Skill Found: " + skillname + " to " + player.getCommandSenderName());
+				MineFantasyAPI.debugMsg("New Skill Found: " + skillname + " to " + player.getName());
 				skill.init(tag, player);
 			}
 			nbt.setTag(skillname, tag);

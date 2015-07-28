@@ -2,11 +2,12 @@ package minefantasy.mf2.api.refine;
 
 import java.util.Random;
 
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class SmokeMechanics 
 {
@@ -15,7 +16,7 @@ public class SmokeMechanics
 	 * @param max the maximum smoke emitted each tick (-1 for infinite)
 	 * @return true if it's successful
 	 */
-	public static boolean emitSmokeFromCarrier(World world, int x, int y, int z, ISmokeCarrier tile, int max)
+	public static boolean emitSmokeFromCarrier(World world, BlockPos pos, ISmokeCarrier tile, int max)
 	{
 		int value = tile.getSmokeValue();
 		
@@ -27,7 +28,7 @@ public class SmokeMechanics
 		{
 			return true;//yes it succeeded because it doesn't need to... it just really means nothing went wrong
 		}
-		boolean success = emitSmoke(world, x, y, z, value) != -1;
+		boolean success = emitSmoke(world, pos, value) != -1;
 		
 		if(success)
 		{
@@ -39,18 +40,18 @@ public class SmokeMechanics
 	 * Tries to emit smoke, sends it to chimneys if possible
 	 * Returns -1 for fail, 0 for shared, 1 for success
 	 */
-	public static int emitSmoke(World world, int x, int y, int z, int value)
+	public static int emitSmoke(World world, BlockPos pos, int value)
 	{
-		TileEntity tile = world.getTileEntity(x, y+1, z);//The above block
+		TileEntity tile = world.getTileEntity(pos.add(new Vec3i(0,1,0)));//The above block
 		if(tile == null) //No TileEntity above
 		{
-			if(world.isSideSolid(x, y+1, z, ForgeDirection.DOWN))//if solid above
+			if(world.isSideSolid(pos.add(new Vec3i(0,1,0)), EnumFacing.DOWN))//if solid above
 			{
 				return -1;
 			}
 			//if(world.canBlockSeeTheSky(x, y+1, z))
 			{
-				spawnSmoke(world, x, y+1, z, value);
+				spawnSmoke(world, pos.getX(), pos.getY()+1, pos.getZ(), value);
 				return 1;
 			}
 		}
@@ -66,7 +67,7 @@ public class SmokeMechanics
 			}
 			else
 			{
-				if(world.isSideSolid(x, y+1, z, ForgeDirection.DOWN))//if solid above
+				if(world.isSideSolid(pos.add(new Vec3i(0,1,0)), EnumFacing.DOWN))//if solid above
 				{
 					return -1;
 				}
@@ -103,17 +104,17 @@ public class SmokeMechanics
 			float sprayX = (rand.nextFloat()*sprayRange) - (sprayRange/2);
 			float sprayZ = (rand.nextFloat()*sprayRange) - (sprayRange/2);
 			float height = 0.2F;
-			world.spawnParticle("smoke",x+0.5D, y+0.5D, z+0.5D, sprayX, height, sprayZ);
+			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,x+0.5D, y+0.5D, z+0.5D, sprayX, height, sprayZ);
 		}
 	}
 	
-	public static boolean tryUseChimney(World world, int x, int y, int z, int value)
+	public static boolean tryUseChimney(World world, BlockPos pos, int value)
 	{
-		return tryUseChimney(world, x, y, z, value, true);
+		return tryUseChimney(world, pos, value, true);
 	}
-	public static boolean tryUseChimney(World world, int x, int y, int z, int value, boolean indirect)
+	public static boolean tryUseChimney(World world, BlockPos pos, int value, boolean indirect)
 	{
-		TileEntity tile = world.getTileEntity(x, y, z);//The block
+		TileEntity tile = world.getTileEntity(pos);//The block
 		if(tile != null)
 		{
 			if(tile instanceof ISmokeCarrier)
@@ -128,15 +129,15 @@ public class SmokeMechanics
 		}
 		return false;
 	}
-	public static void emitSmokeIndirect(World world, int xCoord, int yCoord, int zCoord, int value) 
+	public static void emitSmokeIndirect(World world, BlockPos pos, int value) 
 	{
-		if(!tryUseChimney(world, xCoord, yCoord + 1, zCoord, value, false) && !tryUseChimney(world, xCoord, yCoord + 2, zCoord, value))
+		if(!tryUseChimney(world, pos.add(new Vec3i(0,1,0)), value, false) && !tryUseChimney(world, pos.add(new Vec3i(0,2,0)), value))
 		{
-			if(!tryUseChimney(world, xCoord - 1, yCoord + 1, zCoord, value) && !tryUseChimney(world, xCoord + 1, yCoord + 1, zCoord, value) &&!tryUseChimney(world, xCoord, yCoord + 1, zCoord - 1, value) &&!tryUseChimney(world, xCoord, yCoord + 1, zCoord + 1, value))
+			if(!tryUseChimney(world, pos.add(new Vec3i(-1,1,0)), value) && !tryUseChimney(world, pos.add(new Vec3i(1,1,0)), value) &&!tryUseChimney(world, pos.add(new Vec3i(0,1,-1)), value) &&!tryUseChimney(world, pos.add(new Vec3i(0,1,1)), value))
 			{
-				if(!tryUseChimney(world, xCoord - 1, yCoord + 1, zCoord - 1, value) && !tryUseChimney(world, xCoord + 1, yCoord + 1, zCoord + 1, value) &&!tryUseChimney(world, xCoord - 1, yCoord + 1, zCoord - 1, value) &&!tryUseChimney(world, xCoord + 1, yCoord + 1, zCoord + 1, value))
+				if(!tryUseChimney(world, pos.add(new Vec3i(-1,1,-1)), value) && !tryUseChimney(world, pos.add(new Vec3i(1,1,1)), value) &&!tryUseChimney(world, pos.add(new Vec3i(-1,1,-1)), value) &&!tryUseChimney(world, pos.add(new Vec3i(1,1,1)), value))
 				{
-					spawnSmoke(world, xCoord, yCoord+1, zCoord, value);
+					spawnSmoke(world, pos.getX(), pos.getY()+1, pos.getZ(), value);
 				}	
 			}
 		}

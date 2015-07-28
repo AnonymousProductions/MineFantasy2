@@ -1,5 +1,8 @@
 package minefantasy.mf2.item.list;
 
+import java.util.ArrayList;
+
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.crafting.exotic.SpecialForging;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.ItemBandage;
@@ -44,6 +47,9 @@ import minefantasy.mf2.item.weapon.ItemSwordMF;
 import minefantasy.mf2.item.weapon.ItemWaraxeMF;
 import minefantasy.mf2.item.weapon.ItemWarhammerMF;
 import minefantasy.mf2.material.BaseMaterialMF;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -53,6 +59,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * @author Anonymous Productions
@@ -63,7 +71,7 @@ public class ToolListMF
 	public static EnumRarity unique = EnumHelper.addRarity("Unique", EnumChatFormatting.DARK_GREEN, "unique");
 	public static EnumRarity rare = EnumHelper.addRarity("Rare", EnumChatFormatting.DARK_BLUE, "rare");
 	
-	public static EnumRarity[] rarity = new EnumRarity[]{ToolListMF.poor, EnumRarity.common, EnumRarity.uncommon, EnumRarity.rare, EnumRarity.epic};
+	public static EnumRarity[] rarity = new EnumRarity[]{ToolListMF.poor, EnumRarity.COMMON, EnumRarity.UNCOMMON, EnumRarity.RARE, EnumRarity.EPIC};
 
 	
 	public static final BaseMaterialMF[] mats = new BaseMaterialMF[]
@@ -174,14 +182,15 @@ public class ToolListMF
 	public static ItemMine mine_custom = new ItemMine("mine_basic");
 	
 	public static ItemResearchBook researchBook = new ItemResearchBook();
-	public static Item research_scroll = new ItemResearchScroll("research_scroll", 5, 1);
-	public static Item research_scroll_uncommon = new ItemResearchScroll("research_scroll_uncommon", 10, 2).setTextureName("minefantasy2:Other/research_scroll");
-	public static Item research_scroll_rare = new ItemResearchScroll("research_scroll_rare", 25, 3).setTextureName("minefantasy2:Other/research_scroll");
-	public static void init() 
+	public static Item research_scroll = new ItemResearchScroll("research_scroll", false);
+	public static Item research_scroll_complete = new ItemResearchScroll("research_scroll_complete", true);
+	
+	
+	public static void init(FMLPreInitializationEvent event) 
 	{
-		BlockListMF.init();
+		BlockListMF.init(event);
 		ArmourListMF.init();
-		FoodListMF.init();
+		FoodListMF.init(event);
 		for(int a = 0; a < mats.length; a ++)
 		{
 			BaseMaterialMF baseMat = mats[a];
@@ -213,6 +222,7 @@ public class ToolListMF
 				hvyshovels[a-1] = new ItemHvyShovel(matName+"_hvyShovel", mat, rarity);
 				mattocks[a-1] = new ItemMattock(matName+"_mattock", mat, rarity);
 			}
+			
 			SpecialForging.addDragonforgeCraft(picks[5], picks[6]);
 			SpecialForging.addDragonforgeCraft(axes[5], axes[6]);
 			SpecialForging.addDragonforgeCraft(spades[5], spades[6]);
@@ -267,6 +277,7 @@ public class ToolListMF
 				broadArrows[a-1] = new ItemArrowMF(matName, rarity, mat, ArrowType.BROADHEAD);
 			}
 			
+			
 			SpecialForging.addDragonforgeCraft(swords[6], swords[7]);
 			SpecialForging.addDragonforgeCraft(waraxes[6], waraxes[7]);
 			SpecialForging.addDragonforgeCraft(maces[6], maces[7]);
@@ -281,6 +292,7 @@ public class ToolListMF
 			SpecialForging.addDragonforgeCraft(lances[5], lances[6]);
 			SpecialForging.addDragonforgeCraft(bodkinArrows[5], bodkinArrows[6]);
 			SpecialForging.addDragonforgeCraft(broadArrows[5], broadArrows[6]);
+			SpecialForging.addDragonforgeCraft(BlockListMF.bars[3], BlockListMF.bars[4]);
 		}
 		
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(hammers[2]), 5, 5, 5));
@@ -293,12 +305,35 @@ public class ToolListMF
 		
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll), 1, 5, 10));
 		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll), 1, 5, 50));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 2));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 3));
+		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 3));
+		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 3));
 		
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll_uncommon), 1, 2, 5));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll_uncommon), 1, 2, 20));
 		
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll_rare), 1, 1, 1));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll_rare), 1, 1, 5));
+		if(event.getSide() == Side.CLIENT)
+    	{
+    		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem(); 
+    		String MODID = MineFantasyII.MODID;
+    		
+    		Item[] othertools = {malletWood,spoonWood,swordTraining,waraxeTraining,maceTraining,spearTraining,knifeStone,hammerStone,tongsStone,needleBone,bandage_crude
+        			,bandage_wool,bandage_tough,bucketwood_empty,bucketwood_water,bucketwood_milk,bomb_custom,mine_custom,researchBook,research_scroll,research_scroll_complete};
+        		
+    		Item[][] toollist = {swords,waraxes,maces,daggers,spears,arrows,bows,battleaxes,warhammers,greatswords,katanas,halbeards,lances,bodkinArrows,broadArrows,
+    					picks,axes,spades,hoes,shears,knives,hammers,tongs,needles,saws,hvyHammers,hvypicks,handpicks,trows,scythes,hvyshovels,mattocks};
+    		
+    		//OPTIMIZE
+    		for (Item[] list :toollist) {
+    			for (Item item :list) {
+    				renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getUnlocalizedName(), "inventory"));
+    			}
+        	}
+    		
+    		for (Item item :othertools) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getUnlocalizedName(), "inventory"));
+    		}		
+    		
+    	}
 	}
 	
 }

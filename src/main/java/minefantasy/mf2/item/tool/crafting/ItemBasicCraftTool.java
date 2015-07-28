@@ -11,14 +11,16 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Sets;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * @author Anonymous Productions
@@ -34,9 +36,8 @@ public class ItemBasicCraftTool extends ItemTool implements IToolMaterial, ITool
         setCreativeTab(CreativeTabMF.tabCraftTool);
         
         toolType = type;
-        setTextureName("minefantasy2:Tool/Crafting/"+name);
+        setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-		this.setUnlocalizedName(name);
 		setMaxDamage(uses);
     }
     private int itemRarity;
@@ -112,4 +113,12 @@ public class ItemBasicCraftTool extends ItemTool implements IToolMaterial, ITool
 	{
 		return 0F;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item parItem, CreativeTabs parTab, 
+          List parListSubItems)
+    {
+        parListSubItems.add(new ItemStack(this, 1));
+     }
 }

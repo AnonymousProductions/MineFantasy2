@@ -168,6 +168,10 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
     private ItemStack getHotItem(ItemStack item) 
     {
     	if(item == null)return null;
+    	if(!(item.getItem() instanceof IHotItem))
+    	{
+    		return item;
+    	}
     	
 		ItemStack hotItem = null;
 		
