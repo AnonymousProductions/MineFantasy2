@@ -36,6 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemTrowMF extends ItemSpade implements IToolMaterial
 {
 	private Random rand = new Random();
+	private String Name;
 	/**
 	 * The trow is a light, less efficient varient of shovel. It is far slower and half the durability of their larger counterparts
 	 * but are able to dig up special drops like flint and seeds
@@ -49,7 +50,13 @@ public class ItemTrowMF extends ItemSpade implements IToolMaterial
         setUnlocalizedName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		setMaxDamage(getMaxDamage()/2);
+		Name = name;
     }
+    
+    public String getName(){
+    	return Name;
+    }
+    
     private int itemRarity;
     @Override
 	public EnumRarity getRarity(ItemStack item)

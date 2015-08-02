@@ -187,21 +187,15 @@ public class ItemHeated extends Item implements IHotItem
 		return "";
 	}
 
-	public IIcon getIcon(ItemStack stack, int renderPass) {
-		ItemStack item = getItem(stack);
-
-		if (item != null) {
-			return item.getItem().getIcon(item, renderPass);
-		}
-		return Blocks.fire.getBlockTextureFromSide(2);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister reg) 
-	{
-
-	}
-
+//	public IIcon getIcon(ItemStack stack, int renderPass) {
+//		ItemStack item = getItem(stack);
+//
+//		if (item != null) {
+//			return item.getItem().getIcon(item, renderPass);
+//		}
+//		return Blocks.fire.getBlockTextureFromSide(2);
+//	}
+	
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player)
 	{
 		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, true);

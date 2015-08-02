@@ -23,7 +23,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class ItemAxeMF extends ItemAxe implements IToolMaterial
 {
-    public ItemAxeMF(String name, ToolMaterial material, int rarity)
+    private String Name;
+	public ItemAxeMF(String name, ToolMaterial material, int rarity)
     {
         super(material);
         itemRarity = rarity;
@@ -31,7 +32,13 @@ public class ItemAxeMF extends ItemAxe implements IToolMaterial
         
         setUnlocalizedName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		Name=name;
     }
+	
+	public String getName(){
+    	return Name;
+    }
+	
     private int itemRarity;
     @Override
 	public EnumRarity getRarity(ItemStack item)

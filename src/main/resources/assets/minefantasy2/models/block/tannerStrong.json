@@ -1,0 +1,6 @@
+{
+    "parent": "block/tanner",
+    "textures": {
+        "texture": "models/tileentity/tannerStrong",
+    }
+}

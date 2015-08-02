@@ -31,6 +31,7 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
 	 * 
 	 * These are for the defensive player
 	 */
+	private String Name;
     public ItemSpearMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
@@ -38,6 +39,11 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
     	{
     		this.baseDamage -= 2;
     	}
+    	Name = name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
 
     @Override

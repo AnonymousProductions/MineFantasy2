@@ -27,10 +27,16 @@ public class ItemMaceMF extends ItemWeaponMF
 	 * 
 	 * These are for the player who just wants to hit stuff
 	 */
+	private String Name;
     public ItemMaceMF(String name, ToolMaterial material, int rarity, float weight)
     {
         super(material, name, rarity, weight);
 		this.setMaxDamage((int) (getMaxDamage()*2F));
+		Name=name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
 
 	@Override

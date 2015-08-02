@@ -1,0 +1,22 @@
+{
+"__comment": "Designed by Cleverpanda with BDcraft Cubik PRO 0.76 Beta - http://bdcraft.net",
+"textures": {
+        "side": "blocks/processor/repair_ornate_side",
+	"top": "blocks/processor/repair_ornate_top",
+	"bottom": "blocks/processor/repair_ornate_base"
+    },
+"elements": [ 
+{
+    "from": [ 1, 0, 1 ],
+    "to": [ 15, 6, 15 ],
+    "faces": {
+        "down":  { "uv": [ 1, 15, 15, 1 ], "texture": "#bottom" },
+        "up":    { "uv": [ 1, 1, 15, 15 ], "texture": "#top" },
+        "north": { "uv": [ 1, 10, 15, 16 ], "texture": "#side" },
+        "south": { "uv": [ 1, 10, 15, 16 ], "texture": "#side" },
+        "west":  { "uv": [ 1, 10, 15, 16 ], "texture": "#side" },
+        "east":  { "uv": [ 1, 10, 15, 16 ], "texture": "#side" }
+    }
+}
+]
+}

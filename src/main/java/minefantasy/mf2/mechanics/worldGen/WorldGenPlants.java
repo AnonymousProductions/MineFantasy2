@@ -40,8 +40,8 @@ public class WorldGenPlants
         {
             int j = chunk.xPosition*16 + seed.nextInt(16);
             int k = chunk.zPosition*16 + seed.nextInt(16);
-            int l = world.getTopSolidOrLiquidBlock(world.getHeight(new BlockPos(j, k,0))).getY();
-            
+            int l = world.getTopSolidOrLiquidBlock(new BlockPos(j,chunk.getHeight(j,k),k)).getY();
+
             
             (new WorldGenBush(BlockListMF.berryBush, 0)).generate(world, seed, new BlockPos(j, l, k));
 		}

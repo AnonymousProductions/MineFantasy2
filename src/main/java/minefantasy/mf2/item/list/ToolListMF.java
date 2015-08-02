@@ -46,8 +46,10 @@ import minefantasy.mf2.item.weapon.ItemSpearMF;
 import minefantasy.mf2.item.weapon.ItemSwordMF;
 import minefantasy.mf2.item.weapon.ItemWaraxeMF;
 import minefantasy.mf2.item.weapon.ItemWarhammerMF;
+import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
@@ -316,23 +318,114 @@ public class ToolListMF
     		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem(); 
     		String MODID = MineFantasyII.MODID;
     		
-    		Item[] othertools = {malletWood,spoonWood,swordTraining,waraxeTraining,maceTraining,spearTraining,knifeStone,hammerStone,tongsStone,needleBone,bandage_crude
-        			,bandage_wool,bandage_tough,bucketwood_empty,bucketwood_water,bucketwood_milk,bomb_custom,mine_custom,researchBook,research_scroll,research_scroll_complete};
-        		
-    		Item[][] toollist = {swords,waraxes,maces,daggers,spears,arrows,bows,battleaxes,warhammers,greatswords,katanas,halbeards,lances,bodkinArrows,broadArrows,
-    					picks,axes,spades,hoes,shears,knives,hammers,tongs,needles,saws,hvyHammers,hvypicks,handpicks,trows,scythes,hvyshovels,mattocks};
+    		
+    		Item[][] arrow = {arrows,bodkinArrows,broadArrows};
+    		
+    		ItemWeaponMF[][] weaponlist = {swords,waraxes,maces,daggers,spears,battleaxes,warhammers,greatswords,katanas,halbeards,lances,knives};
     		
     		//OPTIMIZE
-    		for (Item[] list :toollist) {
+    		for (Item[] list :arrow) {
     			for (Item item :list) {
-    				renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getUnlocalizedName(), "inventory"));
+    				renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + ((ItemArrowMF)item).Name, "inventory"));
+    			}
+        	}
+    		for (ItemBowMF item :bows) {
+				renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.Name, "inventory"));
+			}
+    		
+    		
+    		for (ItemPickMF item :picks) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemAxeMF item :axes) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemSpadeMF item :spades) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemHoeMF item :hoes) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemShearsMF item :shears) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemHammer item :hammers) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemTongs item :tongs) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemHammer item :hvyHammers) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemHvyPick item :hvypicks) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemSaw item :saws) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemNeedle item :needles) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemHandpick item :handpicks) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemTrowMF item :trows) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemScythe item :scythes) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemHvyShovel item :hvyshovels) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		for (ItemMattock item :mattocks) {
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+        	}
+    		
+    		for (ItemWeaponMF[] list :weaponlist) {
+    			for (ItemWeaponMF item :list) {
+    				renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
     			}
         	}
     		
-    		for (Item item :othertools) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getUnlocalizedName(), "inventory"));
-    		}		
+    		renderItem.getItemModelMesher().register(malletWood, 0, new ModelResourceLocation(MODID + ":" + malletWood.getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(spoonWood, 0, new ModelResourceLocation(MODID + ":" + spoonWood.getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(swordTraining, 0, new ModelResourceLocation(MODID + ":" + ((ItemSwordMF) swordTraining).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(waraxeTraining, 0, new ModelResourceLocation(MODID + ":" + ((ItemWeaponMF) waraxeTraining).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(maceTraining, 0, new ModelResourceLocation(MODID + ":" + ((ItemWeaponMF) maceTraining).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(spearTraining, 0, new ModelResourceLocation(MODID + ":" + ((ItemWeaponMF)spearTraining).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(knifeStone, 0, new ModelResourceLocation(MODID + ":" + ((ItemWeaponMF)knifeStone).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(hammerStone, 0, new ModelResourceLocation(MODID + ":" + ((ItemHammer) hammerStone).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(needleBone, 0, new ModelResourceLocation(MODID + ":" + ((ItemNeedle) needleBone).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(tongsStone, 0, new ModelResourceLocation(MODID + ":" + ((ItemTongs) tongsStone).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(bandage_crude, 0, new ModelResourceLocation(MODID + ":" + ((ItemBandage) bandage_crude).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(bandage_wool, 0, new ModelResourceLocation(MODID + ":" + ((ItemBandage) bandage_wool).Name, "inventory"));
     		
+    		renderItem.getItemModelMesher().register(bandage_tough, 0, new ModelResourceLocation(MODID + ":" + ((ItemBandage) bandage_tough).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(researchBook, 0, new ModelResourceLocation(MODID + ":" + ((ItemResearchBook) researchBook).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(research_scroll, 0, new ModelResourceLocation(MODID + ":" + ((ItemResearchScroll) research_scroll).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(bucketwood_empty, 0, new ModelResourceLocation(MODID + ":" + ((ItemBucketMF)bucketwood_empty).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(bucketwood_water, 0, new ModelResourceLocation(MODID + ":" + ((ItemBucketMF)bucketwood_water).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(bucketwood_milk, 0, new ModelResourceLocation(MODID + ":" + ((ItemBucketMF)bucketwood_milk).Name, "inventory"));
+    		
+    		renderItem.getItemModelMesher().register(bomb_custom, 0, new ModelResourceLocation(MODID + ":" + ((ItemBomb)bomb_custom).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(mine_custom, 0, new ModelResourceLocation(MODID + ":" + ((ItemMine)mine_custom).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(research_scroll_complete, 0, new ModelResourceLocation(MODID + ":" + ((ItemResearchScroll)research_scroll_complete).Name, "inventory"));
+    		
+    	
+    		
+
+
+    			
+
+    		
+    		
+    	    
+    	    for ( ItemTongs item: tongs){
+    	    	ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("minefantasy2:"+item.getName(), "inventory");
+    	    	Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, itemModelResourceLocation);
+    	    }
     	}
 	}
 	

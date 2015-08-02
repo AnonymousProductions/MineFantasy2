@@ -21,11 +21,17 @@ public class ItemHalbeardMF extends ItemSpearMF
 	 * 
 	 * Halbeards use a swinging attack rather than a stab, but will still stab when sprinting
 	 */
+	private String Name;
     public ItemHalbeardMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(name, material, rarity, weight);
     	setMaxDamage(getMaxDamage()*2);
     	baseDamage *= 1.5F;
+    	Name = name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
 
     @Override

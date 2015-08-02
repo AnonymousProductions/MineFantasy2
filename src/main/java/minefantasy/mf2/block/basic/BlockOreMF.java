@@ -20,7 +20,7 @@ public class BlockOreMF extends Block
 	private Item drop;
 	private int dropMin;
 	private int dropMax;
-	private String NAME;
+	public String Name;
 	
 	public BlockOreMF(String name, int harvestLevel)
 	{
@@ -42,7 +42,7 @@ public class BlockOreMF extends Block
 		this.rarity = rarity;
 		this.dropMin=min;
 		this.dropMax=max;
-		NAME=name;
+		Name=name;
 		this.setStepSound(Block.soundTypePiston);
 		GameRegistry.registerBlock(this, ItemOreblockMF.class, name);
 		setUnlocalizedName("minefantasy2:ores/"+name);
@@ -54,11 +54,6 @@ public class BlockOreMF extends Block
 			this.setHarvestLevel("pickaxe", harvestLevel);
 		}
 		this.setCreativeTab(CreativeTabMF.tabOres);
-	}
-	
-	public String getName()
-	{
-		return NAME;
 	}
 	
 	@Override

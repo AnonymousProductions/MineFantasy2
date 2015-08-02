@@ -34,14 +34,14 @@ public class BlockBerryBush extends BlockBush implements IShearable
     protected int field_150127_b;
     
     public static final PropertyInteger GROWTH = PropertyInteger.create("growth", 0, 1);
-    private String NAME;
+    public String Name;
     
     public BlockBerryBush(String name)
     {
         super(Material.leaves);
         GameRegistry.registerBlock(this, ItemBlockBerries.class, name);
         setUnlocalizedName("minefantasy2:" + name);
-		NAME=name;
+		Name=name;
 		this.setDefaultState(this.blockState.getBaseState().withProperty(GROWTH, Integer.valueOf(0)));
         this.setTickRandomly(true);
         this.setCreativeTab(CreativeTabs.tabDecorations);
@@ -51,11 +51,6 @@ public class BlockBerryBush extends BlockBush implements IShearable
         this.setLightOpacity(1);
         this.setStepSound(soundTypeGrass);
     }
-    
-    public String getName()
-	{
-		return NAME;
-	}
     /**
      * Ticks the block if it's been scheduled
      */

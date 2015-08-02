@@ -13,7 +13,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMultiFood extends ItemFoodMF
 {
-	private IIcon[] icons;
 	private int bites = 6;
 	public ItemMultiFood(String name, int bites, int hunger, float saturation, float noEatTime, int rarity)
 	{
@@ -22,14 +21,6 @@ public class ItemMultiFood extends ItemFoodMF
 		this.bites = bites;
 		setMaxDamage(bites-1);
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int damage)
-    {
-        int index = MathHelper.clamp_int(damage, 0, bites-1);
-        return this.icons[index];
-    }
 	
 	@Override
 	public ItemStack onItemUseFinish(ItemStack food, World world, EntityPlayer consumer)
@@ -47,18 +38,6 @@ public class ItemMultiFood extends ItemFoodMF
 			}
 		}
 		return food;
-    }
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister register)
-    {
-        this.icons = new IIcon[bites];
-
-        for (int i = 0; i < bites; ++i)
-        {
-            this.icons[i] = register.registerIcon(this.getIconString() + "_" + i);
-        }
     }
 	
 	@Override

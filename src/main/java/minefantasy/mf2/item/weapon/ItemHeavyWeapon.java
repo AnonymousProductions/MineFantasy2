@@ -21,12 +21,18 @@ public abstract class ItemHeavyWeapon extends ItemWeaponMF implements IExtendedR
 	 * 
 	 * Heavy weapons weigh more and throw you off balance when used.
 	 */
+	private String Name;
 	public ItemHeavyWeapon(ToolMaterial material, String named, int rarity, float weight)
 	{
 		super(material, named, rarity, weight);
 		baseDamage *= 1.5F;
 		setMaxDamage((int) (getMaxDamage()*1.5F));
+		Name = named;
 	}
+	
+	public String getName(){
+    	return Name;
+    }
 	
 	@Override
 	public boolean sheatheOnBack(ItemStack item)

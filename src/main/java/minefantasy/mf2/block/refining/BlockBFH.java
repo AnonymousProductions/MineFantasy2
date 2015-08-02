@@ -11,6 +11,7 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -30,7 +31,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockBFH extends BlockContainer 
+public class BlockBFH extends BlockContainer implements ITileEntityProvider
 {
 	private static boolean keepInventory;
 	private Random rand = new Random();
@@ -137,7 +138,8 @@ public class BlockBFH extends BlockContainer
                 }
             }
 
-            world.func_147453_f(pos, state.getBlock());
+            world.notifyNeighborsOfStateChange(pos, state.getBlock());//unsure of conversion
+            //.func_147453_f(pos, state.getBlock());
         }
 
         super.breakBlock(world, pos, state);

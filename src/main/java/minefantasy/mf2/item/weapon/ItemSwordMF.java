@@ -24,9 +24,15 @@ public class ItemSwordMF extends ItemWeaponMF
 	 * 
 	 * These are for the average player
 	 */
+	private String NAME;
     public ItemSwordMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
+    	NAME=name;
+    }
+    
+    public String getName(){
+    	return NAME;
     }
 	
 	@Override

@@ -1,10 +1,17 @@
 package minefantasy.mf2.block.tileentity;
 
+import java.util.Iterator;
+import java.util.List;
+
 import minefantasy.mf2.api.refine.IBellowsUseable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ContainerChest;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
@@ -12,10 +19,16 @@ public class TileEntityBellows extends TileEntity implements IUpdatePlayerListBo
 {
 	public int direction;
 	public int press = 0;
+	public float lidAngle;
+    /** The angle of the lid last tick */
+    public float prevLidAngle;
+    private int ticksSinceSync;
+	
 	public TileEntityBellows()
 	{
 		
 	}
+	
 	public void interact(EntityPlayer player, float powerLevel) 
 	{
 		int xCoord = this.getPos().getX();
@@ -48,6 +61,58 @@ public class TileEntityBellows extends TileEntity implements IUpdatePlayerListBo
 		if(press > 0)press -= 2;
 		if(press < 0)press = 0;
 		sendPacketToClients();
+		
+		
+//		int i = this.pos.getX();
+//        int j = this.pos.getY();
+//        int k = this.pos.getZ();
+//		++ticksSinceSync;
+//        float f = 5.0F;
+//
+//
+//        this.prevLidAngle = this.lidAngle;
+//        f = 0.1F;
+//        double d2;
+//
+//        if (this.lidAngle == 0.0F )
+//        {
+//            double d1 = (double)i + 0.5D;
+//            d2 = (double)k + 0.5D;
+//
+//            this.worldObj.playSoundEffect(d1, (double)j + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+//        }
+//
+//        if (this.lidAngle > 0.0F && this.lidAngle < 1.0F)
+//        {
+//            float f1 = this.lidAngle;
+//
+//            if (this.lidAngle == 0)
+//            {
+//                this.lidAngle += f;
+//            }
+//            else
+//            {
+//                this.lidAngle -= f;
+//            }
+//
+//            if (this.lidAngle > 1.0F)
+//            {
+//                this.lidAngle = 1.0F;
+//            }
+//
+//            float f2 = 0.5F;
+//
+//            if (this.lidAngle < f2 && f1 >= f2 )
+//            {
+//                d2 = (double)i + 0.5D;
+//                double d0 = (double)k + 0.5D;
+//            }
+//
+//            if (this.lidAngle < 0.0F)
+//            {
+//                this.lidAngle = 0.0F;
+//            }
+//        }
 	}
 	
 	private void sendPacketToClients() {

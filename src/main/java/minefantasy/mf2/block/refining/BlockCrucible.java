@@ -9,6 +9,7 @@ import minefantasy.mf2.block.tileentity.TileEntityCrucible;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockCrucible extends BlockContainer 
+public class BlockCrucible extends BlockContainer implements ITileEntityProvider
 {
 	private Random rand = new Random();
 	public final boolean isActive;
@@ -122,7 +123,8 @@ public class BlockCrucible extends BlockContainer
                 }
             }
 
-            world.func_147453_f(pos, state);
+            world.notifyNeighborsOfStateChange(pos, state.getBlock());//unsure of conversion
+            //.func_147453_f(pos, state.getBlock());
         }
 
         super.breakBlock(world,pos, state);

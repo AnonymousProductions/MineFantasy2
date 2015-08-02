@@ -13,17 +13,20 @@ import minefantasy.mf2.api.knowledge.InformationPage;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.ResearchRequest;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatBase;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -68,6 +71,7 @@ public class GuiKnowledge extends GuiScreen
     private GuiButton button;
     private LinkedList<InformationBase> informationList = new LinkedList<InformationBase>();
     private EntityPlayer player;
+    
     
     public GuiKnowledge(EntityPlayer user)
     {
@@ -151,14 +155,20 @@ public class GuiKnowledge extends GuiScreen
         
         if (p_146284_1_.id == 3 && selected != null)
         {
-        	((EntityPlayer)player).sendQueue.addToSendQueue(new ResearchRequest(player, selected.ID).generatePacket());
+        	//((EntityPlayer)player)..sendQueue.addToSendQueue(new ResearchRequest(player, selected.ID).generatePacket());
         	selected = null;
+        	
         }
         if (p_146284_1_.id == 4 && selected != null)
         {
         	selected = null;
         }
     }
+    
+//    public void triggerAchievement(StatBase achievementIn)
+//    {
+//        this.addStat(achievementIn, 1);
+//    }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
@@ -374,10 +384,10 @@ public class GuiKnowledge extends GuiScreen
 
             for (j3 = 0; j3 * f2 - k2 < 224.0F; ++j3)
             {
-                IIcon iicon = Blocks.planks.getIcon(0, 0);
-
-                this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-                this.drawTexturedModelRectFromIcon(j3 * 16 - k2, i3 * 16 - l2, iicon, 16, 16);
+                //IIcon iicon = Blocks.planks.getIcon(0, 0);
+            	TextureAtlasSprite textureatlassprite = this.func_175371_a(Blocks.planks);
+            	this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+                this.drawTexturedModalRect(j3 * 16 - k2, i3 * 16 - l2, textureatlassprite, 16, 16);
             }
         }
 
@@ -509,12 +519,12 @@ public class GuiKnowledge extends GuiScreen
                 }
                 GL11.glDisable(GL11.GL_BLEND); //Forge: Cleanup states we set.
 
-                if (!ResearchLogic.canUnlockInfo(player, achievement2))
-                {
-                    f6 = 0.1F;
-                    GL11.glColor4f(f6, f6, f6, 1.0F);
-                    renderitem.renderWithColor = false;
-                }
+//                if (!ResearchLogic.canUnlockInfo(player, achievement2))
+//                {
+//                    f6 = 0.1F;
+//                    GL11.glColor4f(f6, f6, f6, 1.0F);
+//                    renderitem.renderWithColor = false;
+//                }
 
                 GL11.glDisable(GL11.GL_LIGHTING); //Forge: Make sure Lighting is disabled. Fixes MC-33065
                 GL11.glEnable(GL11.GL_CULL_FACE);
@@ -522,10 +532,10 @@ public class GuiKnowledge extends GuiScreen
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glDisable(GL11.GL_LIGHTING);
 
-                if (!ResearchLogic.canUnlockInfo(player, achievement2))
-                {
-                    renderitem.renderWithColor = true;
-                }
+//                if (!ResearchLogic.canUnlockInfo(player, achievement2))
+//                {
+//                    renderitem.renderWithColor = true;
+//                }
 
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -661,6 +671,11 @@ public class GuiKnowledge extends GuiScreen
 
 		GL11.glDisable(GL11.GL_LIGHTING);
 	}
+    
+    private TextureAtlasSprite func_175371_a(Block p_175371_1_)
+    {
+        return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(p_175371_1_.getDefaultState());
+    }
     
     private void renderPurchaseScreen(int x, int y, int mx, int my) 
     {

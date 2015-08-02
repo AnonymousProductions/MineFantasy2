@@ -43,6 +43,7 @@ public class ItemHvyShovel extends ItemSpade implements IToolMaterial
 	 * These picks mine a 3x3 area of blocks, though with their lessened harvest, most ores will be avoided
 	 * They however have a reduced drop chance
 	 */
+	private String Name;
     public ItemHvyShovel(String name, ToolMaterial material, int rarity)
     {
         super(material);
@@ -55,6 +56,11 @@ public class ItemHvyShovel extends ItemSpade implements IToolMaterial
 		
 		this.setHarvestLevel("spade", material.getHarvestLevel());
 		this.setMaxDamage(material.getMaxUses());
+		Name = name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
     
     private int itemRarity;

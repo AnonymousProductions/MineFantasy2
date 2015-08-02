@@ -30,6 +30,7 @@ public class ItemNeedle extends ItemTool implements IToolMaterial, IToolMF
 {
 	private ToolMaterial material;
 	private int tier;
+	private String Name;
     public ItemNeedle(String name, ToolMaterial material, int rarity, int tier)
     {
         super(0F, material, Sets.newHashSet(new Block[] {}));
@@ -40,11 +41,16 @@ public class ItemNeedle extends ItemTool implements IToolMaterial, IToolMF
         
         setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		Name = name;
     }
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
     	
+    }
+    
+    public String getName(){
+    	return Name;
     }
     
     @Override

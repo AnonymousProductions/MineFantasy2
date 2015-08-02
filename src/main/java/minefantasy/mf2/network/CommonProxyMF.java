@@ -190,4 +190,9 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 			}
 		}
 	}
+
+	public void Init() {
+		// TODO Auto-generated method stub
+		
+	}
 }

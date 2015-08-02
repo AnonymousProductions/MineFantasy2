@@ -24,6 +24,7 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
 {
 	private ToolMaterial toolMaterial;
 	private int tier;
+	private String Name;
 	
     public ItemShearsMF(String name, ToolMaterial material, int rarity, int tier)
     {
@@ -35,6 +36,11 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
         this.setMaxDamage(material.getMaxUses());
         setUnlocalizedName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		Name = name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
     
     private int itemRarity;

@@ -88,6 +88,8 @@ public class MineFantasyII
 		new ConfigWorldGen().setConfig(getCfg(event, "WorldGen"));
 		new ConfigCrafting().setConfig(getCfg(event, "Crafting"));
 		
+		//MinecraftForge.EVENT_BUS.register(ModelBakeEventHandlerTongs.instance);
+		
 		MineFantasyAPI.isInDebugMode = isDebug();
 		MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 		
@@ -202,6 +204,6 @@ public class MineFantasyII
 	 */
 	public static boolean isNameModder(String name) 
 	{
-		return name.equals("Galactic_Hiker") || name.equals("tim4200");
+		return name.equals("Galactic_Hiker") || name.equals("tim4200")||name.equals("cleverpanda714");
 	}
 }

@@ -20,8 +20,9 @@ public class BlockMythicOre extends BlockOreMF
 	
 	public String getName()
 	{
-		return NAME;
+		return "ores/"+NAME;
 	}
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void randomDisplayTick(World world, BlockPos pos,IBlockState state, Random rand)

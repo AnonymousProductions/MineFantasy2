@@ -44,13 +44,16 @@ public class RenderLance implements IItemRenderer
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) 
     {
         GL11.glPushMatrix();
-
+        
+       
+        
+        
         if (mc == null)
         {
             mc = FMLClientHandler.instance().getClient();
             itemRenderer = Minecraft.getMinecraft().getRenderItem();
         }
-        this.mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureHelperMF.getResource("textures/items/Weapon"+item.getDisplayName().toLowerCase().replace(" ", "_")));
         Tessellator tessellator = Tessellator.getInstance();
 
         if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.EQUIPPED)

@@ -9,14 +9,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class BlockMetalMF extends Block 
 {
 	
-	private String NAME;
+	public String Name;
 	
 	public BlockMetalMF(BaseMaterialMF material)
 	{
 		super(Material.iron);
 		
 		String name = material.name.toLowerCase() + "_block";
-		NAME= name;
+		Name= name;
 		GameRegistry.registerBlock(this, name);
 		setUnlocalizedName("minefantasy2:metal/"+name);
 		this.setDefaultState(this.blockState.getBaseState());
@@ -26,10 +26,5 @@ public class BlockMetalMF extends Block
 		this.setHardness(material.hardness+1 / 2F);
 		this.setResistance(material.hardness+1);
 		this.setCreativeTab(CreativeTabs.tabBlock);
-	}
-	
-	public String getName()
-	{
-		return NAME;
 	}
 }

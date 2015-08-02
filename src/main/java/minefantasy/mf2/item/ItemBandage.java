@@ -23,7 +23,7 @@ public class ItemBandage extends Item
     private final String name;
     private float healPwr;
 	private float secondsToUse = 5F;
-
+	public String Name;
 	public ItemBandage(String id, float healAmount) 
 	{
         super();
@@ -34,7 +34,10 @@ public class ItemBandage extends Item
         //setTextureName("minefantasy2:Other/"+name);
 		GameRegistry.registerItem(this, "MF_Aid_"+name, MineFantasyII.MODID);
 		setUnlocalizedName("minefantasy2:Other/"+name);
+		Name = name;
     }
+
+
 
     @Override
 	public EnumRarity getRarity(ItemStack item)

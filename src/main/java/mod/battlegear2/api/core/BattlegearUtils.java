@@ -2,6 +2,7 @@ package mod.battlegear2.api.core;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import mod.battlegear2.api.IAllowItem;
 import mod.battlegear2.api.IOffhandDual;
@@ -190,7 +191,7 @@ public class BattlegearUtils {
             byte b0 = par0DataInputStream.readByte();
             short short2 = par0DataInputStream.readShort();
             itemstack = new ItemStack(Item.getItemById(short1), b0, short2);
-            itemstack.stackTagCompound = readNBTTagCompound(par0DataInputStream);
+            itemstack.setTagCompound(readNBTTagCompound(par0DataInputStream));
         }
 
         return itemstack;
@@ -236,9 +237,7 @@ public class BattlegearUtils {
         if (par0NBTTagCompound == null) {
             par1DataOutputStream.writeShort(-1);
         } else {
-            byte[] abyte = CompressedStreamTools.compress(par0NBTTagCompound);
-            par1DataOutputStream.writeShort((short) abyte.length);
-            par1DataOutputStream.write(abyte);
+            CompressedStreamTools.writeCompressed(par0NBTTagCompound,(OutputStream)par1DataOutputStream);
         }
     }
 
@@ -288,7 +287,7 @@ public class BattlegearUtils {
 
                 if (par1Entity instanceof EntityLivingBase)
                 {
-                    f1 = EnchantmentHelper.getEnchantmentModifierLiving(player, (EntityLivingBase)par1Entity);
+                    f1 = EnchantmentHelper.getEnchantmentLevel(1,player.getHeldItem());
                     i += EnchantmentHelper.getKnockbackModifier(player);
                 }
 

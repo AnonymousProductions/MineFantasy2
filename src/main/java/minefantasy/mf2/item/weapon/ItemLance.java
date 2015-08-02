@@ -23,12 +23,17 @@ public class ItemLance extends ItemSpearMF
 	private float joustDamage;
 	/**
 	 */
+	private String Name;
     public ItemLance(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(name, material, rarity, weight);
     	setMaxDamage(getMaxDamage()*2);
     	joustDamage = baseDamage*2.5F;
     	baseDamage = 2.0F;
+    	Name =name;
+    }
+    public String getName(){
+    	return Name;
     }
     
     @Override

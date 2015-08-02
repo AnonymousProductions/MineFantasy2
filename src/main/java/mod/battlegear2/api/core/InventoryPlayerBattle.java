@@ -102,12 +102,6 @@ public class InventoryPlayerBattle extends InventoryPlayer {
         return isBattlemode() ? extraItems[currentItem - OFFSET] : super.getCurrentItem();
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void func_146030_a(Item par1, int par2, boolean par3, boolean par4) {
-        if (!isBattlemode())
-            super.func_146030_a(par1, par2, par3, par4);
-    }
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -135,24 +129,6 @@ public class InventoryPlayerBattle extends InventoryPlayer {
         }
     }
 
-    @Override
-    public int clearInventory(Item targetId, int targetDamage) {
-        hasChanged = true;
-
-        int stacks = super.clearInventory(targetId, targetDamage);
-
-        for (int i = 0; i < extraItems.length; i++) {
-            if (extraItems[i] != null &&
-                    (targetId == null || extraItems[i].getItem() == targetId) &&
-                    (targetDamage <= -1 || extraItems[i].getItemDamage() == targetDamage)) {
-
-                stacks += extraItems[i].stackSize;
-                extraItems[i] = null;
-            }
-        }
-
-        return stacks;
-    }
 
     /**
      * Decrement the number of animations remaining. Only called on client side. This is used to handle the animation of
@@ -266,16 +242,6 @@ public class InventoryPlayerBattle extends InventoryPlayer {
         }
     }
 
-    @Override
-    public float func_146023_a(Block block) {
-        if (isBattlemode()) {
-            ItemStack currentItemStack = getCurrentItem();
-            return currentItemStack != null ? currentItemStack.func_150997_a(block) : 1.0F;
-
-        } else {
-            return super.func_146023_a(block);
-        }
-    }
 
     @Override
     public NBTTagList writeToNBT(NBTTagList par1nbtTagList) {
@@ -332,17 +298,6 @@ public class InventoryPlayerBattle extends InventoryPlayer {
     public int getSizeInventory()
     {
         return this.mainInventory.length + this.armorInventory.length;
-    }
-
-    @Override
-    public void dropAllItems() {
-    	super.dropAllItems();
-        for (int i = 0; i < this.extraItems.length; ++i) {
-            if (this.extraItems[i] != null) {
-                this.player.func_146097_a(this.extraItems[i], true, false);
-                this.extraItems[i] = null;
-            }
-        }
     }
 
     @Override

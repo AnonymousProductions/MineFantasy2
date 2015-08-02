@@ -43,6 +43,7 @@ public class ItemHandpick extends ItemPickaxe implements IToolMaterial
 	 * 
 	 * They however have half the durability and dig speed, making them less efficient tools.
 	 */
+	private String Name;
     public ItemHandpick(String name, ToolMaterial material, int rarity)
     {
         super(material);
@@ -52,6 +53,11 @@ public class ItemHandpick extends ItemPickaxe implements IToolMaterial
         setUnlocalizedName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		setMaxDamage(material.getMaxUses()/2);
+		Name=name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
     
     private int itemRarity;

@@ -15,12 +15,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockRepairKit extends Block
+public class BlockRepairKit extends Block 
 {
 	protected float repairLevel;
 	protected float successRate;
 	protected float breakChance;
-	protected IIcon top, side, bottom;
 	private String type;
 	protected boolean isOrnate = false;
 	protected float repairLevelEnchant = 0.0F;
@@ -35,6 +34,7 @@ public class BlockRepairKit extends Block
 		this.successRate = rate;
 		this.breakChance = breakChance;
 		this.type=name;
+		this.setDefaultState(this.blockState.getBaseState());
         setBlockBounds(1F/16F, 0F, 1F/16F, 15F/16F, 6F/16F, 15F/16F);
         
         //this.setBlockTextureName("minefantasy2:processor/"+"repair_"+name+"+top");
@@ -61,21 +61,10 @@ public class BlockRepairKit extends Block
 		return this;
 	}
 
-	@SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIcon(int side, int meta)
-    {
-        return side == 1 ? this.top : (side == 0 ? this.bottom : this.side);
-    }
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-    public void registerBlockIcons(IIconRegister reg)
-    {
-        this.side = reg.registerIcon("minefantasy2:processor/repair_"+ type + "_side");
-        this.top = reg.registerIcon("minefantasy2:processor/repair_"+ type + "_top");
-        this.bottom = reg.registerIcon("minefantasy2:processor/repair_"+ type + "_base");
-    }
+        //this.side = reg.registerIcon("minefantasy2:processor/repair_"+ type + "_side");
+        //this.top = reg.registerIcon("minefantasy2:processor/repair_"+ type + "_top");
+        //this.bottom = reg.registerIcon("minefantasy2:processor/repair_"+ type + "_base");
+
 	
 	@Override
     public boolean isFullCube()

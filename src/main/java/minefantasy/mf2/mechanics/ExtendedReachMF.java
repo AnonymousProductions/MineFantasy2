@@ -63,26 +63,26 @@ public class ExtendedReachMF
     public MovingObjectPosition getMouseOver(float tickPart, float maxDist)
     {
         Minecraft mc = FMLClientHandler.instance().getClient();
-        if (mc.renderViewEntity != null)
+        if (mc.getRenderViewEntity() != null)
         {
             if (mc.theWorld != null)
             {
                 mc.pointedEntity = null;
                 double d0 = maxDist;
-                MovingObjectPosition objectMouseOver = mc.renderViewEntity.rayTrace(d0, tickPart);
+                MovingObjectPosition objectMouseOver = mc.getRenderViewEntity().rayTrace(d0, tickPart);
                 double d1 = d0;
-                Vec3 vec3 = mc.renderViewEntity.getPosition(tickPart);
+                Vec3 vec3 = mc.getRenderViewEntity().getPositionEyes(tickPart);
 
                 if (objectMouseOver != null)
                 {
                     d1 = objectMouseOver.hitVec.distanceTo(vec3);
                 }
 
-                Vec3 vec31 = mc.renderViewEntity.getLook(tickPart);
+                Vec3 vec31 = mc.getRenderViewEntity().getLook(tickPart);
                 Vec3 vec32 = vec3.addVector(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0);
                 Entity pointedEntity = null;
                 float f1 = 1.0F;
-                List list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(mc.renderViewEntity, mc.renderViewEntity.boundingBox.addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand(f1, f1, f1));
+                List list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(mc.getRenderViewEntity(), mc.getRenderViewEntity().getBoundingBox().addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand(f1, f1, f1));
                 double d2 = d1;
 
                 for (int i = 0; i < list.size(); ++i)

@@ -93,6 +93,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	 * Polearm: Ranged Versitile
 	 * Lightblade: Fast Offensive
 	 */
+	private String Name;
 	public ItemWeaponMF(ToolMaterial material, String named, int rarity, float weight) 
 	{
 		super(material);
@@ -111,7 +112,12 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		{
 			baseDamage = 0F;
 		}
+		Name = name;
 	}
+	
+	public String getName(){
+    	return Name;
+    }
 	
 	/**
 	 * Gets the amount more damaged added to each item

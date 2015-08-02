@@ -37,11 +37,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 {
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
-	public IIcon[] iconArray = new IIcon[3];
 	private final EnumBowType model;
 	private ToolMaterial material = ToolMaterial.WOOD;
 	private int itemRarity;
 	private float damage = 1.0F;
+	public String Name;
 	
 	public ItemBowMF(String name, ToolMaterial mat, EnumBowType type, int rarity)
     {
@@ -59,6 +59,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
         setUnlocalizedName("minefantasy2:Bow/"+name);
         GameRegistry.registerItem(this, name, MineFantasyII.MODID);
         setCreativeTab(CreativeTabMF.tabArcher);
+        Name = name;
     }
     
     @Override
@@ -224,17 +225,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     {
         return 1;
     }
-    public IIcon getIconIndex(ItemStack stack, int useRemaining)
-    {
-    	float multiplier = 1.0F / model.speed; //Reverses the decimal (eg. 0.5 becomes 2.0)
-        if (stack != null)
-        {
-            if (useRemaining >= 18*multiplier) return iconArray[2];//The return values are
-            if (useRemaining >  13*multiplier) return iconArray[1];//the icon indexes (in the /Tutorial/Items.png file)
-            if (useRemaining >   0) return iconArray[0];
-        }
-        return this.getIconFromDamage(0);
-    }
+
     
     @Override
     public void onUpdate(ItemStack item, World world, Entity entity, int i, boolean b)
@@ -243,29 +234,6 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     	if(!item.hasTagCompound())
     		item.setTagCompound(new NBTTagCompound());
     	item.getTagCompound().setInteger("Use", i);
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister reg)
-    {
-    	this.itemIcon = reg.registerIcon(this.getIconString()+"_standby");
-    	
-        for (int i = 0; i < 3; ++i)
-        {
-            this.iconArray[i] = reg.registerIcon(this.getIconString() + "_pulling_" + (i));
-        }
-    }
-    
-    @Override
-	@SideOnly(Side.CLIENT)
-
-    /**
-     * used to cycle through icons based on their used duration, i.e. for the bow
-     */
-    public IIcon getItemIconForUseDuration(int use)
-    {
-        return this.iconArray[use];
     }
     
 	public int getDrawAmount(int timer) 

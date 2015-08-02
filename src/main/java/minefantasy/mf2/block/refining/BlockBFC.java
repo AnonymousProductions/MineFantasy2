@@ -9,6 +9,7 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockBFC extends BlockContainer 
+public class BlockBFC extends BlockContainer implements ITileEntityProvider
 {
 	private Random rand = new Random();
 	
@@ -108,7 +109,8 @@ public class BlockBFC extends BlockContainer
                 }
             }
 
-            world.func_147453_f(pos, state);
+            world.notifyNeighborsOfStateChange(pos, state.getBlock());//unsure of conversion
+            //.func_147453_f(pos, state.getBlock());
         }
 
         super.breakBlock(world, pos, state);
@@ -133,13 +135,9 @@ public class BlockBFC extends BlockContainer
     	}
         return true;
     }
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg)
-	{
-		sideTex = reg.registerIcon("minefantasy2:processor/blast_chamber_side");
-		bottomTex = reg.registerIcon("minefantasy2:processor/blast_chamber_top");
-	}
+
+		//sideTex = reg.registerIcon("minefantasy2:processor/blast_chamber_side");
+		//bottomTex = reg.registerIcon("minefantasy2:processor/blast_chamber_top");
+
 
 }

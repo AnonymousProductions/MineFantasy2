@@ -825,7 +825,8 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	{
 		dataWatcher.updateObject(texture_dw, tex);
 	}
-	private String getCustomTex() 
+	
+	public String getCustomTex() 
 	{
 		try
 		{

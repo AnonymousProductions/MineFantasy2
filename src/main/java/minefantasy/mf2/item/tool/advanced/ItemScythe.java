@@ -41,6 +41,7 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 {
 	private Random rand = new Random();
 	private ToolMaterial toolMaterial;
+	private String Name;
 	/**
 	 */
     public ItemScythe(String name, ToolMaterial material, int rarity)
@@ -54,6 +55,11 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.maxStackSize = 1;
         this.setMaxDamage(material.getMaxUses());
+        Name=name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
     
     private int itemRarity;

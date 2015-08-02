@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.IIcon;
+
 
 @Deprecated
 public class HeraldryPattern {
@@ -27,7 +27,6 @@ public class HeraldryPattern {
     public static final HeraldryPattern CROSS= new HeraldryPattern("battlegear2","patterns/pattern-14");
     public static final HeraldryPattern DIAG_CROSS= new HeraldryPattern("battlegear2","patterns/pattern-15");
 
-	private IIcon icon;
 	public final String name;
     public final String mod;
 	
@@ -39,13 +38,5 @@ public class HeraldryPattern {
 	
 	public String getPath(){
 		return "assets/"+mod+"/textures/items/heraldry/"+name+".png";
-	}
-
-	public IIcon getIcon() {
-		return icon;
-	}
-
-	public void registerIcon(TextureMap map){
-		this.icon = map.registerIcon(mod+":heraldry/"+name);
 	}
 }

@@ -29,6 +29,7 @@ public class ItemBasicCraftTool extends ItemTool implements IToolMaterial, ITool
 {
 	private int tier;
 	private String toolType;
+	private String Name;
     public ItemBasicCraftTool(String name, String type, int tier, int uses)
     {
         super(1.0F, ToolMaterial.WOOD, Sets.newHashSet(new Block[] {}));
@@ -39,7 +40,13 @@ public class ItemBasicCraftTool extends ItemTool implements IToolMaterial, ITool
         setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		setMaxDamage(uses);
+		Name = name;
     }
+    
+    public String getName(){
+    	return Name;
+    }
+    
     private int itemRarity;
     @Override
 	public EnumRarity getRarity(ItemStack item)

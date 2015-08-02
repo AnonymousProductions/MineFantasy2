@@ -23,7 +23,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class ItemPickMF extends ItemPickaxe implements IToolMaterial
 {
-    public ItemPickMF(String name, ToolMaterial material, int rarity)
+    private String Name;
+	public ItemPickMF(String name, ToolMaterial material, int rarity)
     {
         super(material);
         itemRarity = rarity;
@@ -31,6 +32,11 @@ public class ItemPickMF extends ItemPickaxe implements IToolMaterial
         
         setUnlocalizedName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		Name = name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
     
     private int itemRarity;

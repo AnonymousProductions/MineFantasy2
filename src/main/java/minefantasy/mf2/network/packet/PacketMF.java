@@ -3,6 +3,7 @@ package minefantasy.mf2.network.packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public abstract class PacketMF
@@ -10,7 +11,7 @@ public abstract class PacketMF
 
 	public final FMLProxyPacket generatePacket() 
 	{
-        ByteBuf buf = Unpooled.buffer();
+		PacketBuffer buf = (PacketBuffer)Unpooled.buffer();
         write(buf);
         return new FMLProxyPacket(buf, getChannel());
     }

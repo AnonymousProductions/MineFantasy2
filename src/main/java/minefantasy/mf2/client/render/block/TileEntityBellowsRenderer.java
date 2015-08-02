@@ -7,12 +7,18 @@ import minefantasy.mf2.block.tileentity.TileEntityBellows;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 public class TileEntityBellowsRenderer extends TileEntitySpecialRenderer
 {
-    public TileEntityBellowsRenderer() 
+	
+
+	private ModelBellows model;
+	private Random random = new Random();
+	
+	public TileEntityBellowsRenderer() 
     {
         model = new ModelBellows();
     }
@@ -79,6 +85,5 @@ public class TileEntityBellowsRenderer extends TileEntitySpecialRenderer
         renderAModelAt((TileEntityBellows) tileentity, d, d1, d2, f); //where to render
     }
 	
-    private ModelBellows model;
-    private Random random = new Random();
+ 
 }

@@ -1,0 +1,56 @@
+{
+"__comment": "Designed by Cleverpanda with BDcraft Cubik PRO 0.76 Beta - http://bdcraft.net",
+"textures": {
+        "texture": "models/tileentity/tanner",
+    },
+"elements": [ 
+{
+    "from": [ 2, 13.5, 7.5 ],
+    "to": [ 14, 16.5, 9.5 ],
+    "__comment": "top",
+    "faces": {
+        "down":  { "uv": [ 0.5, 14.5, 6.5, 13.5 ], "texture": "#texture" },
+        "up":    { "uv": [ 0.5, 13.5, 6.5, 14.5 ], "texture": "#texture" },
+        "north": { "uv": [ 0, 14.5, 7, 16 ], "texture": "#texture" },
+        "south": { "uv": [ 0, 14.5, 7, 16 ], "texture": "#texture" }
+    }
+},
+{
+    "from": [ 14, 2, 6.5 ],
+    "to": [ 16, 19, 9.5 ],
+    "__comment": "side2",
+    "faces": {
+        "up":    { "uv": [ 14, 0, 15, 1.5 ], "texture": "#texture" },
+        "north": { "uv": [ 13.5, 1.5, 15, 10 ], "texture": "#texture" },
+        "south": { "uv": [ 14.5, 1.5, 16, 10 ], "texture": "#texture" },
+        "west":  { "uv": [ 13.5, 1.5, 15, 10 ], "texture": "#texture" },
+        "east":  { "uv": [ 14.5, 1.5, 16, 10 ], "texture": "#texture" }
+    }
+},
+{
+    "from": [ 0, 2, 6.5 ],
+    "to": [ 2, 19, 9.5 ],
+    "__comment": "side1",
+    "faces": {
+        "up":    { "uv": [ 14, 0, 15, 1.5 ], "texture": "#texture" },
+        "north": { "uv": [ 13.5, 1.5, 15, 10 ], "texture": "#texture" },
+        "south": { "uv": [ 14.5, 1.5, 16, 10 ], "texture": "#texture" },
+        "west":  { "uv": [ 14.5, 1.5, 16, 10 ], "texture": "#texture" },
+        "east":  { "uv": [ 14.5, 1.5, 16, 10 ], "texture": "#texture" }
+    }
+},
+{
+    "from": [ 0, 0, 5.5 ],
+    "to": [ 16, 2, 10.5 ],
+    "__comment": "base",
+    "faces": {
+        "down":  { "uv": [ 1, 2.5, 9, 0 ], "texture": "#texture" },
+        "up":    { "uv": [ 1, 0, 9.5, 2.5 ], "texture": "#texture" },
+        "north": { "uv": [ 0, 2.5, 10.5, 3.5 ], "texture": "#texture" },
+        "south": { "uv": [ 0, 2.5, 10.5, 3.5 ], "texture": "#texture" },
+        "west":  { "uv": [ 0, 14.5, 5, 16 ], "texture": "#texture" },
+        "east":  { "uv": [ 2.5, 14.5, 7, 16 ], "texture": "#texture" }
+    }
+}
+]
+}

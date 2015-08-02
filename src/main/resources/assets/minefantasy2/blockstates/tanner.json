@@ -1,0 +1,8 @@
+{
+    "variants": {
+	"facing=north":  { "model": "tanner" },
+        "facing=south":  { "model": "tanner", "y": 180, "uvlock": true },
+        "facing=east": { "model": "tanner", "y": 90, "uvlock": true },
+        "facing=west": { "model": "tanner", "y": 270, "uvlock": true }
+    }
+}

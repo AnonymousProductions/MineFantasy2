@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north":  { "model": "anvilsteel" },
+        "facing=south":  { "model": "anvilsteel", "y": 180, "uvlock": true },
+        "facing=east": { "model": "anvilsteel", "y": 90, "uvlock": true },
+        "facing=west": { "model": "anvilsteel", "y": 270, "uvlock": true }
+    }
+}

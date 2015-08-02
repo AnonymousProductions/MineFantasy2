@@ -24,13 +24,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBomb extends Item
 {
-    public ItemBomb(String name)
+    public String Name;
+	public ItemBomb(String name)
     {
         this.maxStackSize = 16;
         this.setCreativeTab(CreativeTabMF.tabGadget);
         setUnlocalizedName("minefantasy2:Other/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, new BombDispenser());
+		Name = name;
     }
 
     @Override
@@ -216,6 +218,7 @@ public class ItemBomb extends Item
     {
     	return ItemBomb.createExplosive(this, casing, filling,  fuse, powder, stackSize);
     }
+    
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
@@ -236,69 +239,36 @@ public class ItemBomb extends Item
 		list.add(createBomb((byte)3, (byte)2, (byte)0, (byte)0, 1));
     }
 
-    //TODO Icons
-    @SideOnly(Side.CLIENT)
-	public IIcon getIcon(byte type)
-	{
-		return bombs[type];
-	}
-    public IIcon[] icons = new IIcon[2];
-    private IIcon[] bombs = new IIcon[4];
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister reg)
-    {
-        icons[0] = reg.registerIcon("minefantasy2:Other/bomb_icon_shrapnel");
-        icons[1] = reg.registerIcon("minefantasy2:Other/bomb_icon_fire");
+        //icons[0] = reg.registerIcon("minefantasy2:Other/bomb_icon_shrapnel");
+        //icons[1] = reg.registerIcon("minefantasy2:Other/bomb_icon_fire");
         
-        this.itemIcon = bombs[0] = reg.registerIcon("minefantasy2:Other/bomb_ceramic");
-        bombs[1] = reg.registerIcon("minefantasy2:Other/bomb_iron");
-        bombs[2] = reg.registerIcon("minefantasy2:Other/bomb_obsidian");
-        bombs[3] = reg.registerIcon("minefantasy2:Other/bomb_crystal");
-    }
+       // this.itemIcon = bombs[0] = reg.registerIcon("minefantasy2:Other/bomb_ceramic");
+       // bombs[1] = reg.registerIcon("minefantasy2:Other/bomb_iron");
+       // bombs[2] = reg.registerIcon("minefantasy2:Other/bomb_obsidian");
+       // bombs[3] = reg.registerIcon("minefantasy2:Other/bomb_crystal");
+
+
     
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconIndex(ItemStack item)
-    {
-    	int type = getCasing(item);
-    	return bombs[type];
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderPasses(int metadata)
-    {
-        return 3;
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(ItemStack item, int layer)
-    {
-    	boolean sticky =  item.hasTagCompound() && item.getTagCompound().hasKey("stickyBomb");
-    	if(layer == 0 && sticky)
-    	{
-    		return Items.slime_ball.getIconFromDamage(0);
-    	}
-    	if(layer > (sticky ? 1 : 0))
-    	{
-	    	int type = getFilling(item);
-	    	if(type != 0)
-	    	{
-	    		return icons[type-1];
-	    	}
-    	}
-    	return getIconIndex(item);
-    }
-    
-    @Override
-	@SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
-    	return true;
-    }
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public IIcon getIcon(ItemStack item, int layer)
+//    {
+//    	boolean sticky =  item.hasTagCompound() && item.getTagCompound().hasKey("stickyBomb");
+//    	if(layer == 0 && sticky)
+//    	{
+//    		return Items.slime_ball.getIconFromDamage(0);
+//    	}
+//    	if(layer > (sticky ? 1 : 0))
+//    	{
+//	    	int type = getFilling(item);
+//	    	if(type != 0)
+//	    	{
+//	    		return icons[type-1];
+//	    	}
+//    	}
+//    	return getIconIndex(item);
+//    }
+
     
     @Override
     public EnumRarity getRarity(ItemStack item)

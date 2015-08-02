@@ -18,7 +18,7 @@ public class BlockMetalBarsMF extends BlockPane
 {
 	
 	private BaseMaterialMF baseMat;
-	private String NAME;
+	public String Name;
 	
 	public BlockMetalBarsMF(BaseMaterialMF material) 
 	{
@@ -27,7 +27,7 @@ public class BlockMetalBarsMF extends BlockPane
 		String name = material.name.toLowerCase() + "_bars";
 		GameRegistry.registerBlock(this, name);
 		setUnlocalizedName("minefantasy2:metal/"+name);
-		NAME = name;
+		Name = name;
 		
 		this.setHarvestLevel("pickaxe", material.harvestLevel);
 		this.setStepSound(Block.soundTypeMetal);
@@ -35,11 +35,7 @@ public class BlockMetalBarsMF extends BlockPane
 		this.setResistance(material.hardness+1);
 		this.baseMat = material;
 	}
-	
-	public String getName()
-	{
-		return NAME;
-	}
+
 	
 	private Random rand = new Random();
 	@Override

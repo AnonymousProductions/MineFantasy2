@@ -17,6 +17,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemResearchBook extends Item
 {
+	
+	public String Name =  "research_book";
 	public ItemResearchBook() 
 	{
         super();
@@ -27,6 +29,7 @@ public class ItemResearchBook extends Item
 		this.setUnlocalizedName("minefantasy2:Other/research_book");
 		setContainerItem(this);
     }
+	
 
     @Override
 	public EnumRarity getRarity(ItemStack item)

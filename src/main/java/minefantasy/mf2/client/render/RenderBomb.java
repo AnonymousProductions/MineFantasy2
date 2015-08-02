@@ -1,10 +1,13 @@
 package minefantasy.mf2.client.render;
 
 import minefantasy.mf2.entity.EntityBomb;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -14,10 +17,10 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderBomb extends Render
 {
-    private RenderBlocks blockRenderer = new RenderBlocks();
 
-    public RenderBomb()
+    public RenderBomb(RenderManager manager)
     {
+        super(manager);
         this.shadowSize = 0.25F;
     }
 
@@ -32,7 +35,7 @@ public class RenderBomb extends Render
         GL11.glPushMatrix();
         GL11.glTranslatef((float)x, (float)y, (float)z);
         GL11.glScalef(0.5F, 0.5F, 0.5F);
-        this.blockRenderer.renderBlockAsItem(Blocks.hardened_clay, 0, mine.getBrightness(f1));
+        Minecraft.getMinecraft().getRenderItem().renderItemModel(new ItemStack(Blocks.hardened_clay));
         GL11.glPopMatrix();
     }
 

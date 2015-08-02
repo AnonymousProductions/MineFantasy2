@@ -28,6 +28,7 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
 	private ToolMaterial material;
 	private int tier;
 	private boolean heavy;
+	private String Name;
     public ItemHammer(String name, ToolMaterial material, int tier, boolean heavy, int rarity)
     {
         super(heavy ? 3.0F:2.0F, material, Sets.newHashSet(new Block[] {}));
@@ -36,10 +37,15 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
         this.tier = tier;
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
-        
+        Name = name;
         setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
     }
+    
+    public String getName(){
+    	return Name;
+    }
+    
     private int itemRarity;
     @Override
 	public EnumRarity getRarity(ItemStack item)

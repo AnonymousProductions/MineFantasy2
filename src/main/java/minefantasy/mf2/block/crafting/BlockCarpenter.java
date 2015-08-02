@@ -8,7 +8,11 @@ import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -25,13 +29,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockCarpenter extends BlockContainer
+public class BlockCarpenter extends BlockContainer implements ITileEntityProvider
 {
     @SideOnly(Side.CLIENT)
     public int CarpenterRenderSide;
     private int tier = 0;
     
     private static String NAME = "carpenterBench";
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     
     public BlockCarpenter()
     {
@@ -40,6 +45,7 @@ public class BlockCarpenter extends BlockContainer
         //this.setBlockTextureName("minectaft:oak_planks");
         GameRegistry.registerBlock(this, "MF_CarpenterBench");
         setUnlocalizedName("minefantasy2:" + NAME);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setStepSound(Block.soundTypeWood);
 		this.setHardness(5F);
 		this.setResistance(2F);
@@ -70,9 +76,7 @@ public class BlockCarpenter extends BlockContainer
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos,IBlockState state, EntityLivingBase user, ItemStack item)
     {
-        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
-        world.setBlockState(pos, getStateFromMeta(direction), 2);
+    	this.getDefaultState().withProperty(FACING, user.getHorizontalFacing());
     }
 
     /**
@@ -159,22 +163,43 @@ public class BlockCarpenter extends BlockContainer
                 }
             }
 
-            world.func_147453_f(pos,state.getBlock());
+            world.notifyNeighborsOfStateChange(pos, state.getBlock());//unsure of conversion
+            //.func_147453_f(pos, state.getBlock());
         }
 
         super.breakBlock(world, pos, state);
     }
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		return Blocks.crafting_table.getIcon(side, meta);
-	}
+	public IBlockState getStateFromMeta(int meta)
+    {
+        EnumFacing enumfacing = EnumFacing.getFront(meta);
+
+        if (enumfacing.getAxis() == EnumFacing.Axis.Y)
+        {
+            enumfacing = EnumFacing.NORTH;
+        }
+
+        return this.getDefaultState().withProperty(FACING, enumfacing);
+    }
+
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((EnumFacing)state.getValue(FACING)).getIndex();
+    }
+
+    
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {FACING});
+    }
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.carpenter_RI;
+		//return BlockListMF.carpenter_RI;
+		return 2;
 	}
 	private Random rand = new Random();
 }

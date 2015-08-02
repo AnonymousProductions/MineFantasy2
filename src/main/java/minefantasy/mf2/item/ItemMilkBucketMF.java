@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemMilkBucketMF extends Item
 {
     private static final String __OBFID = "CL_00000048";
-
+    public String Name;
     public ItemMilkBucketMF(String name)
     {
         this.maxStackSize = 1;
@@ -27,6 +27,7 @@ public class ItemMilkBucketMF extends Item
         setUnlocalizedName("minefantasy2:Tool/"+name);
         //setTextureName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		Name = name;
     }
 
     @Override

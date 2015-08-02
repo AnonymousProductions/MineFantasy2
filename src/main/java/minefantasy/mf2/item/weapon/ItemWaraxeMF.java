@@ -31,9 +31,14 @@ public class ItemWaraxeMF extends ItemWeaponMF
 	 * 
 	 * These are for the brutal player
 	 */
+	private String Name;
     public ItemWaraxeMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
+    	Name=name;
+    }
+    public String getName(){
+    	return Name;
     }
 
     @Override

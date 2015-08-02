@@ -36,10 +36,11 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	private ToolMaterial arrowMat;
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
 	public static final MFArrowDispenser dispenser = new MFArrowDispenser();
-	
+	public String Name;
 	public ItemArrowMF(String name)
 	{
 		this(name, 0, ToolMaterial.WOOD);
+		Name = name;
 	}
 	public ItemArrowMF(String name, int rarity, ToolMaterial material)
 	{

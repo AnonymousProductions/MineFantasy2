@@ -178,37 +178,24 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	{
 		return baseMaterial == BaseMaterialMF.silver || baseMaterial == BaseMaterialMF.ornate;
 	}
-	@SideOnly(Side.CLIENT)
-    private IIcon clothIcon;
-	@SideOnly(Side.CLIENT)
-    private IIcon armourIcon;
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister reg)
-    {
-		if(!canColour())
-		{
-			super.registerIcons(reg);
-		}
-		else
-		{
-			String baseLayer = isMetal() ? "" : "_overlay";
-			this.armourIcon = reg.registerIcon(this.getIconString()+baseLayer);
-			String dyeLayer = isMetal() ? "_cloth" : "";
-	        this.clothIcon = reg.registerIcon(this.getIconString()+dyeLayer);
-		}
-    }
-	@Override
-	@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int dam, int layer)
-    {
-		if(!canColour())
-		{
-			return super.getIconFromDamage(dam);
-		}
-        return layer == 1 ?  armourIcon : clothIcon;
-    }
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//    public void registerIcons(IIconRegister reg)
+//    {
+//		if(!canColour())
+//		{
+//			super.registerIcons(reg);
+//		}
+//		else
+//		{
+//			String baseLayer = isMetal() ? "" : "_overlay";
+//			this.armourIcon = reg.registerIcon(this.getIconString()+baseLayer);
+//			String dyeLayer = isMetal() ? "_cloth" : "";
+//	        this.clothIcon = reg.registerIcon(this.getIconString()+dyeLayer);
+//		}
+//    }
+
 	
 	public boolean canColour()
 	{
@@ -225,13 +212,6 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	
 	//COLOURING
 	public int defaultColour = 10511680;
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-    public boolean requiresMultipleRenderPasses()
-    {
-        return canColour();
-    }
 	
 	/**
      * Return whether the specified armor ItemStack has a color.

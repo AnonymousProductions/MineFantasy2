@@ -229,20 +229,20 @@ public class EventManagerMF
 			return 1;
 		}
 		
-		int size = mob.myEntitySize.ordinal()+1;
-		if(size <= 1)
-		{
-			return 0;
-		}
-		if(size == 2)
-		{
-			return 1;
-		}
-		else if(size <= 4)
-		{
-			return 2;
-		}
-		return 3;
+//		int size = mob.getEntityBoundingBox()..myEntitySize.ordinal()+1;
+//		if(size <= 1)
+//		{
+//			return 0;
+//		}
+//		if(size == 2)
+//		{
+//			return 1;
+//		}
+//		else if(size <= 4)
+//		{
+//			return 2;
+//		}
+	return 3;
 	}
 
 	private boolean shouldAnimalDropHide(EntityLivingBase mob) 

@@ -10,6 +10,7 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -32,16 +33,18 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockBombBench extends BlockContainer
+public class BlockBombBench extends BlockContainer implements ITileEntityProvider
 {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
-	private static String NAME = "bombBench";
+	private static String NAME = "MF_BombBench";
+	private Random rand = new Random();
+	
 	public BlockBombBench()
     {
         super(Material.wood);
         //this.setBlockTextureName("minectaft:stone");
-        GameRegistry.registerBlock(this, "MF_BombCrafter");
+        GameRegistry.registerBlock(this, "MF_BombBench");
         setUnlocalizedName("minefantasy2:" + NAME);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setStepSound(Block.soundTypeStone);
@@ -74,8 +77,6 @@ public class BlockBombBench extends BlockContainer
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos,IBlockState state, EntityLivingBase user, ItemStack item)
     {
-        int direction = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
         this.getDefaultState().withProperty(FACING, user.getHorizontalFacing());
     }
 
@@ -169,7 +170,8 @@ public class BlockBombBench extends BlockContainer
                 }
             }
 
-            world.func_147453_f(pos, state.getBlock());
+            world.notifyNeighborsOfStateChange(pos, state.getBlock());//unsure of conversion
+            //.func_147453_f(pos, state.getBlock());
         }
 
         super.breakBlock(world, pos, state);
@@ -214,7 +216,13 @@ public class BlockBombBench extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.bomb_RI;
+		//return BlockListMF.bomb_RI;  //102 is not a valid value??
+		return 2; //doesn’t render anything in the block layers,
+				//but has an associated TileEntitySpecialRenderer 
+				//which does draw something, eg BlockChest.
+		//return 3;
 	}
-	private Random rand = new Random();
+	
+	
+	
 }

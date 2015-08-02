@@ -42,6 +42,7 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 	private Random rand = new Random();
 	/**
 	 */
+	private String Name;
     public ItemSaw(String name, ToolMaterial material, int rarity)
     {
         super(material);
@@ -52,6 +53,11 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		
 		this.setHarvestLevel("axe", material.getHarvestLevel());
+		Name = name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
     
     private int itemRarity;

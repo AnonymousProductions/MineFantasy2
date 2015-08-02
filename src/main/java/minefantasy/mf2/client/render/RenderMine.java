@@ -3,6 +3,7 @@ package minefantasy.mf2.client.render;
 import minefantasy.mf2.entity.EntityMine;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -15,12 +16,12 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderMine extends Render
 {
-    private RenderBlocks blockRenderer = new RenderBlocks();
+	private RenderBlocks blockRenderer = new RenderBlocks();
 
-    public RenderMine()
-    {
-        this.shadowSize = 0.25F;
-    }
+	protected RenderMine(RenderManager renderManager) {
+		super(renderManager);
+		// TODO Auto-generated constructor stub
+	}
 
     public void doRender(EntityMine mine, double x, double y, double z, float f, float f1)
     {

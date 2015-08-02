@@ -42,6 +42,7 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 	 * These picks mine a 3x3 area of blocks, though with their lessened harvest, most ores will be avoided
 	 * They however have a reduced drop chance
 	 */
+	private String Name;
     public ItemHvyPick(String name, ToolMaterial material, int rarity)
     {
         super(material);
@@ -53,6 +54,11 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 		
 		this.setHarvestLevel("pickaxe", material.getHarvestLevel());
 		this.setMaxDamage(material.getMaxUses()*2);
+		Name = name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
     
     private int itemRarity;

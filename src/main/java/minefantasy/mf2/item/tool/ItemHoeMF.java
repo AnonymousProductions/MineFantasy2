@@ -23,6 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemHoeMF extends ItemHoe
 {
 	private ToolMaterial toolMaterial;
+	private String Name;
     public ItemHoeMF(String name, ToolMaterial material, int rarity)
     {
         super(material);
@@ -32,7 +33,13 @@ public class ItemHoeMF extends ItemHoe
         
         setUnlocalizedName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		Name =name;
     }
+    
+    public String getName(){
+    	return Name;
+    }
+    
     private int itemRarity;
     @Override
 	public EnumRarity getRarity(ItemStack item)

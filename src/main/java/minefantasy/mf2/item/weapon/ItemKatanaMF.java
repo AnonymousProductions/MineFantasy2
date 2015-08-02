@@ -24,12 +24,18 @@ public class ItemKatanaMF extends ItemHeavyWeapon
 	/**
 	 * Katanas are heavy counterparts to Tantos, unlike most heavy weapons: these act more like light-weapons
 	 */
+	private String Name;
     public ItemKatanaMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
     	baseDamage /= 1.5F;
+    	Name=name;
     }
-	
+    
+    public String getName(){
+    	return Name;
+    }
+    
 	@Override
 	public boolean canBlock() 
 	{

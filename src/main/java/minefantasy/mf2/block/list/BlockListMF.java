@@ -16,6 +16,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -98,13 +99,6 @@ public class BlockListMF
 	public static Block firebricks = new BasicBlockMF("firebricks", Material.rock).setHardness(5.0F).setResistance(15.0F).setStepSound(Block.soundTypePiston);
 	public static Block clayWall = new BasicBlockMF("clayWall", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
 	
-	public static BlockMetalBarsMF[] bars = new BlockMetalBarsMF[specialMetalBlocks.length];
-	public static BlockMetalMF[] storage = new BlockMetalMF[metalBlocks.length];
-	public static BlockAnvilMF anvilStone = new BlockAnvilMF(BaseMaterialMF.stone);
-	public static BlockAnvilMF[] anvil = new BlockAnvilMF[anvils.length];
-	public static BlockCarpenter carpenter = new BlockCarpenter();
-	public static BlockBombBench bombBench = new BlockBombBench();
-	
 	public static Block cheese_wheel = new BlockCakeMF("cheese", FoodListMF.cheese_slice);
 	
 	public static Block cake_vanilla = new BlockCakeMF("cake_vanilla", FoodListMF.cake_slice);
@@ -133,6 +127,11 @@ public class BlockListMF
 	public static Block chimney_stone_wide = new BlockChimney("stone", true, false, 10);
 	public static Block chimney_stone_extractor = new BlockChimney("stone_extractor", true, true, 15);
 	
+	public static Block reinforced_stone = new BasicBlockMF("reinforced_stone", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
+	public static Block reinforced_stone_bricks = new BasicBlockMF("reinforced_stone_bricks", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
+	public static Block reinforced_stone_framed = new BasicBlockMF("reinforced_stone_framed", Material.rock).setHardness(2.5F).setResistance(20F).setStepSound(Block.soundTypeStone);
+	
+	
 	public static Block tanner = new BlockTanningRack(0, "");
 	
 	public static Block forge = new BlockForge("stone", 0, false);
@@ -142,13 +141,16 @@ public class BlockListMF
 	public static Block repair_advanced = new BlockRepairKit("advanced", 1.0F, 0.2F, 0F);
 	public static Block repair_ornate = new BlockRepairKit("ornate", 1.0F, 0.05F, 0F).setOrnate(0.5F);
 	
+	public static BlockMetalBarsMF[] bars = new BlockMetalBarsMF[specialMetalBlocks.length];
+	public static BlockMetalMF[] storage = new BlockMetalMF[metalBlocks.length];
+	public static BlockAnvilMF anvilStone = new BlockAnvilMF(BaseMaterialMF.stone);
+	public static BlockAnvilMF[] anvil = new BlockAnvilMF[anvils.length];
+	public static BlockCarpenter carpenter = new BlockCarpenter();
+	public static BlockBombBench bombBench = new BlockBombBench();
+	
 	public static Block bellows = new BlockBellows();
 	
 	public static Block refined_planks = new BasicBlockMF("refined_planks", Material.wood).setHardness(2.5F).setResistance(10F).setStepSound(Block.soundTypeWood);
-	
-	public static Block reinforced_stone = new BasicBlockMF("reinforced_stone", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
-	public static Block reinforced_stone_bricks = new BasicBlockMF("reinforced_stone_bricks", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
-	public static Block reinforced_stone_framed = new BasicBlockMF("reinforced_stone_framed", Material.rock).setHardness(2.5F).setResistance(20F).setStepSound(Block.soundTypeStone);
 	
 	public static Block advTanner = new BlockTanningRack(1, "Strong");
 	public static Block research = new BlockResearchStation();
@@ -191,24 +193,62 @@ public class BlockListMF
     		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem(); 
     		String MODID = MineFantasyII.MODID;
     		
-    		Block[] blocks = {oreCopper,oreTin,oreSilver,oreMythic,oreKaolinite,oreNitre,oreSulfur,oreBorax,oreClay,mud_brick,mud_pavement,cobble_brick,cobble_pavement,window,framed_glass,
-    				framed_pane,window_pane,thatch,thatch_stairs,limestone,firebricks,clayWall,anvilStone,carpenter,bombBench,cheese_wheel,cake_vanilla,cake_carrot,cake_chocolate,cake_bf,
-    				pie_meat,pie_apple,pie_berry,pie_shepards,berryBush,blast_chamber,blast_heater,blast_heater_active,crucible,crucible_active,crucibleadv,crucibleadv_active,chimney_stone,
-    				chimney_stone_wide,chimney_stone_extractor,tanner,forge,forge_active,repair_basic,repair_advanced,repair_ornate,bellows,refined_planks,reinforced_stone,reinforced_stone_bricks,
-    				reinforced_stone_framed,advTanner,research};
-    		
-    		Block[][] typeblocks = {bars,storage,anvil};
+    		Block[] ores = {oreCopper,oreTin,oreSilver,oreMythic,oreKaolinite,oreNitre,oreSulfur,oreBorax,oreClay};
+    		Block[] food = {cheese_wheel,cake_vanilla,cake_carrot,cake_chocolate,cake_bf,pie_meat,pie_apple,pie_berry,pie_shepards};
+    		Block[] repair = {repair_basic,repair_advanced,repair_ornate};
+    		Block[] construction = {mud_brick,mud_pavement,cobble_brick,cobble_pavement,window,limestone,framed_glass,framed_pane,window_pane,thatch,thatch_stairs,refined_planks,reinforced_stone,reinforced_stone_bricks,reinforced_stone_framed};
+    		Block[] chimney = {chimney_stone,chimney_stone_wide,chimney_stone_extractor};
+    		Block[] crucib = {blast_chamber,blast_heater,blast_heater_active,crucible,crucible_active,crucibleadv,crucibleadv_active};
     		
     		//OPTIMIZE
-    		for (Block block :blocks) {
-    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + block.getUnlocalizedName(), "inventory"));
-    		}	
-    		for (Block[] type :typeblocks) {
-    			for (Block block :type) {
-    				renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + block.getUnlocalizedName(), "inventory"));
-    			}
-    		}	
+    		for (Block block :food) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockCakeMF)block).getName(), "inventory"));
+    		}
     		
+    		for (Block block :ores) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockOreMF)block).Name, "inventory"));
+    		}
+
+    		for (BlockMetalBarsMF block :bars) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + block.Name, "inventory"));
+    		}
+    		
+    		for (BlockMetalMF block :storage) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + block.Name, "inventory"));
+    		}
+    		
+    		for (BlockAnvilMF block :anvil) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + block.Name, "inventory"));
+    		}
+    		
+    		for (Block block :repair) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockRepairKit)block).getName(), "inventory"));
+    		}
+    		
+    		for (Block block :construction) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((ConstructionBlockMF)block).getName(new ItemStack(block)), "inventory"));
+    		}
+    		
+    		for (Block block :chimney) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockChimney)block).getName(), "inventory"));
+    		}
+    		
+    		for (Block block :crucib) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockBFC)block).getName(), "inventory"));
+    		}
+    		
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(anvilStone), 0, new ModelResourceLocation(MODID + ":" + anvilStone.Name, "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(firebricks), 0, new ModelResourceLocation(MODID + ":" + ((BasicBlockMF)firebricks).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(clayWall), 0, new ModelResourceLocation(MODID + ":" + ((BasicBlockMF)clayWall).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(carpenter), 0, new ModelResourceLocation(MODID + ":" + carpenter.getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(bombBench), 0, new ModelResourceLocation(MODID + ":" + bombBench.getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(berryBush), 0, new ModelResourceLocation(MODID + ":" + ((BlockBerryBush)berryBush).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(tanner), 0, new ModelResourceLocation(MODID + ":" + ((BlockTanningRack)tanner).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(forge), 0, new ModelResourceLocation(MODID + ":" + ((BlockForge)forge).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(forge_active), 0, new ModelResourceLocation(MODID + ":" + ((BlockForge)forge_active).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(bellows), 0, new ModelResourceLocation(MODID + ":" + ((BlockBellows)bellows).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(advTanner), 0, new ModelResourceLocation(MODID + ":" + ((BlockTanningRack)advTanner).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(research), 0, new ModelResourceLocation(MODID + ":" + ((BlockResearchStation)research).getName(), "inventory"));
     	}
 	}
 	

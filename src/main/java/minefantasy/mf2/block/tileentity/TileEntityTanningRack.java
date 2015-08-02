@@ -20,6 +20,7 @@ import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IChatComponent;
 
+
 public class TileEntityTanningRack extends TileEntity implements IInventory, IUpdatePlayerListBox
 {
 	public ItemStack[] items = new ItemStack[2];

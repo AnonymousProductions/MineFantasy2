@@ -1,5 +1,7 @@
 package minefantasy.mf2.client.render;
 
+import org.lwjgl.input.Mouse;
+
 import minefantasy.mf2.item.archery.ItemBowMF;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.FOVUpdateEvent;
@@ -18,7 +20,7 @@ public class HudHandlerMF
 	{
 		if (event.type == RenderGameOverlayEvent.ElementType.HOTBAR)
 		{
-			inGameGUI.renderGameOverlay(event.partialTicks, event.mouseX, event.mouseY);
+			inGameGUI.renderGameOverlay(event.partialTicks, Mouse.getX(), Mouse.getY());
 		}
 	}
 	

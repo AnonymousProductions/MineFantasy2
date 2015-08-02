@@ -28,10 +28,16 @@ public class ItemWarhammerMF extends ItemHeavyWeapon
 	 * 
 	 * They can also strike heavy forces, being rather satisfying
 	 */
+	private String Name;
     public ItemWarhammerMF(String name, ToolMaterial material, int rarity, float weight)
     {
         super(material, name, rarity, weight);
 		this.setMaxDamage((int) (getMaxDamage()*2F));
+		Name=name;
+    }
+    
+    public String getName(){
+    	return Name;
     }
 
 	@Override

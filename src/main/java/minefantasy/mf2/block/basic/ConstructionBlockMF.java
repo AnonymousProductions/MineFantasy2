@@ -39,6 +39,7 @@ public class ConstructionBlockMF extends Block {
 		
 	}
 	
+	
 	@Override
 	public Block setHardness(float level)
     {
@@ -121,6 +122,11 @@ public class ConstructionBlockMF extends Block {
 		return getUnlocalizedName() + "." + m_names[itemstack.getItemDamage()];
 	}
 	
+	public String getName(ItemStack itemstack)
+	{
+		return getUnlocalizedName(itemstack).substring(5);
+	}
+	
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list)
 	{
@@ -136,6 +142,7 @@ public class ConstructionBlockMF extends Block {
 	public static class StairsConstBlock extends BlockStairs
 	{
 
+		 public static String NAME = "";
 		public StairsConstBlock(String unlocalizedName, IBlockState modelState)
 		{
 			//IBlockState modelState
@@ -143,6 +150,7 @@ public class ConstructionBlockMF extends Block {
 			this.setUnlocalizedName(unlocalizedName);
 		    this.setCreativeTab(CreativeTabs.tabBlock);
 		    this.setLightOpacity(0);//They seem to render shadows funny
+		    NAME= unlocalizedName;
 		}
 		
 		public StairsConstBlock(String unlocalizedName, Block baseBlock) 
@@ -178,6 +186,7 @@ public class ConstructionBlockMF extends Block {
 		        return this.getUnlocalizedName();
 		    }
 		}
+		
 		
 		@Override
 		public int getMetadata(int d)

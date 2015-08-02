@@ -23,7 +23,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class ItemSpadeMF extends ItemSpade implements IToolMaterial
 {
-    public ItemSpadeMF(String name, ToolMaterial material, int rarity)
+    private String Name;
+	public ItemSpadeMF(String name, ToolMaterial material, int rarity)
     {
         super(material);
         itemRarity = rarity;
@@ -31,8 +32,14 @@ public class ItemSpadeMF extends ItemSpade implements IToolMaterial
         
         setUnlocalizedName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		Name = name;
 		
     }
+    
+    public String getName(){
+    	return Name;
+    }
+    
     private int itemRarity;
     @Override
 	public EnumRarity getRarity(ItemStack item)

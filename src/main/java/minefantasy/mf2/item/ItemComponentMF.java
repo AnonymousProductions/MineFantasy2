@@ -25,6 +25,7 @@ public class ItemComponentMF extends Item
 	{
 		this(name, 0);
 	}
+	public String Name;
 	public ItemComponentMF(String name, int rarity)
 	{
 		super();
@@ -33,6 +34,7 @@ public class ItemComponentMF extends Item
 		setUnlocalizedName("minefantasy2:component/"+name);
 		this.setCreativeTab(CreativeTabMF.tabMaterialsMF);
 		GameRegistry.registerItem(this, "MF_Com_"+name, MineFantasyII.MODID);
+		Name = name;
 	
 	}
 	

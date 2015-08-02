@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class BlockPaneMF extends BlockPane 
 {
 	
-	private String NAME;
+	public String Name;
 	
 	public BlockPaneMF(String name, String frontTex, String sideTex, Material material, boolean recoverable) 
 	{
@@ -15,12 +15,7 @@ public class BlockPaneMF extends BlockPane
 		//"minefantasy2:basic/"+frontTex, "minefantasy2:basic/"+sideTex,
 		GameRegistry.registerBlock(this, name);
 		setUnlocalizedName("minefantasy2:basic/" +name);
-		NAME=name;
-	}
-	
-	public String getName()
-	{
-		return NAME;
+		Name=name;
 	}
 
 }

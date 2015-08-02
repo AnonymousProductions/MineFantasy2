@@ -212,54 +212,17 @@ public class ItemMine extends Item
 		list.add(createMine((byte)3, (byte)1, (byte)0, (byte)0, 1));
 		list.add(createMine((byte)3, (byte)2, (byte)0, (byte)0, 1));
     }
+    
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public void registerIcons(IIconRegister reg)
+//    {
+//        this.itemIcon = mines[0] = reg.registerIcon("minefantasy2:Other/mine_ceramic");
+//        mines[1] = reg.registerIcon("minefantasy2:Other/mine_iron");
+//        mines[2] = reg.registerIcon("minefantasy2:Other/mine_obsidian");
+//        mines[3] = reg.registerIcon("minefantasy2:Other/mine_crystal");
+//    }
 
-    //TODO Icons
-    @SideOnly(Side.CLIENT)
-	public IIcon getIcon(byte type)
-	{
-		return mines[type];
-	}
-    
-    private IIcon[] mines = new IIcon[4];
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister reg)
-    {
-        this.itemIcon = mines[0] = reg.registerIcon("minefantasy2:Other/mine_ceramic");
-        mines[1] = reg.registerIcon("minefantasy2:Other/mine_iron");
-        mines[2] = reg.registerIcon("minefantasy2:Other/mine_obsidian");
-        mines[3] = reg.registerIcon("minefantasy2:Other/mine_crystal");
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconIndex(ItemStack item)
-    {
-    	int type = getCasing(item);
-    	return mines[type];
-    }
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(ItemStack item, int layer)
-    {
-    	if(layer > 0)
-    	{
-	    	int type = getFilling(item);
-	    	if(type != 0)
-	    	{
-	    		return ToolListMF.bomb_custom.icons[type-1];
-	    	}
-    	}
-    	return getIconIndex(item);
-    }
-    
-    @Override
-	@SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
-    	return true;
-    }
     
     @Override
     public EnumRarity getRarity(ItemStack item)

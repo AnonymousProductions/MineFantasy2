@@ -12,7 +12,12 @@ import minefantasy.mf2.item.tool.crafting.ItemTongs;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -29,13 +34,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockAnvilMF extends BlockContainer
+public class BlockAnvilMF extends BlockContainer implements ITileEntityProvider
 {
     @SideOnly(Side.CLIENT)
     public int anvilRenderSide;
     public BaseMaterialMF material;
     private int tier;
-    private String NAME;
+    public String Name;
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     
     public BlockAnvilMF(BaseMaterialMF material)
     {
@@ -44,23 +50,20 @@ public class BlockAnvilMF extends BlockContainer
         this.material = material;
         float height = 1.0F / 16F * 13F;
         setBlockBounds(0F, 0F, 0F, 1F, height, 1F);
-        NAME=name;
+        Name=name;
         //this.setBlockTextureName("minefantasy2:metal/"+name.toLowerCase()+"_block");
         name = "anvil"+name;
         this.tier = material.tier;
         GameRegistry.registerBlock(this, ItemBlockAnvilMF.class, name);
         setUnlocalizedName("minefantasy2:metal/"+name.toLowerCase()+"_block");
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setStepSound(Block.soundTypeMetal);
 		this.setHardness(material.hardness+1 / 2F);
 		this.setResistance(material.hardness+1);
         this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabMF.tabUtil);
     }
-    
-    public String getName()
-	{
-		return NAME;
-	}
+
     
     @Override
     public boolean isFullCube()
@@ -180,8 +183,8 @@ public class BlockAnvilMF extends BlockContainer
                     }
                 }
             }
-
-            world.func_147453_f(pos, state.getBlock());
+            world.notifyNeighborsOfStateChange(pos, state.getBlock());//unsure of conversion
+            //.func_147453_f(pos, state.getBlock());
         }
 
         super.breakBlock(world, pos,state);
@@ -191,29 +194,32 @@ public class BlockAnvilMF extends BlockContainer
 		return tier;
 	}
 	
-	@SideOnly(Side.CLIENT)
-	
-	@Override
-	public IIcon getIcon(int side, int meta)
-	{
-		if(tier == 0)
-		{
-			return side == 1 ? Blocks.stone.getIcon(side, meta) : Blocks.cobblestone.getIcon(side, meta);
-		}
-		return super.getIcon(side, meta);
-	}
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerBlockIcons(IIconRegister reg)
-	{
-		if(tier != 0)
-		super.registerBlockIcons(reg);
-	}
-	
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.anvil_RI;
+		//return BlockListMF.anvil_RI;
+		return 2;
 	}
+	
+	@Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(FACING, Integer.valueOf(meta));
+    }
+    
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((Integer)state.getValue(FACING)).intValue();
+    }
+    
+    @Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {FACING});
+    }
 	private Random rand = new Random();
 }

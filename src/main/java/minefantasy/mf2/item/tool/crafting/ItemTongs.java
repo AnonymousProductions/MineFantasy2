@@ -37,6 +37,8 @@ import com.google.common.collect.Sets;
 public class ItemTongs extends ItemTool implements IToolMaterial
 {
 	private ToolMaterial material;
+	
+	private String NAME;
     public ItemTongs(String name, ToolMaterial material, int rarity)
     {
         super(0F, material, Sets.newHashSet(new Block[] {}));
@@ -44,7 +46,12 @@ public class ItemTongs extends ItemTool implements IToolMaterial
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
         setUnlocalizedName("minefantasy2:Tool/Crafting/"+name);
+        NAME=name;
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+    }
+    
+    public String getName(){
+    	return NAME;
     }
     
     @Override
@@ -52,6 +59,7 @@ public class ItemTongs extends ItemTool implements IToolMaterial
     {
     	
     }
+    
     @Override
 	public Multimap getItemAttributeModifiers()
 	{
@@ -108,18 +116,6 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 			list.add(held.getItem().getItemStackDisplayName(held));
 			held.getItem().addInformation(held, player, list, fullInfo);
 		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(ItemStack stack, int renderPass) 
-	{
-		ItemStack item = TongsHelper.getHeldItem(stack);
-
-		if (renderPass == 0 && item != null) {
-			return item.getItem().getIcon(item, renderPass);
-		}
-		return itemIcon;
 	}
 
 	@Override
@@ -191,13 +187,6 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses() 
-	{
-		return true;
-	}
-
-	@Override
 	public int getColorFromItemStack(ItemStack item, int renderPass)
 	{
 		if (renderPass == 1) 
@@ -213,4 +202,5 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 
 		return GuiHelper.getColourForRGB(255, 255, 255);
 	}
+	
 }

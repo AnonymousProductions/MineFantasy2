@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BasicBlockMF extends Block 
 {
 	private Object drop;
-	private String NAME;
+	public String Name;
 	
 	public BasicBlockMF(String name, Material material)
 	{
@@ -29,18 +29,13 @@ public class BasicBlockMF extends Block
 		setUnlocalizedName(MineFantasyII.MODID +"_" +name);
 		//setBlockTextureName("minefantasy2:basic/"+name);
 		 this.setDefaultState(this.blockState.getBaseState());
-		NAME = name;
+		Name = name;
 		if(material == Material.rock)
 		{
 			this.setHarvestLevel("pickaxe", 0);
 		}
 		this.drop = drop;
 		this.setCreativeTab(CreativeTabs.tabBlock);
-	}
-	
-	public String getName()
-	{
-		return NAME;
 	}
 	
 	@Override

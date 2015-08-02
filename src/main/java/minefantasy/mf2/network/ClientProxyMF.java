@@ -26,23 +26,9 @@ import minefantasy.mf2.client.gui.GuiResearchBlock;
 import minefantasy.mf2.client.render.AnimationHandlerMF;
 import minefantasy.mf2.client.render.HudHandlerMF;
 import minefantasy.mf2.client.render.RenderArrowMF;
-import minefantasy.mf2.client.render.RenderBombIcon;
-import minefantasy.mf2.client.render.RenderBow;
+//import minefantasy.mf2.client.render.RenderBombIcon;
+//import minefantasy.mf2.client.render.RenderBow;
 import minefantasy.mf2.client.render.RenderFireBlast;
-import minefantasy.mf2.client.render.RenderHeavyWeapon;
-import minefantasy.mf2.client.render.RenderLance;
-import minefantasy.mf2.client.render.RenderMine;
-import minefantasy.mf2.client.render.RenderSaw;
-import minefantasy.mf2.client.render.RenderSpear;
-import minefantasy.mf2.client.render.RenderSword;
-import minefantasy.mf2.client.render.block.RenderAnvilMF;
-import minefantasy.mf2.client.render.block.RenderBellows;
-import minefantasy.mf2.client.render.block.RenderBombBench;
-import minefantasy.mf2.client.render.block.RenderCarpenter;
-import minefantasy.mf2.client.render.block.RenderForge;
-import minefantasy.mf2.client.render.block.RenderResearch;
-import minefantasy.mf2.client.render.block.RenderTanningRack;
-import minefantasy.mf2.client.render.block.TileEntityAnvilMFRenderer;
 import minefantasy.mf2.client.render.block.TileEntityBellowsRenderer;
 import minefantasy.mf2.client.render.block.TileEntityBombBenchRenderer;
 import minefantasy.mf2.client.render.block.TileEntityCarpenterRenderer;
@@ -73,6 +59,8 @@ import minefantasy.mf2.item.weapon.ItemWarhammerMF;
 import minefantasy.mf2.mechanics.ExtendedReachMF;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -98,48 +86,33 @@ public class ClientProxyMF extends CommonProxyMF
     }
 	
 	@Override
-	public void preInit()
+	public void Init()
 	{
 		registerEntityRenderer();
 		
-		for(ItemBattleaxeMF axe: ToolListMF.battleaxes)
-			MinecraftForgeClient.registerItemRenderer(axe, new RenderHeavyWeapon().setBlunt());
+//		for(ItemBattleaxeMF axe: ToolListMF.battleaxes)
+//			MinecraftForgeClient.registerItemRenderer(axe, new RenderHeavyWeapon().setBlunt());
+//		
+//		for(ItemWarhammerMF hammer: ToolListMF.warhammers)
+//			MinecraftForgeClient.registerItemRenderer(hammer, new RenderHeavyWeapon().setBlunt());
+//		
+//		for(ItemGreatswordMF sword: ToolListMF.greatswords)
+//			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword().setParryable());
+//		
+//		for(ItemKatanaMF sword: ToolListMF.katanas)
+//			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword());
+//		for(ItemLance spear: ToolListMF.lances)
+//			MinecraftForgeClient.registerItemRenderer(spear, new RenderLance());
+
 		
-		for(ItemWarhammerMF hammer: ToolListMF.warhammers)
-			MinecraftForgeClient.registerItemRenderer(hammer, new RenderHeavyWeapon().setBlunt());
+		//for(ItemBowMF bow: ToolListMF.bows)
+			//MinecraftForgeClient.registerItemRenderer(bow, new RenderBow(false));
 		
-		for(ItemGreatswordMF sword: ToolListMF.greatswords)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword().setParryable());
+//		for(ItemSaw saw: ToolListMF.saws)
+//			MinecraftForgeClient.registerItemRenderer(saw, new RenderSaw());
 		
-		for(ItemKatanaMF sword: ToolListMF.katanas)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword());
-		
-		for(ItemSpearMF spear: ToolListMF.spears)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear());
-		for(ItemLance spear: ToolListMF.lances)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderLance());
-		for(ItemHalbeardMF spear: ToolListMF.halbeards)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear(true));
-		
-			MinecraftForgeClient.registerItemRenderer(ToolListMF.spearTraining, new RenderSpear());
-		
-		for(ItemSwordMF sword: ToolListMF.swords)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		for(ItemWaraxeMF sword: ToolListMF.waraxes)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		for(ItemMaceMF sword: ToolListMF.maces)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		
-		MinecraftForgeClient.registerItemRenderer(ToolListMF.swordTraining, new RenderSword());
-		
-		for(ItemBowMF bow: ToolListMF.bows)
-			MinecraftForgeClient.registerItemRenderer(bow, new RenderBow(false));
-		
-		for(ItemSaw saw: ToolListMF.saws)
-			MinecraftForgeClient.registerItemRenderer(saw, new RenderSaw());
-		
-		for(ItemScythe scythe: ToolListMF.scythes)
-			MinecraftForgeClient.registerItemRenderer(scythe, new RenderHeavyWeapon().setBlunt());
+		//for(ItemScythe scythe: ToolListMF.scythes)
+		//	MinecraftForgeClient.registerItemRenderer(scythe, new RenderHeavyWeapon().setBlunt());
 		
 		KnowledgePageRegistry.registerPages();
 	}
@@ -161,30 +134,33 @@ public class ClientProxyMF extends CommonProxyMF
 		FMLCommonHandler.instance().bus().register(new ClientTickHandler());
 		
 				
-		RenderingRegistry.registerEntityRenderingHandler(TileEntityAnvilMF.class, new RenderAnvilMF());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnvilMF.class, new TileEntityAnvilMFRenderer());
-		RenderingRegistry.registerBlockHandler(new RenderCarpenter());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCarpenterMF.class, new TileEntityCarpenterRenderer());
-		RenderingRegistry.registerBlockHandler(new RenderBombBench());
+		
+		//RenderingRegistry.registerBlockHandler(new RenderBombBench());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombBench.class, new TileEntityBombBenchRenderer());
-		RenderingRegistry.registerBlockHandler(new RenderTanningRack());
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTanningRack.class, new TileEntityTanningRackRenderer());
-		RenderingRegistry.registerBlockHandler(new RenderForge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForge.class, new TileEntityForgeRenderer());
-		RenderingRegistry.registerBlockHandler(new RenderBellows());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBellows.class, new TileEntityBellowsRenderer());
-		RenderingRegistry.registerBlockHandler(new RenderResearch());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityResearch.class, new TileEntityResearchRenderer());
+	
+	
+		//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("minecraftbyexample:mbe21_tesr_block", "inventory");
+	    //final int DEFAULT_ITEM_SUBTYPE = 0;
+	    //Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockSimple, 0, itemModelResourceLocation);
 	}
 	
 	public void registerEntityRenderer()
 	{
-		RenderingRegistry.registerEntityRenderingHandler(EntityArrowMF.class, new RenderArrowMF());
-		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new RenderBombIcon());//Switch to RenderBomb when syncing is fixed
-		RenderingRegistry.registerEntityRenderingHandler(EntityMine.class, new RenderMine());
-		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderSnowball(null, ComponentListMF.shrapnel, null));
-		RenderingRegistry.registerEntityRenderingHandler(EntityFireBlast.class, new RenderFireBlast());
-		RenderingRegistry.registerEntityRenderingHandler(EntitySmoke.class, new RenderFireBlast());
+		RenderManager rm = Minecraft.getMinecraft().getRenderManager();
+		RenderItem ri = Minecraft.getMinecraft().getRenderItem();
+				
+		RenderingRegistry.registerEntityRenderingHandler(EntityArrowMF.class, new RenderArrowMF(rm));
+		//RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new RenderBombIcon());//Switch to RenderBomb when syncing is fixed
+		//RenderingRegistry.registerEntityRenderingHandler(EntityMine.class, new RenderMine());
+		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderSnowball(rm, ComponentListMF.shrapnel, ri));
+		RenderingRegistry.registerEntityRenderingHandler(EntityFireBlast.class, new RenderFireBlast(rm));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySmoke.class, new RenderFireBlast(rm));
 	}
 	
 	@Override

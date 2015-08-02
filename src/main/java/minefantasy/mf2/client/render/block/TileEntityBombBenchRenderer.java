@@ -26,6 +26,15 @@ public class TileEntityBombBenchRenderer extends TileEntitySpecialRenderer
     {
         model = new ModelBombBench();
     }
+    
+    
+	@Override
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f,int destroyStage) {
+        renderAModelAt (tileentity, d, d1, d2, f); //where to render
+    }
+	
+    private ModelBombBench model;
+    private Random random = new Random();
 
 	public void renderAModelAt(TileEntity tile, double d, double d1, double d2, float f) 
     {
@@ -94,13 +103,7 @@ public class TileEntityBombBenchRenderer extends TileEntitySpecialRenderer
     {
     	Minecraft.getMinecraft().renderEngine.bindTexture(TextureHelperMF.getResource(image));
 	}
-	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f,int destroyStage) {
-        renderAModelAt (tileentity, d, d1, d2, f); //where to render
-    }
-	
-    private ModelBombBench model;
-    private Random random = new Random();
+
     
     
     private boolean shouldRender(TileEntity tile, int p) 

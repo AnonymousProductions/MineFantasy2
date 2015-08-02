@@ -45,6 +45,7 @@ public class BlockCakeMF extends Block
         setCreativeTab(CreativeTabMF.tabFood);
         cakeSlice = slice;
         NAME = name;
+        
     }
     
     /**
