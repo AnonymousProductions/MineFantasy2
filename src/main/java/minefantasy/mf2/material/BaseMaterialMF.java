@@ -7,6 +7,7 @@ import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
 /**
@@ -38,6 +39,9 @@ public class BaseMaterialMF
 	//Hardness isn't added, it calculats armour itself to match sharpness 
 	// 					                                            name   		      dura,         AC           enchant   weight
 	public static BaseMaterialMF linen =  addArmourSpecificMaterial("Linen",   	        0, 10 ,          100,        0,        1.00F, 0);
+
+	
+	
 	public static BaseMaterialMF wool =  addArmourSpecificMaterial("Wool"  ,   	        1, 15 ,          150,       0,        1.00F, 5);
 	
 	public static BaseMaterialMF hide =  addArmourSpecificMaterial("Hide",   	     	   0, 20 ,       500,        0,        1.00F, 0);
@@ -113,6 +117,7 @@ public class BaseMaterialMF
 	public static BaseMaterialMF addMaterial(String name, int tier, int durability, int harvestLevel, float hardness, float sharpness, int enchantment, float weight, int lvl)
 	{
 		return register(new BaseMaterialMF(name, tier, durability, harvestLevel, hardness, sharpness, enchantment, weight, lvl));
+		
 	}
 	
 	public static BaseMaterialMF register(BaseMaterialMF material)

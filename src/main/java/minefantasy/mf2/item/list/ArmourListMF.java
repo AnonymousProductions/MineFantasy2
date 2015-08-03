@@ -3,11 +3,14 @@ package minefantasy.mf2.item.list;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
 import minefantasy.mf2.api.crafting.exotic.SpecialForging;
+import minefantasy.mf2.item.archery.ItemArrowMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.material.BaseMaterialMF;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * @author Anonymous Productions
@@ -49,7 +52,7 @@ public class ArmourListMF
 	public static ItemArmourMF[] chainmail = new ItemArmourMF[mats.length*4];
 	public static ItemArmourMF[] fieldplate = new ItemArmourMF[mats.length*4 - 4];
 	
-	public static void init() 
+	public static void init(FMLInitializationEvent event) 
 	{
 		for(int a = 0; a < leathermats.length; a ++)
 		{
@@ -94,6 +97,8 @@ public class ArmourListMF
 			SpecialForging.addDragonforgeCraft(chainmail[5*4+a], chainmail[6*4+a]);
 			SpecialForging.addDragonforgeCraft(fieldplate[4*4+a], fieldplate[5*4+a]);
 		}
+		
+	
 	}
 	
 	/**

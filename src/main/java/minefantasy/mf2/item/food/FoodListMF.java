@@ -11,6 +11,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -116,7 +117,7 @@ public class FoodListMF
 	
 	private static Item[] foods ={wolf_cooked,wolf_raw,horse_raw,horse_cooked,generic_meat_uncooked,generic_meat_cooked,generic_meat_cooked,generic_meat_strip_uncooked,generic_meat_strip_cooked,generic_meat_chunk_uncooked,generic_meat_chunk_cooked,generic_meat_mince_uncooked,generic_meat_mince_cooked,tea_leaf,spice_mild,flour,breadroll,curds,cheese_slice,stew,salad,oats,cheese_roll,jerky,sweetroll_uniced,sweetroll,sandwitch_meat,pieslice_meat,pieslice_apple,pieslice_berry,pieslice_shepards,cake_slice,carrotcake_slice,choccake_slice,bfcake_slice,cake_tin,pie_tray,icing,berries,berriesJuicy,sweetroll_raw,cake_raw,cake_carrot_raw,cake_choc_raw,cake_bf_raw,cake_uniced,cake_carrot_uniced,cake_choc_uniced,cake_bf_uniced,pie_meat_uncooked,pie_apple_uncooked,pie_berry_uncooked,pie_shepard_uncooked,pie_meat_cooked,pie_apple_cooked,pie_berry_cooked,pie_shepard_cooked,hard_bowl,salt,bowl_water_salt,dough,pastry,raw_bread};
 	
-	public static void init(FMLPreInitializationEvent event)
+	public static void init(FMLInitializationEvent event)
 	{
 		if(event.getSide() == Side.CLIENT)
     	{

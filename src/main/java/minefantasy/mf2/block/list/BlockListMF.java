@@ -17,6 +17,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -156,7 +157,7 @@ public class BlockListMF
 	public static Block research = new BlockResearchStation();
 	
 	
-	public static void init(FMLPreInitializationEvent event)
+	public static void init(FMLInitializationEvent event)
 	{
 		//5:20 default planks
 		Blocks.fire.setFireInfo(refined_planks, 3, 10);//Half
@@ -196,9 +197,13 @@ public class BlockListMF
     		Block[] ores = {oreCopper,oreTin,oreSilver,oreMythic,oreKaolinite,oreNitre,oreSulfur,oreBorax,oreClay};
     		Block[] food = {cheese_wheel,cake_vanilla,cake_carrot,cake_chocolate,cake_bf,pie_meat,pie_apple,pie_berry,pie_shepards};
     		Block[] repair = {repair_basic,repair_advanced,repair_ornate};
-    		Block[] construction = {mud_brick,mud_pavement,cobble_brick,cobble_pavement,window,limestone,framed_glass,framed_pane,window_pane,thatch,thatch_stairs,refined_planks,reinforced_stone,reinforced_stone_bricks,reinforced_stone_framed};
+    		Block[] construction = {limestone};
+    		Block[] basic = {mud_brick,mud_pavement,cobble_brick,cobble_pavement,window,framed_glass,thatch,refined_planks,reinforced_stone,reinforced_stone_bricks,reinforced_stone_framed};
     		Block[] chimney = {chimney_stone,chimney_stone_wide,chimney_stone_extractor};
-    		Block[] crucib = {blast_chamber,blast_heater,blast_heater_active,crucible,crucible_active,crucibleadv,crucibleadv_active};
+    		Block[] crucibfc = {blast_chamber};
+    		Block[] crucibfh = {blast_heater,blast_heater_active};
+    		Block[] crucib = {crucible,crucible_active,crucibleadv,crucibleadv_active};
+    		Block[] pane = {framed_pane,window_pane};
     		
     		//OPTIMIZE
     		for (Block block :food) {
@@ -228,13 +233,25 @@ public class BlockListMF
     		for (Block block :construction) {
     			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((ConstructionBlockMF)block).getName(new ItemStack(block)), "inventory"));
     		}
+    		for (Block block :basic) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BasicBlockMF)block).Name, "inventory"));
+    		}
     		
     		for (Block block :chimney) {
     			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockChimney)block).getName(), "inventory"));
     		}
     		
-    		for (Block block :crucib) {
+    		for (Block block :crucibfc) {
     			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockBFC)block).getName(), "inventory"));
+    		}
+    		for (Block block :crucibfh) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockBFH)block).getName(), "inventory"));
+    		}
+    		for (Block block :pane) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockPaneMF)block).Name, "inventory"));
+    		}
+    		for (Block block :crucib) {
+    			renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(MODID + ":" + ((BlockCrucible)block).Name, "inventory"));
     		}
     		
     		renderItem.getItemModelMesher().register(Item.getItemFromBlock(anvilStone), 0, new ModelResourceLocation(MODID + ":" + anvilStone.Name, "inventory"));
@@ -249,6 +266,10 @@ public class BlockListMF
     		renderItem.getItemModelMesher().register(Item.getItemFromBlock(bellows), 0, new ModelResourceLocation(MODID + ":" + ((BlockBellows)bellows).getName(), "inventory"));
     		renderItem.getItemModelMesher().register(Item.getItemFromBlock(advTanner), 0, new ModelResourceLocation(MODID + ":" + ((BlockTanningRack)advTanner).getName(), "inventory"));
     		renderItem.getItemModelMesher().register(Item.getItemFromBlock(research), 0, new ModelResourceLocation(MODID + ":" + ((BlockResearchStation)research).getName(), "inventory"));
+    		renderItem.getItemModelMesher().register(Item.getItemFromBlock(thatch_stairs), 0, new ModelResourceLocation(MODID + ":" + ((ConstructionBlockMF.StairsConstBlock)thatch_stairs).Name, "inventory"));
+    		
+    	
+    		
     	}
 	}
 	

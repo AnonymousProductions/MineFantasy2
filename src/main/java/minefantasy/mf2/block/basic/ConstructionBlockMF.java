@@ -142,7 +142,7 @@ public class ConstructionBlockMF extends Block {
 	public static class StairsConstBlock extends BlockStairs
 	{
 
-		 public static String NAME = "";
+		 public static String Name;
 		public StairsConstBlock(String unlocalizedName, IBlockState modelState)
 		{
 			//IBlockState modelState
@@ -150,7 +150,7 @@ public class ConstructionBlockMF extends Block {
 			this.setUnlocalizedName(unlocalizedName);
 		    this.setCreativeTab(CreativeTabs.tabBlock);
 		    this.setLightOpacity(0);//They seem to render shadows funny
-		    NAME= unlocalizedName;
+		    Name= unlocalizedName;
 		}
 		
 		public StairsConstBlock(String unlocalizedName, Block baseBlock) 

@@ -29,6 +29,8 @@ public class ArmourMaterialMF
 		armourWeight = weight;
 	}
 	
+	
+	
 	public ArmourMaterialMF setMagicResistance(float magic)
 	{
 		magicResistanceModifier = magic;

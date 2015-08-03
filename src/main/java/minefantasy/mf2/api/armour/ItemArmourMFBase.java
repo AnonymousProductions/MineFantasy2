@@ -32,8 +32,9 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 	public ArmourMaterialMF material;
 	public static ArmourDesign design;
 	protected float suitBulk;
-	public static ArmorMaterial baseMaterial = EnumHelper.addArmorMaterial("MF Armour Base",
-			"minefantasy2:textures/models/armour/"+design.getName()+"/"+texture, 0, new int[]{2, 6, 5, 2}, 0);
+	
+	
+	public static ArmorMaterial baseMaterial = EnumHelper.addArmorMaterial("MF Armour Base","minefantasy2:textures/models/armour/"+design.getName()+"/"+texture, 0, new int[]{2, 6, 5, 2}, 0);
 	
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.#");
 	

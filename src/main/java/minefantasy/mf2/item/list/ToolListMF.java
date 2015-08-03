@@ -61,6 +61,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -188,10 +189,10 @@ public class ToolListMF
 	public static Item research_scroll_complete = new ItemResearchScroll("research_scroll_complete", true);
 	
 	
-	public static void init(FMLPreInitializationEvent event) 
+	public static void init(FMLInitializationEvent event) 
 	{
 		BlockListMF.init(event);
-		ArmourListMF.init();
+		ArmourListMF.init(event);
 		FoodListMF.init(event);
 		for(int a = 0; a < mats.length; a ++)
 		{

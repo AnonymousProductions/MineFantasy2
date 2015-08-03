@@ -20,6 +20,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -159,7 +160,7 @@ public class ComponentListMF
 			obsidian_rod,leather_strip,nail,rivet,thread,obsidian_dust,oreTin,oreCopper,oreIron,oreSilver,oreGold,hotItem,plant_oil,talisman_lesser,
 			talisman_greater};
 	
-	public static void init(FMLPreInitializationEvent event) 
+	public static void init(FMLInitializationEvent event) 
 	{
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
 		MineFantasyAPI.registerFuelHandler(new AdvancedFuelHandlerMF());

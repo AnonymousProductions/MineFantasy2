@@ -100,7 +100,7 @@ public class MineFantasyII
     }
     
     @EventHandler
-    public void Init(FMLPreInitializationEvent event)
+    public void Init(FMLInitializationEvent event)
     {
     	ToolListMF.init(event);
     	ComponentListMF.init(event);

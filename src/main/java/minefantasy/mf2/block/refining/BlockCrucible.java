@@ -34,14 +34,14 @@ public class BlockCrucible extends BlockContainer implements ITileEntityProvider
 	private static boolean keepInventory;
 	public int tier;
 	public String type;
-	private String NAME;
+	public String Name;
 	
 	public BlockCrucible(String tex, int tier, boolean isActive) 
 	{
 		super(Material.rock);
 		this.tier = tier;
 		this.type = tex;
-		NAME = tex;
+		Name = tex;
 		this.isActive = isActive;
         GameRegistry.registerBlock(this, "MF_Crucible"+tex + (isActive ? "Active" : ""));
         setUnlocalizedName("crucible."+tex);
@@ -52,10 +52,6 @@ public class BlockCrucible extends BlockContainer implements ITileEntityProvider
         this.setCreativeTab(CreativeTabMF.tabUtil);
 	}
 
-	public String getName()
-	{
-		return NAME;
-	}
 	
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list)

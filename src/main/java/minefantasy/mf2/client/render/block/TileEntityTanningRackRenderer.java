@@ -44,8 +44,8 @@ public class TileEntityTanningRackRenderer extends TileEntitySpecialRenderer
     	
     }
 
-    BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-	ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
+    //BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+	//ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
     
     public void renderAModelAt(TileEntityTanningRack tile, double d, double d1, double d2) {
     	Minecraft mc = Minecraft.getMinecraft();

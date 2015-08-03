@@ -27,7 +27,7 @@ public class ItemResearchScroll extends ItemComponentMF
 		setMaxStackSize(1);
 		this.isComplete = complete;
 		setUnlocalizedName("minefantasy2:Other/"+name);
-		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		//GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setCreativeTab(CreativeTabMF.tabGadget);
 		setHasSubtypes(true);
 		setMaxDamage(0);

@@ -213,7 +213,7 @@ public class BlockAnvilMF extends BlockContainer implements ITileEntityProvider
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(FACING)).intValue();
+    	return ((EnumFacing)state.getValue(FACING)).getIndex();
     }
     
     @Override
