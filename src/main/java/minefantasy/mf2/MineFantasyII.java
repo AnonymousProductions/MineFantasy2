@@ -19,6 +19,7 @@ import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.config.ConfigWorldGen;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.gadget.ItemMine;
+import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeCostRegistry;
@@ -38,6 +39,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -97,6 +99,10 @@ public class MineFantasyII
     	addModFlags();
     	
     	proxy.preInit();
+    	//EnumHelper.addArmorMaterial("MF Armour Base","minefantasy2:textures/models/armour/Leather/"+"hide_layer_1", 0, new int[]{2, 6, 5, 2}, 0);
+    	//EnumHelper.addArmorMaterial("MF Armour Base","minefantasy2:textures/models/armour/Mail/"+"adamantium_mail_layer_1", 0, new int[]{2, 6, 5, 2}, 0);
+    	//EnumHelper.addArmorMaterial("MF Armour Base","minefantasy2:textures/models/armour/Padding/"+"padded_layer_1_cloth", 0, new int[]{2, 6, 5, 2}, 0);
+    	//EnumHelper.addArmorMaterial("MF Armour Base","minefantasy2:textures/models/armour/Plate/"+"adamantium_plate_layer_1", 0, new int[]{2, 6, 5, 2}, 0);
     }
     
     @EventHandler

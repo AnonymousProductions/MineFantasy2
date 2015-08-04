@@ -1,0 +1,6 @@
+{
+    "parent":{"items\arrow"},
+	"textures": {
+        "layer0": "minefantasy2:items/Ammo/redsteel_arrow_broad"
+    }
+}

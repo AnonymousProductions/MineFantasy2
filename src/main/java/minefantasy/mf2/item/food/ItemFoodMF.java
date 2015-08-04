@@ -40,7 +40,7 @@ public class ItemFoodMF extends ItemFood
 		hungerLevel = hunger;
 		saturationLevel = saturation;
 		setCreativeTab(CreativeTabMF.tabFood);
-		GameRegistry.registerItem(this, "MF2_food_"+name, MineFantasyII.MODID);
+		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		setUnlocalizedName("minefantasy2:food/"+name);
 		//this.setTextureName("minefantasy2:food/"+name);
 	}

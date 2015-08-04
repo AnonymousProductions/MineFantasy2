@@ -2,6 +2,7 @@ package minefantasy.mf2.item.tool.crafting;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import minefantasy.mf2.api.heating.TongsHelper;
@@ -10,11 +11,14 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ISmartItemModel;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 
 public class TongsSmartItemModel implements ISmartItemModel{
@@ -26,6 +30,9 @@ public class TongsSmartItemModel implements ISmartItemModel{
 	  private IBakedModel baseTongsModel;
 	  private ItemStack held;
 
+	  public static ResourceLocation modelResourceLocation= new ResourceLocation(null);
+	  
+	  
 	  
 	  public TongsSmartItemModel(IBakedModel i_basetongsModel)
 	  {
@@ -51,6 +58,32 @@ public class TongsSmartItemModel implements ISmartItemModel{
 	    }
 	    return this;
 	  }
+	  
+	  // Join several baked models together (so they will be rendered on top of each other)
+	    @SuppressWarnings("unchecked")
+	    public static SimpleBakedModel join(TextureAtlasSprite texture,TextureAtlasSprite texture2) {
+	        SimpleBakedModel simpleBakedModel = new SimpleBakedModel(new LinkedList(), newBlankFacingLists(), true, true, texture2, ItemCameraTransforms.DEFAULT);
+
+	        SimpleBakedModel model = new SimpleBakedModel(new LinkedList(), newBlankFacingLists(), true, true, texture, ItemCameraTransforms.DEFAULT);
+	            simpleBakedModel.getGeneralQuads().addAll(model.getGeneralQuads());
+	            for (EnumFacing enumFacing : EnumFacing.values()) {
+	                simpleBakedModel.getFaceQuads(enumFacing).addAll(model.getFaceQuads(enumFacing));
+	            }
+	        
+	        return simpleBakedModel;
+	    }
+
+	//creates blank lists
+	public static List newBlankFacingLists() {
+		Object[] list = new Object[EnumFacing.values().length];
+		for (int i = 0; i < EnumFacing.values().length; ++i) {
+			list[i] = Lists.newLinkedList();
+		}
+		
+		return ImmutableList.copyOf(list);
+	}
+	    
+	    
 
 	  @Override
 	  public TextureAtlasSprite getTexture() {

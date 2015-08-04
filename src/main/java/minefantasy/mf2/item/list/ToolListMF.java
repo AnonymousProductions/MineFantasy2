@@ -336,57 +336,57 @@ public class ToolListMF
     		
     		
     		for (ItemPickMF item :picks) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemAxeMF item :axes) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemSpadeMF item :spades) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemHoeMF item :hoes) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterialName()+"_pick", "inventory"));
         	}
     		for (ItemShearsMF item :shears) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemHammer item :hammers) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemTongs item :tongs) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemHammer item :hvyHammers) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemHvyPick item :hvypicks) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemSaw item :saws) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemNeedle item :needles) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemHandpick item :handpicks) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemTrowMF item :trows) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemScythe item :scythes) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemHvyShovel item :hvyshovels) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemMattock item :mattocks) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		
     		for (ItemWeaponMF[] list :weaponlist) {
     			for (ItemWeaponMF item :list) {
-    				renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getName(), "inventory"));
+    				renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
     			}
         	}
     		
@@ -408,7 +408,7 @@ public class ToolListMF
     		renderItem.getItemModelMesher().register(research_scroll, 0, new ModelResourceLocation(MODID + ":" + ((ItemResearchScroll) research_scroll).Name, "inventory"));
     		renderItem.getItemModelMesher().register(bucketwood_empty, 0, new ModelResourceLocation(MODID + ":" + ((ItemBucketMF)bucketwood_empty).Name, "inventory"));
     		renderItem.getItemModelMesher().register(bucketwood_water, 0, new ModelResourceLocation(MODID + ":" + ((ItemBucketMF)bucketwood_water).Name, "inventory"));
-    		renderItem.getItemModelMesher().register(bucketwood_milk, 0, new ModelResourceLocation(MODID + ":" + ((ItemBucketMF)bucketwood_milk).Name, "inventory"));
+    		renderItem.getItemModelMesher().register(bucketwood_milk, 0, new ModelResourceLocation(MODID + ":" + ((ItemMilkBucketMF)bucketwood_milk).Name, "inventory"));
     		
     		renderItem.getItemModelMesher().register(bomb_custom, 0, new ModelResourceLocation(MODID + ":" + ((ItemBomb)bomb_custom).Name, "inventory"));
     		renderItem.getItemModelMesher().register(mine_custom, 0, new ModelResourceLocation(MODID + ":" + ((ItemMine)mine_custom).getName(), "inventory"));

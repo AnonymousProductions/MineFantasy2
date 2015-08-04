@@ -42,6 +42,7 @@ public class ItemHandpick extends ItemPickaxe implements IToolMaterial
 	 * Breaking some blocks can also yield special drops
 	 * 
 	 * They however have half the durability and dig speed, making them less efficient tools.
+	 * bkjgkjcgfg
 	 */
 	private String Name;
     public ItemHandpick(String name, ToolMaterial material, int rarity)
@@ -49,8 +50,8 @@ public class ItemHandpick extends ItemPickaxe implements IToolMaterial
         super(material);
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabToolAdvanced);
-        
-        setUnlocalizedName("minefantasy2:Tool/Advanced/"+name);
+        //"minefantasy2:Tool/Advanced/"+
+        setUnlocalizedName(name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		setMaxDamage(material.getMaxUses()/2);
 		Name=name;

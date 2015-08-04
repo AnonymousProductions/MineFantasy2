@@ -1065,7 +1065,7 @@ public class ForgingRecipes
 		}
 		time=5;
 		material = BaseMaterialMF.silver;
-		for(ItemStack hunk : OreDictionary.getOres("hunkSilver"))
+		for(ItemStack hunk : OreDictionary.getOres("hunksilver"))
 		{
 			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.silver_rod), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 				" H ",
@@ -1076,7 +1076,7 @@ public class ForgingRecipes
 			});
 		}
 		material = BaseMaterialMF.gold;
-		for(ItemStack hunk : OreDictionary.getOres("hunkGold"))
+		for(ItemStack hunk : OreDictionary.getOres("hunkgold"))
 		{
 			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.gold_rod), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 				" H ",
@@ -1087,7 +1087,7 @@ public class ForgingRecipes
 			});
 		}
 		material = BaseMaterialMF.blacksteel;
-		for(ItemStack hunk : OreDictionary.getOres("hunkBlackSteel"))
+		for(ItemStack hunk : OreDictionary.getOres("hunkblacksteel"))
 		{
 			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.obsidian_rod), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{
 				" O ",
@@ -1100,7 +1100,7 @@ public class ForgingRecipes
 			});
 		}
 		material = BaseMaterialMF.bronze;
-		for(ItemStack hunk : OreDictionary.getOres("hunkIron"))
+		for(ItemStack hunk : OreDictionary.getOres("hunkiron"))
 		{
 			KnowledgeListMF.nailR = 
 			MineFantasyAPI.addAnvilRecipe(new ItemStack(ComponentListMF.nail, 8), "", true, "hammer", material.hammerTier, material.anvilTier, (int)(time*material.craftTimeModifier), new Object[]{

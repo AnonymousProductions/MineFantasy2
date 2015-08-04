@@ -528,7 +528,7 @@ public class GuiKnowledge extends GuiScreen
 
                 GL11.glDisable(GL11.GL_LIGHTING); //Forge: Make sure Lighting is disabled. Fixes MC-33065
                 GL11.glEnable(GL11.GL_CULL_FACE);
-                renderitem.renderItemAndEffectIntoGUI( achievement2.theItemStack, i5 + 3, j5 + 3);
+                renderitem.renderItemIntoGUI( achievement2.theItemStack, i5 + 3, j5 + 3);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glDisable(GL11.GL_LIGHTING);
 
@@ -664,7 +664,7 @@ public class GuiKnowledge extends GuiScreen
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		itemrender.renderItemAndEffectIntoGUI( stack, xPos, yPos);
+		itemrender.renderItemIntoGUI( stack, xPos, yPos);
 		itemrender.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj, stack, xPos, yPos, null);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();

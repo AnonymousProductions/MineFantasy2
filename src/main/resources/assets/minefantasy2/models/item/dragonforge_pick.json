@@ -1,0 +1,6 @@
+{
+    "parent": "items/iron_pickaxe",
+    "textures": {
+        "layer0": "minefantasy2:items/Tool/dragonforge_pick"
+    }
+}

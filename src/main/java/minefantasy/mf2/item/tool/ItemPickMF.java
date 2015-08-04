@@ -29,8 +29,8 @@ public class ItemPickMF extends ItemPickaxe implements IToolMaterial
         super(material);
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabTool);
-        
-        setUnlocalizedName("minefantasy2:Tool/"+name);
+        				//"minefantasy2:Tool/"
+        setUnlocalizedName(name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		Name = name;
     }

@@ -33,7 +33,7 @@ public class ItemComponentMF extends Item
 		
 		setUnlocalizedName("minefantasy2:component/"+name);
 		this.setCreativeTab(CreativeTabMF.tabMaterialsMF);
-		GameRegistry.registerItem(this, "MF_Com_"+name, MineFantasyII.MODID);
+		GameRegistry.registerItem(this,name, MineFantasyII.MODID);
 		Name = name;
 	
 	}

@@ -18,7 +18,7 @@ public class WorldGenPlants
 	public static void generate(Random seed, Chunk chunk, World world) 
 	{
 		
-		BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(chunk.xPosition*16, chunk.zPosition*16,chunk.getHeight(chunk.xPosition*16, chunk.zPosition*16)));
+		BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(chunk.xPosition*16, chunk.zPosition*16,chunk.getHeight(new BlockPos(chunk.xPosition*16, 0,chunk.zPosition*16))));
 		if(isBiomeInConstraint(biome, ConfigWorldGen.berryMinTemp, ConfigWorldGen.berryMaxTemp, ConfigWorldGen.berryMinRain, ConfigWorldGen.berryMaxRain))
 		{
 			generatePlant(seed, chunk, world, BlockListMF.berryBush, 0, ConfigWorldGen.berryRarity);
@@ -40,7 +40,7 @@ public class WorldGenPlants
         {
             int j = chunk.xPosition*16 + seed.nextInt(16);
             int k = chunk.zPosition*16 + seed.nextInt(16);
-            int l = world.getTopSolidOrLiquidBlock(new BlockPos(j,chunk.getHeight(j,k),k)).getY();
+            int l = world.getTopSolidOrLiquidBlock(new BlockPos(j,chunk.getHeight(new BlockPos(chunk.xPosition*16,0, chunk.zPosition*16)),k)).getY();
 
             
             (new WorldGenBush(BlockListMF.berryBush, 0)).generate(world, seed, new BlockPos(j, l, k));

@@ -135,7 +135,7 @@ public class GuiDiscovery extends Gui
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             GL11.glEnable(GL11.GL_LIGHTING);
-            this.field_146264_m.renderItemAndEffectIntoGUI(this.field_146266_k.theItemStack, i + 8, j + 8);
+            this.field_146264_m.renderItemIntoGUI(this.field_146266_k.theItemStack, i + 8, j + 8);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDepthMask(true);
             GL11.glEnable(GL11.GL_DEPTH_TEST);

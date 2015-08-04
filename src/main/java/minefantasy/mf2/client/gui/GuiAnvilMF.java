@@ -105,7 +105,7 @@ public class GuiAnvilMF extends GuiContainer
     }
     private void renderItem(ItemStack itemstack, int x, int y, int mouseX, int mouseY)
     {
-    	itemRender.renderItemAndEffectIntoGUI(itemstack, x, y);
+    	itemRender.renderItemIntoGUI(itemstack, x, y);
         itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, itemstack, x, y,null);
     }
     private void renderItemName(ItemStack itemstack, int x, int y, int mouseX, int mouseY)

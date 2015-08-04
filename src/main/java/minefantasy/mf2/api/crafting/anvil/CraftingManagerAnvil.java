@@ -105,7 +105,7 @@ public class CraftingManagerAnvil
 
             if (var14.containsKey(Character.valueOf(var18)))
             {
-                var15[var9] = ((ItemStack)var14.get(Character.valueOf(var18))).copy();
+            	var15[var9] = ((ItemStack)var14.get(Character.valueOf(var18))).copy();
             }
             else
             {

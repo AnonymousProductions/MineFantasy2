@@ -27,7 +27,7 @@ public class TileEntityChimney extends TileEntity implements ISmokeCarrier, IUpd
 	@Override
 	public void update()
 	{
-		update();
+		//update();
 		++ticksExisted;
 		++ticksExistedTemp;
 		

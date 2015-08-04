@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "minefantasy2:basic/framed_glass"
+        "all": "minefantasy2:blocks/basic/framed_glass"
     }
 }

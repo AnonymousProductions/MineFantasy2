@@ -16,7 +16,6 @@ public class ArmourMaterialMF
 	public final int enchantment;
 	public final float armourWeight;
 	public boolean isMythic = false;
-
 	public float magicResistanceModifier = 0F;
 	public float fireResistanceModifier = 0F;
 	

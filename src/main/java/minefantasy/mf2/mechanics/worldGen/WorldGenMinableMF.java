@@ -2,10 +2,15 @@ package minefantasy.mf2.mechanics.worldGen;
 
 import java.util.Random;
 
+
+
+
+
 import com.google.common.base.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.pattern.BlockHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -82,9 +87,9 @@ public class WorldGenMinableMF extends WorldGenerator
                             for (int oreZ = k1; oreZ <= j2; ++oreZ)
                             {
                                 double d14 = (oreZ + 0.5D - d8) / (d10 / 2.0D);
-                                BlockPos orepos = new BlockPos(oreX, oreY, oreZ);
+                                BlockPos orepos = new BlockPos(oreX, oreY, oreZ);					//(Predicate<IBlockState>)
                                 
-                                if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlockState(orepos).getBlock().isReplaceableOreGen(world, orepos, (Predicate<IBlockState>) beddingBlock.getBlockState()))
+                                if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlockState(orepos).getBlock().isReplaceableOreGen(world, orepos, BlockHelper.forBlock(beddingBlock)))
                                 {
                                 	success = true;
                                     world.setBlockState(orepos, this.oreBlock.getStateFromMeta(mineableBlockMeta), 2);

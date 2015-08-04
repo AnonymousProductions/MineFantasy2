@@ -37,11 +37,12 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
 	public static final MFArrowDispenser dispenser = new MFArrowDispenser();
 	public String Name;
+	
 	public ItemArrowMF(String name)
 	{
 		this(name, 0, ToolMaterial.WOOD);
-		Name = name;
 	}
+	
 	public ItemArrowMF(String name, int rarity, ToolMaterial material)
 	{
 		this(name, rarity, material, ArrowType.NORMAL);
@@ -59,8 +60,9 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		damage = ((material.getDamageVsEntity()/2F) + 3.0F)*type.damageModifier;
 		itemRarity = rarity;
 		setCreativeTab(CreativeTabMF.tabArcher);
-		GameRegistry.registerItem(this, "MF_Com_"+name, MineFantasyII.MODID);
-		
+									//"MF_Com_"
+		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
+		Name =name;
 		Arrows.addArrow(new ItemStack(this));
 		QuiverArrowRegistry.addArrowToRegistry(new ItemStack(this), null);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenser);
