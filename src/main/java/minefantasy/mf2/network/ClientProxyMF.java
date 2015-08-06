@@ -29,6 +29,7 @@ import minefantasy.mf2.client.render.RenderArrowMF;
 //import minefantasy.mf2.client.render.RenderBombIcon;
 //import minefantasy.mf2.client.render.RenderBow;
 import minefantasy.mf2.client.render.RenderFireBlast;
+import minefantasy.mf2.client.render.block.TileEntityAnvilMFRenderer;
 import minefantasy.mf2.client.render.block.TileEntityBellowsRenderer;
 import minefantasy.mf2.client.render.block.TileEntityBombBenchRenderer;
 import minefantasy.mf2.client.render.block.TileEntityCarpenterRenderer;
@@ -135,10 +136,10 @@ public class ClientProxyMF extends CommonProxyMF
 		
 				
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCarpenterMF.class, new TileEntityCarpenterRenderer());
-		
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChimney.class, new TileEntityCarpenterRenderer());
 		//RenderingRegistry.registerBlockHandler(new RenderBombBench());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombBench.class, new TileEntityBombBenchRenderer());
-		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnvilMF.class, new TileEntityAnvilMFRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTanningRack.class, new TileEntityTanningRackRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForge.class, new TileEntityForgeRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBellows.class, new TileEntityBellowsRenderer());

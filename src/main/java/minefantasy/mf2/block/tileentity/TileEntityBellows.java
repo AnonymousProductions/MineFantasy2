@@ -57,7 +57,7 @@ public class TileEntityBellows extends TileEntity implements IUpdatePlayerListBo
 	@Override
 	public void update()
 	{
-		update();
+		//update();
 		if(press > 0)press -= 2;
 		if(press < 0)press = 0;
 		sendPacketToClients();

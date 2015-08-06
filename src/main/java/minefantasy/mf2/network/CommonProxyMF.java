@@ -133,28 +133,29 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 			EntityRegistry.registerModEntity(EntityItemUnbreakable.class, "special_eitem_mf", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 		}
 		EntityRegistry.registerModEntity(EntityMine.class, "landmineMF", IDBase, MineFantasyII.instance, 16, 10, true);IDBase ++;
-		registerTileEntities();
+		
 		SmokeMechanics.handler = this;
 	}
 
 	protected void registerTileEntities()
 	{
-		GameRegistry.registerTileEntity(TileEntityAnvilMF.class, "MF_Anvil");
-		GameRegistry.registerTileEntity(TileEntityCarpenterMF.class, "MF_CarpenterBench");
-		GameRegistry.registerTileEntity(TileEntityBombBench.class, "MF_BombBench");
-		GameRegistry.registerTileEntity(TileEntityBlastFC.class, "MF_BlastChamber");
-		GameRegistry.registerTileEntity(TileEntityBlastFH.class, "MF_BlastHeater");
-		GameRegistry.registerTileEntity(TileEntityCrucible.class, "MF_Crucible");
-		GameRegistry.registerTileEntity(TileEntityChimney.class, "MF_Chimney");
-		GameRegistry.registerTileEntity(TileEntityTanningRack.class, "MF_Tanner");
-		GameRegistry.registerTileEntity(TileEntityForge.class, "MF_Forge");
-		GameRegistry.registerTileEntity(TileEntityBellows.class, "MF_Bellows");
-		GameRegistry.registerTileEntity(TileEntityResearch.class, "MF_Research");
+		GameRegistry.registerTileEntity(TileEntityAnvilMF.class, "Anvil");
+		GameRegistry.registerTileEntity(TileEntityCarpenterMF.class, "CarpenterBench");
+		GameRegistry.registerTileEntity(TileEntityBombBench.class, "BombBench");
+		GameRegistry.registerTileEntity(TileEntityBlastFC.class, "BlastChamber");
+		GameRegistry.registerTileEntity(TileEntityBlastFH.class, "BlastHeater");
+		GameRegistry.registerTileEntity(TileEntityCrucible.class, "Crucible");
+		GameRegistry.registerTileEntity(TileEntityChimney.class, "Chimney");
+		GameRegistry.registerTileEntity(TileEntityTanningRack.class, "Tanner");
+		GameRegistry.registerTileEntity(TileEntityForge.class, "Forge");
+		GameRegistry.registerTileEntity(TileEntityBellows.class, "Bellows");
+		GameRegistry.registerTileEntity(TileEntityResearch.class, "Research");
 	}
 
 
 	public void preInit()
 	{
+		registerTileEntities();
 	}
 
 	public void registerTickHandlers()

@@ -17,7 +17,6 @@ import minefantasy.mf2.container.ContainerAnvilMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
-import minefantasy.mf2.network.packet.AnvilPacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +27,9 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IChatComponent;
@@ -45,6 +47,18 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	private String toolTypeRequired = "hammer";
 	private String researchRequired = "";
 	private boolean outputHot = false;
+	private ItemStack recipe;
+	public float progressMax;
+	public float progress;
+	private int hammerTierRequired;
+	private int anvilTierRequired;
+	
+	private int[] coords = new int[3];
+	private String resultName;
+	private String toolNeeded = toolTypeRequired;
+	private String research;
+
+	private int[] tiers = new int[2];
 	
 	public TileEntityAnvilMF()
 	{
@@ -57,6 +71,23 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		texName=name;
 		setContainer(new ContainerAnvilMF(this));
 	}
+	
+	// When the world loads from disk, the server needs to send the TileEntity information to the client
+		//  it uses getDescriptionPacket() and onDataPacket() to do this
+		//  Not really required for this example since we only use the timer on the client, but included anyway for illustration
+		@Override
+		public Packet getDescriptionPacket() {
+			NBTTagCompound nbtTagCompound = new NBTTagCompound();
+			writeToNBT(nbtTagCompound);
+			int metadata = getBlockMetadata();
+			return new S35PacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+//return new S35PacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+		}
+
+		@Override
+		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+			readFromNBT(pkt.getNbtCompound());
+		}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
@@ -84,6 +115,13 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
         researchRequired = nbt.getString("researchRequired");
         texName = nbt.getString("TextureName");
         outputHot = nbt.getBoolean("outputHot");
+        
+        resultName = nbt.getString("resultName");
+        hammerTierRequired = nbt.getInteger("tierNeeded");
+        anvilTierRequired = nbt.getInteger("anvilTierneeded");
+        
+        //nbt.setIntArray("coords", new int[]{getPos().getX(), getPos().getY(), getPos().getZ()});
+
 	}
 	
 	@Override
@@ -114,6 +152,18 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
         nbt.setString("researchRequired", researchRequired);
         nbt.setString("TextureName", texName);
         nbt.setBoolean("outputHot", outputHot);
+        
+        //nbt.setIntArray("coords", new int[]{getPos().getX(), getPos().getY(), getPos().getZ()});
+        nbt.setString("resultName", getResultName());
+        nbt.setInteger("tierNeeded", getToolTierNeeded());
+        nbt.setInteger("anvilTierneeded", getAnvilTierNeeded());
+
+        if(progress <= 0)
+		{
+			progress = 0;
+		}
+	
+	
 	}
 
 	@Override
@@ -209,7 +259,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	public void update()
 	{
 		++ticksExisted;
-		update();
+		//update();
 		if(!worldObj.isRemote)
 		{
 			if(ticksExisted % 20 == 0)
@@ -497,18 +547,19 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		}
 		return count >= number;
 	}
-	public void syncData()
-	{
-		
-		if(worldObj.isRemote)return;
-		
-		List<EntityPlayer> players = ((WorldServer)worldObj).playerEntities;
-		for(int i = 0; i < players.size(); i++)
-		{
-			EntityPlayer player = players.get(i);
-			((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new AnvilPacket(this).generatePacket());
-		}
-	}
+//	public void syncData()
+//	{
+//		
+//		if(worldObj.isRemote)return;
+//		
+//		List<EntityPlayer> players = ((WorldServer)worldObj).playerEntities;
+//		for(int i = 0; i < players.size(); i++)
+//		{
+//			EntityPlayer player = players.get(i);
+//			((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new AnvilPacket(this).generatePacket());
+//		}
+//	}
+	
 	public String resName = "<No Project Set>";
 	public String getResultName()
 	{
@@ -602,7 +653,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
     			progress = 0;
     		}
     		if(progress > progressMax)progress = progressMax-1;
-    		syncData();
+    		//syncData();
     	}
     }
 	public boolean canCraft() 
@@ -624,11 +675,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
         return false;
     }
 	
-	private ItemStack recipe;
-	public float progressMax;
-	public float progress;
-	private int hammerTierRequired;
-	private int anvilTierRequired;
+	
 	
 	@Override
 	public void setForgeTime(int i)

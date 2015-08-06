@@ -27,7 +27,6 @@ import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
 import minefantasy.mf2.network.CommonProxyMF;
-import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.state.IBlockState;
@@ -66,7 +65,7 @@ public class MineFantasyII
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
     public static CommonProxyMF proxy;
-    public static PacketHandlerMF packetHandler;
+    //public static PacketHandlerMF packetHandler;
 	
     @Instance(MODID)
     public static MineFantasyII instance;
@@ -121,14 +120,14 @@ public class MineFantasyII
         proxy.registerMain();
         GameRegistry.registerWorldGenerator(worldGenManager, 0);
         
-        packetHandler = new PacketHandlerMF();
+        //packetHandler = new PacketHandlerMF();
         FMLEventChannel eventChannel;
-        for(String channel:packetHandler.packetList.keySet())
+        /**for(String channel:packetHandler.packetList.keySet())
         {
             eventChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(channel);
             eventChannel.register(packetHandler);
             packetHandler.channels.put(channel, eventChannel);
-        }
+        }*/
     }
     
     @EventHandler

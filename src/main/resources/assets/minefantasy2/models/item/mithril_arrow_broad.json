@@ -1,6 +1,6 @@
 {
-    "parent":{"items\arrow"},
+    "parent":"items\arrow",
 	"textures": {
-        "layer0": "minefantasy2:items\Ammo\mithril_arrow_broad"
+        "layer0": "minefantasy2:items/ammo/mithril_arrow_broad"
     }
 }

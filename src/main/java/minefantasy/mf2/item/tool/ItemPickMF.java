@@ -24,6 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemPickMF extends ItemPickaxe implements IToolMaterial
 {
     private String Name;
+    
 	public ItemPickMF(String name, ToolMaterial material, int rarity)
     {
         super(material);

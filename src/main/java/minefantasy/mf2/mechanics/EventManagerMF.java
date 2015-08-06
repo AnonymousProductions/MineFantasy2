@@ -25,8 +25,6 @@ import minefantasy.mf2.farming.FarmingHelper;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
-import minefantasy.mf2.network.packet.LevelupPacket;
-import minefantasy.mf2.network.packet.SkillPacket;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -746,8 +744,8 @@ public class EventManagerMF
 		EntityPlayer player = event.thePlayer;
 		if(!player.worldObj.isRemote)
 		{
-			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new LevelupPacket(player, event.theSkill, event.theLevel).generatePacket());
-			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new SkillPacket(player, event.theSkill).generatePacket());
+			//((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new LevelupPacket(player, event.theSkill, event.theLevel).generatePacket());
+			//((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new SkillPacket(player, event.theSkill).generatePacket());
 		}
 	}
 	@SubscribeEvent
@@ -756,7 +754,7 @@ public class EventManagerMF
 		EntityPlayer player = event.thePlayer;
 		if(!player.worldObj.isRemote)
 		{
-			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new SkillPacket(player, event.theSkill).generatePacket());
+			//((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new SkillPacket(player, event.theSkill).generatePacket());
 		}
 	}
 }

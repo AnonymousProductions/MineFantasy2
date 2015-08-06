@@ -83,6 +83,7 @@ public class TileEntityAnvilMFRenderer extends TileEntitySpecialRenderer {
         GL11.glPopMatrix(); //end
 
     }
+	
     private void bindTextureByName(String image)
     {
     	Minecraft.getMinecraft().renderEngine.bindTexture(TextureHelperMF.getResource(image));

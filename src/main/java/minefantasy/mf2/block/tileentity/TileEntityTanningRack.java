@@ -16,6 +16,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IChatComponent;
@@ -35,7 +38,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory, IUp
 	
 	public TileEntityTanningRack()
 	{
-		this(0, "Basic");
+		this(0, "");
 	}
 	public TileEntityTanningRack(int tier, String tex)
 	{
@@ -44,10 +47,27 @@ public class TileEntityTanningRack extends TileEntity implements IInventory, IUp
 		this.tex=tex;
 	}
 	
+	// When the world loads from disk, the server needs to send the TileEntity information to the client
+			//  it uses getDescriptionPacket() and onDataPacket() to do this
+			//  Not really required for this example since we only use the timer on the client, but included anyway for illustration
+			@Override
+			public Packet getDescriptionPacket() {
+				NBTTagCompound nbtTagCompound = new NBTTagCompound();
+				writeToNBT(nbtTagCompound);
+				int metadata = getBlockMetadata();
+				return new S35PacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+	//return new S35PacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+			}
+
+			@Override
+			public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+				readFromNBT(pkt.getNbtCompound());
+			}
+	
 	@Override
 	public void update()
 	{
-		update();
+		//update();
 		++tempTicksExisted;
 		if(tempTicksExisted == 10)
 		{
@@ -300,7 +320,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory, IUp
 	@Override
 	public String getName()
 	{
-		return "tile.tanner.name";
+		return "tanner"+tex;
 	}
 
 	@Override

@@ -43,8 +43,8 @@ public class BlockCarpenter extends BlockContainer implements ITileEntityProvide
         super(Material.wood);
         
         //this.setBlockTextureName("minectaft:oak_planks");
-        GameRegistry.registerBlock(this, "MF_CarpenterBench");
-        setUnlocalizedName("minefantasy2:" + NAME);
+        GameRegistry.registerBlock(this, "carpenterBench");
+        setUnlocalizedName(NAME);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setStepSound(Block.soundTypeWood);
 		this.setHardness(5F);

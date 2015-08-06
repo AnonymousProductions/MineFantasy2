@@ -27,7 +27,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory,IUpdate
 	@Override
 	public void update()
 	{
-		update();
+		//update();
 		boolean isHot = temperature > 0 && progressMax > 0;
 		temperature = getTemperature();
 		

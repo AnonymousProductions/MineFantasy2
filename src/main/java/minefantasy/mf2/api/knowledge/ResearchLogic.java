@@ -1,7 +1,6 @@
 package minefantasy.mf2.api.knowledge;
 
 import minefantasy.mf2.api.helpers.PlayerTagData;
-import minefantasy.mf2.network.packet.KnowledgePacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldServer;
@@ -118,7 +117,7 @@ public class ResearchLogic
     {
     	if(!player.worldObj.isRemote)
 		{
-			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new KnowledgePacket(player).generatePacket());
+			//((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new KnowledgePacket(player).generatePacket());
 		}
     }
 }

@@ -2,7 +2,6 @@ package minefantasy.mf2.mechanics;
 
 import minefantasy.mf2.api.weapon.IWeaponClass;
 import minefantasy.mf2.api.weapon.WeaponClass;
-import minefantasy.mf2.network.packet.HitSoundPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,7 +25,7 @@ public class HitSoundGenerator
 			
 			if(!target.worldObj.isRemote)
 			{
-				((WorldServer)target.worldObj).getEntityTracker().func_151248_b(target, new HitSoundPacket(sndString, target).generatePacket());
+				//((WorldServer)target.worldObj).getEntityTracker().func_151248_b(target, new HitSoundPacket(sndString, target).generatePacket());
 			}
 		}
 	}

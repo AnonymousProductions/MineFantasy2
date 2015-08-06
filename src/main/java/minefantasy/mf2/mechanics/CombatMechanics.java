@@ -30,7 +30,6 @@ import minefantasy.mf2.item.weapon.ItemKatanaMF;
 import minefantasy.mf2.item.weapon.ItemWaraxeMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.material.BaseMaterialMF;
-import minefantasy.mf2.network.packet.ParryPacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -841,7 +840,7 @@ public class CombatMechanics
 		if(!user.worldObj.isRemote && user instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)user;
-			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new ParryPacket(ticks, player).generatePacket());
+			//((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new ParryPacket(ticks, player).generatePacket());
 		}
 	}
 	public static int getParryCooldown(EntityLivingBase user)

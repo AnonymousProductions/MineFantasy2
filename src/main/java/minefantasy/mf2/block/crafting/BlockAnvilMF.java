@@ -50,12 +50,14 @@ public class BlockAnvilMF extends BlockContainer implements ITileEntityProvider
         this.material = material;
         float height = 1.0F / 16F * 13F;
         setBlockBounds(0F, 0F, 0F, 1F, height, 1F);
-        Name=name;
+        
         //this.setBlockTextureName("minefantasy2:metal/"+name.toLowerCase()+"_block");
         name = "anvil"+name;
+        Name=name;
         this.tier = material.tier;
         GameRegistry.registerBlock(this, ItemBlockAnvilMF.class, name);
-        setUnlocalizedName("minefantasy2:metal/"+name.toLowerCase()+"_block");
+        		//"minefantasy2:metal/" +"_block"
+        setUnlocalizedName(name);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setStepSound(Block.soundTypeMetal);
 		this.setHardness(material.hardness+1 / 2F);
@@ -83,9 +85,12 @@ public class BlockAnvilMF extends BlockContainer implements ITileEntityProvider
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase user, ItemStack item)
     {
-    	int dir = MathHelper.floor_double(user.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+    	super.onBlockPlacedBy(world, pos, state, user,item);
+    	int dir = user.getHorizontalFacing().getHorizontalIndex();
 
         world.setBlockState(pos, getStateFromMeta(dir), 2);
+        
+ 
         
     }
 
@@ -197,14 +202,17 @@ public class BlockAnvilMF extends BlockContainer implements ITileEntityProvider
 	@Override
 	public int getRenderType()
 	{
-		//return BlockListMF.anvil_RI;
-		return 2;
+		//return BlockListMF.bomb_RI;  //102 is not a valid value??
+		return 2; //doesn’t render anything in the block layers,
+				//but has an associated TileEntitySpecialRenderer 
+				//which does draw something, eg BlockChest.
+		//return 3;
 	}
 	
 	@Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(FACING, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
     
     /**

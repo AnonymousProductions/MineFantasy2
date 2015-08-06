@@ -6,7 +6,6 @@ import minefantasy.mf2.api.stamina.IStaminaWeapon;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.config.ConfigClient;
 import minefantasy.mf2.config.ConfigStamina;
-import minefantasy.mf2.network.packet.StaminaPacket;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -128,7 +127,7 @@ public class StaminaMechanics
 	{
 		if(!player.worldObj.isRemote)
 		{
-			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new StaminaPacket(stam, player).generatePacket());
+			//((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new StaminaPacket(stam, player).generatePacket());
 		}
 	}
 	

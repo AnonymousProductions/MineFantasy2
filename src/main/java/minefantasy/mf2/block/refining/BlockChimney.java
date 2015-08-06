@@ -75,6 +75,11 @@ public class BlockChimney extends BlockContainer implements ITileEntityProvider
 	{
 		return isWide;
 	}
+	
+	public int getRenderType()
+    {
+        return 3;
+    }
 }
 	
 	/*

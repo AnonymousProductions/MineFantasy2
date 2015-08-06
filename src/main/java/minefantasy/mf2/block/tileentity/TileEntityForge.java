@@ -10,7 +10,6 @@ import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.refining.BlockForge;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.item.list.ComponentListMF;
-import minefantasy.mf2.network.packet.ForgePacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -59,7 +58,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		int zCoord = this.getPos().getZ();
 		
 		if(justShared > 0)--justShared;
-		update();
+		//update();
 		
 		if(++ticksExisted % 20 == 0)
 		{
@@ -561,7 +560,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		for(int i = 0; i < players.size(); i++)
 		{
 			EntityPlayer player = players.get(i);
-			((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new ForgePacket(this).generatePacket());
+			//((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new ForgePacket(this).generatePacket());
 		}
 	}
 	int justShared;

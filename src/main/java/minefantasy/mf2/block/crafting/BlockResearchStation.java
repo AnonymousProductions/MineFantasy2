@@ -147,7 +147,7 @@ public String getName()
 	public int getRenderType()
 	{
 		//return BlockListMF.research_RI;
-		return 3;
+		return 2;
 	}
 	private Random rand = new Random();
 }

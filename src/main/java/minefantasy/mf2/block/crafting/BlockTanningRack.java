@@ -44,7 +44,7 @@ public class BlockTanningRack extends BlockContainer implements ITileEntityProvi
 		this.tex=tex;
 		String name = NAME+tex;
 		NAME = name;
-		setUnlocalizedName("minefantasy2:" +name);
+		setUnlocalizedName(name);
 		GameRegistry.registerBlock(this, name);
 		this.setHardness(1F + 0.5F*tier);
 		this.setResistance(1F);
@@ -67,7 +67,10 @@ public class BlockTanningRack extends BlockContainer implements ITileEntityProvi
 	@Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase user, ItemStack stack)
     {
-		this.getDefaultState().withProperty(FACING, user.getHorizontalFacing());
+		super.onBlockPlacedBy(world, pos, state, user,stack);
+    	int dir = user.getHorizontalFacing().getHorizontalIndex();
+
+        world.setBlockState(pos, getStateFromMeta(dir), 2);
     }
 	
 	public TileEntityTanningRack getTile(World  world, BlockPos pos)
@@ -188,6 +191,6 @@ public class BlockTanningRack extends BlockContainer implements ITileEntityProvi
     @Override
 	public int getRenderType()
 	{
-		return BlockListMF.tanner_RI;
+		return 2; // BlockListMF.tanner_RI;
 	}
 }

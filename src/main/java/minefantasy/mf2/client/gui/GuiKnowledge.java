@@ -12,7 +12,6 @@ import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.InformationPage;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
-import minefantasy.mf2.network.packet.ResearchRequest;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

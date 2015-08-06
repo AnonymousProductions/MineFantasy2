@@ -1,6 +1,6 @@
 {
     "parent": "items/arrow",
 "textures": {
-        "layer0": "minefantasy2:items/Ammo/mithium_arrow"
+        "layer0": "minefantasy2:items/ammo/mithium_arrow"
     }
 }

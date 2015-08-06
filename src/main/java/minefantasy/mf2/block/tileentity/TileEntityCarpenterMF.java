@@ -12,7 +12,6 @@ import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerCarpenterMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
-import minefantasy.mf2.network.packet.CarpenterPacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -203,7 +202,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	public void update()
 	{
 		++ticksExisted;
-		update();
+	//update();
 		if(!worldObj.isRemote)
 		{
 			if(ticksExisted % 20 == 0)
@@ -434,7 +433,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 		for(int i = 0; i < players.size(); i++)
 		{
 			EntityPlayer player = players.get(i);
-			((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new CarpenterPacket(this).generatePacket());
+			//((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new CarpenterPacket(this).generatePacket());
 		}
 	}
 	public String resName = "<No Project Set>";

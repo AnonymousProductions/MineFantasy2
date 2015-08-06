@@ -8,7 +8,6 @@ import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
-import minefantasy.mf2.network.packet.ResearchTablePacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -108,7 +107,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 	@Override
 	public void update()
 	{
-		update();
+		//update();
 		
 		if(!worldObj.isRemote)
 		{
@@ -133,7 +132,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		for(int i = 0; i < players.size(); i++)
 		{
 			EntityPlayer player = players.get(i);
-			((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new ResearchTablePacket(this).generatePacket());
+			//((WorldServer)worldObj).getEntityTracker().func_151248_b(player, new ResearchTablePacket(this).generatePacket());
 		}
 	}
 	

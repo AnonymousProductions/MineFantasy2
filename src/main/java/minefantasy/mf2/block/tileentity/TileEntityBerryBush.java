@@ -15,7 +15,7 @@ public class TileEntityBerryBush extends TileEntity implements IUpdatePlayerList
 	@Override
 	public void update()
 	{
-		update();
+		//update();
 		
 		if(!worldObj.isRemote && worldObj.getTotalWorldTime() >= nextGrowbackTime)
 		{//Regrow

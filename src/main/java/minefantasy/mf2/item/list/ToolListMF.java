@@ -88,7 +88,7 @@ public class ToolListMF
 		BaseMaterialMF.dragonforge,
 		BaseMaterialMF.adamantium,
 		BaseMaterialMF.redsteel,
-		BaseMaterialMF.bluesteel,
+		//BaseMaterialMF.bluesteel,
 		BaseMaterialMF.mithril,
 		BaseMaterialMF.ignotumite,
 		BaseMaterialMF.mithium,
@@ -107,7 +107,7 @@ public class ToolListMF
 		BaseMaterialMF.dragonforge,
 		BaseMaterialMF.adamantium,
 		BaseMaterialMF.redsteel,
-		BaseMaterialMF.bluesteel,
+		//BaseMaterialMF.bluesteel,
 		BaseMaterialMF.mithril,
 		BaseMaterialMF.ignotumite,
 		BaseMaterialMF.mithium,
@@ -117,6 +117,7 @@ public class ToolListMF
 			
 			
 	public static ItemPickMF[] picks = new ItemPickMF[mats.length];
+	
 	public static ItemAxeMF[] axes = new ItemAxeMF[mats.length];
 	public static ItemSpadeMF[] spades = new ItemSpadeMF[mats.length];
 	public static ItemShearsMF[] shears = new ItemShearsMF[mats.length];
@@ -205,6 +206,7 @@ public class ToolListMF
 			int tier = baseMat.tier;
 			
 			picks[a] = new ItemPickMF(matName+"_pick", mat, rarity);
+			
 			axes[a] = new ItemAxeMF(matName+"_axe", mat, rarity);
 			spades[a] = new ItemSpadeMF(matName+"_spade", mat, rarity);
 			hoes[a] = new ItemHoeMF(matName+"_hoe", mat, rarity);
@@ -319,7 +321,7 @@ public class ToolListMF
     		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem(); 
     		String MODID = MineFantasyII.MODID;
     		
-    		
+    	
     		Item[][] arrow = {arrows,bodkinArrows,broadArrows};
     		
     		ItemWeaponMF[][] weaponlist = {swords,waraxes,maces,daggers,spears,battleaxes,warhammers,greatswords,katanas,halbeards,lances,knives};
@@ -335,10 +337,14 @@ public class ToolListMF
 			}
     		
     		
-    		for (ItemPickMF item :picks) {
-    			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
-        	}
-    		for (ItemAxeMF item :axes) {
+    		//for (ItemPickMF item :picks) {
+    		//	renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
+        	//}
+    				ItemPickMF bpick = new ItemPickMF("bluesteel_pick", BaseMaterialMF.bluesteel.getToolConversion(), 0);
+    		 renderItem.getItemModelMesher().register(bpick, 0, new ModelResourceLocation(MODID + ":" + "bluesteel_pick", "inventory"));
+    		
+    		 
+    		 for (ItemAxeMF item :axes) {
     			renderItem.getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":" + item.getMaterial().name()+"_pick", "inventory"));
         	}
     		for (ItemSpadeMF item :spades) {

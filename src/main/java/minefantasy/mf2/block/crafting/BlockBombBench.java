@@ -45,7 +45,7 @@ public class BlockBombBench extends BlockContainer implements ITileEntityProvide
         super(Material.wood);
         //this.setBlockTextureName("minectaft:stone");
         GameRegistry.registerBlock(this, "MF_BombBench");
-        setUnlocalizedName("minefantasy2:" + NAME);
+        setUnlocalizedName(NAME);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setStepSound(Block.soundTypeStone);
 		this.setHardness(5F);
