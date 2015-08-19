@@ -6,16 +6,18 @@ import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.refining.BlockCrucible;
+import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityCrucible extends TileEntity implements IInventory
+public class TileEntityCrucible extends TileEntity implements IInventory, ISidedInventory
 {
 	private ItemStack[] inv = new ItemStack[10];
 	public float progress, progressMax;
@@ -328,5 +330,36 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	public boolean isItemValidForSlot(int slot, ItemStack item)
 	{
 		return true;
+	}
+
+	private boolean isBlastOutput()
+	{
+		if(worldObj == null)return false;
+		TileEntity tile = worldObj.getTileEntity(xCoord, yCoord+1, zCoord);
+		return tile != null && tile instanceof TileEntityBlastFH;
+	}
+	private final int[] grid = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
+	private final int[] output = new int[]{9};
+	private final int[] whole = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) 
+	{
+		if(isBlastOutput())
+		{
+			return whole;
+		}
+		return side == 0 ? output : grid;
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack item, int side) 
+	{
+		return !isBlastOutput() && slot < 9;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack item, int side) 
+	{
+		return isBlastOutput() || slot == 9;
 	}
 }

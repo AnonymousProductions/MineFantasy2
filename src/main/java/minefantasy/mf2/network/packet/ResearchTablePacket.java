@@ -8,7 +8,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 
 public class ResearchTablePacket extends PacketMF
 {
-	public static final String packetName = "MF2_ResearchTablePacket";
+	public static final String packetName = "MF2_ResearchTblPkt";
 	private int[] coords = new int[3];
 	private int id;
 	private float[] progress = new float[2];
@@ -32,12 +32,15 @@ public class ResearchTablePacket extends PacketMF
 	{
         coords = new int[]{packet.readInt(), packet.readInt(), packet.readInt()};
         TileEntity entity = player.worldObj.getTileEntity(coords[0], coords[1], coords[2]);
+        float prog1 = packet.readFloat();
+        float prog2 = packet.readFloat();
+        int ID = packet.readInt();
         
         if(entity != null && entity instanceof TileEntityResearch)
         {
-	        progress[0] = packet.readFloat();
-	        progress[1] = packet.readFloat();
-	        id = packet.readInt();
+	        progress[0] = prog1;
+	        progress[1] = prog2;
+	        id = ID;
 	        
 	        TileEntityResearch carpenter = (TileEntityResearch)entity;
 	        carpenter.researchID = id;

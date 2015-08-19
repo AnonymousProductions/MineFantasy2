@@ -75,9 +75,9 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			shareTemp();
 		}
 		
-		if(!isLit())
+		if(!isLit() && !worldObj.isRemote)
 		{
-			if(temperature > 0)
+			if(temperature > 0 && ticksExisted % 5 == 0)
 			{
 				temperature --;
 			}

@@ -8,7 +8,7 @@ attribute.kit.repairRate_enchant.name=Repair Value (Enchanted Items)
 attribute.kit.repairRate_normal.name=Repair Value (Normal Items) 
 
 attribute.kit.repairChance.name=Repair Success Rate
-attribute.kit.breakChance.name=Tool Break Chance
+attribute.kit.breakChance.name=Kit Break Chance
 
 item.infobook.name=Research Book
 item.research_scroll.name=Research Scroll
@@ -22,6 +22,8 @@ information.discovered=Researched
 information.buy=Click for Research
 knowledge.unknownUse=You don't know how to use this!
 knowledge.known=You already know this
+knowledge.hasScroll=You already have this scroll!
+knowledge.cantafford=Insufficient resources!
 
 infoPage.basic=Basic Information
 infoPage.artisanry=Artisanry
@@ -1697,11 +1699,11 @@ knowledge.bellows.2=constantly. They can also work through solid walls.
 knowledge.repair_basic=Repair Kits
 knowledge.repair_basic.desc=Keeping tools in condition
 knowledge.repair_basic.1=It's likely that by now one of your precious tools has broken. And it also is likely that you looked like a right idiot when it happened.^Repair kits allow you to touch up on the durability of items when they get damaged. These kits don't repair much but do the job alright, just Right-Click the block with an item to
-knowledge.repair_basic.2=eventually repair it.^There of course is a small chance to damage (But not destroy) the item instead.
+knowledge.repair_basic.2=eventually repair it.^There is also a chance the kit will break, limiting their uses.
 
 knowledge.repair_advanced=Advanced Repairing
 knowledge.repair_advanced.desc=Better conditioning
-knowledge.repair_advanced.1=You still look silly damaging items when using repair kits... These new kits, though more expensive, can repair items without a fail.^They will also repair more durability.
+knowledge.repair_advanced.1=You still look silly damaging items when using repair kits... These new kits, though more expensive, can repair more items before without breaking.^They will also repair more durability.
 
 knowledge.repair_ornate=Ornate Repair Kits
 knowledge.repair_ornate.desc=Enchantment Repair

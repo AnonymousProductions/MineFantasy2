@@ -21,7 +21,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 {
 	private ItemStack[] items = new ItemStack[1];
 	public float progress;
-	public int lastMaxProgress;
+	public float lastMaxProgress;
 	public int researchID = -1;
 	
 	public boolean interact(EntityPlayer user)
@@ -289,7 +289,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		{
 			return 0;
 		}
-		return (int)Math.ceil(size / lastMaxProgress * progress);
+		return (int)Math.max(size, Math.ceil(size / lastMaxProgress * progress));
 	}
 	@Override
 	public boolean shouldShowMetre() 

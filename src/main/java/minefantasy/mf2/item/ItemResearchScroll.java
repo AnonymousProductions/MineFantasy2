@@ -85,11 +85,11 @@ public class ItemResearchScroll extends ItemComponentMF
 		}
 		if(used)
 		{
-			if(!user.worldObj.isRemote)
+			if(user.worldObj.isRemote)
 			{
 				user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unlocked") + ": " + StatCollector.translateToLocal(info.getName())));
-				user.worldObj.playSoundAtEntity(user, "minefantasy2:updateResearch", 1.0F, 1.0F);
 			}
+			user.worldObj.playSoundEffect(user.posX, user.posY, user.posZ, "minefantasy2:updateResearch", 1.0F, 1.0F);
 			if(!user.capabilities.isCreativeMode)
 			{
 				--item.stackSize;

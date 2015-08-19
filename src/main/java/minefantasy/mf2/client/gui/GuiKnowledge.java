@@ -13,8 +13,10 @@ import minefantasy.mf2.api.knowledge.InformationPage;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.ResearchRequest;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiButton;
@@ -75,6 +77,8 @@ public class GuiKnowledge extends GuiScreen
     private GuiButton button;
     private LinkedList<InformationBase> informationList = new LinkedList<InformationBase>();
     private EntityPlayer player;
+	private boolean hasScroll = false;
+	private boolean canPurchase = false;
     
     public GuiKnowledge(EntityPlayer user)
     {
@@ -133,6 +137,7 @@ public class GuiKnowledge extends GuiScreen
     		else
     		{
     			selected = highlighted;
+    			setPurchaseAvailable(player);
     		}
     		//((EntityClientPlayerMP)player).sendQueue.addToSendQueue(new ResearchRequest(player, highlighted.ID).generatePacket());
     	}
@@ -281,7 +286,7 @@ public class GuiKnowledge extends GuiScreen
         if(buttonList.get(2) != null)
         {
         	((GuiButton)buttonList.get(2)).visible = selected != null;
-        	((GuiButton)buttonList.get(2)).enabled = selected != null && selected.hasAllItems(player);
+        	((GuiButton)buttonList.get(2)).enabled = selected != null && canPurchase ;
         	((GuiButton)buttonList.get(3)).visible = selected != null;
         }
     }
@@ -674,9 +679,16 @@ public class GuiKnowledge extends GuiScreen
         {
         	this.mc.getTextureManager().bindTexture(buyTex);
         	this.drawTexturedModalRect(x, y, 0, 0, buyWidth, buyHeight);
-        	mc.fontRenderer.drawString(selected.getName(), x+22, y+12, 16777215, false);
+        	int red = GuiHelper.getColourForRGB(220, 0, 0);
+        	int white = 16777215;
+        	mc.fontRenderer.drawString(selected.getName(), x+22, y+12, canPurchase ? white : red, false);
         	ItemStack[] items = selected.getItems();
-        	if(items != null)
+        	
+        	if(hasScroll)
+            {
+            	mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("knowledge.hasScroll"), x+20, y+32, red);
+            }
+        	else if(items != null)
         	{
         		for(int a = 0; a < items.length; a++)
         		{
@@ -686,7 +698,6 @@ public class GuiKnowledge extends GuiScreen
         			
         			this.renderItem(itemX, itemY, slot, mx, my);
         		}
-        		
         		if(tooltipStack != null)
                 {
         			List<String> tooltipData = tooltipStack.getTooltip(Minecraft.getMinecraft().thePlayer, false);
@@ -703,23 +714,42 @@ public class GuiKnowledge extends GuiScreen
         			}
 
         			minefantasy.mf2.api.helpers.RenderHelper.renderTooltip(mx, my, parsedTooltip);
-
-        			/*
-        			int tooltipY = 8 + tooltipData.size() * 11;
-
-        			if(tooltipEntry) 
-        			{
-        				vazkii.botania.client.core.helper.RenderHelper.renderTooltipOrange(mx, my + tooltipY, Arrays.asList(EnumChatFormatting.GRAY + StatCollector.translateToLocal("botaniamisc.clickToRecipe")));
-        				tooltipY += 18;
-        			}
-
-        			if(tooltipContainerStack != null)
-        			{
-        				vazkii.botania.client.core.helper.RenderHelper.renderTooltipGreen(mx, my + tooltipY, Arrays.asList(EnumChatFormatting.AQUA + StatCollector.translateToLocal("botaniamisc.craftingContainer"), tooltipContainerStack.getDisplayName()));
-        			}
-        			*/
         		}
         	}
         }
 	}
+    
+    private void setPurchaseAvailable(EntityPlayer user)
+    {
+    	hasScroll = getHasScroll(user);
+    	
+    	if(selected != null)
+        {
+    		canPurchase = !hasScroll && selected.hasAllItems(user);
+        }
+    	else
+    	{
+    		canPurchase = false;
+    	}
+    }
+    private boolean getHasScroll(EntityPlayer user)
+    {
+    	if(selected == null || user == null)
+    	{
+    		return false;
+    	}
+    	int id = selected.ID;
+    	for(int a = 0; a < user.inventory.getSizeInventory(); a++)
+    	{
+    		ItemStack slot = user.inventory.getStackInSlot(a);
+    		if(slot != null && slot.getItem() instanceof ItemResearchScroll)
+    		{
+    			if(slot.getItemDamage() == id)
+    			{
+    				return true;
+    			}
+    		}
+    	}
+    	return false;
+    }
 }
