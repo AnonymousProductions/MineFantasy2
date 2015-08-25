@@ -289,7 +289,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		{
 			return 0;
 		}
-		return (int)Math.max(size, Math.ceil(size / lastMaxProgress * progress));
+		return (int)Math.min(size, Math.ceil(size / lastMaxProgress * progress));
 	}
 	@Override
 	public boolean shouldShowMetre() 

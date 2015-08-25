@@ -45,10 +45,10 @@ public class ItemFoodMF extends ItemFood
 		this.setTextureName("minefantasy2:food/"+name);
 	}
 	
-	public ItemFoodMF(String name, int hunger, float saturation, float noEatTime, boolean isMeat, int rarity)
+	public ItemFoodMF(String name, int hunger, float saturation, float saturation2, boolean isMeat, int rarity)
 	{
 		this(name, hunger, saturation, isMeat);
-		this.mfSaturation = noEatTime*60 / 4F;
+		this.mfSaturation = saturation2 * FoodListMF.satModifier;
 		itemRarity = rarity;
 	}
 	
@@ -132,8 +132,12 @@ public class ItemFoodMF extends ItemFood
         	list.add("Level: " + lvl);
         }
         list.add(StatCollector.translateToLocalFormatted("food.stat.hunger.name", hungerLevel));
+        if(mfSaturation > 0)
+    	{
+			list.add(StatCollector.translateToLocalFormatted("food.stat.saturation.name", decimal_format.format(mfSaturation)));
+    	}
         
-        if(hasEffect || mfSaturation > 0)
+        if(hasEffect)
         {
         	list.add("");
         	list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("food.stat.list.name"));
@@ -165,17 +169,6 @@ public class ItemFoodMF extends ItemFood
         		else
         		{
         			list.add(StatCollector.translateToLocalFormatted("food.stat.staminabuffRegenSeconds.name", decimal_format.format(staminaRegenBuff), decimal_format.format(staminaRegenSeconds)));
-        		}
-        	}
-        	if(mfSaturation > 0)
-        	{
-        		if(mfSaturation > 60F)
-        		{
-        			list.add(StatCollector.translateToLocalFormatted("food.stat.saturationMinutes.name", decimal_format.format(mfSaturation/60F)));
-        		}
-        		else
-        		{
-        			list.add(StatCollector.translateToLocalFormatted("food.stat.saturationSeconds.name", decimal_format.format(mfSaturation)));
         		}
         	}
         }

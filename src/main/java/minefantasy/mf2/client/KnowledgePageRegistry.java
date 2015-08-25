@@ -130,6 +130,7 @@ public class KnowledgePageRegistry
 	    }
 	    
 	    KnowledgeListMF.craftTools.addPages(new EntryPageText("knowledge.craftTools.1"));
+	    KnowledgeListMF.craftTools.addPages(new EntryPageText("knowledge.craftTools.pick"));
 	    KnowledgeListMF.craftTools.addPages(new EntryPageRecipeAnvil(KnowledgeListMF.pickR));
 	    KnowledgeListMF.craftTools.addPages(new EntryPageRecipeAnvil(KnowledgeListMF.axeR));
 	    KnowledgeListMF.craftTools.addPages(new EntryPageRecipeAnvil(KnowledgeListMF.spadeR));

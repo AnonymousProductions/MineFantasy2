@@ -17,6 +17,8 @@ item.research_scroll_complete.name=Completed Research
 item.talisman_lesser.name=Lesser Knowledge Talisman
 item.talisman_greater.name=Greater Knowledge Talisman
 
+prospect.canmine=You can mine this! (Tool: %1$s | Block: %2$s)
+prospect.cannotmine=This cannot be mined with this tool! (Tool: %1$s | Block: %2$s)
 gui.information=Research
 information.discovered=Researched
 information.buy=Click for Research
@@ -1452,6 +1454,7 @@ food.stat.staminabuffMinutes.name=Bonus %1$s stamina for %2$s mins
 food.stat.staminabuffSeconds.name=Bonus %1$s stamina for %2$s secs
 food.stat.saturationMinutes.name=Saturation for %1$s minutes
 food.stat.saturationSeconds.name=Saturation for %1$s seconds
+food.stat.saturation.name=Saturation Pts: %1$s
 food.stat.staminabuffRegenMinutes.name=Regen %1$s stamina/second for %2$s mins
 food.stat.staminabuffRegenSeconds.name=Regen %1$s stamina/second for %2$s secs
 food.stat.cure.poison=Cure Poison
@@ -1662,7 +1665,7 @@ knowledge.blastfurn.5=The heater should have firebricks on 4 corners at its leve
 #Structure
 knowledge.blastfurn.6=Using the blast furnace is pretty simple, but does consume a lot of fuel.^Start off by putting input (such as prepared iron) in the bottom slot and coal in the top slot of the top-most chamber block, (its recommended to use a small chimney to catch the smoke while remaining in access to
 knowledge.blastfurn.7=the block). When done properly the items will fall down the chute stacking 1 per chamber. After that: put some fuel in the bottom, fuel burns regardless of smelting so it's wise to take note of how much you may need. Upon finishing: all chambers will process one item, and the heater will evacuate its pressure, leaving a spectacular
-knowledge.blastfurn.8=jet of flames.^Just make sure not to obstruct these jets or the furnace could explode.
+knowledge.blastfurn.8=jet of flames.^Just make sure not to obstruct these jets or the furnace could explode. And keep flammable objects away!
 #Prepared Iron
 knowledge.blastfurn.9=Prepared iron ore is used to make pig iron.^Pig iron can be turned into steel.^You may use strong flux to double production, but strong flux is rare and should be used wisely.
 
@@ -1724,7 +1727,7 @@ knowledge.craftArmourHeavy.1=This stuff is strong and much like medium armor, cr
 knowledge.craftTools=Forged Tools
 knowledge.craftTools.desc=Properly crafted
 knowledge.craftTools.1=What is that? you throw a stick on some rocks and call that a tool? HA! These are how REAL tools are made!^All the goodness of normal tools only made properly, these tools have double the durability... and double the style.
-
+knowledge.craftTools.pick=Picks can also tell you a blocks tier and if it can be mined. Just right-click a block with a forged pick.
 knowledge.craftAdvTools=Advanced Tools
 knowledge.craftAdvTools.desc=Fit for purpose
 knowledge.craftAdvTools.1=Not only can you forge proper tools but there is also a selection of additional tools with their own uses. Most of these tools are alternatives to existing tools, only... different.

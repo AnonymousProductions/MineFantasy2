@@ -21,7 +21,6 @@ public class HungerSystemMF
         	}
         	if(event.phase == TickEvent.Phase.END)
         	{
-        		decrSaturation(event.player);
         		slowHunger(event.player);
         	}
         }
@@ -46,7 +45,8 @@ public class HungerSystemMF
     		
     		if(sat > 0)
     		{
-    			MineFantasyAPI.debugMsg("Hunger drop cancelled: Sat");
+    			decrSaturation(player);
+    			MineFantasyAPI.debugMsg("Hunger drop cancelled: Sat = " + (sat-1));
     			player.getFoodStats().addStats(1, 0.0F);
     		}
     		else if(temp > 0)
@@ -104,9 +104,8 @@ public class HungerSystemMF
 			setSaturation(user, sat);
 		}
 	}
-	public static void applySaturation(EntityPlayer consumer, float seconds)
+	public static void applySaturation(EntityPlayer consumer, float newValue)
 	{
-		float newValue = seconds*20F;
 		float value = getSaturation(consumer);
 		
 		if(newValue > value)

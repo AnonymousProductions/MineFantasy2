@@ -633,7 +633,7 @@ public class CarpenterRecipes
 			" R ",
 			'C', new ItemStack(Items.dye, 1, 3),
 			'I', FoodListMF.icing,
-			'R', FoodListMF.cake_carrot_uniced,
+			'R', FoodListMF.cake_choc_uniced,
 		});
 		KnowledgeListMF.bfCakeI =
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.cake_bf), "bfcake", basic, "knife", -1, 100, new Object[]{

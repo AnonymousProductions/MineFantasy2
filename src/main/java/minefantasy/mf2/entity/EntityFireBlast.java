@@ -1,12 +1,15 @@
 package minefantasy.mf2.entity;
 
+import static net.minecraftforge.common.util.ForgeDirection.UP;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityFireBlast extends EntityFireball
 {
@@ -45,6 +48,26 @@ public class EntityFireBlast extends EntityFireball
 	    	int lifeScale = (int) Math.floor((float)ticksExisted / 5F);
 	    	float newSize = size + (size/4*lifeScale);
 	    	this.setSize(newSize, newSize);
+    	}
+    	if(ticksExisted % 10 == 0)
+    	{
+    		for(int x = -1; x <= 1; x++)
+    		{
+    			for(int y = -1; y <= 1; y++)
+        		{
+    				for(int z = -1; z <= 1; z++)
+    	    		{
+    	    			int i = (int)posX + x;
+    	    			int j = (int)posY + y;
+    	    			int k = (int)posZ + z;
+    	    			
+    	    			if (canBlockCatchFire(i, j-1, k) && worldObj.isAirBlock(i, j, k))
+    	                {
+    	                    this.worldObj.setBlock(i, j, k, Blocks.fire);
+    	                }
+    	    		}	
+        		}
+    		}
     	}
     }
 
@@ -104,7 +127,7 @@ public class EntityFireBlast extends EntityFireball
                     this.worldObj.setBlock(i, j, k, Blocks.fire);
                 }
                 boolean tnt = worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ).getMaterial() == Material.tnt;
-                if(isPreset("BlastFurnace") && (rand.nextInt(100) == 0) || tnt)
+                if(isPreset("BlastFurnace") && (rand.nextInt(50) == 0) || tnt)
                 {
                 	boolean solid = worldObj.isBlockNormalCubeDefault(pos.blockX, pos.blockY, pos.blockZ, false);
                 	worldObj.newExplosion(this, posX, posY, posZ, solid ? 1.5F : 0.5F, true, true);
@@ -160,5 +183,13 @@ public class EntityFireBlast extends EntityFireball
     		return getEntityData().getString("Preset").equalsIgnoreCase(s);
     	}
     	return false;
+    }
+    public boolean canBlockCatchFire(int x, int y, int z)
+    {
+        return canCatchFire(x, y, z, UP);
+    }
+    public boolean canCatchFire(int x, int y, int z, ForgeDirection face)
+    {
+        return worldObj.getBlock(x, y, z).isFlammable(worldObj, x, y, z, face);
     }
 }

@@ -20,7 +20,6 @@ public class ItemBucketMF extends Item
 {
     /** field for checking if the bucket has been filled. */
     private Block isFull;
-    private static final String __OBFID = "CL_00000000";
 
     public ItemBucketMF(String name, Block filler)
     {
@@ -28,7 +27,7 @@ public class ItemBucketMF extends Item
         this.isFull = filler;
         this.setCreativeTab(CreativeTabMF.tabGadget);
         
-        setTextureName("minefantasy2:Tool/"+name);
+        setTextureName("minefantasy2:tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
     }

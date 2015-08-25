@@ -29,45 +29,43 @@ public class FoodListMF
 	public static Item spice_mild = (new ItemFoodMF("spice_mild", 1, 0F, false));
 	public static Item flour = new ItemComponentMF("flour", 0).setCreativeTab(CreativeTabMF.tabFood);
 	
-	public static Item breadroll = (new ItemFoodMF("breadroll", 5, 1.0F, false)).setMaxStackSize(8);
+	public static Item breadroll = (new ItemFoodMF("breadroll", 5, 1.0F, false));
 	
 	public static Item curds = new ItemUnfinishedFood("curds");
-	public static Item cheese_slice = (new ItemFoodMF("cheese_slice",       6, 1.0F, 2F, false, 0)).setMaxStackSize(1);
+	public static Item cheese_slice = (new ItemFoodMF("cheese_slice",       4, 1.0F, 0, false, 0));
 	
 	//T1 (basic mixing)
 	//Util: Roast, Prep Block (Stone-Bronze Age)
-	public static Item stew = (new ItemFoodMF("stew"      , 10, 1.0F, 5F, false, 0)).setStaminaModifier	  (10F, 1.0F).setReturnItem(Items.bowl).setMaxStackSize(1);
-	public static Item salad = (new ItemFoodMF("salad"  , 6,  1.0F, 3F, false, 0)).setStaminaModifier (20F, 1.0F).setReturnItem(Items.bowl).setMaxStackSize(1);
-	public static Item oats = (new ItemFoodMF("oats"    , 6, 1.0F, 4F, false, 0)).setStaminaModifier (15F, 1.0F).setReturnItem(Items.bowl).setMaxStackSize(1);
+	public static Item stew = (new ItemFoodMF("stew"    , 5, 1.0F,  5, false, 0)).setStaminaModifier (15F, 1.0F).setReturnItem(Items.bowl).setMaxStackSize(1);
+	public static Item salad = (new ItemFoodMF("salad"  , 5,  1.0F,  5, false, 0)).setStaminaModifier (10F, 1.5F).setReturnItem(Items.bowl).setMaxStackSize(1);
+	public static Item oats = (new ItemFoodMF("oats"    , 5,  1.0F,  3, false, 0)).setStaminaModifier (20F, 1.0F).setReturnItem(Items.bowl).setMaxStackSize(1);
 	
 	//T2 (Basic baking, stone oven, processed mixing)
 	//Util: Stone Oven, Prep Block (Bronze Age - Early Iron Age)
-	public static Item cheese_roll = (new ItemFoodMF("cheese_roll",10, 1.0F, 10F, false, 0)).setStaminaModifier (25F, 1.0F).setMaxStackSize(1);
-	public static Item jerky = (new ItemFoodMF("jerky",            8,  1.0F, 5F, false, 0)).setStaminaModifier (20F, 0.5F).setStaminaRegenModifier(2, 5F).setMaxStackSize(8);
-	public static Item sweetroll_uniced = (new ItemFoodMF("sweetroll_uniced", 1,  1.0F, 2F, false, 0)).setStaminaRegenModifier (5F, 1F).setStaminaRestore(5F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
-	public static Item sweetroll = (new ItemMultiFood("sweetroll",                2, 2,  1.0F, 2F, 0)).setStaminaRegenModifier (10F, 1.5F).setStaminaRestore(10F).setEatTime(16).setAlwaysEdible();
-	
-	public static Item sandwitch_meat = (new ItemMultiFood("sandwitch_meat",       2, 10, 1.0F, 10F, 1)).setStaminaModifier(20F, 1.0F).setTextureName("minefantasy2:food/sandwitch");
+	public static Item cheese_roll = (new ItemFoodMF("cheese_roll",				6,    1.0F, 8, false, 0)).setStaminaModifier (20F, 1.0F).setMaxStackSize(1);
+	public static Item jerky = (new ItemFoodMF("jerky",            				6,    1.0F, 6, false, 0)).setStaminaModifier (20F, 1.0F).setStaminaRegenModifier(2, 10F).setMaxStackSize(8);
+	public static Item sweetroll_uniced = (new ItemFoodMF("sweetroll_uniced", 	5,    1.0F, 0, false, 0)).setStaminaRegenModifier (5F, 1F).setStaminaRestore(5F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
+	public static Item sweetroll = (new ItemMultiFood("sweetroll",            2,3,  1.0F, 0, 0)).setStaminaRegenModifier (10F, 2F).setStaminaRestore(10F).setEatTime(16).setAlwaysEdible();
+	public static Item sandwitch_meat = (new ItemMultiFood("sandwitch_meat",  2,6,  1.0F, 8, 1)).setStaminaModifier(25F, 1.0F).setTextureName("minefantasy2:food/sandwitch");
 	
 	//T3 (Quality baking, metal oven)
 	//Util: Metal Oven, Prep Block, Steel Tools (Mid Iron Age)
-	public static Item meatpie_slice = (new ItemFoodMF("meatpie_slice",        10, 1.0F, 15F, false, 0)).setStaminaModifier(50F, 1.0F).setMaxStackSize(1);
-	
-	public static Item pieslice_apple = (new ItemFoodMF("pieslice_apple",      5,  1.0F, 1F, false, 0)).setStaminaRegenModifier(8, 3F).setStaminaRestore(20F).setEatTime(16).setAlwaysEdible().setAlwaysEdible().setTextureName("minefantasy2:food/applepie_slice").setMaxStackSize(1);
-	public static Item pieslice_berry = (new ItemFoodMF("pieslice_berry",      4 , 1.0F, 1F, false, 0)).setStaminaRegenModifier(10, 2.5F).setStaminaRestore(15F).setEatTime(16).setAlwaysEdible().setAlwaysEdible().setTextureName("minefantasy2:food/berrypie_slice").setMaxStackSize(1);
+	public static Item meatpie_slice = (new ItemFoodMF("meatpie_slice",        8,  1.0F, 10, false, 0)).setStaminaModifier(50F, 1.0F).setMaxStackSize(1);
+	public static Item pieslice_apple = (new ItemFoodMF("pieslice_apple",      5,  1.0F, 4, false, 0)).setStaminaRegenModifier(5, 5F).setStaminaRestore(10F).setEatTime(16).setAlwaysEdible().setAlwaysEdible().setTextureName("minefantasy2:food/applepie_slice").setMaxStackSize(1);
+	public static Item pieslice_berry = (new ItemFoodMF("pieslice_berry",      5 , 1.0F, 2, false, 0)).setStaminaRegenModifier(10, 2.5F).setStaminaRestore(25F).setEatTime(16).setAlwaysEdible().setAlwaysEdible().setTextureName("minefantasy2:food/berrypie_slice").setMaxStackSize(1);
 	
 	//T4 (Advanced baking, multiple processes, temperature regulation)
 	//Util : Metal Oven, Prep Block, Full tool set, Proper kitchen setup (Mid Iron Age)
-	public static Item pieslice_shepards = (new ItemFoodMF("pieslice_shepards",       10, 1.0F, 15F, false, 1)).setStaminaModifier(100F, 1.0F).setTextureName("minefantasy2:food/shepardspie_slice").setMaxStackSize(1);
+	public static Item pieslice_shepards = (new ItemFoodMF("pieslice_shepards",       10, 1.0F, 15, false, 1)).setStaminaModifier(100F, 1.0F).setTextureName("minefantasy2:food/shepardspie_slice").setMaxStackSize(1);
 	
-	public static Item cake_slice = (new ItemFoodMF("cake_slice",            2, 0.8F, 2F, false, 0)).setStaminaRegenModifier(10F, 4F).setStaminaRestore(20F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
-	public static Item carrotcake_slice = (new ItemFoodMF("carrotcake_slice",2, 0.8F, 2F, false, 0)).setStaminaRegenModifier(10F, 4F).setStaminaRestore(40F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
-	public static Item choccake_slice = (new ItemFoodMF("choccake_slice",    2, 0.8F, 2F, false, 0)).setStaminaRegenModifier(20F, 2F).setStaminaRestore(50F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
+	public static Item cake_slice = (new ItemFoodMF("cake_slice",            3, 0.8F, 0, false, 0)).setStaminaRegenModifier(10F, 4F).setStaminaRestore(20F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
+	public static Item carrotcake_slice = (new ItemFoodMF("carrotcake_slice",4, 0.8F, 2, false, 0)).setStaminaRegenModifier(10F, 4F).setStaminaRestore(40F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
+	public static Item choccake_slice = (new ItemFoodMF("choccake_slice",    4, 0.8F, 2, false, 0)).setStaminaRegenModifier(20F, 2F).setStaminaRestore(50F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
 	
 	//T5 (Advanced baking, multiple process, temperature regulation, many ingreedients)
 	
 	//T6 (Perfeted meals, extremely difficylt to create)
-	public static Item bfcake_slice = (new ItemFoodMF("bfcake_slice",      4, 1.0F, 2F, false, 1)).setStaminaRegenModifier(20F, 4F).setStaminaRestore(100F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
+	public static Item bfcake_slice = (new ItemFoodMF("bfcake_slice",      6, 1.0F, 2, false, 1)).setStaminaRegenModifier(20F, 4F).setStaminaRestore(100F).setEatTime(16).setAlwaysEdible().setMaxStackSize(1);
 	
 	//MISC
 	public static Item cake_tin = new ItemComponentMF("cake_tin", 0).setCreativeTab(CreativeTabMF.tabFood);
@@ -103,14 +101,16 @@ public class FoodListMF
 	public static Item salt = new ItemComponentMF("salt", 0).setCreativeTab(CreativeTabMF.tabFood).setContainerItem(hard_bowl);
 	public static Item bowl_water_salt = new ItemComponentMF("bowl_water_salt", 0).setCreativeTab(CreativeTabMF.tabFood);
 	
-	public static Item dough = new ItemUnfinishedFood("dough");
-	public static Item pastry = new ItemUnfinishedFood("pastry");
-	public static Item raw_bread = new ItemUnfinishedFood("raw_bread");
+	public static Item dough = new ItemUnfinishedFood("dough").setMaxStackSize(64);
+	public static Item pastry = new ItemUnfinishedFood("pastry").setMaxStackSize(64);
+	public static Item raw_bread = new ItemUnfinishedFood("raw_bread").setMaxStackSize(64);
 	//SPECIAL RECIPES
 	
+	public static final float satModifier = 2.0F;
 	public static void init()
 	{
 	}
+	
 	/**
 	 * FOOD TYPES:
 	 * Sugar: Stamina Regen
@@ -118,8 +118,8 @@ public class FoodListMF
 	 * Grain: Stamina Max
 	 * 
 	 * Protien: Saturation / Stamina Max
-	 * Fruit: Stamina Max / Stamina Speed
-	 * Vegetable: Stamina Speed / Saturation
+	 * Fruit: Stamina Max / Stamina Time
+	 * Vegetable: Stamina Time / Saturation
 	 */
 
 }

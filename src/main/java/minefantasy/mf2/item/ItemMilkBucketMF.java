@@ -12,14 +12,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemMilkBucketMF extends Item
 {
-    private static final String __OBFID = "CL_00000048";
-
     public ItemMilkBucketMF(String name)
     {
         this.maxStackSize = 1;
         this.setCreativeTab(CreativeTabMF.tabGadget);
         
-        setTextureName("minefantasy2:Tool/"+name);
+        setTextureName("minefantasy2:tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
     }
