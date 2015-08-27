@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.crafting.IQualityBalance;
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvil;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
@@ -32,9 +33,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldServer;
 
-public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
+public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil, IQualityBalance
 {
 	public int tier;
 	private ItemStack[] inventory;
@@ -64,7 +66,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	{
 		super.readFromNBT(nbt);
 		tier = nbt.getInteger("tier");
-		
 		NBTTagList savedItems = nbt.getTagList("Items", 10);
         this.inventory = new ItemStack[this.getSizeInventory()];
 
@@ -85,6 +86,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         researchRequired = nbt.getString("researchRequired");
         texName = nbt.getString("TextureName");
         outputHot = nbt.getBoolean("outputHot");
+        qualityBalance = nbt.getFloat("Quality");
 	}
 	
 	@Override
@@ -115,6 +117,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         nbt.setString("researchRequired", researchRequired);
         nbt.setString("TextureName", texName);
         nbt.setBoolean("outputHot", outputHot);
+        nbt.setFloat("Quality", qualityBalance);
 	}
 
 	@Override
@@ -238,7 +241,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		updateInv();
 	}
 	
-	public boolean tryCraft(EntityPlayer user)
+	public boolean tryCraft(EntityPlayer user, boolean rightClick)
 	{
 		if(user == null)return false;
 		
@@ -246,6 +249,18 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		int hammerTier = ToolHelper.getCrafterTier(user.getHeldItem());
 		if(toolType.equalsIgnoreCase("hammer") || toolType.equalsIgnoreCase("hvyHammer"))
 		{
+			if(rightClick)
+			{
+				this.qualityBalance += 0.1F;
+			}
+			else
+			{
+				this.qualityBalance -= 0.175F;
+			}
+			if(qualityBalance >= 1.0F || qualityBalance <= -1.0F)
+			{
+				ruinCraft();
+			}
 			if(user.getHeldItem() != null)
 			{
 				user.getHeldItem().damageItem(1, user);
@@ -259,8 +274,8 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			
 			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= anvilTierRequired && hammerTier >= hammerTierRequired)
 			{
-				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, 1.0F);
-				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem());
+				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, rightClick ? 1.2F : 1.0F);
+				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem()) * (rightClick ? 0.75F : 1.0F);
 				float toolEfficiency = efficiency;
 				
 				if(user.swingProgress > 0 && user.swingProgress <= 1.0)
@@ -276,7 +291,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				if(progress >= progressMax)
 				{
 					float xpGained = progressMax / toolEfficiency;
-					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)xpGained);
 					craftItem();
 				}
 			}
@@ -293,6 +307,14 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		return false;
 	}
 	
+	private void ruinCraft() 
+	{
+		if(!worldObj.isRemote)
+		{
+			consumeResources();
+			progress = progressMax = qualityBalance = 0;
+		}
+	}
 	public boolean doesPlayerKnowCraft(EntityPlayer user)
 	{
 		return getResearchNeeded().isEmpty() || ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
@@ -343,6 +365,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         }
 		onInventoryChanged();
 		progress = 0;
+		qualityBalance = 0;
 	}
 	private ItemStack modifyArmour(ItemStack result)
 	{
@@ -404,6 +427,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				return new ItemStack(DF, result.stackSize, result.getItemDamage());
 			}
 		}
+		this.damageItem(result);
 		return result;
 	}
 	private int averageTemp() 
@@ -593,11 +617,13 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
     		if (!canCraft() && progress > 0) 
             {
     			progress = 0;
-                //quality = 100;
+    			qualityBalance = 0;
             }
+    		
     		if(recipe != null && oldRecipe != null && !recipe.isItemEqual(oldRecipe))
     		{
     			progress = 0;
+    			qualityBalance = 0;
     		}
     		if(progress > progressMax)progress = progressMax-1;
     		syncData();
@@ -684,5 +710,49 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	public String getTextureName()
 	{
 		return texName;
+	}
+	public float qualityBalance = 0F;
+	public float thresholdPosition = 0.1F;
+	@Override
+	public float getMarkerPosition()
+	{
+		return qualityBalance;
+	}
+	@Override
+	public boolean shouldShowMetre()
+	{
+		return true;
+	}
+	@Override
+	public float getThresholdPosition() 
+	{
+		return thresholdPosition;
+	}
+	
+	private float getAbsoluteBalance()
+	{
+		return qualityBalance < 0 ? -qualityBalance : qualityBalance;
+	}
+	private float getItemDamage()
+	{
+		int threshold = (int)(100F * thresholdPosition / 2F);
+		int total = (int)(100F * getAbsoluteBalance() - threshold);
+		
+		MFLogUtil.logDebug("Item Damage... Quality = " + total + " / " + threshold);
+		if(total > threshold)
+		{
+			float percent = ((float)total - (float)threshold) / (100F-(float)threshold);
+			MFLogUtil.logDebug("Damage: " + percent);
+			return percent;
+		}
+		return 0F;
+	}
+	private void damageItem(ItemStack item)
+	{
+		float damage = getItemDamage() * item.getMaxDamage();
+		if(item.isItemStackDamageable())
+		{
+			item.setItemDamage((int)(damage));
+		}
 	}
 }

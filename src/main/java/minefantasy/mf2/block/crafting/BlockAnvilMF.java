@@ -100,7 +100,7 @@ public class BlockAnvilMF extends BlockContainer
     				}
     			}
     		}
-    		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
+    		if(side != 1 || !tile.tryCraft(user, true) && !world.isRemote)
     		{
     			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
     		}
@@ -114,7 +114,7 @@ public class BlockAnvilMF extends BlockContainer
         	TileEntityAnvilMF tile = getTile(world, x, y, z);
         	if(tile != null)
         	{
-        		tile.tryCraft(user);
+        		tile.tryCraft(user, false);
         	}
         }
     }

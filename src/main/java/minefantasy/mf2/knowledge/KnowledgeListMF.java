@@ -61,6 +61,7 @@ public class KnowledgeListMF
     public static InformationBase smeltAdamant = (new InformationBase("smeltAdamantium", 			3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75);
     
     public static InformationBase bellows = (new InformationBase("bellows", 					 0, -1,0, BlockListMF.bellows, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
+    public static InformationBase trough = (new InformationBase("trough", 					 	 0, -2,0, BlockListMF.trough_wood, bellows)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase forge = (new InformationBase("forge", 						 0, 0, 0, BlockListMF.forge, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase anvil = (new InformationBase("anvil", 						-1, 0, 0, BlockListMF.anvil[1], forge)).registerStat().setPage(artisanry).setUnlocked().setSpecial();
     public static InformationBase craftTools = (new InformationBase("craftTools", 				-3, 2, 0, ToolListMF.picks[3], anvil)).registerStat().setPage(artisanry).setUnlocked();
@@ -155,7 +156,7 @@ public class KnowledgeListMF
     public static IRecipe carpenterRecipe, tannerRecipe, stoneAnvilRecipe, forgeRecipe;
     public static IAnvilRecipe coalDustR, kaoDustR, encrustedR, steelR, obsidianDustR, diamondR;
     public static IRecipe fireclayR, fireBrickR, fireBricksR;
-    public static ICarpenterRecipe strongRackR, bellowsRecipe, crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe;
+    public static ICarpenterRecipe strongRackR, woodTroughRecipe, rockTroughRecipe, strongwoodTroughRecipe, bellowsRecipe, crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe;
     
     public static ICarpenterRecipe reHelmetR, reChestR, reLegsR, reBootsR;
     public static IAnvilRecipe studHelmetR, studChestR, studLegsR, studBootsR, scaleHelmR, scaleChestR, scaleLegsR, scaleBootsR;

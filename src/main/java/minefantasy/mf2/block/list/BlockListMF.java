@@ -2,6 +2,7 @@ package minefantasy.mf2.block.list;
 
 import minefantasy.mf2.block.basic.*;
 import minefantasy.mf2.block.crafting.*;
+import minefantasy.mf2.block.decor.*;
 import minefantasy.mf2.block.food.*;
 import minefantasy.mf2.block.refining.*;
 import minefantasy.mf2.item.food.FoodListMF;
@@ -143,6 +144,9 @@ public class BlockListMF
 	
 	public static Block advTanner = new BlockTanningRack(1, "Strong");
 	public static Block research = new BlockResearchStation();
+	public static Block trough_wood = new BlockTrough("Basic", Material.wood, 32);
+	public static Block trough_rock = new BlockTrough("Rock", Material.wood, 64);
+	public static Block trough_strongwood = new BlockTrough("Refinedwood", Material.wood, 100);
 	
 	public static void init()
 	{
@@ -181,4 +185,5 @@ public class BlockListMF
 	public static int forge_RI = 104;
 	public static int bellows_RI = 105;
 	public static int research_RI = 106;
+	public static int trough_RI = 107;
 }

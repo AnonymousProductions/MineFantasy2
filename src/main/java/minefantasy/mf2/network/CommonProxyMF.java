@@ -127,6 +127,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 		GameRegistry.registerTileEntity(TileEntityForge.class, "MF_Forge");
 		GameRegistry.registerTileEntity(TileEntityBellows.class, "MF_Bellows");
 		GameRegistry.registerTileEntity(TileEntityResearch.class, "MF_Research");
+		GameRegistry.registerTileEntity(TileEntityTrough.class, "MF_Trough");
 	}
 
 

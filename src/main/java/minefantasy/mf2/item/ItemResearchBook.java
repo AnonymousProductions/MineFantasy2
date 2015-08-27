@@ -43,7 +43,10 @@ public class ItemResearchBook extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
     {
-		ResearchLogic.syncData(user);
+    	if(!world.isRemote)
+    	{
+    		ResearchLogic.syncData(user);
+    	}
     	user.openGui(MineFantasyII.instance, 1, world, 0, -1, 0);
         return item;
     }

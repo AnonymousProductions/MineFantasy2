@@ -367,6 +367,9 @@ tile.chimney.stone.name=Stone Chimney
 tile.chimney.stone.wide.name=Wide Stone Chimney
 tile.chimney.stone_extractor.wide.name=Stone Extractor Chimney
 tile.bellows.name=Bellows
+tile.troughBasic.name=Wooden Trough
+tile.troughRock.name=Stone Trough
+tile.troughRefinedwood.name=Refined Wooden Trough
 tile.tanner.name=Shabby Tanning Rack
 tile.tannerStrong.name=Tanning Rack
 tile.bombBench.name=Bomb Crafting Table
@@ -1687,6 +1690,9 @@ knowledge.anvil.2=Anvils are simple to craft and can be recycled in a furnace.^P
 knowledge.anvil.3=Crafting items can be complicated, there are two stages to crafting.^Firstly some items(mostly metal ingots and hunks) need to be heated in the $hForge$r. If an items heatable, it needs to be heated.^Secondly is the recipe itself: Start by assembling the components on the
 knowledge.anvil.4=grid$h[3]$r (just as you're used to), then: equip a proper hammer (either heavy or normal depending on the recipe). Both hammer and anvil need to be of proper tier, Tiers will appear above the title$h[1]$r.^Hit the anvil with the hammer by clicking. The progress bar$h[2]$r will now fill in, when finished: The result
 knowledge.anvil.5=appears in the output slot$h[4]$r.^Some items will be hot, you can right-click them on water or a cauldron(shift click), to cool them. Right-click the anvil with tongs if you want to pick items up that way.
+knowledge.anvil.6=While crafting, keep track of the quality metre. The aim here is to keep the marker away from the edges. If it hits either side it ruins the recipe. When crafting damageable items however; the durability of the item is diminished if the marker is outside the pins when completing, see the next page.
+#Quality
+knowledge.anvil.7=As you see, there's the two green pins that damage items if the blue marker is outside, either end of the bar itself is the dead zone. Be sure to distribute a mix of left-click and right-clicks to craft an item and think ahead before hitting. also note the metre moves right slower than left.
 
 knowledge.forge=Forge
 knowledge.forge.desc=Its getting hot in here.
@@ -1698,6 +1704,10 @@ knowledge.bellows=Bellows
 knowledge.bellows.desc=Heat Injection
 knowledge.bellows.1=Sometimes the fire just isn't hot enough, or it may be taking to long to warm up. Using hotter fuels only takes you so far and can be wasteful when not needed.^Bellows can temporarily boost the temperature of forges by up to 50%. To use: Place them pointing at the desired block and right-click them
 knowledge.bellows.2=constantly. They can also work through solid walls.
+
+knowledge.trough=Trough
+knowledge.trough.desc=Ready to Quench
+knowledge.trough.1=Having to walk to or build near water sources can be tricky, and diging holes to fill your own water sources also gets annoying. Troughs are simple containers capable of quenching hot items, just right-click tongs or hot items on this. To fill: Right-click with a bucket, but make sure not to overfill it.
 
 knowledge.repair_basic=Repair Kits
 knowledge.repair_basic.desc=Keeping tools in condition

@@ -293,6 +293,30 @@ public class CarpenterRecipes
 			'P', ComponentListMF.plankRefined,
 			'L', Items.leather,
 		});
+		KnowledgeListMF.woodTroughRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.trough_wood), "", nailHammer, "hammer", 0, 30 , new Object[]
+		{
+			"P P",
+			"PPP",
+			'P', ComponentListMF.plank,
+		});
+		KnowledgeListMF.rockTroughRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.trough_rock), "", nailHammer, "hammer", 1, 60 , new Object[]
+		{
+			"P P",
+			"PPP",
+			'P', BlockListMF.reinforced_stone,
+		});
+		KnowledgeListMF.strongwoodTroughRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.trough_strongwood), "", nailHammer, "hammer", 2, 100 , new Object[]
+		{
+			"N N",
+			"P P",
+			"PPP",
+			"NNN",
+			'N', ComponentListMF.nail,
+			'P', ComponentListMF.plankRefined,
+		});
 		
 		KnowledgeListMF.strongRackR = 
 		MineFantasyAPI.addCarpenterRecipe(new ItemStack(BlockListMF.advTanner), "", nailHammer, "hammer", 1, 80 , new Object[]

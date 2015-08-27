@@ -144,7 +144,7 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 					return item;
 				}
 
-				if (isWaterSource(world, i, j, k) && TongsHelper.getHeldItem(item) != null) {
+				if (TongsHelper.isWaterSource(world, i, j, k) && TongsHelper.getHeldItem(item) != null) {
 					ItemStack drop = TongsHelper.getHeldItem(item).copy(), cooled = drop;
 					
 					if (TongsHelper.isCoolableItem(drop)) 
@@ -170,23 +170,6 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 
 			return item;
 		}
-	}
-
-	private boolean isWaterSource(World world, int i, int j, int k)
-	{
-		if (world.getBlock(i, j, k).getMaterial() == Material.water) 
-		{
-			return true;
-		}
-		if (isCauldron(world, i, j, k)) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isCauldron(World world, int x, int y, int z)
-	{
-		return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z) > 0;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.awt.Color;
 import minefantasy.mf2.api.archery.Arrows;
 import minefantasy.mf2.api.archery.IDisplayMFArrows;
 import minefantasy.mf2.api.crafting.IBasicMetre;
+import minefantasy.mf2.api.crafting.IQualityBalance;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -14,6 +15,7 @@ import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.config.ConfigClient;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -69,6 +71,10 @@ public class MineFantasyHUD extends Gui
 				if(tile instanceof IBasicMetre)
 				{
 					this.renderCraftMetre(world, player, (IBasicMetre)tile);
+				}
+				if(tile instanceof IQualityBalance)
+				{
+					this.renderQualityBalance(world, player, (IQualityBalance)tile);
 				}
 			}
 		}
@@ -316,6 +322,10 @@ public class MineFantasyHUD extends Gui
 	
 	private void renderCraftMetre(World world, EntityPlayer player, IBasicMetre tile) 
 	{
+		if(!tile.shouldShowMetre())
+		{
+			return;
+		}
 		GL11.glPushMatrix();
 		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
         int width = scaledresolution.getScaledWidth();
@@ -330,6 +340,34 @@ public class MineFantasyHUD extends Gui
         
         String s = tile.getLocalisedName();
         mc.fontRenderer.drawString(s, xPos + 86 - (mc.fontRenderer.getStringWidth(s) / 2), yPos+3, 0);
+        GL11.glColor3f(1.0F, 1.0F, 1.0F);
+        GL11.glPopMatrix();
+	}
+	private void renderQualityBalance(World world, EntityPlayer player, IQualityBalance tile) 
+	{
+		if(!tile.shouldShowMetre())
+		{
+			return;
+		}
+		GL11.glPushMatrix();
+		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
+        int width = scaledresolution.getScaledWidth();
+        int height = scaledresolution.getScaledHeight();
+        
+        bindTexture("textures/gui/hud_overlay.png");
+        int xPos = width/2 + -86;
+        int yPos = height - 69+17;
+        int barwidth = 160;
+        int centre = xPos+5+(barwidth/2);
+        
+        this.drawTexturedModalRect(xPos, yPos, 84, 23, 172, 10);
+        int markerPos = (int) (centre + (tile.getMarkerPosition()*barwidth/2F));
+        this.drawTexturedModalRect(markerPos, yPos+1, 84, 33, 3, 5);
+        
+        int offset = (int)(tile.getThresholdPosition()/2F*barwidth);
+        this.drawTexturedModalRect(centre-offset, yPos+1, 87, 33, 2, 4);
+        this.drawTexturedModalRect(centre+offset, yPos+1, 89, 33, 2, 4);
+        
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.heating.IHotItem;
+import minefantasy.mf2.api.heating.TongsHelper;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.util.MFLogUtil;
@@ -222,7 +223,7 @@ public class ItemHeated extends Item implements IHotItem
 					return item;
 				}
 
-				if (isWaterSource(world, i, j, k)) {
+				if (TongsHelper.isWaterSource(world, i, j, k)) {
 					player.playSound("random.splash", 1F, 1F);
 					player.playSound("random.fizz", 2F, 0.5F);
 
@@ -244,18 +245,6 @@ public class ItemHeated extends Item implements IHotItem
 
 			return item;
 		}
-	}
-
-	private boolean isWaterSource(World world, int i, int j, int k) 
-	{
-		if (world.getBlock(i, j, k).getMaterial() == Material.water)
-		{
-			return true;
-		}
-		if (isCauldron(world, i, j, k)) {
-			return true;
-		}
-		return false;
 	}
 
 	public static boolean renderDynamicHotIngotRendering = true;
@@ -313,10 +302,6 @@ public class ItemHeated extends Item implements IHotItem
 			return (int) (255 - ((255 / 55) * percent));
 		}
 		return 0;
-	}
-
-	public boolean isCauldron(World world, int x, int y, int z) {
-		return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z) > 0;
 	}
 
 	@Override
