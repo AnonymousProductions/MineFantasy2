@@ -50,7 +50,9 @@ public class TongsHelper
 		}
 		NBTTagCompound nbt = getNBT(tongs);
 		nbt.setBoolean("Held", true);
-		item.writeToNBT(nbt);
+		NBTTagCompound save = new NBTTagCompound();
+		item.writeToNBT(save);
+		nbt.setTag("Saved", save);
 
 		return true;
 	}
@@ -85,9 +87,15 @@ public class TongsHelper
 	 */
 	public static ItemStack getHeldItem(ItemStack tongs) {
 		NBTTagCompound nbt = getNBT(tongs);
-		if (nbt.hasKey("Held")) {
-			if (nbt.getBoolean("Held")) {
-				return ItemStack.loadItemStackFromNBT(nbt);
+		if (nbt.hasKey("Held"))
+		{
+			if (nbt.getBoolean("Held")) 
+			{
+				if(nbt.hasKey("Saved"))
+				{
+					NBTTagCompound save = nbt.getCompoundTag("Saved");
+					return ItemStack.loadItemStackFromNBT(save);
+				}
 			}
 		}
 		return null;
@@ -102,8 +110,13 @@ public class TongsHelper
 	public static ItemStack getHeldItemTongs(ItemStack tongs) {
 		NBTTagCompound nbt = getNBT(tongs);
 		if (nbt.hasKey("Held")) {
-			if (nbt.getBoolean("Held")) {
-				return ItemStack.loadItemStackFromNBT(nbt);
+			if (nbt.getBoolean("Held"))
+			{
+				if(nbt.hasKey("Saved"))
+				{
+					NBTTagCompound save = nbt.getCompoundTag("Saved");
+					return ItemStack.loadItemStackFromNBT(save);
+				}
 			}
 		}
 		return null;
@@ -114,6 +127,10 @@ public class TongsHelper
 	 */
 	public static ItemStack getHotItem(ItemStack item)
 	{
+		if(true)
+		{
+			return Heatable.getItem(item);
+		}
 		NBTTagCompound tag = getNBT(item);
 		if (tag.hasKey(Heatable.NBT_ItemID) && tag.hasKey(Heatable.NBT_SubID)) 
 		{

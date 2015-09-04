@@ -310,4 +310,12 @@ public class ToolHelper
 		
 		return toolType.equalsIgnoreCase(toolNeeded) && tier >= toolTierNeeded;
 	}
+	public static void setUnbreakable(ItemStack tool)
+	{
+		if(!tool.hasTagCompound())
+		{
+			tool.setTagCompound(new NBTTagCompound());
+		}
+		tool.getTagCompound().setBoolean("Unbreakable", true);
+	}
 }

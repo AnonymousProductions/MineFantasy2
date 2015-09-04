@@ -468,6 +468,17 @@ public class EventManagerMF
 	{
 		if(event.itemStack != null)
 		{
+			if(event.itemStack.hasTagCompound() && event.itemStack.getTagCompound().hasKey("MF_Inferior"))
+			{
+				if(event.itemStack.getTagCompound().getBoolean("MF_Inferior"))
+				{
+					event.toolTip.add(EnumChatFormatting.RED + StatCollector.translateToLocal("attribute.inferior.name"));
+				}
+				if(!event.itemStack.getTagCompound().getBoolean("MF_Inferior"))
+				{
+					event.toolTip.add(EnumChatFormatting.GREEN + StatCollector.translateToLocal("attribute.superior.name"));
+				}
+			}
 			if(event.itemStack.getItem() instanceof ItemArmor)
 			{
 				addArmourRating(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);

@@ -1,10 +1,12 @@
 package minefantasy.mf2.config;
 
+import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.mechanics.CombatMechanics;
 
 public class ConfigHardcore extends ConfigurationBaseMF
 {
 	public static final String CATEGORY_CRAFTING = "Hardcore Crafting";
+	public static final String CATEGORY_RESEARCH = "Research";
 	
 	public static final String CATEGORY_FOOD = "Food and Hunting";
 	
@@ -24,6 +26,8 @@ public class ConfigHardcore extends ConfigurationBaseMF
 	@Override
 	protected void loadConfig()
 	{
+		InformationBase.unlockAll = Boolean.parseBoolean(config.get(CATEGORY_RESEARCH, "Unlock entries", false, "If you don't want to research, this will unlock all entries.").getString());
+		
 		hunterKnife = Boolean.parseBoolean(config.get(CATEGORY_FOOD, "Restrict to hunting weapon", false, "This option means animals ONLY drop meat and hide when killed with a hunting weapon such as a knife, only the killing blow counts").getString());
 		lessHunt = Boolean.parseBoolean(config.get(CATEGORY_FOOD, "Reduce Meat Drops", false, "This will alter the stack size of animal meat drops, meaning they only drop 1 every time").getString());
 		

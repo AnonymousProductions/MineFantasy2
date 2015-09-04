@@ -372,10 +372,8 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 	@Override
 	public int getMaxDamage(ItemStack stack)
 	{
-    	if(ToolMaterialMF.isUnbreakable(material))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
+	
+	
 }

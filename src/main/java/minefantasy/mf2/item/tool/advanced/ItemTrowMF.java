@@ -136,10 +136,6 @@ public class ItemTrowMF extends ItemSpade implements IToolMaterial
 	@Override
 	public int getMaxDamage(ItemStack stack)
 	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 }

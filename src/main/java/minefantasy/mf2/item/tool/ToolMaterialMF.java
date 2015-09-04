@@ -27,12 +27,4 @@ public class ToolMaterialMF
 	{
 		return toolMaterial == BaseMaterialMF.enderforge.getToolConversion() || toolMaterial == BaseMaterialMF.ignotumite.getToolConversion() || toolMaterial == BaseMaterialMF.mithium.getToolConversion();
 	}
-	public static void setUnbreakable(ItemStack tool)
-	{
-		if(!tool.hasTagCompound())
-		{
-			tool.setTagCompound(new NBTTagCompound());
-		}
-		tool.getTagCompound().setBoolean("Unbreakable", true);
-	}
 }

@@ -125,14 +125,9 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 	{
 		return ForgeDirection.UNKNOWN;//TODO: FD
 	}
-
 	@Override
 	public int getMaxDamage(ItemStack stack)
 	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 }

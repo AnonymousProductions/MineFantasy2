@@ -13,6 +13,7 @@ import minefantasy.mf2.item.tool.ToolMaterialMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
@@ -92,10 +93,6 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 	@Override
 	public int getMaxDamage(ItemStack stack)
 	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 	
@@ -161,7 +158,17 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 					}
 					if (cooled != null && !world.isRemote) 
 					{
-						player.entityDropItem(cooled, 0);
+						if(world.isAirBlock(i, j+1, k))
+						{
+							EntityItem entity = new EntityItem(world, i+0.5, j+1, k+0.5, cooled);
+							entity.delayBeforeCanPickup = 20;
+							entity.setVelocity(0, 0, 0);
+							world.spawnEntityInWorld(entity);
+						}
+						else
+						{
+							player.entityDropItem(cooled, 0);
+						}
 					}
 
 					return TongsHelper.clearHeldItem(item, player);

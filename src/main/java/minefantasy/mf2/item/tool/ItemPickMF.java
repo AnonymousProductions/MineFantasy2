@@ -73,16 +73,6 @@ public class ItemPickMF extends ItemPickaxe implements IToolMaterial
         super.addInformation(item, user, list, extra);
     }
 	
-	@Override
-	public int getMaxDamage(ItemStack stack)
-	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
-		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
-	}
-	
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player)
 	{
 		if(!world.isRemote)return item;
@@ -130,5 +120,10 @@ public class ItemPickMF extends ItemPickaxe implements IToolMaterial
 	private boolean canMineBlock(World world, int i, int j, int k) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public int getMaxDamage(ItemStack stack)
+	{
+		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 }

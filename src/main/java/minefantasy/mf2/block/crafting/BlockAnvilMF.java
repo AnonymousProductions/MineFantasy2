@@ -114,7 +114,14 @@ public class BlockAnvilMF extends BlockContainer
         	TileEntityAnvilMF tile = getTile(world, x, y, z);
         	if(tile != null)
         	{
-        		tile.tryCraft(user, false);
+        		if(user.isSneaking())
+        		{
+        			tile.upset(user);
+        		}
+        		else
+        		{
+        			tile.tryCraft(user, false);
+        		}
         	}
         }
     }

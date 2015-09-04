@@ -76,9 +76,9 @@ public class BaseMaterialMF
 	public static BaseMaterialMF mithril     = addMaterial("Mithril",         6, 4500, 	6,        7.0F,       30,       0.50F, 90).setForgeStats(6, 5, 6.0F, 280, 400).setRarity(1).setResistances(0F, 35F);//lvl 90
 	
 	//Masterwork Materials (6) Level 100
-	public static BaseMaterialMF ignotumite  = addMaterial("Ignotumite",      7, 10000, 7,        14.0F,      20 ,      2.00F, 100).setForgeStats(7, 5, 15.0F, 350, 400).setRarity(2).setResistances(50F, 0F);//High damage, heavy, fire resist lvl 100
-	public static BaseMaterialMF mithium     = addMaterial("Mithium",         7, 10000, 7,  	  10.0F,      40,       0.25F, 100).setForgeStats(7, 5, 15.0F, 330, 400).setRarity(2).setResistances(0F, 50F);//Low damage, light, magic resist lvl 100
-	public static BaseMaterialMF enderforge  = addMaterial("Ender",           7, 10000, 7,  	  12.0F,      20,       1.00F, 100).setForgeStats(7, 5, 15.0F, 400, 450).setRarity(2).setResistances(25F, 25F);//Middle                         lvl 100
+	public static BaseMaterialMF ignotumite  = addMaterial("Ignotumite",      7, 1000, 7,        14.0F,      20 ,      2.00F, 100).setForgeStats(7, 5, 15.0F, 350, 400).setRarity(2).setResistances(50F, 0F);//High damage, heavy, fire resist lvl 100
+	public static BaseMaterialMF mithium     = addMaterial("Mithium",         7, 1000, 7,  	  10.0F,      40,       0.25F, 100).setForgeStats(7, 5, 15.0F, 330, 400).setRarity(2).setResistances(0F, 50F);//Low damage, light, magic resist lvl 100
+	public static BaseMaterialMF enderforge  = addMaterial("Ender",           7, 1000, 7,  	  12.0F,      20,       1.00F, 100).setForgeStats(7, 5, 15.0F, 400, 450).setRarity(2).setResistances(25F, 25F);//Middle                         lvl 100
 	
 	
 	//MISC

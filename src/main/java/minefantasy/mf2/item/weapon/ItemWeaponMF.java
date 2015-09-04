@@ -563,10 +563,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	public int getMaxDamage(ItemStack stack)
 	{
 		int dura = super.getMaxDamage();
-    	if(ToolMaterialMF.isUnbreakable(material))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
 		return ToolHelper.setDuraOnQuality(stack, dura);
 	}
 	@Override

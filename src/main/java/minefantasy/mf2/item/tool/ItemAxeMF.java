@@ -66,14 +66,9 @@ public class ItemAxeMF extends ItemAxe implements IToolMaterial
     {
         super.addInformation(item, user, list, extra);
     }
-	
 	@Override
 	public int getMaxDamage(ItemStack stack)
 	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 }

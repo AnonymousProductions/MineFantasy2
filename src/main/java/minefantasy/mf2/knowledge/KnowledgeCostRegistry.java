@@ -24,6 +24,11 @@ public class KnowledgeCostRegistry
 		KnowledgeListMF.smeltAdamant.setItems(new ItemStack(Items.gold_ingot, 16), new ItemStack(ComponentListMF.ingots[10], 12), new ItemStack(Items.coal, 64), new ItemStack(BlockListMF.oreMythic));
 		KnowledgeListMF.smeltMithril.setItems(new ItemStack(ComponentListMF.ingots[8], 16), new ItemStack(ComponentListMF.ingots[12], 12), new ItemStack(Items.coal, 64), new ItemStack(BlockListMF.oreMythic));
 	
+		KnowledgeListMF.smeltMaster.setItems(new ItemStack(ComponentListMF.ingots[13], 4), new ItemStack(ComponentListMF.ingots[14], 4), new ItemStack(Blocks.obsidian, 32), new ItemStack(BlockListMF.oreMythic, 4));
+		KnowledgeListMF.smeltIgnotumite.setItems(new ItemStack(Items.gold_ingot, 16), new ItemStack(ComponentListMF.ingots[13], 4), new ItemStack(ComponentListMF.talisman_greater));
+		KnowledgeListMF.smeltMithium.setItems(new ItemStack(ComponentListMF.ingots[8], 16), new ItemStack(ComponentListMF.ingots[14], 4), new ItemStack(ComponentListMF.talisman_greater));
+		KnowledgeListMF.smeltEnderforge.setItems(new ItemStack(ComponentListMF.ingots[13], 2), new ItemStack(ComponentListMF.ingots[14], 2), new ItemStack(Items.ender_pearl, 16), new ItemStack(ComponentListMF.talisman_greater));
+		
 		KnowledgeListMF.crucible2.setItems(new ItemStack(ComponentListMF.kaolinite, 16), new ItemStack(Items.clay_ball, 32), new ItemStack(Blocks.stone, 32), new ItemStack(Items.coal, 32));
 		KnowledgeListMF.repair_basic.setItems(new ItemStack(Items.iron_ingot, 16), new ItemStack(Items.string, 8), new ItemStack(ComponentListMF.ingots[2], 16), new ItemStack(Items.leather, 16));
 		KnowledgeListMF.repair_advanced.setItems(new ItemStack(ComponentListMF.ingots[4], 16), new ItemStack(Items.slime_ball, 4), new ItemStack(BlockListMF.repair_basic, 4), new ItemStack(Items.leather, 16));

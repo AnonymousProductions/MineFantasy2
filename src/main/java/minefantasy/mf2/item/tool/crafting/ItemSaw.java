@@ -217,10 +217,6 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 	@Override
 	public int getMaxDamage(ItemStack stack)
 	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 	@Override

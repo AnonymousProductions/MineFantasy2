@@ -65,6 +65,27 @@ public class WorldGenOres
 			}
 		}
 	}
+	private static void generateOreWithNeighbour2(Random seed, int chunkX, int chunkZ, World world, Block basic, float chance, Block special, Block bed, Block neighbour, int size, int frequencyMin, int frequencyMax, float rarity, int layerMin, int layerMax) 
+	{
+		int frequency = MathHelper.getRandomIntegerInRange(seed, frequencyMin, frequencyMax);
+		if(seed.nextFloat() < rarity)
+		{
+			for(int count = 0; count < frequency; count ++)
+			{
+				int x = chunkX*16 + seed.nextInt(16);
+				int y = MathHelper.getRandomIntegerInRange(seed, layerMin, layerMax);
+				int z = chunkZ*16 + seed.nextInt(16);
+				
+				if(isNeibourNear(world, x, y, z, neighbour))
+				{
+					Block ore = (seed.nextFloat() <= chance ? special : basic);
+					if((new WorldGenMinableMF(ore, size, bed)).generate(world, seed, x, y, z))
+					{
+					}
+				}
+			}
+		}
+	}
 	private static void generateOreWithNeighbour(Random seed, int chunkX, int chunkZ, World world, Block ore, Block bed, Block neighbour, int size, int frequencyMin, int frequencyMax, float rarity, int layerMin, int layerMax) 
 	{
 		int frequency = MathHelper.getRandomIntegerInRange(seed, frequencyMin, frequencyMax);

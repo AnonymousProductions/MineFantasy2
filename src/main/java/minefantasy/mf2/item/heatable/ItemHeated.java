@@ -92,6 +92,7 @@ public class ItemHeated extends Item implements IHotItem
 			nbt.setBoolean(Heatable.NBT_ShouldDisplay, true);
 			setWorkTemp(out, stats.minTemperature);
 			setUnstableTemp(out, stats.unstableTemperature);
+			shareTraits(nbt, item);
 	
 			return out;
 		}
@@ -105,10 +106,28 @@ public class ItemHeated extends Item implements IHotItem
 			nbt.setBoolean(Heatable.NBT_ShouldDisplay, false);
 			setWorkTemp(out, 0);
 			setUnstableTemp(out, 0);
-	
+			shareTraits(nbt, item);
+			
 			return out;
 		}
 		return item;
+	}
+
+	private static void shareTraits(NBTTagCompound nbt, ItemStack item)
+	{
+		NBTTagCompound itemtag = getNBT(item);
+		if(itemtag.hasKey("Unbreakable"))
+		{
+			nbt.setBoolean("Unbreakable", itemtag.getBoolean("Unbreakable"));
+		}
+		if(itemtag.hasKey("MF_Inferior"))
+		{
+			nbt.setBoolean("MF_Inferior", itemtag.getBoolean("MF_Inferior"));
+		}
+		if(itemtag.hasKey("MFCraftQuality"))
+		{
+			nbt.setFloat("MFCraftQuality", itemtag.getFloat("MFCraftQuality"));
+		}
 	}
 
 	@Override

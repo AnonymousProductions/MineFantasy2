@@ -10,6 +10,9 @@ attribute.kit.repairRate_normal.name=Repair Value (Normal Items)
 attribute.kit.repairChance.name=Repair Success Rate
 attribute.kit.breakChance.name=Kit Break Chance
 
+attribute.inferior.name=Inferior
+attribute.superior.name=Superior
+
 item.infobook.name=Research Book
 item.research_scroll.name=Research Scroll
 item.research_scroll_complete.name=Completed Research
@@ -289,6 +292,7 @@ tile.oreCopper.name=Copper Ore
 tile.oreTin.name=Tin Ore
 tile.oreSilver.name=Silver Ore
 tile.oreMythic.name=Mythic Ore
+tile.oreMythicPure.name=Pure Mythic Ore
 
 tile.oreClay.name=Clay Bearing Dirt
 tile.oreBorax.name=Borax Deposit
@@ -1623,6 +1627,10 @@ knowledge.smeltIron=Iron Smithing
 knowledge.smeltIron.desc=Tier 2, Common material
 knowledge.smeltIron.1=Iron is by far the most common ore you can find and knowing how to work it makes it all the more useful. Iron tools are pretty average, yet superior to bronze.
 
+knowledge.smeltPig=Pig Iron
+knowledge.smeltPig.desc=Iron preparation
+knowledge.smeltPig.1=
+
 knowledge.smeltSteel=Steel Smithing
 knowledge.smeltSteel.desc=Tier 3, Common material
 knowledge.smeltSteel.1=Finally make that blast furnace did you? now to put it to use. This material is far stronger than iron but can be expensive.^Steel is made from pig iron from either working it on an anvil(the suckers way) or finding a way to create a fireclay curcible and throwing it in there(the easy way).
@@ -1636,25 +1644,46 @@ knowledge.smeltBlackSteel.desc=Tier 4, Common material
 knowledge.smeltBlackSteel.1=It is now possible to further refine steel into a far superior alloy. This process takes all the best qualities from lesser materials to create an extremely powerful metal.
 
 knowledge.smeltDragonforge=Dragonforge Smithing
-knowledge.smeltDragonforge.desc=Tier 5, Exotic material
+knowledge.smeltDragonforge.desc=Tier 4, Exotic material
 knowledge.smeltDragonforge.1=See that flying nonsense that's eager to redecorate your home into ash! Certainally do and you killed it! Well- with dragonforge you get all the power of those deadly reptiles to yourself through a process that binds elemental magic from dragon hearts into black steel items.
 knowledge.smeltDragonforge.2=To create dragonforge: Start by making a standard black steel tool, armour or weapon. Just before finishing however: throw (right-click) a dragon heart on a forge above 200*, then quickly (less than 5 seconds) finish the craft.^If all goes well you will have a dragonforge item.
 
 knowledge.smeltBlueSteel=Blue Steel Smithing
-knowledge.smeltBlueSteel.desc=Tier 6, Common material
+knowledge.smeltBlueSteel.desc=Tier 5, Common material
 knowledge.smeltBlueSteel.1=You are now able to create Blue Steel. This metal is extremely lighter than inferior metals and excellent for the creation of tools and armour for limiting stamina decay.
 
 knowledge.smeltRedSteel=Red Steel Smithing
-knowledge.smeltRedSteel.desc=Tier 6, Common material
+knowledge.smeltRedSteel.desc=Tier 5, Common material
 knowledge.smeltRedSteel.1=You are now able to create Red Steel. This metal is much heavier than other materials, and tiring to use with tools and armour, but is very strong and far better than other materials of this tier.
 
 knowledge.smeltMithril=Mithril Smithing
-knowledge.smeltMithril.desc=Tier 7, Exotic material
+knowledge.smeltMithril.desc=Tier 6, Exotic material
 knowledge.smeltMithril.1=Mythic ore is strange: Depending on how it is refined depends on what properties the metal processed is. Through mixing light elements with mythic: along with silver, you can create mithril.^Mithril is an extremely light material, even lighter than blue steel.
 
 knowledge.smeltAdamantium=Adamantium Smithing
-knowledge.smeltAdamantium.desc=Tier 7, Exotic material
+knowledge.smeltAdamantium.desc=Tier 6, Exotic material
 knowledge.smeltAdamantium.1=Mythic ore is strange: Depending on how it is refined depends on what properties the metal processed is. Through mixing heavy elements with mythic: along with gold, you can create adamantium.^Adamantium is extremely heavy, more than red steel, but is very strong.
+
+knowledge.smeltMaster=Masterwork Mythics
+knowledge.smeltMaster.desc=The next level
+knowledge.smeltMaster.1=The production of mythic materials is one thing, but doing it right is quite another. You may be able to create the base adamantium and mithril from mythic ore, but these materials are hardly a match for the total power held in this mineral.
+knowledge.smeltMaster.2=Masterworks allows you to create powerful new tools from mythic-based materials and further enhances their power.^Crafting Masterworks isn't as straight-forward. Firstly- it is much harder to get the quality metre in balance on the anvil.
+knowledge.smeltMaster.3=Not only that: but items will be rendered inferior if you make even a slight imperfection. Done correctly however; masterwork items will be indestructible so it's recommended you know what you are doing!
+
+knowledge.smeltIgnotumite=Ignotumite Smithing
+knowledge.smeltIgnotumite.desc=Tier 7, Master material
+knowledge.smeltIgnotumite.1=Crafting adamantium can make extremely powerful tools but it doesn't quite reach its full capabilities; As you know, mythic ore is made up of many elements that swil within its structure, separating this is key to unlocking the capabilities within adamantium known as ignotumite.
+
+knowledge.smeltMithium=Mithium Smithing
+knowledge.smeltMithium.desc=Tier 7, Master material
+knowledge.smeltMithium.1=Mithium is found deep within only the purest of mithril. This material has a structure never seen before, it is super light. The lightweight nature of mithium comes from its core, it seems to be a hollow shell that bends to forces yet does not break, inside seems to be some sort of energy that keeps the metal solid...
+
+knowledge.smeltEnderforge=Enderforge Smithing
+knowledge.smeltEnderforge.desc=Tier 7, Master material
+knowledge.smeltEnderforge.1=There's always been something strange about those ender creatures... Enderforge takes the magical energies deep within the balance of mithril and admantium and focuses it using ender pearls.
+
+knowledge.masterHaft=All masterowk materials use special rods instead of planks. For tools and weapons: Use these instead of planks.
+knowledge.masterArmour=For any armour, you need to make mail and plate items differently, assembly remains the same.
 
 knowledge.blastfurn=Refining
 knowledge.blastfurn.desc=More than smelting
@@ -1693,6 +1722,7 @@ knowledge.anvil.5=appears in the output slot$h[4]$r.^Some items will be hot, you
 knowledge.anvil.6=While crafting, keep track of the quality metre. The aim here is to keep the marker away from the edges. If it hits either side it ruins the recipe. When crafting damageable items however; the durability of the item is diminished if the marker is outside the pins when completing, see the next page.
 #Quality
 knowledge.anvil.7=As you see, there's the two green pins that damage items if the blue marker is outside, either end of the bar itself is the dead zone. Be sure to distribute a mix of left-click and right-clicks to craft an item and think ahead before hitting. also note the metre moves right slower than left.
+knowledge.anvil.8=If you SHIFT-LEFT click however it will knock the metre back(to give you some more time to craft), don't exceed 0 however, or it will ruin the item.
 
 knowledge.forge=Forge
 knowledge.forge.desc=Its getting hot in here.
@@ -1773,7 +1803,7 @@ knowledge.craftCrafters.desc=That's tools for crafting
 knowledge.craftCrafters.1=There's a variety of different tools for the purpose of crafting. A lot of recipes require you to interact with the block with these tools.
 knowledge.hammer.info=Hammers are used mostly in forging. hammers are highly useful for both metalworks and some woodworks.
 knowledge.hvyhammer.info=There also are heavier counterparts of the hammer, used for forging some of the larger metal items.
-knowledge.tongs.info=Tongs are used for picking up hot items from the anvil, to transfer to a water source.
+knowledge.tongs.info=Tongs are used for picking up hot items from the anvil, to transfer to a water source. Unlike simply dropping hot items, tongs will place items above the block rather than randomly about.
 knowledge.knife.info=Knives can be used in cooking and tanning. Knives are useful.^^Just don't run with them.
 knowledge.saw.info=Saws can cut wood into planks more efficiently. Put a planks block on a carpenter bench and hit it with a saw
 knowledge.needle.info=Needles are used for sewing based recipes. Needles are used wherever thread is used.

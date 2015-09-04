@@ -140,14 +140,9 @@ public class ItemHandpick extends ItemPickaxe implements IToolMaterial
 	{
 		return ConfigTools.handpickBonus/100F;
 	}
-	
 	@Override
 	public int getMaxDamage(ItemStack stack)
 	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 }

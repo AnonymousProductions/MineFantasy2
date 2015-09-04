@@ -18,10 +18,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class InformationBase
 {
+	public static boolean unlockAll = false;
 	public static final float talismanPower = 20F;//20m taken
 	public int ID = 0;
 	private static int nextID = 0;
-	public boolean startedUnlocked = false;
+	private boolean startedUnlocked = false;
     public final int displayColumn;
     public final int displayRow;
     public final InformationBase parentInfo;
@@ -309,6 +310,10 @@ public class InformationBase
 	public int getTime() 
 	{
 		return minutes;
+	}
+	public boolean isPreUnlocked() 
+	{
+		return unlockAll || startedUnlocked;
 	}
 }
 class SkillRequirement

@@ -51,14 +51,20 @@ public class KnowledgeListMF
 	public static InformationBase smeltBronze = (new InformationBase("smeltBronze",  			1, 2,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 5);
     public static InformationBase smeltIron = (new InformationBase("smeltIron",  			    1, 4,  5, Items.iron_ingot, smeltBronze)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 15);//2 gold, 4 silver
     public static InformationBase blastfurn = (new InformationBase("blastfurn",  				2, 5, 15, BlockListMF.blast_heater_active, smeltIron)).registerStat().setPage(artisanry).setSpecial().addSkill(SkillList.metallurgy, 30);
-    public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 5, 0, ComponentListMF.ingots[4], blastfurn)).registerStat().setPage(artisanry).setUnlocked().addSkill(SkillList.metallurgy, 30);
+    public static InformationBase smeltPig = (new InformationBase("smeltPig",  					3, 3, 0, ComponentListMF.ingots[3], blastfurn)).registerStat().setPage(artisanry).setUnlocked().addSkill(SkillList.metallurgy, 30);
+    public static InformationBase smeltSteel = (new InformationBase("smeltSteel",  				4, 5, 0, ComponentListMF.ingots[4], smeltPig)).registerStat().setPage(artisanry).setUnlocked().addSkill(SkillList.metallurgy, 30);
     public static InformationBase encrusted = (new InformationBase("smeltEncrusted",  			6, 5, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 35);
     public static InformationBase smeltBlackSteel = (new InformationBase("smeltBlackSteel",		4, 7, 10, ComponentListMF.ingots[7], smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 50);
     public static InformationBase smeltDragonforge = (new InformationBase("smeltDragonforge",	6, 7, 15, ToolListMF.swords[7], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 60);
     public static InformationBase smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 10, ComponentListMF.ingots[10], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 65);
     public static InformationBase smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		5, 9, 10, ComponentListMF.ingots[12], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 65);
     public static InformationBase smeltMithril = (new InformationBase("smeltMithril", 			5, 11, 30, ComponentListMF.ingots[14], smeltBlueSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75);
-    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamantium", 			3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75);
+    public static InformationBase smeltAdamant = (new InformationBase("smeltAdamantium", 		3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 75);
+    
+    public static InformationBase smeltMaster = (new InformationBase("smeltMaster", 			4, 13, 50,  BlockListMF.oreMythic, (InformationBase)null)).registerStat().setPage(artisanry).setSpecial().addSkill(SkillList.metallurgy, 90);
+    public static InformationBase smeltIgnotumite = (new InformationBase("smeltIgnotumite", 	2, 15, 100, ComponentListMF.ingots[15], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 100);
+    public static InformationBase smeltMithium = (new InformationBase("smeltMithium", 			6, 15, 100, ComponentListMF.ingots[16], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 100);
+    public static InformationBase smeltEnderforge = (new InformationBase("smeltEnderforge", 	4, 16, 100, ComponentListMF.ingots[17], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.metallurgy, 100);
     
     public static InformationBase bellows = (new InformationBase("bellows", 					 0, -1,0, BlockListMF.bellows, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
     public static InformationBase trough = (new InformationBase("trough", 					 	 0, -2,0, BlockListMF.trough_wood, bellows)).registerStat().setPage(artisanry).setUnlocked();
@@ -152,11 +158,13 @@ public class KnowledgeListMF
     public static IAnvilRecipe rivetR, nailR, fluxR;
     public static ICarpenterRecipe lStripsR, threadR, stringR;
     
-    public static Alloy[] reStone, bronze, steel, black, red, blue, mithril, adamantium;
+    public static Alloy[] reStone, bronze, steel, black, red, blue, mithril, adamantium, ignotumite, mithium, enderforge;
     public static IRecipe carpenterRecipe, tannerRecipe, stoneAnvilRecipe, forgeRecipe;
     public static IAnvilRecipe coalDustR, kaoDustR, encrustedR, steelR, obsidianDustR, diamondR;
     public static IRecipe fireclayR, fireBrickR, fireBricksR;
     public static ICarpenterRecipe strongRackR, woodTroughRecipe, rockTroughRecipe, strongwoodTroughRecipe, bellowsRecipe, crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe;
+    
+    public static IAnvilRecipe haftGold, haftSilver, haftObsidian, mailIgno, plateIgno, mailMithi, plateMithi, mailEnder, plateEnder;
     
     public static ICarpenterRecipe reHelmetR, reChestR, reLegsR, reBootsR;
     public static IAnvilRecipe studHelmetR, studChestR, studLegsR, studBootsR, scaleHelmR, scaleChestR, scaleLegsR, scaleBootsR;

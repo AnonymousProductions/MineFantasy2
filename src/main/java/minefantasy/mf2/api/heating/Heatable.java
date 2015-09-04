@@ -157,10 +157,21 @@ public class Heatable
 		{
 			Item metal = Item.getItemById(tag.getInteger(NBT_ItemID));
 			ItemStack newItem = new ItemStack(metal, 1, tag.getInteger(NBT_SubID));
-			
 			if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_CraftedByName"))
 			{
 				getNBT(newItem).setString("MF_CraftedByName", item.getTagCompound().getString("MF_CraftedByName"));
+			}
+			if(item.hasTagCompound() && item.getTagCompound().hasKey("Unbreakable"))
+			{
+				getNBT(newItem).setBoolean("Unbreakable", item.getTagCompound().getBoolean("Unbreakable"));
+			}
+			if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_Inferior"))
+			{
+				getNBT(newItem).setBoolean("MF_Inferior", item.getTagCompound().getBoolean("MF_Inferior"));
+			}
+			if(item.hasTagCompound() && item.getTagCompound().hasKey("MFCraftQuality"))
+			{
+				getNBT(newItem).setFloat("MFCraftQuality", item.getTagCompound().getFloat("MFCraftQuality"));
 			}
 			return newItem;
 		}

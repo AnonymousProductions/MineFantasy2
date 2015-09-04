@@ -137,6 +137,21 @@ public class SmeltingRecipesMF {
 				KnowledgeListMF.mithril = alloy;
 			}
 		}
+		KnowledgeListMF.ignotumite = 
+		MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[15], 1), 1, new Object[]
+		{
+			ComponentListMF.ingots[13], ComponentListMF.ingots[13], Items.gold_ingot, Items.emerald
+		});
+		KnowledgeListMF.mithium = 
+		MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[16], 1), 1, new Object[]
+		{
+			ComponentListMF.ingots[14], ComponentListMF.ingots[14], ComponentListMF.diamond_shards, Items.ghast_tear
+		});
+		KnowledgeListMF.enderforge = 
+		MineFantasyAPI.addRatioAlloy(2, new ItemStack(ComponentListMF.ingots[17], 1), 1, new Object[]
+		{
+			ComponentListMF.ingots[13], ComponentListMF.ingots[14], Items.ender_pearl, Items.ender_pearl
+		});
 		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[6], new ItemStack(ComponentListMF.ingots[7]));
 		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[9], new ItemStack(ComponentListMF.ingots[10]));
 		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.ingots[11], new ItemStack(ComponentListMF.ingots[12]));

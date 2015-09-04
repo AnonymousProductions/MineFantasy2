@@ -234,6 +234,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 				this.recipe = null;
 			}
 		}
+		if(!worldObj.isRemote)
+		{
+			updateThreshold();
+		}
 	}
 	
 	public void onInventoryChanged()
@@ -314,6 +318,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 			consumeResources();
 			progress = progressMax = qualityBalance = 0;
 		}
+		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.8, zCoord+0.5, "random.break", 1.0F, 0.8F);
 	}
 	public boolean doesPlayerKnowCraft(EntityPlayer user)
 	{
@@ -324,6 +329,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		if (this.canCraft())
         {
 			ItemStack result = modifySpecials(recipe);
+			if(result == null)
+			{
+				return;
+			}
 			if(result != null && result.getItem() instanceof ItemArmourMF)
 			{
 				result = modifyArmour(result);
@@ -335,7 +344,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 			
 			if(hot && this.inventory[output] == null)
 			{
-				MFLogUtil.logDebug("Hot Output");
 				ItemStack out = ItemHeated.createHotItem(result, temp);
             	if(result.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
             	{
@@ -427,8 +435,13 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 				return new ItemStack(DF, result.stackSize, result.getItemDamage());
 			}
 		}
-		this.damageItem(result);
-		return result;
+		if(isPerfectItem())
+		{
+			this.setTrait(result, "MF_Inferior", false);
+			ToolHelper.setQuality(result, 200.0F);
+			return result;
+		}
+		return damageItem(result);
 	}
 	private int averageTemp() 
 	{
@@ -738,21 +751,78 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		int threshold = (int)(100F * thresholdPosition / 2F);
 		int total = (int)(100F * getAbsoluteBalance() - threshold);
 		
-		MFLogUtil.logDebug("Item Damage... Quality = " + total + " / " + threshold);
 		if(total > threshold)
 		{
 			float percent = ((float)total - (float)threshold) / (100F-(float)threshold);
-			MFLogUtil.logDebug("Damage: " + percent);
 			return percent;
 		}
 		return 0F;
 	}
-	private void damageItem(ItemStack item)
+	private boolean isPerfectItem()
 	{
-		float damage = getItemDamage() * item.getMaxDamage();
+		float threshold = 0.5F;
+		float total = 100F * getAbsoluteBalance();
+		
+		return total <= threshold;
+	}
+	private ItemStack damageItem(ItemStack item)
+	{
+		float itemdam = getItemDamage();
+		MFLogUtil.logDebug("Dam= "+itemdam);
+		if(itemdam > 0.5F)
+		{
+			setTrait(item, "MF_Inferior");
+			float q = 100F*(0.75F-(itemdam-0.5F));
+			MFLogUtil.logDebug("Fail: " + q);
+			ToolHelper.setQuality(item, Math.max(10F, q));
+		}
+		float damage = itemdam * item.getMaxDamage();
 		if(item.isItemStackDamageable())
 		{
-			item.setItemDamage((int)(damage));
+			if(damage > 0)
+			{
+				item.setItemDamage((int)(damage));
+				if(isMythicRecipe())
+				{
+					setTrait(item, "MF_Inferior");
+				}
+			}
+			else if(isMythicRecipe())
+			{
+				setTrait(item, "Unbreakable");
+			}
+		}
+		return item;
+	}
+	private void setTrait(ItemStack item, String trait)
+	{
+		setTrait(item, trait, true);
+	}
+	private void setTrait(ItemStack item, String trait, boolean flag)
+	{
+		if(item == null)return;
+		
+		NBTTagCompound nbt = this.getNBT(item);
+		nbt.setBoolean(trait, flag);
+	}
+	private void updateThreshold() 
+	{
+		float baseThreshold = worldObj.difficultySetting.getDifficultyId()>= 2 ? 7.5F : 10F;
+		thresholdPosition = isMythicRecipe() ? 0.05F : baseThreshold/100F;
+	}
+	public void upset(EntityPlayer user)
+	{
+		if(this.progress > 0 && this.progressMax > 0)
+		{
+			worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, 0.75F);
+			if(!worldObj.isRemote)
+			{
+				progress -= (progressMax/10F);
+				if(progress < 0)
+				{
+					ruinCraft();
+				}
+			}
 		}
 	}
 }

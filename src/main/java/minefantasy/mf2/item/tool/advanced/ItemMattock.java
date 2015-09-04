@@ -70,16 +70,6 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
     {
         super.addInformation(item, user, list, extra);
     }
-	
-	@Override
-	public int getMaxDamage(ItemStack stack)
-	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
-		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
-	}
 	@Override
     public boolean canHarvestBlock(Block block, ItemStack stack)
     {
@@ -149,5 +139,10 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
 			}
 		}
 		return false;
+	}
+	@Override
+	public int getMaxDamage(ItemStack stack)
+	{
+		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 }

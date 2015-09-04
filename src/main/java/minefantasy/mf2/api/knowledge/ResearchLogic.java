@@ -13,7 +13,7 @@ public class ResearchLogic
 {
 	public static boolean canPurchase(EntityPlayer player, InformationBase base)
     {
-		if(base.startedUnlocked || !canUnlockInfo(player, base))
+		if(base.isPreUnlocked() || !canUnlockInfo(player, base))
 		{
 			return false;
 		}
@@ -26,7 +26,7 @@ public class ResearchLogic
     }
 	public static boolean tryUnlock(EntityPlayer player, InformationBase base)
     {
-		if(base.startedUnlocked || !canUnlockInfo(player, base))
+		if(base.isPreUnlocked() || !canUnlockInfo(player, base))
 		{
 			return false;
 		}
@@ -41,7 +41,7 @@ public class ResearchLogic
 	
 	public static boolean hasInfoUnlocked(EntityPlayer player, InformationBase base)
     {
-		if(base.startedUnlocked)return base.parentInfo == null || hasInfoUnlocked(player, base.parentInfo);
+		if(base.isPreUnlocked())return base.parentInfo == null || hasInfoUnlocked(player, base.parentInfo);
 		
 		NBTTagCompound nbt = getNBT(player);
 		String basename = base.getUnlocalisedName();

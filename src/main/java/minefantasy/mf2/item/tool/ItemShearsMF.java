@@ -58,15 +58,6 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
 	}
     
     @Override
-	public int getMaxDamage(ItemStack stack)
-	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
-		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
-	}
-    @Override
 	public float getEfficiency(ItemStack item) 
 	{
 		return ToolHelper.modifyDigOnQuality(item, toolMaterial.getEfficiencyOnProperMaterial());
@@ -82,5 +73,10 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
 	public String getToolType(ItemStack item)
 	{
 		return "shears";
+	}
+	@Override
+	public int getMaxDamage(ItemStack stack)
+	{
+		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 }
