@@ -1,6 +1,7 @@
 package minefantasy.mf2.api.helpers;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import minefantasy.mf2.api.tier.IToolMaterial;
 import minefantasy.mf2.api.tool.IToolMF;
@@ -8,6 +9,7 @@ import minefantasy.mf2.api.weapon.ISharpenable;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class ToolHelper
 {
@@ -93,6 +95,8 @@ public class ToolHelper
 	
 	public static ItemStack setQuality(ItemStack item, float qualityLvl)
 	{
+		if(item.getMaxStackSize() > 0)return item;
+		
 		NBTTagCompound nbt = getOrCreateNBT(item);
 		nbt.setFloat("MFCraftQuality", qualityLvl);
 		
@@ -104,9 +108,12 @@ public class ToolHelper
 	 */
 	public static float getQualityLevel(ItemStack stack)
 	{
-		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("MFCraftQuality"))
+		if(stack.getMaxStackSize() == 1)
 		{
-			return stack.getTagCompound().getFloat("MFCraftQuality");
+			if(stack.hasTagCompound() && stack.getTagCompound().hasKey("MFCraftQuality"))
+			{
+				return stack.getTagCompound().getFloat("MFCraftQuality");
+			}
 		}
 		return 100.0F;
 	}
@@ -114,10 +121,21 @@ public class ToolHelper
 	public static int setDuraOnQuality(ItemStack item, int dura)
 	{
 		float quality = getQualityLevel(item);
+		if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_Inferior"))
+		{
+			if(item.getTagCompound().getBoolean("MF_Inferior"))
+			{
+				dura /= 2;
+			}
+			else
+			{
+				dura *= 2;
+			}
+		}
 		
 		if(quality > 100)
 		{
-			dura += ((dura*4) / 100F * (quality-100) );//This means 100+ adds to 5x durability at level 200
+			dura += ((dura) / 100F * (quality-100) );//This means 100+ adds to 2x durability at level 200
 		}
 		if(quality < 100)
 		{
@@ -128,11 +146,22 @@ public class ToolHelper
 	
 	public static float modifyDigOnQuality(ItemStack item, float digspeed)
 	{
+		if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_Inferior"))
+		{
+			if(item.getTagCompound().getBoolean("MF_Inferior"))
+			{
+				digspeed /= 1.25F;
+			}
+			else
+			{
+				digspeed *= 1.25F;
+			}
+		}
 		float quality = getQualityLevel(item);
 		
 		if(quality > 100)
 		{
-			digspeed += ((digspeed*1.5F) / 100F * (quality-100) );//This means 100+ adds to 1.5x speed at level 200
+			digspeed += ((digspeed*0.5F) / 100F * (quality-100) );//This means 100+ adds 50% speed at level 200
 		}
 		if(quality < 100)
 		{
@@ -144,10 +173,20 @@ public class ToolHelper
 	public static float modifyDamOnQuality(ItemStack item, float damage)
 	{
 		float quality = getQualityLevel(item);
-		
+		if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_Inferior"))
+		{
+			if(item.getTagCompound().getBoolean("MF_Inferior"))
+			{
+				damage /= 1.25F;
+			}
+			else
+			{
+				damage *= 1.25F;
+			}
+		}
 		if(quality > 100)
 		{
-			damage += ((damage*1.25F) / 100F * (quality-100) );//This means 100+ adds to 1.25x damage at level 200
+			damage += ((damage*0.25F) / 100F * (quality-100) );//This means 100+ adds 25% damage at level 200
 		}
 		if(quality < 100)
 		{
@@ -159,10 +198,21 @@ public class ToolHelper
 	public static float modifyArmourRating(ItemStack item, float rating)
 	{
 		float quality = getQualityLevel(item);
+		if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_Inferior"))
+		{
+			if(item.getTagCompound().getBoolean("MF_Inferior"))
+			{
+				rating /= 1.25F;
+			}
+			else
+			{
+				rating *= 1.25F;
+			}
+		}
 		
 		if(quality > 100)
 		{
-			rating += ((rating*1.5F) / 100F * (quality-100) );//This means 100+ adds to 1.50x armour at level 200
+			rating += ((rating*0.5F) / 100F * (quality-100) );//This means 100+ adds 50% armour at level 200
 		}
 		if(quality < 100)
 		{

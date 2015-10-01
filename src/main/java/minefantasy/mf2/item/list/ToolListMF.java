@@ -1,55 +1,27 @@
 package minefantasy.mf2.item.list;
 
+import cpw.mods.fml.common.registry.VillagerRegistry;
 import minefantasy.mf2.api.crafting.exotic.SpecialForging;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.item.ItemBandage;
-import minefantasy.mf2.item.ItemBucketMF;
-import minefantasy.mf2.item.ItemMilkBucketMF;
-import minefantasy.mf2.item.ItemResearchBook;
-import minefantasy.mf2.item.ItemResearchScroll;
-import minefantasy.mf2.item.archery.ArrowType;
-import minefantasy.mf2.item.archery.EnumBowType;
-import minefantasy.mf2.item.archery.ItemArrowMF;
-import minefantasy.mf2.item.archery.ItemBowMF;
+import minefantasy.mf2.item.*;
+import minefantasy.mf2.item.archery.*;
 import minefantasy.mf2.item.food.FoodListMF;
-import minefantasy.mf2.item.gadget.ItemBomb;
-import minefantasy.mf2.item.gadget.ItemMine;
-import minefantasy.mf2.item.tool.ItemAxeMF;
-import minefantasy.mf2.item.tool.ItemHoeMF;
-import minefantasy.mf2.item.tool.ItemPickMF;
-import minefantasy.mf2.item.tool.ItemShearsMF;
-import minefantasy.mf2.item.tool.ItemSpadeMF;
-import minefantasy.mf2.item.tool.ToolMaterialMF;
-import minefantasy.mf2.item.tool.advanced.ItemHandpick;
-import minefantasy.mf2.item.tool.advanced.ItemHvyPick;
-import minefantasy.mf2.item.tool.advanced.ItemHvyShovel;
-import minefantasy.mf2.item.tool.advanced.ItemMattock;
-import minefantasy.mf2.item.tool.advanced.ItemScythe;
-import minefantasy.mf2.item.tool.advanced.ItemTrowMF;
-import minefantasy.mf2.item.tool.crafting.ItemBasicCraftTool;
-import minefantasy.mf2.item.tool.crafting.ItemHammer;
-import minefantasy.mf2.item.tool.crafting.ItemKnifeMF;
-import minefantasy.mf2.item.tool.crafting.ItemNeedle;
-import minefantasy.mf2.item.tool.crafting.ItemSaw;
-import minefantasy.mf2.item.tool.crafting.ItemTongs;
-import minefantasy.mf2.item.weapon.ItemBattleaxeMF;
-import minefantasy.mf2.item.weapon.ItemDagger;
-import minefantasy.mf2.item.weapon.ItemGreatswordMF;
-import minefantasy.mf2.item.weapon.ItemHalbeardMF;
-import minefantasy.mf2.item.weapon.ItemKatanaMF;
-import minefantasy.mf2.item.weapon.ItemLance;
-import minefantasy.mf2.item.weapon.ItemMaceMF;
-import minefantasy.mf2.item.weapon.ItemSpearMF;
-import minefantasy.mf2.item.weapon.ItemSwordMF;
-import minefantasy.mf2.item.weapon.ItemWaraxeMF;
-import minefantasy.mf2.item.weapon.ItemWarhammerMF;
+import minefantasy.mf2.item.gadget.*;
+import minefantasy.mf2.item.tool.*;
+import minefantasy.mf2.item.tool.advanced.*;
+import minefantasy.mf2.item.tool.crafting.*;
+import minefantasy.mf2.item.weapon.*;
 import minefantasy.mf2.material.BaseMaterialMF;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.util.EnumHelper;
@@ -176,6 +148,26 @@ public class ToolListMF
 	public static ItemResearchBook researchBook = new ItemResearchBook();
 	public static Item research_scroll = new ItemResearchScroll("research_scroll", false);
 	public static Item research_scroll_complete = new ItemResearchScroll("research_scroll_complete", true);
+	
+	public static Item dryrocks = new ItemLighterMF("dryrocks", 0.1F, 16);
+	
+	public static Item skillbook_artisanry = new ItemSkillBook("skillbook_artisanry", SkillList.artisanry);
+	public static Item skillbook_construction = new ItemSkillBook("skillbook_construction", SkillList.construction);
+	public static Item skillbook_provisioning = new ItemSkillBook("skillbook_provisioning", SkillList.provisioning);
+	public static Item skillbook_engineering = new ItemSkillBook("skillbook_engineering", SkillList.engineering);
+	
+	public static Item spanner = new ItemEngineerTool("spanner", BaseMaterialMF.steel.getToolConversion(), 0, "spanner", 1);
+	public static Item engin_anvil_tools = new ItemEAnvilTools("engin_anvil_tools", 64);
+	public static Item spanner_blk = new ItemEngineerTool("spanner_blk", BaseMaterialMF.blacksteel.getToolConversion(), 1, "spanner", 3);
+	
+	public static Item exploding_arrow = new ItemExplodingArrow();
+	public static Item spyglass = new ItemSpyglass();
+	public static Item climbing_pick_basic = new ItemClimbingPick("climbing_pick_basic", BaseMaterialMF.iron.getToolConversion(), 0);
+	public static Item parachute = new ItemParachute();
+	
+	public static Item syringe = new ItemSyringe();
+	public static Item syringe_empty = new ItemComponentMF("syringe_empty").setTextureName("minefantasy2:Other/syringe").setCreativeTab(CreativeTabMF.tabGadget);
+	
 	public static void init() 
 	{
 		BlockListMF.init();
@@ -255,8 +247,8 @@ public class ToolListMF
 			
 			if(a > 0)
 			{
-				battleaxes[a-1] = new ItemBattleaxeMF(matName+"_battleaxe", mat, rarity, weight);
 				warhammers[a-1] = new ItemWarhammerMF(matName+"_warhammer", mat, rarity, weight);
+				battleaxes[a-1] = new ItemBattleaxeMF(matName+"_battleaxe", mat, rarity, weight);
 				greatswords[a-1] = new ItemGreatswordMF(matName+"_greatsword", mat, rarity, weight);
 				katanas[a-1] = new ItemKatanaMF(matName+"_katana", mat, rarity, weight);
 				halbeards[a-1] = new ItemHalbeardMF(matName+"_halbeard", mat, rarity, weight);
@@ -283,21 +275,36 @@ public class ToolListMF
 			SpecialForging.addDragonforgeCraft(BlockListMF.bars[3], BlockListMF.bars[4]);
 		}
 		
-		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(hammers[2]), 5, 5, 5));
-		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(tongs[1]), 2, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(hammers[2]), 1, 5, 5));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(tongs[1]), 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 5, 50));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 1, 10));
 		
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(swords[3]), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(waraxes[3]), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(maces[3]), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(daggers[3]), 1, 1, 1));
 		
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(research_scroll), 1, 5, 10));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(research_scroll), 1, 5, 50));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 2));
 		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 3));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 3));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 1, 3));
 		
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 1, 4));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(skillbook_construction), 1, 1, 4));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(skillbook_provisioning), 1, 1, 4));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(skillbook_engineering), 1, 1, 1));
+		
+		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 1, 5));
+		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(skillbook_construction), 1, 1, 4));
+		
+		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 1, 5));
+		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(new ItemStack(skillbook_construction), 1, 1, 5));
+		
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 2, 6, 10));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(skillbook_construction), 2, 6, 10));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(skillbook_provisioning), 2, 6, 10));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(new ItemStack(skillbook_engineering), 1, 4, 8));
 	}
 	
 }

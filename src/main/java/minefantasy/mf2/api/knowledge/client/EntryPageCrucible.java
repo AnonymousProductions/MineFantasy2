@@ -117,7 +117,7 @@ public class EntryPageCrucible extends EntryPage
 						break drawGrid;
 					}
 					
-					renderItemAtGridPos(parent, 1 + x, 1 + y, (ItemStack) recipe.recipeItems.get(index), true, posX, posY, mx, my);
+					renderItemAtGridPos(parent, 1 + x, (3-y), (ItemStack) recipe.recipeItems.get(index), true, posX, posY, mx, my);
 				}
 			}
 		}

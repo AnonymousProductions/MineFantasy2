@@ -3,6 +3,7 @@ package minefantasy.mf2.item.list;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
 import minefantasy.mf2.api.crafting.exotic.SpecialForging;
+import minefantasy.mf2.item.armour.ItemApron;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,7 +46,7 @@ public class ArmourListMF
 	};
 	
 	public static ItemArmourMF[] leather = new ItemArmourMF[leathermats.length*4];
-	
+	public static ItemArmourMF leatherapron = new ItemApron("leatherapron", BaseMaterialMF.leatherapron, "leatherapron_layer_1", 0);
 	public static ItemArmourMF[] chainmail = new ItemArmourMF[mats.length*4];
 	public static ItemArmourMF[] fieldplate = new ItemArmourMF[mats.length*4 - 4];
 	

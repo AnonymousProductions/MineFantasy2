@@ -57,6 +57,8 @@ tooltype.needle=Needle
 tooltype.mallet=Mallet
 tooltype.spoon=Spoon
 tooltype.hands=Bare-Handed
+tooltype.spanner=Spanner
+tooltype.shears=Shears
 
 tooltype.anvil=Anvil
 tooltype.carpenter=Carpenter Bench
@@ -108,6 +110,7 @@ item.flux_strong.name=Strong Flux
 item.coke.name=Coke
 item.blackpowder.name=Blackpowder
 item.blackpowder_advanced.name=Advanced Blackpowder
+item.bolt.name=Bolts
 
 item.ingotCopper.name=Copper Ingot
 item.ingotTin.name=Tin Ingot
@@ -180,6 +183,7 @@ item.bomb_casing_obsidian.name=Obsidian Bomb Casing
 item.mine_casing_obsidian.name=Obsidian Mine Casing
 item.bomb_casing_crystal.name=Crystal Bomb Casing
 item.mine_casing_crystal.name=Crystal Mine Casing
+item.bomb_casing_arrow.name=Arrow Bomb Casing
 
 item.clay_brick.name=Clay Brick
 item.kaolinite.name=Kaolinite
@@ -251,16 +255,28 @@ item.bucketwood_water.name=Wooden Bucket (Water)
 item.bucketwood_milk.name=Wooden Bucket (Milk)
 
 item.dragon_heart.name=Dragon Heart
+
+item.iron_frame.name=Iron Frame
+item.iron_strut.name=Iron Strut
+item.bronze_gears.name=Bronze Cogworks
+item.steel_tube.name=Steel Tube
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/BOMB/
+/GADGET/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item.spyglass.name=Spyglass
+item.climbing_pick_basic.name=Climbing Pick
+item.parachute.name=Parachute
+item.syringe_empty.name=Empty Syringe
+
+
 item.bomb_basic.name=Basic Bomb
 item.bomb_shrapnel.name=Shrapnel Bomb
 item.bomb_fire.name=Incineration Bomb
+item.exploding_arrow.name=Exploding Arrow
 
 item.mine_basic.name=Basic Mine
 item.mine_shrapnel.name=Shrapnel Mine
@@ -268,8 +284,8 @@ item.mine_fire.name=Incineration Mine
 
 death.attack.mine=%1$s stood on a mine
 death.attack.bomb.thrown=%1$s was blown up by %2$s
-death.attack.bomb=%1$s was blown up
-death.attack.bomb.suicide=%1$s blew themself up
+death.attack.bomb=%1$s was blown up by a bomb
+death.attack.bomb.suicide=%1$s blew themself up.... Idiot
 
 bomb.powder.blackpowder.name=Blackpowder Charge
 bomb.powder.advBlackpowder.name=Advanced Blackpowder Charge
@@ -364,6 +380,7 @@ tile.mithium_block.name=Block of Mithium
 tile.ender_block.name=Block of Enderforge
 
 tile.forge.stone.name=Stone Forge
+tile.forge.metal.name=Advanced Forge
 
 tile.crucible.stone.name=Stone Crucible
 tile.crucible.fireclay.name=Fireclay Crucible
@@ -376,7 +393,9 @@ tile.troughRock.name=Stone Trough
 tile.troughRefinedwood.name=Refined Wooden Trough
 tile.tanner.name=Shabby Tanning Rack
 tile.tannerStrong.name=Tanning Rack
+tile.tannerMetal.name=Advanced Tanning Rack
 tile.bombBench.name=Bomb Crafting Table
+tile.bombPress.name=Bomb Press
 tile.carpenterBench.name=Carpenter Bench
 tile.researchStation.name=Research Station
 tile.anvilStone.name=Stone Anvil
@@ -449,6 +468,8 @@ item.padded_chest.name=Padded Armor
 item.padded_legs.name=Padded Leggings
 item.padded_boots.name=Padded Boots
 
+item.leatherapron.name=Leather Blacksmith Attire
+
 
 
 
@@ -463,6 +484,8 @@ item.spoonWood.name=Wooden Spoon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /STONE STUFF/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item.dryrocks.name=Dry Rocks
+
 item.stone_pick.name=Stone Pickaxe
 item.stone_axe.name=Stone Axe
 item.stone_hoe.name=Stone Hoe
@@ -699,6 +722,9 @@ item.steel_arrow_head.name=Steel Arrow Head
 item.steel_bodkin_head.name=Steel Bodkin Head
 item.steel_broad_head.name=Steel Broad Head
 
+item.spanner.name=Engineer's Spanner
+item.spanner_blk.name=Obsidian Engineer's Spanner
+item.engin_anvil_tools.name=Fine Engineer's Tools
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ENCRUSTED STUFF/
@@ -1474,43 +1500,26 @@ rpg.levelup=Your %1$s skill has increased to %2$s
 rpg.required=Requires %1$s %2$s
 rpg.skillmod=Skill Modifier: +
 
+skill.lowskill=You don't have enough skill!
+skill.value=Level %1$s
+
 skill.list.basic=Basic Skills
 skill.list.craft=Crafting Skills
 skill.list.combat=Combat Skills
 
-skill.dexterity.name=Dexterity
-skill.endurance.name=Endurance
-skill.athletics.name=Athletics
-skill.acrobatics.name=Acrobatics
-skill.sneak.name=Sneak
-
-skill.metallurgy.name=Metallurgy
-skill.carpenter.name=Carpentry
+skill.artisanry.name=Artisanry
+skill.construction.name=Construction
 skill.engineering.name=Engineering
-skill.leatherworks.name=Leatherworking
-skill.repair.name=Repair
-skill.cooking.name=Cooking
+skill.provisioning.name=Provisioning
 
-skill.unarmed.name=Unarmed
-skill.blade.name=Blade
-skill.blunt.name=Blunt
-skill.axe.name=Axe
-skill.polearm.name=Polearm
-skill.exotic.name=Exotic Weapons
-skill.archery.name=Archery
-
-skill.lightarmour.name=Light Armour
-skill.mediumarmour.name=Medium Armour
-skill.heavyarmour.name=Heavy Armour
-skill.block.name=Block
-
-weaponclass.fist=Unarmed
-weaponclass.blade=Blade
-weaponclass.blunt=Blunt
-weaponclass.axe=Axe
-weaponclass.polearm=Polearm
-weaponclass.exotic=Exotic
-
+item.skillbook_artisanry.name=The art of the Forge
+item.skillbook_artisanry.desc=+%1$s Artisanry
+item.skillbook_construction.name=Carpentry Techniques
+item.skillbook_construction.desc=+%1$s Construction
+item.skillbook_provisioning.name=Feeding a Village
+item.skillbook_provisioning.desc=+%1$s Provisioning
+item.skillbook_engineering.name=Advanced Mechanics
+item.skillbook_engineering.desc=+%1$s Engineering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /KNOWLEDGE INFORMATION/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1538,9 +1547,18 @@ knowledge.gettingStarted.1=This is where you start working on MineFantasy. At th
 knowledge.gettingStarted.2=Crafting blocks require some interaction on your part to function. First: Set up the recipe as instructed(heating items for anvils). Then select the correct tool with the correct tier (such as fists, knives, hammers, etc). You will then need to click the block with the item keeping hits about a second apart until it finishes.
 knowledge.gettingStarted.carpenter=$hCarpenter Bench-$r^The carpenter bench is a basic crafting table for a selection of recipes. The tools needed for this vary and some recipes require bare fists. See the crafting tools section for more information on tools.
 knowledge.gettingStarted.tanning=$hTanning-$r^By now you likely would have gathered some hide you can't use. Tanning is a simple method of creating leather from hide.^To start off, build a shabby tanning rack and a stone knife. These tools are poor quality and should be upgraded when convinient.
-knowledge.gettingStarted.forging=$hForging-$r^Forging is the main method of crafting. Pretty much every tool and metal object is made through this process. Start off by making a stone forge, anvil and tools. Place the anvil near the forge and some water. The artisanty tab has an entry of how forging works.
-knowledge.gettingStarted.3=Now you should gather 1 leather 2 timber planks and 2 copper ingots. With the forge, create a pair of copper shears, then quench them. Shears allow you to make leather strips on the carpenter bench. When you have some strips, you can now make a set of tools.
-knowledge.gettingStarted.4=At this point you should have the resources to make copper tools. This is where the starting guide ends: gather items and unlock more crafting recipes and see what you can make. A good path from here would to be to look into cooking, tool development as well as some weapons to help you survive.
+knowledge.gettingStarted.forging=$hForging-$r^Forging is the main method of crafting. Pretty much every tool and metal object is made through this process. Start off by making a stone forge, anvil and tools. Place the anvil near the forge and some water. The artisanty tab has an entry of how forging works. Be sure to make a basic
+knowledge.gettingStarted.forging.2=firestarter (Dry rocks-Craft-Tools), and wear an apron too!
+knowledge.gettingStarted.3=Now you need some leather strips for tools. Gather 2 copper, 2 planks and 1 leather to craft a set of copper shears.
+knowledge.gettingStarted.4=With these shears, you can cut leather to strips on the carpenter's bench OR a tanning rack by right-clicking them on the block with leather on it.
+knowledge.gettingStarted.5=At this point: You now should have access to leather, copper, planks and strips. It is now possible to upgrade that stone hammer!
+knowledge.gettingStarted.6=With your forge set up, you can now craft some copper tools. Check the "Forged Tools" Section for some copper alternatives.
+knowledge.gettingStarted.upgrade=$hUpgrading-$r^Basic crummy old copper will only get you so far, soon enough you will want more. The research book and table allows you to expand on what can be made and how.^To start off, make a research table
+knowledge.gettingStarted.7=The research table processes scrolls to finished research pieces. Before that though, you need a scroll.^Open your book, there's a bunch of researchable entries highlighted green, go to artisanry and "Light Armour" for example, this doesn't have any prerequisites.
+knowledge.gettingStarted.8=Purchase the research and you will get a scroll, put that on the research table. The metre will slowly fill up, you can speed the process by stedily hitting it (this is faster in proximity to bookshelves). When complete, right-click the new scroll.
+knowledge.gettingStarted.9=Of course not all research is this easy, some takes a lot of times and you may want to craft talismans to speed the process up. Most research takes skill, your skills are displayed in the research book and increase when you use them.
+knowledge.gettingStarted.10=Try work towards "Bronze Smithing" now, crucibles are already known as you see. For this you will need 5 "Artisanry". You gain artisanry from crafting tools, weapons, armour and some commodities.^Once bronze smithing is researched, try upgrade your tools and start the road to the next endevour.
+knowledge.gettingStarted.11=This is pretty much the basics, the rest is for you to find out...
 
 knowledge.research=Research Book
 knowledge.research.desc=Keeping track
@@ -1563,6 +1581,7 @@ knowledge.commodities.1=Commidities are just basic items, only without the disgr
 knowledge.commodities.plank=Timber planks are nice solid pieces of wood. Used pretty much everywhere.
 knowledge.commodities.refinedplank=Timber can be refined with a simple mixture, hardening its finish. Refined timber will be used for more advanced works.
 knowledge.commodities.flux=Flux is commonly used in refining metals. Standard flux can be used in devices such as blast furnaces for refining ingots. Strong flux is used in advanced alloys.
+knowledge.commodities.hunks=For the smaller creations, hunks are used. You can turn ingots into hunks, and back to ingots.
 knowledge.commodities.nail=Nails are basic items used in woodworking. Iron doesn't need to be researched to craft these.
 knowledge.commodities.rivet=Rivets are similar to nails, these are used in metalworking.
 knowledge.commodities.leatherstrip=Leather strips are useful mainly in tool crafting.
@@ -1629,7 +1648,7 @@ knowledge.smeltIron.1=Iron is by far the most common ore you can find and knowin
 
 knowledge.smeltPig=Pig Iron
 knowledge.smeltPig.desc=Iron preparation
-knowledge.smeltPig.1=
+knowledge.smeltPig.1=Natural iron is full of impurities and defects and proper refining of it is crucial to create a decent alloy. A blast furnace does just that and is able to produce pig iron.^Pig iron is used to create steel.
 
 knowledge.smeltSteel=Steel Smithing
 knowledge.smeltSteel.desc=Tier 3, Common material
@@ -1704,11 +1723,16 @@ knowledge.blastfurn.9=Prepared iron ore is used to make pig iron.^Pig iron can b
 knowledge.crucible=Alloying
 knowledge.crucible.desc=Mixing metals
 knowledge.crucible.1=There's only so far you can go by relying on one metal or another to fit your needs. For this: there's the crucible.^Crucibles are designed for alloying, where you can get multiple materials and mix them to make even better materials.
-knowledge.crucible.2=In order to function, Crucibles need a heat source below them(such as a $hForge$r), lava also works but is very slow.^Crucible recipes are shapeless and run off "ratio".^For example: 3 Bronze is 2 copper and 1 tin. This means you can put copper in 2 slots, and tin in 1, and each smelt gives 3 bronze. But you can put 4 and 2 in to get 6, and so on...
+knowledge.crucible.2=In order to function, Crucibles need a heat source below them(such as a $hForge$r), lava also works but is very slow.^Crucible recipes are shapeless and run off "ratio".
+knowledge.crucible.3=For example: 3 Bronze is 2 copper and 1 tin. This means you can put copper in 2 slots, and tin in 1, and each smelt gives 3 bronze. But you can put 4 and 2 in to get 6, and so on...
 
 knowledge.crucible2=Advanced Alloying
 knowledge.crucible2.desc=More Mixing...
 knowledge.crucible2.1=Fire bricks have proven useful fore their ability to sustain high temperatures. Creating a crucible out of this means the heat of the alloy is more stable and can be used to further process materials.^Fireclay crucibles are able to create more advanced alloys.
+
+knowledge.apron=Blacksmith Apron
+knowledge.apron.desc=Protective wear
+knowledge.apron.1=Forges can get hot, and so can the metals processed in them. When using a forge its recommended to wear one of these. Blacksmith attitre consists of a shirt, apron and gloves. This is suitable for forge and ingot handling. Items burn you in your inventory without these.
 
 knowledge.anvil=Forging
 knowledge.anvil.desc=The basis of metalworks
@@ -1717,7 +1741,7 @@ knowledge.anvil.1=Not that crafting tables are obsolete or anything but there's 
 knowledge.anvil.2=Anvils are simple to craft and can be recycled in a furnace.^Place the anvil on the ground, somewhere near water and a forge. Right-clicking the anvil from the side or without a hammer opens the GUI.
 #Gui
 knowledge.anvil.3=Crafting items can be complicated, there are two stages to crafting.^Firstly some items(mostly metal ingots and hunks) need to be heated in the $hForge$r. If an items heatable, it needs to be heated.^Secondly is the recipe itself: Start by assembling the components on the
-knowledge.anvil.4=grid$h[3]$r (just as you're used to), then: equip a proper hammer (either heavy or normal depending on the recipe). Both hammer and anvil need to be of proper tier, Tiers will appear above the title$h[1]$r.^Hit the anvil with the hammer by clicking. The progress bar$h[2]$r will now fill in, when finished: The result
+knowledge.anvil.4=grid$h[3]$r (just as you're used to), then: equip a proper hammer (either heavy or normal depending on the recipe). Hammers need to be the proper tier but anvil tier affects quality, Tiers will appear above the title$h[1]$r.^Hit the anvil with the hammer by clicking. The progress bar$h[2]$r will now fill in, when finished: The result
 knowledge.anvil.5=appears in the output slot$h[4]$r.^Some items will be hot, you can right-click them on water or a cauldron(shift click), to cool them. Right-click the anvil with tongs if you want to pick items up that way.
 knowledge.anvil.6=While crafting, keep track of the quality metre. The aim here is to keep the marker away from the edges. If it hits either side it ruins the recipe. When crafting damageable items however; the durability of the item is diminished if the marker is outside the pins when completing, see the next page.
 #Quality
@@ -1751,6 +1775,10 @@ knowledge.repair_advanced.1=You still look silly damaging items when using repai
 knowledge.repair_ornate=Ornate Repair Kits
 knowledge.repair_ornate.desc=Enchantment Repair
 knowledge.repair_ornate.1=It may already been known that repairing enchanted items is hard. It's like they don't like being repaired or something...^Anyway this kit should do the trick, it might have more jewels in it than the thing you're fixing but it works!^picky enchanted items...
+
+knowledge.craftArmourBasic=Basic Armor
+knowledge.craftArmourBasic.desc=Nothing fancy
+knowledge.craftArmourBasic.1=When you first start out in this world, you may want something to wear. These Armors don't offer much protection but their better than nothing.
 
 knowledge.craftArmourLight=Light Armor
 knowledge.craftArmourLight.desc=Cheap and practical
@@ -1801,6 +1829,7 @@ knowledge.lance.info=Lances are pretty useless as a weapon. But when mounted the
 knowledge.craftCrafters=Crafting Tools
 knowledge.craftCrafters.desc=That's tools for crafting
 knowledge.craftCrafters.1=There's a variety of different tools for the purpose of crafting. A lot of recipes require you to interact with the block with these tools.
+knowledge.dryrocks.info=Dry rocks are a very basic firestarter, though they cannot create fire blocks, their useful for lighting forges... eventually anyway.
 knowledge.hammer.info=Hammers are used mostly in forging. hammers are highly useful for both metalworks and some woodworks.
 knowledge.hvyhammer.info=There also are heavier counterparts of the hammer, used for forging some of the larger metal items.
 knowledge.tongs.info=Tongs are used for picking up hot items from the anvil, to transfer to a water source. Unlike simply dropping hot items, tongs will place items above the block rather than randomly about.
@@ -1830,6 +1859,23 @@ knowledge.arrowsBroad=Broad arrows
 knowledge.arrowsBroad.desc=Heavy and strong
 knowledge.arrowsBroad.1=Broad head arrows are heavy and slow but firing them packs a punch!
 
+knowledge.etools=Engineering Tools
+knowledge.etools.desc=Tools of the trade
+knowledge.etools.1=Engineering could be a delicate trade in some aspects. For that, you need tools that can handle these processes.
+
+knowledge.ecomponents=Components and Commodities
+knowledge.ecomponents.desc=For Engineering
+knowledge.ecomponents.1=For engineering, there's some nifty ways you can join components. However, you may need to find some alternative commodities for doing such. It's worthwhile to make a few of these for when their needed.
+knowledge.ecomponents.2=Most engineered objects aren't just forged. Construction usually takes pre-forged components and attatching them together. Components however are mostly used for specific purposes, and are better made on-site (Unless you intend to mass produce). 
+
+knowledge.engTanner=Advanced Tanner
+knowledge.engTanner.desc=Easy Tanning
+knowledge.engTanner.1=Tanning is probably one of the most tiring methods of production, now you can make it easier!^This tanning rack is able to slice and dice clean hide for you. Just place the item as usual than right-click the top.
+
+knowledge.advforge=Advanced Forge
+knowledge.advforge.desc=Full control
+knowledge.advforge.1=Although making a basic forge is able to get anything done, its not very fuel-efficient. This redstone powered furnace allows you full control on if its lit or not. Apply a redstone signal to light it, cut the signal to extinguish.^This seems to produce heavy pollution though.
+
 knowledge.blackpowder=Explosives
 knowledge.blackpowder.desc=Boom!
 knowledge.blackpowder.1=Using generic gunpowder and TNT to blow things up may be satisfying but it makes one hell of a mess. It is possible however to create devices with more controlled explosions that limit the environmental damage.^Blackpowder is an explosive substance capable of doing large damage while limiting
@@ -1839,12 +1885,37 @@ knowledge.advblackpowder=Refined Blackpowder
 knowledge.advblackpowder.desc=Ka Boom!
 knowledge.advblackpowder.1=Blackpowder has proven useful for explosive creation but sometimes you may need more of a blast.^Through the use of redstone and glowstone: you can beef-up the power of blackpowder to increase damage.
 
+knowledge.climber=Climbing Pick
+knowledge.climber.desc=Getting up there
+knowledge.climber.1=It's getting a bit awkward having to go around mountains and find stairways up the slopes, especially so if you just fell 50 metres down a cave. A climbing pick allows you to grapple solid blocks, only complete cubes can be grappled (such as stone and grass).
+knowledge.climber.2=To use this properly can be tricky. First off, hold down right-click on a block you're right up against (you can also do blocks above that). Then hit left-click to pull yourself up, holding shift and left clicking goes down. It is possible to climb sideways, and up overhangs, but is difficult.
+
+knowledge.spyglass=Spyglass
+knowledge.spyglass.desc=Yondar!
+knowledge.spyglass.1=There's so much to see out there, but due to the limit of our eyes we have to walk all the way over there to see it... Not anymore.^Spyglasses allow you to see further when used, Shift-Right-Click changes the scope mode.
+
+knowledge.parachute=Parachute
+knowledge.parachute.desc=What goes up... 
+knowledge.parachute.1=You may know how to get up to a high place, but some time the ground may have something to say on the matter. Parachutes allow you to safely drop from high distances, slowly.
+
+knowledge.syringe=Syringe
+knowledge.syringe.desc=Easy administer 
+knowledge.syringe.1=Drinking potions is slow and awkward in emergencies. Syringes allow you to inject potions directly into your system, being useful the moment you need it.
+
 knowledge.bombs=Bomb Crafting
 knowledge.bombs.desc=Explosion Delivery
 knowledge.bombs.1=What use is blackpowder without something to put it in? Well these little gadgets will do serious damage to a small area.^Bomb crafting is more... experimental than other works. First of all: you need a workstation set up.
 knowledge.bombs.2=Now put that down... Wherever.^With this table you will be able to create both bombs and mines. Bombs can be thrown by holding right-click for a short time and they will explode at after a time. Mines however will be placed with holding right click and explode when something steps near them.
 knowledge.bombs.3=Bombs and Mines require 3-4 components in their creation.^The casing$h[1]$r determines the damage and range of the device. Powder$h[2]$r will modify damage. Filling$h[3]$r can be empty and is used to add effects to the bomb. Finally the fuse$h[4]$r determines the time until detonation.
 knowledge.bombs.4=To craft a bomb: simply put components in their respective slots for example cermic casing, blackpowder and a short fuse. then click the block to make a single bomb.
+
+knowledge.bpress=Bomb Press
+knowledge.bpress.desc=Mass Productive
+knowledge.bpress.1=Having to assemble each bomb individually can be tedious... very tedious. This device can do the work for you, all you need to do is place it directly above a bomb crafting table, pull the lever and it crafts the bomb for you.
+
+knowledge.bombarrow=Bomb Arrows
+knowledge.bombarrow.desc=To pack a punch
+knowledge.bombarrow.1=Your experience in the creations of bombs has paid off. These tiny explosives can be packed similar to bombs and deliver a deadly blast. Bomb arrows are created like any bomb, place the arrow casing in the case slot. These do not take fuses.^To Fill: Place an empty syringe and a regular potion on a crafting grid.
 
 knowledge.shrapnel=Shrapnel Bombs
 knowledge.shrapnel.desc=Simple Filling
@@ -1928,7 +1999,7 @@ knowledge.thatch.1=Simple roofing made from grass. These go well with mud bricks
 
 knowledge.generic_meat=Generic Meat
 knowledge.generic_meat.desc=Good for any recipe
-knowledge.generic_meat.1=There's a lot of meat out there. But sometimes, it shouldn't matter. Generic meat is made from a variety of meat types cooked or uncooked, used for easier storage and use in recipes.
+knowledge.generic_meat.1=There's a lot of meat out there. But sometimes, it shouldn't matter. Generic meat is made from a variety of meat types cooked or uncooked, used for easier storage and use in recipes.^You're better off preparing raw meat, as some can give additional output.
 
 knowledge.stew=Stew
 knowledge.stew.desc=Kind of bland

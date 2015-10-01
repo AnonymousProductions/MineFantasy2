@@ -279,7 +279,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	@Override
 	public boolean allowOffhand(ItemStack mainhand, ItemStack offhand)
 	{
-		return true;
+		return offhand != null;
 	}
 	protected int itemRarity;
 

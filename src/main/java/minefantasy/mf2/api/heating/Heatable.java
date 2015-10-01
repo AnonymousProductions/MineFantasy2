@@ -156,7 +156,7 @@ public class Heatable
 		if (tag.hasKey(NBT_ItemID) && tag.hasKey(NBT_SubID)) 
 		{
 			Item metal = Item.getItemById(tag.getInteger(NBT_ItemID));
-			ItemStack newItem = new ItemStack(metal, 1, tag.getInteger(NBT_SubID));
+			ItemStack newItem = new ItemStack(metal, item.stackSize, tag.getInteger(NBT_SubID));
 			if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_CraftedByName"))
 			{
 				getNBT(newItem).setString("MF_CraftedByName", item.getTagCompound().getString("MF_CraftedByName"));

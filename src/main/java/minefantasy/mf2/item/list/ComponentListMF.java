@@ -103,6 +103,7 @@ public class ComponentListMF
 	public static Item mine_casing_obsidian = new ItemBombComponent("mine_casing_obsidian", 1, "minecase", 2);
 	public static Item bomb_casing_crystal = new ItemBombComponent("bomb_casing_crystal", 1, "bombcase", 3);
 	public static Item mine_casing_crystal = new ItemBombComponent("mine_casing_crystal", 1, "minecase", 3);
+	public static Item bomb_casing_arrow = new ItemBombComponent("bomb_casing_arrow", 1, "arrow", 0);
 	
 	public static Item coke = new ItemComponentMF("coke", 0);
 	public static Item diamond_shards = new ItemComponentMF("diamond_shards", 0);
@@ -144,13 +145,20 @@ public class ComponentListMF
 	
 	public static Item talisman_lesser= new ItemComponentMF("talisman_lesser", 1);
 	public static Item talisman_greater= new ItemComponentMF("talisman_greater", 3);
+	
+	public static Item bolt = new ItemComponentMF("bolt", 0);
+	public static Item iron_frame = new ItemComponentMF("iron_frame", 0);
+	public static Item iron_strut = new ItemComponentMF("iron_strut", 0);
+	public static Item bronze_gears = new ItemComponentMF("bronze_gears", 0);
+	public static Item steel_tube = new ItemComponentMF("steel_tube", 0);
+	
 	public static void init() 
 	{
+		Items.potionitem.setContainerItem(Items.glass_bottle);
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
 		MineFantasyAPI.registerFuelHandler(new AdvancedFuelHandlerMF());
 		OreDictionary.registerOre("ingotIron", Items.iron_ingot);
 		OreDictionary.registerOre("ingotGold", Items.gold_ingot);
-		Items.potionitem.setMaxStackSize(16);
 		Items.iron_ingot.setTextureName("minefantasy2:component/ingotWroughtIron");
 		Blocks.iron_block.setBlockTextureName("minefantasy2:metal/iron_block");
 		Blocks.iron_bars.setBlockTextureName("minefantasy2:metal/iron_bars");

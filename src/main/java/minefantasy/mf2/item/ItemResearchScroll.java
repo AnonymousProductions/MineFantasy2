@@ -78,6 +78,10 @@ public class ItemResearchScroll extends ItemComponentMF
 			{
 				user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.known")));
 			}
+			else if(!info.hasSkillsUnlocked(user))
+			{
+				user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("skill.lowskill")));
+			}
 			else
 			{
 				used = ResearchLogic.tryUnlock(user, info);

@@ -89,7 +89,8 @@ public class TacticalManager
 		}
 		if(user instanceof EntityPlayer)
 		{
-			if(!((EntityPlayer)user).isBlocking())
+			EntityPlayer player = (EntityPlayer)user;
+			if(!player.isBlocking())
 			{
 				return false;
 			}
@@ -141,6 +142,10 @@ public class TacticalManager
 	}
 	private static boolean isMobBlocking(EntityLivingBase user)
 	{
+		if(!user.isImmuneToFire() && user.isBurning())
+		{
+			return false;//If burning and can't take the heat.. can't block!
+		}
 		if(user.getHeldItem() != null)
 		{
 			return user.getHeldItem().getItem().getItemUseAction(user.getHeldItem()) == EnumAction.block;

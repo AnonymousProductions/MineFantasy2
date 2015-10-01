@@ -41,6 +41,10 @@ public class GuiResearchBlock extends GuiContainer
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPoint, yPoint, 0, 0, this.xSize, this.ySize);
+        
+        int scale = tile.getMetreScale(161);
+        this.drawTexturedModalRect(xPoint+10, yPoint+33, 0, 158, scale, 3);
+        fontRendererObj.drawString(tile.getLocalisedName(), xPoint+9, yPoint+11, 0);
     }
     
     @Override

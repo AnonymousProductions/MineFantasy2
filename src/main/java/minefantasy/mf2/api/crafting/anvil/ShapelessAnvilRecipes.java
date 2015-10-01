@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import minefantasy.mf2.api.heating.Heatable;
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,8 +38,9 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
     public final float recipeExperiance;
     public final String toolType;
     public final String research;
+    public final Skill skillUsed;
 
-    public ShapelessAnvilRecipes(ItemStack output, String toolType, float exp, int hammer, int anvi, int time, List components, boolean hot, String research)
+    public ShapelessAnvilRecipes(ItemStack output, String toolType, float exp, int hammer, int anvi, int time, List components, boolean hot, String research, Skill skill)
     {
     	this.outputHot = hot;
         this.recipeOutput = output;
@@ -49,6 +51,7 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
         this.recipeExperiance = exp;
         this.toolType = toolType;
         this.research = research;
+        this.skillUsed = skill;
     }
 
     @Override
@@ -189,5 +192,11 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
 	public String getResearch()
 	{
 		return research;
+	}
+
+	@Override
+	public Skill getSkill() 
+	{
+		return skillUsed;
 	}
 }

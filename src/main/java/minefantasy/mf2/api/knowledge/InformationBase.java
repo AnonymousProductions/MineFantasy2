@@ -35,7 +35,6 @@ public class InformationBase
     private final String idName;
     private ArrayList<SkillRequirement> skills = new ArrayList<SkillRequirement>();
     public String[] requirements = null;
-    private ItemStack[] requiredItems;
     private int minutes = 10;
 
     public InformationBase(String name, int x, int y, int time, Item icon, InformationBase parent)
@@ -125,15 +124,6 @@ public class InformationBase
         InformationList.nameMap.put(idName, this);
         return this;
     }
-    public InformationBase setItems(ItemStack...items)
-    {
-    	this.requiredItems = items;
-    	return this;
-    }
-    public ItemStack[] getItems()
-    {
-    	return requiredItems;
-    }
 
 /*
     public IChatComponent func_150951_e()
@@ -191,22 +181,14 @@ public class InformationBase
     }
 	public boolean onPurchase(EntityPlayer user)
 	{
-		if(!this.hasAllItems(user))
+		if(!hasSkillsUnlocked(user))
 		{
 			return false;
-		}
-		if(RPGElements.isSystemActive)
-		{
-			if(!hasSkillsUnlocked(user))
-			{
-				return false;
-			}
 		}
 		
 		boolean success = ResearchLogic.canPurchase(user, this);
 		if(success && !user.worldObj.isRemote)
 		{
-			this.consumeItems(user);
 			user.worldObj.playSoundAtEntity(user, "minefantasy2:updateResearch", 1.0F, 1.0F);
 		}
 		
@@ -220,8 +202,9 @@ public class InformationBase
 	}
 	public static Item scroll;
 
-	private boolean hasSkillsUnlocked(EntityPlayer player)
+	public boolean hasSkillsUnlocked(EntityPlayer player)
 	{
+		if(skills == null)return true;
 		for(int id = 0; id < skills.size(); id++)
 		{
 			SkillRequirement requirement = skills.get(id);
@@ -250,6 +233,14 @@ public class InformationBase
 		return pages;
 	}
 	
+	public boolean isUnlocked(int id, EntityPlayer player)
+	{
+		if(this.skills != null)
+		{
+			return skills.get(id) != null && skills.get(id).isAvailable(player);
+		}
+		return true;
+	}
 	public String[] getRequiredSkills()
 	{
 		if(this.requirements == null)
@@ -264,49 +255,6 @@ public class InformationBase
 		return requirements;
 	}
 	
-	public boolean hasAllItems(EntityPlayer user)
-	{
-		if(user.capabilities.isCreativeMode || this.requiredItems == null)
-		{
-			return true;
-		}
-		for(ItemStack item: requiredItems)
-		{
-			if(!hasItem(user, item.getItem(), item.stackSize))
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public boolean hasItem(EntityPlayer user, Item item, int cost)
-	{
-		int total = 0;
-		for(int a = 0; a < user.inventory.getSizeInventory(); a++)
-		{
-			ItemStack slot = user.inventory.getStackInSlot(a);
-			if(slot != null && slot.getItem() == item)
-			{
-				total += slot.stackSize;
-			}
-		}
-		return total >= cost;
-	}
-	public void consumeItems(EntityPlayer user)
-	{
-		if(user.capabilities.isCreativeMode || this.requiredItems == null)
-		{
-			return;
-		}
-		for(ItemStack item: requiredItems)
-		{
-			for(int a = 0; a < item.stackSize; a++)
-			{
-				user.inventory.consumeInventoryItem(item.getItem());
-			}
-		}
-	}
 	public int getTime() 
 	{
 		return minutes;

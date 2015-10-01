@@ -13,7 +13,7 @@ public class AnvilPacket extends PacketMF
 	private String resultName;
 	private String toolNeeded;
 	private String research;
-	private float[] floats = new float[4];
+	private float[] floats = new float[6];
 	private int[] tiers = new int[2];
 
 	public AnvilPacket(TileEntityAnvilMF tile)
@@ -22,7 +22,7 @@ public class AnvilPacket extends PacketMF
 		resultName = tile.getResultName();
 		toolNeeded = tile.getToolNeeded();
 		research = tile.getResearchNeeded();
-		floats = new float[]{tile.progress, tile.progressMax, tile.qualityBalance, tile.thresholdPosition};
+		floats = new float[]{tile.progress, tile.progressMax, tile.qualityBalance, tile.thresholdPosition, tile.leftHit, tile.rightHit};
 		tiers = new int[]{tile.getToolTierNeeded(), tile.getAnvilTierNeeded()};
 		if(floats[1] <= 0)
 		{
@@ -45,6 +45,8 @@ public class AnvilPacket extends PacketMF
         	floats[1] = packet.readFloat();
         	floats[2] = packet.readFloat();
         	floats[3] = packet.readFloat();
+        	floats[4] = packet.readFloat();
+        	floats[5] = packet.readFloat();
 	        tiers[0] = packet.readInt();
 	        tiers[1] = packet.readInt();
 	        resultName = ByteBufUtils.readUTF8String(packet);
@@ -58,6 +60,8 @@ public class AnvilPacket extends PacketMF
 	        anvil.progressMax = floats[1];
 	        anvil.qualityBalance = floats[2];
 	        anvil.thresholdPosition = floats[3];
+	        anvil.leftHit = floats[4];
+	        anvil.rightHit = floats[5];
 	        anvil.setHammerUsed(tiers[0]);
 	        anvil.setRequiredAnvil(tiers[1]);
 	        anvil.setResearch(research);

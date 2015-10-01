@@ -162,7 +162,7 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 						{
 							EntityItem entity = new EntityItem(world, i+0.5, j+1, k+0.5, cooled);
 							entity.delayBeforeCanPickup = 20;
-							entity.setVelocity(0, 0, 0);
+							entity.motionX = entity.motionY = entity.motionZ = 0F;
 							world.spawnEntityInWorld(entity);
 						}
 						else

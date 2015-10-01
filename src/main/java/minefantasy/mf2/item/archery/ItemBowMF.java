@@ -11,6 +11,8 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.material.BaseMaterialMF;
+import mods.battlegear2.api.PlayerEventChild.OffhandAttackEvent;
+import mods.battlegear2.api.weapons.IBattlegearWeapon;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -32,11 +34,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
+public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows, IBattlegearWeapon
 {
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
 	public IIcon[] iconArray = new IIcon[3];
@@ -373,6 +376,47 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 	public int getMaxDamage(ItemStack stack)
 	{
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
+	}
+
+	@Override
+	public boolean sheatheOnBack(ItemStack item) {
+		return true;
+	}
+
+	@Override
+	public boolean isOffhandHandDual(ItemStack off) {
+		return false;
+	}
+
+	@Override
+	public boolean offhandAttackEntity(OffhandAttackEvent event,
+			ItemStack mainhandItem, ItemStack offhandItem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean offhandClickAir(PlayerInteractEvent event,
+			ItemStack mainhandItem, ItemStack offhandItem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean offhandClickBlock(PlayerInteractEvent event, ItemStack mainhandItem, ItemStack offhandItem) 
+	{
+		return false;
+	}
+
+	@Override
+	public void performPassiveEffects(Side effectiveSide, ItemStack mainhandItem, ItemStack offhandItem) 
+	{
+	}
+
+	@Override
+	public boolean allowOffhand(ItemStack mainhand, ItemStack offhand) 
+	{
+		return false;
 	}
 	
 	

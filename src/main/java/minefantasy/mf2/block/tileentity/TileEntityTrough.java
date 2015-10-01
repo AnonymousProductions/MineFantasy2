@@ -38,11 +38,11 @@ public class TileEntityTrough extends TileEntity implements IQuenchBlock
 		return false;
 	}
 	
-	public void interact(EntityPlayer user, ItemStack held) 
+	public boolean interact(EntityPlayer user, ItemStack held) 
 	{
 		if(fill >= getCapacity())
 		{
-			return;
+			return false;
 		}
 		if(held != null)
 		{
@@ -50,6 +50,7 @@ public class TileEntityTrough extends TileEntity implements IQuenchBlock
 			{
 				user.setCurrentItemOrArmor(0, new ItemStack(Items.bucket));
 				addCapacity(12);
+				return true;
 			}
 			if(held.getItem() == ToolListMF.bucketwood_water)
 			{
@@ -64,8 +65,10 @@ public class TileEntityTrough extends TileEntity implements IQuenchBlock
 					user.entityDropItem(bucket, 0);
 				}
 				addCapacity(8);
+				return true;
 			}
 		}
+		return false;
 	}
 	private int ticksExisted;
 	
@@ -73,7 +76,7 @@ public class TileEntityTrough extends TileEntity implements IQuenchBlock
 	public void updateEntity()
 	{
 		++ticksExisted;
-		if(ticksExisted == 5 || ticksExisted % 100 == 0)
+		if(ticksExisted == 20 || ticksExisted % 100 == 0)
 		{
 			syncData();
 		}

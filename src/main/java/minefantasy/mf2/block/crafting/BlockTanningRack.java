@@ -65,14 +65,12 @@ public class BlockTanningRack extends BlockContainer
 	@Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int side, float xOffset, float yOffset, float zOffset)
     {
-        {
-        	TileEntityTanningRack tile = getTile(world, x, y, z);
-        	if(tile != null)
-        	{
-        		return tile.interact(user, false);
-        	}
-            return true;
-        }
+    	TileEntityTanningRack tile = getTile(world, x, y, z);
+    	if(tile != null)
+    	{
+    		return tile.interact(user, false, false);
+    	}
+        return true;
     }
     @Override
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)
@@ -81,7 +79,7 @@ public class BlockTanningRack extends BlockContainer
         	TileEntityTanningRack tile = getTile(world, x, y, z);
         	if(tile != null)
         	{
-        		tile.interact(user, true);
+        		tile.interact(user, true, false);
         	}
         }
     }

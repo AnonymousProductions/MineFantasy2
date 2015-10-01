@@ -140,8 +140,8 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 		{
 			return;
 		}
+		list.add(new ItemStack(ArmourListMF.leatherapron));
 		addSet(list, ArmourListMF.leather);
-		
 		addSet(list, ArmourListMF.chainmail);
 		addSet(list, ArmourListMF.fieldplate);
     }
@@ -212,10 +212,6 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	
 	public boolean canColour()
 	{
-		if(material.name.equalsIgnoreCase("hide") || material.name.equalsIgnoreCase("rough"))
-		{
-			return false;
-		}
 		return design == ArmourDesign.PADDING || design == ArmourDesign.LEATHER || design == ArmourDesign.CLOTH || isMetal();
 	}
 	public boolean isMetal()

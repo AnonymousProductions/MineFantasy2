@@ -5,6 +5,7 @@ import java.util.Random;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.PlayerTagData;
 import minefantasy.mf2.api.helpers.TacticalManager;
@@ -12,6 +13,7 @@ import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.item.armour.ItemApron;
 import minefantasy.mf2.item.food.ItemFoodMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.util.MFLogUtil;
@@ -47,6 +49,7 @@ public class PlayerTickHandlerMF
         		if(event.player.worldObj.isRemote)
     			Arrows.updateArrowCount(event.player);
         	}
+        	/*
         	if(RPGElements.isSystemActive)
         	{
         		if(event.player.isSprinting() && event.player.ticksExisted % 10 == 0)
@@ -58,6 +61,7 @@ public class PlayerTickHandlerMF
         			SkillList.sneak.addXP(event.player, 1);
         		}
         	}
+        	*/
         	//CLIENT
         	if(event.player.worldObj.isRemote)
         	{
@@ -69,13 +73,25 @@ public class PlayerTickHandlerMF
         {
         	applyBalance(event.player);
         	ItemFoodMF.onTick(event.player);
+        	
+        	if(!event.player.worldObj.isRemote && !ItemApron.isUserProtected(event.player) && event.player.ticksExisted % 100 == 0)
+        	{
+        		for(int a = 0; a < event.player.inventory.getSizeInventory(); a++)
+        		{
+        			ItemStack item = event.player.inventory.getStackInSlot(a);
+        			if(item != null && item.getItem() instanceof IHotItem)
+        			{
+        				event.player.setFire(5);
+        				event.player.attackEntityFrom(DamageSource.onFire, 1.0F);
+        			}
+        		}
+        	}
         }
     }
 
 	private void playSounds(EntityPlayer user)
 	{
 		double speed = Math.hypot(user.motionX, user.motionZ);
-		//TODO Sounds when walking
 		float bulk = ArmourCalculator.getTotalWeightOfWorn(user, false);
 		
         if(user.isSprinting() && speed > 0.01D && bulk >= 50)

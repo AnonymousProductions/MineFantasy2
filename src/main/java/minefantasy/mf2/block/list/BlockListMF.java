@@ -128,6 +128,8 @@ public class BlockListMF
 	
 	public static Block forge = new BlockForge("stone", 0, false);
 	public static Block forge_active = new BlockForge("stone", 0, true);
+	public static Block forge_metal = new BlockForge("metal", 1, false);
+	public static Block forge_metal_active = new BlockForge("metal", 1, true);
 	
 	public static Block repair_basic = new BlockRepairKit("basic", 0.25F, 0.05F, 0.2F);
 	public static Block repair_advanced = new BlockRepairKit("advanced", 1.0F, 0.2F, 0.05F);
@@ -146,7 +148,9 @@ public class BlockListMF
 	public static Block trough_wood = new BlockTrough("Basic", Material.wood, 32);
 	public static Block trough_rock = new BlockTrough("Rock", Material.wood, 64);
 	public static Block trough_strongwood = new BlockTrough("Refinedwood", Material.wood, 100);
+	public static Block engTanner = new BlockEngineerTanner(2, "Metal");
 	
+	public static Block bombPress = new BlockBombPress();
 	public static void init()
 	{
 		//5:20 default planks
@@ -185,4 +189,5 @@ public class BlockListMF
 	public static int bellows_RI = 105;
 	public static int research_RI = 106;
 	public static int trough_RI = 107;
+	public static int bpress_RI = 108;
 }

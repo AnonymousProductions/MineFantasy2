@@ -17,7 +17,7 @@ public class ResearchTablePacket extends PacketMF
 	{
 		coords = new int[]{tile.xCoord, tile.yCoord, tile.zCoord};
 		id = tile.researchID;
-		progress = new float[]{tile.progress, tile.lastMaxProgress};
+		progress = new float[]{tile.progress, tile.maxProgress};
 		if(progress[1] <= 0)
 		{
 			progress[1] = 0;
@@ -45,7 +45,7 @@ public class ResearchTablePacket extends PacketMF
 	        TileEntityResearch carpenter = (TileEntityResearch)entity;
 	        carpenter.researchID = id;
 	        carpenter.progress = progress[0];
-	        carpenter.lastMaxProgress = (int)progress[1];
+	        carpenter.maxProgress = (int)progress[1];
         }
 	}
 

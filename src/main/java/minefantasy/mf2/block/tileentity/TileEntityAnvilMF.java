@@ -15,11 +15,13 @@ import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerAnvilMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
+import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.network.packet.AnvilPacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.item.EntityItem;
@@ -48,6 +50,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	private String toolTypeRequired = "hammer";
 	private String researchRequired = "";
 	private boolean outputHot = false;
+	private Skill skillUsed;
 	
 	public TileEntityAnvilMF()
 	{
@@ -87,6 +90,8 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
         texName = nbt.getString("TextureName");
         outputHot = nbt.getBoolean("outputHot");
         qualityBalance = nbt.getFloat("Quality");
+        leftHit = nbt.getFloat("leftHit");
+        rightHit = nbt.getFloat("rightHit");
 	}
 	
 	@Override
@@ -118,6 +123,8 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
         nbt.setString("TextureName", texName);
         nbt.setBoolean("outputHot", outputHot);
         nbt.setFloat("Quality", qualityBalance);
+        nbt.setFloat("leftHit", leftHit);
+        nbt.setFloat("rightHit", rightHit);
 	}
 
 	@Override
@@ -220,6 +227,10 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	public void updateEntity()
 	{
 		++ticksExisted;
+		if(!worldObj.isRemote && (leftHit == 0 || rightHit == 0))
+		{
+			reassignHitValues();
+		}
 		super.updateEntity();
 		if(!worldObj.isRemote)
 		{
@@ -253,13 +264,15 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		int hammerTier = ToolHelper.getCrafterTier(user.getHeldItem());
 		if(toolType.equalsIgnoreCase("hammer") || toolType.equalsIgnoreCase("hvyHammer"))
 		{
+			if(!worldObj.isRemote)
+			MFLogUtil.logDebug("Used Hits: " + leftHit + "|" + rightHit);
 			if(rightClick)
 			{
-				this.qualityBalance += 0.1F;
+				this.qualityBalance += rightHit;
 			}
 			else
 			{
-				this.qualityBalance -= 0.175F;
+				this.qualityBalance -= leftHit;
 			}
 			if(qualityBalance >= 1.0F || qualityBalance <= -1.0F)
 			{
@@ -276,7 +289,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 			if(worldObj.isRemote)
 				return true;
 			
-			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= anvilTierRequired && hammerTier >= hammerTierRequired)
+			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && hammerTier >= hammerTierRequired)
 			{
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, rightClick ? 1.2F : 1.0F);
 				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem()) * (rightClick ? 0.75F : 1.0F);
@@ -286,16 +299,12 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 				{
 					efficiency *= (0.5F-user.swingProgress);
 				}
-				if(RPGElements.isSystemActive)
-				{
-					SkillList.metallurgy.addXP(user, (int)efficiency);
-				}
 				
 				progress += Math.max(0.2F, efficiency);
 				if(progress >= progressMax)
 				{
 					float xpGained = progressMax / toolEfficiency;
-					craftItem();
+					craftItem(user);
 				}
 			}
 			else
@@ -316,6 +325,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		if(!worldObj.isRemote)
 		{
 			consumeResources();
+			reassignHitValues();
 			progress = progressMax = qualityBalance = 0;
 		}
 		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.8, zCoord+0.5, "random.break", 1.0F, 0.8F);
@@ -324,7 +334,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	{
 		return getResearchNeeded().isEmpty() || ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
 	}
-	private void craftItem()
+	private void craftItem(EntityPlayer lastHit)
 	{
 		if (this.canCraft())
         {
@@ -342,16 +352,26 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 			int temp = this.averageTemp();
 			boolean hot = outputHot && temp > 0;
 			
-			if(hot && this.inventory[output] == null)
+			if(hot)
 			{
 				ItemStack out = ItemHeated.createHotItem(result, temp);
             	if(result.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
             	{
             		getNBT(out).setString("MF_CraftedByName", lastPlayerHit);
             	}
-                this.inventory[output] = out;
-				EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
-	            consumeResources();
+            	if(inventory[output] == null)
+            	{
+            		addXP(lastHit);
+            		this.inventory[output] = out;
+            		consumeResources();
+            	}
+            	else if(inventory[output].isItemEqual(out) && (inventory[output].stackSize + out.stackSize <= getStackSize(inventory[output])))
+            	{
+            		addXP(lastHit);
+            		inventory[output].stackSize += out.stackSize;
+            		MFLogUtil.logDebug("StackSize = " + inventory[output].stackSize);
+            		consumeResources();
+            	}
 			}
 			else if (!hot)
 			{
@@ -367,13 +387,24 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	            {
 	                this.inventory[output].stackSize += result.stackSize; // Forge BugFix: Results may have multiple items
 	            }
-	            EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
+	            addXP(lastHit);
 	            consumeResources();
 			}
         }
 		onInventoryChanged();
 		progress = 0;
+		reassignHitValues();
 		qualityBalance = 0;
+	}
+	private void addXP(EntityPlayer smith)
+	{
+		if(skillUsed == null)return;
+		
+		float baseXP = this.progressMax / 10F;
+		baseXP /= (1.0F + getAbsoluteBalance());
+		
+		MFLogUtil.logDebug("Add " + baseXP + " to " + skillUsed.skillName);
+		skillUsed.addXP(smith, (int)baseXP + 1);
 	}
 	private ItemStack modifyArmour(ItemStack result)
 	{
@@ -404,6 +435,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	}
 	private ItemStack modifySpecials(ItemStack result) 
 	{
+		boolean isTool = result.getMaxStackSize() == 1 && result.isItemStackDamageable();
 		boolean hasHeart = false;
 		EntityPlayer player = worldObj.getPlayerEntityByName(lastPlayerHit);
 		//DRAGONFORGE
@@ -435,13 +467,50 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 				return new ItemStack(DF, result.stackSize, result.getItemDamage());
 			}
 		}
-		if(isPerfectItem())
+		if(isPerfectItem() && !isMythicRecipe())
 		{
 			this.setTrait(result, "MF_Inferior", false);
 			ToolHelper.setQuality(result, 200.0F);
 			return result;
 		}
+		if(isTool)
+		{
+			result = modifyQualityComponents(result);
+		}
 		return damageItem(result);
+	}
+	private ItemStack modifyQualityComponents(ItemStack result)
+	{
+		float totalPts = 0F;
+		int totalItems = 0;
+		for(ItemStack item: inventory)
+		{
+			if(item != null && item.hasTagCompound())
+			{
+				if(item.getTagCompound().hasKey("MF_Inferior"))
+				{
+					++totalItems;
+					boolean inf = item.getTagCompound().getBoolean("MF_Inferior");
+					totalPts += (inf ? -50F : 100F);
+				}
+			}
+		}
+		if(totalItems > 0 && totalPts > 0)
+		{
+			MFLogUtil.logDebug("Modify Quality: " + totalItems + " x " + totalPts);
+			totalPts /= totalItems;
+			MFLogUtil.logDebug("= "+totalPts);
+			ToolHelper.setQuality(result, ToolHelper.getQualityLevel(result)+totalPts);
+			if(totalPts <= -85F)
+			{
+				this.setTrait(result, "MF_Inferior", true);
+			}
+			if(totalPts >= 80)
+			{
+				this.setTrait(result, "MF_Inferior", false);
+			}
+		}
+		return result;
 	}
 	private int averageTemp() 
 	{
@@ -576,9 +645,20 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 			ItemStack item = getStackInSlot(slot);
 			if(item != null && item.getItem() != null && item.getItem().getContainerItem(item) != null)
 			{
-				this.dropItem(item.getItem().getContainerItem(item));
+				if(item.stackSize == 1)
+				{
+					setInventorySlotContents(slot, item.getItem().getContainerItem(item));
+				}
+				else
+				{
+					this.dropItem(item.getItem().getContainerItem(item));
+					this.decrStackSize(slot, 1);
+				}
 			}
-			this.decrStackSize(slot, 1);
+			else
+			{
+				this.decrStackSize(slot, 1);
+			}
 		}
 	}
 	private boolean canFitResult(ItemStack result)
@@ -586,20 +666,36 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		ItemStack resSlot = inventory[getSizeInventory()-1];
 		if(resSlot != null && result != null)
 		{
-			if(outputHot)
+			int maxStack = getStackSize(resSlot);
+			if(resSlot.stackSize + result.stackSize > maxStack)
 			{
 				return false;
+			}
+			if(resSlot.getItem() instanceof IHotItem)
+			{
+				ItemStack heated = Heatable.getItem(resSlot);
+				if(heated != null)
+				{
+					resSlot = heated;
+				}
 			}
 			if(!resSlot.isItemEqual(result))
 			{
 				return false;
 			}
-			if(resSlot.stackSize + result.stackSize > resSlot.getMaxStackSize())
-			{
-				return false;
-			}
 		}
 		return true;
+	}
+	private int getStackSize(ItemStack slot) 
+	{
+		if(slot == null)return 0;
+		
+		if(slot.getItem() instanceof IHotItem)
+		{
+			ItemStack held = Heatable.getItem(slot);
+			if(held != null)return held.getMaxStackSize();
+		}
+		return slot.getMaxStackSize();
 	}
 	//CRAFTING CODE
 	public ItemStack getResult()
@@ -630,12 +726,14 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
     		if (!canCraft() && progress > 0) 
             {
     			progress = 0;
+    			reassignHitValues();
     			qualityBalance = 0;
             }
     		
     		if(recipe != null && oldRecipe != null && !recipe.isItemEqual(oldRecipe))
     		{
     			progress = 0;
+    			reassignHitValues();
     			qualityBalance = 0;
     		}
     		if(progress > progressMax)progress = progressMax-1;
@@ -741,6 +839,11 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	{
 		return thresholdPosition;
 	}
+	@Override
+	public float getSuperThresholdPosition() 
+	{
+		return thresholdPosition/3.5F;
+	}
 	
 	private float getAbsoluteBalance()
 	{
@@ -760,8 +863,8 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	}
 	private boolean isPerfectItem()
 	{
-		float threshold = 0.5F;
-		float total = 100F * getAbsoluteBalance();
+		int threshold = (int)(100F * getSuperThresholdPosition() / 2F);
+		int total = (int)(100F * getAbsoluteBalance() - threshold);
 		
 		return total <= threshold;
 	}
@@ -801,14 +904,24 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	private void setTrait(ItemStack item, String trait, boolean flag)
 	{
 		if(item == null)return;
+		if(item.getMaxStackSize() > 1 || !item.isItemStackDamageable())
+		{
+			return;
+		}
 		
 		NBTTagCompound nbt = this.getNBT(item);
 		nbt.setBoolean(trait, flag);
 	}
 	private void updateThreshold() 
 	{
+		float modifier = 1.0F;
+		if(tier < anvilTierRequired)
+		{
+			modifier *= 0.25F;
+		}
+		
 		float baseThreshold = worldObj.difficultySetting.getDifficultyId()>= 2 ? 7.5F : 10F;
-		thresholdPosition = isMythicRecipe() ? 0.05F : baseThreshold/100F;
+		thresholdPosition = (isMythicRecipe() ? 0.05F : baseThreshold/100F)*modifier;
 	}
 	public void upset(EntityPlayer user)
 	{
@@ -824,5 +937,21 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 				}
 			}
 		}
+	}
+	public float leftHit = 0F;
+	public float rightHit = 0F;
+	private void reassignHitValues()
+	{
+		if(!worldObj.isRemote)
+		{
+			leftHit = 0.1F + (0.01F*rand.nextInt(11));
+			rightHit = 0.1F + (0.01F*rand.nextInt(11));
+			MFLogUtil.logDebug("Reset Hits: " + leftHit + "|" + rightHit);
+		}
+	}
+	@Override
+	public void setSkill(Skill skill) 
+	{
+		skillUsed = skill;
 	}
 }

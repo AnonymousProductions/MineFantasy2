@@ -77,6 +77,7 @@ public class ConfigClient extends ConfigurationBaseMF
 		BlockListMF.forge_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Forge", -104).getString());
 		BlockListMF.bellows_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bellows", -105).getString());
 		BlockListMF.research_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "ResearchTable", -106).getString());
+		BlockListMF.bpress_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bomb Press", -107).getString());
 	}
 
 }

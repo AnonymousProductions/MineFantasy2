@@ -28,9 +28,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
  */
 public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 {
-	private float damage;
-	private String arrowName;
-	private ArrowType design;
+	protected float damage;
+	protected String arrowName;
+	protected ArrowType design;
 	private ToolMaterial arrowMat;
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
 	public static final MFArrowDispenser dispenser = new MFArrowDispenser();
@@ -47,12 +47,16 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		name = convertName(name);
 		material = convertMaterial(material);
 		
-		super.setUnlocalizedName(name+"_arrow");
+		super.setUnlocalizedName(type == ArrowType.EXPLOSIVE ? name : (name+"_arrow"));
 		name = getName(name, type);
 		design = type;
 		arrowName = name;
 		arrowMat = material;
 		damage = ((material.getDamageVsEntity()/2F) + 3.0F)*type.damageModifier;
+		if(type == ArrowType.EXPLOSIVE)
+		{
+			damage = 1;
+		}
 		itemRarity = rarity;
 		setTextureName("minefantasy2:Ammo/"+name);
 		setCreativeTab(CreativeTabMF.tabArcher);
@@ -62,7 +66,6 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		QuiverArrowRegistry.addArrowToRegistry(new ItemStack(this), null);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenser);
 	}
-	
 	private ToolMaterial convertMaterial(ToolMaterial material) 
 	{
 		if(material == BaseMaterialMF.ornate.getToolConversion())
@@ -84,7 +87,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
     {
         String name = ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(item) + ".name")).trim();
         
-        if(design != ArrowType.NORMAL)
+        if(design != ArrowType.NORMAL && design != ArrowType.EXPLOSIVE)
         {
         	name += " (" +  StatCollector.translateToLocal("arrow.head."+ design.name.toLowerCase() +".name") + ")";
         }
@@ -94,6 +97,10 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	
 	private String getName(String mat, ArrowType type) 
 	{
+		if(type == ArrowType.EXPLOSIVE)
+		{
+			return "exploding_arrow";
+		}
 		if(type.name.equalsIgnoreCase("normal"))
 		{
 			return mat +"_arrow";
@@ -139,7 +146,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
     
     public EntityArrowMF getFiredArrow(EntityArrowMF instance, ItemStack arrow)
     {
-		instance.modifyVelocity(design.velocity);
+    	instance.modifyVelocity(design.velocity);
     	return instance.setArrow(arrow).setArrowTex(arrowName);
     }
     
@@ -162,7 +169,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	@Override
 	public float getBreakChance(Entity entityArrow, ItemStack arrow)
 	{
-		if(arrowMat == BaseMaterialMF.enderforge.getToolConversion())
+		if(arrowMat == BaseMaterialMF.ignotumite.getToolConversion() || arrowMat == BaseMaterialMF.mithium.getToolConversion() || arrowMat == BaseMaterialMF.enderforge.getToolConversion())
 		{
 			return 0F;
 		}

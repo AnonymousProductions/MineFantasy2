@@ -80,7 +80,7 @@ public class BlockBombBench extends BlockContainer
     	TileEntityBombBench tile = getTile(world, x, y, z);
     	if(tile != null && (world.isAirBlock(x, y+1, z) || !world.isSideSolid(x, y+1, z, ForgeDirection.DOWN)))
     	{
-    		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
+    		if(side != 1 || !tile.tryCraft(user, false) && !world.isRemote)
     		{
     			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
     		}
@@ -95,7 +95,7 @@ public class BlockBombBench extends BlockContainer
         	TileEntityBombBench tile = getTile(world, x, y, z);
         	if(tile != null)
         	{
-        		tile.tryCraft(user);
+        		tile.tryCraft(user, false);
         	}
         }
     }

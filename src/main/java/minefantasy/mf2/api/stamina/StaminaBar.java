@@ -32,6 +32,7 @@ public class StaminaBar
 	 * Modifies the decay speed for armour, this scales to what a full suit of plate does
 	 */
 	private static final float armourWeightModifier = 2.0F;
+	private static final float armourWeightModifierClimbing = 5.0F;
 	/**
 	 * Modifies the regen rate slowdown for armour
 	 */
@@ -464,6 +465,32 @@ public class StaminaBar
 			if(mass > 0)
 			{
 				value *= (1+(mass/max*configArmourWeightModifier*(armourWeightModifier-1)));
+			}
+			value *= armourMod;
+		}
+		return value;
+	}
+	public static float getClimbinbDecayModifier(EntityLivingBase user, boolean countArmour)
+	{
+		float value = getDecayModifier(user.worldObj);
+		
+		if(countArmour)
+		{
+			float armourMod = 1.0F;
+			for(int slot = 1; slot <= 4; slot ++)
+			{
+				ItemStack armour = user.getEquipmentInSlot(slot);
+				if(armour != null && armour.getItem() instanceof IWornStaminaItem)
+				{
+					armourMod += ((IWornStaminaItem)armour.getItem()).getDecayModifier(user, armour);
+				}
+			}
+			float min = 0F;
+			float max = 50F;
+			float mass = ArmourCalculator.getTotalWeightOfWorn(user, false)-min;
+			if(mass > 0)
+			{
+				value *= (1+(mass/max*configArmourWeightModifier*(armourWeightModifierClimbing-1)));
 			}
 			value *= armourMod;
 		}

@@ -1,5 +1,6 @@
 package minefantasy.mf2.api.crafting.carpenter;
 
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -34,8 +35,9 @@ public class ShapedCarpenterRecipes implements ICarpenterRecipe
     public final String toolType;
     public final String soundOfCraft;
     public final String research;
+    public final Skill skillUsed;
     
-    public ShapedCarpenterRecipes(int wdth, int heit, ItemStack[] inputs, ItemStack output, String toolType, int time, int hammer, int anvi, float exp, boolean hot, String sound, String research)
+    public ShapedCarpenterRecipes(int wdth, int heit, ItemStack[] inputs, ItemStack output, String toolType, int time, int hammer, int anvi, float exp, boolean hot, String sound, String research, Skill skill)
     {
     	this.research = research;
     	this.outputHot = hot;
@@ -49,6 +51,7 @@ public class ShapedCarpenterRecipes implements ICarpenterRecipe
         this.recipeExperiance = exp;
         this.toolType = toolType;
         this.soundOfCraft = sound;
+        this.skillUsed = skill;
     }
 
     @Override
@@ -196,5 +199,11 @@ public class ShapedCarpenterRecipes implements ICarpenterRecipe
 	public String getResearch()
 	{
 		return research;
+	}
+
+	@Override
+	public Skill getSkill()
+	{
+		return skillUsed;
 	}
 }

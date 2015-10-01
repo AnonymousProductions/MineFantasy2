@@ -53,11 +53,11 @@ public class ClientProxyMF extends CommonProxyMF
 	{
 		registerEntityRenderer();
 		
-		for(ItemBattleaxeMF axe: ToolListMF.battleaxes)
-			MinecraftForgeClient.registerItemRenderer(axe, new RenderHeavyWeapon().setBlunt());
-		
 		for(ItemWarhammerMF hammer: ToolListMF.warhammers)
 			MinecraftForgeClient.registerItemRenderer(hammer, new RenderHeavyWeapon().setBlunt());
+		
+		for(ItemBattleaxeMF axe: ToolListMF.battleaxes)
+			MinecraftForgeClient.registerItemRenderer(axe, new RenderHeavyWeapon().setBlunt());
 		
 		for(ItemGreatswordMF sword: ToolListMF.greatswords)
 			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword().setParryable());
@@ -92,13 +92,19 @@ public class ClientProxyMF extends CommonProxyMF
 		for(ItemScythe scythe: ToolListMF.scythes)
 			MinecraftForgeClient.registerItemRenderer(scythe, new RenderHeavyWeapon().setBlunt());
 		
-		KnowledgePageRegistry.registerPages();
 	}
 	
 	@Override
 	public void registerMain() 
 	{
 		super.registerMain();
+	}
+	
+	@Override
+	public void postInit()
+	{
+		super.postInit();
+		KnowledgePageRegistry.registerPages();
 	}
 	
 	@Override
@@ -127,6 +133,8 @@ public class ClientProxyMF extends CommonProxyMF
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityResearch.class, new TileEntityResearchRenderer());
 		RenderingRegistry.registerBlockHandler(new RenderTrough());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrough.class, new TileEntityTroughRenderer());
+		RenderingRegistry.registerBlockHandler(new RenderBombPress());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombPress.class, new TileEntityBombPressRenderer());
 	}
 	
 	public void registerEntityRenderer()
@@ -137,6 +145,7 @@ public class ClientProxyMF extends CommonProxyMF
 		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderSnowball(ComponentListMF.shrapnel));
 		RenderingRegistry.registerEntityRenderingHandler(EntityFireBlast.class, new RenderFireBlast());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySmoke.class, new RenderFireBlast());
+		RenderingRegistry.registerEntityRenderingHandler(EntityParachute.class, new RenderParachute());
 	}
 	
 	@Override

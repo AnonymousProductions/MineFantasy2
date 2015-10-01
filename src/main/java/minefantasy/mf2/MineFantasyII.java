@@ -10,7 +10,6 @@ import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.config.*;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
-import minefantasy.mf2.knowledge.KnowledgeCostRegistry;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
@@ -46,7 +45,7 @@ public class MineFantasyII
 {
 	public static final String MODID = "minefantasy2";
 	public static final String NAME = "MineFantasyII";
-	public static final String VERSION = "Alpha_2.2.1";
+	public static final String VERSION = "Alpha_2.3.6";
 	public static final WorldGenMFBase worldGenManager = new WorldGenMFBase();
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
@@ -78,19 +77,16 @@ public class MineFantasyII
 		MineFantasyAPI.isInDebugMode = isDebug();
 		MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 		
-		ToolListMF.init();
-		
     	proxy.registerTickHandlers();
     	addModFlags();
-    	ComponentListMF.init();
-    	KnowledgeListMF.init();
-    	BasicRecipesMF.init();
     	proxy.preInit();
     }
 
     @EventHandler
     public void load(FMLInitializationEvent evt)
     {
+    	ToolListMF.init();
+    	ComponentListMF.init();
         MinecraftForge.EVENT_BUS.register(this);
         proxy.registerMain();
         GameRegistry.registerWorldGenerator(worldGenManager, 0);
@@ -129,7 +125,9 @@ public class MineFantasyII
     	{
     		registerBiomeStuff(biome);
     	}
-    	KnowledgeCostRegistry.init();
+    	KnowledgeListMF.init();
+    	BasicRecipesMF.init();
+    	proxy.postInit();
     }
 
     private void registerBiomeStuff(BiomeGenBase biome)

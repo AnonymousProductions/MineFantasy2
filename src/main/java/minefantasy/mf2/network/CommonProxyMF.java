@@ -110,6 +110,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 			EntityRegistry.registerModEntity(EntityItemUnbreakable.class, "special_eitem_mf", IDBase, MineFantasyII.instance, 64, 20, true);IDBase ++;
 		}
 		EntityRegistry.registerModEntity(EntityMine.class, "landmineMF", IDBase, MineFantasyII.instance, 16, 10, true);IDBase ++;
+		EntityRegistry.registerModEntity(EntityParachute.class, "parachute_mf", IDBase, MineFantasyII.instance, 16, 20, true);IDBase ++;
 		registerTileEntities();
 		SmokeMechanics.handler = this;
 	}
@@ -128,6 +129,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 		GameRegistry.registerTileEntity(TileEntityBellows.class, "MF_Bellows");
 		GameRegistry.registerTileEntity(TileEntityResearch.class, "MF_Research");
 		GameRegistry.registerTileEntity(TileEntityTrough.class, "MF_Trough");
+		GameRegistry.registerTileEntity(TileEntityBombPress.class, "MF_BombPress");
 	}
 
 
@@ -167,5 +169,8 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 				world.spawnEntityInWorld(smoke);
 			}
 		}
+	}
+
+	public void postInit() {
 	}
 }

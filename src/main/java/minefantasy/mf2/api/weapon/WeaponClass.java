@@ -12,13 +12,13 @@ public class WeaponClass
 {
 	public static HashMap<String, WeaponClass>classes = new HashMap<String, WeaponClass>();
 	
-	public static WeaponClass FIST = new WeaponClass("fist", SkillList.unarmed, "blunt");
+	public static WeaponClass FIST = new WeaponClass("fist", null, "blunt");
 	
-	public static WeaponClass BLADE = new WeaponClass("blade", SkillList.blade, "blunt");
-	public static WeaponClass BLUNT = new WeaponClass("blunt", SkillList.blunt, "blade");
-	public static WeaponClass AXE = new WeaponClass("axe", SkillList.axe, "blade");
-	public static WeaponClass POLEARM = new WeaponClass("polearm", SkillList.polearm, "blade");
-	public static WeaponClass EXOTIC = new WeaponClass("exotic", SkillList.exotic, "blade");
+	public static WeaponClass BLADE = new WeaponClass("blade", null, "blunt");
+	public static WeaponClass BLUNT = new WeaponClass("blunt", null, "blade");
+	public static WeaponClass AXE = new WeaponClass("axe", null, "blade");
+	public static WeaponClass POLEARM = new WeaponClass("polearm",null, "blade");
+	public static WeaponClass EXOTIC = new WeaponClass("exotic", null, "blade");
 	
 	public Skill parentSkill;
 	public String name;

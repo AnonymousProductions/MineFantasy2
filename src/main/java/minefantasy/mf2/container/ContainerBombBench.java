@@ -100,7 +100,7 @@ public class ContainerBombBench extends Container
             }
             else if (clicked > 4)//INVENTORY
             {
-                if (TileEntityBombBench.isMatch(itemstack1, "bombcase") || TileEntityBombBench.isMatch(itemstack1, "minecase"))
+                if (TileEntityBombBench.isMatch(itemstack1, "arrow") || TileEntityBombBench.isMatch(itemstack1, "bombcase") || TileEntityBombBench.isMatch(itemstack1, "minecase"))
                 {
                     if (!this.mergeItemStack(itemstack1, 0, 1, false))
                     {

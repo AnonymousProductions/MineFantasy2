@@ -124,6 +124,13 @@
       ]
     },
 	
+	"block.twistbolt": {
+    "category": "neutral",
+    "sounds": [
+        "process/carpenter/TwistBolt1"
+      ]
+    },
+	
 	"updateResearch": {
     "category": "player",
     "sounds": [

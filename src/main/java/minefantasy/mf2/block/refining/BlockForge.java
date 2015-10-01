@@ -13,6 +13,7 @@ import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.tool.ILighter;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityForge;
+import minefantasy.mf2.item.armour.ItemApron;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -31,6 +32,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
@@ -47,7 +49,7 @@ public class BlockForge extends BlockContainer
 	
 	public BlockForge(String tex, int tier, boolean isActive) 
 	{
-		super(Material.rock);
+		super(tier == 1 ? Material.iron : Material.rock);
 		this.tier = tier;
 		this.type = tex;
 		this.isActive = isActive;
@@ -166,12 +168,12 @@ public class BlockForge extends BlockContainer
 	
 	private static Block getActiveBlock(int tier)
 	{
-		return BlockListMF.forge_active;
+		return tier == 1 ? BlockListMF.forge_metal_active : BlockListMF.forge_active;
 	}
 
 	private static Block getInactiveBlock(int tier) 
 	{
-		return BlockListMF.forge;
+		return tier == 1 ? BlockListMF.forge_metal : BlockListMF.forge;
 	}
 
 	@Override
@@ -188,10 +190,16 @@ public class BlockForge extends BlockContainer
 		TileEntityForge tile = getTile(world, x, y, z);
     	if(tile != null)
     	{
+    		if(tile.isLit() && !ItemApron.isUserProtected(user))
+    		{
+    			user.setFire(5);
+    			user.attackEntityFrom(DamageSource.onFire, 1.0F);
+    		}
     		if(held != null)
     		{
     			if(!isActive && held.getItem() instanceof ILighter || held.getItem() instanceof ItemFlintAndSteel)
     			{
+    				user.playSound("fire.ignite", 1.0F, 1.0F);
     				if(held.getItem() instanceof ILighter)
     				{
     					ILighter custom = (ILighter)held.getItem();
@@ -208,16 +216,32 @@ public class BlockForge extends BlockContainer
     				return true;
     			}
     			ForgeFuel stats = ForgeItemHandler.getStats(held);
-    			if(stats != null && tile.addFuel(stats, true))
+    			if(stats != null && tile.addFuel(stats, true, tier))
     			{
-    				if(user.getHeldItem().stackSize == 1)
+					if(user.getHeldItem().getItem().getContainerItem() != null)
+					{
+						ItemStack cont = new ItemStack(user.getHeldItem().getItem().getContainerItem());
+						if(user.getHeldItem().stackSize == 1)
+						{
+							user.setCurrentItemOrArmor(0, cont);
+							return true;
+						}
+						else
+						{
+							if(!user.inventory.addItemStackToInventory(cont))
+							{
+								user.entityDropItem(cont, 0.0F);
+							}
+						}
+					}
+					if(user.getHeldItem().stackSize == 1)
     				{
     					user.setCurrentItemOrArmor(0, null);
     				}
-    				else
-    				{
-    					user.getHeldItem().stackSize --;
-    				}
+					else
+					{
+						user.getHeldItem().stackSize --;
+					}
     				return true;
     			}
     			if(!world.isRemote && ResearchLogic.hasInfoUnlocked(user, KnowledgeListMF.smeltDragonforge) && held.getItem() == ComponentListMF.dragon_heart && tile.temperature >= TileEntityForge.dragonHeat)
@@ -280,4 +304,56 @@ public class BlockForge extends BlockContainer
 	{
 		return BlockListMF.forge_RI;
 	}
+	
+	
+	/**
+     * Called whenever the block is added into the world. Args: world, x, y, z
+     */
+	@Override
+    public void onBlockAdded(World world, int x, int y, int z)
+    {
+        if (tier == 1 && !world.isRemote)
+        {
+            if (this.isActive && !world.isBlockIndirectlyGettingPowered(x, y, z))
+            {
+                world.scheduleBlockUpdate(x, y, z, this, 4);
+            }
+            else if (!this.isActive && world.isBlockIndirectlyGettingPowered(x, y, z))
+            {
+            	updateFurnaceBlockState(true, world, x, y, z);
+            }
+        }
+    }
+
+    /**
+     * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
+     * their own) Args: x, y, z, neighbor Block
+     */
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+    {
+        if (tier == 1 && !world.isRemote)
+        {
+            if (this.isActive && !world.isBlockIndirectlyGettingPowered(x, y, z))
+            {
+                world.scheduleBlockUpdate(x, y, z, this, 4);
+            }
+            else if (!this.isActive && world.isBlockIndirectlyGettingPowered(x, y, z))
+            {
+            	updateFurnaceBlockState(true, world, x, y, z);
+            }
+        }
+    }
+
+    /**
+     * Ticks the block if it's been scheduled
+     */
+    @Override
+    public void updateTick(World world, int x, int y, int z, Random rand)
+    {
+        if (tier == 1 && !world.isRemote && this.isActive && !world.isBlockIndirectlyGettingPowered(x, y, z))
+        {
+            updateFurnaceBlockState(false, world, x, y, z);
+        }
+    }
 }

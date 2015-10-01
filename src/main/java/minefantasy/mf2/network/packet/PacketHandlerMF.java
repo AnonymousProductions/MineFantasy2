@@ -33,6 +33,8 @@ public class PacketHandlerMF
         packetList.put(ForgePacket.packetName, new ForgePacket());
         packetList.put(ResearchTablePacket.packetName, new ResearchTablePacket());
         packetList.put(TroughPacket.packetName, new TroughPacket());
+        packetList.put(BombBenchPacket.packetName, new BombBenchPacket());
+        packetList.put(TannerPacket.packetName, new TannerPacket());
     }
 
     @SubscribeEvent

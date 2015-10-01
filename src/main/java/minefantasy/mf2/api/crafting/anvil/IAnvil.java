@@ -1,5 +1,7 @@
 package minefantasy.mf2.api.crafting.anvil;
 
+import minefantasy.mf2.api.rpg.Skill;
+
 /**
  * 
  * @author AnonymousProductions
@@ -13,5 +15,6 @@ public interface IAnvil {
 	void setRequiredAnvil(int i);
 	void setHotOutput(boolean i);
 	void setToolType(String toolType);
+	void setSkill(Skill skill);
 	public void setResearch(String research);
 }

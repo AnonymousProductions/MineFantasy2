@@ -28,6 +28,12 @@ public class BaseMaterialMF
 	
 	private static float ACrounding = 10F; //round to nearest 10
 	/*
+	 *  WOOD(0, 59, 2.0F, 0.0F, 15),
+        STONE(1, 131, 4.0F, 1.0F, 5),
+        IRON(2, 250, 6.0F, 2.0F, 14),
+        EMERALD(3, 1561, 8.0F, 3.0F, 10),
+        GOLD(0, 32, 12.0F, 0.0F, 22);
+        
 	 * To get variables: X = sword damage, Y = Armour Ratio(+1 of value), Z = Damage
 	 * 
 	 * X = Z * Y
@@ -40,6 +46,7 @@ public class BaseMaterialMF
 	public static BaseMaterialMF linen =  addArmourSpecificMaterial("Linen",   	        0, 10 ,          100,        0,        1.00F, 0);
 	public static BaseMaterialMF wool =  addArmourSpecificMaterial("Wool"  ,   	        1, 15 ,          150,       0,        1.00F, 5);
 	
+	public static BaseMaterialMF leatherapron = addArmourSpecificMaterial("LeatherApron",  0, 10 ,       100,        0,        0.50F, 0);
 	public static BaseMaterialMF hide =  addArmourSpecificMaterial("Hide",   	     	   0, 20 ,       500,        0,        1.00F, 0);
 	public static BaseMaterialMF rough = addArmourSpecificMaterial("RoughLeather",    	   0, 35 ,       700,        1,        1.00F, 0);
 	public static BaseMaterialMF reinforced = addArmourSpecificMaterial("StrongLeather",   1, 250,      1000,        1,        1.00F, 5);
@@ -55,25 +62,24 @@ public class BaseMaterialMF
 	public static BaseMaterialMF silver =  addMaterial("Silver", 		     -1, 500,     0,        0.0F,       10,       0.70F, 0).setForgeStats(1, 1, 3F, 90, 120);
 	public static BaseMaterialMF gold =    addMaterial("Gold", 	     	     -1, 150,     0,        0.0F,       25,       1.50F, 0).setForgeStats(1, 1, 3F, 90, 120);
 	//public static BaseMaterialMF goldPure =    addMaterial("PureGold", 	     -1, 50 ,     0,        0.0F,       50,       2.00F, 0).setRarity(1);
-	public static BaseMaterialMF ornate =  addMaterial("Ornate", 		     -1, 500,     0,        0.0F,       30,       1.00F, 30).setRarity(1).setForgeStats(1, 1, 4F, 120, 150);
-	
+	public static BaseMaterialMF ornate =  addMaterial("Ornate", 		     -1, 300,     0,        0.0F,       30,       1.00F, 30).setRarity(1).setForgeStats(1, 1, 4F, 120, 150);
 	
 	//Basic / Common Materials (0-2) Levels 0-50
-	public static BaseMaterialMF copper		 = addMaterial("Copper",		  0, 250,   1,     1.5F, 1.0F,    5,        1.00F, 0).setForgeStats(0, 0, 1.0F,  95, 250); //lvl 0-4
-	public static BaseMaterialMF bronze    	 = addMaterial("Bronze", 	      1, 500,  	2,        1.5F,       5 ,       1.00F, 5).setForgeStats(1, 1, 2.5F,  100, 250); //lvl 5-14
-	public static BaseMaterialMF iron   	 = addMaterial("Iron",            2, 600,  	2,        2.0F,       5 ,       1.00F, 15).setForgeStats(2, 2, 2.0F, 90, 250); //lvl 15-24
-	public static BaseMaterialMF steel       = addMaterial("Steel",           3, 1000, 	2,        2.5F,       10,       1.00F, 25).setForgeStats(3, 3, 2.5F, 120, 250); //lvl 25-39
-	public static BaseMaterialMF encrusted   = addMaterial("Encrusted",       3, 2500, 	3,        3.5F,       25,       1.00F, 40).setForgeStats(3, 3, 5.0F, 130, 240); //lvl 40-49
+	public static BaseMaterialMF copper		 = addMaterial("Copper",		  0, 200,   1,     1.5F, 1.0F,    5,        1.00F, 0).setForgeStats(0, 0, 1.0F,  95, 250); //lvl 0-4
+	public static BaseMaterialMF bronze    	 = addMaterial("Bronze", 	      1, 300,  	2,        1.5F,       5 ,       1.00F, 5).setForgeStats(1, 1, 2.5F,  100, 250); //lvl 5-14
+	public static BaseMaterialMF iron   	 = addMaterial("Iron",            2, 500,  	2,        2.0F,       5 ,       1.00F, 15).setForgeStats(2, 2, 2.0F, 90, 250); //lvl 15-24
+	public static BaseMaterialMF steel       = addMaterial("Steel",           3, 750, 	2,        2.5F,       10,       1.00F, 25).setForgeStats(3, 3, 2.5F, 120, 250); //lvl 25-39
+	public static BaseMaterialMF encrusted   = addMaterial("Encrusted",       3, 2000, 	3,        3.5F,       25,       1.00F, 40).setForgeStats(3, 3, 5.0F, 130, 240); //lvl 40-49
 	
 	//Advanced Materials (3 - 4) Levels 50-75
-	public static BaseMaterialMF blacksteel  = addMaterial("BlackSteel",      4, 2000, 	4,        4.0F,       12,       1.00F, 50).setForgeStats(4, 4, 4.0F, 150, 350);//lvl 50
-	public static BaseMaterialMF dragonforge = addMaterial("Dragonforge",     4, 3000, 	4,        5.0F,       14,       1.00F, 60).setForgeStats(4, 4, 8.0F, 250, 350).setRarity(1).setResistances(100F, 0F);//lvl 60
-	public static BaseMaterialMF redsteel    = addMaterial("RedSteel",        5, 4000, 	5,        6.0F,       1 ,       1.15F, 75).setForgeStats(5, 5, 6.5F, 200, 350).setResistances(20F, 0F);//lvl 75
-	public static BaseMaterialMF bluesteel   = addMaterial("BlueSteel",       5, 3000, 	5,        5.0F,       20,       0.75F, 75).setForgeStats(5, 5, 4.5F, 175, 325).setResistances(0F, 20F);//lvl 75
+	public static BaseMaterialMF blacksteel  = addMaterial("BlackSteel",      4, 1500, 	4,        4.0F,       12,       1.00F, 50).setForgeStats(4, 4, 4.0F, 150, 350);//lvl 50
+	public static BaseMaterialMF dragonforge = addMaterial("Dragonforge",     4, 1500, 	4,        5.0F,       14,       1.00F, 60).setForgeStats(4, 4, 8.0F, 250, 350).setRarity(1).setResistances(100F, 0F);//lvl 60
+	public static BaseMaterialMF redsteel    = addMaterial("RedSteel",        5, 2000, 	5,        6.0F,       1 ,       1.15F, 75).setForgeStats(5, 5, 6.5F, 200, 350).setResistances(20F, 0F);//lvl 75
+	public static BaseMaterialMF bluesteel   = addMaterial("BlueSteel",       5, 1800, 	5,        5.0F,       20,       0.75F, 75).setForgeStats(5, 5, 4.5F, 175, 325).setResistances(0F, 20F);//lvl 75
 	
 	//Mythic Materials (5) Levels 75-100
-	public static BaseMaterialMF adamantium  = addMaterial("Adamantium",      6, 6500, 	6,        8.0F,       10 ,      1.25F, 90).setForgeStats(6, 5, 9.0F, 300, 400).setRarity(1).setResistances(35F, 0F);//lvl 90
-	public static BaseMaterialMF mithril     = addMaterial("Mithril",         6, 4500, 	6,        7.0F,       30,       0.50F, 90).setForgeStats(6, 5, 6.0F, 280, 400).setRarity(1).setResistances(0F, 35F);//lvl 90
+	public static BaseMaterialMF adamantium  = addMaterial("Adamantium",      6, 3000, 	6,        8.0F,       10 ,      1.25F, 90).setForgeStats(6, 5, 9.0F, 300, 400).setRarity(1).setResistances(35F, 0F);//lvl 90
+	public static BaseMaterialMF mithril     = addMaterial("Mithril",         6, 2500, 	6,        7.0F,       30,       0.50F, 90).setForgeStats(6, 5, 6.0F, 280, 400).setRarity(1).setResistances(0F, 35F);//lvl 90
 	
 	//Masterwork Materials (6) Level 100
 	public static BaseMaterialMF ignotumite  = addMaterial("Ignotumite",      7, 1000, 7,        14.0F,      20 ,      2.00F, 100).setForgeStats(7, 5, 15.0F, 350, 400).setRarity(2).setResistances(50F, 0F);//High damage, heavy, fire resist lvl 100
@@ -212,12 +218,12 @@ public class BaseMaterialMF
 	}
 	private ArmourMaterialMF convertToMFArmour()
 	{
-		return new ArmourMaterialMF(name, durability,  hardness,  enchantment,  weight).setFireResistance(fireResistance).setMagicResistance(arcaneResistance).setMythic(isMythic);
+		return new ArmourMaterialMF("MF"+name, durability,  hardness,  enchantment,  weight).setFireResistance(fireResistance).setMagicResistance(arcaneResistance).setMythic(isMythic);
 	}
 	
 	private ToolMaterial convertToTool()
 	{
-		return EnumHelper.addToolMaterial(name, harvestLevel, durability, 2.0F+(sharpness*2F), sharpness, enchantment);
+		return EnumHelper.addToolMaterial("MF"+name, harvestLevel, durability, 2.0F+(sharpness*2F), sharpness, enchantment);
 	}
 	
 	private static ArmourMaterialMF getMFArmourMaterial(String name)

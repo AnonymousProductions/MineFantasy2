@@ -26,14 +26,13 @@ public class ItemBlockRepairKit extends ItemBlock
 		{
 			list.add(StatCollector.translateToLocal("attribute.kit.repairRate_normal.name") + ": " + kit.repairLevel*100F + "%");
 			list.add(StatCollector.translateToLocal("attribute.kit.repairRate_enchant.name") + ": " + kit.repairLevelEnchant*100F + "%");
-			list.add(StatCollector.translateToLocal("attribute.kit.repairChance.name") + ": " + kit.successRate*100F + "%");
 		}
 		else
 		{
 			list.add(StatCollector.translateToLocal("attribute.kit.repairRate.name") + ": " + kit.repairLevel*100F + "%");
-			list.add(StatCollector.translateToLocal("attribute.kit.repairChance.name") + ": " + kit.successRate*100F + "%");
-			list.add(StatCollector.translateToLocal("attribute.kit.breakChance.name") + ": " + kit.breakChance*100F + "%");
 		}
+		list.add(StatCollector.translateToLocal("attribute.kit.repairChance.name") + ": " + kit.successRate*100F + "%");
+		list.add(StatCollector.translateToLocal("attribute.kit.breakChance.name") + ": " + kit.breakChance*100F + "%");
 		super.addInformation(item, user, list, extra);
 	}
 	

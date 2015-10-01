@@ -2,6 +2,7 @@ package minefantasy.mf2.api.crafting.anvil;
 
 import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.heating.IHotItem;
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,8 +38,9 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
 	public final float recipeExperiance;
 	public final String toolType;
 	public final String research;
+	public final Skill skillUsed;
 
-    public ShapedAnvilRecipes(int wdth, int heit, ItemStack[] inputs, ItemStack output, String toolType, int time, int hammer, int anvi, float exp, boolean hot, String research)
+    public ShapedAnvilRecipes(int wdth, int heit, ItemStack[] inputs, ItemStack output, String toolType, int time, int hammer, int anvi, float exp, boolean hot, String research, Skill skill)
     {
     	this.outputHot = hot;
         this.recipeWidth = wdth;
@@ -51,6 +53,7 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
         this.recipeExperiance = exp;
         this.toolType = toolType;
         this.research = research;
+        this.skillUsed = skill;
     }
 
     @Override
@@ -229,5 +232,11 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
 	public String getResearch()
 	{
 		return research;
+	}
+
+	@Override
+	public Skill getSkill() 
+	{
+		return skillUsed;
 	}
 }

@@ -365,8 +365,12 @@ public class MineFantasyHUD extends Gui
         this.drawTexturedModalRect(markerPos, yPos+1, 84, 33, 3, 5);
         
         int offset = (int)(tile.getThresholdPosition()/2F*barwidth);
-        this.drawTexturedModalRect(centre-offset, yPos+1, 87, 33, 2, 4);
+        this.drawTexturedModalRect(centre-offset-1, yPos+1, 87, 33, 2, 4);
         this.drawTexturedModalRect(centre+offset, yPos+1, 89, 33, 2, 4);
+        
+        int offset2 = (int)(tile.getSuperThresholdPosition()/2F*barwidth);
+        this.drawTexturedModalRect(centre-offset2, yPos+1, 91, 33, 1, 4);
+        this.drawTexturedModalRect(centre+offset2, yPos+1, 91, 33, 1, 4);
         
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();

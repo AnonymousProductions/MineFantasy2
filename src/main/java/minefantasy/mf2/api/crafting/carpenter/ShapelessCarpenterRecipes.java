@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,8 +37,9 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
     private final String toolType;
     private final String soundOfCraft;
     private final String research;
-
-    public ShapelessCarpenterRecipes(ItemStack output, String toolType, float exp, int hammer, int anvi, int time, List components, boolean hot, String sound, String research)
+    private final Skill skillUsed;
+    
+    public ShapelessCarpenterRecipes(ItemStack output, String toolType, float exp, int hammer, int anvi, int time, List components, boolean hot, String sound, String research, Skill skill)
     {
     	this.research = research;
     	this.outputHot = hot;
@@ -49,6 +51,7 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
         this.recipeExperiance = exp;
         this.toolType = toolType;
         this.soundOfCraft = sound;
+        this.skillUsed = skill;
     }
 
     @Override
@@ -177,5 +180,11 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
 	public String getResearch()
 	{
 		return research;
+	}
+
+	@Override
+	public Skill getSkill() 
+	{
+		return skillUsed;
 	}
 }

@@ -6,6 +6,7 @@ import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.food.FoodListMF;
+import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -25,6 +26,49 @@ public class BasicRecipesMF
 		ForgingRecipes.init();
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
+		
+		
+		KnowledgeListMF.hideHelmR = 
+		GameRegistry.addShapedRecipe(ArmourListMF.armour(ArmourListMF.leather, 0, 0), new Object[]
+		{
+			"H",
+			"C",
+			"H",
+			'H', ComponentListMF.hideSmall,
+			'C', Blocks.wool,
+		});
+		KnowledgeListMF.hideChestR = 
+		GameRegistry.addShapedRecipe(ArmourListMF.armour(ArmourListMF.leather, 0, 1), new Object[]
+		{
+			"H",
+			"C",
+			'H', ComponentListMF.hideLarge,
+			'C', Blocks.wool,
+		});
+		KnowledgeListMF.hideLegsR = 
+		GameRegistry.addShapedRecipe(ArmourListMF.armour(ArmourListMF.leather, 0, 2), new Object[]
+		{
+			"H",
+			"C",
+			'H', ComponentListMF.hideMedium,
+			'C', Blocks.wool,
+		});
+		KnowledgeListMF.hideBootsR = 
+		GameRegistry.addShapedRecipe(ArmourListMF.armour(ArmourListMF.leather, 0, 3), new Object[]
+		{
+			"H",
+			"C",
+			'H', ComponentListMF.hideSmall,
+			'C', Blocks.wool,
+		});
+		KnowledgeListMF.apronRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(ArmourListMF.leatherapron), new Object[]
+		{
+			"LCL",
+			" L ",
+			'L', Items.leather,
+			'C', Items.coal,
+		});
 		
 		KnowledgeListMF.researchTableRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.research), new Object[]
@@ -86,6 +130,7 @@ public class BasicRecipesMF
 		});
 		
 		GameRegistry.addRecipe(new RecipeArmourDyeMF());
+		GameRegistry.addRecipe(new RecipeSyringe());
 		//Just a way on making the overpowered gunpowder from black powder
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.gunpowder), new Object[]
 		{
@@ -202,5 +247,6 @@ public class BasicRecipesMF
 		TanningRecipe.addRecipe(ComponentListMF.hideSmall, mat.craftTimeModifier*5F, -1, new ItemStack(Items.leather));
 		TanningRecipe.addRecipe(ComponentListMF.hideMedium, mat.craftTimeModifier*8F, -1, new ItemStack(Items.leather, 3));
 		TanningRecipe.addRecipe(ComponentListMF.hideLarge, mat.craftTimeModifier*12F, -1, new ItemStack(Items.leather, 5));
+		TanningRecipe.addRecipe(Items.leather, mat.craftTimeModifier*2F, -1, "shears", new ItemStack(ComponentListMF.leather_strip, 4));
 	}
 }

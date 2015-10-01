@@ -27,6 +27,7 @@ import minefantasy.mf2.farming.FarmingHelper;
 import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.network.packet.LevelupPacket;
 import minefantasy.mf2.network.packet.SkillPacket;
@@ -39,12 +40,14 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityWitch;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
@@ -368,6 +371,18 @@ public class EventManagerMF
 		ItemStack weapon = null;
 		DamageSource source = event.source;
 		
+		if(dead instanceof EntityWitch)
+		{
+			dropBook(dead, 0);
+		}
+		if(dead instanceof EntityVillager)
+		{
+			dropBook(dead, 1);
+		}
+		if(dead instanceof EntityZombie)
+		{
+			dropBook(dead, 2);
+		}
 		if(source != null && source.getEntity() != null)
 		{
 			if(source.getEntity() instanceof EntityLivingBase)
@@ -387,6 +402,73 @@ public class EventManagerMF
 				dead.getEntityData().setBoolean("hunterKill", true);
 			}
 		}
+	}
+
+	private void dropBook(EntityLivingBase dead, int id)
+	{
+		if(dead.worldObj.isRemote)return;
+		Item book = null;
+		if(id == 0)
+		{
+			float chance = rand.nextFloat();
+			if(chance > 0.75F)
+			{
+				book = ToolListMF.skillbook_engineering;
+			}
+			else
+			{
+				book = ToolListMF.skillbook_provisioning;
+			}
+		}
+		else if(id == 1 && rand.nextInt(5) == 0)
+		{
+			float chance = rand.nextFloat();
+			if(chance > 0.9F)
+			{
+				book = ToolListMF.skillbook_engineering;
+			}
+			else if(chance > 0.6F)
+			{
+				book = ToolListMF.skillbook_artisanry;
+			}
+			else if(chance > 0.3F)
+			{
+				book = ToolListMF.skillbook_construction;
+			}
+			else
+			{
+				book = ToolListMF.skillbook_provisioning;
+			}
+		}
+		else if(id == 2 && rand.nextInt(25) == 0)
+		{
+			float chance = rand.nextFloat();
+			if(chance > 0.9F)
+			{
+				book = ToolListMF.skillbook_engineering;
+			}
+			else if(chance > 0.6F)
+			{
+				book = ToolListMF.skillbook_artisanry;
+			}
+			else if(chance > 0.3F)
+			{
+				book = ToolListMF.skillbook_construction;
+			}
+			else
+			{
+				book = ToolListMF.skillbook_provisioning;
+			}
+		}
+		if(book != null)
+		{
+			dead.entityDropItem(new ItemStack(book), 0F);
+		}
+	}
+
+	private EntityLivingBase EntityWitch() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private void addKill(EntityPlayer hunter, EntityLivingBase dead) 
@@ -499,7 +581,7 @@ public class EventManagerMF
 				event.toolTip.add((special ? EnumChatFormatting.GREEN : "") + StatCollector.translateToLocal("attribute.mfcraftedbyname.name") + ": " + name + EnumChatFormatting.GRAY);
 			}
 			WeaponClass WC = WeaponClass.findClassForAny(event.itemStack);
-			if(WC != null && RPGElements.isSystemActive)
+			if(WC != null && RPGElements.isSystemActive && WC.parentSkill != null)
 			{
 				event.toolTip.add(StatCollector.translateToLocal("weaponclass."+WC.name.toLowerCase()));
 				float skillMod = RPGElements.getWeaponModifier(event.entityPlayer, WC.parentSkill) * 100F;

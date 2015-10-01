@@ -74,7 +74,7 @@ public class BlockTrough extends BlockContainer
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if(tile != null && tile instanceof TileEntityTrough)
 		{
-			((TileEntityTrough)tile).interact(user, held);
+			return ((TileEntityTrough)tile).interact(user, held);
 		}
 		return false;
     }

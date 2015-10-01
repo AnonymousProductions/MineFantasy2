@@ -346,7 +346,7 @@ public class EntityBomb extends Entity
         	for(int a = 0; a < 16; a++)
         	{
         		float range = 0.6F;
-        		EntityShrapnel shrapnel = new EntityShrapnel(worldObj, posX, posY+0.5D, posZ, (rand.nextDouble()-0.5)*range, (rand.nextDouble())*(range/2), (rand.nextDouble()-0.5)*range);
+        		EntityShrapnel shrapnel = new EntityShrapnel(worldObj, posX, posY+0.5D, posZ, (rand.nextDouble()-0.5)*range, (rand.nextDouble()-0.5F)*range, (rand.nextDouble()-0.5)*range);
         		
         		if(t == 2)
         		{

@@ -6,16 +6,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.util.StatCollector;
 
 public class InformationPage
 {
     private String name;
     private LinkedList<InformationBase> entries;
+    public final Skill baseSkill;
 
-    public InformationPage(String name, InformationBase... achievements)
+    public InformationPage(String name, Skill skill, InformationBase... achievements)
     {
         this.name = name;
+        this.baseSkill = skill;
         this.entries = new LinkedList<InformationBase>(Arrays.asList(achievements));
     }
 
@@ -99,6 +102,10 @@ public class InformationPage
     public static String getTitle(int index)
     {
         return StatCollector.translateToLocal(index == -1 ? "Basic" : getInfoPage(index).getName());
+    }
+    public static Skill getSkill(int index)
+    {
+        return index == -1 ? null : getInfoPage(index).baseSkill;
     }
 
 	public void addInfo(InformationBase entry)

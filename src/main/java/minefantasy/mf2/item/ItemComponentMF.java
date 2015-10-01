@@ -145,6 +145,12 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.talisman_lesser);
 		add(list, ComponentListMF.talisman_greater);
 		
+		add(list, ComponentListMF.bolt);
+		add(list, ComponentListMF.iron_frame);
+		add(list, ComponentListMF.iron_strut);
+		add(list, ComponentListMF.steel_tube);
+		add(list, ComponentListMF.bronze_gears);
+		add(list, ComponentListMF.bomb_casing_arrow);
     }
     private void add(List list, Item item)
     {

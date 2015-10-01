@@ -1,5 +1,6 @@
 package minefantasy.mf2.block.tileentity;
 
+import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
@@ -8,6 +9,7 @@ import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.crafting.BlockTanningRack;
+import minefantasy.mf2.block.crafting.BlockEngineerTanner;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.container.ContainerTanner;
 import minefantasy.mf2.item.list.ComponentListMF;
@@ -22,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.WorldServer;
 
 public class TileEntityTanningRack extends TileEntity implements IInventory
 {
@@ -34,6 +37,8 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	public final ContainerTanner container;
 	private int tempTicksExisted = 0;
 	private Random rand = new Random();
+	
+	public float acTime;
 	
 	public TileEntityTanningRack()
 	{
@@ -55,38 +60,77 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 		{
 			blockMetadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 		}
+		if(isAutomated())
+		{
+			if(acTime > 0)
+			{
+				acTime -= (1F/20);
+			}
+			//syncAnimations();
+		}
 	}
-	public boolean interact(EntityPlayer player, boolean leftClick)
+	public boolean interact(EntityPlayer player, boolean leftClick, boolean leverPull)
 	{
+		if(leverPull && acTime > 0)
+		{
+			return true;
+		}
 		container.detectAndSendChanges();
 		
 		ItemStack held = player.getHeldItem();
 		
 		//Interaction
-		if(items[1] != null && ToolHelper.getCrafterTool(held).equalsIgnoreCase(toolType))
+		if(items[1] != null && (leverPull || ToolHelper.getCrafterTool(held).equalsIgnoreCase(toolType)))
 		{
-			if(ToolHelper.getCrafterTier(held) >= tier)
+			if(leverPull || ToolHelper.getCrafterTier(held) >= tier)
 			{
-				held.damageItem(1, player);
-				if(held.getItemDamage() <= 0)
+				if(!leverPull)
 				{
-					player.destroyCurrentEquippedItem();
+					held.damageItem(1, player);
+					if(held.getItemDamage() >= held.getMaxDamage())
+					{
+						player.destroyCurrentEquippedItem();
+					}
+				}
+				else
+				{
+					worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "tile.piston.out", 0.75F, 0.85F);
+					acTime = 1.0F;
 				}
 				
-				float efficiency = ToolHelper.getCrafterEfficiency(held);
-				if(player.swingProgress > 0 && player.swingProgress <= 1.0)
+				float efficiency = leverPull ? 100F :  ToolHelper.getCrafterEfficiency(held);
+				if(!leverPull && player.swingProgress > 0 && player.swingProgress <= 1.0)
 				{
 					efficiency *= (0.5F-player.swingProgress);
 				}
 				
 				if(efficiency > 0)
-				progress += efficiency;
-				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "dig.cloth", 1.0F, 1.0F);
+				{
+					progress += efficiency;
+					if(items[0] != null && items[0].stackSize > 1)
+					{
+						ItemStack item = items[0].copy();
+						item.stackSize --;
+						items[0].stackSize = 1;
+						if(player == null || !player.inventory.addItemStackToInventory(item))
+						{
+							player.entityDropItem(item, 0F);
+						}
+					}
+				}
+				if(toolType.equalsIgnoreCase("shears"))
+				{
+					worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "mob.sheep.shear", 1.0F, 1.0F);
+				}
+				else
+				{
+					worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "dig.cloth", 1.0F, 1.0F);
+				}
 				if(progress >= maxProgress)
 				{
 					if(RPGElements.isSystemActive)
 					{
-						SkillList.leatherworking.addXP(player, 5);
+						SkillList.artisanry.addXP(player, 1);
 					}
 					progress = 0;
 					setInventorySlotContents(0, items[1].copy());
@@ -96,7 +140,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 						for(int a = 0; a < rand.nextInt(10); a++)
 						{
 							ItemStack plank = new ItemStack(ComponentListMF.plank);
-							worldObj.playSoundEffect(xCoord, yCoord, zCoord, "mob.zombie.woodbreak", 1.0F, 1.5F);
+							worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "mob.zombie.woodbreak", 1.0F, 1.5F);
 							dropItem(plank);
 						}
 						worldObj.setBlockToAir(xCoord, yCoord, zCoord);
@@ -106,14 +150,13 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 			}
 			return true;
 		}
-		
 		if(!leftClick && (ToolHelper.getCrafterTool(held).equalsIgnoreCase("nothing") || ToolHelper.getCrafterTool(held).equalsIgnoreCase("hands")))
 		{
 			//Item placement
 			ItemStack item = items[0];
 			if(item == null)
 			{
-				if(held != null && !(held.getItem() instanceof ItemBlock))
+				if(held != null && !(held.getItem() instanceof ItemBlock) && TanningRecipe.getRecipe(held) != null)
 				{
 					ItemStack item2 = held.copy();
 					item2.stackSize = 1;
@@ -139,6 +182,14 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 		return false;
 	}
 
+	public boolean isAutomated()
+	{
+		if(worldObj == null)
+		{
+			return tex.equalsIgnoreCase("metal");
+		}
+		return  worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockEngineerTanner;
+	}
 	private void tryDecrMainItem(EntityPlayer player) 
 	{
 		int held = player.inventory.currentItem;
@@ -187,6 +238,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
+		acTime = nbt.getFloat("acTime");
 		tex = nbt.getString("tex");
 		tier = nbt.getInteger("tier");
 		progress = nbt.getFloat("Progress");
@@ -211,6 +263,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
+		nbt.setFloat("acTime", acTime);
 		nbt.setString("tex", tex);
 		nbt.setInteger("tier", tier);
 		nbt.setFloat("Progress", progress);

@@ -39,9 +39,21 @@ public class Skill
 		}
 		
 		float rise = 0.2F * RPGElements.levelUpModifier;//20% rize each level
-		return (int) Math.floor(100F * (1.0F + (rise*(level-1))));
+		return (int) Math.floor(10F * (1.0F + (rise*(level-1))));
 	}
 	
+	public int[] getXP(EntityPlayer player)
+	{
+		NBTTagCompound skill = RPGElements.getSkill(player, skillName);
+		
+		if(skill != null)
+		{
+			int value = skill.getInteger("xp");
+			int max = skill.getInteger("xpMax");
+			return new int[]{value, max};
+		}
+		return new int[]{0, 0};
+	}
 	/**
 	 * Adds xp to the skill, negative values take xp away
 	 */
@@ -60,6 +72,7 @@ public class Skill
 		}
 		value += xp;
 		skill.setInteger("xp", value);
+		System.out.println("XP: " + value + " / " + max);
 		
 		if(value >= max)
 		{
@@ -108,7 +121,7 @@ public class Skill
 		tag.setInteger("xp", 0);
 		tag.setInteger("xpMax", getLvlXP(start, player));
 	}
-	public void sync(NBTTagCompound tag, EntityPlayer player) 
+	public void sync(EntityPlayer player) 
 	{
 		if(!player.worldObj.isRemote)
 		{

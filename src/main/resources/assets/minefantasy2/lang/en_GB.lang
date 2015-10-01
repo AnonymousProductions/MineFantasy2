@@ -1,6 +1,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /INFORMATION/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+knowledge.craftArmourBasic=Basic Armour
+knowledge.craftArmourBasic.desc=Nothing fancy
+knowledge.craftArmourBasic.1=When you first start out in this world, you may want something to wear. These Armours don't offer much protection but their better than nothing.
+
 knowledge.craftArmourLight=Light Armour
 knowledge.craftArmourLight.1=
 knowledge.craftArmourLight.1=Light armour weighs pretty much nothing and will not restrict any stamina regeneration.^It however isn't likely to protect you from much, so think about that before catching broadswords with your face.

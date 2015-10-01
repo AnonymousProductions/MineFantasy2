@@ -33,7 +33,7 @@ import net.minecraft.world.WorldServer;
 public class TileEntityForge extends TileEntity implements IInventory, IBasicMetre, IBellowsUseable
 {
 	public static final float dragonHeat = 200F; //200*
-	private ItemStack[] inv = new ItemStack[10];
+	private ItemStack[] inv = new ItemStack[1];
 	public float fuel;
 	public float maxFuel = 6000;//5m
 	public float temperature, fuelTemperature;
@@ -61,13 +61,10 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		
 		if(++ticksExisted % 20 == 0)
 		{
-			for(int a = 0; a < 10; a++)
+			ItemStack item = getStackInSlot(0);
+			if(item != null && !worldObj.isRemote)
 			{
-				ItemStack item = getStackInSlot(a);
-				if(item != null && !worldObj.isRemote)
-				{
-					modifyItem(item, a);
-				}
+				modifyItem(item, 0);
 			}
 			syncData();
 		}
@@ -108,7 +105,15 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		
 		if(isBurning && temperature > 100 && rand.nextInt(20) == 0 && !isOutside())
 		{
-			SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord, zCoord, 1);
+			int val = this.getTier() == 1 ? 3 : 1;
+			if(this.hasCrucibleAbove())
+			{
+				SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord+1, zCoord, val);
+			}
+			else
+			{
+				SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord, zCoord, val);
+			}
 		}
 		if(dragonHeartPower > 0)
 		{
@@ -118,6 +123,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 				dragonHeartPower = 0;
 			}
 		}
+		maxFuel = getTier() == 1 ? 12000 : 6000;
 	}
 	private boolean isOutside()
 	{
@@ -227,15 +233,18 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		}
 		else if(temperature > 0)
 		{
+			ItemStack heated = ItemHeated.createHotItem(item);
 			this.setInventorySlotContents(slot, ItemHeated.createHotItem(item));
+				
 		}
 	}
 
 	public int getTier()
 	{
-		if(this.blockType != null && blockType instanceof BlockForge)
+		Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
+		if(block != null && block instanceof BlockForge)
 		{
-			return ((BlockForge)blockType).tier;
+			return ((BlockForge)block).tier;
 		}
 		return 0;
 	}
@@ -382,7 +391,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	@Override
 	public int getInventoryStackLimit()
 	{
-		return 1;
+		return 64;
 	}
 
 	@Override
@@ -443,6 +452,10 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	 */
 	public void extinguish()
 	{
+		if(getTier() == 1)
+		{
+			return;
+		}
 		BlockForge.updateFurnaceBlockState(false, worldObj, xCoord, yCoord, zCoord);
 	}
 	/**
@@ -450,11 +463,15 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	 */
 	public void fireUpForge()
 	{
+		if(getTier() == 1)
+		{
+			return;
+		}
 		BlockForge.updateFurnaceBlockState(true, worldObj, xCoord, yCoord, zCoord);
 	}
 	public float getBellowsEffect()
 	{
-		return 1.5F;
+		return getTier() == 1 ? 2.0F : 1.5F;
 	}
 	private float getBellowsMax() 
 	{
@@ -464,8 +481,10 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		return 1000;
 	}
-	public boolean addFuel(ForgeFuel stats, boolean hand)
+	public boolean addFuel(ForgeFuel stats, boolean hand, int tier)
 	{
+		maxFuel = tier == 1 ? 12000 : 6000;
+		
 		boolean hasUsed = false;
 		
 		if(stats.baseHeat > this.fuelTemperature) // uses if hotter
