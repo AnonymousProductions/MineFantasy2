@@ -9,7 +9,9 @@ import minefantasy.mf2.item.AdvancedFuelHandlerMF;
 import minefantasy.mf2.item.FuelHandlerMF;
 import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.ItemHide;
+import minefantasy.mf2.item.ItemMFBowl;
 import minefantasy.mf2.item.ItemRawOreMF;
+import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.gadget.ItemBombComponent;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -66,6 +68,8 @@ public class ComponentListMF
 		BaseMaterialMF.mithium,
 		BaseMaterialMF.enderforge,
 	};
+	public static Item clay_pot = new ItemMFBowl("clay_pot");
+	public static Item clay_pot_uncooked = new ItemComponentMF("clay_pot_uncooked", 0);
 	
 	public static ItemComponentMF[] ingots = new ItemComponentMF[ingotMats.length];
 	public static ItemComponentMF[] hunks = new ItemComponentMF[hunkMats.length];
@@ -82,15 +86,15 @@ public class ComponentListMF
 	public static Item flux = new ItemComponentMF("flux", 0);
 	public static Item flux_strong = new ItemComponentMF("flux_strong", 0);
 	
-	public static Item coalDust = new ItemComponentMF("coalDust", 0);
+	public static Item coalDust = new ItemComponentMF("coalDust", 0).setContainerItem(clay_pot);
 	public static Item nitre = new ItemComponentMF("nitre", 0);
 	public static Item sulfur = new ItemComponentMF("sulfur", 0);
 	public static Item iron_prep = new ItemComponentMF("iron_prep", 0);
-	public static Item blackpowder = new ItemBombComponent("blackpowder", 0, "powder", 0);
-	public static Item blackpowder_advanced = new ItemBombComponent("blackpowder_advanced", 1, "powder", 1);
+	public static Item blackpowder = new ItemBombComponent("blackpowder", 0, "powder", 0).setContainerItem(clay_pot);
+	public static Item blackpowder_advanced = new ItemBombComponent("blackpowder_advanced", 1, "powder", 1).setContainerItem(clay_pot);
 	public static Item fletching = new ItemComponentMF("fletching", 0);
-	public static Item shrapnel = new ItemBombComponent("shrapnel", 0, "filling", 1);
-	public static Item magma_cream_refined = new ItemBombComponent("magma_cream_refined", 1, "filling", 2);
+	public static Item shrapnel = new ItemBombComponent("shrapnel", 0, "filling", 1).setContainerItem(ComponentListMF.clay_pot);
+	public static Item magma_cream_refined = new ItemBombComponent("magma_cream_refined", 1, "filling", 2).setContainerItem(clay_pot);
 	public static Item bomb_fuse = new ItemBombComponent("bomb_fuse", 0, "fuse", 0);
 	public static Item bomb_fuse_long = new ItemBombComponent("bomb_fuse_long", 0, "fuse", 1);
 	public static Item bomb_casing_uncooked = new ItemComponentMF("bomb_casing_uncooked", 0);
@@ -105,12 +109,12 @@ public class ComponentListMF
 	public static Item mine_casing_crystal = new ItemBombComponent("mine_casing_crystal", 1, "minecase", 3);
 	public static Item bomb_casing_arrow = new ItemBombComponent("bomb_casing_arrow", 1, "arrow", 0);
 	
-	public static Item coke = new ItemComponentMF("coke", 0);
+	public static Item coke = new ItemComponentMF("coke", 0).setContainerItem(clay_pot);
 	public static Item diamond_shards = new ItemComponentMF("diamond_shards", 0);
 	
 	public static Item clay_brick = new ItemComponentMF("clay_brick", 0);
 	public static Item kaolinite = new ItemComponentMF("kaolinite", 0);
-	public static Item kaolinite_dust = new ItemComponentMF("kaolinite_dust", 0);
+	public static Item kaolinite_dust = new ItemComponentMF("kaolinite_dust", 0).setContainerItem(clay_pot);
 	public static Item fireclay = new ItemComponentMF("fireclay", 0);
 	public static Item fireclay_brick = new ItemComponentMF("fireclay_brick", 0);
 	public static Item strong_brick = new ItemComponentMF("strong_brick", 0);
@@ -131,7 +135,7 @@ public class ComponentListMF
 	public static Item nail = new ItemComponentMF("nail", 0);
 	public static Item rivet = new ItemComponentMF("rivet", 0);
 	public static Item thread = new ItemComponentMF("thread", 0);
-	public static Item obsidian_dust = new ItemComponentMF("obsidian_dust", 0);
+	public static Item obsidian_rock = new ItemComponentMF("obsidian_rock", 0);
 	
 	public static Item oreCopper = new ItemRawOreMF("oreCopper", -1);
 	public static Item oreTin = new ItemRawOreMF("oreTin", -1);
@@ -141,7 +145,7 @@ public class ComponentListMF
 	
 	public static Item hotItem = new ItemHeated();
 	
-	public static Item plant_oil = new ItemComponentMF("plant_oil", 0).setContainerItem(Items.glass_bottle);
+	public static Item plant_oil = new ItemComponentMF("plant_oil", 0).setContainerItem(FoodListMF.jug_empty);
 	
 	public static Item talisman_lesser= new ItemComponentMF("talisman_lesser", 1);
 	public static Item talisman_greater= new ItemComponentMF("talisman_greater", 3);
@@ -151,6 +155,11 @@ public class ComponentListMF
 	public static Item iron_strut = new ItemComponentMF("iron_strut", 0);
 	public static Item bronze_gears = new ItemComponentMF("bronze_gears", 0);
 	public static Item steel_tube = new ItemComponentMF("steel_tube", 0);
+	
+	//public static Item lime_rock = new ItemComponentMF("lime_rock", 0);
+	//public static Item borax_rock = new ItemComponentMF("borax_rock", 0);
+	//public static Item sulfur_rock = new ItemComponentMF("sulfur_rock", 0);
+	//public static Item nitre_rock = new ItemComponentMF("nitre_rock", 0);
 	
 	public static void init() 
 	{
@@ -210,7 +219,10 @@ public class ComponentListMF
 			BaseMaterialMF mat = ToolListMF.weaponMats[a];
 			String name = mat.name.toLowerCase();
 			int rarity = mat.rarity;
-			
+			if(name.equalsIgnoreCase("ornate"))
+			{
+				name = "silver";
+			}
 			arrowheads[a] = new ItemComponentMF(name+"_arrow_head", rarity);
 			OreDictionary.registerOre(name+"_arrow_head", arrowheads[a]);
 			if(a != 0)
@@ -256,7 +268,6 @@ public class ComponentListMF
 		RandomOre.addOre(new ItemStack(Items.redstone), 5F,  Blocks.stone, 			   2, 0, 16,  false);
 		RandomOre.addOre(new ItemStack(Items.flint),    1F,  Blocks.stone, 			  -1, 0, 64,  false);
 		RandomOre.addOre(new ItemStack(diamond_shards), 0.2F,Blocks.stone, 		       2, 0, 16,  false);
-		RandomOre.addOre(new ItemStack(obsidian_dust),  0.3F,Blocks.stone, 		       2, 0, 16,  false);
 		RandomOre.addOre(new ItemStack(Items.quartz),   0.5F,Blocks.stone, 		       3, 0, 16,  false);
 		
 		RandomOre.addOre(new ItemStack(sulfur), 			 	10F,Blocks.netherrack, 	 -1, 0, 512,  	false);

@@ -200,18 +200,7 @@ public class BlockForge extends BlockContainer
     			if(!isActive && held.getItem() instanceof ILighter || held.getItem() instanceof ItemFlintAndSteel)
     			{
     				user.playSound("fire.ignite", 1.0F, 1.0F);
-    				if(held.getItem() instanceof ILighter)
-    				{
-    					ILighter custom = (ILighter)held.getItem();
-    					if(custom.canLight() && rand.nextDouble() >= custom.getChance())
-    					{
-    						tile.fireUpForge();
-    					}
-    				}
-    				else if(held.getItem() instanceof ItemFlintAndSteel)
-    				{
-    					tile.fireUpForge();
-    				}
+					tile.fireUpForge();
     				held.damageItem(1, user);
     				return true;
     			}

@@ -8,6 +8,7 @@ import java.util.Random;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.stamina.IHeldStaminaItem;
 import minefantasy.mf2.api.stamina.IStaminaWeapon;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -90,10 +91,10 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	 * 
 	 * Weapon Types:
 	 * Blade: Parry Defensive, average damage and speed
-	 * Axe: Brutal Offensive, slower than sword, more damage
-	 * Blunt: Simple Offensive, slower than axe, more damage
-	 * Polearm: Ranged Versitile
-	 * Lightblade: Fast Offensive
+	 * Axe: Brutal Offensive, slower than sword, more damage, Good against Armour
+	 * Blunt: Simple Offensive, slower than axe, more damage, Good against Medium Armour
+	 * Polearm: Ranged Defensive, Good against Heavy Armour
+	 * Lightblade: Fast Offensive, Better against Unarmoured
 	 */
 	public ItemWeaponMF(ToolMaterial material, String named, int rarity, float weight) 
 	{
@@ -314,7 +315,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		}
     }
     
-    @SideOnly(Side.CLIENT)
     public static int getParry(ItemStack item)
     {
     	if(item.hasTagCompound())
@@ -578,9 +578,13 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	}
 	
 	@Override
-	public float[] getDamageRatio(Object implement)
+	public float[] getDamageRatio(Object... implement)
 	{
-		return getWeaponRatio((ItemStack)implement);
+		if(implement.length > 1)
+		{
+			return getWeaponRatio((ItemStack)implement[0], (EntityLivingBase)implement[1]);
+		}
+		return getWeaponRatio((ItemStack)implement[0]);
 	}
 	@Override
 	public float getPenetrationLevel(Object implement)
@@ -591,16 +595,27 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	
 	protected float[] getWeaponRatio(ItemStack implement)
 	{
-		return new float[]{1F, 0F};
+		return new float[]{1F, 0F, 0F};
+	}
+	protected float[] getWeaponRatio(ItemStack implement, EntityLivingBase user)
+	{
+		if(canCounter(user, implement) == 1)
+		{
+			return getCounterRatio();
+		}
+		return getWeaponRatio(implement);
 	}
 	
-	protected float[] maceRatio = new float[]{0F, 1F};
-	protected float[] hammerRatio = new float[]{0F, 1F};
+	protected float[] swordRatio = new float[]{1F, 0F, 0F};
+	protected float[] maceRatio = new float[]{0F, 1F, 0F};
+	protected float[] hammerRatio = new float[]{0F, 1F, 0F};
 	
-	protected float[] waraxeRatio = new float[]{4F, 1F};
-	protected float[] battleaxeRatio = new float[]{3F, 1F};
+	protected float[] waraxeRatio = new float[]{4F, 1F, 0F};
+	protected float[] battleaxeRatio = new float[]{3F, 1F, 0F};
 	
-	protected float[] heavyRatio = new float[]{9F, 1F};
+	protected float[] spearRatio = new float[]{0F, 0F, 1F};
+	protected float[] lanceRatio = new float[]{0F, 1F, 9F};
+	protected float[] heavyRatio = new float[]{9F, 1F, 0F};
 	private float	materialWeight  = 1.0F;
 	
 	protected static int speedModHeavy = 5;
@@ -665,8 +680,17 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	@Override
 	public float modifyDamage(ItemStack item, EntityLivingBase wielder, Entity hit, float initialDam, boolean properHit)
 	{
+		if(canCounter(wielder, item) == 1)
+    	{
+			initialDam *= getCounterDamage();
+    	}
+		if(canCounter(wielder, item) == 0)
+    	{
+			initialDam *= getFailCounterDamage();
+    	}
 		return initialDam;
 	}
+	
 	
 	@Override
 	public float getParryStaminaDecay(DamageSource source, ItemStack weapon)
@@ -687,6 +711,44 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	public void onPowerAttack(float dam, EntityLivingBase user, Entity target, boolean properHit)
 	{
 		
+	}
+	
+	public boolean canCounter()
+	{
+		return true;
+	}
+	public float[] getCounterRatio()
+	{
+		return new float[]{0, 0, 1};
+	}
+	public float getCounterDamage()
+	{
+		return 0.75F;
+	}
+	public float getFailCounterDamage()
+	{
+		return 0.5F;
+	}
+	/*
+	 *  0 = Cannot Counter
+	 *  1 = Can Counter
+	 *  -1 = Not Possible
+	 */
+	private int canCounter(EntityLivingBase user, ItemStack item)
+	{
+		if(user != null && user instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)user;
+			if(getParry(item) > 0)
+			{
+				if(ResearchLogic.hasInfoUnlocked(player, "counteratt"))
+				{
+					return 1;//Can
+				}
+				return 0;//Cannot
+			}
+		}
+		return -1;//N/A
 	}
 	protected int defParryTime = 15;
 	protected int swordParryTime = 10;

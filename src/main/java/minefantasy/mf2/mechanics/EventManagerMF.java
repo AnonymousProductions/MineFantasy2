@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.EntityHelper;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.helpers.ToolHelper;
-import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.LevelupEvent;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SyncSkillEvent;
@@ -23,8 +21,8 @@ import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.config.ConfigStamina;
 import minefantasy.mf2.entity.EntityItemUnbreakable;
+import minefantasy.mf2.entity.mob.EntityDragon;
 import minefantasy.mf2.farming.FarmingHelper;
-import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -32,12 +30,11 @@ import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.network.packet.LevelupPacket;
 import minefantasy.mf2.network.packet.SkillPacket;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.EntityZombie;
@@ -72,14 +69,13 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public class EventManagerMF
 {
@@ -89,24 +85,26 @@ public class EventManagerMF
 	{
 		EntityLivingBase dropper = event.entityLiving;
 		
-		if(dropper instanceof EntityGhast)
-		{
-			//TODO: TEMPORARY
-			int dropCount = (1 + rand.nextInt(event.lootingLevel+1) + (2 + rand.nextInt(8)));
-			
-			for(int a = 0; a < dropCount; a++)
-			{
-				dropper.entityDropItem(new ItemStack(ComponentListMF.dragon_heart), 0.0F);
-			}
-		}
 		if(dropper instanceof EntityChicken)
 		{
-			//TODO: TEMPORARY
 			int dropCount = 1 + rand.nextInt(event.lootingLevel+1*4);
 			
 			for(int a = 0; a < dropCount; a++)
 			{
 				dropper.entityDropItem(new ItemStack(Items.feather), 0.0F);
+			}
+		}
+		if(dropper.getEntityData().hasKey("MF_LootDrop"))
+		{
+			int id = dropper.getEntityData().getInteger("MF_LootDrop");
+			Item drop = id == 0 ? ToolListMF.loot_sack : id == 1 ? ToolListMF.loot_sack_uc : ToolListMF.loot_sack_rare;
+			dropper.entityDropItem(new ItemStack(drop), 0.0F);
+		}
+		if(dropper instanceof IAnimals && dropper.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD)
+		{
+			if(rand.nextFloat() * (1+event.lootingLevel) < 0.05F)
+			{
+				dropper.entityDropItem(new ItemStack(FoodListMF.guts), 0.0F);
 			}
 		}
 		if(dropper instanceof IAnimals && !(dropper instanceof IMob))
@@ -267,9 +265,26 @@ public class EventManagerMF
 	@SubscribeEvent
 	public void onDeath(LivingDeathEvent event)
 	{
+		if(!event.entityLiving.worldObj.isRemote && event.entityLiving instanceof EntityDragon && event.source != null && event.source.getEntity() != null && event.source.getEntity() instanceof EntityPlayer)
+		{
+			PlayerTickHandlerMF.addDragonKill((EntityPlayer)event.source.getEntity());
+		}
+		if(!event.entityLiving.worldObj.isRemote && event.entityLiving instanceof EntityPlayer && event.source != null && event.source.getEntity() != null && event.source.getEntity() instanceof EntityDragon)
+		{
+			PlayerTickHandlerMF.addDragonEnemyPts((EntityPlayer)event.entityLiving, -1);
+		}
 		Entity dropper = event.entity;
 		
-		if(ConfigExperiment.stickArrows && !dropper.worldObj.isRemote)
+		boolean useArrows = true;
+		try
+		{
+			Class.forName("minefantasy.mf2.api.helpers.ArrowEffectsMF");
+		}
+		catch(Exception e)
+		{
+			useArrows = false;
+		}
+		if(useArrows && ConfigExperiment.stickArrows && !dropper.worldObj.isRemote)
 		{
 			ArrayList<ItemStack> stuckArrows = (ArrayList<ItemStack>) ArrowEffectsMF.getStuckArrows(dropper);
 			if(stuckArrows != null && !stuckArrows.isEmpty())
@@ -283,6 +298,7 @@ public class EventManagerMF
 				}
 			}
 		}
+		
 	}
 	
 	@SubscribeEvent
@@ -563,7 +579,14 @@ public class EventManagerMF
 			}
 			if(event.itemStack.getItem() instanceof ItemArmor)
 			{
-				addArmourRating(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
+				if(ArmourCalculator.useThresholdSystem)
+				{
+					addArmourDT(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
+				}
+				else
+				{
+					addArmourRating(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
+				}
 			}
 			if(ArmourCalculator.advancedDamageTypes && ArmourCalculator.getRatioForWeapon(event.itemStack) != null)
 			{
@@ -594,28 +617,66 @@ public class EventManagerMF
 	
 	private void displayTraits(float[] ratio, List<String> list)
 	{
-		int cutting = (int) (ratio[0] / (ratio[0]+ratio[1]) * 100F);
-		int blunt = 100 - cutting;
+		int cutting = (int) (ratio[0] / (ratio[0]+ratio[1]+ratio[2]) * 100F);
+		int piercing = (int) (ratio[2] / (ratio[0]+ratio[1]+ratio[2]) * 100F);
+		int blunt = (int) (ratio[1] / (ratio[0]+ratio[1]+ratio[2]) * 100F);
 		
-		if(cutting > 0)
+		addDamageType(list, cutting, "cutting");
+		addDamageType(list, piercing, "piercing");
+		addDamageType(list, blunt, "blunt");
+	}
+	private void addDamageType(List list, int value, String name)
+	{
+		if(value > 0)
 		{
-			String s = StatCollector.translateToLocal("attribute.weapon.cutting");
-			if(cutting < 100)
+			String s = StatCollector.translateToLocal("attribute.weapon."+name);
+			if(value < 100)
 			{
-				s += " " + cutting + "%";
-			}
-			list.add(s);
-		}
-		if(blunt > 0)
-		{
-			String s = StatCollector.translateToLocal("attribute.weapon.blunt");
-			if(blunt < 100)
-			{
-				s += " " + blunt + "%";
+				s += " " + value + "%";
 			}
 			list.add(s);
 		}
 	}
+	public static void addArmourDT(ItemStack armour, EntityPlayer user, List list, boolean extra) 
+    {
+		list.add("");
+		String AC = ArmourCalculator.getArmourClass(armour);
+		if(AC != null)
+		{
+			list.add(StatCollector.translateToLocal("attribute.armour." + AC));
+		}
+		list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.rating")); 
+		addSingleDT(armour, user, 0, list, extra);
+		addSingleDT(armour, user, 2, list, extra);
+		addSingleDT(armour, user, 1, list, extra);
+    }
+	public static void addSingleDT(ItemStack armour, EntityPlayer user, int id, List list, boolean extra) 
+    {
+		int slot = ((ItemArmor)armour.getItem()).armorType;
+        String attatch = "";
+        
+        int rating = (int)(ArmourCalculator.getDTForDisplayPiece(armour, id)*100F);
+        int equipped = (int)(ArmourCalculator.getDTForDisplayPiece(user.getCurrentArmor(3-slot), id)*100F);
+        
+        if(rating > 0 || equipped > 0)
+        {
+	        if(equipped > 0 && rating != equipped)
+	        {
+	        	float d = rating-equipped;
+	        	if(d > 0)
+	        	{
+	        		attatch += EnumChatFormatting.DARK_GREEN;
+	        	}
+	        	if(d < 0)
+	        	{
+	        		attatch += EnumChatFormatting.RED;
+	        	}
+	        	String d2 = ItemWeaponMF.decimal_format.format(d);
+	        	attatch += " (" + (d > 0 ? "+" : "") + d2 +  ")";
+	        }
+	    	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.rating."+id) + " " + rating + attatch);
+        }
+    }
 
 	public static void addArmourRating(ItemStack armour, EntityPlayer user, List list, boolean extra) 
     {

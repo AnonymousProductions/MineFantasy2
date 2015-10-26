@@ -115,14 +115,6 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 				SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord, zCoord, val);
 			}
 		}
-		if(dragonHeartPower > 0)
-		{
-			dragonHeartPower -= 1F/100F;//5Seconds
-			if(temperature < dragonHeat)//Must be 300+
-			{
-				dragonHeartPower = 0;
-			}
-		}
 		maxFuel = getTier() == 1 ? 12000 : 6000;
 	}
 	private boolean isOutside()
@@ -187,7 +179,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		if(fuel > 0)
 		{
-			--fuel;
+			fuel -= 0.2F;
 		}
 		
 		if(fuel < 0)fuel = 0;
@@ -212,7 +204,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			}
 			else
 			{
-				int increase = (int)(temperature / 10F);
+				int increase = (int)(temperature / 20F);
 				if(temp >= (temperature-increase))
 				{
 					temp = (int) temperature;

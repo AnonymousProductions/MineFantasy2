@@ -6,6 +6,7 @@ import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.weapon.WeaponClass;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
@@ -108,5 +109,21 @@ public class ItemDagger extends ItemWeaponMF
 	public WeaponClass getWeaponClass() 
 	{
 		return WeaponClass.BLADE;
+	}
+	
+	@Override
+	public boolean canCounter()
+	{
+		return true;
+	}
+	@Override
+	public float[] getCounterRatio()
+	{
+		return spearRatio;
+	}
+	@Override
+	public float getCounterDamage()
+	{
+		return 1.5F;
 	}
 }

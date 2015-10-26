@@ -95,9 +95,9 @@ public class ItemEngineerTool extends ItemTool implements IToolMaterial, IToolMF
 	}
 
 	@Override
-	public float[] getDamageRatio(Object implement)
+	public float[] getDamageRatio(Object... implement)
 	{
-		return new float[]{0,1};
+		return new float[]{0,1, 0};
 	}
 
 	@Override

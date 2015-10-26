@@ -71,6 +71,10 @@ public class GuiHelper
 		{
 			return new int[]{width*9, height*0};
 		}
+		if(s.equalsIgnoreCase("pestle"))
+		{
+			return new int[]{width*10, height*0};
+		}
 		
 		if(s.equalsIgnoreCase("anvil"))
 		{

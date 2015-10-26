@@ -143,5 +143,45 @@
     "sounds": [
         "blocks/Bellows"
       ]
+    },
+	
+	"mob.dragon.say": {
+    "category": "neutral",
+    "sounds": [
+        "monster/dragon/dragon_say1",
+		"monster/dragon/dragon_say2",
+		"monster/dragon/dragon_say3"
+      ]
+    },
+	
+	"mob.dragon.bite": {
+    "category": "neutral",
+    "sounds": [
+        "monster/dragon/dragon_bite1",
+		"monster/dragon/dragon_bite2",
+		"monster/dragon/dragon_bite3"
+      ]
+    },
+	
+	"mob.dragon.hurt": {
+    "category": "neutral",
+    "sounds": [
+        "monster/dragon/dragon_hurt1"
+      ]
+    },
+	
+	"mob.dragon.fire": {
+    "category": "neutral",
+    "sounds": [
+        "monster/dragon/dragon_fire1"
+      ]
+    },
+	
+	"mob.dragon.step": {
+    "category": "neutral",
+    "sounds": [
+        "monster/dragon/dragon_step1"
+      ]
     }
+	
 }

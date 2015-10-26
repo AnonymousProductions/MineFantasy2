@@ -198,4 +198,19 @@ public class ItemWaraxeMF extends ItemWeaponMF
 	{
 		return WeaponClass.AXE;
 	}
+	@Override
+	public boolean canCounter()
+	{
+		return true;
+	}
+	@Override
+	public float[] getCounterRatio()
+	{
+		return spearRatio;
+	}
+	@Override
+	public float getCounterDamage()
+	{
+		return 1.0F;
+	}
 }

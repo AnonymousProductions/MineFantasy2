@@ -1,5 +1,7 @@
 package minefantasy.mf2.mechanics;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
@@ -12,23 +14,31 @@ import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
+import minefantasy.mf2.config.ConfigMobs;
 import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.entity.mob.EntityDragon;
 import minefantasy.mf2.item.armour.ItemApron;
 import minefantasy.mf2.item.food.ItemFoodMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class PlayerTickHandlerMF
 {
-	private Random rand = new Random();
+	private static Random rand = new Random();
 	//SPRINT JUMPING
 	//DEFAULT:= 0:22 (50seconds till starve, 35s till nosprint) (16m in MC time for 4 missing bars)
 	//SLOW=5: = 2:20 (5mins till starve, 3:30 till nosprint) (1h 40m in MC time for 4 missing bars)
@@ -38,6 +48,16 @@ public class PlayerTickHandlerMF
 	{
 		if(event.phase == TickEvent.Phase.END)
         {
+			ItemStack held = event.player.getHeldItem();
+	    	if(held != null)
+	    	{
+	    		int parry = ItemWeaponMF.getParry(held);
+	    		if(parry > 0)
+	    		{
+	    			ItemWeaponMF.setParry(held, parry-1);
+	    		}
+	    	}
+	    	
 			//COMMON
         	TacticalManager.applyArmourWeight(event.player);
         	if(event.player.ticksExisted % 20 == 0)
@@ -67,6 +87,11 @@ public class PlayerTickHandlerMF
         	{
         		playSounds(event.player);
         	}
+        	//DRAGON EVENT
+        	if(!event.player.worldObj.isRemote)
+        	{
+        		tickDragonSpawner(event.player);
+        	}
         }
 		
         if(event.phase == TickEvent.Phase.START)
@@ -88,6 +113,81 @@ public class PlayerTickHandlerMF
         	}
         }
     }
+
+	private void tickDragonSpawner(EntityPlayer player) 
+	{
+		if(player.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && player.dimension == 0)
+    	{
+        	int i = ConfigMobs.dragonInterval;
+        	float chance = ConfigMobs.dragonChance;
+        	
+        	if(this.getDragonEnemyPoints(player) >= 100)
+        	{
+        		i /= 2;//twice as frequent
+        	}
+        	if(this.getDragonEnemyPoints(player) >= 50)
+        	{
+        		chance *= 2;//twice the chance
+        	}
+        	if(player.worldObj.getTotalWorldTime() % i == 0 && rand.nextFloat()*100F < chance)
+        	{
+        		spawnDragon(player);
+        	}
+    	}
+	}
+	
+	public static void spawnDragon(EntityPlayer player) 
+	{
+		spawnDragon(player, 64);
+	}
+	public static void spawnDragon(EntityPlayer player, int offset) 
+	{
+		int y = (int) (player.posY + offset);
+		boolean canMobSpawn = !player.worldObj.isRemote && canDragonSpawnOnPlayer(player, y);
+		if(canMobSpawn)
+		{
+			int tier = getDragonTier(player);//Gets tier on kills
+    		EntityDragon dragon = new EntityDragon(player.worldObj);
+    		dragon.setPosition(player.posX, y, player.posZ);
+    		player.worldObj.spawnEntityInWorld(dragon);
+    		dragon.setDragon(tier);
+    		dragon.disengage(100);
+    		player.worldObj.playSoundEffect(dragon.posX, dragon.posY-16D, dragon.posZ, "mob.enderdragon.growl", 3.0F, 1.5F);
+    		dragon.fireBreathCooldown = 200;
+    		
+    		if(ConfigMobs.dragonMSG)
+    		{
+	    		List list = player.worldObj.playerEntities;
+	    		Iterator players = list.iterator();
+	    		while(players.hasNext())
+	    		{
+	    			Object instance = players.next();
+	    			if(instance != null && instance instanceof EntityPlayer)
+	    			{
+	    				if(((EntityPlayer)instance).getDistanceToEntity(player) < 128D)
+	    				{
+	    					((EntityPlayer)instance).addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + StatCollector.translateToLocal("event.dragonnear.name")));
+	    				}
+	    			}
+	    		}
+    		}
+		}
+	}
+
+	private static boolean canDragonSpawnOnPlayer(EntityPlayer player, int y) 
+	{
+		for(int x = -3; x <= 3; x++)
+		{
+			for(int z = -3; z <= 3; z++)
+			{
+				if(!player.worldObj.canBlockSeeTheSky((int)player.posX + x, y, (int)player.posZ + z))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 	private void playSounds(EntityPlayer user)
 	{
@@ -141,24 +241,106 @@ public class PlayerTickHandlerMF
 	}
 	
 	@SubscribeEvent
+	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event)
+    {
+		onPlayerEnterWorld(event.player);
+    }
+	@SubscribeEvent
+	public void onPlayerTravel(PlayerEvent.PlayerChangedDimensionEvent event)
+    {
+		onPlayerEnterWorld(event.player);
+    }
+	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
     {
-		if(event.player.worldObj.isRemote)return;
+		onPlayerEnterWorld(event.player);
+    }
+	public void onPlayerEnterWorld(EntityPlayer player)
+	{
+		if(player.worldObj.isRemote)return;
 		
-		NBTTagCompound persist = PlayerTagData.getPersistedData(event.player);
+		NBTTagCompound persist = PlayerTagData.getPersistedData(player);
 		MFLogUtil.logDebug("Sync data");
-    	ResearchLogic.syncData((EntityPlayer) event.player);
+    	ResearchLogic.syncData((EntityPlayer) player);
     	
     	if(!persist.hasKey("MF_HasBook"))
     	{
     		persist.setBoolean("MF_HasBook", true);
-    		if(event.player.capabilities.isCreativeMode)return;
+    		if(player.capabilities.isCreativeMode)return;
     		
-    		event.player.inventory.addItemStackToInventory(new ItemStack(ToolListMF.researchBook));
+    		player.inventory.addItemStackToInventory(new ItemStack(ToolListMF.researchBook));
     	}
     	if(RPGElements.isSystemActive)
     	{
-    		RPGElements.initSkills(event.player);
+    		RPGElements.initSkills(player);
     	}
     }
+	
+	public static int getDragonTier(EntityPlayer player)
+	{
+		int kills = getDragonEnemyPoints(player);
+		
+		if(kills < 10)
+		{
+			return 0;//Young 100%
+		}
+		if(kills < 20)
+		{
+			return rand.nextInt(3) == 0 ? 0 : 1;//Young 33%, Adult 66%
+		}
+		if(kills < 35)
+		{
+			return rand.nextBoolean() ? 2 : rand.nextInt(10) == 0 ? 0 : 1;//Young 5%, Adult 45%, Dire 50%
+		}
+		if(kills < 50)
+		{
+			return rand.nextInt(5) == 0 ? 3 : rand.nextInt(4) == 0 ? 1 : 2;//Elder 20%, Adult 20%, Dire 60%
+		}
+		if(kills < 60)
+		{
+			float chance = rand.nextFloat()*100F;//Ancient 5%, Elder 20%, Dire 75%
+			if(chance < 5F)return 4;
+			if(chance < 25F)return 3;
+			return 2;
+		}
+		if(kills >= 70)
+		{
+			float chance = rand.nextFloat()*100F;//Ancient 1%, Dire 20%, Elder 75%
+			if(chance < 1F)return 4;
+			if(chance < 80F)return 3;
+			return 2;
+		}
+		if(kills > 100)
+		{
+			float chance = rand.nextFloat()*100F;//Ancient 5%, Elder 80%
+			if(chance < 5F)return 4;
+			return 3;
+		}
+		
+		return 0;//Young 100%
+	}
+	
+	public static void addDragonKill(EntityPlayer player)
+	{
+		addDragonEnemyPts(player, 1);
+	}
+	public static void addDragonEnemyPts(EntityPlayer player, int i)
+	{
+		setDragonEnemyPts(player, getDragonEnemyPoints(player)+i);
+	}
+	public static void setDragonEnemyPts(EntityPlayer player, int i)
+	{
+		if(i < 0)
+		{
+			i = 0;
+		}
+		NBTTagCompound nbt = PlayerTagData.getPersistedData(player);
+		nbt.setInteger("MF_DragonKills", i);
+	}
+	
+	public static int getDragonEnemyPoints(EntityPlayer player)
+	{
+		NBTTagCompound nbt = PlayerTagData.getPersistedData(player);
+		return nbt.getInteger("MF_DragonKills");
+	}
 }

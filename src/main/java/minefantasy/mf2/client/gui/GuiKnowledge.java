@@ -748,7 +748,7 @@ public class GuiKnowledge extends GuiScreen
     	GL11.glPushMatrix();
     	
     	int skillWidth = 143;
-    	int skillHeight = 132;
+    	int skillHeight = 156;
         int x = (this.width - GuiKnowledge.field_146555_f) / 2 - skillWidth + offsetByX;
         int y = (this.height - GuiKnowledge.field_146557_g) / 2 + offsetByY;
         this.mc.getTextureManager().bindTexture(skillTex);
@@ -759,11 +759,13 @@ public class GuiKnowledge extends GuiScreen
         drawSkill(x+20, y+44, SkillList.construction);
         drawSkill(x+20, y+68, SkillList.provisioning);
         drawSkill(x+20, y+92, SkillList.engineering);
+        drawSkill(x+20, y+116, SkillList.combat);
         
         drawSkillName(x+20, y+20, SkillList.artisanry);
         drawSkillName(x+20, y+44, SkillList.construction);
         drawSkillName(x+20, y+68, SkillList.provisioning);
         drawSkillName(x+20, y+92, SkillList.engineering);
+        drawSkillName(x+20, y+116, SkillList.combat);
         
         GL11.glPopMatrix();
     }
@@ -778,7 +780,7 @@ public class GuiKnowledge extends GuiScreen
     		
     		//this.mc.getTextureManager().bindTexture(skillTex);
     		float scale = (float)xp / (float)max;
-    		this.drawTexturedModalRect(x+22, y+13, 0, 132, (int)(78F * scale), 5);
+    		this.drawTexturedModalRect(x+22, y+13, 0, 156, (int)(78F * scale), 5);
     		
     		//mc.fontRenderer.drawString(skill.getDisplayName(), x+2, y+1, 0);
     		//mc.fontRenderer.drawString(""+level, x+1, y+10, 0);

@@ -2,14 +2,23 @@ package minefantasy.mf2.api.helpers;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.armour.IArmouredEntity;
+import minefantasy.mf2.api.armour.IDTArmour;
 import minefantasy.mf2.api.armour.IElementalResistance;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.weapon.IParryable;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.mechanics.CombatMechanics;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -79,6 +88,7 @@ public class TacticalManager
 	
 	public static boolean canParry(DamageSource source, EntityLivingBase user, Entity entityHitting, ItemStack weapon)
 	{
+		boolean autoParry = false;
 		if(shouldStaminaBlock && StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(user) && !StaminaBar.isAnyStamina(user, false))
 		{
 			return false;
@@ -90,7 +100,9 @@ public class TacticalManager
 		if(user instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)user;
-			if(!player.isBlocking())
+			autoParry = ResearchLogic.hasInfoUnlocked(player, "autoparry") && !player.isBlocking();
+			
+			if(!player.isBlocking() && !autoParry)
 			{
 				return false;
 			}
@@ -115,6 +127,10 @@ public class TacticalManager
 		float arc = source.isProjectile() ? 10 : 20;//DEFAULT
 		
 		arc *= getHighgroundModifier(user, entityHitting, 1.5F);
+		if(autoParry)
+		{
+			arc *= 0.5F;
+		}
 		
 		if(weapon != null && weapon.getItem() instanceof IParryable)
 		{
@@ -451,5 +467,37 @@ public class TacticalManager
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Simply drops an item
+	 */
+	public static boolean tryDisarm(EntityLivingBase target) 
+	{
+		return tryDisarm(null, target, false);
+	}
+	/**
+	 * Try to disarm the target
+	 * @param attacker Who is attacking (can be null)
+	 * @param target Who is wielding
+	 * @param steal If the attacker should wield the target's weapon
+	 */
+	public static boolean tryDisarm(EntityLivingBase attacker, EntityLivingBase target, boolean steal) 
+	{
+		if(target.getHeldItem() == null)
+		{
+			return false;
+		}
+		
+		if(attacker != null && steal && attacker.getHeldItem() == null)
+		{
+			attacker.setCurrentItemOrArmor(0, target.getHeldItem().copy());
+		}
+		else
+		{
+			target.entityDropItem(target.getHeldItem(), 1.0F);
+		}
+		target.setCurrentItemOrArmor(0, null);
+		return true;
 	}
 }

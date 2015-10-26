@@ -9,7 +9,9 @@ import minefantasy.mf2.client.KnowledgePageRegistry;
 import minefantasy.mf2.client.gui.*;
 import minefantasy.mf2.client.render.*;
 import minefantasy.mf2.client.render.block.*;
+import minefantasy.mf2.client.render.mob.*;
 import minefantasy.mf2.entity.*;
+import minefantasy.mf2.entity.mob.*;
 import minefantasy.mf2.item.archery.ItemBowMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -23,6 +25,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityList.EntityEggInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -51,47 +55,6 @@ public class ClientProxyMF extends CommonProxyMF
 	@Override
 	public void preInit()
 	{
-		registerEntityRenderer();
-		
-		for(ItemWarhammerMF hammer: ToolListMF.warhammers)
-			MinecraftForgeClient.registerItemRenderer(hammer, new RenderHeavyWeapon().setBlunt());
-		
-		for(ItemBattleaxeMF axe: ToolListMF.battleaxes)
-			MinecraftForgeClient.registerItemRenderer(axe, new RenderHeavyWeapon().setBlunt());
-		
-		for(ItemGreatswordMF sword: ToolListMF.greatswords)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword().setParryable());
-		
-		for(ItemKatanaMF sword: ToolListMF.katanas)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword());
-		
-		for(ItemSpearMF spear: ToolListMF.spears)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear());
-		for(ItemLance spear: ToolListMF.lances)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderLance());
-		for(ItemHalbeardMF spear: ToolListMF.halbeards)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear(true));
-		
-			MinecraftForgeClient.registerItemRenderer(ToolListMF.spearTraining, new RenderSpear());
-		
-		for(ItemSwordMF sword: ToolListMF.swords)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		for(ItemWaraxeMF sword: ToolListMF.waraxes)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		for(ItemMaceMF sword: ToolListMF.maces)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		
-		MinecraftForgeClient.registerItemRenderer(ToolListMF.swordTraining, new RenderSword());
-		
-		for(ItemBowMF bow: ToolListMF.bows)
-			MinecraftForgeClient.registerItemRenderer(bow, new RenderBow(false));
-		
-		for(ItemSaw saw: ToolListMF.saws)
-			MinecraftForgeClient.registerItemRenderer(saw, new RenderSaw());
-		
-		for(ItemScythe scythe: ToolListMF.scythes)
-			MinecraftForgeClient.registerItemRenderer(scythe, new RenderHeavyWeapon().setBlunt());
-		
 	}
 	
 	@Override
@@ -104,6 +67,7 @@ public class ClientProxyMF extends CommonProxyMF
 	public void postInit()
 	{
 		super.postInit();
+		registerRenders();
 		KnowledgePageRegistry.registerPages();
 	}
 	
@@ -142,10 +106,13 @@ public class ClientProxyMF extends CommonProxyMF
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowMF.class, new RenderArrowMF());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBomb.class, new RenderBombIcon());//Switch to RenderBomb when syncing is fixed
 		RenderingRegistry.registerEntityRenderingHandler(EntityMine.class, new RenderMine());
-		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderSnowball(ComponentListMF.shrapnel));
+		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderShrapnel("shrapnel"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityFireBlast.class, new RenderFireBlast());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySmoke.class, new RenderFireBlast());
 		RenderingRegistry.registerEntityRenderingHandler(EntityParachute.class, new RenderParachute());
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityDragon.class, new RenderDragon(new ModelDragon(), 2F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinotaur.class, new RenderMinotaur(new ModelMinotaur(), 1.5F));
 	}
 	
 	@Override
@@ -210,6 +177,52 @@ public class ClientProxyMF extends CommonProxyMF
         return null;
     }
 
+	private void registerRenders() 
+	{
+		registerEntityRenderer();
+		
+		for(ItemHeavyWeaponMF hammer: ToolListMF.warhammers)
+			MinecraftForgeClient.registerItemRenderer(hammer, new RenderHeavyWeapon().setBlunt());
+		
+		for(ItemHeavyWeaponMF axe: ToolListMF.battleaxes)
+			MinecraftForgeClient.registerItemRenderer(axe, new RenderHeavyWeapon().setBlunt().setParryable());
+		
+		for(ItemHeavyWeaponMF sword: ToolListMF.greatswords)
+			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword().setParryable());
+		
+		for(ItemHeavyWeaponMF sword: ToolListMF.katanas)
+			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setKatana().setParryable());
+		
+		for(ItemSpearMF spear: ToolListMF.spears)
+			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear());
+		for(ItemLance spear: ToolListMF.lances)
+			MinecraftForgeClient.registerItemRenderer(spear, new RenderLance());
+		for(ItemHalbeardMF spear: ToolListMF.halbeards)
+			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear(true));
+		
+			MinecraftForgeClient.registerItemRenderer(ToolListMF.spearTraining, new RenderSpear());
+		
+		for(ItemDagger sword: ToolListMF.daggers)
+			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
+		for(ItemSwordMF sword: ToolListMF.swords)
+			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
+		for(ItemWaraxeMF sword: ToolListMF.waraxes)
+			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword().setAxe());
+		for(ItemMaceMF sword: ToolListMF.maces)
+			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
+		
+		MinecraftForgeClient.registerItemRenderer(ToolListMF.swordTraining, new RenderSword());
+		
+		for(ItemBowMF bow: ToolListMF.bows)
+			MinecraftForgeClient.registerItemRenderer(bow, new RenderBow(false));
+		
+		for(ItemSaw saw: ToolListMF.saws)
+			MinecraftForgeClient.registerItemRenderer(saw, new RenderSaw());
+		
+		for(ItemScythe scythe: ToolListMF.scythes)
+			MinecraftForgeClient.registerItemRenderer(scythe, new RenderHeavyWeapon().setBlunt());
+	}
+	
 	/*
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)

@@ -38,9 +38,9 @@ public class EntryPageSmelting extends EntryPage
 		this.output = out;
 	}
 	
-	public EntryPageSmelting(Item i1, Item i2)
+	public EntryPageSmelting(Item in, Item out)
 	{
-		this(new ItemStack(i1), new ItemStack(i2));
+		this(new ItemStack(in), new ItemStack(out));
 	}
 
 	@Override

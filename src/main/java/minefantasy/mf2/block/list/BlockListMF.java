@@ -12,6 +12,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockListMF
 {
@@ -151,6 +153,12 @@ public class BlockListMF
 	public static Block engTanner = new BlockEngineerTanner(2, "Metal");
 	
 	public static Block bombPress = new BlockBombPress();
+	
+	public static Block road = new BlockRoad("road_mf", 14F);
+	public static Block lowroad = new BlockRoad("road_mf_short", 7F);
+	//public static Block railForged = new BlockRailMF(BaseMaterialMF.steel);
+	//public static Block railAuto = new BlockPowRailMF(BaseMaterialMF.steel, "auto");
+	
 	public static void init()
 	{
 		//5:20 default planks
@@ -179,6 +187,17 @@ public class BlockListMF
 				anvil[a] = new BlockAnvilMF(material);
 			}
 		}
+		
+		OreDictionary.registerOre("cobblestone", new ItemStack(limestone, 1, 1));
+		OreDictionary.registerOre("stone", new ItemStack(limestone, 1, 0));
+		OreDictionary.registerOre("limestone", new ItemStack(limestone, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("cobblestone", new ItemStack(cobble_brick, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("cobblestone", new ItemStack(cobble_pavement, 1, OreDictionary.WILDCARD_VALUE));
+		
+		OreDictionary.registerOre("blockGlass", new ItemStack(window, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("blockGlass", new ItemStack(framed_glass, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("paneGlass", new ItemStack(window_pane, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("paneGlass", new ItemStack(framed_pane, 1, OreDictionary.WILDCARD_VALUE));
 	}
 	
 	public static int anvil_RI = 100;

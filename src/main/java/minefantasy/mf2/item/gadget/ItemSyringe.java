@@ -41,7 +41,7 @@ public class ItemSyringe extends ItemPotion
     @Override
     public boolean itemInteractionForEntity(ItemStack item, EntityPlayer user, EntityLivingBase target)
     {
-    	if(user.isSwingInProgress)
+    	if(user.isSwingInProgress || !user.isSneaking())
     	{
     		return false;
     	}

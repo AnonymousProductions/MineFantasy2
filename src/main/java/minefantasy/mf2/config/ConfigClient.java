@@ -16,6 +16,7 @@ public class ConfigClient extends ConfigurationBaseMF
 	
 	public static boolean playBreath;
 	public static boolean playHitsound;
+	public static boolean customModel;
 	
 	
 	public static final String GUI_STAMINA = "Stamina Bar Positioning";
@@ -50,6 +51,7 @@ public class ConfigClient extends ConfigurationBaseMF
 	{
 		playBreath = Boolean.parseBoolean(config.get(CATEGORY_AESTHETIC, "Make Breathe Sound", true, "[With Stamina System] Plays breath sounds when low on energy(sound may be annoying to some...)").getString());
 		playHitsound = Boolean.parseBoolean(config.get(CATEGORY_AESTHETIC, "Make Hit Sound", true, "Plays sounds when hitting entities with different items").getString());
+		customModel = Boolean.parseBoolean(config.get(CATEGORY_AESTHETIC, "Custom Apparel Model", true, "Determines if some work apparel (like aprons and clothing) use special models").getString());
 		
 		Arrows.displayArrowCount = Boolean.parseBoolean(config.get(CATEGORY_GUI, "Count Arrows", true, "This option displays how many of your selected arrow are left. It works for all arrows with added support(MineFantasy arrows)").getString());
 		//ArmourCalculator.usePercentage = Boolean.parseBoolean(config.get(CATEGORY_GUI, "Use Percentage Values", true, "When true: the armour rating counts the total percentage of damage resisted, when false it uses a special value").getString());
@@ -78,6 +80,7 @@ public class ConfigClient extends ConfigurationBaseMF
 		BlockListMF.bellows_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bellows", -105).getString());
 		BlockListMF.research_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "ResearchTable", -106).getString());
 		BlockListMF.bpress_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bomb Press", -107).getString());
+		BlockListMF.trough_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Trough", -108).getString());
 	}
 
 }

@@ -1,6 +1,7 @@
 package minefantasy.mf2.config;
 
 import minefantasy.mf2.api.knowledge.InformationBase;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.mechanics.CombatMechanics;
 
 public class ConfigHardcore extends ConfigurationBaseMF
@@ -27,7 +28,9 @@ public class ConfigHardcore extends ConfigurationBaseMF
 	protected void loadConfig()
 	{
 		InformationBase.unlockAll = Boolean.parseBoolean(config.get(CATEGORY_RESEARCH, "Unlock entries", false, "If you don't want to research, this will unlock all entries.").getString());
-		
+		InformationBase.easyResearch = Boolean.parseBoolean(config.get(CATEGORY_RESEARCH, "Easy Research", false, "This makes entries unlock as soon as their puchased (Removing the research table process).").getString());
+		ResearchLogic.knowledgelyr = Integer.parseInt(config.get("###CHANGE RESEARCH ID###", "Research ID", 0, "This changes the research ID, removing all entries").getString());
+				
 		hunterKnife = Boolean.parseBoolean(config.get(CATEGORY_FOOD, "Restrict to hunting weapon", false, "This option means animals ONLY drop meat and hide when killed with a hunting weapon such as a knife, only the killing blow counts").getString());
 		lessHunt = Boolean.parseBoolean(config.get(CATEGORY_FOOD, "Reduce Meat Drops", false, "This will alter the stack size of animal meat drops, meaning they only drop 1 every time").getString());
 		

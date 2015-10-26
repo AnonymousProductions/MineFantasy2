@@ -86,7 +86,54 @@ public class BasicRecipesMF
 			"BFB",
 			" B ",
 			'F', Items.wheat_seeds,
-			'B', Items.glass_bottle,
+			'B', FoodListMF.jug_empty
+		});
+		KnowledgeListMF.waterJugR = 
+		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.jug_water, 4), new Object[]
+		{
+			" B ",
+			"BWB",
+			" B ",
+			'W', Items.water_bucket,
+			'B', FoodListMF.jug_empty
+		});
+		KnowledgeListMF.sugarRecipe = 
+		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.sugarpot), new Object[]
+		{
+			"S",
+			"S",
+			"B",
+			'S', Items.sugar,
+			'B', ComponentListMF.clay_pot,
+		});
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.sugar, 2), new Object[]
+		{
+			FoodListMF.sugarpot,
+		});
+		KnowledgeListMF.milkJugR = 
+		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.jug_milk, 4), new Object[]
+		{
+			" B ",
+			"BMB",
+			" B ",
+			'M', Items.milk_bucket,
+			'B', FoodListMF.jug_empty
+		});
+		GameRegistry.addShapedRecipe(new ItemStack(Items.milk_bucket), new Object[]
+		{
+			" B ",
+			"BMB",
+			" B ",
+			'M', Items.bucket,
+			'B', FoodListMF.jug_milk
+		});
+		GameRegistry.addShapedRecipe(new ItemStack(Items.water_bucket), new Object[]
+		{
+			" B ",
+			"BMB",
+			" B ",
+			'M', Items.bucket,
+			'B', FoodListMF.jug_water
 		});
 		KnowledgeListMF.refinedPlankR = 
 		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plankRefined), new Object[]
@@ -95,14 +142,6 @@ public class BasicRecipesMF
 			"P",
 			'C', ComponentListMF.plant_oil,
 			'P', ComponentListMF.plank,
-		});
-		KnowledgeListMF.refinedBowlR = 
-		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.hard_bowl), new Object[]
-		{
-			"C",
-			"P",
-			'C', ComponentListMF.plant_oil,
-			'P', Items.bowl,
 		});
 		KnowledgeListMF.tannerRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
@@ -209,10 +248,11 @@ public class BasicRecipesMF
 		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.iron_prep, new ItemStack(ComponentListMF.ingots[3]));
 		
 		KnowledgeListMF.fireclayR = 
-		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.fireclay), new Object[]
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.fireclay, 4), new Object[]
 		{
-			"D",
-			"C",
+			" C ",
+			"CDC",
+			" C ",
 			
 			'D', ComponentListMF.kaolinite_dust,
 			'C', Items.clay_ball
@@ -248,5 +288,56 @@ public class BasicRecipesMF
 		TanningRecipe.addRecipe(ComponentListMF.hideMedium, mat.craftTimeModifier*8F, -1, new ItemStack(Items.leather, 3));
 		TanningRecipe.addRecipe(ComponentListMF.hideLarge, mat.craftTimeModifier*12F, -1, new ItemStack(Items.leather, 5));
 		TanningRecipe.addRecipe(Items.leather, mat.craftTimeModifier*2F, -1, "shears", new ItemStack(ComponentListMF.leather_strip, 4));
+		
+		KnowledgeListMF.artBookR =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_artisanry), new Object[]
+		{
+			"T",
+			"D",
+			"B",
+			'T', ComponentListMF.talisman_lesser,
+			'D', new ItemStack(Items.dye, 1, 1),
+			'B', Items.book,
+		});
+		KnowledgeListMF.conBookR =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_construction), new Object[]
+		{
+			"T",
+			"D",
+			"B",
+			'T', ComponentListMF.talisman_lesser,
+			'D', new ItemStack(Items.dye, 1, 14),
+			'B', Items.book,
+		});
+		KnowledgeListMF.proBookR =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_provisioning), new Object[]
+		{
+			"T",
+			"D",
+			"B",
+			'T', ComponentListMF.talisman_lesser,
+			'D', new ItemStack(Items.dye, 1, 2),
+			'B', Items.book,
+		});
+		KnowledgeListMF.engBookR =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_engineering), new Object[]
+		{
+			"T",
+			"D",
+			"B",
+			'T', ComponentListMF.talisman_lesser,
+			'D', new ItemStack(Items.dye, 1, 12),
+			'B', Items.book,
+		});
+		KnowledgeListMF.comBookR =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_combat), new Object[]
+		{
+			"T",
+			"D",
+			"B",
+			'T', ComponentListMF.talisman_lesser,
+			'D', new ItemStack(Items.dye, 1, 5),
+			'B', Items.book,
+		});
 	}
 }

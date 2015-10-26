@@ -2,6 +2,7 @@ package minefantasy.mf2.api.stamina;
 
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -440,12 +441,18 @@ public class StaminaBar
 	public static float getBaseDecayModifier(EntityLivingBase user, boolean countArmour, boolean countHeld)
 	{
 		float value = getDecayModifier(user.worldObj);
+		float AM = 1.0F;
+		if(user instanceof EntityPlayer)
+		{
+			value *= getBasePerkStaminaModifier(value, (EntityPlayer)user);
+			AM = getPerkArmModifier(value, (EntityPlayer)user);
+		}
 		
 		if(countHeld)
 		{
 			if(user.getHeldItem() != null && user.getHeldItem().getItem() instanceof IHeldStaminaItem)
 			{
-				value *= ((IHeldStaminaItem)user.getHeldItem().getItem()).getDecayMod(user, user.getHeldItem());
+				value *= (((IHeldStaminaItem)user.getHeldItem().getItem()).getDecayMod(user, user.getHeldItem()));
 			}
 		}
 		if(countArmour)
@@ -456,7 +463,7 @@ public class StaminaBar
 				ItemStack armour = user.getEquipmentInSlot(slot);
 				if(armour != null && armour.getItem() instanceof IWornStaminaItem)
 				{
-					armourMod += ((IWornStaminaItem)armour.getItem()).getDecayModifier(user, armour);
+					armourMod += (((IWornStaminaItem)armour.getItem()).getDecayModifier(user, armour));
 				}
 			}
 			float min = 0F;
@@ -464,7 +471,7 @@ public class StaminaBar
 			float mass = ArmourCalculator.getTotalWeightOfWorn(user, false)-min;
 			if(mass > 0)
 			{
-				value *= (1+(mass/max*configArmourWeightModifier*(armourWeightModifier-1)));
+				value *= (1+(AM* (mass/max*configArmourWeightModifier*(armourWeightModifier-1) )));
 			}
 			value *= armourMod;
 		}
@@ -510,6 +517,12 @@ public class StaminaBar
 		}
 		if(countArmour)
 		{
+			float AM = 0F;
+			if(user instanceof EntityPlayer)
+			{
+				AM = getPerkArmModifier(value, (EntityPlayer)user);
+			}
+			
 			float armourMod = 1.0F;
 			for(int slot = 1; slot <= 4; slot ++)
 			{
@@ -522,7 +535,7 @@ public class StaminaBar
 			float weightMod = ArmourCalculator.getTotalWeightOfWorn(user, false)*bulkModifier*configBulk;
 			if(weightMod > 0)
 			{
-				value /= (1.0F+(weightMod/30F));//30kg = half regen speed 60kg is a third
+				value /= (1.0F+(weightMod/30F * AM));//30kg = half regen speed 60kg is a third
 			}
 			value *= armourMod;
 		}
@@ -601,5 +614,22 @@ public class StaminaBar
 			return false;
 		}
 		return MineFantasyAPI.isInDebugMode || !entity.isEntityUndead();
+	}
+	
+	private static float getPerkArmModifier(float value, EntityPlayer user)
+	{
+		if(ResearchLogic.hasInfoUnlocked(user, "armourpro"))
+		{
+			value *= 0.5F;
+		}
+		return value;
+	}
+	private static float getBasePerkStaminaModifier(float value, EntityPlayer user)
+	{
+		if(ResearchLogic.hasInfoUnlocked(user, "fitness"))
+		{
+			value *= 0.75F;
+		}
+		return value;
 	}
 }

@@ -52,21 +52,6 @@ public class TileEntityTrough extends TileEntity implements IQuenchBlock
 				addCapacity(12);
 				return true;
 			}
-			if(held.getItem() == ToolListMF.bucketwood_water)
-			{
-				held.stackSize --;
-				if(held.stackSize <= 0)
-				{
-					user.setCurrentItemOrArmor(0, null);
-				}
-				ItemStack bucket = new ItemStack(ToolListMF.bucketwood_empty);
-				if(!user.inventory.addItemStackToInventory(bucket))
-				{
-					user.entityDropItem(bucket, 0);
-				}
-				addCapacity(8);
-				return true;
-			}
 		}
 		return false;
 	}

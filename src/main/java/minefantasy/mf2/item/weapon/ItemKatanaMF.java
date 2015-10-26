@@ -2,6 +2,7 @@ package minefantasy.mf2.item.weapon;
 
 import java.util.Random;
 
+import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.weapon.WeaponClass;
 import net.minecraft.entity.Entity;
@@ -13,7 +14,7 @@ import net.minecraft.util.DamageSource;
 /**
  * @author Anonymous Productions
  */
-public class ItemKatanaMF extends ItemHeavyWeapon
+public class ItemKatanaMF extends ItemHeavyWeaponMF
 {
 	private Random rand = new Random();
 	/**
@@ -22,7 +23,7 @@ public class ItemKatanaMF extends ItemHeavyWeapon
     public ItemKatanaMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
-    	baseDamage /= 1.5F;
+    	baseDamage /= 2F;
     }
 	
 	@Override
@@ -105,6 +106,10 @@ public class ItemKatanaMF extends ItemHeavyWeapon
 		if(user.motionY < 0 && !user.onGround && (!(user instanceof EntityPlayer) || user.isSneaking()) && tryPerformAbility(user, cleave_cost))
 		{
 			hurtInRange(user, 4D);
+			if(hit instanceof EntityLivingBase)
+			{
+				ArmourCalculator.damageArmour((EntityLivingBase)hit, (int)(dam*10));
+			}
 			user.setSneaking(false);
 		}
 		super.onProperHit(user, weapon, hit, dam);
@@ -145,6 +150,22 @@ public class ItemKatanaMF extends ItemHeavyWeapon
 	@Override
 	protected float[] getWeaponRatio(ItemStack implement)
 	{
-		return new float[]{1F, 0F};
+		return swordRatio;
+	}
+	
+	@Override
+	public boolean canCounter()
+	{
+		return true;
+	}
+	@Override
+	public float[] getCounterRatio()
+	{
+		return spearRatio;
+	}
+	@Override
+	public float getCounterDamage()
+	{
+		return 1.5F;
 	}
 }

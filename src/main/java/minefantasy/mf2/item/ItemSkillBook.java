@@ -28,7 +28,7 @@ public class ItemSkillBook extends ItemComponentMF
 	public ItemSkillBook(String name, Skill skill)
 	{
 		super(name, 1);
-		setMaxStackSize(1);
+		setMaxStackSize(16);
 		setTextureName("minefantasy2:Other/"+name);
 		this.setCreativeTab(CreativeTabMF.tabGadget);
 		this.skill = skill;

@@ -46,6 +46,11 @@ public class ItemLance extends ItemSpearMF
 	{
 		return 3.0F;
 	}
+	@Override
+	protected float[] getWeaponRatio(ItemStack implement)
+	{
+		return lanceRatio;
+	}
 	
 	@Override
 	public float modifyDamage(ItemStack item, EntityLivingBase wielder, Entity hit, float initialDam, boolean properHit)

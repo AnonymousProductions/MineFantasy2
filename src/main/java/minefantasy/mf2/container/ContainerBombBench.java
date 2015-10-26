@@ -25,6 +25,7 @@ public class ContainerBombBench extends Container
 		this.addSlotToContainer(new SlotBombBench("filling", tile, 2, 52, 23));
 		this.addSlotToContainer(new SlotBombBench("fuse", tile, 3, 102, 23));
 		this.addSlotToContainer(new SlotBombBench("bomb", tile, 4, 147, 48));
+		this.addSlotToContainer(new SlotBombBench("misc", tile, 5, 147, 75));
 		
         int i;
 

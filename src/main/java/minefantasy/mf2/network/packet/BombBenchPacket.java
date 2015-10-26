@@ -10,13 +10,15 @@ public class BombBenchPacket extends PacketMF
 {
 	public static final String packetName = "MF2_BombBenchPkt";
 	private int[] coords = new int[3];
-	private int progress;
+	private float progress;
+	private float maxProgress;
 	private boolean hasRecipe;
 	
 	public BombBenchPacket(TileEntityBombBench tile)
 	{
 		coords = new int[]{tile.xCoord, tile.yCoord, tile.zCoord};
-		progress = (int)tile.progress;
+		progress = tile.progress;
+		maxProgress = tile.maxProgress;
 		hasRecipe = tile.hasRecipe;
 	}
 
@@ -28,13 +30,15 @@ public class BombBenchPacket extends PacketMF
 	{
         coords = new int[]{packet.readInt(), packet.readInt(), packet.readInt()};
         TileEntity entity = player.worldObj.getTileEntity(coords[0], coords[1], coords[2]);
-        int newProgress = packet.readInt();
+        float newProgress = packet.readFloat();
+        float newMaxProgress = packet.readFloat();
         boolean newRecipe = packet.readBoolean();
         
         if(entity != null && entity instanceof TileEntityBombBench)
         {
 	        TileEntityBombBench tile = (TileEntityBombBench)entity;
 	        tile.progress = newProgress;
+	        tile.maxProgress = newMaxProgress;
 	        tile.hasRecipe = newRecipe;
         }
 	}
@@ -52,7 +56,8 @@ public class BombBenchPacket extends PacketMF
 		{
 			packet.writeInt(coords[a]);
 		}
-		packet.writeInt(progress);
+		packet.writeFloat(progress);
+		packet.writeFloat(maxProgress);
 		packet.writeBoolean(hasRecipe);
 	}
 }

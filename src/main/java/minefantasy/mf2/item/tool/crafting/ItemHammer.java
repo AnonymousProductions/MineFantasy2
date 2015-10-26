@@ -37,6 +37,7 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
         this.tier = tier;
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
+        this.setMaxDamage(material.getMaxUses() *2);
         
         setTextureName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
@@ -94,9 +95,9 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
 	}
 
 	@Override
-	public float[] getDamageRatio(Object implement)
+	public float[] getDamageRatio(Object... implement)
 	{
-		return new float[]{0,1};
+		return new float[]{0,1, 0};
 	}
 	
 	@Override

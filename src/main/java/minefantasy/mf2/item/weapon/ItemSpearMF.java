@@ -84,10 +84,21 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
     	}
     	EntityLivingBase target = (EntityLivingBase)hit;
     	
-        if(wielder.isRiding() || wielder.isSprinting() && tryPerformAbility(wielder, charge_cost))
+        if(wielder.isRiding() && tryPerformAbility(wielder, charge_cost))
         {
             ItemWaraxeMF.brutalise(wielder, target, 1.0F);
             return damage + getMountedDamage();
+        }
+        if(!wielder.isRiding() && wielder.isSprinting())
+        {
+        	if(this instanceof ItemHalbeardMF)
+        	{
+        		return Math.max(damage/1.25F, 1.0F);
+        	}
+        	else
+        	{
+        		return damage*1.25F;
+        	}
         }
         return damage;
     }
@@ -170,5 +181,15 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
 	public WeaponClass getWeaponClass() 
 	{
 		return WeaponClass.POLEARM;
+	}
+	@Override
+	protected float[] getWeaponRatio(ItemStack implement)
+	{
+		return spearRatio;
+	}
+	@Override
+	public boolean canCounter()
+	{
+		return false;
 	}
 }

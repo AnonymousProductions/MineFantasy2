@@ -33,11 +33,36 @@ knowledge.cantafford=Insufficient resources!
 infoPage.basic=Basic Information
 infoPage.artisanry=Artisanry
 infoPage.construction=Construction
-infoPage.engineering=Engineering
 infoPage.provisioning=Provisioning
+infoPage.engineering=Engineering
 infoPage.mastery=Mastery
 
 knowledge.unlocked=Research Completed
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/MOBS/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+entity.MF_Minotaur.name=Minotaur
+entity.MF_Dragon.name=Minefantasy Dragon
+death.attack.dragonstomp=%1$s was stomped by a Dragon
+death.attack.fireblast=%1$s was roasted by %2$s
+death.attack.fireblastBase=%1$s was roasted
+death.attack.blastfurn=%1$s was incinerated by a Blast Furnace
+
+death.attack.mob.pound=%1$s was pounded by a %2$s
+death.attack.mob.gore=%1$s was gored by a %2$s
+death.attack.mob.beserk=%1$s was torn apart by a %2$s
+
+entity.dragon_young.name=Young Dragon
+entity.dragon.name=Dragon
+entity.dragon_dire.name=Dire Dragon
+entity.dragon_elder.name=Elder Dragon
+entity.dragon_ancient.name=Ancient Dragon
+
+event.dragonnear.name=A Dragon Prowls, take cover or stay to fight!
+event.dragonnear.forge.name=Your crafts insult dragon kind!
+event.dragonaway.name=The Dragon leaves... For now...
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,6 +81,7 @@ tooltype.knife=Knife
 tooltype.needle=Needle
 tooltype.mallet=Mallet
 tooltype.spoon=Spoon
+tooltype.pestle=Pestle
 tooltype.hands=Bare-Handed
 tooltype.spanner=Spanner
 tooltype.shears=Shears
@@ -86,10 +112,22 @@ attribute.weight.name=Weight
 attribute.bowPower.name=Damage
 attribute.arrowPower.name=Damage
 
+attribute.armour.rating=Damage Thresholds:
+attribute.armour.rating.0=Cutting:
+attribute.armour.rating.1=Blunt:
+attribute.armour.rating.2=Piercing:
+
 attribute.armour.cuttingresistance=Cutting Resistance
 attribute.armour.bluntresistance=Blunt Resistance
+attribute.armour.piercingresistance=Piercing Resistance
+
 attribute.weapon.cutting=Cutting Damage
 attribute.weapon.blunt=Blunt Damage
+attribute.weapon.piercing=Piercing Damage
+
+attribute.armour.dtcutting=Cutting Threshold
+attribute.armour.dtblunt=Blunt Threshold
+attribute.armour.dtpiercing=Piercing Threshold
 
 arrow.head.normal.name=Regular Head
 arrow.head.bodkin.name=Bodkin Head
@@ -105,6 +143,8 @@ item.plankRefined.name=Refined Timber
 item.rivet.name=Rivets
 item.nail.name=Nails
 item.thread.name=Thread
+item.lime_rock.name=Limestone Rock
+item.borax_rock.name=Borax
 item.flux.name=Flux
 item.flux_strong.name=Strong Flux
 item.coke.name=Coke
@@ -138,12 +178,22 @@ item.ingotMithium.name=Mithium Ingot
 
 item.ingotEnder.name=Enderforge Ingot
 
+item.loot_sack.name=Loot
+item.loot_sack_uc.name=Valuable Loot
+item.loot_sack_rare.name=Exquisite Loot
 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /COMPONENT/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item.clay_pot.name=Clay Pot
+item.clay_pot_uncooked.name=Raw Clay Pot
+
+item.jug_empty.name=Empty Jug
+item.jug_uncooked.name=Raw Raw Clay Jug
+item.jug_water.name=Water Jug
+item.jug_milk.name=Milk Jug
+
 tile.repair_basic.name=Basic Repair Kit
 tile.repair_advanced.name=Advanced Repair Kit
 tile.repair_ornate.name=Ornate Repair Kit
@@ -163,7 +213,7 @@ item.sharp_rock.name=Sharp Rock
 item.iron_prep.name=Prepared Iron Ore
 item.diamond_shards.name=Diamond Shards
 item.diamond_dust.name=Diamond Dust
-item.obsidian_dust.name=Obsidian Dust
+item.obsidian_rock.name=Obsidian Rock
 item.fletching.name=Fletching
 
 item.coalDust.name=Coal Dust
@@ -250,10 +300,6 @@ item.chainmeshIgnotumite.name=Ignotumite Chain Mesh
 item.chainmeshMithium.name=Mithium Chain Mesh
 item.chainmeshEnder.name=Enderforge Chain Mesh
 
-item.bucketwood_empty.name=Wooden Bucket
-item.bucketwood_water.name=Wooden Bucket (Water)
-item.bucketwood_milk.name=Wooden Bucket (Milk)
-
 item.dragon_heart.name=Dragon Heart
 
 item.iron_frame.name=Iron Frame
@@ -272,6 +318,13 @@ item.climbing_pick_basic.name=Climbing Pick
 item.parachute.name=Parachute
 item.syringe_empty.name=Empty Syringe
 
+bomb.component.name=Bomb Component
+bomb.component.filling=Filling
+bomb.component.bombcase=Bomb Case
+bomb.component.minecase=Mine Case
+bomb.component.arrow=Arrow Case
+bomb.component.fuse=Fuse
+bomb.component.powder=Powder
 
 item.bomb_basic.name=Basic Bomb
 item.bomb_shrapnel.name=Shrapnel Bomb
@@ -448,6 +501,11 @@ item.hide_chest.name=Hide Armor
 item.hide_legs.name=Hide Skirt
 item.hide_boots.name=Hide Boots
 
+item.roughleather_helmet.name=Rough Leather Helmet
+item.roughleather_chest.name=Rough Leather Armor
+item.roughleather_legs.name=Rough Leather Leggings
+item.roughleather_boots.name=Rough Leather Boots
+
 item.strongleather_helmet.name=Reinforced Leather Helmet
 item.strongleather_chest.name=Reinforced Leather Armor
 item.strongleather_legs.name=Reinforced Leather Leggings
@@ -485,7 +543,7 @@ item.spoonWood.name=Wooden Spoon
 /STONE STUFF/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item.dryrocks.name=Dry Rocks
-
+item.pestle.name=Pestle
 item.stone_pick.name=Stone Pickaxe
 item.stone_axe.name=Stone Axe
 item.stone_hoe.name=Stone Hoe
@@ -1377,7 +1435,9 @@ item.generic_meat_mince_uncooked.name=Raw Mince
 item.generic_meat_mince_cooked.name=Cooked Mince
 
 tile.berries.name=Berry Bush
+item.breadcrumbs.name=Bread Crumbs
 item.breadroll.name=Bread Roll
+item.breadslice.name=Bread Slice
 item.horse_raw.name=Raw Horse Meat
 item.horse_cooked.name=Cooked Horse Meat
 item.wolf_raw.name=Raw Wolf Chop
@@ -1393,9 +1453,11 @@ item.bowl_water_salt.name=Salt Water
 item.cake_tin.name=Cake Tin
 item.pie_tin.name=Pie Tray
 item.flour.name=Flour
+item.sugarpot.name=Sugar Pot
 item.bread_uncooked.name=Uncooked Bread
 item.tea_leaf.name=Tea Leaf
 item.spice_mild.name=Mild Spice
+item.guts.name=Guts
 
 item.raw_bread.name=Bread Dough
 item.dough.name=Dough
@@ -1436,25 +1498,24 @@ item.carrotcake_slice.name=Carrot Cake Slice
 item.choccake_slice.name=Chocolate Cake Slice
 item.bfcake_slice.name=Black-Forest Cake Slice
 
-item.saussage_beef.name=Beef Saussage
-item.saussage_chicken.name=Chicken Saussage
-item.saussage_pork.name=Pork Saussage
-
+item.coca_powder.name=Coca Powder
+item.chocolate.name=Chocolate
+item.chocchips.name=Chocolate Chips
+item.eclair.name=Eclair
+item.eclair_raw.name=Eclair Dough
+item.eclair_uniced.name=Uniced Eclair
+item.eclair_empty.name=Empty Eclair
+item.saussage_cooked.name=Saussage
+item.saussage_raw.name=Raw Saussage
 tile.cheese.name=Cheese Wheel
 item.cheese_slice.name=Cheese
-
 item.sushi.name=Sushi
-
-item.curry_beef.name=Beef Curry
-item.curry_chicken.name=Chicken Curry
-item.curry_pork.name=Pork Curry
-item.curry_mutton.name=Mutton Curry
-
+item.curry.name=Curry
 item.pizza_basic.name=Pizza
-
 item.sweetroll_raw.name=Sweetroll Dough
 item.sweetroll_uniced.name=Uniced Sweetroll
 item.icing.name=Icing
+item.custard.name=Custard
 
 item.cake_raw.name=Cake Batter
 item.cake_carrot_raw.name=Carrot Cake Batter
@@ -1509,8 +1570,9 @@ skill.list.combat=Combat Skills
 
 skill.artisanry.name=Artisanry
 skill.construction.name=Construction
-skill.engineering.name=Engineering
 skill.provisioning.name=Provisioning
+skill.engineering.name=Engineering
+skill.combat.name=Weaponry
 
 item.skillbook_artisanry.name=The art of the Forge
 item.skillbook_artisanry.desc=+%1$s Artisanry
@@ -1520,6 +1582,8 @@ item.skillbook_provisioning.name=Feeding a Village
 item.skillbook_provisioning.desc=+%1$s Provisioning
 item.skillbook_engineering.name=Advanced Mechanics
 item.skillbook_engineering.desc=+%1$s Engineering
+item.skillbook_combat.name=Mixed Field Tactics
+item.skillbook_combat.desc=+%1$s Weaponry
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /KNOWLEDGE INFORMATION/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1557,8 +1621,14 @@ knowledge.gettingStarted.upgrade=$hUpgrading-$r^Basic crummy old copper will onl
 knowledge.gettingStarted.7=The research table processes scrolls to finished research pieces. Before that though, you need a scroll.^Open your book, there's a bunch of researchable entries highlighted green, go to artisanry and "Light Armour" for example, this doesn't have any prerequisites.
 knowledge.gettingStarted.8=Purchase the research and you will get a scroll, put that on the research table. The metre will slowly fill up, you can speed the process by stedily hitting it (this is faster in proximity to bookshelves). When complete, right-click the new scroll.
 knowledge.gettingStarted.9=Of course not all research is this easy, some takes a lot of times and you may want to craft talismans to speed the process up. Most research takes skill, your skills are displayed in the research book and increase when you use them.
-knowledge.gettingStarted.10=Try work towards "Bronze Smithing" now, crucibles are already known as you see. For this you will need 5 "Artisanry". You gain artisanry from crafting tools, weapons, armour and some commodities.^Once bronze smithing is researched, try upgrade your tools and start the road to the next endevour.
-knowledge.gettingStarted.11=This is pretty much the basics, the rest is for you to find out...
+knowledge.gettingStarted.10=Soon enough you will need to work with dusts, either in cooking, engineering or artisanry. Most dusts are made with a pestle in clay pots.
+knowledge.gettingStarted.11=Try work towards "Bronze Smithing" now, crucibles are already known as you see. For this you will need 5 "Artisanry". You gain artisanry from crafting tools, weapons, armour and some commodities.^Once bronze smithing is researched, try upgrade your tools and start the road to the next endevour.
+knowledge.gettingStarted.12=This is pretty much the basics, the rest is for you to find out...
+
+knowledge.dust=Mortar and Pestle
+knowledge.dust.desc=Technique for Dusts
+knowledge.dust.1=You may be able to hold a pinch or so of dust in your hand, but there's no control for how much, or how to keep it from spilling. Clay Pots are used for carrying dusts for many purposes, most dust is made with the pestle, while very few recipe may use other tools. Here are some examples:
+knowledge.dust.icing=Some food based recipes (like Icing) use a spoon instead of a pestle.
 
 knowledge.research=Research Book
 knowledge.research.desc=Keeping track
@@ -1625,7 +1695,7 @@ knowledge.combat.desc=More than one way to slay a skeleton
 knowledge.combat.1=You may have noticed that constantly swinging aimlessly at monsters without a care in the world has lost it's effect some times. Combat (being a thing that you just have to deal with some times) has been modified to incorperate more complicated techniques.
 knowledge.combat.2=Not only that but monsters can also use these meaning a zombie with a weapon is more dangerous than ever, as they can block attacks, power attack, and use other abilities mentioned.
 knowledge.parry.info=$hParrying and Blocking$r^When holding right-click on most weapons, you block, simple right? Well now: blocking is much more effective. When you block an attack from straight-up, you immidiately reduce(and can remove) the damage of the hit, blades are best at this while hafted weapons
-knowledge.parry.info2=(like axes and blunt) take damage based on the hit.^It is recommended to block attacks rather than try take them, this technique can save lives.
+knowledge.parry.info2=(like axes and blunt) take damage based on the hit.^It is recommended to block attacks rather than try take them, this technique can save lives.^Attacking directly after a parry does reduce damage however.
 knowledge.advparry.info=$hParrying abilities$r^When a parry succeeds: if you're holding shift, you will lunge forward, and even past an attacker, throwing them your way. This consumes stamina but timed right, can change the battlefield to your favor. It is also possible to do this while jumping.
 knowledge.poweratt.info=$hPower attacks$r^If you hold sneak and attack while falling down, you will attempt a power attack. A power attack cost stamina, but when it succeeds will double damage and bypass through a blocking target. This can be interrupted if attacked just before the attempt.
 knowledge.blade.info=
@@ -1697,7 +1767,7 @@ knowledge.smeltMithium=Mithium Smithing
 knowledge.smeltMithium.desc=Tier 7, Master material
 knowledge.smeltMithium.1=Mithium is found deep within only the purest of mithril. This material has a structure never seen before, it is super light. The lightweight nature of mithium comes from its core, it seems to be a hollow shell that bends to forces yet does not break, inside seems to be some sort of energy that keeps the metal solid...
 
-knowledge.smeltEnderforge=Enderforge Smithing
+knowledge.smeltEnder=Enderforge Smithing
 knowledge.smeltEnderforge.desc=Tier 7, Master material
 knowledge.smeltEnderforge.1=There's always been something strange about those ender creatures... Enderforge takes the magical energies deep within the balance of mithril and admantium and focuses it using ender pearls.
 
@@ -1782,15 +1852,15 @@ knowledge.craftArmourBasic.1=When you first start out in this world, you may wan
 
 knowledge.craftArmourLight=Light Armor
 knowledge.craftArmourLight.desc=Cheap and practical
-knowledge.craftArmourLight.1=Light armor weighs pretty much nothing and will not restrict any stamina regeneration.^It however isn't likely to protect you from much, so think about that before catching broadswords with your face.
+knowledge.craftArmourLight.1=Light armor weighs pretty much nothing and will not restrict any stamina regeneration.^It however isn't likely to protect you from much, so think about that before catching broadswords with your face. Leather armours are protective against blunt based damage.
 
 knowledge.craftArmourMedium=Medium Armor
 knowledge.craftArmourMedium.desc=Average protection
-knowledge.craftArmourMedium.1=Medium armor is the base average. Nothing more to say there but the protection is decent but stamina regeneration is slowed by about half, but you should be able to take a decent whack with it.
+knowledge.craftArmourMedium.1=Medium armor is the base average. Nothing more to say there but the protection is decent but stamina regeneration is slowed by about half, but you should be able to take a decent whack with it. Mail armour is pretty effective but vulnerable to blunt based damage.
 
 knowledge.craftArmourHeavy=Heavy Armor
 knowledge.craftArmourHeavy.desc=Strong but restricted
-knowledge.craftArmourHeavy.1=This stuff is strong and much like medium armor, crafted from metal. Heavy armour not only significantly slows your stamina regeneration to roughly a third, but it also increases the rate of decay.^But really, you can probably cuddle a creeper and survive... maybe...
+knowledge.craftArmourHeavy.1=This stuff is strong and much like medium armor, crafted from metal. Heavy armour not only significantly slows your stamina regeneration to roughly a third, but it also increases the rate of decay. Plate is highly protective but vulnerable to piercing based damage.
 
 knowledge.craftTools=Forged Tools
 knowledge.craftTools.desc=Properly crafted
@@ -1809,21 +1879,21 @@ knowledge.mattock.info=$uMattocks Not Implemented$r
 knowledge.craftWeapons=Forged Weapons
 knowledge.craftWeapons.desc=For "Defense"
 knowledge.craftWeapons.1=What is that? A wooden sword... you can do better than that...^Different combat styles use different weapons, there should be one to fit your style.
-knowledge.dagger.info=Daggers are tiny little blades that... well their pretty lame really.^But their light and quick to the strike! Pretty good for a spammy-attack style
+knowledge.dagger.info=Daggers are tiny little blades that... well their pretty lame really.^But their light and quick to the strike! Pretty good for a spammy-attack style.
 knowledge.sword.info=A good old sword. Swords block the most damage and at the best arc. A finesse based blocking and countering style suits this weapon.
 knowledge.mace.info=For a good bop across the bonce!. Maces aren't that special and blocking damages the weapon more. But they have good durability and damage.
 knowledge.waraxe.info=A heavy hand axe for brutal hacking at your foes. War axes do decent damage and have bonuses when sprinting and jumping attacks. Good for the barbaric types. They also take more damage from blocking.
-knowledge.spear.info=If you're too scared for close combat, spears allow you to poke them from afar.. you know like you're just pushing them away with a long stick!
+knowledge.spear.info=If you're too scared for close combat, spears allow you to poke them from afar.. you know like you're just pushing them away with a long stick!^Spears do more damage when sprinting
 knowledge.bow.info=Standard bow for some reason made from metal. These are strong and versitile for all your ranged needs.
 
 knowledge.craftAdvWeapons=Heavy Weapons
 knowledge.craftAdvWeapons.desc=Big enough?
 knowledge.craftAdvWeapons.1=I'm not sure what you're intending on killing but here's some of the... larger pieces.
-knowledge.katana.info=Katanas are the lightest heavy weapon and aren't much heavier than a normal sword. This weapon strikes fast and is the least tiring to use. Power attacks will also knock enemies back.^^Ninja approved!
+knowledge.katana.info=Katanas are the lightest heavy weapon and aren't much heavier than a normal sword. This weapon strikes fast and is the least tiring to use. Power attacks will also damage armour.^^Ninja approved!
 knowledge.greatsword.info=A heavy, flat blade. Greatswords are the best defensive heavy weapon. Like swords: Greatswords are decent for blocking.
 knowledge.warhammer.info=If you ever wanted to hit something across the skull with a weapon the size of the anvil it was made of. Warhammers pack a punch!
 knowledge.battleaxe.info=For when a waraxe won't cut it (pun not intended). Battleaxes do more damage then waraxes and are heavier(obviously). for an even crazier barbaric type.^Tiring to use though
-knowledge.halbeard.info=Well if a spear is too whimpy! You can put an axe on it. Halbeards do more damage than spears but are heavier.
+knowledge.halbeard.info=Well if a spear is too whimpy! You can put an axe on it. Halbeards do more damage than spears but are heavier.^Halbeads can stab when sprinting.
 knowledge.lance.info=Lances are pretty useless as a weapon. But when mounted they do more damage based on the speed you're going.^More suited for jousting if you haven't figured that out.
 
 knowledge.craftCrafters=Crafting Tools
@@ -1900,7 +1970,7 @@ knowledge.parachute.1=You may know how to get up to a high place, but some time 
 
 knowledge.syringe=Syringe
 knowledge.syringe.desc=Easy administer 
-knowledge.syringe.1=Drinking potions is slow and awkward in emergencies. Syringes allow you to inject potions directly into your system, being useful the moment you need it.
+knowledge.syringe.1=Drinking potions is slow and awkward in emergencies. Syringes allow you to inject potions directly into your system, being useful the moment you need it. You can also shift-click on others to use on them.
 
 knowledge.bombs=Bomb Crafting
 knowledge.bombs.desc=Explosion Delivery
@@ -1925,6 +1995,7 @@ knowledge.firebomb=Firey Explosions
 knowledge.firebomb.desc=Deadly Incineration
 knowledge.firebomb.1=Adding shrapnel to bombs is very effective at elimiting ones fellow critters of the land. But there can be more insane carnage.^A mixture of magma cream can release a massive blast of pure flame upon detonation. Refined magma cream burns at such a high temperature few can withstand its blast.
 knowledge.firebomb.2=How it works is the magma cream (being a mixture of burning embers and sticky slime) is able to keep a self-sustaining flame while remaining as a spreadable substance. Additional blaze powder then reacts with a dragon heart to release a magical catalyst that increases the temperature of the flame.
+knowledge.firebomb.3=Incineration bombs may be expensive, but their extremely effective against armour.
 
 knowledge.bombCeramic=Ceramic Bomb Casing
 knowledge.bombCeramic.desc=Basic Bombs
@@ -2009,6 +2080,10 @@ knowledge.jerky=Jerky
 knowledge.jerky.desc=For the traveller
 knowledge.jerky.1=Jerky may not be the tastiest or warmest of food, but it has its own purpose. This is one of the few stackable foods and has a decent stamina bonus across the board. Good for mining trips and explorations.
 
+knowledge.saussage=Saussage
+knowledge.saussage.desc=Sealed meats
+knowledge.saussage.1=When rationing meats into jerky, you tend to sacrifice pleasure of consumption for practicality. No more chewy, salty, jerky! Saussages keep meat fresh in a casing made from... uh... entrails...
+
 knowledge.sandwitch=Sandwitches
 knowledge.sandwitch.desc=Simple
 knowledge.sandwitch.1=A piece of meat in between some bread, how could you not have known this before! Sandwitches though not stackable can be eaten twice.
@@ -2027,8 +2102,13 @@ knowledge.berry.1=Berries generate throughout the world if the temperature and r
 
 knowledge.salt=Salt
 knowledge.salt.desc=A little extra
-knowledge.salt.1=Salt is an additive for cooking sometimes used. To create salt, first gather some salt water.^Salt water is gathered by right-clicking a a special bowl on water that is directly above sand(such as a beach). Then cook this to produce salt.
-knowledge.salt.2=Hardened bowls are able to handle constant carrying and dying of salt water without decaying. These are used to gather salt water.^Salt water is detemined by being directly above sand OR being a beach/ocean biome.
+knowledge.salt.1=Salt is an additive for cooking sometimes used. To create salt, first gather some salt water.^Salt water is gathered by right-clicking a a Clay Pot on water that is directly above sand(such as a beach). Then cook this to produce salt.
+knowledge.salt.2=Clay pots are able to handle constant carrying and dying of salt water without decaying. These are used to gather salt water.^Salt water is detemined by being directly above sand OR being a beach/ocean biome.
+
+knowledge.jug=Jug
+knowledge.jug.desc=Liquid Storage
+knowledge.jug.1=Food can be picky with quantities, due to this, and the fact you can't carry liquids, jugs will be used. Jugs can store milk, water and oil.
+knowledge.jug.2=Water can be gathered similar to buckets through right-click, but can also be converted from buckets. Milk cannot be obtained directly from cows.
 
 knowledge.bread=Bread And Pastry
 knowledge.bread.desc=Grainy
@@ -2038,13 +2118,18 @@ knowledge.oats=Oats
 knowledge.oats.desc=Wholesome and basic
 knowledge.oats.1=Not all meals are fancy multi-food mixtures. Keep it simple with this mixture of natural grains.
 
-knowledge.icing=Icing
+knowledge.icing=Sugar
 knowledge.icing.desc=Sugary Goodness
-knowledge.icing.1=Some food just isn't quite complete without icing. Icing is used in many sweet food recipes.
+knowledge.icing.1=There's nothing wrong with a little sugar... unless it's kept in someones pocket for three days... You can now use pots for proper sugar storage and grind cane directly into them. It is possible to put pocket-sugar in these too.
+knowledge.icing.2=Some food just isn't quite complete without icing. Icing is used in many sweet food recipes.
 
 knowledge.sweetroll=Sweetroll
 knowledge.sweetroll.desc=Let me guess...
 knowledge.sweetroll.1=Sweetrolls are a sugary treat anyone can enjoy. Eating one of these, though not filling restores stamina and gives stamina regen. Sweetrolls can be eaten twice.
+
+knowledge.eclair=Eclair
+knowledge.eclair.desc=Fancy
+knowledge.eclair.1=Now you're just showing off... But some of us just can't do without the fanciest of sweeties...^These little heart attacks in a pastry can be eaten 4 times.
 
 knowledge.cake=Cake
 knowledge.cake.desc=Made the RIGHT way!
@@ -2091,3 +2176,42 @@ knowledge.bandageadv.desc=Tough Stuff
 knowledge.bandageadv.1=These advanced leather bandages heal much more damage. They can be costly however.
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/MASTERY TEXT/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+knowledge.title=
+knowledge.title.desc=
+knowledge.title.1=
+
+knowledge.fitness=Fitness
+knowledge.fitness.desc=Kept in shape
+knowledge.fitness.1=Your biggest foe in battle is your energy (well apart from the actual enemy).^Stamina decays 25% Slower.
+
+knowledge.toughness=Toughness
+knowledge.toughness.desc=Take it!
+knowledge.toughness.1=Your constant exposure to battle has granted you a higher resistence to the elements.^Damage from all sources is reduced by 25%.
+
+knowledge.armourpro=Armor Proficiency
+knowledge.armourpro.desc=Feel the weight
+knowledge.armourpro.1=After all this time, your core has become stronger.^Armor penalty to stamina cost is halved.
+
+knowledge.parrypro=Parry Tactics
+knowledge.parrypro.desc=Control your movement
+knowledge.parrypro.1=The position in the battlefield is an important weapon and should be used to your advantage.^Holding shift when parrying allows you to leap towards, and past your opponent. This is useful to slip past their defenses.
+
+knowledge.counteratt=Counter attack
+knowledge.counteratt.desc=Return strike
+knowledge.counteratt.1=Parrying may protect you but it throws you off balance a bit, however you are experienced enough to use this to your advantage.^Right after parrying you can do an alternate attack that does different damage.
+knowledge.counteratt.2=Swords, Daggers and Katanas do a piercing stab.^Waraxes use their piercing back.^Heavy weapons deal a pummel smash.^Blunt weapons and polearms have no effect.
+
+knowledge.autoparry=Reflex Parry
+knowledge.autoparry.desc=Ready for the hit
+knowledge.autoparry.1=Your constant use of finesse has granted you some automatic reflexts.^You can parry attacks without blocking (with a reduced arc).
+
+knowledge.firstaid=First Aid
+knowledge.firstaid.desc=Tend to the wounded
+knowledge.firstaid.1=You need to be fast when tending to some injuries and need to be ready for the moment.^Using bandages is significantly faster.
+
+knowledge.doctor=Doctor
+knowledge.doctor.desc=Duty to benefit
+knowledge.doctor.1=Your constant use of aiding your fellow humans has yielded you experience in medicine.^Bandages heal 50% more damage.

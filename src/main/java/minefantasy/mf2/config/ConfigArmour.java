@@ -25,6 +25,7 @@ public class ConfigArmour extends ConfigurationBaseMF
 		TacticalManager.minWeightSpeed = Float.parseFloat(config.get(CATEGORY_PENALTIES, "Min armour weigh speed", 10F, "The minimal speed percent capable from weight (10 = 10%), MF armours don't go lower than 75% anyway").getString());
 		ArmourCalculator.slowRate = Float.parseFloat(config.get(CATEGORY_PENALTIES, "Slowdown Rate", 1.0F, "A modifier for the rate armours slow down movement, increasing this slows you more, decreasing it slows less, just keep it above 0").getString());
 		
+		ArmourCalculator.useThresholdSystem = Boolean.parseBoolean(config.get(CATEGORY_MISC, "Use Threshold System", true, "A new (but less compatible) system that uses a threshold for damage (This means a set amount of damage is ignored), this makes heavier hits more effective. Armour durability also reduces this value.").getString());
 	}
 
 }

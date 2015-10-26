@@ -21,6 +21,7 @@ import minefantasy.mf2.container.ContainerAnvilMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
+import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.network.packet.AnvilPacket;
 import minefantasy.mf2.util.MFLogUtil;
@@ -264,20 +265,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		int hammerTier = ToolHelper.getCrafterTier(user.getHeldItem());
 		if(toolType.equalsIgnoreCase("hammer") || toolType.equalsIgnoreCase("hvyHammer"))
 		{
-			if(!worldObj.isRemote)
-			MFLogUtil.logDebug("Used Hits: " + leftHit + "|" + rightHit);
-			if(rightClick)
-			{
-				this.qualityBalance += rightHit;
-			}
-			else
-			{
-				this.qualityBalance -= leftHit;
-			}
-			if(qualityBalance >= 1.0F || qualityBalance <= -1.0F)
-			{
-				ruinCraft();
-			}
 			if(user.getHeldItem() != null)
 			{
 				user.getHeldItem().damageItem(1, user);
@@ -291,6 +278,19 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 			
 			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && hammerTier >= hammerTierRequired)
 			{
+				if(rightClick)
+				{
+					this.qualityBalance += rightHit;
+				}
+				else
+				{
+					this.qualityBalance -= leftHit;
+				}
+				if(qualityBalance >= 1.0F || qualityBalance <= -1.0F)
+				{
+					ruinCraft();
+				}
+					
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, rightClick ? 1.2F : 1.0F);
 				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem()) * (rightClick ? 0.75F : 1.0F);
 				float toolEfficiency = efficiency;
@@ -436,33 +436,38 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	private ItemStack modifySpecials(ItemStack result) 
 	{
 		boolean isTool = result.getMaxStackSize() == 1 && result.isItemStackDamageable();
-		boolean hasHeart = false;
 		EntityPlayer player = worldObj.getPlayerEntityByName(lastPlayerHit);
-		//DRAGONFORGE
-		for(int x = -4; x <= 4; x++)
+		
+		Item DF = SpecialForging.getDragonCraft(result);
+		
+		if(DF != null)
 		{
-			for(int y = -4; y <= 4; y++)
+			boolean hasHeart = false;
+			//DRAGONFORGE
+			for(int x = -4; x <= 4; x++)
 			{
-				for(int z = -4; z <= 4; z++)
+				for(int y = -4; y <= 4; y++)
 				{
-					TileEntity tile = worldObj.getTileEntity(xCoord+x, yCoord+y, zCoord+z);
-					if(player != null && ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.smeltDragonforge) && tile != null && tile instanceof TileEntityForge)
+					for(int z = -4; z <= 4; z++)
 					{
-						if(((TileEntityForge)tile).dragonHeartPower > 0)
+						TileEntity tile = worldObj.getTileEntity(xCoord+x, yCoord+y, zCoord+z);
+						if(player != null && ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.smeltDragonforge) && tile != null && tile instanceof TileEntityForge)
 						{
-							hasHeart = true;
-							((TileEntityForge)tile).dragonHeartPower = 0;
-							worldObj.createExplosion(null, xCoord+x, yCoord+y, zCoord+z, 1F, false);
-							break;
+							if(((TileEntityForge)tile).dragonHeartPower > 0)
+							{
+								hasHeart = true;
+								((TileEntityForge)tile).dragonHeartPower = 0;
+								worldObj.createExplosion(null, xCoord+x, yCoord+y, zCoord+z, 1F, false);
+								PlayerTickHandlerMF.spawnDragon(player);
+								PlayerTickHandlerMF.addDragonEnemyPts(player, 2);
+								
+								break;
+							}
 						}
-					}
+					}	
 				}	
-			}	
-		}
-		if(hasHeart)
-		{
-			Item DF = SpecialForging.getDragonCraft(result);
-			if(DF != null)
+			}
+			if(hasHeart)
 			{
 				return new ItemStack(DF, result.stackSize, result.getItemDamage());
 			}

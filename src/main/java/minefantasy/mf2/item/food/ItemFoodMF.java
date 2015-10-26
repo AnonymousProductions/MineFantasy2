@@ -259,7 +259,7 @@ public class ItemFoodMF extends ItemFood
 		{
 			return new ItemStack(leftOver);
 		}
-		return null;
+		return getContainerItem(food);
 	}
 
 	@Override

@@ -91,9 +91,9 @@ public class ItemBasicCraftTool extends ItemTool implements IToolMaterial, ITool
 	}
 
 	@Override
-	public float[] getDamageRatio(Object implement)
+	public float[] getDamageRatio(Object... implement)
 	{
-		return new float[]{0,1};
+		return new float[]{0,1, 0};
 	}
 	
 	private void addSet(List list, Item[] items) 

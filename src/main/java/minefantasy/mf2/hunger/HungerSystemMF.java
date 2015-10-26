@@ -43,18 +43,19 @@ public class HungerSystemMF
     		float temp = getTempFood(player);
     		MineFantasyAPI.debugMsg("Saturation: " + sat + " Temp: " + temp);
     		
-    		if(sat > 0)
-    		{
-    			decrSaturation(player);
-    			MineFantasyAPI.debugMsg("Hunger drop cancelled: Sat = " + (sat-1));
-    			player.getFoodStats().addStats(1, 0.0F);
-    		}
-    		else if(temp > 0)
+    		if(temp > 0)
     		{
     			MineFantasyAPI.debugMsg("Hunger drop cancelled: Temp");
     			setTempFood(player, temp-1);
     			player.getFoodStats().addStats(1, 0.0F);
     		}
+    		else if(sat > 0)
+    		{
+    			decrSaturation(player);
+    			MineFantasyAPI.debugMsg("Hunger drop cancelled: Sat = " + (sat-1));
+    			player.getFoodStats().addStats(1, 0.0F);
+    		}
+    		
     		if(temp <= 0)
     		{
     			setTempFood(player, getTempSlowdownLvl(player));

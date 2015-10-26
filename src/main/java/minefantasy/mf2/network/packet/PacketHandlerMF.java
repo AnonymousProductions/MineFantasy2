@@ -35,6 +35,7 @@ public class PacketHandlerMF
         packetList.put(TroughPacket.packetName, new TroughPacket());
         packetList.put(BombBenchPacket.packetName, new BombBenchPacket());
         packetList.put(TannerPacket.packetName, new TannerPacket());
+        packetList.put(RoadPacket.packetName, new RoadPacket());
     }
 
     @SubscribeEvent

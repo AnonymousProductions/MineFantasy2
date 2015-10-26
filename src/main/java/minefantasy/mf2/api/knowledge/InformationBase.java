@@ -18,6 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class InformationBase
 {
+	public static boolean easyResearch = false;
 	public static boolean unlockAll = false;
 	public static final float talismanPower = 20F;//20m taken
 	public int ID = 0;
@@ -192,12 +193,18 @@ public class InformationBase
 			user.worldObj.playSoundAtEntity(user, "minefantasy2:updateResearch", 1.0F, 1.0F);
 		}
 		
-		ItemStack item = new ItemStack(scroll, 1, ID);
-		if(!user.inventory.addItemStackToInventory(item))
+		if(easyResearch)
 		{
-			user.entityDropItem(item, 0F);
+			ResearchLogic.tryUnlock(user, this);
 		}
-		
+		else
+		{
+			ItemStack item = new ItemStack(scroll, 1, ID);
+			if(!user.inventory.addItemStackToInventory(item))
+			{
+				user.entityDropItem(item, 0F);
+			}
+		}
 		return true;
 	}
 	public static Item scroll;
@@ -261,7 +268,7 @@ public class InformationBase
 	}
 	public boolean isPreUnlocked() 
 	{
-		return unlockAll || startedUnlocked;
+		return !getPerk() && (unlockAll || startedUnlocked);
 	}
 }
 class SkillRequirement

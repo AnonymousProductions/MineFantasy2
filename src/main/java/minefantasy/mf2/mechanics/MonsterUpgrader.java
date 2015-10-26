@@ -23,8 +23,8 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class MonsterUpgrader 
 {
 	private static final float zombieWepChance = 10F;
-	private static final float zombieKnightChance = 500F;
-	private static final float zombieBruteChance =  300F;
+	private static final float zombieKnightChance = 200F;
+	private static final float zombieBruteChance =  200F;
 	
 	private static final float creeperJockeyChance = 60F;
 	private static final float witchRiderChance = 100F;
@@ -42,7 +42,7 @@ public class MonsterUpgrader
 			{
 				if(((EntitySkeleton)mob).getSkeletonType() == 1)
 				{
-					giveEntityWeapon(mob, 5, rand.nextInt(7));
+					giveEntityWeapon(mob, 5, rand.nextInt(8));
 				}
 				else if(CombatMechanics.swordSkeleton && rand.nextInt(3) == 0)
 				{
@@ -55,7 +55,7 @@ public class MonsterUpgrader
 				int tier = 2;
 				if(mob instanceof EntityPigZombie)
 				{
-					tier = 4;
+					tier = 5;
 					giveEntityWeapon(mob, tier, rand.nextInt(7));
 				}
 				else
@@ -70,7 +70,7 @@ public class MonsterUpgrader
 						float chance = rand.nextFloat()*100F*mod;
 						if(chance >= (100F-zombieWepChance))
 						{
-							giveEntityWeapon(mob, tier, rand.nextInt(4));
+							giveEntityWeapon(mob, tier, rand.nextInt(5));
 						}
 					}
 				}
@@ -125,29 +125,37 @@ public class MonsterUpgrader
 	private void createZombieKnight(EntityZombie mob) 
 	{
 		if(mob.isChild())return;
-		int tier = rand.nextInt(10) == 0 ? 3 : 2;
+		int tier = rand.nextInt(10) == 0 ? 4 : 2;
+		int lootId = 0;
 		if(mob instanceof EntityPigZombie)
 		{
-			tier = 4;
+			lootId = 1;
+			tier = 5;
 		}
 		mob.setVillager(false);
 		giveEntityArmour(mob, tier, 1);//Steel Plate
-		mob.setCurrentItemOrArmor(0, new ItemStack(ToolListMF.greatswords[tier-1]));
+		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
+		mob.setCurrentItemOrArmor(0, new ItemStack(ToolListMF.greatswords[tier]));
 		mob.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.2F);
+		mob.getEntityData().setInteger("MF_LootDrop", lootId);
 	}
 	private void createZombieBrute(EntityZombie mob) 
 	{
 		if(mob.isChild())return;
 		int tier = 1;
 		int weapontier = 2;
+		int lootId = 0;
 		if(mob instanceof EntityPigZombie)
 		{
-			tier = 4;
-			weapontier = 4;
+			lootId = 1;
+			tier = 5;
+			weapontier = 5;
 		}
-		giveEntityArmour(mob, tier, 0);//Iron Chain
+		giveEntityArmour(mob, tier, 0);//Iron Chain\
+		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
 		mob.setCurrentItemOrArmor(0, new ItemStack(ToolListMF.waraxes[weapontier]));
 		mob.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35F);
+		mob.getEntityData().setInteger("MF_LootDrop", lootId);
 	}
 
 
@@ -168,6 +176,11 @@ public class MonsterUpgrader
 		{
 			weapon = ToolListMF.daggers;
 		}
+		if(weaponType == 4)
+		{
+			weapon = ToolListMF.spears;
+		}
+		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
 		mob.setCurrentItemOrArmor(0, new ItemStack(weapon[tier]));
 	}
 	private void giveEntityArmour(EntityLivingBase mob, int tier, int suit)

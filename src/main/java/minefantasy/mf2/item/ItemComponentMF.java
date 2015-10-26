@@ -86,6 +86,8 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.nail);
 		add(list, ComponentListMF.rivet);
 		add(list, ComponentListMF.thread);
+		add(list, ComponentListMF.clay_pot_uncooked);
+		add(list, ComponentListMF.clay_pot);
 		
 		add(list, ComponentListMF.leather_strip);
 		add(list, ComponentListMF.rawhideSmall);
@@ -110,7 +112,7 @@ public class ItemComponentMF extends Item
 		
 		add(list, ComponentListMF.coalDust);
 		add(list, ComponentListMF.iron_prep);
-		add(list, ComponentListMF.obsidian_dust);
+		add(list, ComponentListMF.obsidian_rock);
 		add(list, ComponentListMF.sulfur);
 		add(list, ComponentListMF.nitre);
 		add(list, ComponentListMF.blackpowder);

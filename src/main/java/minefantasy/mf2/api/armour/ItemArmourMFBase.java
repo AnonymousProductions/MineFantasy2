@@ -5,6 +5,8 @@ import java.util.List;
 
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.config.ConfigClient;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -18,7 +20,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmourMF, IArmourRating
+public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmourMF, IArmourRating, IDTArmour
 {
 	public static ArmorMaterial baseMaterial = EnumHelper.addArmorMaterial("MF Armour Base", 0, new int[]{2, 6, 5, 2}, 0);
 	private int piece;
@@ -30,6 +32,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 	public ArmourMaterialMF material;
 	public ArmourDesign design;
 	protected float suitBulk;
+	public float DT;
 	
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.#");
 	
@@ -48,8 +51,14 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		float dura = baseDura /2F + (baseDura /2F * ArmourCalculator.sizes[slot] / ArmourCalculator.sizes[1]);
 		this.setMaxDamage((int)dura);
 		this.setUnlocalizedName(name);
+		setDT(getProtectionRatio()*scalePiece());
 		
 		baseRating = ArmourCalculator.translateToVanillaAR(getProtectionRatio()+1F, baseMaterial.getDamageReductionAmount(slot), 15);
+	}
+	public ItemArmourMFBase setDT(float DT)
+	{
+		this.DT = DT;
+		return this;
 	}
 	/*  Piece | Slot
 	 *  0     | 3
@@ -65,12 +74,13 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armour, int slot)
 	{
-		/*
-		float max = (float)armour.getMaxDamage();
-		float dam = max - (float)armour.getItemDamage();
-		
-		return (int)Math.round(5F / max * dam);
-		*/
+		if(ArmourCalculator.useThresholdSystem)
+		{
+			float max = (float)armour.getMaxDamage();
+			float dam = max - (float)armour.getItemDamage();
+			
+			return (int)Math.round(5F / max * dam);
+		}
 		return baseRating;
 	}
 
@@ -81,7 +91,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		
 		if(ArmourCalculator.advancedDamageTypes && !player.worldObj.isRemote)
 		{
-			AC = ArmourCalculator.modifyACForType(source, AC, design.getProtectiveTraits()[0], design.getProtectiveTraits()[1]);
+			AC = ArmourCalculator.adjustACForDamage(source, AC, design.getProtectiveTraits()[0], design.getProtectiveTraits()[1], design.getProtectiveTraits()[2]);
 		}
 		AC *= getACModifier(player, armour, source, damage);
 		
@@ -106,6 +116,10 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		{
 			AC -= 1.5F;
 			if(AC < 0)AC = 0;
+		}
+		if(ArmourCalculator.useThresholdSystem)
+		{
+			AC = 0F;
 		}
 		AC++;//because 1.0AC = no armour so it adds ontop of this
 		
@@ -146,7 +160,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		return ArmourCalculator.sizes[piece];
 	}
 
-	private float getProtectionRatio() 
+	protected float getProtectionRatio() 
 	{
 		return material.baseAR*design.getRating();
 	}
@@ -157,41 +171,40 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
     {
         super.addInformation(armour, user, list, extra);
         
-        if(ArmourCalculator.advancedDamageTypes)
+        if(ArmourCalculator.useThresholdSystem)
         {
-        	list.add("");
-        	
-        	float cut = design.getProtectiveTraits()[0]*100F;
-        	float blunt = design.getProtectiveTraits()[1]*100F;
-        	
-    		list.add(StatCollector.translateToLocal("attribute.armour.cuttingresistance") + " = " +(int)cut + "%");
-    		list.add(StatCollector.translateToLocal("attribute.armour.bluntresistance") + " = " +(int)blunt + "%");
+        	/*
+        	if(ArmourCalculator.advancedDamageTypes)
+	        {
+        		float duraLoss = TacticalManager.modifyDTDamage(armour);
+	        	list.add("");
+	        	
+	        	String cut = ItemWeaponMF.decimal_format.format(design.getProtectiveTraits()[0]*DT*duraLoss);
+	        	String blunt = ItemWeaponMF.decimal_format.format(design.getProtectiveTraits()[1]*DT*duraLoss);
+	        	String pierce = ItemWeaponMF.decimal_format.format(design.getProtectiveTraits()[2]*DT*duraLoss);
+	        	
+	    		list.add(StatCollector.translateToLocal("attribute.armour.dtcutting") + " = " +cut);
+	    		list.add(StatCollector.translateToLocal("attribute.armour.dtpiercing") + " = " +pierce);
+	    		list.add(StatCollector.translateToLocal("attribute.armour.dtblunt") + " = " +blunt);
+	        }
+	        */
+        }
+        else 
+        {
+	        if(ArmourCalculator.advancedDamageTypes)
+	        {
+	        	list.add("");
+	        	
+	        	float cut = design.getProtectiveTraits()[0]*100F;
+	        	float pierce = design.getProtectiveTraits()[2]*100F;
+	        	float blunt = design.getProtectiveTraits()[1]*100F;
+	        	
+	    		list.add(StatCollector.translateToLocal("attribute.armour.cuttingresistance") + " = " +(int)cut + "%");
+	    		list.add(StatCollector.translateToLocal("attribute.armour.piercingresistance") + " = " +(int)pierce + "%");
+	    		list.add(StatCollector.translateToLocal("attribute.armour.bluntresistance") + " = " +(int)blunt + "%");
+	        }
         }
         list.add(StatCollector.translateToLocal("attribute.weight.name") + ": " + Math.round(getPieceWeight(armour, piece)));
-        /*
-        int rating = ArmourCalculator.getArmourRatingLevel(user, armour, slot);
-        int equipped = ArmourCalculator.getArmourRatingLevel(user, user.getCurrentArmor(3-slot), slot);
-        
-        if(equipped > 0 && rating != equipped)
-        {
-        	int d = rating-equipped;
-        	if(d > 0)
-        	{
-        		attatch += EnumChatFormatting.DARK_GREEN;
-        	}
-        	if(d < 0)
-        	{
-        		attatch += EnumChatFormatting.RED;
-        	}
-        	attatch += " (" + (d > 0 ? "+" : "") + d +")";
-        }
-        if(MineFantasyAPI.isInDebugMode)
-        {
-		    list.add(decimal_format.format(getPieceWeight(armour, slot)) + " Kg" + " (" + getACName() + " Armour" + ")");
-		    list.add("Bulk: "+getBulkDisplay(design.bulk));
-        }
-        list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection") + " " + rating + attatch);
-        */
     }
 
 	private void addModifier(List list, float ratio, String name)
@@ -214,13 +227,6 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
                                         StatCollector.translateToLocal("attribute.armour."+name)));
             }
         }
-	}
-	/**
-	 * Gets the bulk for display(Make sure to count the bulk for the piece)
-	 */
-	public static int getBulkDisplay(float bulk)
-	{
-		return (int) (bulk*100);
 	}
 	public ArmourMaterialMF getMaterial()
 	{
@@ -277,5 +283,22 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 		if(design == ArmourDesign.CLOTH)return null;
 		
 		return armourWeight >= ArmourCalculator.ACArray[1] ? "heavy" : armourWeight >= ArmourCalculator.ACArray[0] ? "medium" : "light";
+	}
+	@Override
+	public float getDTValue(EntityLivingBase user, ItemStack armour, DamageSource src)
+	{
+		float DT2 = DT;
+		
+		if(ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote)
+		{
+			DT2 = ArmourCalculator.adjustACForDamage(src, DT2, design.getProtectiveTraits()[0], design.getProtectiveTraits()[1], design.getProtectiveTraits()[2]);
+		}
+		return DT2;
+	}
+	@Override
+	@SideOnly(Side.CLIENT)
+	public float getDTDisplay(ItemStack armour, int damageType)
+	{
+		return design.getProtectiveTraits()[damageType]*DT;
 	}
 }

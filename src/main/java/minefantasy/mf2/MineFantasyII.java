@@ -5,9 +5,19 @@ import java.io.File;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
-import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.config.*;
+import minefantasy.mf2.config.ConfigArmour;
+import minefantasy.mf2.config.ConfigClient;
+import minefantasy.mf2.config.ConfigCrafting;
+import minefantasy.mf2.config.ConfigExperiment;
+import minefantasy.mf2.config.ConfigFarming;
+import minefantasy.mf2.config.ConfigHardcore;
+import minefantasy.mf2.config.ConfigItemRegistry;
+import minefantasy.mf2.config.ConfigMobs;
+import minefantasy.mf2.config.ConfigStamina;
+import minefantasy.mf2.config.ConfigTools;
+import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.config.ConfigWorldGen;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -17,14 +27,11 @@ import minefantasy.mf2.network.CommonProxyMF;
 import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
 import minefantasy.mf2.util.MFLogUtil;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -45,7 +52,7 @@ public class MineFantasyII
 {
 	public static final String MODID = "minefantasy2";
 	public static final String NAME = "MineFantasyII";
-	public static final String VERSION = "Alpha_2.3.6";
+	public static final String VERSION = "Alpha_2.4.2";
 	public static final WorldGenMFBase worldGenManager = new WorldGenMFBase();
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
@@ -73,6 +80,7 @@ public class MineFantasyII
 		new ConfigFarming().setConfig(getCfg(event, "Farming"));
 		new ConfigWorldGen().setConfig(getCfg(event, "WorldGen"));
 		new ConfigCrafting().setConfig(getCfg(event, "Crafting"));
+		new ConfigMobs().setConfig(getCfg(event, "Mobs"));
 		
 		MineFantasyAPI.isInDebugMode = isDebug();
 		MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);

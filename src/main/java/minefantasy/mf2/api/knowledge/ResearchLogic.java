@@ -81,11 +81,22 @@ public class ResearchLogic
     private static NBTTagCompound getNBT(EntityPlayer player)
 	{
     	NBTTagCompound persistant = PlayerTagData.getPersistedData(player);
-    	if(!persistant.hasKey("Knowledge"))
+    	if(!persistant.hasKey(KnowledgeNBT))
     	{
-    		persistant.setTag("Knowledge", new NBTTagCompound());
+    		NBTTagCompound tag = new NBTTagCompound();
+    		tag.setInteger("Layer", knowledgelyr);
+    		persistant.setTag(KnowledgeNBT, tag);
     	}
-		return persistant.getCompoundTag("Knowledge");
+    	NBTTagCompound load = persistant.getCompoundTag(KnowledgeNBT);
+    	if(load.getInteger("Layer") != knowledgelyr)
+    	{
+    	   persistant.removeTag(KnowledgeNBT);
+    		
+    		NBTTagCompound tag = new NBTTagCompound();
+    		tag.setInteger("Layer", knowledgelyr);
+    		persistant.setTag(KnowledgeNBT, tag);
+    	}
+		return load;
 	}
 
 	/**
@@ -115,6 +126,8 @@ public class ResearchLogic
         }
     }
     
+    public static final String KnowledgeNBT = "Knowledge";
+    public static int knowledgelyr = 0;
     public static void syncData(EntityPlayer player)
     {
     	if(!player.worldObj.isRemote)

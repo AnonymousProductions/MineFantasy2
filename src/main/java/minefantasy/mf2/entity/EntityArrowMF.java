@@ -922,13 +922,13 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	}
 
 	@Override
-	public float[] getDamageRatio(Object implement) 
+	public float[] getDamageRatio(Object... implement) 
 	{
 		if(isExplosive())
 		{
-			return new float[]{0,1};
+			return new float[]{0,1, 0};
 		}
-		return new float[]{1,0};
+		return new float[]{0,0, 1};
 	}
 
 	public void modifyVelocity(float velocity)

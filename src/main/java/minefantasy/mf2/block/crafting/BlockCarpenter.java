@@ -9,6 +9,7 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +36,6 @@ public class BlockCarpenter extends BlockContainer
     {
         super(Material.wood);
         
-        this.setBlockTextureName("minectaft:oak_planks");
         GameRegistry.registerBlock(this, "MF_CarpenterBench");
 		setBlockName("carpenterBench");
 		this.setStepSound(Block.soundTypeWood);
@@ -162,6 +162,13 @@ public class BlockCarpenter extends BlockContainer
 	public IIcon getIcon(int side, int meta)
 	{
 		return Blocks.crafting_table.getIcon(side, meta);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg)
+	{
+		
 	}
 	@Override
 	public int getRenderType()

@@ -26,6 +26,6 @@ public class ItemLighterMF extends Item implements ILighter
 	@Override
 	public double getChance() 
 	{
-		return chance/100D;
+		return chance;
 	}
 }

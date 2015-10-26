@@ -74,13 +74,18 @@ public class ItemMFBowl extends ItemComponentMF
     
     private boolean isWaterSource(World world, int i, int j, int k)
     {
+    	if(world.getBlock(i, j, k).getMaterial() != Material.water)
+    	{
+    		return false;
+    	}
+    	
     	BiomeGenBase biome = world.getBiomeGenForCoords(i, k);
     	if(biome == BiomeGenBase.ocean || biome == BiomeGenBase.deepOcean || biome == BiomeGenBase.beach)
     	{
     		return true;
     	}
     	MFLogUtil.logDebug("Biome = " + biome.biomeName);
-		if(world.getBlock(i, j, k).getMaterial() == Material.water && world.getBlock(i, j-1, k) == Blocks.sand)
+		if(world.getBlock(i, j-1, k) == Blocks.sand)
 		{
 			return true;
 		}

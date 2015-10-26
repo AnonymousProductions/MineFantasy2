@@ -84,4 +84,18 @@ public class ItemHalbeardMF extends ItemSpearMF
 	{
 		return heavyStaminaCost*spearStaminaCost;
 	}
+	@Override
+	protected float[] getWeaponRatio(ItemStack implement, EntityLivingBase user)
+	{
+		if(user.isSprinting())
+		{
+			return spearRatio;
+		}
+		return getWeaponRatio(implement);
+	}
+	@Override
+	protected float[] getWeaponRatio(ItemStack implement)
+	{
+		return battleaxeRatio;
+	}
 }

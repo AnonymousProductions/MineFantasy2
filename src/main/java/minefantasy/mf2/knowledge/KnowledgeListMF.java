@@ -31,13 +31,14 @@ public class KnowledgeListMF
 	public static InformationPage mastery = InformationList.mastery;
 	
 	//BASICS -FREE
-	public static InformationBase carpenter, gettingStarted, research, talisman, ores, chimney, tanning, commodities, craftCrafters, stamina, combat, craftArmourBasic;
+	public static InformationBase carpenter, gettingStarted, research, talisman, ores, chimney, tanning, commodities, dust, craftCrafters, stamina, combat, craftArmourBasic;
 	public static InformationBase crucible, crucible2, smeltCopper, smeltBronze, smeltIron, blastfurn, smeltPig, smeltSteel, encrusted, smeltBlackSteel, smeltDragonforge, smeltBlueSteel, smeltRedSteel, smeltMithril, smeltAdamant, smeltMaster, smeltMithium, smeltIgnotumite, smeltEnderforge;
     public static InformationBase bellows, trough, forge, anvil, apron, craftTools, craftAdvTools, craftWeapons, craftAdvWeapons, arrows, craftOrnateWeapons, craftAdvOrnateWeapons, craftArmourLight, craftArmourMedium, craftArmourHeavy, arrowsBodkin, arrowsBroad, repair_basic, repair_advanced, repair_ornate;
 	public static InformationBase etools, ecomponents, climber, spyglass, parachute, syringe, engTanner, advforge, blackpowder, advblackpowder, bombs, bpress, bombarrow, bombFuse, shrapnel, firebomb, stickybomb, bombCeramic, bombIron, bombObsidian, bombCrystal, mineCeramic, mineIron, mineObsidian, mineCrystal;
     public static InformationBase refined_planks, reinforced_stone, clay_wall, glass, brickworks, bars, thatch;
+    public static InformationBase toughness, fitness, armourpro, parrypro, counteratt, autoparry, firstaid, doctor;
     
-    public static InformationBase cookingutensil, generic_meat, stew, jerky, sandwitch, meatpie, shepardpie, bread, oats, salt, berry, icing, sweetroll, cake, carrotcake, chococake, bfcake, applepie, berrypie, cheese, cheeseroll, bandage, bandageadv;
+    public static InformationBase cookingutensil, generic_meat, stew, jerky, saussage, sandwitch, meatpie, shepardpie, bread, oats, salt, jug, berry, icing, sweetroll, eclair, cake, carrotcake, chococake, bfcake, applepie, berrypie, cheese, cheeseroll, bandage, bandageadv;
     
     public static void init()
 	{
@@ -49,6 +50,7 @@ public class KnowledgeListMF
     	chimney = (new InformationBase("chimney",  				    0, 2, 0, BlockListMF.chimney_stone, (InformationBase)null)).registerStat().setUnlocked();
     	tanning = (new InformationBase("tanning", 					0, -2 ,0, Items.leather, (InformationBase)null)).registerStat().setUnlocked().setSpecial();
     	commodities = (new InformationBase("commodities",				-1 ,-2 ,0, ComponentListMF.plank, (InformationBase)null)).registerStat().setUnlocked();
+    	dust = (new InformationBase("dust",								-1 ,-3 ,0, ComponentListMF.clay_pot, commodities)).registerStat().setUnlocked();
     	craftCrafters = (new InformationBase("craftCrafters", 		-1, 1, 0, ToolListMF.hammers[3], (InformationBase)null)).registerStat().setUnlocked();
     	stamina = (new InformationBase("stamina", 					-3, 1, 0, Items.feather, craftCrafters)).registerStat().setUnlocked();
     	combat = (new InformationBase("combat", 						-5, 2, 0, Items.iron_sword, stamina)).registerStat().setUnlocked();
@@ -74,7 +76,7 @@ public class KnowledgeListMF
         smeltMaster = (new InformationBase("smeltMaster", 			4, 13, 50,  BlockListMF.oreMythic, (InformationBase)null)).registerStat().setPage(artisanry).setSpecial().addSkill(SkillList.artisanry, 100);
         smeltIgnotumite = (new InformationBase("smeltIgnotumite", 	2, 15, 100, ComponentListMF.ingots[15], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100);
         smeltMithium = (new InformationBase("smeltMithium", 			6, 15, 100, ComponentListMF.ingots[16], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100);
-        smeltEnderforge = (new InformationBase("smeltEnderforge", 	4, 16, 100, ComponentListMF.ingots[17], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100);
+        smeltEnderforge = (new InformationBase("smeltEnder", 	4, 16, 100, ComponentListMF.ingots[17], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100);
         
         bellows = (new InformationBase("bellows", 					 0, -1,0, BlockListMF.bellows, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
         trough = (new InformationBase("trough", 					 	 0, -2,0, BlockListMF.trough_wood, bellows)).registerStat().setPage(artisanry).setUnlocked();
@@ -89,7 +91,7 @@ public class KnowledgeListMF
         
         craftOrnateWeapons = (new InformationBase("craftOrnateWeapons",  			-3, -1, 10, ToolListMF.swords[3], craftWeapons)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 25);
         craftAdvOrnateWeapons = (new InformationBase("craftAdvOrnateWeapons", 	-5, -1, 15, ToolListMF.battleaxes[2], craftOrnateWeapons)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 30);
-        craftArmourLight = (new InformationBase("craftArmourLight", 			-3, 3, 5, ArmourListMF.armour(ArmourListMF.leather, 2, 1), anvil)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 0);
+        craftArmourLight = (new InformationBase("craftArmourLight", 			-3, 3, 5, ArmourListMF.armour(ArmourListMF.leather, 3, 1), anvil)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 0);
         craftArmourMedium = (new InformationBase("craftArmourMedium", 		-4, 3, 10, ArmourListMF.armour(ArmourListMF.chainmail, 3, 1), craftArmourLight)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 0);
         craftArmourHeavy = (new InformationBase("craftArmourHeavy",       	-5, 3, 10, ArmourListMF.armour(ArmourListMF.fieldplate, 3, 1), craftArmourMedium)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 10);
         arrowsBodkin = (new InformationBase("arrowsBodkin", 		  	 -4, 5, 10, ToolListMF.bodkinArrows[3], arrows)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 10);
@@ -100,12 +102,12 @@ public class KnowledgeListMF
         ecomponents = (new InformationBase("ecomponents",             5, 0, 0, ComponentListMF.bolt, etools)).registerStat().setPage(engineering).setUnlocked();
         climber = (new InformationBase("climber",             		7, 0, 10, ToolListMF.climbing_pick_basic, ecomponents)).registerStat().setPage(engineering).setUnlocked();
         spyglass = (new InformationBase("spyglass",             		8, 1, 10, new ItemStack(ToolListMF.spyglass, 1, 2), climber)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 5);
-        parachute = (new InformationBase("parachute",             	9, 2, 20, ToolListMF.parachute, climber)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 20);
+        parachute = (new InformationBase("parachute",             	9, 2, 20, ToolListMF.parachute, climber)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 10);
         syringe = (new InformationBase("syringe",             	    5, -2, 20, ToolListMF.syringe_empty, ecomponents)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 25);
         engTanner = (new InformationBase("engTanner",             	5,  2, 30, BlockListMF.engTanner, ecomponents)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 40).addSkill(SkillList.artisanry, 25);
         advforge = (new InformationBase("advforge",             		7,  3, 30, BlockListMF.forge_metal, engTanner)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 75).addSkill(SkillList.artisanry, 50);
         
-        blackpowder = (new InformationBase("blackpowder", 			0, 0, 10, ComponentListMF.blackpowder, (InformationBase)null)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 20);
+        blackpowder = (new InformationBase("blackpowder", 			0, 0, 10, ComponentListMF.blackpowder, (InformationBase)null)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 0);
         advblackpowder = (new InformationBase("advblackpowder", 		2, -2, 30, ComponentListMF.blackpowder_advanced, blackpowder)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 50);
         bombs = (new InformationBase("bombs", 						0, 2, 20, ToolListMF.bomb_custom, blackpowder)).registerStat().setPage(engineering).setSpecial().setUnlocked();
         bpress = (new InformationBase("bpress", 					   -1, 1, 40, BlockListMF.bombPress, bombs)).registerStat().setPage(engineering).addSkill(SkillList.engineering, 30);
@@ -141,6 +143,7 @@ public class KnowledgeListMF
         generic_meat = (new InformationBase("generic_meat", 0,  -1, 0, FoodListMF.generic_meat_uncooked, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
         stew = (new InformationBase("stew",               0,  -3, 0, FoodListMF.stew, generic_meat)).registerStat().setPage(provisioning).setUnlocked();
         jerky = (new InformationBase("jerky",             0,  -5, 5, FoodListMF.jerky, stew)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 10);
+        saussage = (new InformationBase("saussage",             2,  -5, 8, FoodListMF.saussage_cooked, jerky)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 35);
         sandwitch = (new InformationBase("sandwitch",     1,  -7, 15, FoodListMF.sandwitch_meat, jerky)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 15);
         meatpie = (new InformationBase("meatpie",   		-1,  -7, 20, BlockListMF.pie_meat, jerky)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 35);
         shepardpie = (new InformationBase("shepardpie",  	-2,  -9, 25, BlockListMF.pie_shepards, meatpie)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 80);
@@ -148,9 +151,11 @@ public class KnowledgeListMF
         oats = (new InformationBase("oats",               3,   0, 0, FoodListMF.oats, bread)).registerStat().setPage(provisioning).setUnlocked();
         
         salt = (new InformationBase("salt",            	-2,  -2, 0, FoodListMF.salt, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
+        jug = (new InformationBase("jug",            	-1,  -2, 0, FoodListMF.jug_water, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
         berry = (new InformationBase("berry",            	 0,  1, 0, FoodListMF.berries, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
         icing = (new InformationBase("icing",             -1,  2, 0, FoodListMF.icing, berry)).registerStat().setPage(provisioning).setUnlocked();
         sweetroll = (new InformationBase("sweetroll",      0,  3, 5, FoodListMF.sweetroll, berry)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 15);
+        eclair = (new InformationBase("eclair",            2,  3, 10, FoodListMF.eclair, sweetroll)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 75);
         cake = (new InformationBase("cake",	 	         0,  5, 15, BlockListMF.cake_vanilla, sweetroll)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 25);
         carrotcake = (new InformationBase("carrotcake",	-1,  7, 10, BlockListMF.cake_carrot, cake)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 40);
         chococake = (new InformationBase("chococake",	 	 1,  7, 20, BlockListMF.cake_chocolate, cake)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 40);
@@ -163,12 +168,23 @@ public class KnowledgeListMF
         
         bandage = (new InformationBase("bandage",	        -3, 0,  0,  ToolListMF.bandage_wool, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
         bandageadv = (new InformationBase("bandageadv",	-5, -1, 10, ToolListMF.bandage_tough, bandage)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 40);
+        
+        //MASTERY
+        toughness = (new InformationBase("toughness",	-1, 0,  30, ArmourListMF.armour(ArmourListMF.fieldplate, 2, 0), (InformationBase)null)).registerStat().setPage(mastery).addSkill(SkillList.combat, 10).setPerk();
+        fitness = (new InformationBase("fitness",	     1, 0,  30, ComponentListMF.dragon_heart, (InformationBase)null)).registerStat().setPage(mastery).addSkill(SkillList.combat, 20).setPerk();
+        armourpro = (new InformationBase("armourpro",	 2, -1, 50, Items.diamond_chestplate, fitness)).registerStat().setPage(mastery).addSkill(SkillList.combat, 60).setPerk();
+        parrypro = (new InformationBase("parrypro",	 	-2, -1, 50, Items.iron_sword, toughness)).registerStat().setPage(mastery).addSkill(SkillList.combat, 20).setPerk();
+        counteratt = (new InformationBase("counteratt",	-1, -2, 50, ToolListMF.waraxes[7], parrypro)).registerStat().setPage(mastery).addSkill(SkillList.combat, 25).setPerk();
+        autoparry = (new InformationBase("autoparry",   -3, -2, 60, ToolListMF.daggers[5], parrypro)).registerStat().setPage(mastery).addSkill(SkillList.combat, 50).setPerk();
+        firstaid = (new InformationBase("firstaid",   	 0, 1, 30, ToolListMF.bandage_wool, (InformationBase)null)).registerStat().setPage(mastery).addSkill(SkillList.provisioning, 25).setPerk();
+        doctor = (new InformationBase("doctor",          0, 3, 60, ToolListMF.syringe, firstaid)).registerStat().setPage(mastery).addSkill(SkillList.provisioning, 50).setPerk();
 	}
     public static IRecipe hideHelmR, hideChestR, hideLegsR, hideBootsR;
     public static final ArrayList<IAnvilRecipe> hunkR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> ingotR = new ArrayList<IAnvilRecipe>();
     
     public static final ArrayList<IAnvilRecipe> talismanRecipe = new ArrayList<IAnvilRecipe>();
+    public static IRecipe artBookR, conBookR, proBookR, engBookR, comBookR;
     public static IAnvilRecipe greatTalismanRecipe;
     
     public static ICarpenterRecipe refinedPlankBlockR;
@@ -177,19 +193,19 @@ public class KnowledgeListMF
     public static final ArrayList<IAnvilRecipe> barsR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IRecipe> stoneBricksR = new ArrayList<IRecipe>();
     
-    public static IRecipe plantOilR, plankRecipe, refinedPlankR, stickRecipe, stoneHammerR, stoneTongsR, boneNeedleR, stoneKnifeR, malletR, spoonR;
+    public static IRecipe waterJugR, milkJugR, plantOilR, sugarRecipe, plankRecipe, refinedPlankR, stickRecipe, stoneHammerR, stoneTongsR, boneNeedleR, stoneKnifeR, malletR, spoonR, pestleR;
     public static IAnvilRecipe rivetR, nailR, fluxR;
     public static ICarpenterRecipe lStripsR, threadR, stringR, dryrocksR;
     
     public static Alloy[] reStone, bronze, steel, black, red, blue, mithril, adamantium, ignotumite, mithium, enderforge;
     public static IRecipe carpenterRecipe, tannerRecipe, stoneAnvilRecipe, forgeRecipe, apronRecipe;
-    public static IAnvilRecipe coalDustR, kaoDustR, encrustedR, steelR, obsidianDustR, diamondR;
+    public static IAnvilRecipe encrustedR, steelR, obsidianHunkR, diamondR;
     public static IRecipe fireclayR, fireBrickR, fireBricksR;
     public static ICarpenterRecipe strongRackR, woodTroughRecipe, rockTroughRecipe, strongwoodTroughRecipe, bellowsRecipe, crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe;
     
     public static IAnvilRecipe haftGold, haftSilver, haftObsidian, mailIgno, plateIgno, mailMithi, plateMithi, mailEnder, plateEnder;
     
-    public static ICarpenterRecipe reHelmetR, reChestR, reLegsR, reBootsR;
+    public static ICarpenterRecipe roughHelmetR, roughChestR, roughLegsR, roughBootsR, reHelmetR, reChestR, reLegsR, reBootsR;
     public static IAnvilRecipe studHelmetR, studChestR, studLegsR, studBootsR, scaleHelmR, scaleChestR, scaleLegsR, scaleBootsR;
     public static final ArrayList<IAnvilRecipe> mailRecipes = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> mailHelmetR = new ArrayList<IAnvilRecipe>();
@@ -250,21 +266,21 @@ public class KnowledgeListMF
     
     public static ICarpenterRecipe padding[] = new ICarpenterRecipe[4];
     public static ICarpenterRecipe repairBasicR, repairAdvancedR, repairOrnateR;
-    public static ICarpenterRecipe spyglassR, blackpowderRec, advblackpowderRec, bombBenchCraft, bombPressCraft, advancedForgeR, engTannerR;
+    public static ICarpenterRecipe spyglassR, bombBenchCraft, bombPressCraft, advancedForgeR, engTannerR;
     public static ICarpenterRecipe bombFuseR, longFuseR;
-    public static ICarpenterRecipe magmaRefinedR;
-    public static IAnvilRecipe shrapnelR;
     
     public static ICarpenterRecipe bombCaseCeramicR, mineCaseCeramicR, bombCaseCrystalR, mineCaseCrystalR;
     public static IAnvilRecipe bombCaseIronR, mineCaseIronR, bombCaseObsidianR, mineCaseObsidianR;
     
     public static final ArrayList<ICarpenterRecipe> meatRecipes = new ArrayList<ICarpenterRecipe>();
-    public static ICarpenterRecipe meatStripR, meatHunkR, minceR;
-    public static IRecipe researchTableRecipe, refinedBowlR, meatpieOut, shepardOut, berryOut, appleOut, caketinRecipe, pietrayRecipe;
-    public static ICarpenterRecipe pastryRecipe, doughRecipe, breadRecipe, curdRecipe, flourRecipe, oatsRecipe, icingRecipe, stewRecipe, jerkyRecipe, meatPieRecipe, sandwitchRecipe, shepardRecipe, sweetrollRecipe, iceSR;
+    public static ICarpenterRecipe meatStripR, meatHunkR, minceR, gutsRecipe;
+    public static IRecipe researchTableRecipe, meatpieOut, shepardOut, berryOut, appleOut, caketinRecipe, pietrayRecipe;
+    public static ICarpenterRecipe breadSliceR, pastryRecipe, doughRecipe, breadRecipe, curdRecipe, oatsRecipe, custardRecipe, icingRecipe, stewRecipe, saussageR, jerkyRecipe, meatPieRecipe, sandwitchRecipe, shepardRecipe, sweetrollRecipe, iceSR, eclairDoughR, eclairIceR, eclairFillR;
     public static ICarpenterRecipe berryR, appleR, cheeserollR, cakeR, carrotCakeR, chocoCakeR, bfCakeR, cakeI, carrotCakeI, chocoCakeI, bfCakeI;
 
     public static ICarpenterRecipe syringeR, parachuteR, bandageR, badBandageR, goodBandageR;
     
     public static IAnvilRecipe spannerRecipe, blkspannerR, climbPickbR, iframeR, boltR, istrutR, bgearR, stubeR, eatoolsR, bombarrowR;
+    
+    public static ICarpenterRecipe jugRecipe, potRecipe, coalDustR, kaoDustR, shrapnelR, blackpowderRec, advblackpowderRec, magmaRefinedR, bcrumbsR, bcrumbsR2, flourRecipe, sugarGrindR;
 }

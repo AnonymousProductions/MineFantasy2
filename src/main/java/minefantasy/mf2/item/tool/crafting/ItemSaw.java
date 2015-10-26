@@ -220,9 +220,9 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 	@Override
-	public float[] getDamageRatio(Object implement) 
+	public float[] getDamageRatio(Object... implement) 
 	{
-		return new float[]{1,0};
+		return new float[]{1,0, 0};
 	}
 
 	@Override

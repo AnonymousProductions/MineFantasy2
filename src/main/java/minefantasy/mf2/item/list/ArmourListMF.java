@@ -21,6 +21,7 @@ public class ArmourListMF
 	public static final BaseMaterialMF[] leathermats = new BaseMaterialMF[]
 	{
 		BaseMaterialMF.hide,
+		BaseMaterialMF.rough,
 		BaseMaterialMF.reinforced,
 		BaseMaterialMF.studded,
 		BaseMaterialMF.scaled,

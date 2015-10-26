@@ -11,6 +11,7 @@ import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +34,6 @@ public class BlockBombPress extends BlockContainer
     public BlockBombPress()
     {
         super(Material.iron);
-        this.setBlockTextureName("minectaft:stone");
         GameRegistry.registerBlock(this, "MF_BombPress");
 		setBlockName("bombPress");
 		this.setStepSound(Block.soundTypeMetal);
@@ -102,6 +102,13 @@ public class BlockBombPress extends BlockContainer
 	{
 		return Blocks.anvil.getIcon(0, 0);
 	}
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg)
+	{
+		
+	}
+	
 	@Override
 	public int getRenderType()
 	{

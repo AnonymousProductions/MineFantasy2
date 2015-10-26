@@ -14,6 +14,7 @@ import minefantasy.mf2.item.gadget.ItemExplodingArrow;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.BombBenchPacket;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -28,10 +29,10 @@ import net.minecraft.world.WorldServer;
 
 public class TileEntityBombBench extends TileEntity implements IInventory, ISidedInventory, IBasicMetre
 {
-	private ItemStack[] inv = new ItemStack[5];
+	private ItemStack[] inv = new ItemStack[6];
 	private Random rand = new Random();
 	public float progress;
-	private float maxProgress = 25F;
+	public float maxProgress = 25F;
 	
 	public boolean hasRecipe;
 	
@@ -73,7 +74,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 			}
 			float efficiency = pressUsed ? maxProgress : ToolHelper.getCrafterEfficiency(user.getHeldItem());
 			
-			if(user.swingProgress > 0 && user.swingProgress <= 1.0)
+			if(!pressUsed && user.swingProgress > 0 && user.swingProgress <= 1.0)
 			{
 				efficiency *= (0.5F-user.swingProgress);
 			}
@@ -81,23 +82,55 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 			if(!worldObj.isRemote)
 			{
 				progress += efficiency;
-				if((progress >= maxProgress && craftItem(result)))
+			}
+			if((progress >= maxProgress && craftItem(result)))
+			{
+				worldObj.playSoundEffect(xCoord+0.5, yCoord, zCoord+0.5, "random.door_open", 0.35F, 0.5F);
+				progress = 0;
+				if(user != null)
 				{
-					worldObj.playSoundEffect(xCoord+0.5, yCoord, zCoord+0.5, "random.door_open", 0.35F, 0.5F);
-					progress = 0;
-					if(user != null)
-					{
-						SkillList.engineering.addXP(user, 2);
-					}
-					boolean isArrow = isMatch(0, "arrow");
-					for(int a = 0; a < 4; a++)
-					{
-						if(!(isArrow && a == 3))
-						{
-							decrStackSize(a, 1);
-						}
-					}	
+					SkillList.engineering.addXP(user, 2);
 				}
+				boolean isArrow = isMatch(0, "arrow");
+				for(int a = 0; a < 4; a++)
+				{
+					if(!(isArrow && a == 3))
+					{
+						ItemStack item = getStackInSlot(a);
+						if(item != null && item.getItem().getContainerItem(item) != null)
+						{
+							//START CONTAINER CODE
+							ItemStack cont = item.getItem().getContainerItem(item);
+							ItemStack spare = getStackInSlot(5);
+							if(spare == null)
+							{
+								setInventorySlotContents(5, cont);
+								cont = null;
+							}
+							else if(spare.isItemEqual(cont))
+							{
+								if(spare.stackSize + cont.stackSize <= spare.getMaxStackSize())
+								{
+									spare.stackSize += cont.stackSize;
+									cont = null;
+								}
+								else
+								{
+									int room_left = spare.getMaxStackSize() - spare.stackSize;
+									spare.stackSize += room_left;
+									cont.stackSize -= room_left;
+								}
+							}
+							if(cont != null && !worldObj.isRemote)
+							{
+								EntityItem ei = new EntityItem(worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5, cont);
+								worldObj.spawnEntityInWorld(ei);
+							}
+						}
+						//END CONTAINER CODE
+						decrStackSize(a, 1);
+					}
+				}	
 			}
 			return true;
 		}
@@ -407,6 +440,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
             }
         }
         progress = nbt.getFloat("progress");
+        maxProgress = nbt.getFloat("maxProgress");
         hasRecipe = nbt.getBoolean("hasRecipe");
 	}
 	
@@ -430,6 +464,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 
         nbt.setTag("Items", savedItems);
         nbt.setFloat("progress", progress);
+        nbt.setFloat("maxProgress", maxProgress);
         nbt.setBoolean("hasRecipe", hasRecipe);
 	}
 	@Override
@@ -450,12 +485,12 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 	@Override
 	public int getMetreScale(int size) 
 	{
-		return (int)Math.min(size, (float)size / 100F * progress);
+		return (int)Math.min(size, (float)size / maxProgress * progress);
 	}
 	@Override
 	public boolean shouldShowMetre() 
 	{
-		return hasRecipe;
+		return true;
 	}
 	@Override
 	public String getLocalisedName() 

@@ -12,7 +12,7 @@ import net.minecraft.util.DamageSource;
 /**
  * @author Anonymous Productions
  */
-public class ItemGreatswordMF extends ItemHeavyWeapon
+public class ItemGreatswordMF extends ItemHeavyWeaponMF
 {
 	private Random rand = new Random();
 	/**
@@ -115,5 +115,21 @@ public class ItemGreatswordMF extends ItemHeavyWeapon
 	public WeaponClass getWeaponClass() 
 	{
 		return WeaponClass.BLADE;
+	}
+	
+	@Override
+	public boolean canCounter()
+	{
+		return true;
+	}
+	@Override
+	public float[] getCounterRatio()
+	{
+		return maceRatio;
+	}
+	@Override
+	public float getCounterDamage()
+	{
+		return 0.5F;
 	}
 }

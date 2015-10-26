@@ -32,12 +32,7 @@ public class Skill
 	 * Gets how much xp needed to level up
 	 */
 	public int getLvlXP(int level, EntityPlayer user)
-	{
-		if(level >= getMaxLevel())
-		{
-			return -1;
-		}
-		
+	{	
 		float rise = 0.2F * RPGElements.levelUpModifier;//20% rize each level
 		return (int) Math.floor(10F * (1.0F + (rise*(level-1))));
 	}
