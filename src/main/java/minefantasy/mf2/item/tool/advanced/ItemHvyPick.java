@@ -103,7 +103,7 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial
 							Block newblock = world.getBlock(blockX, blockY, blockZ);
 							int m = world.getBlockMetadata(blockX, blockY, blockZ);
 							
-							if(newblock != null && user instanceof EntityPlayer && ForgeHooks.canHarvestBlock(newblock, (EntityPlayer) user, m) && ForgeHooks.isToolEffective(item, newblock, m))
+							if(newblock != null && user instanceof EntityPlayer && ForgeHooks.canHarvestBlock(newblock, (EntityPlayer) user, m))
 							{
 								if(rand.nextFloat()*100F < (100F - ConfigTools.hvyDropChance))
 								{
