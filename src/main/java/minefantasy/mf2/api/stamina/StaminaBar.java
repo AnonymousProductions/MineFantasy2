@@ -45,7 +45,7 @@ public class StaminaBar
 	 * The decay modifier before being scaled by difficulty
 	 */
 	public static float decayModifierCfg = 1.0F;
-	public static float decayModifierBase = 0.5F;
+	public static float decayModifierBase = 0.75F;
 	public static float configRegenModifier = 1.0F;
 	public static float pauseModifier = 1.0F;
 	public static float configArmourWeightModifier = 1.0F;

@@ -1,5 +1,9 @@
 package minefantasy.mf2.entity.mob;
 
+import java.util.ArrayList;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.armour.IArmourPenetrationMob;
 import minefantasy.mf2.api.armour.IArmouredEntity;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
@@ -27,8 +31,10 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeModContainer;
 
@@ -61,7 +67,16 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
         {
             this.equipmentDropChances[i] = 1F;
         }
+        int species = dimension == -1 ?1:0;
+    	setSpecies((byte)species);
+    	setBreed(MinotaurBreed.getRandomMinotaur(species));
 	}
+	
+	@Override
+	public String getCommandSenderName()
+    {
+        return StatCollector.translateToLocal("entity." + getMinotaur().name + ".name");
+    }
 	@Override
 	protected void applyEntityAttributes()
     {
@@ -81,6 +96,8 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
     {
         super.entityInit();
         this.dataWatcher.addObject(dataID, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(dataID+1, Byte.valueOf((byte)1));
+        this.dataWatcher.addObject(dataID+2, Integer.valueOf(2));
     }
     @Override
     public void onUpdate()
@@ -93,11 +110,11 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
     		{
     			--grabCooldown;
     		}
-    		if(headbuttTime > 0)
+    		if(specialAttackTime > 0)
     		{
-    			--headbuttTime;
+    			--specialAttackTime;
     		}
-    		if(getAttack() == (byte)1 && headbuttTime == 0)
+    		if((getAttack() == (byte)1 || getAttack() == (byte)3) && specialAttackTime == 0)
     		{
     			initBasicAttack();
     		}
@@ -109,13 +126,14 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
     				this.initHeadbutt();
     			}
     			EntityLivingBase target = getAttackTarget();
-    			if(onGround && target instanceof EntityPlayer && ((EntityPlayer)target).isBlocking() && this.getDistanceToEntity(target) < 4F)
+    			if(getAttack() !=2 && rand.nextInt(50) == 0 && onGround && target instanceof EntityPlayer && ((EntityPlayer)target).isBlocking() && this.getDistanceToEntity(target) < 4F)
     			{
     				this.jump();
+    				this.initPowerAttack();
     			}
     		}
     		
-    		boolean bloodied = getHealth() < (getMaxHealth()*0.25F);
+    		boolean bloodied = getHealth() < (getMaxHealth()* ((float)getMinotaur().beserkThreshold/100F));
     		if(getAttack() == (byte)2)
     		{
     			if(!bloodied)
@@ -146,7 +164,7 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
     	count = rand.nextInt(looting+4)+1;
     	for(int a = 0; a < count; a++)
     	{
-    		this.dropItem(ComponentListMF.hideLarge, 1);
+    		this.dropItem(ComponentListMF.rawhideLarge, 1);
     	}
     	count = rand.nextInt(looting+2)+1;
     	for(int a = 0; a < count; a++)
@@ -157,7 +175,11 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
 
     private Item getLoot() 
     {
-		return rand.nextInt(3) == 0 ? ToolListMF.loot_sack_uc : ToolListMF.loot_sack;
+    	if(getSpecies() == 1)//NETHER
+    	{
+    		return rand.nextInt(5) == 0 ? ToolListMF.loot_sack_uc : ToolListMF.loot_sack;
+    	}
+		return rand.nextInt(10) == 0 ? ToolListMF.loot_sack_uc : ToolListMF.loot_sack;
 	}
     private int getLootCount() 
     {
@@ -194,42 +216,56 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
 		setSprinting(true);
 		setAttack((byte)2);
 	}
+	public void initPowerAttack()
+	{
+		setSprinting(true);
+		specialAttackTime = 30;
+		setAttack((byte)3);
+	}
 	public void initHeadbutt()
 	{
 		setSprinting(true);
-		headbuttTime = 20;
+		specialAttackTime = 20;
 		setAttack((byte)1);
 	}
 	public void initBasicAttack()
 	{
 		setSprinting(false);
-		headbuttTime = 0;
+		specialAttackTime = 0;
 		setAttack((byte)0);
 	}
+	@Override
 	protected String getLivingSound()
     {
-        return "minefantas2:mob.minotaur.say";
+        return "minefantasy2:mob.minotaur.say";
     }
 
     /**
      * Returns the sound this mob makes when it is hurt.
      */
+	@Override
     protected String getHurtSound()
     {
-        return "minefantas2:mob.minotaur.hurt";
+        return "minefantasy2:mob.minotaur.hurt";
     }
 
     /**
      * Returns the sound this mob makes on death.
      */
+    @Override
     protected String getDeathSound()
     {
-        return "minefantas2:mob.minotaur.death";
+        return "minefantasy2:mob.minotaur.death";
+    }
+    @Override
+    public float getSoundPitch()
+    {
+    	return 1.0F;
     }
 
     protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_)
     {
-        this.playSound("minefantas2:mob.minotaur.step", 0.5F, 1.0F);
+        this.playSound("mob.cow.step", 0.75F, 0.9F);
     }
 
     protected Item getDropItem()
@@ -243,9 +279,29 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
 	@Override
 	public float getThreshold(DamageSource src) 
 	{
-		float[] armour = getThresholds();
+		float[] armour = getValueResistences();
 		return ArmourCalculator.adjustACForDamage(src, getDT(), armour[0], armour[1], armour[2]);
 	}
+	
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt)
+    {
+        super.writeEntityToNBT(nbt);
+        
+        nbt.setInteger("Attack", (int)getAttack());
+        nbt.setInteger("Species", (int)getSpecies());
+        nbt.setInteger("Breed", (int)getBreed());
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound nbt)
+    {
+        super.readEntityFromNBT(nbt);
+        
+        setAttack((byte)nbt.getInteger("Attack"));
+        setSpecies((byte)nbt.getInteger("Species"));
+        setBreed(nbt.getInteger("Breed"));
+    }
 	
 	private float getDT()
 	{
@@ -259,13 +315,13 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
 	/**
 	 * Cutting, Blunt, Piercing
 	 */
-	private float[] getThresholds()
+	private float[] getValueResistences()
 	{
 		return new float[]{0.75F, 1F, 0.5F};
 	}
 	
 	/**
-	 * 0=Normal, 1=Headbutt, 2=Beserk
+	 * 0=Normal, 1=Headbutt, 2=Beserk, 3=Power
 	 */
 	public byte getAttack()
 	{
@@ -273,13 +329,38 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
 	}
     
 	/**
-	 * 0=Normal, 1=Headbutt, 2=Beserk
+	 * 0=Normal, 1=Headbutt, 2=Beserk, 3=Power
 	 */
     public void setAttack(byte type)
     {
     	dataWatcher.updateObject(dataID, type);
     }
-    private int headbuttTime;
+    
+    /**
+	 * 0=Normal, 1=Nether
+	 */
+    public byte getSpecies()
+	{
+		return dataWatcher.getWatchableObjectByte(dataID+1);
+	}
+	/**
+	 * 0=Normal, 1=Nether
+	 */
+    public void setSpecies(byte type)
+    {
+    	this.isImmuneToFire = type == 1;
+    	dataWatcher.updateObject(dataID+1, type);
+    }
+    public int getBreed()
+	{
+		return dataWatcher.getWatchableObjectInt(dataID+2);
+	}
+    public void setBreed(int type)
+    {
+    	dataWatcher.updateObject(dataID+2, type);
+    }
+    
+    private int specialAttackTime;
 
     private float[]punch = new float[]{0F, 1F, 0F};
     private float[]headbutt = new float[]{0F, 1F, 4F};
@@ -301,34 +382,34 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
 		{
 			return false;
 		}
-		if(motionY > 0 && target.posY < posY)
+		if(getAttack() == 3 && motionY > 0 && target.posY < posY)
 		{
 			return false;
 		}
 		
 		
 		float dam = getHitDamage();
-		if(getAttack() == 2)
+		if(getAttack() == 2 && this.riddenByEntity != null && this.riddenByEntity == target)
 		{
-			if(target instanceof EntityLivingBase)
+			if(target instanceof EntityLivingBase && rand.nextInt(4) == 0)
 			{
 				ArmourCalculator.damageArmour((EntityLivingBase) target, (int)(dam*0.25F));
 			}
-			if(this.riddenByEntity == null && rand.nextInt(100) < ConfigMobs.minotaurGC)
+		}
+		if(this.riddenByEntity == null)
+		{
+			if(grabCooldown <= 0 && rand.nextInt(100) < getGrabChance())
 			{
-				if(grabCooldown <= 0)
-				{
-					target.mountEntity(this);
-				}
-			}
-			else if(rand.nextInt(100) < ConfigMobs.minotaurTC && riddenByEntity == target)
-			{
-				riddenByEntity.mountEntity(null);
-				grabCooldown = 60;
-				TacticalManager.knockbackEntity(target, this, 4F, 1F);
+				target.mountEntity(this);
 			}
 		}
-		if(getAttack() == 1 && target instanceof EntityPlayer && ((EntityPlayer)target).isBlocking() && rand.nextInt(100) < ConfigMobs.minotaurDC)
+		else if(rand.nextInt(100) < ConfigMobs.minotaurTC && riddenByEntity == target)
+		{
+			riddenByEntity.mountEntity(null);
+			grabCooldown = 60;
+			TacticalManager.knockbackEntity(target, this, 4F, 1F);
+		}
+		if(getAttack() == 3 && fallDistance > 0 && target instanceof EntityPlayer && ((EntityPlayer)target).isBlocking() && rand.nextInt(100) < getDisarmChance())
 		{
 			TacticalManager.tryDisarm(this, (EntityLivingBase)target, true);
 		}
@@ -370,6 +451,23 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
 
         return flag;
     }
+	public MinotaurBreed getMinotaur()
+	{
+		return MinotaurBreed.getBreed(getSpecies(), getBreed());
+	}
+	
+	private int getDisarmChance() 
+	{
+		return getMinotaur().disarmChance;
+	}
+	private int getGrabChance() 
+	{
+		return (getAttack() == 2 ? getMinotaur().grabChanceBeserk : getMinotaur().grabChance);
+	}
+	private int getThrowChance() 
+	{
+		return getMinotaur().throwChance;
+	}
 	private String getAttackType() 
 	{
 		byte att = getAttack();
@@ -388,25 +486,41 @@ public class EntityMinotaur extends EntityMob implements IArmouredEntity, IArmou
 		byte att = getAttack();
 		if(att == (byte)1)
 		{
-			return 2;
+			return getSpecies() == 1 ? 4 : 2;
 		}
 		return 0;
 	}
 	private float getHitDamage() 
 	{
+		MinotaurBreed breed = getMinotaur();
 		if(getHeldItem() != null)
 		{
-			return 2F;//Weapon Dam
+			return Math.max(2F, breed.poundDamage-2F);//Weapon Dam
 		}
 		byte att = getAttack();
 		if(att == (byte)1)
 		{
-			return ConfigMobs.minotaurGD;
+			return breed.goreDamage;
 		}
 		if(att == (byte)2)
 		{
-			return ConfigMobs.minotaurBD;
+			return breed.beserkDamage;
 		}
-		return ConfigMobs.minotaurMD;
+		return breed.poundDamage;
+	}
+	
+	public boolean isBloodied()
+	{
+		return getHealth() < (getMaxHealth()*0.4F);
+	}
+	@SideOnly(Side.CLIENT)
+	public String getTexture()
+	{
+		String tex = "minotaur" + getMinotaur().tex;
+		if(isBloodied())
+		{
+			tex += "_bloodied";
+		}
+		return tex;
 	}
 }

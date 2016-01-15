@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.IArmouredEntity;
-import minefantasy.mf2.api.armour.IDTArmour;
+import minefantasy.mf2.api.armour.ISpecialArmourMF;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -127,6 +127,7 @@ public class TacticalManager
 		float arc = source.isProjectile() ? 10 : 20;//DEFAULT
 		
 		arc *= getHighgroundModifier(user, entityHitting, 1.5F);
+		arc = ArmourCalculator.adjustACForDamage(source, arc, 1.0F, 1.0F, 0.5F);//Harder to block piercing
 		if(autoParry)
 		{
 			arc *= 0.5F;
@@ -337,8 +338,6 @@ public class TacticalManager
 			return false;
 		}
 			
-		dam *= (1.00D - ArmourCalculator.getTotalArmourPercent(user));
-		
 		float threshold = 0.25F;
 		float resistance = 1.0F;
 		

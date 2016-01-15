@@ -1,6 +1,5 @@
 package minefantasy.mf2.client.render.block;
 
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.refining.BlockForge;
 import minefantasy.mf2.block.tileentity.TileEntityForge;
 import net.minecraft.block.Block;
@@ -32,7 +31,7 @@ public class RenderForge implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.forge_RI;
+		return BlockForge.forge_RI;
 	}
 
 	@Override

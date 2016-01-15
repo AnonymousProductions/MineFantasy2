@@ -42,7 +42,7 @@ knowledge.unlocked=Research Completed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /MOBS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-entity.MF_Minotaur.name=Minotaur
+entity.MF_Minotaur.name=Minefantasy Minotaur
 entity.MF_Dragon.name=Minefantasy Dragon
 death.attack.dragonstomp=%1$s was stomped by a Dragon
 death.attack.fireblast=%1$s was roasted by %2$s
@@ -52,6 +52,9 @@ death.attack.blastfurn=%1$s was incinerated by a Blast Furnace
 death.attack.mob.pound=%1$s was pounded by a %2$s
 death.attack.mob.gore=%1$s was gored by a %2$s
 death.attack.mob.beserk=%1$s was torn apart by a %2$s
+
+entity.minotaur.name=Minotaur
+entity.dredminotaur.name=Dread Minotaur
 
 entity.dragon_young.name=Young Dragon
 entity.dragon.name=Dragon
@@ -63,6 +66,59 @@ event.dragonnear.name=A Dragon Prowls, take cover or stay to fight!
 event.dragonnear.forge.name=Your crafts insult dragon kind!
 event.dragonaway.name=The Dragon leaves... For now...
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/TOOL LIST/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item.tool_pick.name=%1$s Pick
+item.commodity_plank.name=%1$s Timber
+item.haft.name=Haft
+
+component.head.name=%1$s Head
+component.shaft.name=%1$s Shaft
+component.grip.name=%1$s Grip
+component.brace.name=%1$s Brace
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/MATERIAL LIST/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+WOOD
+material.oakwood.name=Oak
+material.birchwood.name=Birch
+material.sprucewood.name=Spruce
+material.acaciawood.name=Acacia
+material.junglewood.name=Jungle
+material.refinedwood.name=Refined
+material.ironbarkwood.name=Ironbark
+material.ebonywood.name=Ebony
+
+LEATHER
+material.leather.name=Leather
+material.hardleather.name=Hardened Leather
+material.minotaurskin.name=Minotaur Leather
+material.dragonskin.name=Dragon Skin
+
+METAL
+material.copper.name=Copper
+material.tin.name=Tin
+material.bronze.name=Bronze
+material.iron.name=Iron
+material.pigiron.name=Pig Iron
+material.steel.name=Steel
+material.blacksteel.name=Black Steel
+material.redsteel.name=Red Steel
+material.bluesteel.name=Blue Steel
+material.adamantium.name=Adamantium
+material.mithril.name=Mithril
+material.ignotumite.name=Ignotumite
+material.mithium.name=Mithium
+material.enderforge.name=Enderforge
+
+PRECIOUS
+material.gold.name=Golden
+material.silver.name=Silver
+
+MOD
+material.thaumium.name=Thaumium
+material.void.name=Void
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,8 +158,6 @@ attribute.quiver.arrow.empty=Empty
 attribute.quiver.arrow.count=Arrows
 
 attribute.armour.protection=Armor Rating
-attribute.armour.projectile=Ranged Protection
-attribute.armour.blast=Blast Protection
 attribute.armour.light=Light Armor
 attribute.armour.medium=Medium Armor
 attribute.armour.heavy=Heavy Armor
@@ -112,7 +166,6 @@ attribute.weight.name=Weight
 attribute.bowPower.name=Damage
 attribute.arrowPower.name=Damage
 
-attribute.armour.rating=Damage Thresholds:
 attribute.armour.rating.0=Cutting:
 attribute.armour.rating.1=Blunt:
 attribute.armour.rating.2=Piercing:
@@ -1471,7 +1524,7 @@ item.curds.name=Curds
 item.jerky.name=Jerky
 item.cheese_roll.name=Cheese Roll
 item.sweetroll.name=Sweetroll
-item.sandwitch_meat.name=Meat Sandwitch
+item.sandwitch.name=Sandwitch
 
 tile.pie_meat.name=Meat Pie
 tile.pie_apple.name=Apple Pie
@@ -2087,6 +2140,10 @@ knowledge.saussage.1=When rationing meats into jerky, you tend to sacrifice plea
 knowledge.sandwitch=Sandwitches
 knowledge.sandwitch.desc=Simple
 knowledge.sandwitch.1=A piece of meat in between some bread, how could you not have known this before! Sandwitches though not stackable can be eaten twice.
+
+knowledge.sandwitchBig=Big Sandwitch
+knowledge.sandwitchBig.desc=Extra long
+knowledge.sandwitchBig.1=You can now make sandwitches out of whole loafs of bread with more filling. These have 4 uses.
 
 knowledge.meatpie=Meat Pie
 knowledge.meatpie.desc=Hearty and filling

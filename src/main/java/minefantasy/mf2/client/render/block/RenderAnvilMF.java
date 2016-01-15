@@ -1,7 +1,6 @@
 package minefantasy.mf2.client.render.block;
 
 import minefantasy.mf2.block.crafting.BlockAnvilMF;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -32,7 +31,7 @@ public class RenderAnvilMF implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.anvil_RI;
+		return BlockAnvilMF.anvil_RI;
 	}
 
 	@Override

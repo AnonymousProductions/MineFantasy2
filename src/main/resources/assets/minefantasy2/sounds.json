@@ -182,6 +182,27 @@
     "sounds": [
         "monster/dragon/dragon_step1"
       ]
+    },
+	
+	"mob.minotaur.say": {
+    "category": "neutral",
+    "sounds": [
+        "monster/minotaur/minotaur_say1"
+      ]
+    },
+	
+	"mob.minotaur.hurt": {
+    "category": "neutral",
+    "sounds": [
+        "monster/minotaur/minotaur_hurt1"
+      ]
+    },
+	
+	"mob.minotaur.death": {
+    "category": "neutral",
+    "sounds": [
+        "monster/minotaur/minotaur_death1"
+      ]
     }
 	
 }

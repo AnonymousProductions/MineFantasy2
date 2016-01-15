@@ -928,6 +928,10 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		{
 			return new float[]{0,1, 0};
 		}
+		if(arrowtype != null)
+		{
+			return arrowtype.ratio;
+		}
 		return new float[]{0,0, 1};
 	}
 

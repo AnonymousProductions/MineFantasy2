@@ -1,9 +1,5 @@
 package minefantasy.mf2.block.decor;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityTrough;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.BlockContainer;
@@ -17,9 +13,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockTrough extends BlockContainer 
 {
+	public static int trough_RI = 107;
 	public int capacity = 16;
 	public String name;
 	public BlockTrough(String name, Material material, int capacity) 
@@ -60,7 +60,7 @@ public class BlockTrough extends BlockContainer
     @SideOnly(Side.CLIENT)
     public int getRenderType()
     {
-    	return BlockListMF.trough_RI;
+    	return trough_RI;
     }
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase user, ItemStack item)

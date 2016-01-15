@@ -68,9 +68,9 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	}
 	private ToolMaterial convertMaterial(ToolMaterial material) 
 	{
-		if(material == BaseMaterialMF.ornate.getToolConversion())
+		if(material == BaseMaterialMF.getMaterial("ornate").getToolConversion())
 		{
-			return BaseMaterialMF.silver.getToolConversion();
+			return BaseMaterialMF.getMaterial("silver").getToolConversion();
 		}
 		return material;
 	}
@@ -169,7 +169,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	@Override
 	public float getBreakChance(Entity entityArrow, ItemStack arrow)
 	{
-		if(arrowMat == BaseMaterialMF.ignotumite.getToolConversion() || arrowMat == BaseMaterialMF.mithium.getToolConversion() || arrowMat == BaseMaterialMF.enderforge.getToolConversion())
+		if(arrowMat == BaseMaterialMF.getMaterial("ignotumite").getToolConversion() || arrowMat == BaseMaterialMF.getMaterial("mithium").getToolConversion() || arrowMat == BaseMaterialMF.getMaterial("ender").getToolConversion())
 		{
 			return 0F;
 		}
@@ -179,7 +179,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 	@Override
 	public void onHitEntity(Entity arrowInstance, Entity shooter, Entity hit, float damage) 
 	{
-		if(arrowMat == BaseMaterialMF.dragonforge.getToolConversion())
+		if(arrowMat == BaseMaterialMF.getMaterial("dragonforge").getToolConversion())
 		{
 			hit.setFire((int)(damage * (arrowInstance.isBurning() ? 2.0F : 1.0F)));
 		}

@@ -9,7 +9,7 @@ import minefantasy.mf2.api.armour.IArmourPenetrationMob;
 import minefantasy.mf2.api.armour.IArmourMF;
 import minefantasy.mf2.api.armour.IArmourRating;
 import minefantasy.mf2.api.armour.IArmouredEntity;
-import minefantasy.mf2.api.armour.IDTArmour;
+import minefantasy.mf2.api.armour.ISpecialArmourMF;
 import minefantasy.mf2.api.weapon.IDamageType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -109,44 +109,9 @@ public class ArmourCalculator
 		return (1F - (1F/ratio));
 	}
 
-	private static final String ARNBT = "MineFantasy_Armour_Percentage";
-	private static final String APNBT = "MineFantasy_Armour_Rating";
-	public static float getArmourRatingLevel(EntityLivingBase user, ItemStack item, int slot)
-	{
-		float pieceScale;
-		if(item == null)return 0;
-		
-		String nbt = usePercentage ? APNBT : ARNBT;
-		
-		if(item.hasTagCompound() && item.getTagCompound().hasKey(nbt))
-		{
-			return item.getTagCompound().getFloat(nbt);
-		}
-		if(item.getItem() instanceof IArmourRating)
-		{
-			pieceScale = ((IArmourRating)item.getItem()).scalePiece(item);
-		}
-		else
-		{
-			pieceScale = estimateScale(item, slot);
-		}
-		
-		double totalPercent = getArmourPercentage(user, item, slot);
-		if(!usePercentage)
-		{
-			totalPercent /= pieceScale;
-		}
-		double ratio = (1D / (1D - totalPercent) - 1)*pieceScale;
-		
-		int AR = (int)Math.round(ratio*armourRatingScale);
-		float value = usePercentage ? (float)(totalPercent*100F) : AR;
-		
-		if(!item.hasTagCompound())item.setTagCompound(new NBTTagCompound());
-		item.getTagCompound().setFloat(ARNBT, value);
-		return value;
-	}
-	public static boolean usePercentage = false;
-	
+	/**
+	 * Estimates the distribution of stats over a piece
+	 */
 	private static float estimateScale(ItemStack item, int slot) 
 	{
 		if(item == null)
@@ -171,47 +136,6 @@ public class ArmourCalculator
 		return sizes[slot];
 	}
 
-	public static double getTotalArmourPercent(EntityLivingBase user)
-	{
-		float AC = 0;
-		for(int a = 0; a < 4; a ++)
-		{
-			AC += getArmourPercentage(user, user.getEquipmentInSlot(4-a), a);
-		}
-		return AC;
-	}
-	/**
-	 * Gets the percent scale vanilla uses: but as a double. This optimises compatability by using the regular syste,
-	 */
-	public static double getArmourPercentage(EntityLivingBase user, ItemStack item, int slot)
-	{
-		if(item == null)
-		{
-			return 0;
-		}
-		if(item.getItem() instanceof ISpecialArmor)
-		{
-			ArmorProperties props = ((ISpecialArmor)item.getItem()).getProperties(user, item, DamageSource.cactus, 1, slot);
-			return props.AbsorbRatio;
-		}
-		
-		if(item.getItem() instanceof ItemArmor)
-		{
-			return ((ItemArmor)item.getItem()).damageReduceAmount / 25D;
-		}
-		return 0;
-	}
-
-	public static int getTotalArmourRating(EntityLivingBase user) 
-	{
-		int AR = 0;
-		for(int a = 0; a < 4; a ++)
-		{
-			AR += getArmourRatingLevel(user, user.getEquipmentInSlot(a+1), 3-a);
-		}
-		return AR;
-	}
-	
 	public static float getSpeedModForWeight(EntityLivingBase user)
 	{
 		float mod = 0.0F;
@@ -303,43 +227,41 @@ public class ArmourCalculator
 	{
 		return pounds/2.5F;
 	}
-	
 	/**
-	 * [EXPERIMENTAL] Call this with your armour scripts: As you see, the method requires hardwiring into code. make sure to use the forge's ISpecialArmor class
-	 * @param AC the armour variable to modify (see how ItemArmourMFBase does it)
-	 * @param cuttingProt the armours percent cutting protection 1.0 means normal protection
-	 * @param bluntProt the armours percent blunt protection 1.0 means normal protection
+	 * Modifes a value for resistence
+	 * @param src the source (breaks down to ratio)
+	 * @param value the variable to modify
+	 * @param cuttingProt the cutting resistence
+	 * @param bluntProt the blunt resistence
+	 * @param pierceProt the piercing resistence
 	 * @return
 	 */
-	public static float adjustACForDamage(DamageSource src, float AC, float cuttingProt, float bluntProt, float pierceProt)
+	public static float adjustACForDamage(DamageSource src, float value, float cuttingProt, float bluntProt, float pierceProt)
 	{
 		float[] ratio = getRatioForSource(src);
 		if(ratio == null)
 		{
-			return AC;//Null means undefined
+			return value;//Null means undefined
 		}
 		
-		return modifyACForType(AC, ratio[0], ratio[1], ratio[2], cuttingProt, bluntProt, pierceProt, getArmourPenetration(src));
+		return modifyACForType(value, ratio[0], ratio[1], ratio[2], cuttingProt, bluntProt, pierceProt, getArmourPenetration(src));
 	}
-	
-	/**
-	 * @param AC the armour variable to modify (see how ItemArmourMFBase does it)
-	 * @param cutting the cutting ratio on the damage
-	 * @param blunt the blunt ratio on damage (this and cutting make the ratio)
-	 * @param cuttingProt the armours percent cutting protection 1.0 means normal protection
-	 * @param bluntProt the armours percent blunt protection 1.0 means normal protection
-	 * @return
-	 */
-	public static float modifyACForType(float AC, float cutting, float blunt, float pierce, float cuttingProt, float bluntProt, float pierceProt, float specialAP)
+	public static float modifyACForType(int type, float value, float cuttingProt, float bluntProt, float pierceProt)
+	{
+		float[] f = new float[]{0F, 0F, 0F};
+		f[type] = 1.0F;
+		return modifyACForType(value, f[0], f[1], f[2], cuttingProt, bluntProt, pierceProt, 0F);
+	}
+	public static float modifyACForType(float value, float cutting, float blunt, float pierce, float cuttingProt, float bluntProt, float pierceProt, float specialAP)
 	{
 		if(advancedDamageTypes)
 		{
 			//Averages the ratio between cutting and blunt, while modifying it by the armour traits
-			AC *= (((cutting*cuttingProt) + (blunt*bluntProt) + (pierce*pierceProt)) / (cutting+blunt+pierce));
+			value *= (((cutting*cuttingProt) + (blunt*bluntProt) + (pierce*pierceProt)) / (cutting+blunt+pierce));
 		}
 		float ACModifier = 1.0F + specialAP;
-		AC *= ACModifier;
-		return AC > 0F ? AC: 0F;
+		value *= ACModifier;
+		return value > 0F ? value: 0F;
 	}
 	
 	public static float getArmourPenetration(DamageSource source)
@@ -495,9 +417,9 @@ public class ArmourCalculator
 		for(int a = 0; a < 4; a++)
 		{
 			ItemStack armour = user.getEquipmentInSlot(a+1);
-			if(armour != null && armour.getItem() instanceof IDTArmour)
+			if(armour != null && armour.getItem() instanceof ISpecialArmourMF)
 			{
-				float threshold = getDTValueMod(armour, ((IDTArmour)armour.getItem()).getDTDisplay(armour, id));
+				float threshold = getArmourValueMod(armour, ((ISpecialArmourMF)armour.getItem()).getDTDisplay(armour, id));
 				armourDT += threshold;
 			}
 		}
@@ -511,13 +433,48 @@ public class ArmourCalculator
 	 */
 	public static float getDTForDisplayPiece(ItemStack armour, int id)
 	{
-		if(armour != null && armour.getItem() instanceof IDTArmour)
+		if(armour != null && armour.getItem() instanceof ISpecialArmourMF)
 		{
-			return getDTValueMod(armour, ((IDTArmour)armour.getItem()).getDTDisplay(armour, id));
+			return getArmourValueMod(armour, ((ISpecialArmourMF)armour.getItem()).getDTDisplay(armour, id));
 		}
 		return 0F;
 	}
-	
+	@SideOnly(Side.CLIENT)
+	/**
+	 * CLIENT SINGLE PIECE: 
+	 * Gets a stat for a single piece: Used by Tooltips
+	 */
+	public static float getDRForDisplayPiece(ItemStack armour, int id)
+	{
+		if(armour == null)
+		{
+			return 0F;
+		}
+		if(armour.getItem() instanceof ISpecialArmourMF)
+		{
+			return getArmourValueMod(armour, ((ISpecialArmourMF)armour.getItem()).getDTDisplay(armour, id));
+		}
+		return 0F;
+	}
+	@SideOnly(Side.CLIENT)
+	/**
+	 * CLIENT WHOLE ENTITY: 
+	 * Gets the total DT of an entity by damage type: Used by the Screen renderer
+	 */
+	public static float getDRDisplay(EntityLivingBase user, int id)
+	{
+		float armourDT = 0;
+		for(int a = 0; a < 4; a++)
+		{
+			ItemStack armour = user.getEquipmentInSlot(a+1);
+			if(armour != null && armour.getItem() instanceof ISpecialArmourMF)
+			{
+				float threshold = getArmourValueMod(armour, ((ISpecialArmourMF)armour.getItem()).getDRDisplay(armour, id));
+				armourDT += threshold;
+			}
+		}
+		return armourDT;
+	}
 	/**
 	 * MECHANIC WHOLE ENTITY: 
 	 * Gets the threshold of a whole entity
@@ -535,9 +492,9 @@ public class ArmourCalculator
 		for(int a = 0; a < 4; a++)
 		{
 			ItemStack armour = user.getEquipmentInSlot(a+1);
-			if(armour != null && armour.getItem() instanceof IDTArmour)
+			if(armour != null && armour.getItem() instanceof ISpecialArmourMF)
 			{
-				float threshold = getDTValueMod(armour, ((IDTArmour)armour.getItem()).getDTValue(user, armour, src));
+				float threshold = getArmourValueMod(armour, ((ISpecialArmourMF)armour.getItem()).getDTValue(user, armour, src));
 				armourDT += threshold;
 			}
 		}
@@ -570,7 +527,7 @@ public class ArmourCalculator
 		return 1F - ((float)armour.getItemDamage() / (float)armour.getMaxDamage());
 	}
 
-	public static boolean useThresholdSystem = true;
+	public static boolean useThresholdSystem = false;
 	/**
 	 * MECHANIC DT CALCULATOR: 
 	 * Gets the natural DT of an entity
@@ -585,9 +542,9 @@ public class ArmourCalculator
 	}
 	/**
 	 *  MECHANIC DT CALCULATOR: 
-	 * Gets the modifiers based on the itemstack (such as damage and NBT)
+	 * Gets the modifiers based on the itemstack (such as damage and NBT) DT OR DR
 	 */
-	private static float getDTValueMod(ItemStack armour, float DT)
+	private static float getArmourValueMod(ItemStack armour, float DT)
 	{
 		if(armour.hasTagCompound() && armour.getTagCompound().hasKey("MF_Inferior"))
 		{

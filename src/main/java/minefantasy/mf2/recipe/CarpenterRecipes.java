@@ -792,12 +792,22 @@ public class CarpenterRecipes
 			'M', FoodListMF.generic_meat_cooked,
 			'B', FoodListMF.breadSlice
 		});
+		KnowledgeListMF.sandwitchBigRecipe =
+		MineFantasyAPI.addCarpenterRecipe(provisioning, new ItemStack(FoodListMF.sandwitch_big), "sandwitchBig", chopping, "knife", 1, 10, new Object[]{
+			"CSC",
+			"MBM",
+			'S', FoodListMF.salt,
+			'C', FoodListMF.cheese_slice,
+			'M', FoodListMF.generic_meat_cooked,
+			'B', Items.bread
+		});
 		KnowledgeListMF.shepardRecipe =
 		MineFantasyAPI.addCarpenterRecipe(provisioning, new ItemStack(FoodListMF.pie_shepard_uncooked), "shepardpie", chopping, "knife", 3, 200, new Object[]{
 			"PFP",
 			"MMM",
-			" F ",
+			"CFC",
 			" T ",
+			'C', Items.carrot,
 			'P', Items.potato,
 			'F', FoodListMF.pastry,
 			'M', FoodListMF.generic_meat_mince_cooked,

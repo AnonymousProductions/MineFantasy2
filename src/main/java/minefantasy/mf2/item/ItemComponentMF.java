@@ -1,8 +1,11 @@
 package minefantasy.mf2.item;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -68,6 +71,17 @@ public class ItemComponentMF extends Item
 		{
 			return;
 		}
+		
+		ArrayList<CustomMaterial> wood = CustomMaterial.getList("wood");
+		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
+		
+		
+    	Iterator iteratorWood = wood.iterator();
+    	while(iteratorWood.hasNext())
+    	{
+    		CustomMaterial material = (CustomMaterial) iteratorWood.next();
+    		list.add(ComponentListMF.plankCustom.createPlank(material.name));
+    	}
 		
 		for(Item ingot: ComponentListMF.ingots)
 		{
@@ -153,6 +167,16 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.steel_tube);
 		add(list, ComponentListMF.bronze_gears);
 		add(list, ComponentListMF.bomb_casing_arrow);
+		
+		list.add(ComponentListMF.haft_custom.createHaft("OakWood", null, null));
+    	list.add(ComponentListMF.haft_custom.createHaft("RefinedWood", null, null));
+    	list.add(ComponentListMF.haft_custom.createHaft("IronbarkWood", null, null));
+    	list.add(ComponentListMF.haft_custom.createHaft("EbonyWood", null, null));
+    	
+    	list.add(ComponentListMF.haft_custom.createHaft("OakWood", "Leather", "Iron"));
+    	list.add(ComponentListMF.haft_custom.createHaft("RefinedWood", "Leather", "Iron"));
+    	list.add(ComponentListMF.haft_custom.createHaft("IronbarkWood", "Leather", "Iron"));
+    	list.add(ComponentListMF.haft_custom.createHaft("EbonyWood", "Leather", "Iron"));
     }
     private void add(List list, Item item)
     {

@@ -2,11 +2,6 @@ package minefantasy.mf2.block.crafting;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
@@ -23,10 +18,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockTanningRack extends BlockContainer
 {
+	public static int tanner_RI = 103;
+	
 	public int tier;
 	public String tex;
 	public BlockTanningRack(int tier, String tex) 
@@ -160,6 +159,6 @@ public class BlockTanningRack extends BlockContainer
     @Override
 	public int getRenderType()
 	{
-		return BlockListMF.tanner_RI;
+		return tanner_RI;
 	}
 }

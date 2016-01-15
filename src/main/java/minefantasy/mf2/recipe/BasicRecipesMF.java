@@ -198,7 +198,7 @@ public class BasicRecipesMF
 		
 		for(int id = 0; id < BlockListMF.metalBlocks.length; id ++)
 		{
-			BaseMaterialMF material = BlockListMF.metalBlocks[id];
+			BaseMaterialMF material = BaseMaterialMF.getMaterial(BlockListMF.metalBlocks[id]);
 			
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{

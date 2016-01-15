@@ -1,8 +1,9 @@
 package minefantasy.mf2.config;
 
 import minefantasy.mf2.api.archery.Arrows;
-import minefantasy.mf2.api.helpers.ArmourCalculator;
-import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.block.crafting.*;
+import minefantasy.mf2.block.decor.BlockTrough;
+import minefantasy.mf2.block.refining.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -70,17 +71,17 @@ public class ConfigClient extends ConfigurationBaseMF
 		AC_xOrient = Integer.parseInt(config.get(GUI_ACOUNT, "X Orient", -1, "The orientation for the X axis (-1 = left, 0 = middle, 1 = right). Determines what point in the axis to snap to").getString());
 		AC_yOrient = Integer.parseInt(config.get(GUI_ACOUNT, "Y Orient", -1, "The orientation for the Y axis (-1 = top, 0 = middle, 1 = bottom). Determines what point in the axis to snap to").getString());
 		AC_xPos = Integer.parseInt(config.get(GUI_ACOUNT, "X Position", 4, "The Offset value away from the orient (-)left, (+)right").getString());
-		AC_yPos = Integer.parseInt(config.get(GUI_ACOUNT, "Y Position", 16, "The Offset value away from the orient (-)up, (+)down").getString());
+		AC_yPos = Integer.parseInt(config.get(GUI_ACOUNT, "Y Position", 4, "The Offset value away from the orient (-)up, (+)down").getString());
 		
-		BlockListMF.anvil_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Anvil", -100).getString());
-		BlockListMF.carpenter_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Carpenter", -101).getString());
-		BlockListMF.bomb_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bomb Bench", -102).getString());
-		BlockListMF.tanner_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Tanning Rack", -103).getString());
-		BlockListMF.forge_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Forge", -104).getString());
-		BlockListMF.bellows_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bellows", -105).getString());
-		BlockListMF.research_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "ResearchTable", -106).getString());
-		BlockListMF.bpress_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bomb Press", -107).getString());
-		BlockListMF.trough_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Trough", -108).getString());
+		BlockAnvilMF.anvil_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Anvil", -100).getString());
+		BlockCarpenter.carpenter_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Carpenter", -101).getString());
+		BlockBombBench.bomb_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bomb Bench", -102).getString());
+		BlockTanningRack.tanner_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Tanning Rack", -103).getString());
+		BlockForge.forge_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Forge", -104).getString());
+		BlockBellows.bellows_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bellows", -105).getString());
+		BlockResearchStation.research_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "ResearchTable", -106).getString());
+		BlockBombPress.bpress_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bomb Press", -107).getString());
+		BlockTrough.trough_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Trough", -108).getString());
 	}
 
 }

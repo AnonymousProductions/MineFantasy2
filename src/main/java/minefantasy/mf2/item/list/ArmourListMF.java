@@ -18,44 +18,45 @@ public class ArmourListMF
 	public static ArmourMaterialMF LEATHER = new ArmourMaterialMF("Leather",         5,   0.30F,  18,  1.00F);
 	public static ArmourMaterialMF APRON = new ArmourMaterialMF("Apron",             6,   0.30F,  0,   1.00F);
 	
-	public static final BaseMaterialMF[] leathermats = new BaseMaterialMF[]
+	public static final String[] leathermats = new String[]
 	{
-		BaseMaterialMF.hide,
-		BaseMaterialMF.rough,
-		BaseMaterialMF.reinforced,
-		BaseMaterialMF.studded,
-		BaseMaterialMF.scaled,
-		BaseMaterialMF.padding,
+		"hide",
+		"roughleather",
+		"strongleather",
+		"studleather",
+		"scaleleather",
+		"padded",
 	};
 	
-	public static final BaseMaterialMF[] mats = new BaseMaterialMF[]
+	public static final String[] mats = new String[]
 	{
-		BaseMaterialMF.copper,
-		BaseMaterialMF.bronze,
-		BaseMaterialMF.iron,
-		BaseMaterialMF.steel,
-		BaseMaterialMF.encrusted,
-		BaseMaterialMF.blacksteel,
-		BaseMaterialMF.dragonforge,
-		BaseMaterialMF.redsteel,
-		BaseMaterialMF.bluesteel,
-		BaseMaterialMF.adamantium,
-		BaseMaterialMF.mithril,
-		BaseMaterialMF.ignotumite,
-		BaseMaterialMF.mithium,
-		BaseMaterialMF.enderforge,
+		"copper",
+		"bronze",
+		"iron",
+		"steel",
+		"encrusted",
+		"blacksteel",
+		"dragonforge",
+		"redsteel",
+		"bluesteel",
+		"adamantium",
+		"mithril",
+		"ignotumite",
+		"mithium",
+		"ender",
 	};
 	
 	public static ItemArmourMF[] leather = new ItemArmourMF[leathermats.length*4];
-	public static ItemArmourMF leatherapron = new ItemApron("leatherapron", BaseMaterialMF.leatherapron, "leatherapron_layer_1", 0);
+	public static ItemArmourMF leatherapron;
 	public static ItemArmourMF[] chainmail = new ItemArmourMF[mats.length*4];
 	public static ItemArmourMF[] fieldplate = new ItemArmourMF[mats.length*4 - 4];
 	
 	public static void init() 
 	{
+		leatherapron = new ItemApron("leatherapron", BaseMaterialMF.leatherapron, "leatherapron_layer_1", 0);
 		for(int a = 0; a < leathermats.length; a ++)
 		{
-			BaseMaterialMF baseMat = leathermats[a];
+			BaseMaterialMF baseMat = BaseMaterialMF.getMaterial(leathermats[a]);
 			String matName = baseMat.name;
 			int rarity = baseMat.rarity;
 			int id = a*4;
@@ -69,7 +70,7 @@ public class ArmourListMF
 		}
 		for(int a = 0; a < mats.length; a ++)
 		{
-			BaseMaterialMF baseMat = mats[a];
+			BaseMaterialMF baseMat = BaseMaterialMF.getMaterial(mats[a]);
 			ArmourMaterialMF mat = baseMat.getArmourConversion();
 			
 			String matName=baseMat.name;

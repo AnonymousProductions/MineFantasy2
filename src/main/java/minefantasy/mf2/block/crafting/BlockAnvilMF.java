@@ -4,13 +4,11 @@ import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.heating.TongsHelper;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.tool.crafting.ItemTongs;
 import minefantasy.mf2.material.BaseMaterialMF;
-import minefantasy.mf2.network.CommonProxyMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -31,7 +29,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockAnvilMF extends BlockContainer
 {
-    @SideOnly(Side.CLIENT)
+    public static int anvil_RI = 100;
+    
+	@SideOnly(Side.CLIENT)
     public int anvilRenderSide;
     public BaseMaterialMF material;
     private int tier;
@@ -210,7 +210,7 @@ public class BlockAnvilMF extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.anvil_RI;
+		return anvil_RI;
 	}
 	private Random rand = new Random();
 }

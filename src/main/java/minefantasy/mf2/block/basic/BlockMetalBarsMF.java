@@ -33,7 +33,7 @@ public class BlockMetalBarsMF extends BlockPane
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity hitter)
     {
-		if(baseMat == BaseMaterialMF.dragonforge && !hitter.isImmuneToFire() && hitter instanceof EntityLivingBase)
+		if(baseMat.name.equalsIgnoreCase("dragonforge") && !hitter.isImmuneToFire() && hitter instanceof EntityLivingBase)
 		{
 			hitter.setFire(10);
 			hitter.attackEntityFrom(DamageSource.inFire, 1);

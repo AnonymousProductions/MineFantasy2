@@ -30,9 +30,9 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
     public ItemSpearMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
-    	if(material != ToolMaterialMF.TRAINING)
+    	if(material != ToolMaterial.WOOD)
     	{
-    		this.baseDamage -= 2;
+    		this.baseDamage = 1;
     	}
     }
 
@@ -65,7 +65,7 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
 	{
         super.addInformation(item, user, list, extra);
 
-        if(material != ToolMaterialMF.TRAINING)
+        if(material != ToolMaterial.WOOD)
     	{
 	        list.add(EnumChatFormatting.DARK_GREEN+
 	                StatCollector.translateToLocalFormatted("attribute.modifier.plus."+ 0,
@@ -122,7 +122,7 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
 	
 	private float getMountedDamage() 
 	{
-		if(material == ToolMaterialMF.TRAINING)
+		if(material == ToolMaterial.WOOD)
     	{
 			return 0;
     	}

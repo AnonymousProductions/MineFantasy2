@@ -226,6 +226,7 @@ public class KnowledgePageRegistry
 	    KnowledgeListMF.jerky.addPages(new EntryPageText("knowledge.jerky.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.jerkyRecipe));
 	    KnowledgeListMF.saussage.addPages(new EntryPageText("knowledge.saussage.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.gutsRecipe), new EntryPageRecipeCarpenter(KnowledgeListMF.bcrumbsR), new EntryPageRecipeCarpenter(KnowledgeListMF.bcrumbsR2), new EntryPageRecipeCarpenter(KnowledgeListMF.saussageR), new EntryPageSmelting(new ItemStack(FoodListMF.saussage_raw), new ItemStack(FoodListMF.saussage_cooked)));
 	    KnowledgeListMF.sandwitch.addPages(new EntryPageText("knowledge.sandwitch.1"),  new EntryPageRecipeCarpenter(KnowledgeListMF.breadSliceR), new EntryPageRecipeCarpenter(KnowledgeListMF.sandwitchRecipe));
+	    KnowledgeListMF.sandwitchBig.addPages(new EntryPageText("knowledge.sandwitchBig.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.sandwitchBigRecipe));
 	    KnowledgeListMF.meatpie.addPages(new EntryPageText("knowledge.meatpie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.meatPieRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.pie_meat_uncooked), new ItemStack(BlockListMF.pie_meat)), new EntryPageRecipeBase(KnowledgeListMF.meatpieOut));
 	    KnowledgeListMF.shepardpie.addPages(new EntryPageText("knowledge.shepardpie.1"), new EntryPageRecipeCarpenter(KnowledgeListMF.shepardRecipe), new EntryPageSmelting(new ItemStack(FoodListMF.pie_shepard_uncooked), new ItemStack(BlockListMF.pie_shepards)), new EntryPageRecipeBase(KnowledgeListMF.shepardOut));
 	    

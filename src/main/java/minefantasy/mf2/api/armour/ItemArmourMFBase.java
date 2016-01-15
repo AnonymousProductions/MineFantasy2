@@ -6,6 +6,7 @@ import java.util.List;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.config.ConfigClient;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmourMF, IArmourRating, IDTArmour
+public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmourMF, IArmourRating, ISpecialArmourMF
 {
 	public static ArmorMaterial baseMaterial = EnumHelper.addArmorMaterial("MF Armour Base", 0, new int[]{2, 6, 5, 2}, 0);
 	private int piece;
@@ -74,20 +75,17 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armour, int slot)
 	{
-		if(ArmourCalculator.useThresholdSystem)
-		{
-			float max = (float)armour.getMaxDamage();
-			float dam = max - (float)armour.getItemDamage();
-			
-			return (int)Math.round(5F / max * dam);
-		}
-		return baseRating;
+		float max = (float)armour.getMaxDamage();
+		float dam = max - (float)armour.getItemDamage();
+		
+		return (int)Math.round(5F / max * dam);
 	}
 
 	@Override
 	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armour, DamageSource source, double damage, int slot) 
 	{
 		float AC = getProtectionRatio();
+		MFLogUtil.logDebug("Ratio = " + AC);
 		
 		if(ArmourCalculator.advancedDamageTypes && !player.worldObj.isRemote)
 		{
@@ -164,48 +162,6 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 	{
 		return material.baseAR*design.getRating();
 	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-    public void addInformation(ItemStack armour, EntityPlayer user, List list, boolean extra) 
-    {
-        super.addInformation(armour, user, list, extra);
-        
-        if(ArmourCalculator.useThresholdSystem)
-        {
-        	/*
-        	if(ArmourCalculator.advancedDamageTypes)
-	        {
-        		float duraLoss = TacticalManager.modifyDTDamage(armour);
-	        	list.add("");
-	        	
-	        	String cut = ItemWeaponMF.decimal_format.format(design.getProtectiveTraits()[0]*DT*duraLoss);
-	        	String blunt = ItemWeaponMF.decimal_format.format(design.getProtectiveTraits()[1]*DT*duraLoss);
-	        	String pierce = ItemWeaponMF.decimal_format.format(design.getProtectiveTraits()[2]*DT*duraLoss);
-	        	
-	    		list.add(StatCollector.translateToLocal("attribute.armour.dtcutting") + " = " +cut);
-	    		list.add(StatCollector.translateToLocal("attribute.armour.dtpiercing") + " = " +pierce);
-	    		list.add(StatCollector.translateToLocal("attribute.armour.dtblunt") + " = " +blunt);
-	        }
-	        */
-        }
-        else 
-        {
-	        if(ArmourCalculator.advancedDamageTypes)
-	        {
-	        	list.add("");
-	        	
-	        	float cut = design.getProtectiveTraits()[0]*100F;
-	        	float pierce = design.getProtectiveTraits()[2]*100F;
-	        	float blunt = design.getProtectiveTraits()[1]*100F;
-	        	
-	    		list.add(StatCollector.translateToLocal("attribute.armour.cuttingresistance") + " = " +(int)cut + "%");
-	    		list.add(StatCollector.translateToLocal("attribute.armour.piercingresistance") + " = " +(int)pierce + "%");
-	    		list.add(StatCollector.translateToLocal("attribute.armour.bluntresistance") + " = " +(int)blunt + "%");
-	        }
-        }
-        list.add(StatCollector.translateToLocal("attribute.weight.name") + ": " + Math.round(getPieceWeight(armour, piece)));
-    }
 
 	private void addModifier(List list, float ratio, String name)
 	{
@@ -300,5 +256,28 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 	public float getDTDisplay(ItemStack armour, int damageType)
 	{
 		return design.getProtectiveTraits()[damageType]*DT;
+	}
+	@Override
+	public float getDRValue(EntityLivingBase user, ItemStack armour, DamageSource src)
+	{
+		float DR = getProtectionRatio()*scalePiece();
+		
+		if(ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote)
+		{
+			DR = ArmourCalculator.adjustACForDamage(src, DR, design.getProtectiveTraits()[0], design.getProtectiveTraits()[1], design.getProtectiveTraits()[2]);
+		}
+		return DR;
+	}
+	@Override
+	@SideOnly(Side.CLIENT)
+	public float getDRDisplay(ItemStack armour, int damageType)
+	{
+		float DR = getProtectionRatio()*scalePiece();
+		
+		if(ArmourCalculator.advancedDamageTypes)
+		{
+			DR = ArmourCalculator.modifyACForType(damageType, DR, design.getProtectiveTraits()[0], design.getProtectiveTraits()[1], design.getProtectiveTraits()[2]);
+		}
+		return DR;
 	}
 }

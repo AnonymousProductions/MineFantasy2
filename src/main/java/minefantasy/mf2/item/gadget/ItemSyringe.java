@@ -67,8 +67,13 @@ public class ItemSyringe extends ItemPotion
             {
                 user.setCurrentItemOrArmor(0, new ItemStack(ToolListMF.syringe_empty));
             }
-
-            user.inventory.addItemStackToInventory(new ItemStack(ToolListMF.syringe_empty));
+            else
+            {
+            	if(!user.inventory.addItemStackToInventory(new ItemStack(ToolListMF.syringe_empty)))
+            	{
+            		user.entityDropItem(new ItemStack(ToolListMF.syringe_empty), 0F);
+            	}
+            }
         }
         
         return super.itemInteractionForEntity(item, user, target);
@@ -101,8 +106,11 @@ public class ItemSyringe extends ItemPotion
              {
                  return new ItemStack(ToolListMF.syringe_empty);
              }
-
-             user.inventory.addItemStackToInventory(new ItemStack(ToolListMF.syringe_empty));
+             
+             if(!user.inventory.addItemStackToInventory(new ItemStack(ToolListMF.syringe_empty)))
+         	 {
+         		 user.entityDropItem(new ItemStack(ToolListMF.syringe_empty), 0F);
+         	 }
          }
          
     	return item;

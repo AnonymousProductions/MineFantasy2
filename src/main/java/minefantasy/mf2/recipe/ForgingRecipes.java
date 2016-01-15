@@ -32,7 +32,7 @@ public class ForgingRecipes
 		for(int id = 0; id < ToolListMF.mats.length; id ++)
 		{
 			int time;
-			BaseMaterialMF material = ToolListMF.mats[id];
+			BaseMaterialMF material = BaseMaterialMF.getMaterial(ToolListMF.mats[id]);
 			if(canCraftMaterial(material))
 			{
 				//PICKS
@@ -314,7 +314,7 @@ public class ForgingRecipes
 		{
 			int time;
 			Item tool;
-			BaseMaterialMF material = ToolListMF.weaponMats[id];
+			BaseMaterialMF material = BaseMaterialMF.getMaterial(ToolListMF.weaponMats[id]);
 			
 			if(canCraftMaterial(material))
 			{
@@ -627,7 +627,7 @@ public class ForgingRecipes
 		time = 1;
 		for(int id = 0; id < ComponentListMF.hunkMats.length; id ++)
 		{
-			material = ComponentListMF.hunkMats[id];
+			material = BaseMaterialMF.getMaterial(ComponentListMF.hunkMats[id]);
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{
 				KnowledgeListMF.hunkR.add(
@@ -667,7 +667,7 @@ public class ForgingRecipes
 		//Armour Components
 		for(int id = 0; id < ArmourListMF.mats.length; id ++)
 		{
-			material = ArmourListMF.mats[id];
+			material = BaseMaterialMF.getMaterial(ArmourListMF.mats[id]);
 			
 			if(canCraftMaterial(material))
 			{
@@ -687,7 +687,7 @@ public class ForgingRecipes
 		//MAIL ARMOUR
 		for(int id = 0; id < ArmourListMF.mats.length; id ++)
 		{
-			material = ArmourListMF.mats[id];
+			material = BaseMaterialMF.getMaterial(ArmourListMF.mats[id]);
 			if(canCraftMaterial(material))
 			{
 			//HELMET
@@ -746,7 +746,7 @@ public class ForgingRecipes
 		//PLATE ARMOUR
 		for(int id = 1; id < ArmourListMF.mats.length; id ++)
 		{
-			material = ArmourListMF.mats[id];
+			material = BaseMaterialMF.getMaterial(ArmourListMF.mats[id]);
 			if(canCraftMaterial(material))
 			{
 			//HELMET
@@ -995,7 +995,7 @@ public class ForgingRecipes
 		for(int id = 0; id < BlockListMF.anvils.length; id ++)
 		{
 			time = 20;
-			material = BlockListMF.anvils[id];
+			material = BaseMaterialMF.getMaterial(BlockListMF.anvils[id]);
 			
 			for(ItemStack ingot: OreDictionary.getOres("ingot"+material.name))
 			{
@@ -1029,7 +1029,7 @@ public class ForgingRecipes
 		for(int id = 0; id < BlockListMF.specialMetalBlocks.length; id ++)
 		{
 			time = 2;
-			material = BlockListMF.specialMetalBlocks[id];
+			material = BaseMaterialMF.getMaterial(BlockListMF.specialMetalBlocks[id]);
 			
 			for(ItemStack ingot: OreDictionary.getOres("hunk"+material.name))
 			{

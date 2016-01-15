@@ -1,7 +1,6 @@
 package minefantasy.mf2.client.render.block;
 
 import minefantasy.mf2.block.crafting.BlockTanningRack;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -32,7 +31,7 @@ public class RenderTanningRack implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.tanner_RI;
+		return BlockTanningRack.tanner_RI;
 	}
 
 	@Override

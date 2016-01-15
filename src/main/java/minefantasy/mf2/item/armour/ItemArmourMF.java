@@ -96,7 +96,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	@Override
 	public float getBaseResistance(ItemStack item, DamageSource source)
 	{
-		if(baseMaterial == BaseMaterialMF.enderforge && source.getSourceOfDamage() != null && source.getSourceOfDamage() instanceof EntityEnderPearl)
+		if(baseMaterial == BaseMaterialMF.getMaterial("ender") && source.getSourceOfDamage() != null && source.getSourceOfDamage() instanceof EntityEnderPearl)
 		{
 			return 100F;
 		}
@@ -130,7 +130,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	@Override
 	protected boolean isUnbreakable()
 	{
-		return baseMaterial == BaseMaterialMF.enderforge;
+		return baseMaterial == BaseMaterialMF.getMaterial("ender");
 	}
 	
 	@Override

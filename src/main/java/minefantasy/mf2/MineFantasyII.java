@@ -21,6 +21,7 @@ import minefantasy.mf2.config.ConfigWorldGen;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
+import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
 import minefantasy.mf2.network.CommonProxyMF;
@@ -52,7 +53,7 @@ public class MineFantasyII
 {
 	public static final String MODID = "minefantasy2";
 	public static final String NAME = "MineFantasyII";
-	public static final String VERSION = "Alpha_2.4.2";
+	public static final String VERSION = "Alpha_2.4.4";
 	public static final WorldGenMFBase worldGenManager = new WorldGenMFBase();
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
@@ -82,6 +83,7 @@ public class MineFantasyII
 		new ConfigCrafting().setConfig(getCfg(event, "Crafting"));
 		new ConfigMobs().setConfig(getCfg(event, "Mobs"));
 		
+		BaseMaterialMF.init();
 		MineFantasyAPI.isInDebugMode = isDebug();
 		MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 		

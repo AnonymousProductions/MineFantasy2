@@ -17,45 +17,17 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockListMF
 {
-	public static final BaseMaterialMF[] metalBlocks = new BaseMaterialMF[]
+	public static final String[] metalBlocks = new String[]
 	{
-		BaseMaterialMF.copper,
-		BaseMaterialMF.tin,
-		BaseMaterialMF.silver,
-		BaseMaterialMF.bronze,
-		BaseMaterialMF.pigiron,
-		BaseMaterialMF.steel,
-		BaseMaterialMF.blacksteel,
-		
-		BaseMaterialMF.redsteel,
-		BaseMaterialMF.bluesteel,
-		
-		BaseMaterialMF.adamantium,
-		BaseMaterialMF.mithril,
-		
-		BaseMaterialMF.ignotumite,
-		BaseMaterialMF.mithium,
-		BaseMaterialMF.enderforge,
+		"copper", "tin", "silver", "bronze", "pigiron", "steel", "blacksteel", "redsteel", "bluesteel", "adamantium", "mithril", "ignotumite", "mithium", "ender"
 	};
-	public static final BaseMaterialMF[] specialMetalBlocks = new BaseMaterialMF[]
+	public static final String[] specialMetalBlocks = new String[]
 	{
-		BaseMaterialMF.bronze,
-		BaseMaterialMF.iron,
-		BaseMaterialMF.steel,
-		BaseMaterialMF.blacksteel,
-		BaseMaterialMF.dragonforge,
-		BaseMaterialMF.redsteel,
-		BaseMaterialMF.bluesteel,
+		"bronze", "iron", "steel", "blacksteel", "dragonforge", "redsteel", "bluesteel"
 	};
-	public static final BaseMaterialMF[] anvils = new BaseMaterialMF[]
+	public static final String[] anvils = new String[]
 	{
-		//BaseMaterialMF.stone,
-		BaseMaterialMF.bronze,
-		BaseMaterialMF.iron,
-		BaseMaterialMF.steel,
-		BaseMaterialMF.blacksteel,
-		BaseMaterialMF.bluesteel,
-		BaseMaterialMF.redsteel,
+		"bronze", "iron", "steel", "blacksteel", "bluesteel", "redsteel"
 	};
 	
 	public static Block oreCopper = new BlockOreMF("oreCopper", 0, -1).setHardness(2.0F).setResistance(3.0F);
@@ -93,7 +65,7 @@ public class BlockListMF
 	
 	public static BlockMetalBarsMF[] bars = new BlockMetalBarsMF[specialMetalBlocks.length];
 	public static BlockMetalMF[] storage = new BlockMetalMF[metalBlocks.length];
-	public static BlockAnvilMF anvilStone = new BlockAnvilMF(BaseMaterialMF.stone);
+	public static BlockAnvilMF anvilStone;
 	public static BlockAnvilMF[] anvil = new BlockAnvilMF[anvils.length];
 	public static BlockCarpenter carpenter = new BlockCarpenter();
 	public static BlockBombBench bombBench = new BlockBombBench();
@@ -161,11 +133,12 @@ public class BlockListMF
 	
 	public static void init()
 	{
+		anvilStone = new BlockAnvilMF(BaseMaterialMF.getMaterial("stone"));
 		//5:20 default planks
 		Blocks.fire.setFireInfo(refined_planks, 3, 10);//Half
 		for(int a = 0; a < specialMetalBlocks.length; a++)
 		{
-			BaseMaterialMF material = specialMetalBlocks[a];
+			BaseMaterialMF material = BaseMaterialMF.getMaterial(specialMetalBlocks[a]);
 			if(material != null)
 			{
 				bars[a] = new BlockMetalBarsMF(material);
@@ -173,7 +146,7 @@ public class BlockListMF
 		}
 		for(int a = 0; a < metalBlocks.length; a++)
 		{
-			BaseMaterialMF material = metalBlocks[a];
+			BaseMaterialMF material = BaseMaterialMF.getMaterial(metalBlocks[a]);
 			if(material != null)
 			{
 				storage[a] = new BlockMetalMF(material);
@@ -181,7 +154,7 @@ public class BlockListMF
 		}
 		for(int a = 0; a < anvils.length; a++)
 		{
-			BaseMaterialMF material = anvils[a];
+			BaseMaterialMF material = BaseMaterialMF.getMaterial(anvils[a]);
 			if(material != null)
 			{
 				anvil[a] = new BlockAnvilMF(material);
@@ -199,14 +172,4 @@ public class BlockListMF
 		OreDictionary.registerOre("paneGlass", new ItemStack(window_pane, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("paneGlass", new ItemStack(framed_pane, 1, OreDictionary.WILDCARD_VALUE));
 	}
-	
-	public static int anvil_RI = 100;
-	public static int carpenter_RI = 101;
-	public static int bomb_RI = 102;
-	public static int tanner_RI = 103;
-	public static int forge_RI = 104;
-	public static int bellows_RI = 105;
-	public static int research_RI = 106;
-	public static int trough_RI = 107;
-	public static int bpress_RI = 108;
 }

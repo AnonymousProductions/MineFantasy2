@@ -1,6 +1,5 @@
 package minefantasy.mf2.client.render.block;
 
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.decor.BlockTrough;
 import minefantasy.mf2.block.tileentity.TileEntityTrough;
 import net.minecraft.block.Block;
@@ -32,7 +31,7 @@ public class RenderTrough implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.trough_RI;
+		return BlockTrough.trough_RI;
 	}
 
 	@Override

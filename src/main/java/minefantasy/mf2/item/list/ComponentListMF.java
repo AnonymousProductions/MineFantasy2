@@ -11,10 +11,12 @@ import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.ItemHide;
 import minefantasy.mf2.item.ItemMFBowl;
 import minefantasy.mf2.item.ItemRawOreMF;
+import minefantasy.mf2.item.custom.*;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.gadget.ItemBombComponent;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.material.BaseMaterialMF;
+import minefantasy.mf2.material.WoodMaterial;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -26,47 +28,46 @@ import cpw.mods.fml.common.registry.GameRegistry;
  */
 public class ComponentListMF 
 {
-	public static final BaseMaterialMF[] ingotMats = new BaseMaterialMF[]
+	public static final String[] ingotMats = new String[]
 	{
-		BaseMaterialMF.copper,
-		BaseMaterialMF.tin,
-		BaseMaterialMF.bronze,
-		BaseMaterialMF.pigiron,
-		BaseMaterialMF.steel,
-		BaseMaterialMF.encrusted,
-		BaseMaterialMF.weakblacksteel,
-		BaseMaterialMF.blacksteel,
-		BaseMaterialMF.silver,
-		BaseMaterialMF.weakredsteel,
-		BaseMaterialMF.redsteel,
-		BaseMaterialMF.weakbluesteel,
-		BaseMaterialMF.bluesteel,
-		BaseMaterialMF.adamantium,
-		BaseMaterialMF.mithril,
-		BaseMaterialMF.ignotumite,
-		BaseMaterialMF.mithium,
-		BaseMaterialMF.enderforge,
+		"copper",
+		"tin",
+		"bronze",
+		"pigiron",
+		"steel",
+		"encrusted",
+		"blacksteelweak",
+		"blacksteel",
+		"silver",
+		"redsteelweak",
+		"redsteel",
+		"bluesteelweak",
+		"bluesteel",
+		"adamantium",
+		"mithril",
+		"ignotumite",
+		"mithium",
+		"ender",
 	};
-	public static final BaseMaterialMF[] hunkMats = new BaseMaterialMF[]
+	public static final String[] hunkMats = new String[]
 	{
-		BaseMaterialMF.copper,
-		BaseMaterialMF.tin,
-		BaseMaterialMF.bronze,
-		BaseMaterialMF.iron,
-		BaseMaterialMF.pigiron,
-		BaseMaterialMF.steel,
-		BaseMaterialMF.encrusted,
-		BaseMaterialMF.blacksteel,
-		//BaseMaterialMF.dragonforge,
-		BaseMaterialMF.silver,
-		BaseMaterialMF.gold,
-		BaseMaterialMF.redsteel,
-		BaseMaterialMF.bluesteel,
-		BaseMaterialMF.adamantium,
-		BaseMaterialMF.mithril,
-		BaseMaterialMF.ignotumite,
-		BaseMaterialMF.mithium,
-		BaseMaterialMF.enderforge,
+		"copper",
+		"tin",
+		"bronze",
+		"iron",
+		"pigiron",
+		"steel",
+		"encrusted",
+		"blacksteel",
+		"silver",
+		"gold",
+		"redsteel",
+		"bluesteel",
+		"adamantium",
+		"mithril",
+		"ignotumite",
+		"mithium",
+		"ender",
 	};
 	public static Item clay_pot = new ItemMFBowl("clay_pot");
 	public static Item clay_pot_uncooked = new ItemComponentMF("clay_pot_uncooked", 0);
@@ -155,6 +156,9 @@ public class ComponentListMF
 	public static Item iron_strut = new ItemComponentMF("iron_strut", 0);
 	public static Item bronze_gears = new ItemComponentMF("bronze_gears", 0);
 	public static Item steel_tube = new ItemComponentMF("steel_tube", 0);
+	public static ItemHaft haft_custom = new ItemHaft("haft");
+	public static ItemCustomComponent plankCustom = new ItemCustomComponent("plank");
+	//public static ItemCustomComponent pickHead = new ItemCustomComponent("pick_head");
 	
 	//public static Item lime_rock = new ItemComponentMF("lime_rock", 0);
 	//public static Item borax_rock = new ItemComponentMF("borax_rock", 0);
@@ -163,6 +167,7 @@ public class ComponentListMF
 	
 	public static void init() 
 	{
+		WoodMaterial.init();
 		Items.potionitem.setContainerItem(Items.glass_bottle);
 		GameRegistry.registerFuelHandler(new FuelHandlerMF());
 		MineFantasyAPI.registerFuelHandler(new AdvancedFuelHandlerMF());
@@ -173,7 +178,7 @@ public class ComponentListMF
 		Blocks.iron_bars.setBlockTextureName("minefantasy2:metal/iron_bars");
 		for(int a = 0; a < ingotMats.length; a ++)
 		{
-			BaseMaterialMF mat = ingotMats[a];
+			BaseMaterialMF mat = BaseMaterialMF.getMaterial(ingotMats[a]);
 			String name = mat.name;
 			int rarity = mat.rarity;
 			
@@ -190,7 +195,7 @@ public class ComponentListMF
 		
 		for(int a = 0; a < hunkMats.length; a ++)
 		{
-			BaseMaterialMF mat = hunkMats[a];
+			BaseMaterialMF mat = BaseMaterialMF.getMaterial(hunkMats[a]);
 			String name = mat.name;
 			int rarity = mat.rarity;
 			
@@ -201,7 +206,7 @@ public class ComponentListMF
 		
 		for(int a = 0; a < ArmourListMF.mats.length; a ++)
 		{
-			BaseMaterialMF baseMat = ArmourListMF.mats[a];
+			BaseMaterialMF baseMat = BaseMaterialMF.getMaterial(ArmourListMF.mats[a]);
 			
 			String name=baseMat.name;
 			int rarity = baseMat.rarity;
@@ -216,7 +221,7 @@ public class ComponentListMF
 		}
 		for(int a = 0; a < ToolListMF.weaponMats.length; a ++)
 		{
-			BaseMaterialMF mat = ToolListMF.weaponMats[a];
+			BaseMaterialMF mat = BaseMaterialMF.getMaterial(ToolListMF.weaponMats[a]);
 			String name = mat.name.toLowerCase();
 			int rarity = mat.rarity;
 			if(name.equalsIgnoreCase("ornate"))

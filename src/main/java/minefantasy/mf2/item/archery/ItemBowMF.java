@@ -333,11 +333,11 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows,
 	@Override
 	public Entity modifyArrow(Entity arrow) 
 	{
-		if (getMaterial() == BaseMaterialMF.dragonforge.getToolConversion())
+		if (getMaterial() == BaseMaterialMF.getMaterial("dragonforge").getToolConversion())
 		{
 			arrow.setFire(60);
 		}
-		if (getMaterial() == BaseMaterialMF.silver.getToolConversion() || getMaterial() == BaseMaterialMF.ornate.getToolConversion())
+		if (getMaterial() == BaseMaterialMF.getMaterial("silver").getToolConversion() || getMaterial() == BaseMaterialMF.getMaterial("ornate").getToolConversion())
 		{
 			arrow.getEntityData().setBoolean("MF_Silverbow", true);
 		}

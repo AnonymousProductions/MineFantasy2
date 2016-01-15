@@ -111,7 +111,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		
 		this.baseDamage = 4 + material.getDamageVsEntity() + getDamageModifier();
 		
-		if(material == ToolMaterialMF.TRAINING)
+		if(material == ToolMaterial.WOOD)
 		{
 			baseDamage = 0F;
 		}
@@ -185,7 +185,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
     {
         super.addInformation(weapon, user, list, extra);
         
-        if(material == ToolMaterialMF.TRAINING)
+        if(material == ToolMaterial.WOOD)
         {
         	return;
         }
@@ -306,7 +306,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
     
     protected void addXp(EntityLivingBase user, int chance)
     {
-    	if(ConfigWeapon.xpTrain && user instanceof EntityPlayer && material == ToolMaterialMF.TRAINING)
+    	if(ConfigWeapon.xpTrain && user instanceof EntityPlayer && material == ToolMaterial.WOOD)
 		{
 			if(chance == 0 || user.getRNG().nextInt(chance) == 0)
 			{
@@ -393,7 +393,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	@Override
 	public void onProperHit(EntityLivingBase user, ItemStack weapon, Entity hit, float dam)
 	{
-		if(ConfigWeapon.xpTrain && user instanceof EntityLivingBase && material == ToolMaterialMF.TRAINING)
+		if(ConfigWeapon.xpTrain && user instanceof EntityLivingBase && material == ToolMaterial.WOOD)
 		{
 			addXp(user, 50);
 		}
@@ -407,12 +407,12 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	@Override
 	public boolean playCustomParrySound(EntityLivingBase blocker, Entity attacker, ItemStack weapon) 
 	{
-		if(material == ToolMaterialMF.TRAINING)
+		if(material == ToolMaterial.WOOD)
 		{
 			blocker.worldObj.playSoundAtEntity(blocker, "minefantasy2:weapon.wood_parry", 1.0F, 1.0F);
 			return true;
 		}
-		if(material == ToolMaterialMF.STONE)
+		if(material == ToolMaterial.STONE)
 		{
 			blocker.worldObj.playSoundAtEntity(blocker, "dig.stone", 1.0F, 0.1F);
 			return true;

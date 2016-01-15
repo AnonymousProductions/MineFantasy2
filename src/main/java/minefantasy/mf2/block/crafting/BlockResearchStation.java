@@ -3,7 +3,6 @@ package minefantasy.mf2.block.crafting;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityResearch;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
@@ -19,7 +18,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -28,6 +26,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockResearchStation extends BlockContainer
 {
+	public static int research_RI = 106;
     private int tier = 0;
 
     public BlockResearchStation()
@@ -117,7 +116,7 @@ public class BlockResearchStation extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.research_RI;
+		return research_RI;
 	}
 	
 	@Override

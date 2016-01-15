@@ -60,8 +60,9 @@ public class Skill
 		
 		int value = skill.getInteger("xp");
 		int max = skill.getInteger("xpMax");
+		int curLvl = RPGElements.getLevel(player, this);
 		
-		if(max <= 0)
+		if(max <= 0 || curLvl >= getMaxLevel())
 		{
 			return;
 		}

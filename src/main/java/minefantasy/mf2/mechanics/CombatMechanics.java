@@ -642,14 +642,14 @@ public class CombatMechanics
     	}
     	
     	//Fire dura degrade
-    	if(properHit && source.isFireDamage() && ArmourCalculator.useThresholdSystem && dam > 0)
+    	if(properHit && source.isFireDamage() && dam > 0)
     	{
     		for(int a = 0; a < 4; a++)
 			{
 				ItemStack armour = user.getEquipmentInSlot(a+1);
 				if(armour != null)
 				{
-					int dura = (int)(dam*10F);
+					int dura = (int)(dam);
 					if(!user.worldObj.isRemote && !isArmourFireImmune(armour, source))
 					{
 						if(armour.getItemDamage() + dura < armour.getMaxDamage())
@@ -671,7 +671,7 @@ public class CombatMechanics
     	}
     	
     	
-    	if(!source.isUnblockable() && (properHit || source.isProjectile()) && dam > 0 && ArmourCalculator.useThresholdSystem)
+    	if(!source.isUnblockable() && (properHit || source.isProjectile()) && dam > 0 && ArmourCalculator.useThresholdSystem)//THRESHOLD SYSTEM
     	{
 	    	float AC = ArmourCalculator.getACThreshold(user, source);
 	    	if(source.isFireDamage())

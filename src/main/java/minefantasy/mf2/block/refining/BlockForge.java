@@ -3,9 +3,6 @@ package minefantasy.mf2.block.refining;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
@@ -24,23 +21,23 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockForge extends BlockContainer 
 {
+	public static int forge_RI = 104;
+	
 	private Random rand = new Random();
 	public final boolean isActive;
 	private static boolean keepInventory;
@@ -291,7 +288,7 @@ public class BlockForge extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.forge_RI;
+		return forge_RI;
 	}
 	
 	

@@ -5,9 +5,9 @@ import minefantasy.mf2.mechanics.CombatMechanics;
 
 public class ConfigMobs extends ConfigurationBaseMF
 {
-	public static final String BASIC = "Basic Entities";
+	public static final String BASIC = "1-1: Basic Entities";
 	public static int entityID;
-	public static final String MOB_DRAGON = "Dragon";
+	public static final String MOB_DRAGON = "2-4: DRAGON";
 	//public static int dragonID;
 	public static int youngdragonHP, dragonHP, diredragonHP, elderdragonHP, ancientdragonHP;
 	public static int youngdragonMD, dragonMD, diredragonMD, elderdragonMD, ancientdragonMD;
@@ -20,12 +20,13 @@ public class ConfigMobs extends ConfigurationBaseMF
 	public static boolean dragonGriefGeneral;
 	public static boolean dragonMSG;
 	
-	public static final String MOB_MINOTAUR = "Minotaur";
+	public static final String MOB_MINOTAUR = "5-5: MINOTAUR";
 	//public static int dragonID;
-	public static int minotaurHP;
-	public static int minotaurMD;
-	public static int minotaurGD;
-	public static int minotaurBD, minotaurDC, minotaurGC, minotaurTC;
+	public static int minotaurHP, netherminotaurHP;
+	public static int minotaurMD, netherminotaurMD;
+	public static int minotaurGD, netherminotaurGD;
+	public static int netherminotaurBT, netherminotaurBD, netherminotaurDC, netherminotaurGC, netherminotaurGCB, netherminotaurTC;
+	public static int minotaurBT, minotaurBD, minotaurDC, minotaurGC, minotaurGCB, minotaurTC;
 	public static int minotaurSpawnrate, minotaurSpawnrateNether;
 	
 	@Override
@@ -70,16 +71,27 @@ public class ConfigMobs extends ConfigurationBaseMF
 		dragonGriefGeneral =  Boolean.parseBoolean(config.get(MOB_DRAGON, "4C: General Block Grief", true, "Should glass be broken by fire breath AND stomping").getString());
 		dragonMSG =  Boolean.parseBoolean(config.get(MOB_DRAGON, "4D: Spawn Message", false, "Will players get a message when dragons enter/leave").getString());
 	
-		minotaurHP =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Aa: Health", 50, "Minotaur Stats").getString());
-		minotaurMD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ab: Pound dmg", 6).getString());
-		minotaurGD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ac: Gore dmg", 6).getString());
-		minotaurBD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ad: Beserk dmg", 8).getString());
-		minotaurDC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ae: Disarm chance (When blocking Gore)", 5).getString());
-		minotaurGC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Af: Beserk Grab Chance", 20).getString());
-		minotaurTC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ag: Beserk Throw Chance", 20).getString());
+		minotaurHP =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Aa: Health", 50, "Brown Minotaur").getString());
+		minotaurMD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ab: Pound dmg", 5).getString());
+		minotaurGD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ac: Gore dmg", 5).getString());
+		minotaurBD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ad: Beserk dmg", 7).getString());
+		minotaurBT =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ae: Beserk threshold (% health)", 10).getString());
+		minotaurDC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Af: Disarm chance when mob power attacks", 10).getString());
+		minotaurGC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ag: Grab Chance", 5).getString());
+		minotaurGCB =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ah: Grab Chance (Beserk)", 10).getString());
+		minotaurTC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ai: Throw Chance", 20).getString());
+		minotaurSpawnrate  =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Aj: Spawnrate", 5).getString());
 		
-		minotaurSpawnrate  =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"6A: Spawnrate", 5, "Minotaur Spawn Rate").getString());
-		minotaurSpawnrateNether  =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"6B: Nether Spawnrate", 25, "Minotaur Spawn Rate (Nether)").getString());
+		netherminotaurHP =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Ba: Health", 80, "Dread Minotaur").getString());
+		netherminotaurMD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Bb: Pound dmg", 8).getString());
+		netherminotaurGD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Bc: Gore dmg", 8).getString());
+		netherminotaurBD =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Bd: Beserk dmg", 10).getString());
+		netherminotaurBT =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Be: Beserk threshold (% health)", 25).getString());
+		netherminotaurDC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Bf: Disarm chance when mob power attacks", 20).getString());
+		netherminotaurGC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Bg: Grab Chance", 25).getString());
+		netherminotaurGCB =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Bh: Grab Chance (Beserk)", 50).getString());
+		netherminotaurTC =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Bi: Throw Chance", 20).getString());
+		minotaurSpawnrateNether  =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Bj: Spawnrate", 25).getString());
 	}
 
 }

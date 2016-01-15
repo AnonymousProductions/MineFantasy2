@@ -23,6 +23,7 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -40,14 +41,11 @@ public class MineFantasyHUD extends Gui
 		{
 			if(mc.currentScreen != null && (mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiContainerCreative))
 			{
-				if(ArmourCalculator.useThresholdSystem)
-				{
-					renderArmourDT(mc.thePlayer);
-				}
-				if(!ArmourCalculator.useThresholdSystem)
-				{
-					renderArmourRating(mc.thePlayer);
-				}
+				renderArmourRating(mc.thePlayer);
+			}
+			else
+			{
+				renderArrows(mc.thePlayer);
 			}
 			if(StaminaBar.isSystemActive && !mc.thePlayer.capabilities.isCreativeMode)
 			{
@@ -104,7 +102,7 @@ public class MineFantasyHUD extends Gui
 	}
 	private void renderArmourRating(EntityPlayer player)
 	{
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
 		int width = scaledresolution.getScaledWidth();
         int height = scaledresolution.getScaledHeight();
 		
@@ -112,33 +110,13 @@ public class MineFantasyHUD extends Gui
         int[] orientationAR = getOrientsFor(width, height, ConfigClient.AR_xOrient, ConfigClient.AR_yOrient);
         int xPosAR = orientationAR[0] + ConfigClient.AR_xPos;
         int yPosAR = orientationAR[1] + ConfigClient.AR_yPos;
-        
-		int AR = ArmourCalculator.getTotalArmourRating(player);
-        mc.fontRenderer.drawStringWithShadow("AR: "+ AR, xPosAR, yPosAR, Color.WHITE.getRGB());
-        
-        ItemStack held = player.getHeldItem();
-        if(held != null && (held.getItem() instanceof IDisplayMFArrows || held.getItem() == Items.bow))
-        {
-        	ItemStack arrow = Arrows.getPresetArrow(player);
-        	
-        	if(arrow != null)
-        	{
-        		String text = arrow.getDisplayName();
-        		if(Arrows.displayArrowCount)
-        		{
-        			text += " x"+Arrows.getArrowCount(player);
-        		}
-        		
-        		int[] orientationAC = getOrientsFor(width, height, ConfigClient.AC_xOrient, ConfigClient.AC_yOrient);
-                int xPosAC = orientationAR[0] + ConfigClient.AC_xPos;
-                int yPosAC = orientationAR[1] + ConfigClient.AC_yPos;
-                
-        		mc.fontRenderer.drawStringWithShadow(text, xPosAC, yPosAC, Color.WHITE.getRGB());
-        	}
-        }
+        mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.protection"), xPosAR, yPosAR, Color.WHITE.getRGB());
+      
+        displayTraitValue(xPosAR, yPosAR+8, orientationAR, 0, player);
+        displayTraitValue(xPosAR, yPosAR+16, orientationAR, 2, player);
+        displayTraitValue(xPosAR, yPosAR+24, orientationAR, 1, player);
 	}
-	
-	private void renderArmourDT(EntityPlayer player)
+	private void renderArrows(EntityPlayer player)
 	{
 		ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
 		int width = scaledresolution.getScaledWidth();
@@ -148,10 +126,6 @@ public class MineFantasyHUD extends Gui
         int[] orientationAR = getOrientsFor(width, height, ConfigClient.AR_xOrient, ConfigClient.AR_yOrient);
         int xPosAR = orientationAR[0] + ConfigClient.AR_xPos;
         int yPosAR = orientationAR[1] + ConfigClient.AR_yPos;
-        mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.rating"), xPosAR, yPosAR, Color.WHITE.getRGB());
-        displayTraitDT(xPosAR, yPosAR+8, orientationAR, 0, player);
-        displayTraitDT(xPosAR, yPosAR+16, orientationAR, 2, player);
-        displayTraitDT(xPosAR, yPosAR+24, orientationAR, 1, player);
         
         ItemStack held = player.getHeldItem();
         if(held != null && (held.getItem() instanceof IDisplayMFArrows || held.getItem() == Items.bow))
@@ -175,14 +149,9 @@ public class MineFantasyHUD extends Gui
         }
 	}
 	
-	private void displayTraitDT(int xPosAR, int yPosAR, int[] orientationAR, int id, EntityPlayer player)
+	private void displayTraitValue(int xPosAR, int yPosAR, int[] orientationAR, int id, EntityPlayer player)
 	{
-		float AR = ArmourCalculator.getDTDisplay(player, id);
-    	mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.rating."+id)+" " + ItemWeaponMF.decimal_format.format(AR), xPosAR, yPosAR, Color.WHITE.getRGB());
-	}
-	private void displayTraitAC(int xPosAR, int yPosAR, int[] orientationAR, int id, EntityPlayer player)
-	{
-		float AR = ArmourCalculator.getDTDisplay(player, id);
+		float AR = ArmourCalculator.useThresholdSystem ? ArmourCalculator.getDTDisplay(player, id) : (int)(ArmourCalculator.getDRDisplay(player, id)*100F);
     	mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.rating."+id)+" " + ItemWeaponMF.decimal_format.format(AR), xPosAR, yPosAR, Color.WHITE.getRGB());
 	}
 

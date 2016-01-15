@@ -38,7 +38,7 @@ public class KnowledgeListMF
     public static InformationBase refined_planks, reinforced_stone, clay_wall, glass, brickworks, bars, thatch;
     public static InformationBase toughness, fitness, armourpro, parrypro, counteratt, autoparry, firstaid, doctor;
     
-    public static InformationBase cookingutensil, generic_meat, stew, jerky, saussage, sandwitch, meatpie, shepardpie, bread, oats, salt, jug, berry, icing, sweetroll, eclair, cake, carrotcake, chococake, bfcake, applepie, berrypie, cheese, cheeseroll, bandage, bandageadv;
+    public static InformationBase cookingutensil, generic_meat, stew, jerky, saussage, sandwitch, sandwitchBig, meatpie, shepardpie, bread, oats, salt, jug, berry, icing, sweetroll, eclair, cake, carrotcake, chococake, bfcake, applepie, berrypie, cheese, cheeseroll, bandage, bandageadv;
     
     public static void init()
 	{
@@ -145,6 +145,7 @@ public class KnowledgeListMF
         jerky = (new InformationBase("jerky",             0,  -5, 5, FoodListMF.jerky, stew)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 10);
         saussage = (new InformationBase("saussage",             2,  -5, 8, FoodListMF.saussage_cooked, jerky)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 35);
         sandwitch = (new InformationBase("sandwitch",     1,  -7, 15, FoodListMF.sandwitch_meat, jerky)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 15);
+        sandwitchBig = (new InformationBase("sandwitchBig",     3,  -7, 20, FoodListMF.sandwitch_big, sandwitch)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 25);
         meatpie = (new InformationBase("meatpie",   		-1,  -7, 20, BlockListMF.pie_meat, jerky)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 35);
         shepardpie = (new InformationBase("shepardpie",  	-2,  -9, 25, BlockListMF.pie_shepards, meatpie)).registerStat().setPage(provisioning).addSkill(SkillList.provisioning, 80);
         bread = (new InformationBase("bread",             1,   0, 0, FoodListMF.breadroll, (InformationBase)null)).registerStat().setPage(provisioning).setUnlocked();
@@ -275,7 +276,7 @@ public class KnowledgeListMF
     public static final ArrayList<ICarpenterRecipe> meatRecipes = new ArrayList<ICarpenterRecipe>();
     public static ICarpenterRecipe meatStripR, meatHunkR, minceR, gutsRecipe;
     public static IRecipe researchTableRecipe, meatpieOut, shepardOut, berryOut, appleOut, caketinRecipe, pietrayRecipe;
-    public static ICarpenterRecipe breadSliceR, pastryRecipe, doughRecipe, breadRecipe, curdRecipe, oatsRecipe, custardRecipe, icingRecipe, stewRecipe, saussageR, jerkyRecipe, meatPieRecipe, sandwitchRecipe, shepardRecipe, sweetrollRecipe, iceSR, eclairDoughR, eclairIceR, eclairFillR;
+    public static ICarpenterRecipe breadSliceR, pastryRecipe, doughRecipe, breadRecipe, curdRecipe, oatsRecipe, custardRecipe, icingRecipe, stewRecipe, saussageR, jerkyRecipe, meatPieRecipe, sandwitchRecipe, sandwitchBigRecipe, shepardRecipe, sweetrollRecipe, iceSR, eclairDoughR, eclairIceR, eclairFillR;
     public static ICarpenterRecipe berryR, appleR, cheeserollR, cakeR, carrotCakeR, chocoCakeR, bfCakeR, cakeI, carrotCakeI, chocoCakeI, bfCakeI;
 
     public static ICarpenterRecipe syringeR, parachuteR, bandageR, badBandageR, goodBandageR;

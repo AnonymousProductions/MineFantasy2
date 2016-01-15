@@ -53,7 +53,8 @@ public class FoodListMF
 	public static Item saussage_cooked = (new ItemFoodMF("saussage_cooked",     8,    1.0F, 10, true, 0)).setStaminaModifier (30F, 1.0F).setStaminaRegenModifier(2, 10F).setMaxStackSize(16);
 	public static Item sweetroll_uniced = (new ItemFoodMF("sweetroll_uniced", 	5,    1.0F, 0, false, 0)).setStaminaRegenModifier (5F, 1F).setStaminaRestore(5F).setEatTime(16).setAlwaysEdible().setMaxStackSize(64);
 	public static Item sweetroll = (new ItemMultiFood("sweetroll",            2,3,  1.0F, 0, 0)).setStaminaRegenModifier (10F, 2F).setStaminaRestore(10F).setEatTime(16).setAlwaysEdible();
-	public static Item sandwitch_meat = (new ItemMultiFood("sandwitch_meat",  2,6,  1.0F, 8, 1)).setStaminaModifier(25F, 1.0F).setTextureName("minefantasy2:food/sandwitch");
+	public static Item sandwitch_meat = (new ItemMultiFood("sandwitch_meat",  2,6,  1.0F, 8, 1)).setStaminaModifier(25F, 1.0F).setTextureName("minefantasy2:food/sandwitch").setUnlocalizedName("sandwitch");
+	public static Item sandwitch_big = (new ItemMultiFood("sandwitch_big",    4,6,  1.0F, 8, 1)).setStaminaModifier(25F, 1.0F).setTextureName("minefantasy2:food/sandwitchbig").setUnlocalizedName("sandwitch");
 	public static Item eclair_uniced = (new ItemFoodMF("eclair_uniced", 	5,    1.0F, 1, false, 0)).setStaminaRegenModifier (10F, 1F).setStaminaRestore(20F).setEatTime(16).setAlwaysEdible().setMaxStackSize(64).setTextureName("minefantasy2:food/unfinished/eclair_uniced");
 	public static Item eclair_empty = (new ItemFoodMF("eclair_empty", 	    5,    1.0F, 2, false, 0)).setStaminaRegenModifier (15F, 1F).setStaminaRestore(60F).setEatTime(16).setAlwaysEdible().setMaxStackSize(64).setTextureName("minefantasy2:food/unfinished/eclair_empty");
 	

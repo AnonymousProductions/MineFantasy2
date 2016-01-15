@@ -1,6 +1,6 @@
 package minefantasy.mf2.client.render.block;
 
-import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.block.crafting.BlockBombPress;
 import minefantasy.mf2.block.tileentity.TileEntityBombPress;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -28,7 +28,7 @@ public class RenderBombPress implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.bpress_RI;
+		return BlockBombPress.bpress_RI;
 	}
 
 	@Override

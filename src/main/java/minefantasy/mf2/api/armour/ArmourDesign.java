@@ -12,11 +12,11 @@ public class ArmourDesign
 	public static HashMap<String, ArmourDesign>designs = new HashMap<String, ArmourDesign>();
 	//                                                            Reg         Name        Prot     Dura    Weight   Bulk                  Ctg    Bnt  Png
 	public static final ArmourDesign CLOTH = new ArmourDesign(   "clothing", "Clothing",  1.0F,    1.0F,    0F,     0.25F).calibrateTraits(0.5F, 1.0F,  0.5F);//Weak
-	public static final ArmourDesign LEATHER = new ArmourDesign( "leather",  "Leather",   1.0F,    1.0F,   10F,     0.25F).calibrateTraits(0.75F, 1.0F, 0.50F);//Slightly better blunt
-	public static final ArmourDesign PADDING = new ArmourDesign( "padding",  "Padding",   1.0F,    1.0F,   12F,     1.00F).calibrateTraits(0.4F, 1.0F, 0.25F);//Blunt resistent
+	public static final ArmourDesign LEATHER = new ArmourDesign( "leather",  "Leather",   1.0F,    1.0F,   10F,     0.25F).calibrateTraits(0.7F, 1.0F, 0.5F);//Slightly better blunt
+	public static final ArmourDesign PADDING = new ArmourDesign( "padding",  "Padding",   1.0F,    1.0F,   12F,     1.00F).calibrateTraits(0.7F, 1.2F, 0.5F);//Blunt resistent
 	public static final ArmourDesign SOLID = new ArmourDesign(   "default",  "Basic",     1.0F,    1.0F,   40F,     1.00F);//Basic Armour
-	public static final ArmourDesign MAIL = new ArmourDesign(    "mail",     "Mail",      1.0F,    2.0F,   35F,     0.75F).calibrateTraits(1.0F, 0.5F, 0.85F);//Vulnerable to blunt
-	public static final ArmourDesign PLATE = new ArmourDesign(   "plate",    "Plate",     1.5F,    1.5F,   60F,     1.00F).calibrateTraits(1.0F, 1.0F, 0.5F);//Vulnerable to piercing
+	public static final ArmourDesign MAIL = new ArmourDesign(    "mail",     "Mail",      1.0F,    1.0F,   35F,     0.75F).calibrateTraits(1.0F, 0.7F, 0.9F);//Vulnerable to blunt
+	public static final ArmourDesign PLATE = new ArmourDesign(   "plate",    "Plate",     1.5F,    1.0F,   60F,     1.00F).calibrateTraits(1.0F, 1.0F, 0.6F);//Vulnerable to piercing
 	
 	private String name;
 	private float durability;

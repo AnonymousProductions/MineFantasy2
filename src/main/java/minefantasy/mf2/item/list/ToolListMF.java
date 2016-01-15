@@ -6,6 +6,8 @@ import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.*;
 import minefantasy.mf2.item.archery.*;
+import minefantasy.mf2.item.custom.tool.ItemCustomPick;
+import minefantasy.mf2.item.custom.tool.ItemCustomTool;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.gadget.*;
 import minefantasy.mf2.item.tool.*;
@@ -38,41 +40,41 @@ public class ToolListMF
 	public static EnumRarity[] rarity = new EnumRarity[]{ToolListMF.poor, EnumRarity.common, EnumRarity.uncommon, EnumRarity.rare, EnumRarity.epic};
 
 	
-	public static final BaseMaterialMF[] mats = new BaseMaterialMF[]
+	public static final String[] mats = new String[]
 	{
-		BaseMaterialMF.copper,
-		BaseMaterialMF.bronze,
-		BaseMaterialMF.iron,
-		BaseMaterialMF.steel,
-		BaseMaterialMF.encrusted,
-		BaseMaterialMF.blacksteel,
-		BaseMaterialMF.dragonforge,
-		BaseMaterialMF.adamantium,
-		BaseMaterialMF.redsteel,
-		BaseMaterialMF.bluesteel,
-		BaseMaterialMF.mithril,
-		BaseMaterialMF.ignotumite,
-		BaseMaterialMF.mithium,
-		BaseMaterialMF.enderforge,
+		"copper",
+		"bronze",
+		"iron",
+		"steel",
+		"encrusted",
+		"blacksteel",
+		"dragonforge",
+		"adamantium",
+		"redsteel",
+		"bluesteel",
+		"mithril",
+		"ignotumite",
+		"mithium",
+		"ender",
 	};
 			
-	public static final BaseMaterialMF[] weaponMats = new BaseMaterialMF[]
+	public static final String[] weaponMats = new String[]
 	{
-		BaseMaterialMF.copper,
-		BaseMaterialMF.bronze,
-		BaseMaterialMF.iron,
-		BaseMaterialMF.ornate,
-		BaseMaterialMF.steel,
-		BaseMaterialMF.encrusted,
-		BaseMaterialMF.blacksteel,
-		BaseMaterialMF.dragonforge,
-		BaseMaterialMF.adamantium,
-		BaseMaterialMF.redsteel,
-		BaseMaterialMF.bluesteel,
-		BaseMaterialMF.mithril,
-		BaseMaterialMF.ignotumite,
-		BaseMaterialMF.mithium,
-		BaseMaterialMF.enderforge,
+		"copper",
+		"bronze",
+		"iron",
+		"ornate",
+		"steel",
+		"encrusted",
+		"blacksteel",
+		"dragonforge",
+		"adamantium",
+		"redsteel",
+		"bluesteel",
+		"mithril",
+		"ignotumite",
+		"mithium",
+		"ender",
 	};
 			
 			
@@ -95,10 +97,10 @@ public class ToolListMF
 	public static ItemWaraxeMF[] waraxes = new ItemWaraxeMF[weaponMats.length];
 	public static ItemMaceMF[] maces = new ItemMaceMF[weaponMats.length];
 	public static ItemDagger[] daggers = new ItemDagger[weaponMats.length];
-	public static Item swordTraining = new ItemSwordMF("training_sword", ToolMaterialMF.TRAINING, -1, 0.8F);
-	public static Item waraxeTraining = new ItemWaraxeMF("training_waraxe", ToolMaterialMF.TRAINING, -1, 0.8F);
-	public static Item maceTraining = new ItemMaceMF("training_mace", ToolMaterialMF.TRAINING, -1, 0.8F);
-	public static Item spearTraining = new ItemSpearMF("training_spear", ToolMaterialMF.TRAINING, -1, 0.8F);
+	public static Item swordTraining = new ItemSwordMF("training_sword", ToolMaterial.WOOD, -1, 0.8F);
+	public static Item waraxeTraining = new ItemWaraxeMF("training_waraxe", ToolMaterial.WOOD, -1, 0.8F);
+	public static Item maceTraining = new ItemMaceMF("training_mace", ToolMaterial.WOOD, -1, 0.8F);
+	public static Item spearTraining = new ItemSpearMF("training_spear", ToolMaterial.WOOD, -1, 0.8F);
 	public static ItemArrowMF[] arrows = new ItemArrowMF[weaponMats.length];
 	public static ItemArrowMF[] bodkinArrows = new ItemArrowMF[weaponMats.length-1];
 	public static ItemArrowMF[] broadArrows = new ItemArrowMF[weaponMats.length-1];
@@ -120,10 +122,10 @@ public class ToolListMF
 	public static ItemHvyShovel[] hvyshovels = new ItemHvyShovel[mats.length-1];
 	public static ItemMattock[] mattocks = new ItemMattock[mats.length-1];
 	
-	public static Item knifeStone = new ItemKnifeMF("stone_knife", ToolMaterialMF.STONE, -1, 3.5F, 0);
-	public static Item hammerStone = new ItemHammer("stone_hammer", ToolMaterialMF.STONE, 0, false, -1);
-	public static Item tongsStone = new ItemTongs("stone_tongs", ToolMaterialMF.STONE, -1);
-	public static Item needleBone = new ItemNeedle("bone_needle", ToolMaterialMF.STONE, -1, 0);
+	public static Item knifeStone = new ItemKnifeMF("stone_knife", ToolMaterial.STONE, -1, 3.5F, 0);
+	public static Item hammerStone = new ItemHammer("stone_hammer", ToolMaterial.STONE, 0, false, -1);
+	public static Item tongsStone = new ItemTongs("stone_tongs", ToolMaterial.STONE, -1);
+	public static Item needleBone = new ItemNeedle("bone_needle", ToolMaterial.STONE, -1, 0);
 	
 	//public static Item pickStone = new ItemPickMF("stone_pick", ToolMaterialMF.STONE, -1);
 	//public static Item axeStone = new ItemAxeMF("stone_axe", ToolMaterialMF.STONE, -1);
@@ -154,13 +156,13 @@ public class ToolListMF
 	public static Item skillbook_engineering = new ItemSkillBook("skillbook_engineering", SkillList.engineering);
 	public static Item skillbook_combat = new ItemSkillBook("skillbook_combat", SkillList.combat);
 	
-	public static Item spanner = new ItemEngineerTool("spanner", BaseMaterialMF.steel.getToolConversion(), 0, "spanner", 1);
+	public static Item spanner;
 	public static Item engin_anvil_tools = new ItemEAnvilTools("engin_anvil_tools", 64);
-	public static Item spanner_blk = new ItemEngineerTool("spanner_blk", BaseMaterialMF.blacksteel.getToolConversion(), 1, "spanner", 3);
+	public static Item spanner_blk;
 	
 	public static Item exploding_arrow = new ItemExplodingArrow();
 	public static Item spyglass = new ItemSpyglass();
-	public static Item climbing_pick_basic = new ItemClimbingPick("climbing_pick_basic", BaseMaterialMF.iron.getToolConversion(), 0);
+	public static Item climbing_pick_basic;
 	public static Item parachute = new ItemParachute();
 	
 	public static Item syringe = new ItemSyringe();
@@ -169,14 +171,19 @@ public class ToolListMF
 	public static Item loot_sack = new ItemLootSack("loot_sack", 8, 0);
 	public static Item loot_sack_uc = new ItemLootSack("loot_sack_uc", 12, 1);
 	public static Item loot_sack_rare = new ItemLootSack("loot_sack_rare", 16, 2);
+	public static ItemCustomTool pickCustom = new ItemCustomPick("pick_custom");
+	
 	public static void init() 
 	{
+		spanner = new ItemEngineerTool("spanner", BaseMaterialMF.getMaterial("steel").getToolConversion(), 0, "spanner", 1);
+		spanner_blk = new ItemEngineerTool("spanner_blk", BaseMaterialMF.getMaterial("blacksteel").getToolConversion(), 1, "spanner", 3);
+		climbing_pick_basic = new ItemClimbingPick("climbing_pick_basic", BaseMaterialMF.getMaterial("iron").getToolConversion(), 0);
 		BlockListMF.init();
 		ArmourListMF.init();
 		FoodListMF.init();
 		for(int a = 0; a < mats.length; a ++)
 		{
-			BaseMaterialMF baseMat = mats[a];
+			BaseMaterialMF baseMat = BaseMaterialMF.getMaterial(mats[a]);
 			
 			ToolMaterial mat = baseMat.getToolConversion();
 			String matName = baseMat.name.toLowerCase();
@@ -229,7 +236,7 @@ public class ToolListMF
 		
 		for(int a = 0; a < weaponMats.length; a ++)
 		{
-			BaseMaterialMF baseMat = weaponMats[a];
+			BaseMaterialMF baseMat = BaseMaterialMF.getMaterial(weaponMats[a]);
 			
 			ToolMaterial mat = baseMat.getToolConversion();
 			String matName = baseMat.name.toLowerCase();

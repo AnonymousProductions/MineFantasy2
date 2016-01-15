@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.armour.ISpecialArmourMF;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.EntityHelper;
@@ -31,6 +32,7 @@ import minefantasy.mf2.network.packet.LevelupPacket;
 import minefantasy.mf2.network.packet.SkillPacket;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -100,8 +102,9 @@ public class EventManagerMF
 			Item drop = id == 0 ? ToolListMF.loot_sack : id == 1 ? ToolListMF.loot_sack_uc : ToolListMF.loot_sack_rare;
 			dropper.entityDropItem(new ItemStack(drop), 0.0F);
 		}
-		if(dropper instanceof IAnimals && dropper.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD)
+		if(dropper instanceof EntityAgeable && dropper.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD)
 		{
+			EntityAgeable a;
 			if(rand.nextFloat() * (1+event.lootingLevel) < 0.05F)
 			{
 				dropper.entityDropItem(new ItemStack(FoodListMF.guts), 0.0F);
@@ -482,11 +485,6 @@ public class EventManagerMF
 		}
 	}
 
-	private EntityLivingBase EntityWitch() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private void addKill(EntityPlayer hunter, EntityLivingBase dead) 
 	{
 		addKillTo(hunter, "killsCount");
@@ -585,12 +583,12 @@ public class EventManagerMF
 				}
 				else
 				{
-					addArmourRating(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
+					addArmourDR(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
 				}
 			}
 			if(ArmourCalculator.advancedDamageTypes && ArmourCalculator.getRatioForWeapon(event.itemStack) != null)
 			{
-				displayTraits(ArmourCalculator.getRatioForWeapon(event.itemStack), event.toolTip);
+				displayWeaponTraits(ArmourCalculator.getRatioForWeapon(event.itemStack), event.toolTip);
 			}
 			if(ToolHelper.shouldShowTooltip(event.itemStack))
 			{
@@ -615,7 +613,7 @@ public class EventManagerMF
 		}
 	}
 	
-	private void displayTraits(float[] ratio, List<String> list)
+	private void displayWeaponTraits(float[] ratio, List<String> list)
 	{
 		int cutting = (int) (ratio[0] / (ratio[0]+ratio[1]+ratio[2]) * 100F);
 		int piercing = (int) (ratio[2] / (ratio[0]+ratio[1]+ratio[2]) * 100F);
@@ -645,7 +643,7 @@ public class EventManagerMF
 		{
 			list.add(StatCollector.translateToLocal("attribute.armour." + AC));
 		}
-		list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.rating")); 
+		list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection")); 
 		addSingleDT(armour, user, 0, list, extra);
 		addSingleDT(armour, user, 2, list, extra);
 		addSingleDT(armour, user, 1, list, extra);
@@ -677,8 +675,7 @@ public class EventManagerMF
 	    	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.rating."+id) + " " + rating + attatch);
         }
     }
-
-	public static void addArmourRating(ItemStack armour, EntityPlayer user, List list, boolean extra) 
+	public static void addArmourDR(ItemStack armour, EntityPlayer user, List list, boolean extra) 
     {
 		list.add("");
 		String AC = ArmourCalculator.getArmourClass(armour);
@@ -686,37 +683,42 @@ public class EventManagerMF
 		{
 			list.add(StatCollector.translateToLocal("attribute.armour." + AC));
 		}
-		
+		if(armour.getItem() instanceof ISpecialArmourMF)
+		{
+			list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection")); 
+			addSingleDR(armour, user, 0, list, extra);
+			addSingleDR(armour, user, 2, list, extra);
+			addSingleDR(armour, user, 1, list, extra);
+		}
+    }
+	public static void addSingleDR(ItemStack armour, EntityPlayer user, int id, List list, boolean extra) 
+    {
 		int slot = ((ItemArmor)armour.getItem()).armorType;
         String attatch = "";
         
-        float rating = ArmourCalculator.getArmourRatingLevel(user, armour, slot);
-        float equipped = ArmourCalculator.getArmourRatingLevel(user, user.getCurrentArmor(3-slot), slot);
-        boolean percent = ArmourCalculator.usePercentage;
+        int rating = (int)(ArmourCalculator.getDRForDisplayPiece(armour, id)*100F);
+        int equipped = (int)(ArmourCalculator.getDRForDisplayPiece(user.getCurrentArmor(3-slot), id)*100F);
         
-        if(equipped > 0 && rating != equipped)
+        if(rating > 0 || equipped > 0)
         {
-        	float d = rating-equipped;
-        	if(d > 0)
-        	{
-        		attatch += EnumChatFormatting.DARK_GREEN;
-        	}
-        	if(d < 0)
-        	{
-        		attatch += EnumChatFormatting.RED;
-        	}
-        	String d2 = percent ? ItemWeaponMF.decimal_format.format(d) : (""+(int)d);
-        	attatch += " (" + (d > 0 ? "+" : "") + d2 + (percent ? "%)" : ")");
-        }
-        if(percent)
-        {
-        	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection") + " " + ItemWeaponMF.decimal_format.format(rating)+"%" + attatch);
-        }
-        else
-        {
-        	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection") + " " + (int)rating + attatch);
+	        if(equipped > 0 && rating != equipped)
+	        {
+	        	float d = rating-equipped;
+	        	if(d > 0)
+	        	{
+	        		attatch += EnumChatFormatting.DARK_GREEN;
+	        	}
+	        	if(d < 0)
+	        	{
+	        		attatch += EnumChatFormatting.RED;
+	        	}
+	        	String d2 = ItemWeaponMF.decimal_format.format(d);
+	        	attatch += " (" + (d > 0 ? "+" : "") + d2 +  ")";
+	        }
+	    	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.rating."+id) + " " + rating + attatch);
         }
     }
+
 	private void showCrafterTooltip(ItemStack tool, List<String> list)
 	{
 		String toolType = ToolHelper.getCrafterTool(tool);

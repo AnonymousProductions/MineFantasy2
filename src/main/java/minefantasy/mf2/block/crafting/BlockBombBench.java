@@ -4,7 +4,6 @@ import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
@@ -31,7 +30,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBombBench extends BlockContainer
 {
-    public BlockBombBench()
+	public static int bomb_RI = 102;
+	
+	public BlockBombBench()
     {
         super(Material.wood);
         GameRegistry.registerBlock(this, "MF_BombCrafter");
@@ -180,7 +181,7 @@ public class BlockBombBench extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.bomb_RI;
+		return bomb_RI;
 	}
 	private Random rand = new Random();
 }
