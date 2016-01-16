@@ -10,6 +10,11 @@ import minefantasy.mf2.item.tool.advanced.ItemHvyPick;
 import minefantasy.mf2.item.tool.advanced.ItemHvyShovel;
 import minefantasy.mf2.item.tool.advanced.ItemScythe;
 import minefantasy.mf2.item.tool.advanced.ItemTrowMF;
+import minefantasy.mf2.item.tool.crafting.ItemHammer;
+import minefantasy.mf2.item.tool.crafting.ItemKnifeMF;
+import minefantasy.mf2.item.tool.crafting.ItemNeedle;
+import minefantasy.mf2.item.tool.crafting.ItemSaw;
+import minefantasy.mf2.item.tool.crafting.ItemTongs;
 import minefantasy.mf2.item.weapon.ItemBattleaxeMF;
 import minefantasy.mf2.item.weapon.ItemDagger;
 import minefantasy.mf2.item.weapon.ItemGreatswordMF;
@@ -43,6 +48,12 @@ public class CustomToolListMF
 	public static ItemWeaponMF dwarven_warhammer;
 	public static ItemWeaponMF dwarven_greatsword;
 	
+	//GNOMISH\\
+	public static Item gnomish_hammer;
+	public static Item gnomish_knife;
+	public static Item gnomish_needle;
+	public static Item gnomish_saw;
+	public static Item gnomish_tongs;
 	
 	public static void init() 
 	{
@@ -70,5 +81,16 @@ public class CustomToolListMF
 		dwarven_greatsword = new ItemGreatswordMF(design+"_greatsword", ToolMaterial.IRON, 0, 2F).setCustom().modifyBaseDamage(1F);
 		dwarven_battleaxe = new ItemBattleaxeMF(design+"_battleaxe", ToolMaterial.IRON, 0,  2F).setCustom().modifyBaseDamage(2F);
 		dwarven_warhammer = new ItemWarhammerMF(design+"_warhammer", ToolMaterial.IRON, 0, 2F).setCustom().modifyBaseDamage(1F);
+		
+		
+		design = "gnomish";
+		//I did not set weight (for knife) or efficiencies
+		//I'm assuming the weight value for the knife is now covered by the density value in material now?
+		//Gnomish Tools
+		gnomish_hammer = new ItemHammer(design+"_hammer", ToolMaterial.IRON, false, 0).setCustom().setEfficiencyMod(1.5F);
+		gnomish_knife = new ItemKnifeMF(design+"_knife", ToolMaterial.IRON, 0, 1F).setCustom().setEfficiencyMod(1.5F);
+		gnomish_needle = new ItemNeedle(design+"_needle", ToolMaterial.IRON, 0).setCustom().setEfficiencyMod(1.5F);
+		gnomish_saw = new ItemSaw(design+"_saw", ToolMaterial.IRON, 0).setCustom().setEfficiencyMod(1.5F);
+		gnomish_tongs = new ItemTongs(design+"_tongs", ToolMaterial.IRON, 0).setCustom().setEfficiencyMod(1.5F);
 	}
 }

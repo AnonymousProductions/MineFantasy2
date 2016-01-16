@@ -184,6 +184,7 @@ public class ComponentListMF
 	public static Item cross_bayonet = new ItemCrossbowPart("cross_bayonet", "muzzle").addBash(4.0F).addRecoil(-0.5F).addSpeed(0.5F);
 	public static Item cross_ammo = new ItemCrossbowPart("cross_ammo", "mod").addCapacity(5).addSpread(2.00F);
 	public static Item cross_scope = new ItemCrossbowPart("cross_scope", "mod").setScope(0.75F);
+	
 	//public static ItemHaft hilt_custom = new ItemHaft("hilt");
 	//public static ItemHaft longhilt_custom = new ItemHaft("longhilt");
 	//public static ItemHaft haft_custom = new ItemHaft("haft");
