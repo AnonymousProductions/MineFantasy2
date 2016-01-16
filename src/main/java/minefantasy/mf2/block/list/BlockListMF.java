@@ -38,7 +38,8 @@ public class BlockListMF
 	public static Block oreKaolinite = new BlockOreMF("oreKaolinite", 1, 0, ComponentListMF.kaolinite, 1, 1, 1).setHardness(3.0F).setResistance(5.0F);
 	public static Block oreNitre = new BlockOreMF("oreNitre", 2, 0, ComponentListMF.nitre, 1, 2, 1).setHardness(3.0F).setResistance(5.0F);
 	public static Block oreSulfur = new BlockOreMF("oreSulfur", 2, 0, ComponentListMF.sulfur, 1, 4, 2).setHardness(3.0F).setResistance(2.0F);
-	public static Block oreBorax = new BlockOreMF("oreBorax", 2, 0, ComponentListMF.flux_strong, 1, 4, 4).setHardness(3.0F).setResistance(2.0F);
+	public static Block oreBorax = new BlockOreMF("oreBorax", 2, 1, ComponentListMF.flux_strong, 1, 8, 4).setHardness(3.0F).setResistance(2.0F);
+	public static Block oreTungsten = new BlockOreMF("oreTungsten", 3, 1, ComponentListMF.oreTungsten, 1, 1, 4).setHardness(4.0F).setResistance(2.5F);
 	public static Block oreClay = new BlockOreMF("oreClay", 0, 0, Items.clay_ball, 1, 4, 1, Material.ground).setHardness(0.5F).setStepSound(Block.soundTypeGravel);
 	
 	public static Block mud_brick = new BasicBlockMF("mud_brick", Material.ground).setHardness(1.0F).setResistance(0.5F).setStepSound(Block.soundTypePiston);
@@ -69,6 +70,7 @@ public class BlockListMF
 	public static BlockAnvilMF[] anvil = new BlockAnvilMF[anvils.length];
 	public static BlockCarpenter carpenter = new BlockCarpenter();
 	public static BlockBombBench bombBench = new BlockBombBench();
+	public static BlockCrossbowBench crossbowBench = new BlockCrossbowBench();
 	
 	public static Block cheese_wheel = new BlockCakeMF("cheese", FoodListMF.cheese_slice);
 	
@@ -107,15 +109,19 @@ public class BlockListMF
 	
 	public static Block repair_basic = new BlockRepairKit("basic", 0.25F, 0.05F, 0.2F);
 	public static Block repair_advanced = new BlockRepairKit("advanced", 1.0F, 0.2F, 0.05F);
-	public static Block repair_ornate = new BlockRepairKit("ornate", 1.0F, 0.05F, 0.05F).setOrnate(0.5F);
+	public static Block repair_ornate = new BlockRepairKit("ornate", 1.0F, 0.25F, 0.03F).setOrnate(0.5F);
 	
 	public static Block bellows = new BlockBellows();
 	
 	public static Block refined_planks = new BasicBlockMF("refined_planks", Material.wood).setHardness(2.5F).setResistance(10F).setStepSound(Block.soundTypeWood);
+	public static Block nailed_planks = new BasicBlockMF("nailed_planks", Material.wood).setHardness(1.5F).setResistance(7F).setStepSound(Block.soundTypeWood);
+	public static Block refined_planks_stair = new ConstructionBlockMF.StairsConstBlock("refined_planks_stair", refined_planks).register("refined_planks_stair");
+	public static Block nailed_planks_stair = new ConstructionBlockMF.StairsConstBlock("nailed_planks_stair", nailed_planks).register("nailed_planks_stair");
 	
 	public static Block reinforced_stone = new BasicBlockMF("reinforced_stone", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
 	public static Block reinforced_stone_bricks = new BasicBlockMF("reinforced_stone_bricks", Material.rock).setHardness(2.0F).setResistance(15F).setStepSound(Block.soundTypeStone);
 	public static Block reinforced_stone_framed = new BasicBlockMF("reinforced_stone_framed", Material.rock).setHardness(2.5F).setResistance(20F).setStepSound(Block.soundTypeStone);
+	public static Block reinforced_stone_framediron = new BasicBlockMF("reinforced_stone_framediron", Material.rock).setHardness(2.5F).setResistance(20F).setStepSound(Block.soundTypeStone).setBlockName("reinforced_stone_framed");
 	
 	public static Block advTanner = new BlockTanningRack(1, "Strong");
 	public static Block research = new BlockResearchStation();
@@ -128,8 +134,9 @@ public class BlockListMF
 	
 	public static Block road = new BlockRoad("road_mf", 14F);
 	public static Block lowroad = new BlockRoad("road_mf_short", 7F);
-	//public static Block railForged = new BlockRailMF(BaseMaterialMF.steel);
-	//public static Block railAuto = new BlockPowRailMF(BaseMaterialMF.steel, "auto");
+	
+	public static Block salvage_basic = new BlockSalvage("basic", 1.0F);
+	public static Block bloomery = new BlockBloomery();
 	
 	public static void init()
 	{

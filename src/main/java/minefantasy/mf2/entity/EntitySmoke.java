@@ -3,11 +3,15 @@ package minefantasy.mf2.entity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
+import minefantasy.mf2.api.armour.IGasProtector;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
@@ -33,12 +37,21 @@ public class EntitySmoke extends Entity
     public double accelerationX;
     public double accelerationY;
     public double accelerationZ;
-    private static final String __OBFID = "CL_00001717";
 
     public EntitySmoke(World world)
     {
         super(world);
-        this.setSize(1.0F, 1.0F);
+        this.setSize(0.2F, 0.2F);
+    }
+    @Override
+    protected boolean canTriggerWalking()
+    {
+        return false;
+    }
+    @Override
+    public boolean canAttackWithItem()
+    {
+        return false;
     }
 
     protected void entityInit() {}
@@ -228,21 +241,25 @@ public class EntitySmoke extends Entity
             	if(pos.entityHit instanceof EntityLivingBase && !worldObj.isRemote)
             	{
             		EntityLivingBase hit = (EntityLivingBase)pos.entityHit;
-            		hit.addPotionEffect(new PotionEffect(Potion.hunger.id, 20, 0));
-            		if(rand.nextInt(20) == 0)
+            		
+            		if(canPoison(hit))
             		{
-            			if(hit.getActivePotionEffect(Potion.blindness) != null)
-            			{
-            				hit.addPotionEffect(new PotionEffect(Potion.wither.id, 200, 0));
-            			}
-            			else if(hit.getActivePotionEffect(Potion.confusion) != null)
-            			{
-            				hit.addPotionEffect(new PotionEffect(Potion.blindness.id, 200, 0));
-            			}
-            			else
-            			{
-            				hit.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
-            			}
+	            		hit.addPotionEffect(new PotionEffect(Potion.hunger.id, 20, 0));
+	            		if(rand.nextInt(20) == 0)
+	            		{
+	            			if(hit.getActivePotionEffect(Potion.blindness) != null)
+	            			{
+	            				hit.addPotionEffect(new PotionEffect(Potion.wither.id, 200, 0));
+	            			}
+	            			else if(hit.getActivePotionEffect(Potion.confusion) != null)
+	            			{
+	            				hit.addPotionEffect(new PotionEffect(Potion.blindness.id, 200, 0));
+	            			}
+	            			else
+	            			{
+	            				hit.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
+	            			}
+	            		}
             		}
             	}
             }
@@ -253,7 +270,21 @@ public class EntitySmoke extends Entity
         }
     }
 
-    /**
+    private boolean canPoison(EntityLivingBase hit)
+    {
+    	ItemStack helmet = hit.getEquipmentInSlot(4);
+    	if(helmet != null && helmet.getItem() instanceof IGasProtector)
+    	{
+    		float prot = ((IGasProtector)helmet.getItem()).getGasProtection(helmet);
+    		if(prot >= 100F || rand.nextFloat()*100 < prot)
+    		{
+    			return false;
+    		}
+    	}
+		return hit.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
+	}
+
+	/**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
     public void writeEntityToNBT(NBTTagCompound nbt)

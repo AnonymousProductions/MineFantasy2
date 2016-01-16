@@ -23,15 +23,15 @@ public class AdvancedFuelHandlerMF implements IFuelHandler
 		}
 		if(fuel.getItem() == ComponentListMF.coke)
 		{
-			return 400;//20s
+			return 2400;
 		}
 		if(fuel.getItem() == Items.coal)
 		{
-			return 1200;//1Min
+			return 1200;
 		}
 		if(fuel.getItem() == Item.getItemFromBlock(Blocks.coal_block))
 		{
-			return 10800;//1Min
+			return 10800;
 		}
 		return 0;
 	}

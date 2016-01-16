@@ -4,15 +4,20 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.crafting.refine.BloomRecipe;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
+import minefantasy.mf2.util.MFLogUtil;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class SmeltingRecipesMF {
@@ -22,8 +27,21 @@ public class SmeltingRecipesMF {
 		KnowledgeListMF.reStone =
 		MineFantasyAPI.addRatioAlloy(1, new ItemStack(BlockListMF.reinforced_stone, 4), 1, new Object[]
 		{
-			Blocks.stone,Blocks.stone,Blocks.stone,Blocks.stone, ComponentListMF.fireclay, ComponentListMF.fireclay, ComponentListMF.fireclay, ComponentListMF.fireclay, ComponentListMF.obsidian_rock
+			Blocks.stone,Blocks.stone,Blocks.stone,Blocks.stone, ComponentListMF.fireclay, Items.iron_ingot, ComponentListMF.obsidian_rock
 		});
+		if(ConfigHardcore.HCCreduceIngots)
+		{
+			if(MineFantasyAPI.removeSmelting(Blocks.iron_ore) && MineFantasyAPI.removeSmelting(Blocks.gold_ore))
+			{
+				MFLogUtil.logDebug("Removed Ore Smelting (Hardcore Ingots");
+			}
+			else
+			{
+				MFLogUtil.logWarn("Failed to remove Ore smelting!");
+			}
+			BloomRecipe.addRecipe(new ItemStack(Blocks.iron_ore), new ItemStack(Items.iron_ingot));
+			BloomRecipe.addRecipe(new ItemStack(Blocks.gold_ore), new ItemStack(Items.gold_ingot));
+		}
 		
 		refineRawOre(ComponentListMF.oreCopper, ComponentListMF.ingots[0]);
 		refineRawOre(ComponentListMF.oreTin, ComponentListMF.ingots[1]);
@@ -36,19 +54,12 @@ public class SmeltingRecipesMF {
 			ComponentListMF.oreCopper, ComponentListMF.oreCopper, ComponentListMF.oreTin
 		});
 		
-		GameRegistry.addSmelting(BlockListMF.anvil[0], new ItemStack(ComponentListMF.ingots[2], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[1], new ItemStack(Items.iron_ingot, 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[2], new ItemStack(ComponentListMF.ingots[4], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[3], new ItemStack(ComponentListMF.ingots[7], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[4], new ItemStack(ComponentListMF.ingots[12], 6), 0.0F);
-		GameRegistry.addSmelting(BlockListMF.anvil[5], new ItemStack(ComponentListMF.ingots[10], 6), 0.0F);
-		
-		
-		GameRegistry.addSmelting(BlockListMF.oreCopper, new ItemStack(ComponentListMF.ingots[0]), 0.4F);
-		GameRegistry.addSmelting(BlockListMF.oreTin, new ItemStack(ComponentListMF.ingots[1]), 0.5F);
-		GameRegistry.addSmelting(BlockListMF.oreSilver, new ItemStack(ComponentListMF.ingots[8]), 0.9F);
+		refineRawOre(BlockListMF.oreCopper, ComponentListMF.ingots[0], 0.4F);
+		refineRawOre(BlockListMF.oreTin, ComponentListMF.ingots[1], 0.5F);
+		refineRawOre(BlockListMF.oreSilver, ComponentListMF.ingots[8], 0.9F);
 		
 		GameRegistry.addSmelting(BlockListMF.oreBorax, new ItemStack(ComponentListMF.flux_strong, 4), 0.25F);
+		GameRegistry.addSmelting(BlockListMF.oreTungsten, new ItemStack(ComponentListMF.oreTungsten, 1), 0.25F);
 		GameRegistry.addSmelting(BlockListMF.oreKaolinite, new ItemStack(ComponentListMF.kaolinite), 0.25F);
 		GameRegistry.addSmelting(BlockListMF.oreNitre, new ItemStack(ComponentListMF.nitre, 4), 0.25F);
 		GameRegistry.addSmelting(BlockListMF.oreSulfur, new ItemStack(ComponentListMF.sulfur, 4), 0.25F);
@@ -84,16 +95,28 @@ public class SmeltingRecipesMF {
 				}
 			}
 		}
-		for(ItemStack ingot: pigs)
+		
+		KnowledgeListMF.wolframiteR =
+		MineFantasyAPI.addRatioAlloy(1, new ItemStack(ComponentListMF.ingots[18]), 1, new Object[]{
+			Blocks.coal_block, Blocks.coal_block, Blocks.coal_block, Blocks.coal_block, ComponentListMF.oreTungsten, ComponentListMF.flux_strong, ComponentListMF.flux_strong, ComponentListMF.flux_strong, ComponentListMF.flux_strong
+		});
+		MineFantasyAPI.addRatioAlloy(1, new ItemStack(ComponentListMF.ingots[18]), 1, new Object[]{
+			Blocks.coal_block, Blocks.coal_block, Blocks.coal_block, Blocks.coal_block, BlockListMF.oreTungsten, ComponentListMF.flux_strong, ComponentListMF.flux_strong, ComponentListMF.flux_strong, ComponentListMF.flux_strong
+		});
+				
+		if(!ConfigHardcore.HCCreduceIngots)
 		{
-			Alloy[] alloy = 
-			MineFantasyAPI.addRatioAlloy(9, new ItemStack(ComponentListMF.ingots[4]), 1, new Object[]
+			for(ItemStack ingot: pigs)
 			{
-				ingot
-			});
-			if(KnowledgeListMF.steel == null)
-			{
-				KnowledgeListMF.steel = alloy;
+				Alloy[] alloy = 
+				MineFantasyAPI.addRatioAlloy(9, new ItemStack(ComponentListMF.ingots[4]), 1, new Object[]
+				{
+					ingot
+				});
+				if(KnowledgeListMF.steel == null)
+				{
+					KnowledgeListMF.steel = alloy;
+				}
 			}
 		}
 		for(ItemStack steel: blacks)
@@ -159,7 +182,26 @@ public class SmeltingRecipesMF {
 
 	private static void refineRawOre(Item ore, Item ingot)
 	{
-		GameRegistry.addSmelting(ore, new ItemStack(ingot), 0F);
+		refineRawOre(ore, ingot, 0F);
+	}
+	private static void refineRawOre(Block ore, Item ingot)
+	{
+		refineRawOre(ore, ingot, 0F);
+	}
+	private static void refineRawOre(Block ore, Item ingot, float xp)
+	{
+		refineRawOre(Item.getItemFromBlock(ore), ingot, xp);
+	}
+	private static void refineRawOre(Item ore, Item ingot, float xp)
+	{
+		if(ConfigHardcore.HCCreduceIngots)
+		{
+			BloomRecipe.addRecipe(ore, new ItemStack(ingot));
+		}
+		else
+		{
+			GameRegistry.addSmelting(ore, new ItemStack(ingot), xp);
+		}
 	}
 
 }

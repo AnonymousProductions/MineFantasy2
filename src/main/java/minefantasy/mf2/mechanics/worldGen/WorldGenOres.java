@@ -25,6 +25,7 @@ public class WorldGenOres
 		generateOreWithNeighbour(seed, chunkX, chunkZ, world, BlockListMF.oreNitre, Blocks.stone, Blocks.air, ConfigWorldGen.nitreSize, ConfigWorldGen.nitreFrequencyMin, ConfigWorldGen.nitreFrequencyMax, ConfigWorldGen.nitreRarity, ConfigWorldGen.nitreLayerMin, ConfigWorldGen.nitreLayerMax);
 		generateOre(seed, chunkX, chunkZ, world, BlockListMF.oreSulfur, Blocks.stone, ConfigWorldGen.sulfurSize, ConfigWorldGen.sulfurFrequencyMin, ConfigWorldGen.sulfurFrequencyMax, ConfigWorldGen.sulfurRarity, ConfigWorldGen.sulfurLayerMin, ConfigWorldGen.sulfurLayerMax);
 		generateOre(seed, chunkX, chunkZ, world, BlockListMF.oreBorax, Blocks.stone, ConfigWorldGen.boraxSize, ConfigWorldGen.boraxFrequencyMin, ConfigWorldGen.boraxFrequencyMax, ConfigWorldGen.boraxRarity, ConfigWorldGen.boraxLayerMin, ConfigWorldGen.boraxLayerMax);
+		generateOre(seed, chunkX, chunkZ, world, BlockListMF.oreTungsten, Blocks.stone, ConfigWorldGen.wolframiteSize, ConfigWorldGen.wolframiteFrequencyMin, ConfigWorldGen.wolframiteFrequencyMax, ConfigWorldGen.wolframiteRarity, ConfigWorldGen.wolframiteLayerMin, ConfigWorldGen.wolframiteLayerMax);
 	
 		generateOre(seed, chunkX, chunkZ, world, BlockListMF.limestone, Blocks.stone, ConfigWorldGen.limestoneSize, ConfigWorldGen.limestoneFrequencyMin, ConfigWorldGen.limestoneFrequencyMax, ConfigWorldGen.limestoneRarity, ConfigWorldGen.limestoneLayerMin, ConfigWorldGen.limestoneLayerMax);
 	}

@@ -2,10 +2,12 @@ package minefantasy.mf2.recipe;
 
 import java.util.ArrayList;
 
+import minefantasy.mf2.api.crafting.Salvage;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
@@ -45,6 +47,8 @@ public class TempRecipesMF
 			" I ",
 			'I', Items.iron_ingot,
 		});
+		Salvage.addSalvage(FoodListMF.pie_tray, new ItemStack(Items.iron_ingot, 3));
+		Salvage.addSalvage(FoodListMF.cake_tin, new ItemStack(Items.iron_ingot, 4));
 		for(ItemStack steel: steels)
 		{
 			GameRegistry.addRecipe(new ItemStack(Blocks.rail, 64), new Object[]
@@ -150,6 +154,9 @@ public class TempRecipesMF
 			'P', ComponentListMF.plank,
 			'G', Blocks.glass
 		});
+		Salvage.addSalvage(BlockListMF.framed_glass, new ItemStack(ComponentListMF.plank, 2), Blocks.glass);
+		Salvage.addSalvage(BlockListMF.window, new ItemStack(ComponentListMF.plank, 4), Blocks.glass);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.framed_pane, 16), new Object[]
 		{
 			"GGG",
@@ -169,15 +176,8 @@ public class TempRecipesMF
 			"HH",
 			'H', new ItemStack(Blocks.tallgrass, 1, 1)
 		});
-		KnowledgeListMF.clayWallR =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.clayWall, 4), new Object[]
-		{
-			" P ",
-			"PCP",
-			" P ",
-			'P', ComponentListMF.plank,
-			'C', Blocks.clay
-		});
+		Salvage.addSalvage(BlockListMF.thatch, new ItemStack(Blocks.tallgrass, 4, 1));
+		
 		addFood();
 		
 	}

@@ -43,6 +43,8 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	public float dragonHeartPower = 0F;
 	public String texTypeForRender = "stone";
 	private boolean isBurning = false;
+	public int workableState = 0;
+	
 	public TileEntityForge(Block block, String type) 
 	{
 		texTypeForRender = type;
@@ -425,7 +427,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		BlockForge forge = getActiveBlock();
 		if(forge == null)return "forge_"+texTypeForRender;
 		
-		return "forge_" + forge.type + (forge.isActive ? "_active" : "");
+		return "forge_" + forge.type + (isBurning() ? "_active" : "");
 	}
 
 	public boolean hasFuel()
@@ -461,6 +463,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		}
 		BlockForge.updateFurnaceBlockState(true, worldObj, xCoord, yCoord, zCoord);
 	}
+	
 	public float getBellowsEffect()
 	{
 		return getTier() == 1 ? 2.0F : 1.5F;
@@ -538,7 +541,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	@Override
 	public String getLocalisedName() 
 	{
-		return StatCollector.translateToLocal("forge.fuel.name");
+		return StatCollector.translateToLocal(workableState >= 2 ? "state.unstable" : workableState == 1 ? "state.workable" : "forge.fuel.name");
 	}
 
 	public boolean[] showSides() {
@@ -653,5 +656,40 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			}
 		}
 		*/
+	}
+
+	public boolean tryAddHeatable(ItemStack held)
+	{
+		ItemStack contents = inv[0];
+		if(contents == null)
+		{
+			ItemStack placed = held.copy();
+			placed.stackSize = 1;
+			setInventorySlotContents(0, placed);
+			return true;
+		}
+		else if(contents.getItem() instanceof ItemHeated)
+		{
+			ItemStack hot = Heatable.getItem(contents);
+			if(hot != null && hot.isItemEqual(held) && contents.stackSize < contents.getMaxStackSize())
+			{
+				contents.stackSize ++;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public int getWorkableState()
+	{
+		if(worldObj == null || worldObj.isRemote)
+		{
+			return workableState;
+		}
+		if(this.inv[0] != null)
+		{
+			return (int)Heatable.getHeatableStage(inv[0]);
+		}
+		return 0;
 	}
 }

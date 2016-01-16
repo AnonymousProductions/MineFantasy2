@@ -23,7 +23,6 @@ public class ItemKatanaMF extends ItemHeavyWeaponMF
     public ItemKatanaMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
-    	baseDamage /= 2F;
     }
 	
 	@Override
@@ -167,5 +166,11 @@ public class ItemKatanaMF extends ItemHeavyWeaponMF
 	public float getCounterDamage()
 	{
 		return 1.5F;
+	}
+	
+	@Override
+	protected float getMeleeDamage(ItemStack item) 
+    {
+    	return super.getMeleeDamage(item)*0.5F;
 	}
 }

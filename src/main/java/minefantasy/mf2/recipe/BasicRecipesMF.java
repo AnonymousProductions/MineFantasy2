@@ -1,8 +1,10 @@
 package minefantasy.mf2.recipe;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.crafting.Salvage;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.food.FoodListMF;
@@ -15,7 +17,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BasicRecipesMF
@@ -26,6 +30,7 @@ public class BasicRecipesMF
 		ForgingRecipes.init();
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
+		SalvageRecipes.init();
 		
 		
 		KnowledgeListMF.hideHelmR = 
@@ -61,6 +66,12 @@ public class BasicRecipesMF
 			'H', ComponentListMF.hideSmall,
 			'C', Blocks.wool,
 		});
+		
+		Salvage.addSalvage(ArmourListMF.armourItem(ArmourListMF.leather, 0, 0), new ItemStack(ComponentListMF.hideSmall, 2), Blocks.wool);
+		Salvage.addSalvage(ArmourListMF.armourItem(ArmourListMF.leather, 0, 1), ComponentListMF.hideLarge, Blocks.wool);
+		Salvage.addSalvage(ArmourListMF.armourItem(ArmourListMF.leather, 0, 2), ComponentListMF.hideMedium, Blocks.wool);
+		Salvage.addSalvage(ArmourListMF.armourItem(ArmourListMF.leather, 0, 3), ComponentListMF.hideSmall, Blocks.wool);
+		
 		KnowledgeListMF.apronRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(ArmourListMF.leatherapron), new Object[]
 		{
@@ -69,6 +80,7 @@ public class BasicRecipesMF
 			'L', Items.leather,
 			'C', Items.coal,
 		});
+		Salvage.addSalvage(ArmourListMF.leatherapron, new ItemStack(Items.leather, 3), Items.coal);
 		
 		KnowledgeListMF.researchTableRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.research), new Object[]
@@ -78,6 +90,17 @@ public class BasicRecipesMF
 			'B', ToolListMF.researchBook,
 			'T', BlockListMF.carpenter,
 		});
+		KnowledgeListMF.bSalvageR = 
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.salvage_basic), new Object[]
+		{
+			"SFS",
+			"PWP",
+			'W', Blocks.crafting_table,
+			'S', Blocks.stone,
+			'F', Items.flint,
+			'P', ComponentListMF.plank
+		});
+		Salvage.addSalvage(BlockListMF.salvage_basic, Items.flint, new ItemStack(Blocks.stone, 2), new ItemStack(ComponentListMF.plank, 2), Blocks.crafting_table);
 		
 		KnowledgeListMF.plantOilR = 
 		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plant_oil, 4), new Object[]
@@ -150,6 +173,7 @@ public class BasicRecipesMF
 			"PPP",
 			'P', ComponentListMF.plank,
 		});
+		Salvage.addSalvage(BlockListMF.tanner, new ItemStack(ComponentListMF.plank, 8));
 		
 		KnowledgeListMF.stoneAnvilRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.anvilStone), new Object[]
@@ -167,6 +191,9 @@ public class BasicRecipesMF
 			'C', Items.coal,
 			'S', Blocks.stone
 		});
+		Salvage.addSalvage(BlockListMF.forge, new ItemStack(Blocks.stone, 4), Items.coal);
+		Salvage.addSalvage(BlockListMF.anvilStone, new ItemStack(Blocks.stone, 6));
+		Salvage.addSalvage(BlockListMF.tanner, new ItemStack(ComponentListMF.plank, 8));
 		
 		GameRegistry.addRecipe(new RecipeArmourDyeMF());
 		GameRegistry.addRecipe(new RecipeSyringe());
@@ -176,22 +203,30 @@ public class BasicRecipesMF
 			new ItemStack(ComponentListMF.blackpowder),
 			new ItemStack(ComponentListMF.blackpowder),
 			new ItemStack(ComponentListMF.nitre),
-			//new ItemStack(ComponentListMF.flux_strong),
 		});
 		
 		KnowledgeListMF.plankRecipe =
-		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plank), new Object[]
+		new ShapedOreRecipe(new ItemStack(ComponentListMF.plank, 8), new Object[]
 		{
 			"S",
 			"S",
-			'S', Items.stick,
+			'S', "plankWood",//OreDictionary
 		});
+		GameRegistry.addRecipe(KnowledgeListMF.plankRecipe);
+		
+		
 		KnowledgeListMF.stickRecipe =
 		GameRegistry.addShapedRecipe(new ItemStack(Items.stick, 4), new Object[]
 		{
 			"S",
 			"S",
 			'S', ComponentListMF.plank,
+		});
+		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plank), new Object[]
+		{
+			"S",
+			"S",
+			'S', Items.stick,
 		});
 		
 		MineFantasyAPI.removeAllRecipes(Items.pumpkin_pie);
@@ -215,35 +250,6 @@ public class BasicRecipesMF
 				});
 			}
 		}
-		
-		KnowledgeListMF.stoneHammerR = 
-		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.hammerStone), new Object[]{
-			"C",
-			"P",
-			'C', Blocks.cobblestone,
-			'P', ComponentListMF.plank,
-		});
-		KnowledgeListMF.stoneTongsR = 
-		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.tongsStone), new Object[]{
-			"C ",
-			"PC",
-			'C', Blocks.cobblestone,
-			'P', ComponentListMF.plank,
-		});
-		KnowledgeListMF.boneNeedleR = 
-		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.needleBone), new Object[]{
-			"B",
-			"B",
-			'B', Items.bone
-		});
-		KnowledgeListMF.stoneKnifeR = 
-		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.knifeStone), new Object[]{
-			"S",
-			"S",
-			"P",
-			'S', Blocks.cobblestone,
-			'P', ComponentListMF.plank,
-		});
 		
 		MineFantasyAPI.addBlastFurnaceRecipe(ComponentListMF.iron_prep, new ItemStack(ComponentListMF.ingots[3]));
 		
@@ -338,6 +344,48 @@ public class BasicRecipesMF
 			'T', ComponentListMF.talisman_lesser,
 			'D', new ItemStack(Items.dye, 1, 5),
 			'B', Items.book,
+		});
+		
+		
+		KnowledgeListMF.artBook2R =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_artisanry2), new Object[]
+		{
+			"T",
+			"B",
+			'T', ComponentListMF.talisman_greater,
+			'B', ToolListMF.skillbook_artisanry,
+		});
+		KnowledgeListMF.conBook2R =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_construction2), new Object[]
+		{
+			"T",
+			"B",
+			'T', ComponentListMF.talisman_greater,
+			'B', ToolListMF.skillbook_construction,
+		});
+		KnowledgeListMF.proBook2R =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_provisioning2), new Object[]
+		{
+			"T",
+			"B",
+			'T', ComponentListMF.talisman_greater,
+			'B', ToolListMF.skillbook_provisioning,
+		});
+		KnowledgeListMF.engBook2R =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_engineering2), new Object[]
+		{
+			"T",
+			"B",
+			'T', ComponentListMF.talisman_greater,
+			'B', ToolListMF.skillbook_engineering,
+		});
+		KnowledgeListMF.comBook2R =
+		GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.skillbook_combat2), new Object[]
+		{
+			"T",
+			"B",
+			'T', ComponentListMF.talisman_greater,
+			'B', ToolListMF.skillbook_combat,
 		});
 	}
 }

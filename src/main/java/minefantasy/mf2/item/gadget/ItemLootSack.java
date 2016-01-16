@@ -154,20 +154,57 @@ public class ItemLootSack extends Item
 	}
 	public static void addItems() 
 	{
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_artisanry), 1, 1, 5));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_construction), 1, 1, 5));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_provisioning), 1, 1, 5));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_engineering), 1, 1, 5));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_combat), 1, 1, 2));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(ComponentListMF.ingots[2]), 1, 4, 30));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(Items.coal), 1, 8, 40));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(Items.iron_ingot), 1, 4, 50));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(Items.leather), 1, 4, 50));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(Items.string), 1, 2, 30));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(ComponentListMF.plank), 1, 8, 20));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(ComponentListMF.plankRefined), 1, 2, 10));
-		ChestGenHooks.addItem(COMMON, new WeightedRandomChestContent(new ItemStack(BlockListMF.repair_basic), 1, 1, 25));
+		String loot = COMMON; //Some books, Commodities
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_artisanry), 1, 1, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_construction), 1, 1, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_provisioning), 1, 1, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_engineering), 1, 1, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_combat), 1, 1, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(BlockListMF.repair_basic), 1, 1, 10));
 		
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.coal), 1, 8, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.plank), 1, 8, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.iron_ingot), 1, 4, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.leather), 1, 4, 20));
+		
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.string), 1, 2, 10));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.plankRefined), 1, 2, 10));
+		
+		
+		loot = VALUABLE; //Books, Valued commodities
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_artisanry), 2, 5, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_construction), 2, 5, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_provisioning), 2, 5, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_engineering), 2, 5, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_combat), 2, 5, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(BlockListMF.repair_advanced), 1, 1, 10));
+		
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.kaolinite), 1, 8, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.dye, 1, 4), 1, 8, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.gold_ingot), 1, 4, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.ingots[8]), 1, 4, 20));//Silver
+		
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.diamond), 1, 2, 10));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.emerald), 1, 2, 10));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.ender_pearl), 1, 2, 10));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.talisman_lesser), 1, 4, 10));
+		
+		loot = EXQUISITE; //Many books, Highly sought commodities
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_artisanry), 8, 10, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_construction), 8, 10, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_provisioning), 8, 10, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_engineering), 8, 10, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_combat), 8, 10, 5));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(BlockListMF.repair_ornate), 1, 1, 10));
+		
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.flux_strong), 12, 32, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.diamond), 4, 8, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.emerald), 4, 8, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.ender_eye), 4, 8, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.ingots[18]), 1, 4, 20));//Wolframite
+		
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.golden_apple, 1, 1), 1, 1, 10));
+		/*
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_artisanry), 1, 3, 10));
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_construction), 1, 3, 10));
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_provisioning), 1, 3, 10));
@@ -175,6 +212,7 @@ public class ItemLootSack extends Item
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_engineering), 1, 3, 10));
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_combat), 1, 3, 5));
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(Items.iron_ingot), 4, 8, 50));
+		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(ComponentListMF.kaolinite), 4, 12, 20));
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(Items.gold_ingot), 1, 2, 20));
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(ComponentListMF.ingots[8]), 1, 2, 20));
 		ChestGenHooks.addItem(VALUABLE, new WeightedRandomChestContent(new ItemStack(Items.diamond), 1, 1, 10));
@@ -189,8 +227,8 @@ public class ItemLootSack extends Item
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_provisioning), 2, 5, 20));
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_engineering), 2, 5, 20));
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(ToolListMF.skillbook_combat), 2, 5, 10));
-		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(Items.gold_ingot), 1, 8, 40));
-		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(ComponentListMF.ingots[8]), 1, 8, 40));
+		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(ComponentListMF.ingots[18]), 1, 8, 40));
+		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(ComponentListMF.flux_strong), 1, 8, 40));
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(Items.diamond), 1, 3, 20));
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(Items.emerald), 1, 3, 20));
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(Items.ender_pearl), 1, 8, 20));
@@ -201,5 +239,7 @@ public class ItemLootSack extends Item
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(ToolListMF.waraxes[3]), 1, 1, 5));
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(BlockListMF.repair_advanced), 1, 3, 35));
 		ChestGenHooks.addItem(EXQUISITE, new WeightedRandomChestContent(new ItemStack(BlockListMF.repair_ornate), 1, 1, 20));
+		
+		*/
 	}
 }

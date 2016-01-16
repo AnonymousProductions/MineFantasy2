@@ -1,6 +1,6 @@
 package minefantasy.mf2.mechanics;
 
-import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.archery.AmmoMechanicsMF;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -26,7 +26,7 @@ public class ArrowHandlerMF
 	@SubscribeEvent
 	public void readyBow(ArrowNockEvent event)
 	{
-		if(Arrows.arrows == null || Arrows.arrows.size() <= 0)
+		if(AmmoMechanicsMF.arrows == null || AmmoMechanicsMF.arrows.size() <= 0)
 		{
 			return;
 		}
@@ -37,18 +37,18 @@ public class ArrowHandlerMF
 		/*Checks over registered arrows and finds one to load
 		* The Quiver can be used to determine this
 		*/
-		ItemStack preset = Arrows.getPresetArrow(user);
-		if(preset != null && (user.inventory.hasItemStack(preset) || getIsInfinite(user, bow)))
+		ItemStack arrowToFire = AmmoMechanicsMF.reloadBow(bow);
+		if(arrowToFire != null)
 		{
 			user.setItemInUse(bow, bow.getMaxItemUseDuration());//Starts pullback
-			loadArrow(user, bow, preset);//adds the arrow to NBT for rendering and later use
+			loadArrow(user, bow, arrowToFire);//adds the arrow to NBT for rendering and later use
 			event.setCanceled(true);
 			return;
 		}
 		
-		for(int a = 0; a < Arrows.arrows.size(); a ++)
+		for(int a = 0; a < AmmoMechanicsMF.arrows.size(); a ++)
 		{
-			ItemStack arrow = Arrows.arrows.get(a);
+			ItemStack arrow = AmmoMechanicsMF.arrows.get(a);
 			if(user.inventory.hasItemStack(arrow))
 			{
 				user.setItemInUse(bow, bow.getMaxItemUseDuration());//Starts pullback
@@ -113,8 +113,6 @@ public class ArrowHandlerMF
 		float power = event.charge;
 		EntityPlayer user = event.entityPlayer;
 		
-		Arrows.updateArrowCount(event.entityPlayer);
-		
 		ItemStack bow = event.bow;
 		World world = event.entity.worldObj;
 		boolean infinite = getIsInfinite(user, bow);
@@ -135,18 +133,17 @@ public class ArrowHandlerMF
         
 		//Default is flint arrow
 		ItemStack arrow = new ItemStack(Items.arrow);
-		if(Arrows.getLoadedArrow(bow) != null)
+		if(AmmoMechanicsMF.getArrowOnBow(bow) != null)
 		{
 			//if an arrow is on the bow, it uses that
-			arrow = Arrows.getLoadedArrow(bow);
+			arrow = AmmoMechanicsMF.getArrowOnBow(bow);
 		}
-		
-		if(Arrows.handlers != null && Arrows.handlers.size() > 0)
+		if(AmmoMechanicsMF.handlers != null && AmmoMechanicsMF.handlers.size() > 0)
 		{
-			for(int a = 0; a < Arrows.handlers.size(); a ++)
+			for(int a = 0; a < AmmoMechanicsMF.handlers.size(); a ++)
 			{
 				//If the Arrow handler succeeds at firing an arrow
-				if(Arrows.handlers.get(a).onFireArrow(world, arrow, bow, user, charge, infinite))
+				if(AmmoMechanicsMF.handlers.get(a).onFireArrow(world, arrow, bow, user, charge, infinite))
 				{
 					if(!user.capabilities.isCreativeMode)
 		            {
@@ -159,6 +156,7 @@ public class ArrowHandlerMF
 					world.playSoundAtEntity(user, "minefantasy2:weapon.bowFire", 0.5F, 1.0F / (world.rand.nextFloat() * 0.4F + 1.2F) + charge * 0.5F);
 					loadArrow(user, bow, null);
 					event.setCanceled(true);
+					AmmoMechanicsMF.consumeAmmo(user, bow);
 					break;
 				}
 			}
@@ -184,9 +182,4 @@ public class ArrowHandlerMF
     	return false;
 	}
 	
-	@SubscribeEvent
-	public void pickupItem(ItemPickupEvent event)
-	{
-		Arrows.updateArrowCount(event.player);
-	}
 }

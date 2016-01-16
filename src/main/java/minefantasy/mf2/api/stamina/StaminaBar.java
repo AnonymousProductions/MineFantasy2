@@ -2,6 +2,7 @@ package minefantasy.mf2.api.stamina;
 
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -447,6 +448,10 @@ public class StaminaBar
 			value *= getBasePerkStaminaModifier(value, (EntityPlayer)user);
 			AM = getPerkArmModifier(value, (EntityPlayer)user);
 		}
+		if(TacticalManager.isImmuneToWeight(user))
+		{
+			return value * 0.5F;
+		}
 		
 		if(countHeld)
 		{
@@ -481,7 +486,7 @@ public class StaminaBar
 	{
 		float value = getDecayModifier(user.worldObj);
 		
-		if(countArmour)
+		if(!TacticalManager.isImmuneToWeight(user) && countArmour)
 		{
 			float armourMod = 1.0F;
 			for(int slot = 1; slot <= 4; slot ++)
@@ -508,36 +513,39 @@ public class StaminaBar
 	{
 		float value = configRegenModifier * regenModifier * (5F/3F);
 		
-		if(countHeld)
+		if(!TacticalManager.isImmuneToWeight(user))
 		{
-			if(user.getHeldItem() != null && user.getHeldItem().getItem() instanceof IHeldStaminaItem)
+			if(countHeld)
 			{
-				value *= ((IHeldStaminaItem)user.getHeldItem().getItem()).getRegenModifier(user, user.getHeldItem());
-			}
-		}
-		if(countArmour)
-		{
-			float AM = 0F;
-			if(user instanceof EntityPlayer)
-			{
-				AM = getPerkArmModifier(value, (EntityPlayer)user);
-			}
-			
-			float armourMod = 1.0F;
-			for(int slot = 1; slot <= 4; slot ++)
-			{
-				ItemStack armour = user.getEquipmentInSlot(slot);
-				if(armour != null && armour.getItem() instanceof IWornStaminaItem)
+				if(user.getHeldItem() != null && user.getHeldItem().getItem() instanceof IHeldStaminaItem)
 				{
-					armourMod += ((IWornStaminaItem)armour.getItem()).getRegenModifier(user, armour);
+					value *= ((IHeldStaminaItem)user.getHeldItem().getItem()).getRegenModifier(user, user.getHeldItem());
 				}
 			}
-			float weightMod = ArmourCalculator.getTotalWeightOfWorn(user, false)*bulkModifier*configBulk;
-			if(weightMod > 0)
+			if(countArmour)
 			{
-				value /= (1.0F+(weightMod/30F * AM));//30kg = half regen speed 60kg is a third
+				float AM = 0F;
+				if(user instanceof EntityPlayer)
+				{
+					AM = getPerkArmModifier(value, (EntityPlayer)user);
+				}
+				
+				float armourMod = 1.0F;
+				for(int slot = 1; slot <= 4; slot ++)
+				{
+					ItemStack armour = user.getEquipmentInSlot(slot);
+					if(armour != null && armour.getItem() instanceof IWornStaminaItem)
+					{
+						armourMod += ((IWornStaminaItem)armour.getItem()).getRegenModifier(user, armour);
+					}
+				}
+				float weightMod = ArmourCalculator.getTotalWeightOfWorn(user, false)*bulkModifier*configBulk;
+				if(weightMod > 0)
+				{
+					value /= (1.0F+(weightMod/30F * AM));//30kg = half regen speed 60kg is a third
+				}
+				value *= armourMod;
 			}
-			value *= armourMod;
 		}
 		if(user.isSneaking())
 		{
@@ -551,22 +559,25 @@ public class StaminaBar
 	{
 		float value = pauseModifier;
 		
-		if(countHeld)
+		if(!TacticalManager.isImmuneToWeight(user))
 		{
-			if(user.getHeldItem() != null && user.getHeldItem().getItem() instanceof IHeldStaminaItem)
+			if(countHeld)
 			{
-				value *= ((IHeldStaminaItem)user.getHeldItem().getItem()).getIdleModifier(user, user.getHeldItem());
-			}
-		}
-		if(countArmour)
-		{
-			float armourMod = 1.0F;
-			for(int slot = 1; slot <= 4; slot ++)
-			{
-				ItemStack armour = user.getEquipmentInSlot(slot);
-				if(armour != null && armour.getItem() instanceof IWornStaminaItem)
+				if(user.getHeldItem() != null && user.getHeldItem().getItem() instanceof IHeldStaminaItem)
 				{
-					armourMod += ((IWornStaminaItem)armour.getItem()).getIdleModifier(user, armour);
+					value *= ((IHeldStaminaItem)user.getHeldItem().getItem()).getIdleModifier(user, user.getHeldItem());
+				}
+			}
+			if(countArmour)
+			{
+				float armourMod = 1.0F;
+				for(int slot = 1; slot <= 4; slot ++)
+				{
+					ItemStack armour = user.getEquipmentInSlot(slot);
+					if(armour != null && armour.getItem() instanceof IWornStaminaItem)
+					{
+						armourMod += ((IWornStaminaItem)armour.getItem()).getIdleModifier(user, armour);
+					}
 				}
 			}
 		}

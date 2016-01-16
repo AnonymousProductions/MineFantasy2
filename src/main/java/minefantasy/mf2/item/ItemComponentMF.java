@@ -9,11 +9,13 @@ import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.material.MetalMaterial;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 /**
  * @author Anonymous Productions
@@ -72,17 +74,6 @@ public class ItemComponentMF extends Item
 			return;
 		}
 		
-		ArrayList<CustomMaterial> wood = CustomMaterial.getList("wood");
-		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
-		
-		
-    	Iterator iteratorWood = wood.iterator();
-    	while(iteratorWood.hasNext())
-    	{
-    		CustomMaterial material = (CustomMaterial) iteratorWood.next();
-    		list.add(ComponentListMF.plankCustom.createPlank(material.name));
-    	}
-		
 		for(Item ingot: ComponentListMF.ingots)
 		{
 			if(ingot == ComponentListMF.ingots[3])
@@ -102,6 +93,8 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.thread);
 		add(list, ComponentListMF.clay_pot_uncooked);
 		add(list, ComponentListMF.clay_pot);
+		add(list, ComponentListMF.ingot_mould_uncooked);
+		add(list, ComponentListMF.ingot_mould);
 		
 		add(list, ComponentListMF.leather_strip);
 		add(list, ComponentListMF.rawhideSmall);
@@ -116,6 +109,7 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.oreIron);
 		add(list, ComponentListMF.oreSilver);
 		add(list, ComponentListMF.oreGold);
+		add(list, ComponentListMF.oreTungsten);
 		
 		add(list, ComponentListMF.flux);
 		add(list, ComponentListMF.flux_strong);
@@ -145,6 +139,8 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.mine_casing_obsidian);
 		add(list, ComponentListMF.bomb_casing_crystal);
 		add(list, ComponentListMF.mine_casing_crystal);
+		add(list, ComponentListMF.bomb_casing_arrow);
+		add(list, ComponentListMF.bomb_casing_bolt);
 		
 		add(list, ComponentListMF.clay_brick);
 		add(list, ComponentListMF.kaolinite);
@@ -166,17 +162,36 @@ public class ItemComponentMF extends Item
 		add(list, ComponentListMF.iron_strut);
 		add(list, ComponentListMF.steel_tube);
 		add(list, ComponentListMF.bronze_gears);
-		add(list, ComponentListMF.bomb_casing_arrow);
+		add(list, ComponentListMF.tungsten_gears);
+		add(list, ComponentListMF.cogwork_shaft);
+		add(list, ComponentListMF.ingotCompositeAlloy);
 		
-		list.add(ComponentListMF.haft_custom.createHaft("OakWood", null, null));
-    	list.add(ComponentListMF.haft_custom.createHaft("RefinedWood", null, null));
-    	list.add(ComponentListMF.haft_custom.createHaft("IronbarkWood", null, null));
-    	list.add(ComponentListMF.haft_custom.createHaft("EbonyWood", null, null));
-    	
-    	list.add(ComponentListMF.haft_custom.createHaft("OakWood", "Leather", "Iron"));
-    	list.add(ComponentListMF.haft_custom.createHaft("RefinedWood", "Leather", "Iron"));
-    	list.add(ComponentListMF.haft_custom.createHaft("IronbarkWood", "Leather", "Iron"));
-    	list.add(ComponentListMF.haft_custom.createHaft("EbonyWood", "Leather", "Iron"));
+		add(list, ComponentListMF.crossbow_handle_wood);
+		add(list, ComponentListMF.crossbow_stock_wood);
+		add(list, ComponentListMF.crossbow_stock_iron);
+		
+		add(list, ComponentListMF.cross_arms_basic);
+		add(list, ComponentListMF.cross_arms_light);
+		add(list, ComponentListMF.cross_arms_heavy);
+		add(list, ComponentListMF.cross_arms_advanced);
+		
+		add(list, ComponentListMF.cross_ammo);
+		add(list, ComponentListMF.cross_scope);
+		add(list, ComponentListMF.cross_bayonet);
+		
+		/*
+		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
+		Iterator iteratorMetal = metal.iterator();
+		while(iteratorMetal.hasNext())
+    	{
+			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
+			ArrayList<ItemStack> mats = OreDictionary.getOres("ingot"+customMat.name);
+			if(MineFantasyII.isDebug() || (mats != null && !mats.isEmpty()))
+			{
+				list.add(ComponentListMF.scrapMetal.createComm(customMat.name.toLowerCase()));
+			}
+    	}
+    	*/
     }
     private void add(List list, Item item)
     {

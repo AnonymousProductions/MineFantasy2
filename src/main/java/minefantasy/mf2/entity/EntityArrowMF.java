@@ -116,6 +116,10 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	 */
 	public EntityArrowMF(World world, EntityLivingBase shooter, float power) 
 	{
+		this(world, shooter, 1.0F, power);
+	}
+	public EntityArrowMF(World world, EntityLivingBase shooter, float spread, float power) 
+	{
 		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shooter;
@@ -146,7 +150,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F
 				* (float) Math.PI));
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ,
-				power * 1.5F, 1.0F);
+				power * 1.5F, spread);
 	}
 
 	public EntityArrowMF setDeisgn(ArrowType type)

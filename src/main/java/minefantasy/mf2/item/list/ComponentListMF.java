@@ -1,6 +1,7 @@
 package minefantasy.mf2.item.list;
 
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.mining.RandomDigs;
 import minefantasy.mf2.api.mining.RandomOre;
@@ -8,12 +9,14 @@ import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.AdvancedFuelHandlerMF;
 import minefantasy.mf2.item.FuelHandlerMF;
 import minefantasy.mf2.item.ItemComponentMF;
+import minefantasy.mf2.item.ItemFilledMould;
 import minefantasy.mf2.item.ItemHide;
 import minefantasy.mf2.item.ItemMFBowl;
 import minefantasy.mf2.item.ItemRawOreMF;
 import minefantasy.mf2.item.custom.*;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.gadget.ItemBombComponent;
+import minefantasy.mf2.item.gadget.ItemCrossbowPart;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.material.WoodMaterial;
@@ -48,6 +51,7 @@ public class ComponentListMF
 		"ignotumite",
 		"mithium",
 		"ender",
+		"tungsten",
 	};
 	public static final String[] hunkMats = new String[]
 	{
@@ -68,9 +72,12 @@ public class ComponentListMF
 		"ignotumite",
 		"mithium",
 		"ender",
+		"tungsten",
 	};
 	public static Item clay_pot = new ItemMFBowl("clay_pot");
 	public static Item clay_pot_uncooked = new ItemComponentMF("clay_pot_uncooked", 0);
+	public static Item ingot_mould = new ItemComponentMF("ingot_mould").setMaxStackSize(1);
+	public static Item ingot_mould_uncooked = new ItemComponentMF("ingot_mould_uncooked", 0).setMaxStackSize(1);
 	
 	public static ItemComponentMF[] ingots = new ItemComponentMF[ingotMats.length];
 	public static ItemComponentMF[] hunks = new ItemComponentMF[hunkMats.length];
@@ -78,8 +85,8 @@ public class ComponentListMF
 	public static ItemComponentMF[] plates = new ItemComponentMF[ArmourListMF.mats.length-1];
 	public static Item plank = new ItemComponentMF("plank", 0);
 	public static Item plankRefined = new ItemComponentMF("plankRefined", 0);
-	//public static Item vine = new ItemComponentMF("vine", -1);
-	//public static Item sharp_rock = new ItemComponentMF("sharp_rock", -1);
+	public static Item vine = new ItemComponentMF("vine", -1);
+	public static Item sharp_rock = new ItemComponentMF("sharp_rock", -1);
 	public static ItemComponentMF[] arrowheads = new ItemComponentMF[ToolListMF.weaponMats.length];
 	public static ItemComponentMF[] bodkinheads = new ItemComponentMF[ToolListMF.weaponMats.length-1];
 	public static ItemComponentMF[] broadheads = new ItemComponentMF[ToolListMF.weaponMats.length-1];
@@ -109,8 +116,9 @@ public class ComponentListMF
 	public static Item bomb_casing_crystal = new ItemBombComponent("bomb_casing_crystal", 1, "bombcase", 3);
 	public static Item mine_casing_crystal = new ItemBombComponent("mine_casing_crystal", 1, "minecase", 3);
 	public static Item bomb_casing_arrow = new ItemBombComponent("bomb_casing_arrow", 1, "arrow", 0);
+	public static Item bomb_casing_bolt = new ItemBombComponent("bomb_casing_bolt", 1, "bolt", 0);
 	
-	public static Item coke = new ItemComponentMF("coke", 0).setContainerItem(clay_pot);
+	public static Item coke = new ItemComponentMF("coke", 1);
 	public static Item diamond_shards = new ItemComponentMF("diamond_shards", 0);
 	
 	public static Item clay_brick = new ItemComponentMF("clay_brick", 0);
@@ -143,6 +151,7 @@ public class ComponentListMF
 	public static Item oreIron = new ItemRawOreMF("oreIron", 0);
 	public static Item oreSilver = new ItemRawOreMF("oreSilver", 0);
 	public static Item oreGold = new ItemRawOreMF("oreGold", 0);
+	public static Item oreTungsten = new ItemRawOreMF("oreTungsten", 1);
 	
 	public static Item hotItem = new ItemHeated();
 	
@@ -155,10 +164,35 @@ public class ComponentListMF
 	public static Item iron_frame = new ItemComponentMF("iron_frame", 0);
 	public static Item iron_strut = new ItemComponentMF("iron_strut", 0);
 	public static Item bronze_gears = new ItemComponentMF("bronze_gears", 0);
+	public static Item tungsten_gears = new ItemComponentMF("tungsten_gears", 1);
 	public static Item steel_tube = new ItemComponentMF("steel_tube", 0);
-	public static ItemHaft haft_custom = new ItemHaft("haft");
-	public static ItemCustomComponent plankCustom = new ItemCustomComponent("plank");
-	//public static ItemCustomComponent pickHead = new ItemCustomComponent("pick_head");
+	public static Item cogwork_shaft = new ItemComponentMF("cogwork_shaft", 1);
+	public static Item ingotCompositeAlloy = new ItemComponentMF("ingotCompositeAlloy", 1);
+	public static Item coal_prep = new ItemComponentMF("coal_prep", 0);
+	
+	public static Item ingot_mould_filled = new ItemFilledMould().setMaxStackSize(1);
+	
+	public static Item crossbow_stock_wood = new ItemCrossbowPart("cross_stock_wood",   "stock").addSpeed(1.0F).addRecoil(0.5F);
+	public static Item crossbow_stock_iron = new ItemCrossbowPart("cross_stock_iron",   "stock").addSpeed(1.0F).addRecoil(-0.5F).addDurability(150);
+	public static Item crossbow_handle_wood = new ItemCrossbowPart("cross_handle_wood", "stock").addSpeed(0.5F).addRecoil(1.5F).addSpread(1.0F);
+	
+	public static Item cross_arms_basic = new ItemCrossbowPart("cross_arms_basic", 		 "mechanism").addPower(1.00F).addSpeed(0.50F).addRecoil(1.00F).addSpread(1.00F);
+	public static Item cross_arms_light = new ItemCrossbowPart("cross_arms_light", 		 "mechanism").addPower(0.85F).addSpeed(0.25F).addRecoil(0.50F).addSpread(0.50F);
+	public static Item cross_arms_heavy = new ItemCrossbowPart("cross_arms_heavy", 		 "mechanism").addPower(1.15F).addSpeed(1.00F).addRecoil(1.50F).addSpread(2.00F);
+	public static Item cross_arms_advanced = new ItemCrossbowPart("cross_arms_advanced", "mechanism").addPower(1.15F).addSpeed(1.00F).addRecoil(2.50F).addSpread(0.25F).addDurability(150);
+	
+	public static Item cross_bayonet = new ItemCrossbowPart("cross_bayonet", "muzzle").addBash(4.0F).addRecoil(-0.5F).addSpeed(0.5F);
+	public static Item cross_ammo = new ItemCrossbowPart("cross_ammo", "mod").addCapacity(5).addSpread(2.00F);
+	public static Item cross_scope = new ItemCrossbowPart("cross_scope", "mod").setScope(0.75F);
+	//public static ItemHaft hilt_custom = new ItemHaft("hilt");
+	//public static ItemHaft longhilt_custom = new ItemHaft("longhilt");
+	//public static ItemHaft haft_custom = new ItemHaft("haft");
+	//public static ItemHaft longhaft_custom = new ItemHaft("longhaft");
+	//public static ItemHaft spearhaft_custom = new ItemHaft("spearhaft");
+	//public static ItemCustomComponent plankCustom = new ItemCustomComponent("plank", 1F);
+	//public static ItemCustomComponent plateHeavy = new ItemCustomComponent("plateheavy", 3F);
+	//public static ItemCustomComponent chainmesh = new ItemCustomComponent("chainmesh", 1F);
+	//public static ItemCustomComponent scrapMetal = new ItemCustomComponent("scrap", 1F);
 	
 	//public static Item lime_rock = new ItemComponentMF("lime_rock", 0);
 	//public static Item borax_rock = new ItemComponentMF("borax_rock", 0);
@@ -241,8 +275,7 @@ public class ComponentListMF
 		}
 		addRandomDrops();
 		initFuels();
-		MineFantasyAPI.addHeatableItem(rivet, 100, 500, 1000);
-		
+		OreDictionary.registerOre("ingotCompositeAlloy", ingotCompositeAlloy);
 	}
 
 	private static void initFuels() 
@@ -266,7 +299,7 @@ public class ComponentListMF
 		RandomOre.addOre(new ItemStack(flux),       	2F,  Blocks.stone,         	  -1, 0, 128, false);
 		RandomOre.addOre(new ItemStack(flux_strong),    1F,  Blocks.stone,         	   2, 0, 128, false);
 		RandomOre.addOre(new ItemStack(flux),       	20F, BlockListMF.limestone,   -1, 0, 256, true);
-		RandomOre.addOre(new ItemStack(flux_strong),    10F, BlockListMF.limestone,    2, 0, 256, false);
+		RandomOre.addOre(new ItemStack(flux_strong),    10F, BlockListMF.limestone,    2, 0, 256, true);
 		RandomOre.addOre(new ItemStack(Items.coal), 	1F,  Blocks.stone, 			  -1, 0, 128, false);
 		RandomOre.addOre(new ItemStack(sulfur),     	2F,  Blocks.stone, 			  -1, 0, 16,  false);
 		RandomOre.addOre(new ItemStack(nitre),      	3F,  Blocks.stone, 			  -1, 0, 64,  false);
@@ -295,5 +328,7 @@ public class ComponentListMF
 		RandomOre.addOre(new ItemStack(oreIron),              5F,   Blocks.stone, 0, 0, 64,  false);
 		RandomOre.addOre(new ItemStack(oreSilver),            1.5F, Blocks.stone, 0, 0, 32,  false);
 		RandomOre.addOre(new ItemStack(oreGold),              1F, Blocks.stone, 0, 0, 32,  false);
+		
+		RandomOre.addOre(new ItemStack(oreTungsten),          1F, Blocks.stone, 3, 0, 16,  false, "tungsten");
 	}
 }

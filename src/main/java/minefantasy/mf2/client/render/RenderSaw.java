@@ -60,14 +60,9 @@ public class RenderSaw implements IItemRenderer
     {
         GL11.glPushMatrix();
         
-        IIcon icon = item.getIconIndex();
         Minecraft mc = FMLClientHandler.instance().getClient();
         mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
         Tessellator tessellator = Tessellator.instance;
-        float x1 = icon.getMinU();
-        float x2 = icon.getMaxU();
-        float y1 = icon.getMinV();
-        float y2 = icon.getMaxV();
         
         float xOffset = 0.05F+(0.5F * (scale - 1));
         float yOffset = 0.35F-(0.5F * (scale - 1));
@@ -77,36 +72,28 @@ public class RenderSaw implements IItemRenderer
         GL11.glTranslatef(-xPos, -yPos, 0.0F);
         GL11.glScalef(scale, scale, 1);
         
-        ItemRenderer.renderItemIn2D(tessellator, x2, y1, x1, y2, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+        for(int layer = 0; layer < item.getItem().getRenderPasses(item.getItemDamage()); layer ++)
+    	{
+    		int colour = item.getItem().getColorFromItemStack(item, layer);
+            float red = (float)(colour >> 16 & 255) / 255.0F;
+            float green = (float)(colour >> 8 & 255) / 255.0F;
+            float blue = (float)(colour & 255) / 255.0F;
+            
+            GL11.glColor4f(red, green, blue, 1.0F);
+            
+	        IIcon icon = item.getItem().getIcon(item, layer);
 
-        if (item != null && item.isItemEnchanted()) {
-            GL11.glDepthFunc(GL11.GL_EQUAL);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            mc.renderEngine.bindTexture(TextureHelperMF.ITEM_GLINT);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
-            float var13 = 0.76F;
-            GL11.glColor4f(0.5F * var13, 0.25F * var13, 0.8F * var13, 1.0F);
-            GL11.glMatrixMode(GL11.GL_TEXTURE);
-            GL11.glPushMatrix();
-            float var14 = 0.125F;
-            GL11.glScalef(var14, var14, var14);
-            float var15 = System.currentTimeMillis() % 3000L / 3000.0F * 8.0F;
-            GL11.glTranslatef(var15, 0.0F, 0.0F);
-            GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
-            ItemRenderer.renderItemIn2D(tessellator, x2, y1, x1, y2, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
-            GL11.glPopMatrix();
-            GL11.glPushMatrix();
-            GL11.glScalef(var14, var14, var14);
-            var15 = System.currentTimeMillis() % 4873L / 4873.0F * 8.0F;
-            GL11.glTranslatef(-var15, 0.0F, 0.0F);
-            GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
-            ItemRenderer.renderItemIn2D(tessellator, x2, y1, x1, y2, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
-            GL11.glPopMatrix();
-            GL11.glMatrixMode(GL11.GL_MODELVIEW);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glDepthFunc(GL11.GL_LEQUAL);
+            ItemRenderer.renderItemIn2D(tessellator,
+            		icon.getMaxU(),
+                    icon.getMinV(),
+                    icon.getMinU(),
+                    icon.getMaxV(),
+                    icon.getIconWidth(),
+                    icon.getIconHeight(), 1F/16F);
+    	}
+        if (item != null && item.hasEffect(0)) 
+        {
+        	TextureHelperMF.renderEnchantmentEffects(tessellator);
         }
 
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);

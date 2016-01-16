@@ -1,5 +1,6 @@
 package minefantasy.mf2.block.refining;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -9,6 +10,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityCrucible;
+import minefantasy.mf2.config.ConfigHardcore;
+import minefantasy.mf2.item.ItemFilledMould;
+import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
@@ -19,7 +23,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -82,7 +88,8 @@ public class BlockCrucible extends BlockContainer
 
         if (tile != null)
         {
-            for (int i1 = 0; i1 < tile.getSizeInventory(); ++i1)
+        	int size = ConfigHardcore.HCCreduceIngots ? tile.getSizeInventory()-1 : tile.getSizeInventory();
+            for (int i1 = 0; i1 < size; ++i1)
             {
                 ItemStack itemstack = tile.getStackInSlot(i1);
 
@@ -185,6 +192,25 @@ public class BlockCrucible extends BlockContainer
 		TileEntityCrucible tile = getTile(world, x, y, z);
     	if(tile != null)
     	{
+    		ItemStack held = user.getHeldItem();
+    		ItemStack out = tile.getStackInSlot(tile.getSizeInventory()-1);
+    		if(held != null && held.getItem() == ComponentListMF.ingot_mould && out != null && !(out.getItem() instanceof ItemBlock))
+    		{
+    			ItemStack result = out.copy();
+    			result.stackSize = 1;
+    			tile.decrStackSize(tile.getSizeInventory()-1, 1);
+    			
+    			ItemStack mould = ItemFilledMould.createMould(result);
+    			if(held.stackSize == 1)
+    			{
+    				user.setCurrentItemOrArmor(0, mould);
+    			}
+    			else
+    			{
+	    			user.setCurrentItemOrArmor(0, mould);
+    			}
+    			return true;
+    		}
     		if(!world.isRemote)
     		{
     			user.openGui(MineFantasyII.instance, 0, world, x, y, z);

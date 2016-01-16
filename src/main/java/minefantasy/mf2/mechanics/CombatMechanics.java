@@ -3,6 +3,7 @@ package minefantasy.mf2.mechanics;
 import java.util.Map;
 import java.util.Random;
 
+import minefantasy.mf2.api.armour.CogworkArmour;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
@@ -25,6 +26,7 @@ import minefantasy.mf2.config.ConfigArmour;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigStamina;
 import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.entity.Shockwave;
 import minefantasy.mf2.item.weapon.ItemBattleaxeMF;
 import minefantasy.mf2.item.weapon.ItemDagger;
 import minefantasy.mf2.item.weapon.ItemKatanaMF;
@@ -160,6 +162,10 @@ public class CombatMechanics
     {
 		DamageSource src = event.source;
 		EntityLivingBase hit = event.entityLiving;
+		if(src != null && src == DamageSource.fall)
+		{
+			onFall(hit, event.ammount);
+		}
 		World world = hit.worldObj;
 		float damage = modifyDamage(src, world, hit, event.ammount, true);
 		
@@ -206,6 +212,26 @@ public class CombatMechanics
 		event.ammount = damage;
     }
 	
+	private void onFall(EntityLivingBase fallen, float height) 
+	{
+		float weight = ArmourCalculator.getTotalWeightOfWorn(fallen, false);
+		if(weight > 100)
+		{
+			weight -= 100F;
+			float power = (height/4F) * (weight/100F);
+			newShockwave(fallen, fallen.posX, fallen.posY, fallen.posZ, power, false, true);
+		}
+	}
+	public Shockwave newShockwave(Entity source, double x, double y, double z, float power, boolean fire, boolean smoke)
+    {
+    	Shockwave explosion = new Shockwave("humanstomp", source.worldObj, source, x, y, z, power);
+        explosion.isFlaming = fire;
+        explosion.isSmoking = smoke;
+        explosion.initiate();
+        explosion.decorateWave(true);
+        return explosion;
+    }
+
 	private float modifyDamage(DamageSource src, World world, EntityLivingBase hit, float dam, boolean properHit)
 	{
 		Entity source = src.getSourceOfDamage();
@@ -411,7 +437,7 @@ public class CombatMechanics
 		{
 			dam *= 0.65F;
 		}
-		return dam;
+		return dam + getStrengthEnhancement(user);
 	}
 
 	private boolean isMaterialUndeadKiller(ToolMaterial material) 
@@ -1032,5 +1058,18 @@ public class CombatMechanics
 			dam *= 0.75F;//25% Resist
 		}
 		return dam;
+	}
+	
+	/**
+	 * How much strength is added (directly adds to melee dmg)
+	 */
+	public static float getStrengthEnhancement(EntityLivingBase user)
+	{
+		float dam = 0F;
+		if(CogworkArmour.hasPoweredSuit(user))
+		{
+			dam += 3F;
+		}
+		return Math.max(-0.5F, dam);
 	}
 }

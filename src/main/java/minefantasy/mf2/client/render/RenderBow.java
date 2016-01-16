@@ -1,6 +1,6 @@
 package minefantasy.mf2.client.render;
 
-import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.archery.AmmoMechanicsMF;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.item.archery.ItemBowMF;
 import mods.battlegear2.api.quiver.IArrowContainer2;
@@ -82,7 +82,7 @@ public class RenderBow implements IItemRenderer
         	bow = (ItemBowMF)item.getItem();
         }
         
-        ItemStack arrowStack = Arrows.getLoadedArrow(item);
+        ItemStack arrowStack = AmmoMechanicsMF.getArrowOnBow(item);
         
         int drawAmount = -2;
         

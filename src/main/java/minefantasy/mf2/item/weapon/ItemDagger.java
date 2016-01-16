@@ -2,6 +2,7 @@ package minefantasy.mf2.item.weapon;
 
 import java.util.Random;
 
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.weapon.WeaponClass;
 import net.minecraft.entity.Entity;
@@ -24,7 +25,6 @@ public class ItemDagger extends ItemWeaponMF
     public ItemDagger(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
-    	baseDamage /= 2F;
     }
 	
 	@Override
@@ -125,5 +125,11 @@ public class ItemDagger extends ItemWeaponMF
 	public float getCounterDamage()
 	{
 		return 1.5F;
+	}
+	
+	@Override
+	protected float getMeleeDamage(ItemStack item) 
+    {
+    	return super.getMeleeDamage(item) /2;
 	}
 }

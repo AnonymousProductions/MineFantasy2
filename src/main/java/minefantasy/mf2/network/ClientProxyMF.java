@@ -2,42 +2,109 @@ package minefantasy.mf2.network;
 
 import minefantasy.mf2.api.helpers.ClientTickHandler;
 import minefantasy.mf2.api.knowledge.InformationList;
-import minefantasy.mf2.block.crafting.BlockAnvilMF;
-import minefantasy.mf2.block.tileentity.*;
-import minefantasy.mf2.block.tileentity.blastfurnace.*;
+import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
+import minefantasy.mf2.block.tileentity.TileEntityBellows;
+import minefantasy.mf2.block.tileentity.TileEntityBloomery;
+import minefantasy.mf2.block.tileentity.TileEntityBombBench;
+import minefantasy.mf2.block.tileentity.TileEntityBombPress;
+import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
+import minefantasy.mf2.block.tileentity.TileEntityCrossbowBench;
+import minefantasy.mf2.block.tileentity.TileEntityCrucible;
+import minefantasy.mf2.block.tileentity.TileEntityForge;
+import minefantasy.mf2.block.tileentity.TileEntityResearch;
+import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
+import minefantasy.mf2.block.tileentity.TileEntityTrough;
+import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFC;
+import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import minefantasy.mf2.client.KnowledgePageRegistry;
-import minefantasy.mf2.client.gui.*;
-import minefantasy.mf2.client.render.*;
-import minefantasy.mf2.client.render.block.*;
-import minefantasy.mf2.client.render.mob.*;
-import minefantasy.mf2.entity.*;
-import minefantasy.mf2.entity.mob.*;
+import minefantasy.mf2.client.gui.GuiAnvilMF;
+import minefantasy.mf2.client.gui.GuiBlastChamber;
+import minefantasy.mf2.client.gui.GuiBlastHeater;
+import minefantasy.mf2.client.gui.GuiBloomery;
+import minefantasy.mf2.client.gui.GuiBombBench;
+import minefantasy.mf2.client.gui.GuiCarpenterMF;
+import minefantasy.mf2.client.gui.GuiCrossbowBench;
+import minefantasy.mf2.client.gui.GuiCrucible;
+import minefantasy.mf2.client.gui.GuiForge;
+import minefantasy.mf2.client.gui.GuiKnowledge;
+import minefantasy.mf2.client.gui.GuiKnowledgeEntry;
+import minefantasy.mf2.client.gui.GuiReload;
+import minefantasy.mf2.client.gui.GuiResearchBlock;
+import minefantasy.mf2.client.render.AnimationHandlerMF;
+import minefantasy.mf2.client.render.HudHandlerMF;
+import minefantasy.mf2.client.render.RenderArrowMF;
+import minefantasy.mf2.client.render.RenderBombIcon;
+import minefantasy.mf2.client.render.RenderBow;
+import minefantasy.mf2.client.render.RenderCrossbow;
+import minefantasy.mf2.client.render.RenderFireBlast;
+import minefantasy.mf2.client.render.RenderHeavyWeapon;
+import minefantasy.mf2.client.render.RenderLance;
+import minefantasy.mf2.client.render.RenderMine;
+import minefantasy.mf2.client.render.RenderParachute;
+import minefantasy.mf2.client.render.RenderSaw;
+import minefantasy.mf2.client.render.RenderShrapnel;
+import minefantasy.mf2.client.render.RenderSpear;
+import minefantasy.mf2.client.render.RenderSword;
+import minefantasy.mf2.client.render.block.RenderAnvilMF;
+import minefantasy.mf2.client.render.block.RenderBellows;
+import minefantasy.mf2.client.render.block.RenderBloomery;
+import minefantasy.mf2.client.render.block.RenderBombBench;
+import minefantasy.mf2.client.render.block.RenderBombPress;
+import minefantasy.mf2.client.render.block.RenderCarpenter;
+import minefantasy.mf2.client.render.block.RenderCrossbowBench;
+import minefantasy.mf2.client.render.block.RenderForge;
+import minefantasy.mf2.client.render.block.RenderResearch;
+import minefantasy.mf2.client.render.block.RenderTanningRack;
+import minefantasy.mf2.client.render.block.RenderTrough;
+import minefantasy.mf2.client.render.block.TileEntityAnvilMFRenderer;
+import minefantasy.mf2.client.render.block.TileEntityBellowsRenderer;
+import minefantasy.mf2.client.render.block.TileEntityBloomeryRenderer;
+import minefantasy.mf2.client.render.block.TileEntityBombBenchRenderer;
+import minefantasy.mf2.client.render.block.TileEntityBombPressRenderer;
+import minefantasy.mf2.client.render.block.TileEntityCarpenterRenderer;
+import minefantasy.mf2.client.render.block.TileEntityCrossbowBenchRenderer;
+import minefantasy.mf2.client.render.block.TileEntityForgeRenderer;
+import minefantasy.mf2.client.render.block.TileEntityResearchRenderer;
+import minefantasy.mf2.client.render.block.TileEntityTanningRackRenderer;
+import minefantasy.mf2.client.render.block.TileEntityTroughRenderer;
+import minefantasy.mf2.client.render.mob.ModelDragon;
+import minefantasy.mf2.client.render.mob.ModelMinotaur;
+import minefantasy.mf2.client.render.mob.RenderDragon;
+import minefantasy.mf2.client.render.mob.RenderMinotaur;
+import minefantasy.mf2.entity.EntityArrowMF;
+import minefantasy.mf2.entity.EntityBomb;
+import minefantasy.mf2.entity.EntityFireBlast;
+import minefantasy.mf2.entity.EntityMine;
+import minefantasy.mf2.entity.EntityParachute;
+import minefantasy.mf2.entity.EntityShrapnel;
+import minefantasy.mf2.entity.EntitySmoke;
+import minefantasy.mf2.entity.mob.EntityDragon;
+import minefantasy.mf2.entity.mob.EntityMinotaur;
 import minefantasy.mf2.item.archery.ItemBowMF;
-import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.CustomToolListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.advanced.ItemScythe;
 import minefantasy.mf2.item.tool.crafting.ItemSaw;
-import minefantasy.mf2.item.weapon.*;
+import minefantasy.mf2.item.weapon.ItemDagger;
+import minefantasy.mf2.item.weapon.ItemHalbeardMF;
+import minefantasy.mf2.item.weapon.ItemHeavyWeaponMF;
+import minefantasy.mf2.item.weapon.ItemLance;
+import minefantasy.mf2.item.weapon.ItemMaceMF;
+import minefantasy.mf2.item.weapon.ItemSpearMF;
+import minefantasy.mf2.item.weapon.ItemSwordMF;
+import minefantasy.mf2.item.weapon.ItemWaraxeMF;
+import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.mechanics.ExtendedReachMF;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityList.EntityEggInfo;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 /**
@@ -99,6 +166,10 @@ public class ClientProxyMF extends CommonProxyMF
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrough.class, new TileEntityTroughRenderer());
 		RenderingRegistry.registerBlockHandler(new RenderBombPress());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombPress.class, new TileEntityBombPressRenderer());
+		RenderingRegistry.registerBlockHandler(new RenderBloomery());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBloomery.class, new TileEntityBloomeryRenderer());
+		RenderingRegistry.registerBlockHandler(new RenderCrossbowBench());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrossbowBench.class, new TileEntityCrossbowBenchRenderer());
 	}
 	
 	public void registerEntityRenderer()
@@ -161,6 +232,14 @@ public class ClientProxyMF extends CommonProxyMF
 			{
 				return new GuiResearchBlock(player.inventory, (TileEntityResearch) tile);
 			}
+			if(tile != null && tile instanceof TileEntityBloomery)
+			{
+				return new GuiBloomery(player.inventory, (TileEntityBloomery) tile);
+			}
+			if(tile != null && tile instanceof TileEntityCrossbowBench)
+			{
+				return new GuiCrossbowBench(player.inventory, (TileEntityCrossbowBench) tile);
+			}
 			 return null;
 		}
 		if(ID == 1)
@@ -173,6 +252,10 @@ public class ClientProxyMF extends CommonProxyMF
 				}
 				return new GuiKnowledge(player);
 			}
+			if(x == 1 && player.getHeldItem() != null)
+	    	{
+	    		return new GuiReload(player.inventory, player.getHeldItem());
+	    	}
 		}
         return null;
     }
@@ -211,6 +294,11 @@ public class ClientProxyMF extends CommonProxyMF
 		for(ItemMaceMF sword: ToolListMF.maces)
 			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
 		
+		MinecraftForgeClient.registerItemRenderer(ToolListMF.swordStone, new RenderSword());
+		MinecraftForgeClient.registerItemRenderer(ToolListMF.maceStone, new RenderSword());
+		MinecraftForgeClient.registerItemRenderer(ToolListMF.waraxeStone, new RenderSword().setAxe());
+		MinecraftForgeClient.registerItemRenderer(ToolListMF.spearStone, new RenderSpear());
+		
 		MinecraftForgeClient.registerItemRenderer(ToolListMF.swordTraining, new RenderSword());
 		
 		for(ItemBowMF bow: ToolListMF.bows)
@@ -221,38 +309,18 @@ public class ClientProxyMF extends CommonProxyMF
 		
 		for(ItemScythe scythe: ToolListMF.scythes)
 			MinecraftForgeClient.registerItemRenderer(scythe, new RenderHeavyWeapon().setBlunt());
-	}
+		
+		MinecraftForgeClient.registerItemRenderer(ToolListMF.crossbow_custom, new RenderCrossbow(2.0F));
 	
-	/*
-	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
-	{
-		if(block instanceof BlockAnvilMF)
-		{
-			BlockAnvilMF anvil = (BlockAnvilMF)block;
-			 new TileEntityAnvilMFRenderer().renderModelAt(((BlockAnvilMF) block).material.name, 0, 0.0D, 0.0D, 0.0D, 0.0F, 0);
-		}
+		
+		//DWARVEN
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_sword, new RenderSword());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_waraxe, new RenderSword().setAxe());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_mace, new RenderSword());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_scythe, new RenderHeavyWeapon().setBlunt());
+		
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_warhammer, new RenderHeavyWeapon().setBlunt());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_battleaxe, new RenderHeavyWeapon().setBlunt().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_greatsword, new RenderHeavyWeapon().setGreatsword().setParryable());
 	}
-
-	@Override
-	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block,
-			int modelId, RenderBlocks renderer)
-	{
-		return modelId == renderID;
-	}
-
-	@Override
-	public boolean shouldRender3DInInventory(int modelId)
-	{
-		// TODO Auto-generated method stub
-		return modelId == renderID;
-	}
-
-	@Override
-	public int getRenderId()
-	{
-		// TODO Auto-generated method stub
-		return renderID;
-	}
-	*/
 }

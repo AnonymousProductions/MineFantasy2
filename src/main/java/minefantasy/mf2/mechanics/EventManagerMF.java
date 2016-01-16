@@ -7,6 +7,8 @@ import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.armour.ISpecialArmourMF;
+import minefantasy.mf2.api.heating.IHotItem;
+import minefantasy.mf2.api.heating.TongsHelper;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
 import minefantasy.mf2.api.helpers.EntityHelper;
@@ -17,6 +19,7 @@ import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SyncSkillEvent;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.tool.IHuntingItem;
+import minefantasy.mf2.api.tool.ISmithTongs;
 import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigHardcore;
@@ -31,6 +34,7 @@ import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.network.packet.LevelupPacket;
 import minefantasy.mf2.network.packet.SkillPacket;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
@@ -66,10 +70,12 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
@@ -540,11 +546,30 @@ public class EventManagerMF
 		ItemStack held = event.getPlayer().getHeldItem();
 		Block broken = event.block;
 		
+		if(broken != null && ConfigHardcore.HCCallowRocks)
+		{
+			if(broken == Blocks.stone && held == null)
+			{
+				entityDropItem(event.world, event.x, event.y, event.z, new ItemStack(ComponentListMF.sharp_rock, rand.nextInt(3)+1));
+			}
+			if(broken instanceof BlockLeavesBase && held != null && held.getItem() == ComponentListMF.sharp_rock)
+			{
+				if(rand.nextInt(5) == 0)
+				{
+					entityDropItem(event.world, event.x, event.y, event.z, new ItemStack(Items.stick, rand.nextInt(3)+1));
+				}
+				if(rand.nextInt(3) == 0)
+				{
+					entityDropItem(event.world, event.x, event.y, event.z, new ItemStack(ComponentListMF.vine, rand.nextInt(3)+1));
+				}
+			}
+		}
+		
 		if(StaminaBar.isSystemActive && StaminaBar.doesAffectEntity(event.getPlayer()) && ConfigStamina.affectMining)
 		{
-			float hardness = Math.max(event.block.getBlockHardness(event.world, event.x, event.y, event.z), 0.1F);
-			float points = hardness*0.5F*ConfigStamina.miningSpeed;
-			ItemWeaponMF.applyFatigue(event.getPlayer(), points, hardness*25F);
+			//float hardness = Math.max(event.block.getBlockHardness(event.world, event.x, event.y, event.z), 0.1F);
+			float points = 2.0F*ConfigStamina.miningSpeed;
+			ItemWeaponMF.applyFatigue(event.getPlayer(), points, 25F);
 			if(points > 0 && !StaminaBar.isAnyStamina(event.getPlayer(), false))
 			{
 				event.getPlayer().addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 1));
@@ -552,6 +577,21 @@ public class EventManagerMF
 		}
 	}
 
+	public EntityItem entityDropItem(World world, int x, int y, int z, ItemStack item)
+    {
+        if (item.stackSize != 0 && item.getItem() != null)
+        {
+            EntityItem entityitem = new EntityItem(world, x+0.5D, y+0.5D, z+0.5D, item);
+            entityitem.delayBeforeCanPickup = 10;
+            world.spawnEntityInWorld(entityitem);
+            return entityitem;
+        }
+        else
+        {
+            return null;
+        }
+    }
+	
 	private void addKillTo(EntityPlayer hunter, String type) 
 	{
 		int kills = hunter.getEntityData().hasKey(type) ? hunter.getEntityData().getInteger(type) : 0;
@@ -917,4 +957,49 @@ public class EventManagerMF
 			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new SkillPacket(player, event.theSkill).generatePacket());
 		}
 	}
+	
+	@SubscribeEvent
+	public void itemEvent(EntityItemPickupEvent event)
+	{
+		EntityPlayer player = event.entityPlayer;
+		
+		EntityItem drop = event.item;
+		ItemStack item = drop.getEntityItem();
+		ItemStack held = player.getHeldItem();
+		
+		if(held != null && held.getItem() instanceof ISmithTongs)
+		{
+			if(!TongsHelper.hasHeldItem(held))
+			{
+				if(isHotItem(item))
+				{
+					if(TongsHelper.trySetHeldItem(held, item))
+					{
+						drop.setDead();
+						
+						if(event.isCancelable())
+						{
+							event.setCanceled(true);
+						}
+						return;
+					}
+				}
+			}
+		}
+		{
+			if(ConfigHardcore.HCChotBurn && item != null && isHotItem(item))
+			{
+				if(event.isCancelable())
+				{
+					event.setCanceled(true);
+				}
+			}
+		}
+	}
+
+	private boolean isHotItem(ItemStack item) 
+	{
+		return item != null && (item.getItem() instanceof IHotItem);
+	}
+	
 }

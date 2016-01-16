@@ -16,9 +16,10 @@ public class BaseMaterialMF
 {
 	public static HashMap<String, BaseMaterialMF> materialMap = new HashMap<String, BaseMaterialMF>();
 	public static BaseMaterialMF linen, wool, leatherapron, hide, rough, reinforced, padding, studded, scaled, dragonscale;//Cloth and leather
-	public static BaseMaterialMF stone, tin, pigiron, silver, gold, ornate, weakblacksteel, weakredsteel, weakbluesteel;//Misc Mats
+	public static BaseMaterialMF stone, tin, pigiron, silver, gold, ornate, weakblacksteel, weakredsteel, weakbluesteel, tungsten;//Misc Mats
 	public static BaseMaterialMF copper, bronze, iron, steel, encrusted, blacksteel, bluesteel, redsteel, dragonforge, adamantium, mithril, ignotumite, mithium, enderforge;//Tiers
 	
+	public static BaseMaterialMF cogworks, compositeAlloy;//Engineer
 	/**
 	 * This scales armour so a sword hitting full mail of equal tier has this as a result
 	 * Used so armour can scale up with weapon damage
@@ -49,8 +50,8 @@ public class BaseMaterialMF
 	public static void init()
 	{
 		//LEATHER AND CLOTH
-		linen =  addArmourSpecificMaterial("Linen",   	        0, 10 ,          100,        0,        1.00F, 0);
-		wool =  addArmourSpecificMaterial("Wool"  ,   	        1, 15 ,          150,       0,        1.00F, 5);
+		linen =  addArmourSpecificMaterial("Linen",   	        0, 10 ,          0.1F,        0,        1.00F, 0);
+		wool =  addArmourSpecificMaterial("Wool"  ,   	        1, 15 ,          0.1F,       0,        1.00F, 5);
 		
 		leatherapron = addArmourSpecificMaterial("LeatherApron",  0, 10 ,       1.5F,        0,        0.50F, 0);
 		hide =  addArmourSpecificMaterial("Hide",   	     	   0, 100 ,     1.5F,        0,        1.00F, 0);
@@ -66,13 +67,14 @@ public class BaseMaterialMF
 		weakblacksteel  = addMaterial("BlackSteelWeak",      -1, 250, 	  4,        2.0F,       0,        1.00F, 40).setForgeStats(4, 4, 4.0F, 150, 500);
 		weakredsteel    = addMaterial("RedSteelWeak",        -1, 400, 	  5,        3.0F,       0,        1.10F, 65).setForgeStats(4, 4, 4.0F, 200, 500);
 		weakbluesteel   = addMaterial("BlueSteelWeak",       -1, 300, 	  5,        2.5F,       0,        0.90F, 65).setForgeStats(4, 4, 4.0F, 175, 500);
-		stone =   addMaterial("Stone",		          		  0, 100 ,    0,     0.1F, 0.0F,    0,        2.00F, 0).setForgeStats(0, 0, 0.75F, 0, 0);
+		stone =   addMaterial("Stone",		          		  0, 50 ,     0,     0.1F, 0.0F,    0,        2.00F, 0).setForgeStats(0, 0, 0.75F, 0, 0);
 		tin  =    addMaterial("Tin",   	          			  0, 100,     0,        0.2F,       5 ,       0.80F, 0).setForgeStats(0, 0, 0, 85, 100);
 		pigiron = addMaterial("PigIron",             		  0, 250,     0,        1.5F,       3 ,       1.00F, 0).setForgeStats(2, 2, 2.0F, 100, 400);
-		silver =  addMaterial("Silver", 		     		 -1, 500,     0,        0.0F,       10,       0.70F, 0).setForgeStats(1, 1, 3F, 90, 120);
+		silver =  addMaterial("Silver", 		     		 -1, 150,     0,        0.0F,       10,       0.70F, 0).setForgeStats(1, 1, 3F, 90, 120);
 		gold =    addMaterial("Gold", 	     	     		 -1, 150,     0,        0.0F,       25,       1.50F, 0).setForgeStats(1, 1, 3F, 90, 120);
 		//goldPure =    addMaterial("PureGold", 	     	 -1, 50 ,     0,        0.0F,       50,       2.00F, 0).setRarity(1);
 		ornate =  addMaterial("Ornate", 		     		 -1, 300,     0,        0.0F,       30,       1.00F, 30).setRarity(1).setForgeStats(1, 1, 4F, 120, 150);
+		tungsten = addMaterial("Tungsten",             		  2, 600,     3,        4F,         5 ,       1.50F, 0).setRarity(1).setForgeStats(3, 3, 5.0F, 150, 300);
 		
 		//TIERS
 		//Basic / Common Materials (0-2) Levels 0-50
@@ -93,6 +95,10 @@ public class BaseMaterialMF
 		ignotumite  = addMaterial("Ignotumite",      7, 1000, 7,        14.0F,      20 ,      2.00F, 100).setForgeStats(7, 5, 15.0F, 350, 400).setRarity(2).setResistances(50F, 0F);//High damage, heavy, fire resist lvl 100
 		mithium     = addMaterial("Mithium",         7, 1000, 7,  	  10.0F,      40,       0.25F, 100).setForgeStats(7, 5, 15.0F, 330, 400).setRarity(2).setResistances(0F, 50F);//Low damage, light, magic resist lvl 100
 		enderforge  = addMaterial("Ender",           7, 1000, 7,  	  12.0F,      20,       1.00F, 100).setForgeStats(7, 5, 15.0F, 400, 450).setRarity(2).setResistances(25F, 25F);//Middle                         lvl 100
+		//Engineer Materials
+		//steel       = addMaterial("Steel",           			3, 750, 	2,         2.5F,        10,       1.00F, 25).setForgeStats(3, 3, 2.5F, 120, 250); //lvl 25-39
+		cogworks       = addArmourSpecificMaterial("Cogworks",          4, 500,  1.0F,    10,  1.00F, 85).setForgeStats(3, 3, 2.5F, 120, 250);
+		compositeAlloy = addArmourSpecificMaterial("CompositeAlloy",    4, 1800,  4.0F,   10,  2.00F, 85).setForgeStats(3, 3, 2.5F, 120, 250).setResistances(95F, 85F);
 		
 		MineFantasyAPI.addHeatableItems("ingotIron", iron.workableTemp, iron.unstableTemp, iron.unstableTemp*2);
 		MineFantasyAPI.addHeatableItems("ingotGold", gold.workableTemp, gold.unstableTemp, gold.unstableTemp*2);

@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.armour.CogworkArmour;
 import minefantasy.mf2.api.armour.IArmouredEntity;
 import minefantasy.mf2.api.armour.ISpecialArmourMF;
 import minefantasy.mf2.api.armour.IElementalResistance;
@@ -269,10 +270,19 @@ public class TacticalManager
 	 */
 	public static void applyArmourWeight(EntityLivingBase entityLiving)
 	{
-		if(shouldSlow )
+		if(entityLiving instanceof EntityPlayer && ((EntityPlayer)entityLiving).capabilities.isCreativeMode)
 		{
-			//Default speed is 100%
-			float totalSpeed = 100F;
+			return;
+		}
+		//Default speed is 100%
+		float totalSpeed = 100F;
+		
+		if(CogworkArmour.isWearingAnyCogwork(entityLiving))
+		{
+			totalSpeed = 80F;//Cogwork regardless always slows speed by 20%
+		}
+		else if(shouldSlow && !isImmuneToWeight(entityLiving))
+		{
 			
 			totalSpeed += ArmourCalculator.getSpeedModForWeight(entityLiving);
 			//Limit the slowest speed to 1%
@@ -280,12 +290,12 @@ public class TacticalManager
 			{
 				totalSpeed = minWeightSpeed;
 			}
-			//apply speed mod
-			if(entityLiving.onGround)
-			{
-				entityLiving.motionX *= (totalSpeed/100F);
-				entityLiving.motionZ *= (totalSpeed/100F);
-			}
+		}
+		//apply speed mod
+		if(totalSpeed != 100F && entityLiving.onGround)
+		{
+			entityLiving.motionX *= (totalSpeed/100F);
+			entityLiving.motionZ *= (totalSpeed/100F);
 		}
 	}
 	/**
@@ -498,5 +508,14 @@ public class TacticalManager
 		}
 		target.setCurrentItemOrArmor(0, null);
 		return true;
+	}
+	
+	
+	/**
+	 * Checks if Armour Debuffs are Ignored
+	 */
+	public static boolean isImmuneToWeight(EntityLivingBase entityLiving) 
+	{
+		return CogworkArmour.hasPoweredSuit(entityLiving);
 	}
 }

@@ -3,9 +3,13 @@ package minefantasy.mf2.api.material;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class CustomMaterial
 {
@@ -14,38 +18,55 @@ public class CustomMaterial
 	public static HashMap<String, ArrayList<CustomMaterial>> typeList = new HashMap<String, ArrayList<CustomMaterial>>();
 	
 	public ArrayList<ItemStack>items = new ArrayList<ItemStack>();
-	/**
-	 * The colour of the material
-	 */
+	/** The material colour*/
 	public int[] colourRGB = new int[]{255, 255, 255};
-	/**
-	 * The Modifier for durability and Armour Rating
-	 */
+	/** Base threshold for armour rating*/
 	public float hardness;
-	/**
-	 * The Modifier for flexibility (Bow damage and workability)
-	 */
+	/** The Modifier for durability (1pt per 250 uses)*/
+	public float durability;
+	/** used for bow power.. >1 weakens blunt prot, <1 weakens piercing prot*/
 	public float flexibility;
-	/**
-	 * How much damage is done (Such as ToolMaterial)
-	 */
+	/** The Efficiency modifier (Like ToolMaterial) Also does damage*/
 	public float sharpness;
-	/**
-	 * The weight (Kg) A single unit is such as a plank, strip or ingot.
-	 */
-	public float weight;
+	/** The modifier to resist elements like fire and corrosion)*/
+	public float resistance;
+	/** The weight Kg/U (Kilogram per unit)*/
+	public float density;
 	public int tier;
 	public String type, name;
+	private float[] armourProtection = new float[]{1.0F, 1.0F, 1.0F};
+	public int rarityID = 0;
 	
-	public CustomMaterial(String name, String type, int tier, float hardness, float flexibility, float sharpness, float weight)
+	public int crafterTier = 0;
+	public int crafterAnvilTier = 0;
+	
+	public CustomMaterial(String name, String type, int tier, float hardness, float durability, float flexibility, float resistance, float sharpness, float density)
 	{
 		this.name = name;
 		this.type = type;
 		this.tier = tier;
 		this.hardness = hardness;
+		this.durability = durability;
 		this.flexibility = flexibility;
 		this.sharpness = sharpness;
-		this.weight = weight;
+		this.density = density;
+		this.resistance = resistance;
+	}
+	public CustomMaterial setCrafterTiers(int tier)
+	{
+		this.crafterTier = tier;
+		this.crafterAnvilTier = Math.min(tier, 4);
+		return this;
+	}
+	public CustomMaterial setArmourStats(float cutting, float blunt, float piercing)
+	{
+		armourProtection = new float[]{cutting, blunt, piercing};
+		return this;
+	}
+	public CustomMaterial setRarity(int id)
+	{
+		rarityID = id;
+		return this;
 	}
 	public CustomMaterial setColour(int red, int green, int blue)
 	{
@@ -72,13 +93,24 @@ public class CustomMaterial
 		return materialList.get(name.toLowerCase());
 	}
 	
-	public static CustomMaterial getOrAddMaterial(String name, String type, int tier, float hardness, float flexibility, float sharpness, float weight, int red, int green, int blue)
+	/**
+	 * Adds a new material
+	 * @param name The name of the material (and registration)
+	 * @param type What it is (Metal, Wood, etc)
+	 * @param tier The tier of the material
+	 * @param hardness How hard the material is to break
+	 * @param flexibility How well the material can bend and retract
+	 * @param sharpness How well it can be sharpened
+	 * @param resistance How well it can handle destructive elements like fire and corrosion, and increased heating temperature
+	 * @param density how dense the element is, increasing mass per unit. (KG/Units)
+	 */
+	public static CustomMaterial getOrAddMaterial(String name, String type, int tier, float hardness, float durability, float flexibility, float sharpness, float resistance, float density, int red, int green, int blue)
 	{
 		if(getMaterial(name) != null)
 		{
 			return getMaterial(name);
 		}
-		return new CustomMaterial(name, type, tier, hardness, flexibility, sharpness, weight).setColour(red, green, blue).register();
+		return new CustomMaterial(name, type, tier, hardness, durability, flexibility, sharpness, resistance, density).setColour(red, green, blue).register();
 	}
 	
 	public static void addMaterial(ItemStack item, String slot, String material)
@@ -145,5 +177,26 @@ public class CustomMaterial
 	public boolean isItemApplicable(ItemStack item)
 	{
 		return this.items.contains(item);
+	}
+	@SideOnly(Side.CLIENT)
+	public static String getWeightString(float mass) 
+	{
+		String s = "attribute.weightKg.name";
+		if(mass < 1.0F)
+		{
+			s = "attribute.weightg.name";
+			mass = (int)(mass*1000F);
+		}
+		return StatCollector.translateToLocalFormatted(s, mass);
+	}
+	@SideOnly(Side.CLIENT)
+	public String getMaterialString() 
+	{
+		return StatCollector.translateToLocalFormatted("materialtype."+this.type+".name", this.tier);
+	}
+	
+	public float getArmourProtection(int id)
+	{
+		return armourProtection[id];
 	}
 }

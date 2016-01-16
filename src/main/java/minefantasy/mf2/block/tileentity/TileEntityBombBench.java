@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.api.crafting.IBasicMetre;
-import minefantasy.mf2.api.crafting.bomb.IBombComponent;
+import minefantasy.mf2.api.crafting.engineer.IBombComponent;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
@@ -91,7 +91,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 				{
 					SkillList.engineering.addXP(user, 2);
 				}
-				boolean isArrow = isMatch(0, "arrow");
+				boolean isArrow = isMatch(0, "arrow") || isMatch(0, "bolt");
 				for(int a = 0; a < 4; a++)
 				{
 					if(!(isArrow && a == 3))
@@ -208,7 +208,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 	
 	private ItemStack findResult()
 	{
-		boolean isArrow = isMatch(0, "arrow");
+		boolean isArrow = isMatch(0, "arrow") || isMatch(0, "bolt");
 		if(!isMatch(1, "powder") || (!isArrow && !isMatch(3, "fuse")))
 		{
 			return null;
@@ -226,7 +226,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 		{
 			caseTier = getComponentTier(inv[0]);
 			String type = com0;
-			design = type.equalsIgnoreCase("arrow") ? ToolListMF.exploding_arrow : type.equalsIgnoreCase("bombcase") ? ToolListMF.bomb_custom : type.equalsIgnoreCase("minecase") ? ToolListMF.mine_custom : null;
+			design = getDesignCrafted(type);
 		}
 		if(com1 != null)
 		{
@@ -269,7 +269,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 		
 		if(design != null && isArrow && powder > -1)
 		{
-			return ItemExplodingArrow.createBombArrow(powder, filling);
+			return ItemExplodingArrow.createBombArrow(design, powder, filling);
 		}
 		else if(design != null && fuse > -1 && powder > -1)
 		{
@@ -278,6 +278,26 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 		return null;
 	}
 	
+	private Item getDesignCrafted(String type) 
+	{
+		if(type.equalsIgnoreCase("bombcase"))
+		{
+			return ToolListMF.bomb_custom;
+		}
+		if(type.equalsIgnoreCase("minecase"))
+		{
+			return ToolListMF.mine_custom;
+		}
+		if(type.equalsIgnoreCase("arrow"))
+		{
+			return ToolListMF.exploding_arrow;
+		}
+		if(type.equalsIgnoreCase("bolt"))
+		{
+			return ToolListMF.exploding_bolt;
+		}
+		return null;
+	}
 	private boolean isMatch(int slot, String type)
 	{
 		return isMatch(inv[slot], type);
@@ -401,7 +421,7 @@ public class TileEntityBombBench extends TileEntity implements IInventory, ISide
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack item)
 	{
-		if(this.isMatch(item, "arrow") || this.isMatch(item, "bombcase") || this.isMatch(item, "minecase"))
+		if(this.isMatch(item, "bolt") || this.isMatch(item, "arrow") || this.isMatch(item, "bombcase") || this.isMatch(item, "minecase"))
 		{
 			return slot == 0;
 		}

@@ -26,7 +26,7 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	public int ticksExisted;
 	public boolean isBuilt = false;
 	public int fireTime;
-	private Random rand = new Random();
+	protected Random rand = new Random();
 	
 	@Override
 	public void updateEntity()

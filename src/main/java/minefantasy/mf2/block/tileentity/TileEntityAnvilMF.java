@@ -303,7 +303,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 				progress += Math.max(0.2F, efficiency);
 				if(progress >= progressMax)
 				{
-					float xpGained = progressMax / toolEfficiency;
 					craftItem(user);
 				}
 			}

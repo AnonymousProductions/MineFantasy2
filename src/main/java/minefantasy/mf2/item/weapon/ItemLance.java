@@ -16,15 +16,12 @@ import net.minecraft.util.StatCollector;
  */
 public class ItemLance extends ItemSpearMF
 {
-	private float joustDamage;
 	/**
 	 */
     public ItemLance(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(name, material, rarity, weight);
     	setMaxDamage(getMaxDamage()*2);
-    	joustDamage = baseDamage*2.5F;
-    	baseDamage = 2.0F;
     }
     
     @Override
@@ -32,7 +29,7 @@ public class ItemLance extends ItemSpearMF
     {
     	super.addInformation(weapon, user, list, extra);
     	
-    	list.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus."+ 0, decimal_format.format(joustDamage), StatCollector.translateToLocal("attribute.weapon.joustDam")));
+    	list.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus."+ 0, decimal_format.format(getJoustDamage(weapon)), StatCollector.translateToLocal("attribute.weapon.joustDam")));
     }
 
     @Override
@@ -106,7 +103,7 @@ public class ItemLance extends ItemSpearMF
     		float speed = (float)Math.hypot(mount.motionX, mount.motionZ) * speedMod;
     		if(speed > speedCap)speed = speedCap;
     		
-    		dam += joustDamage / speedCap * speed;
+    		dam += getJoustDamage(target.getHeldItem()) / speedCap * speed;
     		
             if(attacker instanceof EntityPlayer)
             {
@@ -125,5 +122,16 @@ public class ItemLance extends ItemSpearMF
 	public int modifyHitTime(EntityLivingBase user, ItemStack item)
 	{
 		return super.modifyHitTime(user, item) + speedModSpear*2;
+	}
+	
+	@Override
+	protected float getMeleeDamage(ItemStack item) 
+    {
+    	return 2F;
+	}
+	
+	protected float getJoustDamage(ItemStack item) 
+    {
+    	return super.getMeleeDamage(item)*2.5F;
 	}
 }

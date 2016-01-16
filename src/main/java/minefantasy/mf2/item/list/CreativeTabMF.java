@@ -22,6 +22,7 @@ public final class CreativeTabMF extends CreativeTabs
 	public static CreativeTabs tabCraftTool = new CreativeTabMF(CreativeTabs.getNextID(), "MFcrafttool", 9);
 	public static CreativeTabs tabOres = new CreativeTabMF(CreativeTabs.getNextID(), "MFore", 10);
 	public static CreativeTabs tabFood = new CreativeTabMF(CreativeTabs.getNextID(), "MFfood", 11);
+	public static CreativeTabs tabCustom = new CreativeTabMF(CreativeTabs.getNextID(), "MFcustom", 12);
 	
 	
 	private int type;
@@ -47,6 +48,7 @@ public final class CreativeTabMF extends CreativeTabs
 			case 9: return new ItemStack(ToolListMF.hammers[3]);
 			case 10: return new ItemStack(BlockListMF.oreCopper);
 			case 11: return new ItemStack(FoodListMF.sweetroll);
+			case 12: return new ItemStack(ComponentListMF.ingotCompositeAlloy);
 		}
 		return new ItemStack(ComponentListMF.ingots[3]);
 	}

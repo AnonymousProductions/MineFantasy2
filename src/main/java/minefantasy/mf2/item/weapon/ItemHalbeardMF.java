@@ -19,7 +19,6 @@ public class ItemHalbeardMF extends ItemSpearMF
     {
     	super(name, material, rarity, weight);
     	setMaxDamage(getMaxDamage()*2);
-    	baseDamage *= 1.5F;
     }
 
     @Override
@@ -97,5 +96,11 @@ public class ItemHalbeardMF extends ItemSpearMF
 	protected float[] getWeaponRatio(ItemStack implement)
 	{
 		return battleaxeRatio;
+	}
+	
+	@Override
+	protected float getMeleeDamage(ItemStack item) 
+    {
+    	return super.getMeleeDamage(item)*1.5F;
 	}
 }

@@ -4,9 +4,10 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.archery.AmmoMechanicsMF;
+import minefantasy.mf2.api.archery.IAmmo;
 import minefantasy.mf2.api.archery.IArrowMF;
-import minefantasy.mf2.api.archery.IDisplayMFArrows;
+import minefantasy.mf2.api.archery.IDisplayMFAmmo;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -18,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -26,7 +28,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /**
  * @author Anonymous Productions
  */
-public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
+public class ItemArrowMF extends Item implements IArrowMF, IAmmo
 {
 	protected float damage;
 	protected String arrowName;
@@ -47,13 +49,13 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		name = convertName(name);
 		material = convertMaterial(material);
 		
-		super.setUnlocalizedName(type == ArrowType.EXPLOSIVE ? name : (name+"_arrow"));
+		super.setUnlocalizedName((type == ArrowType.EXPLOSIVE || type == ArrowType.EXPLOSIVEBOLT) ? name : type == ArrowType.BOLT ? (name+"_bolt") : (name+"_arrow"));
 		name = getName(name, type);
 		design = type;
 		arrowName = name;
 		arrowMat = material;
 		damage = ((material.getDamageVsEntity()/2F) + 3.0F)*type.damageModifier;
-		if(type == ArrowType.EXPLOSIVE)
+		if(type == ArrowType.EXPLOSIVE || type == ArrowType.EXPLOSIVEBOLT)
 		{
 			damage = 1;
 		}
@@ -62,7 +64,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		setCreativeTab(CreativeTabMF.tabArcher);
 		GameRegistry.registerItem(this, "MF_Com_"+name, MineFantasyII.MODID);
 		
-		Arrows.addArrow(new ItemStack(this));
+		AmmoMechanicsMF.addArrow(new ItemStack(this));
 		QuiverArrowRegistry.addArrowToRegistry(new ItemStack(this), null);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenser);
 	}
@@ -87,7 +89,7 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
     {
         String name = ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(item) + ".name")).trim();
         
-        if(design != ArrowType.NORMAL && design != ArrowType.EXPLOSIVE)
+        if(design != ArrowType.NORMAL && design != ArrowType.EXPLOSIVE && design != ArrowType.BOLT && design != ArrowType.EXPLOSIVEBOLT)
         {
         	name += " (" +  StatCollector.translateToLocal("arrow.head."+ design.name.toLowerCase() +".name") + ")";
         }
@@ -101,9 +103,17 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		{
 			return "exploding_arrow";
 		}
+		if(type == ArrowType.EXPLOSIVEBOLT)
+		{
+			return "exploding_bolt";
+		}
 		if(type.name.equalsIgnoreCase("normal"))
 		{
 			return mat +"_arrow";
+		}
+		if(type.name.equalsIgnoreCase("bolt"))
+		{
+			return mat +"_bolt";
 		}
 		return mat + "_arrow_" + type.name.toLowerCase();
 	}
@@ -149,13 +159,6 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
     	instance.modifyVelocity(design.velocity);
     	return instance.setArrow(arrow).setArrowTex(arrowName);
     }
-    
-    @Override
-	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player)
-	{
-    	Arrows.presetArrow(player, item);
-    	return item;
-	}
 	@Override
 	public float getDamageModifier(ItemStack arrow)
 	{
@@ -183,5 +186,16 @@ public class ItemArrowMF extends Item implements IDisplayMFArrows, IArrowMF
 		{
 			hit.setFire((int)(damage * (arrowInstance.isBurning() ? 2.0F : 1.0F)));
 		}
+	}
+	public ItemArrowMF setAmmoType(String type)
+	{
+		ammoType = type;
+		return this;
+	}
+	private String ammoType = "arrow";
+	@Override
+	public String getAmmoType(ItemStack arrow) 
+	{
+		return ammoType;
 	}
 }

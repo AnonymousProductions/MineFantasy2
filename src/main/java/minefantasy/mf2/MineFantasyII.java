@@ -18,17 +18,22 @@ import minefantasy.mf2.config.ConfigStamina;
 import minefantasy.mf2.config.ConfigTools;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.config.ConfigWorldGen;
+import minefantasy.mf2.item.gadget.ItemLootSack;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
+import minefantasy.mf2.material.MetalMaterial;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
 import minefantasy.mf2.network.CommonProxyMF;
 import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
+import minefantasy.mf2.recipe.RecipeRemover;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -53,7 +58,7 @@ public class MineFantasyII
 {
 	public static final String MODID = "minefantasy2";
 	public static final String NAME = "MineFantasyII";
-	public static final String VERSION = "Alpha_2.4.4";
+	public static final String VERSION = "Alpha_2.5.5";
 	public static final WorldGenMFBase worldGenManager = new WorldGenMFBase();
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
@@ -90,6 +95,8 @@ public class MineFantasyII
     	proxy.registerTickHandlers();
     	addModFlags();
     	proxy.preInit();
+    	
+    	RecipeRemover.removeRecipes();
     }
 
     @EventHandler
@@ -137,7 +144,9 @@ public class MineFantasyII
     	}
     	KnowledgeListMF.init();
     	BasicRecipesMF.init();
+    	ItemLootSack.addItems();
     	proxy.postInit();
+    	MetalMaterial.addHeatables();
     }
 
     private void registerBiomeStuff(BiomeGenBase biome)

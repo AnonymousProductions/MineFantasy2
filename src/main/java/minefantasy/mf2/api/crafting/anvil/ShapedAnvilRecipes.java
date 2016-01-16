@@ -105,7 +105,7 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
     /**
      * Checks if the region of a crafting inventory is match for the recipe.
      */
-    private boolean checkMatch(InventoryCrafting matrix, int x, int y, boolean b)
+    protected boolean checkMatch(InventoryCrafting matrix, int x, int y, boolean b)
     {
         for (int var5 = 0; var5 < ShapelessAnvilRecipes.globalWidth; ++var5)
         {
@@ -168,7 +168,7 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
         return true;
     }
 
-    private ItemStack getHotItem(ItemStack item) 
+    protected ItemStack getHotItem(ItemStack item) 
     {
     	if(item == null)return null;
     	if(!(item.getItem() instanceof IHotItem))

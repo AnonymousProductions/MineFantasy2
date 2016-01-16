@@ -30,10 +30,6 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
     public ItemSpearMF(String name, ToolMaterial material, int rarity, float weight)
     {
     	super(material, name, rarity, weight);
-    	if(material != ToolMaterial.WOOD)
-    	{
-    		this.baseDamage = 1;
-    	}
     }
 
     @Override
@@ -126,7 +122,7 @@ public class ItemSpearMF extends ItemWeaponMF implements IExtendedReachWeapon
     	{
 			return 0;
     	}
-		return baseDamage/2;
+		return 4F;
 	}
 	
 	@Override

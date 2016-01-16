@@ -8,6 +8,7 @@ import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.heating.TongsHelper;
 import minefantasy.mf2.api.helpers.GuiHelper;
+import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
@@ -241,8 +242,10 @@ public class ItemHeated extends Item implements IHotItem
 				if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, item)) {
 					return item;
 				}
+				float water = TongsHelper.getWaterSource(world, i, j, k);
 
-				if (TongsHelper.isWaterSource(world, i, j, k)) {
+				if (water >= 0)
+				{
 					player.playSound("random.splash", 1F, 1F);
 					player.playSound("random.fizz", 2F, 0.5F);
 
@@ -251,6 +254,17 @@ public class ItemHeated extends Item implements IHotItem
 					}
 
 					ItemStack drop = getItem(item).copy();
+					
+					if(Heatable.HCCquenchRuin)
+					{	
+						float damageDone = 50F + (water > 0F ? water : 0F);
+						if(damageDone > 99F)damageDone = 99F;
+						
+						if(drop.isItemStackDamageable())
+						{
+							drop.setItemDamage((int) (drop.getMaxDamage()*damageDone/100F));
+						}
+					}
 					drop.stackSize = item.stackSize;
 					if (drop != null) {
 						item.stackSize = 0;

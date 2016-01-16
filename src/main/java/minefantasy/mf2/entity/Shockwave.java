@@ -139,7 +139,8 @@ public class Shockwave
                     d7 /= d9;
                     double d10 = (double)this.worldObj.getBlockDensity(vec3, entity.boundingBox);
                     double d11 = (1.0D - d4) * d10;
-                    entity.attackEntityFrom(getExplosionSource(), (float)((int)((d11 * d11 + d11) / 2.0D * 8.0D * (double)this.explosionSize + 1.0D)));
+                    float damage =  (float)((int)((d11 * d11 + d11) / 2.0D * 8.0D * (double)this.explosionSize + 1.0D));
+                    entity.attackEntityFrom(getExplosionSource(), Math.min(64F, 4F + (damage/2F)));
                     double d8 = EnchantmentProtection.func_92092_a(entity, d11);
                     entity.motionX += d5 * d8;
                     entity.motionY += d6 * d8;

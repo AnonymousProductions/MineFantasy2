@@ -3,7 +3,7 @@ package minefantasy.mf2.network;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.archery.AmmoMechanicsMF;
 import minefantasy.mf2.api.refine.ISmokeHandler;
 import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.tileentity.*;
@@ -49,41 +49,56 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
-    	TileEntity tile = world.getTileEntity(x, y, z);
-		int meta = world.getBlockMetadata(x, y, z);
-		
-		if(tile != null && tile instanceof TileEntityAnvilMF)
-		{
-			return new ContainerAnvilMF(player.inventory, (TileEntityAnvilMF) tile);
-		}
-		if(tile != null && tile instanceof TileEntityCarpenterMF)
-		{
-			return new ContainerCarpenterMF(player.inventory, (TileEntityCarpenterMF) tile);
-		}
-		if(tile != null && tile instanceof TileEntityBombBench)
-		{
-			return new ContainerBombBench(player.inventory, (TileEntityBombBench) tile);
-		}
-		if(tile != null && tile instanceof TileEntityBlastFH)
-		{
-			return new ContainerBlastHeater(player.inventory, (TileEntityBlastFH) tile);
-		}
-		if(tile != null && tile instanceof TileEntityBlastFC)
-		{
-			return new ContainerBlastChamber(player.inventory, (TileEntityBlastFC) tile);
-		}
-		if(tile != null && tile instanceof TileEntityCrucible)
-		{
-			return new ContainerCrucible(player.inventory, (TileEntityCrucible) tile);
-		}
-		if(tile != null && tile instanceof TileEntityForge)
-		{
-			return new ContainerForge(player.inventory, (TileEntityForge) tile);
-		}
-		if(tile != null && tile instanceof TileEntityResearch)
-		{
-			return new ContainerResearch(player.inventory, (TileEntityResearch) tile);
-		}
+    	if(ID == 1 && x == 1 && player.getHeldItem() != null)
+    	{
+    		return new ContainerReload(player.inventory, player.getHeldItem());
+    	}
+    	else if(ID == 0)
+    	{
+	    	TileEntity tile = world.getTileEntity(x, y, z);
+			int meta = world.getBlockMetadata(x, y, z);
+			
+			if(tile != null && tile instanceof TileEntityAnvilMF)
+			{
+				return new ContainerAnvilMF(player.inventory, (TileEntityAnvilMF) tile);
+			}
+			if(tile != null && tile instanceof TileEntityCarpenterMF)
+			{
+				return new ContainerCarpenterMF(player.inventory, (TileEntityCarpenterMF) tile);
+			}
+			if(tile != null && tile instanceof TileEntityBombBench)
+			{
+				return new ContainerBombBench(player.inventory, (TileEntityBombBench) tile);
+			}
+			if(tile != null && tile instanceof TileEntityBlastFH)
+			{
+				return new ContainerBlastHeater(player.inventory, (TileEntityBlastFH) tile);
+			}
+			if(tile != null && tile instanceof TileEntityBlastFC)
+			{
+				return new ContainerBlastChamber(player.inventory, (TileEntityBlastFC) tile);
+			}
+			if(tile != null && tile instanceof TileEntityCrucible)
+			{
+				return new ContainerCrucible(player.inventory, (TileEntityCrucible) tile);
+			}
+			if(tile != null && tile instanceof TileEntityForge)
+			{
+				return new ContainerForge(player.inventory, (TileEntityForge) tile);
+			}
+			if(tile != null && tile instanceof TileEntityResearch)
+			{
+				return new ContainerResearch(player.inventory, (TileEntityResearch) tile);
+			}
+			if(tile != null && tile instanceof TileEntityBloomery)
+			{
+				return new ContainerBloomery(player.inventory, (TileEntityBloomery) tile);
+			}
+			if(tile != null && tile instanceof TileEntityCrossbowBench)
+			{
+				return new ContainerCrossbowBench(player.inventory, (TileEntityCrossbowBench) tile);
+			}
+    	}
         return null;
     }
 
@@ -94,8 +109,8 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 
 	public void registerMain() 
 	{
-		Arrows.addHandler(new ArrowFireFlint());
-		Arrows.addHandler(new ArrowFirerMF());
+		AmmoMechanicsMF.addHandler(new ArrowFireFlint());
+		AmmoMechanicsMF.addHandler(new ArrowFirerMF());
 		EntityListMF.register();
 		registerTileEntities();
 		SmokeMechanics.handler = this;
@@ -106,6 +121,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 		GameRegistry.registerTileEntity(TileEntityAnvilMF.class, "MF_Anvil");
 		GameRegistry.registerTileEntity(TileEntityCarpenterMF.class, "MF_CarpenterBench");
 		GameRegistry.registerTileEntity(TileEntityBombBench.class, "MF_BombBench");
+		GameRegistry.registerTileEntity(TileEntityCrossbowBench.class, "MF_CrossbowBench");
 		GameRegistry.registerTileEntity(TileEntityBlastFC.class, "MF_BlastChamber");
 		GameRegistry.registerTileEntity(TileEntityBlastFH.class, "MF_BlastHeater");
 		GameRegistry.registerTileEntity(TileEntityCrucible.class, "MF_Crucible");
@@ -116,6 +132,7 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler
 		GameRegistry.registerTileEntity(TileEntityResearch.class, "MF_Research");
 		GameRegistry.registerTileEntity(TileEntityTrough.class, "MF_Trough");
 		GameRegistry.registerTileEntity(TileEntityBombPress.class, "MF_BombPress");
+		GameRegistry.registerTileEntity(TileEntityBloomery.class, "MF_Bloomery");
 	}
 
 

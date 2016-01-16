@@ -20,8 +20,8 @@ public class ContainerBlastChamber extends Container
     	isGuiContainer = true;
         this.tile = tile;
         
-		this.addSlotToContainer(new Slot(tile, 0, 80, 30));
-		this.addSlotToContainer(new Slot(tile, 1, 80, 68));
+		this.addSlotToContainer(new SlotRestrictive(tile, 0, 80, 30));
+		this.addSlotToContainer(new SlotRestrictive(tile, 1, 80, 68));
 		
         int i;
 

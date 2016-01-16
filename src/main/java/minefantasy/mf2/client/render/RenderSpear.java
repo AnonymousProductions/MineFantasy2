@@ -71,27 +71,38 @@ public class RenderSpear implements IItemRenderer
         	boolean rotate = getRotationFor(false, data);
         	GL11.glTranslatef(-1.0F, -1.0F, 0);
             GL11.glScalef(3,3,1);
-            IIcon icon = item.getIconIndex();
             
             GL11.glPushMatrix();
             
-            float x = icon.getMaxU();
-            float x2 = icon.getMinU();
             
-            if(rotate)
-            {
-            	x2 = icon.getMaxU();
-                x = icon.getMinU();
-            }
             
-            ItemRenderer.renderItemIn2D(tessellator,
-            		x,
-                    icon.getMinV(),
-                    x2,
-                    icon.getMaxV(),
-                    icon.getIconWidth(),
-                    icon.getIconHeight(), 1F/16F);
-
+            for(int layer = 0; layer < item.getItem().getRenderPasses(item.getItemDamage()); layer ++)
+        	{
+        		int colour = item.getItem().getColorFromItemStack(item, layer);
+                float red = (float)(colour >> 16 & 255) / 255.0F;
+                float green = (float)(colour >> 8 & 255) / 255.0F;
+                float blue = (float)(colour & 255) / 255.0F;
+                
+                GL11.glColor4f(red, green, blue, 1.0F);
+                
+    	        IIcon icon = item.getItem().getIcon(item, layer);
+    	        float x = icon.getMaxU();
+                float x2 = icon.getMinU();
+                
+                if(rotate)
+                {
+                	x2 = icon.getMaxU();
+                    x = icon.getMinU();
+                }
+                
+                ItemRenderer.renderItemIn2D(tessellator,
+        		x,
+                icon.getMinV(),
+                x2,
+                icon.getMaxV(),
+                icon.getIconWidth(),
+                icon.getIconHeight(), 1F/16F);
+        	}
             if (item != null && item.hasEffect(0)) 
             {
             	TextureHelperMF.renderEnchantmentEffects(tessellator);

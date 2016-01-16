@@ -3,10 +3,12 @@ package minefantasy.mf2.item.tool.crafting;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.heating.TongsHelper;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.tier.IToolMaterial;
+import minefantasy.mf2.api.tool.ISmithTongs;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
@@ -35,7 +37,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * @author Anonymous Productions
  */
-public class ItemTongs extends ItemTool implements IToolMaterial
+public class ItemTongs extends ItemTool implements IToolMaterial, ISmithTongs
 {
 	private ToolMaterial material;
     public ItemTongs(String name, ToolMaterial material, int rarity)
@@ -45,6 +47,7 @@ public class ItemTongs extends ItemTool implements IToolMaterial
         itemRarity = rarity;
         setCreativeTab(CreativeTabMF.tabCraftTool);
         setTextureName("minefantasy2:Tool/Crafting/"+name);
+        this.setMaxDamage(getMaxDamage()/5);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
     }
@@ -141,12 +144,15 @@ public class ItemTongs extends ItemTool implements IToolMaterial
 					return item;
 				}
 
-				if (TongsHelper.isWaterSource(world, i, j, k) && TongsHelper.getHeldItem(item) != null) {
+				float water = TongsHelper.getWaterSource(world, i, j, k);
+				
+				if (TongsHelper.getHeldItem(item) != null && water >= 0) 
+				{
 					ItemStack drop = TongsHelper.getHeldItem(item).copy(), cooled = drop;
 					
 					if (TongsHelper.isCoolableItem(drop)) 
 					{
-						cooled = TongsHelper.getHotItem(drop);
+						cooled = Heatable.getQuenchedItem(drop, water);
 						cooled.stackSize = drop.stackSize;
 
 						player.playSound("random.splash", 1F, 1F);

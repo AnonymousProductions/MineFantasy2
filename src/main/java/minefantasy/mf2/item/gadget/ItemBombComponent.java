@@ -1,18 +1,23 @@
 package minefantasy.mf2.item.gadget;
 
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.api.crafting.bomb.IBombComponent;
+import minefantasy.mf2.api.crafting.ISalvageDrop;
+import minefantasy.mf2.api.crafting.engineer.IBombComponent;
 import minefantasy.mf2.item.ItemComponentMF;
 
-public class ItemBombComponent extends ItemComponentMF implements IBombComponent
+public class ItemBombComponent extends ItemComponentMF implements IBombComponent, ISalvageDrop
 {
+	private static HashMap<String, Item> components = new HashMap<String, Item>();
+	
 	private byte tier;
 	private String type;
 	public ItemBombComponent(String name, String type, int tier)
@@ -32,6 +37,7 @@ public class ItemBombComponent extends ItemComponentMF implements IBombComponent
 		super(name, rarity);
 		this.type = type;
 		this.tier = (byte)tier;
+		components.put(type+tier, this);
 	}
 
 	@Override
@@ -46,4 +52,18 @@ public class ItemBombComponent extends ItemComponentMF implements IBombComponent
 		return tier;
 	}
 
+	public static Item getBombComponent(String name, int tier)
+	{
+		return components.get(name+tier);
+	}
+
+	@Override
+	public boolean canSalvage(EntityPlayer user, ItemStack item) 
+	{
+		if(getContainerItem() != null)
+		{
+			return false;
+		}
+		return true;
+	}
 }

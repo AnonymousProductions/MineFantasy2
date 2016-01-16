@@ -2,8 +2,10 @@ package minefantasy.mf2.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
@@ -12,6 +14,7 @@ import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
+import minefantasy.mf2.api.crafting.engineer.ICrossbowPart;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
 import minefantasy.mf2.api.heating.Heatable;
@@ -25,6 +28,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
@@ -389,7 +393,8 @@ public class MineFantasyAPI
 	 * @param max
 	 *            the maximum heat until the item is ruined(celcius)
 	 */
-	public static void addHeatableItem(ItemStack item, int min, int unstable, int max) {
+	public static void addHeatableItem(ItemStack item, int min, int unstable, int max) 
+	{
 		Heatable.addItem(item, min, unstable, max);
 	}
 
@@ -403,7 +408,8 @@ public class MineFantasyAPI
 	 * @param max
 	 *            the maximum heat until the item is ruined(celcius)
 	 */
-	public static void addHeatableItem(Item id, int min, int unstable, int max) {
+	public static void addHeatableItem(Item id, int min, int unstable, int max) 
+	{
 		Heatable.addItem(new ItemStack(id, 1, OreDictionary.WILDCARD_VALUE), min, unstable, max);
 	}
 	
@@ -431,4 +437,60 @@ public class MineFantasyAPI
 		}
 		return null;
 	}
+
+	/**
+	 * Adds a crossbow part Make sure to do this when adding the item
+	 */
+	public static void registerCrossbowPart(ICrossbowPart part)
+	{
+		ICrossbowPart.components.put(part.getComponentType()+part.getID(), part);
+	}
+	/**
+	 * For Hardcore Crafting: Can remove smelting recipes
+	 * @param input can be an "Item", "Block" or "ItemStack"
+	 */
+	public static boolean removeSmelting(Object input)
+    {
+		ItemStack object = null;
+		if(input instanceof Item)
+		{
+			object = new ItemStack((Item)input, 1, 32767);
+		}
+		else if(input instanceof Block)
+		{
+			object = new ItemStack((Block)input, 1, 32767);
+		}
+		else if(input instanceof ItemStack)
+		{
+			object = (ItemStack)input;
+		}
+		if(object != null)
+		{
+			return removeFurnaceInput(object);
+		}
+		return false;
+    }
+	private static boolean removeFurnaceInput(ItemStack input)
+    {
+        Iterator iterator = FurnaceRecipes.smelting().getSmeltingList().entrySet().iterator();
+        Entry entry;
+
+        do
+        {
+            if (!iterator.hasNext())
+            {
+                return false;
+            }
+
+            entry = (Entry)iterator.next();
+        }
+        while (!checkMatch(input, (ItemStack)entry.getKey()));
+
+        FurnaceRecipes.smelting().getSmeltingList().remove(entry.getKey());
+        return true;
+    }
+	private static boolean checkMatch(ItemStack item1, ItemStack item2)
+    {
+        return item2.getItem() == item1.getItem() && (item2.getItemDamage() == 32767 || item2.getItemDamage() == item1.getItemDamage());
+    }
 }

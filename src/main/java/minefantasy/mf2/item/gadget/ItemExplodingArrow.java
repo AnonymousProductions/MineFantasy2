@@ -9,14 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import minefantasy.mf2.api.crafting.ISpecialSalvage;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.item.archery.ArrowType;
 import minefantasy.mf2.item.archery.ItemArrowMF;
+import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 
-public class ItemExplodingArrow extends ItemArrowMF 
+public class ItemExplodingArrow extends ItemArrowMF implements ISpecialSalvage
 {
 
 	public ItemExplodingArrow()
@@ -56,7 +58,11 @@ public class ItemExplodingArrow extends ItemArrowMF
 	
 	public static ItemStack createBombArrow(byte powder, byte filling)
 	{
-		ItemStack arrow = new ItemStack(ToolListMF.exploding_arrow);
+		return createBombArrow(ToolListMF.exploding_arrow, powder, filling);
+	}
+	public static ItemStack createBombArrow(Item design, byte powder, byte filling)
+	{
+		ItemStack arrow = new ItemStack(design);
 		
 		ItemBomb.setFilling(arrow, filling);
 		ItemBomb.setPowder(arrow, powder);
@@ -74,4 +80,15 @@ public class ItemExplodingArrow extends ItemArrowMF
 			}
 		}
     }
+	
+	@Override
+	public Object[] getSalvage(ItemStack item)
+	{
+		return new Object[]
+		{
+			ComponentListMF.bomb_casing_arrow,
+			ItemBombComponent.getBombComponent("powder", ItemBomb.getPowder(item)),
+			ItemBombComponent.getBombComponent("filling", ItemBomb.getFilling(item)),
+		};
+	}
 }

@@ -38,6 +38,7 @@ public class ItemBasicCraftTool extends ItemTool implements IToolMaterial, ITool
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
 		setMaxDamage(uses);
+		this.setMaxStackSize(1);
     }
     private int itemRarity;
     @Override

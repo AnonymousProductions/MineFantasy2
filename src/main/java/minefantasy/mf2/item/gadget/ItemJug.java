@@ -144,6 +144,6 @@ public class ItemJug extends ItemComponentMF
     
     private boolean isWaterSource(World world, int i, int j, int k)
     {
-		return TongsHelper.isWaterSource(world, i, j, k);
+		return TongsHelper.getWaterSource(world, i, j, k) >= 0;
 	}
 }

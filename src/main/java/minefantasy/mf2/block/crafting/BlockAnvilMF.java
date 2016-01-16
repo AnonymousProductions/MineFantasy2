@@ -88,17 +88,9 @@ public class BlockAnvilMF extends BlockContainer
     	TileEntityAnvilMF tile = getTile(world, x, y, z);
     	if(tile != null)
     	{
-    		if(side == 1 && held != null && held.getItem() instanceof ItemTongs)
+    		if(side == 1 && held != null && held.getItem() instanceof ItemTongs && onUsedTongs(world, user, held, tile))
     		{
-    			ItemStack result = tile.getStackInSlot(tile.getSizeInventory()-1);
-    			if(result != null && result.getItem() == ComponentListMF.hotItem)
-    			{
-    				if(TongsHelper.getHeldItem(held) == null && TongsHelper.trySetHeldItem(held, result))
-    				{
-    					tile.setInventorySlotContents(tile.getSizeInventory()-1, null);
-    					return true;
-    				}
-    			}
+    			return true;
     		}
     		if(side != 1 || !tile.tryCraft(user, true) && !world.isRemote)
     		{
@@ -107,7 +99,39 @@ public class BlockAnvilMF extends BlockContainer
     	}
         return true;
     }
-    @Override
+    private boolean onUsedTongs(World world, EntityPlayer user, ItemStack held, TileEntityAnvilMF tile) 
+    {
+    	ItemStack result = tile.getStackInSlot(tile.getSizeInventory()-1);
+    	ItemStack grabbed = TongsHelper.getHeldItem(held);
+    	
+    	//GRAB
+    	if(grabbed == null)
+    	{
+			if(result != null && result.getItem() == ComponentListMF.hotItem)
+			{
+				if(TongsHelper.trySetHeldItem(held, result))
+				{
+					tile.setInventorySlotContents(tile.getSizeInventory()-1, null);
+					return true;
+				}
+			}
+    	}
+    	else
+    	{
+    		for(int s = 0; s < (tile.getSizeInventory()-1); s++)
+    		{
+    			ItemStack slot = tile.getStackInSlot(s);
+    			if(slot == null)
+    			{
+    				tile.setInventorySlotContents(s, grabbed);
+    				TongsHelper.clearHeldItem(held, user);
+    				return false;
+    			}
+    		}
+    	}
+		return false;
+	}
+	@Override
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)
     {
         {

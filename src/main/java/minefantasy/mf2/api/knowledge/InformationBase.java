@@ -20,7 +20,6 @@ public class InformationBase
 {
 	public static boolean easyResearch = false;
 	public static boolean unlockAll = false;
-	public static final float talismanPower = 20F;//20m taken
 	public int ID = 0;
 	private static int nextID = 0;
 	private boolean startedUnlocked = false;
@@ -75,7 +74,7 @@ public class InformationBase
             InformationList.maxDisplayRow = y;
         }
         this.parentInfo = parent;
-        this.minutes = time;
+        this.minutes = Math.max(1, time);
     }
     
     public InformationBase addSkill(Skill skill, int level)

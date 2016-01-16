@@ -4,7 +4,7 @@ import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 
 public class ConfigWorldGen extends ConfigurationBaseMF
 {
-	public static String copper = "[Ore Gen] Copper Ore";
+	public static String copper = "1A: [Ore Gen] Copper Ore";
 	public static float copperRarity;
 	public static int copperFrequencyMin;
 	public static int copperFrequencyMax;
@@ -13,7 +13,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int copperSize;
 	
 	
-	public static String tin = "[Ore Gen] Tin Ore";
+	public static String tin = "1B: [Ore Gen] Tin Ore";
 	public static float tinRarity;
 	public static int tinFrequencyMin;
 	public static int tinFrequencyMax;
@@ -22,7 +22,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int tinSize;
 	
 	
-	public static String silver = "[Ore Gen] Silver Ore";
+	public static String silver = "1C: [Ore Gen] Silver Ore";
 	public static float silverRarity;
 	public static int silverFrequencyMin;
 	public static int silverFrequencyMax;
@@ -30,8 +30,15 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int silverLayerMax;
 	public static int silverSize;
 	
+	public static String wolframite = "1D: [Ore Gen] Wolframite Ore";
+	public static float wolframiteRarity;
+	public static int wolframiteFrequencyMin;
+	public static int wolframiteFrequencyMax;
+	public static int wolframiteLayerMin;
+	public static int wolframiteLayerMax;
+	public static int wolframiteSize;
 	
-	public static String mythic = "[Ore Gen] Mythic Ore";
+	public static String mythic = "1E: [Ore Gen] Mythic Ore";
 	public static float mythicRarity;
 	public static int mythicFrequencyMin;
 	public static int mythicFrequencyMax;
@@ -40,7 +47,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int mythicSize;
 	
 	
-	public static String kaolinite = "[Mineral Gen] Kaolinite Deposit";
+	public static String kaolinite = "2A: [Mineral Gen] Kaolinite Deposit";
 	public static float kaoliniteRarity;
 	public static int kaoliniteFrequencyMin;
 	public static int kaoliniteFrequencyMax;
@@ -48,7 +55,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int kaoliniteLayerMax;
 	public static int kaoliniteSize;
 	
-	public static String clay = "[Mineral Gen] Clay Deposit";
+	public static String clay = "2B: [Mineral Gen] Clay Deposit";
 	public static float clayRarity;
 	public static int clayFrequencyMin;
 	public static int clayFrequencyMax;
@@ -56,7 +63,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int clayLayerMax;
 	public static int claySize;
 	
-	public static String nitre = "[Mineral Gen] Nitre Deposit";
+	public static String nitre = "2C: [Mineral Gen] Nitre Deposit";
 	public static float nitreRarity;
 	public static int nitreFrequencyMin;
 	public static int nitreFrequencyMax;
@@ -64,7 +71,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int nitreLayerMax;
 	public static int nitreSize;
 	
-	public static String sulfur = "[Mineral Gen] Sulfur Deposit";
+	public static String sulfur = "2D: [Mineral Gen] Sulfur Deposit";
 	public static float sulfurRarity;
 	public static int sulfurFrequencyMin;
 	public static int sulfurFrequencyMax;
@@ -72,7 +79,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int sulfurLayerMax;
 	public static int sulfurSize;
 	
-	public static String borax = "[Mineral Gen] Borax Deposit";
+	public static String borax = "2E: [Mineral Gen] Borax Deposit";
 	public static float boraxRarity;
 	public static int boraxFrequencyMin;
 	public static int boraxFrequencyMax;
@@ -80,8 +87,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int boraxLayerMax;
 	public static int boraxSize;
 	
-	
-	public static String limestone = "[Rock Gen] Limestone";
+	public static String limestone = "3A: [Rock Gen] Limestone";
 	public static float limestoneRarity;
 	public static int limestoneFrequencyMax;
 	public static int limestoneFrequencyMin;
@@ -89,7 +95,7 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 	public static int limestoneLayerMin;
 	public static int limestoneSize;
 	
-	public static String berry = "[Plant Gen] Berry Bush";
+	public static String berry = "4A: [Plant Gen] Berry Bush";
 	public static float berryRarity;
 	public static float berryMinTemp;
 	public static float berryMaxTemp;
@@ -123,6 +129,13 @@ public class ConfigWorldGen extends ConfigurationBaseMF
 		silverLayerMin = Integer.parseInt(config.get(silver, "Silver Layer Min", 0, "Silver veins spawn above this layer").getString());
 		silverLayerMax = Integer.parseInt(config.get(silver, "Silver Layer Max", 32, "Silver veins spawn below this layer").getString());
 		silverSize = Integer.parseInt(config.get(silver, "Silver Size", 8, "How many blocks consist of the vein").getString());
+		
+		wolframiteRarity = Float.parseFloat(config.get(wolframite, "Wolframite Rarity", 0.1F, "The chance for wolframite to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any ").getString());
+		wolframiteFrequencyMin = Integer.parseInt(config.get(wolframite, "Wolframite Frequency Min", 1, "Wolframite will try spawn between this and max veins per chunk").getString());
+		wolframiteFrequencyMax = Integer.parseInt(config.get(wolframite, "Wolframite Frequency Max", 8, "Wolframite will try spawn between min and this veins per chunk").getString());
+		wolframiteLayerMin = Integer.parseInt(config.get(wolframite, "Wolframite Layer Min", 0, "Wolframite veins spawn above this layer").getString());
+		wolframiteLayerMax = Integer.parseInt(config.get(wolframite, "Wolframite Layer Max", 16, "Wolframite veins spawn below this layer").getString());
+		wolframiteSize = Integer.parseInt(config.get(wolframite, "Wolframite Size", 1, "How many blocks consist of the vein").getString());
 		
 		mythicRarity = Float.parseFloat(config.get(mythic, "Mythic Rarity", 0.05, "The chance for mythic to spawn in a chunk. (0=never, 1.0=always), this means some chunks may not have any mythic").getString());
 		mythicFrequencyMin = Integer.parseInt(config.get(mythic, "Mythic Frequency Min", 2, "Mythic will try spawn between this and max veins per chunk").getString());

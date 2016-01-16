@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 
+import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.util.MFLogUtil;
@@ -52,7 +53,13 @@ public class EntityParachute extends Entity
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
      * prevent them from trampling crops
      */
+    @Override
     protected boolean canTriggerWalking()
+    {
+        return false;
+    }
+    @Override
+    public boolean canRiderInteract()
     {
         return false;
     }
@@ -363,7 +370,7 @@ public class EntityParachute extends Entity
 
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
-            if (this.isCollidedHorizontally && d10 > 0D)
+            if ( (this.isCollidedHorizontally && d10 > 0D) || isTooHeavy())
             {
                 if (!this.worldObj.isRemote && !this.isDead)
                 {
@@ -437,7 +444,16 @@ public class EntityParachute extends Entity
         }
     }
 
-    public void updateRiderPosition()
+    private boolean isTooHeavy() 
+    {
+    	if(riddenByEntity != null && riddenByEntity instanceof EntityLivingBase)
+    	{
+			return ArmourCalculator.getTotalWeightOfWorn((EntityLivingBase)riddenByEntity, false) > 100F;
+    	}
+		return false;
+	}
+
+	public void updateRiderPosition()
     {
         if (this.riddenByEntity != null)
         {

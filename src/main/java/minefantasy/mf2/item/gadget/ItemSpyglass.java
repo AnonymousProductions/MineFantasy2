@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class ItemSpyglass extends Item 
+public class ItemSpyglass extends Item implements IScope
 {
 	public ItemSpyglass()
 	{
@@ -77,6 +77,7 @@ public class ItemSpyglass extends Item
     	return icons[id];
     }
     
+    @Override
     public float getZoom(ItemStack item)
     {
     	int id = item.getItemDamage();

@@ -49,6 +49,20 @@ public class Skill
 		}
 		return new int[]{0, 0};
 	}
+	
+	public void manualLvlUp(EntityPlayer player, int newLevel)
+	{
+		NBTTagCompound skill = RPGElements.getSkill(player, skillName);
+		if(skill == null)return;
+		
+		skill.setInteger("xp", 0);
+		
+		skill.setInteger("level", newLevel);
+		skill.setInteger("xp", 0);
+		skill.setInteger("xpMax", getLvlXP(newLevel, player));
+		levelUp(player, newLevel);
+	}
+	
 	/**
 	 * Adds xp to the skill, negative values take xp away
 	 */

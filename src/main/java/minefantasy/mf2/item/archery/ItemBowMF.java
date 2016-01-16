@@ -4,7 +4,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.archery.IDisplayMFArrows;
+import minefantasy.mf2.api.archery.AmmoMechanicsMF;
+import minefantasy.mf2.api.archery.IDisplayMFAmmo;
+import minefantasy.mf2.api.archery.IFirearm;
 import minefantasy.mf2.api.archery.ISpecialBow;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.item.list.CreativeTabMF;
@@ -39,7 +41,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows, IBattlegearWeapon
+public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFAmmo, IBattlegearWeapon, IFirearm
 {
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
 	public IIcon[] iconArray = new IIcon[3];
@@ -141,7 +143,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows,
                 var8.setFire(100);
             }
 
-        	item.damageItem(1, player);
+            AmmoMechanicsMF.damageFirearm(item, player, 1);
             world.playSoundAtEntity(player, "minefantasy2:weapon.bowFire", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + var7 * 0.5F);
 
             if (var5)
@@ -197,8 +199,13 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows,
     {
 		super.addInformation(item, player, desc, flag);
 		
+		ItemStack ammo = AmmoMechanicsMF.getAmmo(item);
+		if(ammo != null)
+		{
+			desc.add(EnumChatFormatting.DARK_GRAY + ammo.getDisplayName() + " x" + ammo.stackSize);
+		}
+		
 		desc.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("attribute.bowPower.name") + ": " + decimal_format.format(damage));
-        
     }
 
     /**
@@ -207,6 +214,11 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows,
     @Override
     public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player)
     {
+    	if(player.isSneaking())
+    	{
+    		reloadBow(item, player);
+    		return item;
+    	}
         ArrowNockEvent event = new ArrowNockEvent(player, item);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled())
@@ -222,7 +234,12 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows,
         return item;
     }
 
-    /**
+	private void reloadBow(ItemStack item, EntityPlayer player) 
+	{
+		player.openGui(MineFantasyII.instance, 1, player.worldObj, 1, 0, 0);
+	}
+
+	/**
      * Return the enchantability factor of the item, most of the time is based on material.
      */
     @Override
@@ -362,6 +379,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows,
 		addSet(list, ToolListMF.arrows);
 		addSet(list, ToolListMF.bodkinArrows);
 		addSet(list, ToolListMF.broadArrows);
+		addSet(list, ToolListMF.bolts);
     }
 
 	private void addSet(List list, Item[] items) 
@@ -417,6 +435,17 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows,
 	public boolean allowOffhand(ItemStack mainhand, ItemStack offhand) 
 	{
 		return false;
+	}
+
+	@Override
+	public boolean canAcceptAmmo(ItemStack weapon, String ammo) 
+	{
+		return ammo.equalsIgnoreCase("arrow");
+	}
+
+	@Override
+	public int getAmmoCapacity(ItemStack item) {
+		return 1;
 	}
 	
 	

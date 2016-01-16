@@ -144,15 +144,27 @@ public class RenderHeavyWeapon implements IItemRenderer
         	GL11.glTranslatef(0.25F*offset, -0.25F*offset, 0);
             GL11.glTranslatef(-1.0F, 0F, 0);
             GL11.glScalef(scale,scale,1);
-            IIcon icon = item.getIconIndex();
-
-            ItemRenderer.renderItemIn2D(tessellator,
-            		icon.getMaxU(),
-                    icon.getMinV(),
-                    icon.getMinU(),
-                    icon.getMaxV(),
-                    icon.getIconWidth(),
-                    icon.getIconHeight(), 1F/16F);
+            
+            for(int layer = 0; layer < item.getItem().getRenderPasses(item.getItemDamage()); layer ++)
+        	{
+        		int colour = item.getItem().getColorFromItemStack(item, layer);
+                float red = (float)(colour >> 16 & 255) / 255.0F;
+                float green = (float)(colour >> 8 & 255) / 255.0F;
+                float blue = (float)(colour & 255) / 255.0F;
+                
+                GL11.glColor4f(red, green, blue, 1.0F);
+                
+		        IIcon icon = item.getItem().getIcon(item, layer);
+	
+	            ItemRenderer.renderItemIn2D(tessellator,
+	            		icon.getMaxU(),
+	                    icon.getMinV(),
+	                    icon.getMinU(),
+	                    icon.getMaxV(),
+	                    icon.getIconWidth(),
+	                    icon.getIconHeight(), 1F/16F);
+        	}
+            
             if (item != null && item.hasEffect(0)) 
             {
             	TextureHelperMF.renderEnchantmentEffects(tessellator);
@@ -176,15 +188,26 @@ public class RenderHeavyWeapon implements IItemRenderer
         	GL11.glTranslatef(0.05F*offset, -0.05F*offset, 0);
         	GL11.glTranslatef(-0.75F, -0.25F, 0);
             GL11.glScalef(scale,scale,1);
-            IIcon icon = item.getIconIndex();
-
-            ItemRenderer.renderItemIn2D(tessellator,
-            		icon.getMaxU(),
-                    icon.getMinV(),
-                    icon.getMinU(),
-                    icon.getMaxV(),
-                    icon.getIconWidth(),
-                    icon.getIconHeight(), 1F/16F);
+            
+            for(int layer = 0; layer < item.getItem().getRenderPasses(item.getItemDamage()); layer ++)
+        	{
+        		int colour = item.getItem().getColorFromItemStack(item, layer);
+                float red = (float)(colour >> 16 & 255) / 255.0F;
+                float green = (float)(colour >> 8 & 255) / 255.0F;
+                float blue = (float)(colour & 255) / 255.0F;
+                
+                GL11.glColor4f(red, green, blue, 1.0F);
+                
+		        IIcon icon = item.getItem().getIcon(item, layer);
+	
+	            ItemRenderer.renderItemIn2D(tessellator,
+	            		icon.getMaxU(),
+	                    icon.getMinV(),
+	                    icon.getMinU(),
+	                    icon.getMaxV(),
+	                    icon.getIconWidth(),
+	                    icon.getIconHeight(), 1F/16F);
+        	}
 
             if (item != null && item.hasEffect(0)) {
                TextureHelperMF.renderEnchantmentEffects(tessellator);

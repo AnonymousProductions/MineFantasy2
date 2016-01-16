@@ -17,6 +17,8 @@ public class ArmourDesign
 	public static final ArmourDesign SOLID = new ArmourDesign(   "default",  "Basic",     1.0F,    1.0F,   40F,     1.00F);//Basic Armour
 	public static final ArmourDesign MAIL = new ArmourDesign(    "mail",     "Mail",      1.0F,    1.0F,   35F,     0.75F).calibrateTraits(1.0F, 0.7F, 0.9F);//Vulnerable to blunt
 	public static final ArmourDesign PLATE = new ArmourDesign(   "plate",    "Plate",     1.5F,    1.0F,   60F,     1.00F).calibrateTraits(1.0F, 1.0F, 0.6F);//Vulnerable to piercing
+	public static final ArmourDesign COGWORK = new ArmourDesign("cogwork",   "Cogwork",   3.0F,    2.0F,   150F,    2.00F).calibrateTraits(1.0F, 1.0F, 1.0F);//Massive Protection
+	public static final ArmourDesign DWARFCOG = new ArmourDesign("dwarfcog",   "Dwarvern",4.0F,    3.0F,   150F,    2.00F).calibrateTraits(1.0F, 1.0F, 1.0F);//Massive Protection
 	
 	private String name;
 	private float durability;

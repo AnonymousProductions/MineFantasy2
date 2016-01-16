@@ -27,9 +27,11 @@ public class ItemHaft extends Item
 {
 	@SideOnly(Side.CLIENT)
 	public IIcon baseTex, gripTex, braceTex;
+	private String name;
 	
 	public ItemHaft(String name)
 	{
+		this.name=name;
 		this.setCreativeTab(CreativeTabMF.tabMaterials);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
@@ -53,6 +55,7 @@ public class ItemHaft extends Item
 	 
     }
 	@Override
+	@SideOnly(Side.CLIENT)
     public void addInformation(ItemStack item, EntityPlayer user, List list, boolean fullInfo)
     {
     	super.addInformation(item, user, list, fullInfo);
@@ -60,6 +63,13 @@ public class ItemHaft extends Item
     	CustomMaterial base = getBase(item);
     	CustomMaterial grip = getGrip(item);
     	CustomMaterial brace = getBrace(item);
+    	
+    	float mass = 0F;
+    	if(base != null)mass += base.density;
+    	if(grip != null)mass += base.density;
+    	if(brace != null)mass += brace.density;
+    	
+    	list.add(CustomMaterial.getWeightString(mass));
     	
     	if(base != null)
     	{
@@ -139,9 +149,9 @@ public class ItemHaft extends Item
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        baseTex = reg.registerIcon("minefantasy2:custom/haft/haft_base");
-        gripTex = reg.registerIcon("minefantasy2:custom/haft/haft_grip");
-        braceTex = reg.registerIcon("minefantasy2:custom/haft/haft_brace");
+        baseTex = reg.registerIcon("minefantasy2:custom/haft/"+name+"_base");
+        gripTex = reg.registerIcon("minefantasy2:custom/haft/"+name+"_grip");
+        braceTex = reg.registerIcon("minefantasy2:custom/haft/"+name+"_brace");
     }
     
 	public ItemStack createHaft(String base, String grip, String brace) 

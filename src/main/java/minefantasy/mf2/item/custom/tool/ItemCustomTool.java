@@ -115,19 +115,19 @@ public abstract class ItemCustomTool extends ItemTool
     	CustomMaterial brace = getHaftBrace(tool);
     	if(base != null)
     	{
-    		mass += base.weight;
+    		mass += base.density;
     	}
     	if(haft != null)
     	{
-    		mass += haft.weight;
+    		mass += haft.density;
     	}
     	if(grip != null)
     	{
-    		mass += grip.weight;
+    		mass += grip.density;
     	}
     	if(brace != null)
     	{
-    		mass += brace.weight;
+    		mass += brace.density;
     	}
     	return mass;
     }
@@ -151,6 +151,7 @@ public abstract class ItemCustomTool extends ItemTool
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
     public void addInformation(ItemStack tool, EntityPlayer user, List list, boolean fullInfo)
     {
     	super.addInformation(tool, user, list, fullInfo);
@@ -163,7 +164,7 @@ public abstract class ItemCustomTool extends ItemTool
     	list.add("Efficiency: "+efficiency);
     	list.add("Damage: "+ damage);
     	list.add("Uses: "+uses);
-    	list.add("Weight: "+mass+"kg");
+    	list.add(CustomMaterial.getWeightString(mass));
     }
     
 	/**

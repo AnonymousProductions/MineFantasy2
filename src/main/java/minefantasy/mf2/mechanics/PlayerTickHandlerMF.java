@@ -6,7 +6,9 @@ import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
-import minefantasy.mf2.api.archery.Arrows;
+import minefantasy.mf2.api.archery.AmmoMechanicsMF;
+import minefantasy.mf2.api.archery.IFirearm;
+import minefantasy.mf2.api.armour.CogworkArmour;
 import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.PlayerTagData;
@@ -14,23 +16,28 @@ import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
+import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.config.ConfigMobs;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.entity.mob.EntityDragon;
 import minefantasy.mf2.item.armour.ItemApron;
 import minefantasy.mf2.item.food.ItemFoodMF;
+import minefantasy.mf2.item.gadget.ItemCrossbow;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -39,6 +46,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 public class PlayerTickHandlerMF
 {
 	private static Random rand = new Random();
+	private static ItemStack lastStack;
 	//SPRINT JUMPING
 	//DEFAULT:= 0:22 (50seconds till starve, 35s till nosprint) (16m in MC time for 4 missing bars)
 	//SLOW=5: = 2:20 (5mins till starve, 3:30 till nosprint) (1h 40m in MC time for 4 missing bars)
@@ -60,14 +68,23 @@ public class PlayerTickHandlerMF
 	    	
 			//COMMON
         	TacticalManager.applyArmourWeight(event.player);
+        	
         	if(event.player.ticksExisted % 20 == 0)
         	{
+        		CogworkArmour.updateVars(event.player);
+        		
         		if(event.player.isBurning() && TacticalManager.getResistance(event.player, DamageSource.inFire) <= 0.0F)
             	{
             		event.player.extinguish();
             	}
-        		if(event.player.worldObj.isRemote)
-    			Arrows.updateArrowCount(event.player);
+        		CogworkArmour.tickUser(event.player);
+    		}
+        	if(event.player.worldObj.isRemote)
+        	{
+	        	if(isNextStep(event.player))
+	        	{
+	        		onStep(event.player, event.player.getEntityData().getInteger(stepNBT) % 2 == 0);
+	        	}
         	}
         	/*
         	if(RPGElements.isSystemActive)
@@ -99,7 +116,7 @@ public class PlayerTickHandlerMF
         	applyBalance(event.player);
         	ItemFoodMF.onTick(event.player);
         	
-        	if(!event.player.worldObj.isRemote && !ItemApron.isUserProtected(event.player) && event.player.ticksExisted % 100 == 0)
+        	if(!event.player.worldObj.isRemote && !(!ConfigHardcore.HCChotBurn && ItemApron.isUserProtected(event.player)) && event.player.ticksExisted % 100 == 0)
         	{
         		for(int a = 0; a < event.player.inventory.getSizeInventory(); a++)
         		{
@@ -111,8 +128,70 @@ public class PlayerTickHandlerMF
         			}
         		}
         	}
+        	if(event.player.worldObj.isRemote)
+        	{
+        		ItemStack item = event.player.getHeldItem();
+        		if(lastStack == null && item != null)
+        		{
+        			if(item.getItem() instanceof IFirearm)
+        			{
+        				NBTTagCompound nbt = AmmoMechanicsMF.getNBT(item);
+        				if(nbt.hasKey(ItemCrossbow.useTypeNBT) && nbt.getString(ItemCrossbow.useTypeNBT).equalsIgnoreCase("fire"))
+        				{
+        					nbt.setString(ItemCrossbow.useTypeNBT, "null");
+        				}
+        			}
+        		}
+        		if(lastStack != null && (item == null || item != lastStack))
+        		{
+        			if(lastStack.getItem() instanceof IFirearm)
+        			{
+        				NBTTagCompound nbt = AmmoMechanicsMF.getNBT(lastStack);
+        				if(nbt.hasKey(ItemCrossbow.useTypeNBT) && nbt.getString(ItemCrossbow.useTypeNBT).equalsIgnoreCase("fire"))
+        				{
+        					nbt.setString(ItemCrossbow.useTypeNBT, "null");
+        				}
+        			}
+        		}
+        		lastStack = item;
+        	}
+        	
+        	float weight = ArmourCalculator.getTotalWeightOfWorn(event.player, false);
+    		if(weight > 100F)
+    		{
+    			if(event.player.isInWater())
+    			{
+    				event.player.motionY -= (weight/20000F);
+    			}
+    		}
         }
     }
+
+	private void onStep(EntityPlayer player, boolean alternateStep) 
+	{
+		if(CogworkArmour.isWearingAnyCogwork(player))
+		{
+			String s = alternateStep ? "in" : "out";
+			player.playSound("tile.piston."+s, 0.5F, 1.0F);
+			float f1 = 2.0F;
+			//player.rotationPitch += (alternateStep ? f1 : -f1);
+			
+			CogworkArmour.onStep(player);
+		}
+		else if(ArmourCalculator.getTotalWeightOfWorn(player, false) >= 50)
+        {
+			player.playSound("mob.irongolem.throw", 1.0F, 1.0F);
+        }
+	}
+	private static String stepNBT = "MF_LastStep";
+	private boolean isNextStep(EntityPlayer player) 
+	{
+		int prevStep = player.getEntityData().getInteger(stepNBT);
+		int stepcount = (int) player.distanceWalkedOnStepModified;
+		player.getEntityData().setInteger(stepNBT, stepcount);
+		
+		return prevStep != stepcount;
+	}
 
 	private void tickDragonSpawner(EntityPlayer player) 
 	{
@@ -129,7 +208,7 @@ public class PlayerTickHandlerMF
         	{
         		chance *= 2;//twice the chance
         	}
-        	if(player.worldObj.getTotalWorldTime() % i == 0 && rand.nextFloat()*100F < chance)
+        	if(!player.worldObj.isRemote && player.worldObj.getTotalWorldTime() % i == 0 && rand.nextFloat()*100F < chance)
         	{
         		spawnDragon(player);
         	}
@@ -144,7 +223,7 @@ public class PlayerTickHandlerMF
 	{
 		int y = (int) (player.posY + offset);
 		boolean canMobSpawn = !player.worldObj.isRemote && canDragonSpawnOnPlayer(player, y);
-		if(canMobSpawn)
+		if(canMobSpawn && !player.worldObj.isRemote)
 		{
 			int tier = getDragonTier(player);//Gets tier on kills
     		EntityDragon dragon = new EntityDragon(player.worldObj);
@@ -157,6 +236,8 @@ public class PlayerTickHandlerMF
     		
     		if(ConfigMobs.dragonMSG)
     		{
+    			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + StatCollector.translateToLocal("event.dragonnear.name")));
+    			
 	    		List list = player.worldObj.playerEntities;
 	    		Iterator players = list.iterator();
 	    		while(players.hasNext())
@@ -164,7 +245,7 @@ public class PlayerTickHandlerMF
 	    			Object instance = players.next();
 	    			if(instance != null && instance instanceof EntityPlayer)
 	    			{
-	    				if(((EntityPlayer)instance).getDistanceToEntity(player) < 128D)
+	    				if(((EntityPlayer)instance).getDistanceToEntity(player) < 256D)
 	    				{
 	    					((EntityPlayer)instance).addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + StatCollector.translateToLocal("event.dragonnear.name")));
 	    				}
@@ -191,18 +272,6 @@ public class PlayerTickHandlerMF
 
 	private void playSounds(EntityPlayer user)
 	{
-		double speed = Math.hypot(user.motionX, user.motionZ);
-		float bulk = ArmourCalculator.getTotalWeightOfWorn(user, false);
-		
-        if(user.isSprinting() && speed > 0.01D && bulk >= 50)
-        {
-        	float volume = 0.1F * bulk / 50F;
-        	
-        	if(user.ticksExisted % 8 == 0)
-        	{
-        		user.playSound("mob.irongolem.throw", volume, 1.0F);
-        	}
-        }
 	}
 	
 	private void applyBalance(EntityPlayer entityPlayer) 

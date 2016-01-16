@@ -1,14 +1,17 @@
 package minefantasy.mf2.item.weapon;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.stamina.IHeldStaminaItem;
 import minefantasy.mf2.api.stamina.IStaminaWeapon;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -23,10 +26,13 @@ import minefantasy.mf2.api.weapon.IWeaponClass;
 import minefantasy.mf2.api.weapon.IWeaponSpeed;
 import minefantasy.mf2.api.weapon.IWeightedWeapon;
 import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.item.armour.ItemCogworkArmour;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.item.list.CustomToolListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.item.tool.crafting.ItemKnifeMF;
+import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.mechanics.CombatMechanics;
 import mods.battlegear2.api.PlayerEventChild.OffhandAttackEvent;
 import mods.battlegear2.api.weapons.IBackStabbable;
@@ -35,6 +41,7 @@ import mods.battlegear2.api.weapons.IExtendedReachWeapon;
 import mods.battlegear2.api.weapons.IHitTimeModifier;
 import mods.battlegear2.api.weapons.IPenetrateWeapon;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,9 +61,11 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -72,7 +81,10 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 
     protected final ToolMaterial material;
 	protected String name;
-	protected float baseDamage;
+	/**
+	 * The damage of the weapon without material modifiers
+	 */
+	private float baseDamage;
 	protected Random rand = new Random();
 	
 	
@@ -109,7 +121,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
 		
-		this.baseDamage = 4 + material.getDamageVsEntity() + getDamageModifier();
+		this.baseDamage = 4 + getDamageModifier();
 		
 		if(material == ToolMaterial.WOOD)
 		{
@@ -171,16 +183,8 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		return this.material;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
-	public Multimap getItemAttributeModifiers()
-	{
-		Multimap map = HashMultimap.create();
-		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", this.baseDamage, 0));
-
-        return map;
-    }
-
-    @Override
     public void addInformation(ItemStack weapon, EntityPlayer user, List list, boolean extra) 
     {
         super.addInformation(weapon, user, list, extra);
@@ -188,6 +192,11 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
         if(material == ToolMaterial.WOOD)
         {
         	return;
+        }
+        
+        if(isCustom)
+        {
+        	CustomToolHelper.addInformation(weapon, list);
         }
         
         if(this instanceof IExtendedReachWeapon || this instanceof IPenetrateWeapon || this instanceof IHitTimeModifier){
@@ -282,28 +291,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	{
 		return offhand != null;
 	}
-	protected int itemRarity;
-
-    @Override
-	public EnumRarity getRarity(ItemStack item)
-	{
-		int lvl = itemRarity+1;
-		
-		if(item.isItemEnchanted())
-		{
-			if(lvl == 0)
-			{
-				lvl++;
-			}
-			lvl ++;
-		}
-		if(lvl >= ToolListMF.rarity.length)
-		{
-			lvl = ToolListMF.rarity.length-1;
-		}
-		return ToolListMF.rarity[lvl];
-	}
-    
     protected void addXp(EntityLivingBase user, int chance)
     {
     	if(ConfigWeapon.xpTrain && user instanceof EntityPlayer && material == ToolMaterial.WOOD)
@@ -367,7 +354,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	public float getMaxDamageParry(EntityLivingBase user, ItemStack weapon) 
 	{
 		float mod = 1.0F;
-		return baseDamage*getParryDamageModifier(user)*mod;
+		return getMeleeDamage(weapon)*getParryDamageModifier(user)*mod;
 	}
 	
 	@Override
@@ -412,9 +399,9 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 			blocker.worldObj.playSoundAtEntity(blocker, "minefantasy2:weapon.wood_parry", 1.0F, 1.0F);
 			return true;
 		}
-		if(material == ToolMaterial.STONE)
+		if(material == BaseMaterialMF.stone.getToolConversion())
 		{
-			blocker.worldObj.playSoundAtEntity(blocker, "dig.stone", 1.0F, 0.1F);
+			blocker.worldObj.playSoundAtEntity(blocker, "minefantasy2:weapon.wood_parry", 1.0F, 0.5F);
 			return true;
 		}
 		return false;
@@ -437,7 +424,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	@Override
 	public float getStaminaDrainOnHit(EntityLivingBase user, ItemStack item)
 	{
-		return 5F * getStaminaMod() * getMaterialWeight(item);
+		return 5F * getStaminaMod() * getWeightModifier(item);
 	}
 
 	protected float getStaminaMod() 
@@ -498,7 +485,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	@Override
 	public float getDecayMod(EntityLivingBase user, ItemStack item)
 	{
-		return getDecayModifier(user, item) * getMaterialWeight(item);
+		return getDecayModifier(user, item) * getWeightModifier(item);
 	}
 	
 	/**
@@ -559,12 +546,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		return false;
 	}
 	
-	@Override
-	public int getMaxDamage(ItemStack stack)
-	{
-		int dura = super.getMaxDamage();
-		return ToolHelper.setDuraOnQuality(stack, dura);
-	}
 	@Override
 	public float getAddedKnockback(EntityLivingBase user, ItemStack item)
 	{
@@ -635,6 +616,19 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	@Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
+		if(isCustom)
+    	{
+    		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
+    		Iterator iteratorMetal = metal.iterator();
+    		while(iteratorMetal.hasNext())
+        	{
+    			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
+    			
+    			list.add(this.construct(customMat.name));
+        	}
+    		return;
+    	}
+		
 		if(this instanceof ItemKnifeMF)
 		{
 			super.getSubItems(item, tab, list);
@@ -648,6 +642,11 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		list.add(new ItemStack(ToolListMF.waraxeTraining));
 		list.add(new ItemStack(ToolListMF.maceTraining));
 		list.add(new ItemStack(ToolListMF.spearTraining));
+		
+		list.add(new ItemStack(ToolListMF.swordStone));
+		list.add(new ItemStack(ToolListMF.waraxeStone));
+		list.add(new ItemStack(ToolListMF.maceStone));
+		list.add(new ItemStack(ToolListMF.spearStone));
 		
 		addSet(list, ToolListMF.swords);
 		addSet(list, ToolListMF.waraxes);
@@ -664,11 +663,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		addSet(list, ToolListMF.lances);
     }
 	
-	protected float getMaterialWeight(ItemStack stack)
-	{
-		return materialWeight ;
-	}
-
 	private void addSet(List list, Item[] items) 
 	{
 		for(Item item:items)
@@ -769,4 +763,102 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	protected float spearStaminaCost =  1.40F;
 	
 	protected float heavyStaminaCost =  1.50F;
+	
+	
+	//===================================================== CUSTOM START =============================================================\\
+	private boolean isCustom = false;
+    public ItemWeaponMF setCustom()
+    {
+    	setCreativeTab(CreativeTabMF.tabCustom);
+    	setTextureName("minefantasy2:custom/weapon/"+name);
+    	isCustom = true;
+    	return this;
+    }
+    
+    @Override
+	public Multimap getAttributeModifiers(ItemStack item)
+	{
+		Multimap map = HashMultimap.create();
+		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", getMeleeDamage(item), 0));
+
+        return map;
+    }
+    
+    
+    public ItemWeaponMF modifyBaseDamage(float mod)
+    {
+    	this.baseDamage += mod;
+    	return this;
+    }
+    public ItemWeaponMF setBaseDamage(float baseDamage)
+    {
+    	this.baseDamage = baseDamage;
+    	return this;
+    }
+	/**
+	 * Gets a stack-sensitive value for the melee dmg
+	 */
+    protected float getMeleeDamage(ItemStack item) 
+    {
+    	return baseDamage + CustomToolHelper.getMeleeDamage(item, material.getDamageVsEntity());
+	}
+    protected float getWeightModifier(ItemStack stack)
+	{
+    	return CustomToolHelper.getWeightModifier(stack, materialWeight);
+	}
+	private IIcon detailTex = null;
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
+    {
+    	if(isCustom)
+    	{
+    		detailTex = reg.registerIcon(this.getIconString()+"_detail");
+    	}
+    	super.registerIcons(reg);
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return isCustom;
+    }
+    @Override
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+    	if(isCustom && pass > 0 && detailTex != null)
+    	{
+    		return detailTex;
+    	}
+        return super.getIcon(stack, pass);
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack item, int layer)
+    {
+    	return CustomToolHelper.getColourFromItemStack(item, layer, super.getColorFromItemStack(item, layer));
+    }
+    @Override
+	public int getMaxDamage(ItemStack stack)
+	{
+		return CustomToolHelper.getMaxDamage(stack, super.getMaxDamage(stack));
+	}
+	public ItemStack construct(String main)
+	{
+		return CustomToolHelper.construct(this, main);
+	}
+	protected int itemRarity;
+    @Override
+	public EnumRarity getRarity(ItemStack item)
+	{
+    	return CustomToolHelper.getRarity(item, itemRarity);
+	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getItemStackDisplayName(ItemStack item)
+    {
+    	String unlocalName = this.getUnlocalizedNameInefficiently(item) + ".name";
+    	return CustomToolHelper.getLocalisedName(item, unlocalName);
+    }
+    //====================================================== CUSTOM END ==============================================================\\
 }

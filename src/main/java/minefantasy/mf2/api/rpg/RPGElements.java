@@ -14,7 +14,7 @@ public class RPGElements
 {
 	public static boolean isSystemActive = true;
 	public static float levelSpeedModifier = 1.0F;
-	public static float levelUpModifier = 1.0F;
+	public static float levelUpModifier = 1.5F;
 	
 	private static HashMap<String, Skill>skillsMap = new HashMap<String, Skill>();
 	private static ArrayList<Skill>skillsList = new ArrayList<Skill>();

@@ -1,10 +1,14 @@
 package minefantasy.mf2.item.tool.advanced;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.tier.IToolMaterial;
 import minefantasy.mf2.api.weapon.IDamageType;
 import minefantasy.mf2.farming.FarmingHelper;
@@ -14,6 +18,8 @@ import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.item.tool.crafting.ItemSaw;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
@@ -22,12 +28,17 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * @author Anonymous Productions
@@ -36,6 +47,7 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 {
 	private Random rand = new Random();
 	private ToolMaterial toolMaterial;
+	private String name;
 	/**
 	 */
     public ItemScythe(String name, ToolMaterial material, int rarity)
@@ -43,8 +55,8 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
     	this.toolMaterial = material;
     	this.setFull3D();
         itemRarity = rarity;
+        this.name=name;
         setCreativeTab(CreativeTabMF.tabToolAdvanced);
-        this.hitDamage = 2.0F + material.getDamageVsEntity();
         setTextureName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
@@ -52,28 +64,7 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
         this.setMaxDamage(material.getMaxUses());
     }
     
-    private int itemRarity;
-	private double hitDamage;
-    @Override
-	public EnumRarity getRarity(ItemStack item)
-	{
-		int lvl = itemRarity+1;
-		
-		if(item.isItemEnchanted())
-		{
-			if(lvl == 0)
-			{
-				lvl++;
-			}
-			lvl ++;
-		}
-		if(lvl >= ToolListMF.rarity.length)
-		{
-			lvl = ToolListMF.rarity.length-1;
-		}
-		
-		return ToolListMF.rarity[lvl];
-	}
+	private float baseDamage = 3.0F;
     
     @Override
 	public ToolMaterial getMaterial()
@@ -178,14 +169,6 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
     }
 	
 	@Override
-	public Multimap getItemAttributeModifiers()
-    {
-        Multimap multimap = super.getItemAttributeModifiers();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", this.hitDamage, 0));
-        return multimap;
-    }
-	
-	@Override
     public boolean onItemUse(ItemStack hoe, EntityPlayer player, World world, int x, int y, int z, int facing, float pitch, float yaw, float pan)
     {
         if (!player.canPlayerEdit(x, y, z, facing, hoe) || !ItemSaw.canAcceptCost(player))
@@ -219,13 +202,6 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
         }
         return false;
     }
-	
-	
-	@Override
-	public int getMaxDamage(ItemStack stack)
-	{
-		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
-	}
 
 	@Override
 	public float[] getDamageRatio(Object... implement) 
@@ -237,4 +213,144 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 	{
 		return 0F;
 	}
+	
+	
+	//===================================================== CUSTOM START =============================================================\\
+	private boolean isCustom = false;
+	public ItemScythe setCustom()
+	{
+		setCreativeTab(CreativeTabMF.tabCustom);
+		setTextureName("minefantasy2:custom/tool/"+name);
+		isCustom = true;
+		return this;
+	}
+	public ItemScythe setBaseDamage(float baseDamage)
+    {
+    	this.baseDamage = baseDamage;
+    	return this;
+    }
+    private float efficiencyMod = 1.0F;
+    public ItemScythe setEfficiencyMod(float efficiencyMod)
+    {
+    	this.efficiencyMod = efficiencyMod;
+    	return this;
+    }
+    
+	@Override
+	public Multimap getAttributeModifiers(ItemStack item)
+	{
+		Multimap map = HashMultimap.create();
+		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", getMeleeDamage(item), 0));
+	
+	    return map;
+	}
+	/**
+	 * Gets a stack-sensitive value for the melee dmg
+	 */
+    protected float getMeleeDamage(ItemStack item) 
+    {
+    	return baseDamage + CustomToolHelper.getMeleeDamage(item, toolMaterial.getDamageVsEntity());
+	}
+    protected float getWeightModifier(ItemStack stack)
+	{
+    	return CustomToolHelper.getWeightModifier(stack, 1.0F);
+	}
+	private IIcon detailTex = null;
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
+    {
+    	if(isCustom)
+    	{
+    		detailTex = reg.registerIcon(this.getIconString()+"_detail");
+    	}
+    	super.registerIcons(reg);
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return isCustom;
+    }
+    @Override
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+    	if(isCustom && pass > 0 && detailTex != null)
+    	{
+    		return detailTex;
+    	}
+        return super.getIcon(stack, pass);
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack item, int layer)
+    {
+    	return CustomToolHelper.getColourFromItemStack(item, layer, super.getColorFromItemStack(item, layer));
+    }
+    @Override
+	public int getMaxDamage(ItemStack stack)
+	{
+		return CustomToolHelper.getMaxDamage(stack, super.getMaxDamage(stack));
+	}
+	public ItemStack construct(String main)
+	{
+		return CustomToolHelper.construct(this, main);
+	}
+	protected int itemRarity;
+    @Override
+	public EnumRarity getRarity(ItemStack item)
+	{
+    	return CustomToolHelper.getRarity(item, itemRarity);
+	}
+    @Override
+	public float getDigSpeed(ItemStack stack, Block block, int meta)
+	{
+    	if (!ForgeHooks.isToolEffective(stack, block, meta))
+        {
+    		return this.func_150893_a(stack, block);
+        }
+		return CustomToolHelper.getEfficiency(stack, super.getDigSpeed(stack, block, meta), efficiencyMod);
+	}
+    @Override
+    public int getHarvestLevel(ItemStack stack, String toolClass)
+    {
+    	return CustomToolHelper.getHarvestLevel(stack, super.getHarvestLevel(stack, toolClass));
+    }
+    @Override
+    public void getSubItems(Item item, CreativeTabs tab, List list)
+    {
+    	if(isCustom)
+    	{
+    		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
+    		Iterator iteratorMetal = metal.iterator();
+    		while(iteratorMetal.hasNext())
+        	{
+    			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
+    			
+    			list.add(this.construct(customMat.name));
+        	}
+    	}
+    	else
+    	{
+    		super.getSubItems(item, tab, list);
+    	}
+    }
+    
+    @Override
+    public void addInformation(ItemStack item, EntityPlayer user, List list, boolean extra) 
+    {
+    	if(isCustom)
+        {
+        	CustomToolHelper.addInformation(item, list);
+        }
+        super.addInformation(item, user, list, extra);
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getItemStackDisplayName(ItemStack item)
+    {
+    	String unlocalName = this.getUnlocalizedNameInefficiently(item) + ".name";
+    	return CustomToolHelper.getLocalisedName(item, unlocalName);
+    }
+    //====================================================== CUSTOM END ==============================================================\\
 }

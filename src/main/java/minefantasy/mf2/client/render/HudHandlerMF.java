@@ -1,6 +1,7 @@
 package minefantasy.mf2.client.render;
 
 import minefantasy.mf2.item.archery.ItemBowMF;
+import minefantasy.mf2.item.gadget.IScope;
 import minefantasy.mf2.item.gadget.ItemSpyglass;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.FOVUpdateEvent;
@@ -26,7 +27,7 @@ public class HudHandlerMF
 	@SubscribeEvent
     public void onBowFOV(FOVUpdateEvent event)
 	{
-        ItemStack stack = event.entity.getItemInUse();
+		ItemStack stack = event.entity.getItemInUse();
         if (stack != null && stack.getItem() instanceof ItemBowMF)
         {
             int i = event.entity.getItemInUseDuration();
@@ -40,9 +41,9 @@ public class HudHandlerMF
             }
             event.newfov *= 1.0F - f1 * 0.15F;
         }
-        if (stack != null && stack.getItem() instanceof ItemSpyglass)
+        if (stack != null && stack.getItem() instanceof IScope)
         {
-        	ItemSpyglass spyglass = (ItemSpyglass)stack.getItem();
+        	IScope spyglass = (IScope)stack.getItem();
             event.newfov *= 1.0F - spyglass.getZoom(stack);
         }
     }

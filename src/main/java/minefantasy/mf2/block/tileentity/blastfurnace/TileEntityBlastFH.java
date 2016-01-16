@@ -20,6 +20,7 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.block.refining.BlockBFH;
 import minefantasy.mf2.block.tileentity.TileEntityCrucible;
+import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.entity.EntityFireBlast;
 import minefantasy.mf2.item.list.ComponentListMF;
 
@@ -118,7 +119,7 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 		if(under != null && under instanceof TileEntityCrucible)
 		{
 			TileEntityCrucible crucible = (TileEntityCrucible)under;
-			for(int slot = 0; slot < crucible.getSizeInventory(); slot++)
+			int slot = crucible.getSizeInventory()-1;
 			{
 				if(crucible.getStackInSlot(slot) == null)
 				{
@@ -143,8 +144,11 @@ public class TileEntityBlastFH extends TileEntityBlastFC
 		}
 		if(result.stackSize <= 0)return;
 		
-		EntityItem entity = new EntityItem(worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5, result);
-		worldObj.spawnEntityInWorld(entity);
+		if(ConfigHardcore.HCCreduceIngots && rand.nextInt(3) == 0)
+		{
+			EntityItem entity = new EntityItem(worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5, result);
+			worldObj.spawnEntityInWorld(entity);
+		}
 	}
 	private void startFire(int x, int y, int z) 
 	{

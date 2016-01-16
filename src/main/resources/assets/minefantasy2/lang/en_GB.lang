@@ -17,6 +17,7 @@ knowledge.craftArmourHeavy.1=This stuff is strong and much like medium armour, c
 knowledge.armourpro=Armour Proficiency
 knowledge.armourpro.1=After all this time, your core has become stronger.^Armour penalty to stamina cost is halved.
 
+knowledge.cogArmour.desc=Power Armour
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /ITEM STATS/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,7 +67,10 @@ item.mithium_pick.name=Mithium Pick
 
 item.ender_pick.name=Enderforge Pick
 
-
+item.dwarven_pick.name=%1$s Dwarven Pick
+item.dwarven_hvypick.name=Heavy %1$s Dwarven Pick
+item.standard_pick.name=%1$s Pick
+item.standard_pick.name=Heavy %1$s Pick
 
 item.bronze_hvypick.name=Heavy Bronze Pick
 item.iron_hvypick.name=Heavy Iron Pick

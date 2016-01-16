@@ -24,7 +24,7 @@ public class FuelHandlerMF implements IFuelHandler
 		}
 		if(fuel.getItem() == ComponentListMF.coke)
 		{
-			return 800;
+			return 2400;
 		}
 		return 0;
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import minefantasy.mf2.api.heating.IQuenchBlock;
 import minefantasy.mf2.block.decor.BlockTrough;
+import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.network.packet.TroughPacket;
 import net.minecraft.block.Block;
@@ -28,33 +29,70 @@ public class TileEntityTrough extends TileEntity implements IQuenchBlock
 		this.tex = tex;
 	}
 	@Override
-	public boolean quench() 
+	public float quench() 
 	{
 		if(fill > 0)
 		{
 			--fill;
-			return true;
+			return 0F;
 		}
-		return false;
+		return -1F;
 	}
 	
 	public boolean interact(EntityPlayer user, ItemStack held) 
 	{
-		if(fill >= getCapacity())
-		{
-			return false;
-		}
 		if(held != null)
 		{
-			if(held.getItem() == Items.water_bucket)
+			if(fill < getCapacity())//Give
 			{
-				user.setCurrentItemOrArmor(0, new ItemStack(Items.bucket));
-				addCapacity(12);
+				if(held.getItem() == Items.water_bucket)
+				{
+					user.setCurrentItemOrArmor(0, new ItemStack(Items.bucket));
+					addCapacity(12);
+					return true;
+				}
+				if(held.getItem() == FoodListMF.jug_water)
+				{
+					givePlayerItem(user, held, new ItemStack(FoodListMF.jug_empty));
+					addCapacity(1);
+					return true;
+				}
+				if(held.getItem() == Items.potionitem && held.getItemDamage() == 0)
+				{
+					givePlayerItem(user, held, new ItemStack(Items.glass_bottle));
+					addCapacity(4);
+					return true;
+				}
+			}
+			
+			/*
+			//Take
+			if(getCapacity() >=4 && held.getItem() == Items.glass_bottle && held.getItemDamage() == 0)
+			{
+				givePlayerItem(user, held, new ItemStack(Items.potionitem));
+				addCapacity(-4);
 				return true;
 			}
+			*/
 		}
 		return false;
 	}
+	private void givePlayerItem(EntityPlayer user, ItemStack held, ItemStack jug) 
+	{
+		--held.stackSize;
+		if(held.stackSize <= 0)
+		{
+			user.setCurrentItemOrArmor(0, jug);
+		}
+		else if(!user.inventory.addItemStackToInventory(jug))
+		{
+			if(!user.worldObj.isRemote)
+			{
+				user.entityDropItem(jug, 0F);
+			}
+		}
+	}
+	
 	private int ticksExisted;
 	
 	@Override
@@ -64,6 +102,10 @@ public class TileEntityTrough extends TileEntity implements IQuenchBlock
 		if(ticksExisted == 20 || ticksExisted % 100 == 0)
 		{
 			syncData();
+		}
+		if(ticksExisted % 100 == 0 && worldObj.canLightningStrikeAt(xCoord, yCoord+1, zCoord))
+		{
+			addCapacity(1);
 		}
 	}
 	

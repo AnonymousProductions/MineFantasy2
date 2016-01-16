@@ -30,7 +30,6 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
     {
     	super(material, name, rarity, weight);
     	this.tier=tier;
-    	baseDamage -= 3;
     	setCreativeTab(CreativeTabMF.tabCraftTool);
         setTextureName("minefantasy2:Tool/Crafting/"+name);
     }
@@ -98,5 +97,10 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 	public WeaponClass getWeaponClass() 
 	{
 		return null;
+	}
+	@Override
+	protected float getMeleeDamage(ItemStack item) 
+    {
+    	return super.getMeleeDamage(item) -3;
 	}
 }

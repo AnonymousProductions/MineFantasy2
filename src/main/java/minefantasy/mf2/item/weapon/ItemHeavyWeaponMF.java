@@ -18,7 +18,6 @@ public abstract class ItemHeavyWeaponMF extends ItemWeaponMF implements IExtende
 	public ItemHeavyWeaponMF(ToolMaterial material, String named, int rarity, float weight)
 	{
 		super(material, named, rarity, weight);
-		baseDamage *= 1.5F;
 		setMaxDamage((int) (getMaxDamage()*1.5F));
 	}
 	
@@ -115,5 +114,11 @@ public abstract class ItemHeavyWeaponMF extends ItemWeaponMF implements IExtende
 	public float getReachModifierInBlocks(ItemStack stack)
 	{
 		return 2.0F;
+	}
+	
+	@Override
+	protected float getMeleeDamage(ItemStack item) 
+    {
+    	return super.getMeleeDamage(item)*1.5F;
 	}
 }

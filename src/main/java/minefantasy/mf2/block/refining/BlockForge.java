@@ -1,11 +1,14 @@
 package minefantasy.mf2.block.refining;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
+import minefantasy.mf2.api.heating.Heatable;
+import minefantasy.mf2.api.heating.TongsHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.tool.ILighter;
 import minefantasy.mf2.block.list.BlockListMF;
@@ -13,6 +16,7 @@ import minefantasy.mf2.block.tileentity.TileEntityForge;
 import minefantasy.mf2.item.armour.ItemApron;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.item.tool.crafting.ItemTongs;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -21,6 +25,8 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
@@ -194,6 +200,10 @@ public class BlockForge extends BlockContainer
     		}
     		if(held != null)
     		{
+    			if(side == 1 && held != null && held.getItem() instanceof ItemTongs && onUsedTongs(world, user, held, tile))
+        		{
+        			return true;
+        		}
     			if(!isActive && held.getItem() instanceof ILighter || held.getItem() instanceof ItemFlintAndSteel)
     			{
     				user.playSound("fire.ignite", 1.0F, 1.0F);
@@ -201,6 +211,16 @@ public class BlockForge extends BlockContainer
     				held.damageItem(1, user);
     				return true;
     			}
+    			if(Heatable.canHeatItem(held) && tile.tryAddHeatable(held))
+    			{
+    				--held.stackSize;
+    				if(held.stackSize <= 0)
+    				{
+    					user.setCurrentItemOrArmor(0, null);
+    				}
+    				return true;
+    			}
+    			
     			ForgeFuel stats = ForgeItemHandler.getStats(held);
     			if(stats != null && tile.addFuel(stats, true, tier))
     			{
@@ -251,6 +271,35 @@ public class BlockForge extends BlockContainer
     	}
         return true;
     }
+	
+	private boolean onUsedTongs(World world, EntityPlayer user, ItemStack held, TileEntityForge tile) 
+    {
+    	ItemStack contents = tile.getStackInSlot(0);
+    	ItemStack grabbed = TongsHelper.getHeldItem(held);
+    	
+    	//GRAB
+    	if(grabbed == null)
+    	{
+			if(contents != null && contents.getItem() == ComponentListMF.hotItem)
+			{
+				if(TongsHelper.trySetHeldItem(held, contents))
+				{
+					tile.setInventorySlotContents(0, null);
+					return true;
+				}
+			}
+    	}
+    	else
+    	{
+			if(contents == null)
+			{
+				tile.setInventorySlotContents(0, grabbed);
+				TongsHelper.clearHeldItem(held, user);
+				return true;
+			}
+    	}
+		return false;
+	}
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
@@ -342,4 +391,5 @@ public class BlockForge extends BlockContainer
             updateFurnaceBlockState(false, world, x, y, z);
         }
     }
+    
 }

@@ -15,6 +15,7 @@ import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
@@ -25,6 +26,7 @@ public class ItemSkillBook extends ItemComponentMF
 {
 	private Skill skill;
 	private String name;
+	private boolean isMax = false;
 	public ItemSkillBook(String name, Skill skill)
 	{
 		super(name, 1);
@@ -34,11 +36,24 @@ public class ItemSkillBook extends ItemComponentMF
 		this.skill = skill;
 		this.name=name;
 	}
+	
+	public Item setMax()
+	{
+		isMax = true;
+		return setMaxStackSize(1);
+	}
 	@Override
 	@SideOnly(Side.CLIENT)
     public void addInformation(ItemStack item, EntityPlayer user, List list, boolean fullInfo)
 	{
-		list.add(StatCollector.translateToLocalFormatted("item."+name+".desc", 1));
+		if(isMax)
+		{
+			list.add(StatCollector.translateToLocal("item."+name+".desc"));
+		}
+		else
+		{
+			list.add(StatCollector.translateToLocalFormatted("item."+name+".desc", 1));
+		}
 	}
 	
 	@Override
@@ -50,7 +65,14 @@ public class ItemSkillBook extends ItemComponentMF
 			int lvl = RPGElements.getLevel(user, skill);
 			if(lvl < skill.getMaxLevel())
 			{
-				skill.addXP(user, skill.getLvlXP(lvl, user));
+				if(isMax)
+				{
+					skill.manualLvlUp(user, 100);
+				}
+				else
+				{
+					skill.addXP(user, skill.getLvlXP(lvl, user));
+				}
 				used = true;
 			}
 		}
@@ -63,5 +85,10 @@ public class ItemSkillBook extends ItemComponentMF
 			}
 		}
 		return item;
+	}
+	@Override
+	public EnumRarity getRarity(ItemStack item)
+	{
+    	return isMax ? EnumRarity.epic : EnumRarity.uncommon;
 	}
 }

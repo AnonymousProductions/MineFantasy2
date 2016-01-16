@@ -20,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityCrucible extends TileEntity implements IInventory, ISidedInventory
 {
 	private ItemStack[] inv = new ItemStack[10];
-	public float progress, progressMax;
+	public float progress = 0, progressMax = 400;
 	public float temperature;
 	private Random rand = new Random();
 	
@@ -31,6 +31,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, ISided
 		boolean isHot = temperature > 0 && progressMax > 0;
 		temperature = getTemperature();
 		
+		/*
 		int time = 400;
 		for(int a = 1; a < getSizeInventory()-1; a ++)
 		{
@@ -40,7 +41,10 @@ public class TileEntityCrucible extends TileEntity implements IInventory, ISided
 			}
 		}
 		if(!worldObj.isRemote)
+		{
 			progressMax = time;
+		}
+		*/
 		
 		if (isHot && canSmelt()) 
 		{
@@ -360,6 +364,6 @@ public class TileEntityCrucible extends TileEntity implements IInventory, ISided
 	@Override
 	public boolean canExtractItem(int slot, ItemStack item, int side) 
 	{
-		return isBlastOutput() || slot == 9;
+		return false;
 	}
 }

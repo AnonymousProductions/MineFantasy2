@@ -67,7 +67,7 @@ public class ItemWaraxeMF extends ItemWeaponMF
 		
 		if(lunge)
 		{
-			float fallBonus = (Math.min(entityHitting.fallDistance, baseDamage))/2F;
+			float fallBonus = (Math.min(entityHitting.fallDistance, getMeleeDamage(entityHitting.getHeldItem())))/2F;
 			if(entityHit.onGround && !properHit)
 			{
 				entityHitting.hurtResistantTime = 20;

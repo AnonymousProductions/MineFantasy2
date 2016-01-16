@@ -28,13 +28,15 @@ public class ItemCustomComponent extends Item
 	@SideOnly(Side.CLIENT)
 	public IIcon baseTex;
 	private String name;
+	private float mass;
 	
-	public ItemCustomComponent(String name)
+	public ItemCustomComponent(String name, float mass)
 	{
 		this.name = name;
 		this.setCreativeTab(CreativeTabMF.tabMaterials);
 		GameRegistry.registerItem(this, "custom_"+name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
+		this.mass=mass;
 	}
 	
 	 @Override
@@ -42,6 +44,34 @@ public class ItemCustomComponent extends Item
     {
 	 
     }
+	 
+	public float getWeightInKg(ItemStack tool)
+    {
+    	CustomMaterial base = getBase(tool);
+    	if(base != null)
+    	{
+    		return base.density * mass;
+    	}
+    	return mass;
+    }
+ 
+	@Override
+	@SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack tool, EntityPlayer user, List list, boolean fullInfo)
+    {
+    	super.addInformation(tool, user, list, fullInfo);
+    	
+    	float mass = getWeightInKg(tool);
+    	
+    	CustomMaterial base = getBase(tool);
+    	if(base != null)
+    	{
+    		list.add(EnumChatFormatting.GOLD + base.getMaterialString());
+    	}
+    	list.add(CustomMaterial.getWeightString(mass));
+    		
+    }
+	 
 	@Override
     public String getItemStackDisplayName(ItemStack tool)
     {
@@ -92,7 +122,7 @@ public class ItemCustomComponent extends Item
         baseTex = reg.registerIcon("minefantasy2:custom/commodity/"+name);
     }
     
-	public ItemStack createPlank(String base) 
+	public ItemStack createComm(String base) 
 	{
 		ItemStack item = new ItemStack(this);
 		CustomMaterial.addMaterial(item, "base", base);

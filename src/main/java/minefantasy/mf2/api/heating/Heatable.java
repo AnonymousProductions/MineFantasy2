@@ -145,6 +145,29 @@ public class Heatable
 
 		return 0;
 	}
+	/**
+	 * Hardcore Crafting: Should quencing in inproper sources damage items
+	 */
+	public static boolean HCCquenchRuin = true;
+	
+	/**
+	 * Gets a hot item
+	 * @param item the hot item
+	 * @param hazard the amount the source is hazardous (damaging the item): usually a percent dura loss
+	 * @return what item is heated
+	 */
+	public static ItemStack getQuenchedItem(ItemStack item, float hazard)
+	{
+		ItemStack cold = Heatable.getItem(item);
+		
+		if(HCCquenchRuin && cold.isItemStackDamageable() && hazard > 0)
+		{
+			cold.setItemDamage((int) (cold.getMaxDamage()*hazard/100F));
+		}
+		
+		return cold;
+	}
+	
 	public static ItemStack getItem(ItemStack item) 
 	{
 		if(item == null || !(item.getItem() instanceof IHotItem))

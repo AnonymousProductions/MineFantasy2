@@ -44,7 +44,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		ItemStack held = user.getHeldItem();
 		if(held != null && (held.getItem() == ComponentListMF.talisman_lesser || held.getItem() == ComponentListMF.talisman_greater))
 		{
-			progress += InformationBase.talismanPower;
+			progress = maxProgress;
 			if(!user.capabilities.isCreativeMode && held.getItem() == ComponentListMF.talisman_lesser)
 			{
 				--held.stackSize;
@@ -60,7 +60,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		{
 			efficiency *= (0.5F-user.swingProgress);
 		}
-		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "minefantasy2:updateResearch", 1.0F, rand.nextFloat()*0.4F+0.8F);
+		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "minefantasy2:block.flipPage", 1.0F, rand.nextFloat()*0.4F+0.8F);
 		efficiency *= getEnvironmentBoost();
 		progress += efficiency;
 	}

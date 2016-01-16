@@ -19,7 +19,7 @@ public class ArrowFireFlint implements IArrowHandler
 	@Override
 	public boolean onFireArrow(World world, ItemStack arrow, ItemStack bow, EntityPlayer user, float charge, boolean infinite) 
 	{
-		if(arrow.getItem() != Items.arrow)
+		if(infinite || arrow.getItem() != Items.arrow)
 		{
 			return false;
 		}

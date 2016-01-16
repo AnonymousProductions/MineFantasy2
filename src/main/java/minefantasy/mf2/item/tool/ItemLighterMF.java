@@ -16,6 +16,7 @@ public class ItemLighterMF extends Item implements ILighter
 		this.setUnlocalizedName(name);
 		setMaxDamage(uses);
 		this.chance = chance;
+		this.setMaxStackSize(1);
 		this.setCreativeTab(CreativeTabMF.tabGadget);
 	}
 	@Override

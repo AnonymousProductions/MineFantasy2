@@ -18,7 +18,7 @@ public class ArrowFirerMF implements IArrowHandler
 	@Override
 	public boolean onFireArrow(World world, ItemStack arrow, ItemStack bow, EntityPlayer user, float charge, boolean infinite) 
 	{
-		if(!(arrow.getItem() instanceof ItemArrowMF))
+		if(arrow == null || !(arrow.getItem() instanceof ItemArrowMF))
 		{
 			return false;
 		}

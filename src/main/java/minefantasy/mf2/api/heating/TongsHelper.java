@@ -123,25 +123,6 @@ public class TongsHelper
 	}
 
 	/**
-	 * Gets a hot item
-	 */
-	public static ItemStack getHotItem(ItemStack item)
-	{
-		if(true)
-		{
-			return Heatable.getItem(item);
-		}
-		NBTTagCompound tag = getNBT(item);
-		if (tag.hasKey(Heatable.NBT_ItemID) && tag.hasKey(Heatable.NBT_SubID)) 
-		{
-			Item metal = Item.getItemById(tag.getInteger(Heatable.NBT_ItemID));
-			return new ItemStack(metal, 1, tag.getInteger(Heatable.NBT_SubID));
-		}
-
-		return null;
-	}
-
-	/**
 	 * Used for getting the NBT for itemstacks, if none exists; it creates one
 	 */
 	public static NBTTagCompound getNBT(ItemStack item) {
@@ -151,32 +132,33 @@ public class TongsHelper
 		return item.getTagCompound();
 	}
 	
-	public static boolean isWaterSource(World world, int i, int j, int k) 
+	public static float getWaterSource(World world, int i, int j, int k) 
 	{
-		if(TongsHelper.isQuenced(world, i, j, k))
+		float special = TongsHelper.getQuenced(world, i, j, k);
+		if(special >= 0)
 		{
-			return true;
+			return special;
 		}
 		if (world.getBlock(i, j, k).getMaterial() == Material.water)
 		{
 			world.setBlockToAir(i, j, k);
-			return true;
+			return 25F;
 		}
 		if (isCauldron(world, i, j, k)) {
-			return true;
+			return 10F;
 		}
-		return false;
+		return -1F;
 	}
 	public static boolean isCauldron(World world, int x, int y, int z) {
 		return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z) > 0;
 	}
-	public static boolean isQuenced(World world, int x, int y, int z)
+	public static float getQuenced(World world, int x, int y, int z)
 	{
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if(tile != null && tile instanceof IQuenchBlock)
 		{
 			return ((IQuenchBlock)tile).quench();
 		}
-		return false;
+		return -1F;
 	}
 }

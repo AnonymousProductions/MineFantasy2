@@ -41,7 +41,7 @@ public class ArmourCalculator
 	/**
 	 * This is the scale for helmet, chest, legs and boots. Use this with 'slot' to scale things like weight and DT distribution
 	 */
-	public static final float[]sizes = new float[]{0.2F, 0.35F, 0.3F, 0.15F};
+	public static final float[]sizes = new float[]{0.2F, 0.3F, 0.3F, 0.2F};
 	
 	/**
 	 * For the percentage based armour, how much is ratio 2(50%) viewed as
@@ -298,7 +298,7 @@ public class ArmourCalculator
 		{
 			return new float[]{0, 0, 1};//pierce
 		}
-		if(source != null && source.getEntity() != null)
+		if(source != null && source.getSourceOfDamage() != null && source.getEntity() != null)
 		{
 			Entity user = source.getEntity();//The attacker
 			Entity damager = source.getSourceOfDamage();//The thing causing damage(like arrows)
@@ -314,6 +314,10 @@ public class ArmourCalculator
 
 	private static float[] getRatioForIndirect(Entity damager) 
 	{
+		if(damager == null)
+		{
+			return new float[]{1,1,1};//No damage type.
+		}
 		if(damager instanceof IDamageType)
 		{
 			return ((IDamageType)damager).getDamageRatio(damager);
@@ -452,7 +456,7 @@ public class ArmourCalculator
 		}
 		if(armour.getItem() instanceof ISpecialArmourMF)
 		{
-			return getArmourValueMod(armour, ((ISpecialArmourMF)armour.getItem()).getDTDisplay(armour, id));
+			return getArmourValueMod(armour, ((ISpecialArmourMF)armour.getItem()).getDRDisplay(armour, id));
 		}
 		return 0F;
 	}
