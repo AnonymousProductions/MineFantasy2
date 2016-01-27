@@ -3,43 +3,38 @@ package minefantasy.mf2.entity.mob;
 import java.util.Iterator;
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.armour.IArmourPenetrationMob;
 import minefantasy.mf2.api.armour.IArmouredEntity;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.config.ConfigMobs;
-import minefantasy.mf2.entity.EntityFireBlast;
+import minefantasy.mf2.entity.EntityDragonBreath;
 import minefantasy.mf2.entity.Shockwave;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
-import minefantasy.mf2.knowledge.KnowledgeListMF;
-import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.AchievementList;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityDragon extends EntityFlyingMF implements IMob, IBossDisplayData, IArmouredEntity, IArmourPenetrationMob
 {
@@ -77,7 +72,7 @@ public class EntityDragon extends EntityFlyingMF implements IMob, IBossDisplayDa
     public void setDragon(int tier)
     {
     	setTier(tier);
-    	setBreed(DragonBreed.getRandomDragon(tier));
+    	setBreed(DragonBreed.getRandomDragon(this, tier));
     	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(getType().health);
     	setHealth(getMaxHealth());
     	this.setSize(3.0F*getScale(), 2.0F*getScale());
@@ -273,23 +268,28 @@ public class EntityDragon extends EntityFlyingMF implements IMob, IBossDisplayDa
     }
     private void breatheFire()
     {
-    	int spread = 1;
+    	int spread = 4;
     	
     	for(int a = 0; a < spread; a ++)
     	{
-	        double var11 = this.targetedEntity.posX - this.posX;
-	        double var13 = this.targetedEntity.boundingBox.minY + (double) (this.targetedEntity.height / 2.0F) - (this.posY + (double) (this.height / 2.0F));
-	        double var15 = this.targetedEntity.posZ - this.posZ;
-	        EntityFireBlast var17 = new EntityFireBlast(this.worldObj, this, var11, var13, var15).preset("Dragon").setDamage(getType().fireDamage).setPyro(ConfigMobs.dragonGriefFire ? getType().pyro : 0F);
-	        double var18 = 1.0D;
+	        double xAngle = this.targetedEntity.posX - this.posX;
+	        double yAngle = this.targetedEntity.boundingBox.minY + (double) (this.targetedEntity.height / 2.0F) - (this.posY + (double) (this.height / 2.0F));
+	        double zAngle = this.targetedEntity.posZ - this.posZ;
+	        double power = 1.0D;
 	        Vec3 var20 = this.getLook(1.0F);
-	        var17.posX = this.posX + var20.xCoord * var18;
-	        var17.posY = this.posY + (double) (this.height / 2.0F) + 0.5D;
-	        var17.posZ = this.posZ + var20.zCoord * var18;
-	        this.worldObj.spawnEntityInWorld(var17);
+	        Entity breath = getBreath(xAngle, yAngle, zAngle);
+	        breath.posX = this.posX + var20.xCoord * power;
+	        breath.posY = this.posY + (double) (this.height / 2.0F) + 0.5D;
+	        breath.posZ = this.posZ + var20.zCoord * power;
+	        this.worldObj.spawnEntityInWorld(breath);
     	}
     }
-    @Override
+    private Entity getBreath(double xAngle, double yAngle, double zAngle)
+    {
+		return new EntityDragonBreath(this.worldObj, this, xAngle, yAngle, zAngle, 1.0F).setDamage(getType().fireDamage).setType(getType().rangedAttack.id);
+	}
+
+	@Override
     protected void updateEntityActionState()
     {
         if (!this.worldObj.isRemote && this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL)
@@ -377,7 +377,7 @@ public class EntityDragon extends EntityFlyingMF implements IMob, IBossDisplayDa
             {
                 this.fireBreathTick = getType().fireTimer;
                 
-                fireBreathCooldown = 900 + getBreathCooldown() + rand.nextInt(getBreathCooldown());
+                fireBreathCooldown = 600 + getBreathCooldown() + rand.nextInt(getBreathCooldown());
                 worldObj.playSoundAtEntity(this, "minefantasy2:mob.dragon.fire", 1, 1);
                 setJawMove(20);
             }
@@ -389,6 +389,19 @@ public class EntityDragon extends EntityFlyingMF implements IMob, IBossDisplayDa
             {
                 if ((targetedEntity.isSneaking() && !targetedEntity.onGround ) || this.attackCounter <= 0) 
                 {
+                	if(targetedEntity.isRiding() && posY > (targetedEntity.posY))
+                	{
+                		targetedEntity.mountEntity(null);
+                		targetedEntity.motionY = 1.0F;
+                		targetedEntity.motionX = this.motionX;
+                		targetedEntity.motionZ = this.motionZ;
+                		if(targetedEntity instanceof EntityLivingBase)
+                		{
+                			((EntityLivingBase)targetedEntity).addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 5));
+                			((EntityLivingBase)targetedEntity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 5));
+                			((EntityLivingBase)targetedEntity).addPotionEffect(new PotionEffect(Potion.weakness.id, 200, 2));
+                		}
+                	}
                     attackEntity(targetedEntity, this.getAttackStrength(targetedEntity));
                     this.attackCounter = getAttackTime();
                     setJawMove(40);
@@ -640,39 +653,27 @@ public class EntityDragon extends EntityFlyingMF implements IMob, IBossDisplayDa
     	{
     		return ToolListMF.loot_sack_rare;
     	}
-    	if(tier == 3)//ELDER
-    	{
-    		return rand.nextInt(3) == 0 ? ToolListMF.loot_sack_uc : ToolListMF.loot_sack_rare;
-    	}
-    	if(tier == 2)//Dire
-    	{
-    		return rand.nextInt(3) == 0 ? ToolListMF.loot_sack_rare : ToolListMF.loot_sack_uc;
-    	}
-    	if(tier == 1)//Adult
-    	{
-    		return ToolListMF.loot_sack_uc;
-    	}
-		return ToolListMF.loot_sack_uc;//YOUNG
+		return ToolListMF.loot_sack_uc;//Young
 	}
     private int getLootCount(int tier) 
     {
     	if(tier == 4)//Ancient
     	{
-    		return 1 + rand.nextInt(3);
+    		return 1;//1 Exquisite
     	}
-    	if(tier == 3)//ELDER
+    	if(tier == 3)//Elder
     	{
-    		return 1 + rand.nextInt(3);
+    		return 2 + rand.nextInt(4);//2-5 Valuable
     	}
-    	if(tier == 2)//Dire
+    	if(tier == 2)//Mature
     	{
-    		return 1;
+    		return 2 + rand.nextInt(1);//2-3 Valuable
     	}
     	if(tier == 1)//Adult
     	{
-    		return 1;
+    		return 1 + rand.nextInt(1);//1-2 Valuable
     	}
-		return 1;//YOUNG
+		return 1;//Young, 1 Valuable
 	}
 
 	/**
@@ -831,7 +832,9 @@ public class EntityDragon extends EntityFlyingMF implements IMob, IBossDisplayDa
 	}
 	public String getCommandSenderName()
     {
-        return StatCollector.translateToLocal("entity." + getType().name + ".name");
+        String tierName = StatCollector.translateToLocal("entity." + getType().name + ".name");
+        String breedName = StatCollector.translateToLocal("entity.dragonbreed." + getType().breedName + ".name");
+        return StatCollector.translateToLocalFormatted(tierName, breedName);
     }
 
 	public float getScale()
@@ -851,6 +854,7 @@ public class EntityDragon extends EntityFlyingMF implements IMob, IBossDisplayDa
     {
     	Shockwave explosion = new Shockwave("dragonstomp", worldObj, this, x, y, z, power);
         explosion.isFlaming = fire;
+        explosion.isGriefing = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
         explosion.isSmoking = smoke;
         explosion.initiate();
         explosion.decorateWave(true);

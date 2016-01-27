@@ -53,6 +53,7 @@ public class ComponentListMF
 		"ender",
 		"tungsten",
 	};
+	/*
 	public static final String[] hunkMats = new String[]
 	{
 		"copper",
@@ -74,22 +75,20 @@ public class ComponentListMF
 		"ender",
 		"tungsten",
 	};
+	*/
 	public static Item clay_pot = new ItemMFBowl("clay_pot");
 	public static Item clay_pot_uncooked = new ItemComponentMF("clay_pot_uncooked", 0);
 	public static Item ingot_mould = new ItemComponentMF("ingot_mould").setMaxStackSize(1);
 	public static Item ingot_mould_uncooked = new ItemComponentMF("ingot_mould_uncooked", 0).setMaxStackSize(1);
 	
 	public static ItemComponentMF[] ingots = new ItemComponentMF[ingotMats.length];
-	public static ItemComponentMF[] hunks = new ItemComponentMF[hunkMats.length];
-	public static ItemComponentMF[] chainmeshes = new ItemComponentMF[ArmourListMF.mats.length];
-	public static ItemComponentMF[] plates = new ItemComponentMF[ArmourListMF.mats.length-1];
+	//public static ItemComponentMF[] hunks = new ItemComponentMF[hunkMats.length];
+	//public static ItemComponentMF[] chainmeshes = new ItemComponentMF[ArmourListMF.mats.length];
+	//public static ItemComponentMF[] plates = new ItemComponentMF[ArmourListMF.mats.length-1];
 	public static Item plank = new ItemComponentMF("plank", 0);
 	public static Item plankRefined = new ItemComponentMF("plankRefined", 0);
 	public static Item vine = new ItemComponentMF("vine", -1);
 	public static Item sharp_rock = new ItemComponentMF("sharp_rock", -1);
-	public static ItemComponentMF[] arrowheads = new ItemComponentMF[ToolListMF.weaponMats.length];
-	public static ItemComponentMF[] bodkinheads = new ItemComponentMF[ToolListMF.weaponMats.length-1];
-	public static ItemComponentMF[] broadheads = new ItemComponentMF[ToolListMF.weaponMats.length-1];
 	
 	public static Item flux = new ItemComponentMF("flux", 0);
 	public static Item flux_strong = new ItemComponentMF("flux_strong", 0);
@@ -192,8 +191,15 @@ public class ComponentListMF
 	//public static ItemHaft spearhaft_custom = new ItemHaft("spearhaft");
 	//public static ItemCustomComponent plankCustom = new ItemCustomComponent("plank", 1F);
 	//public static ItemCustomComponent plateHeavy = new ItemCustomComponent("plateheavy", 3F);
-	//public static ItemCustomComponent chainmesh = new ItemCustomComponent("chainmesh", 1F);
+	public static ItemCustomComponent chainmesh = new ItemCustomComponent("chainmesh", 1F);
+	public static ItemCustomComponent scalemesh = new ItemCustomComponent("scalemesh", 1F);
+	public static ItemCustomComponent splintmesh = new ItemCustomComponent("splintmesh", 1F);
+	public static ItemCustomComponent plate = new ItemCustomComponent("plate", 2F);
 	//public static ItemCustomComponent scrapMetal = new ItemCustomComponent("scrap", 1F);
+	public static ItemCustomComponent metalHunk = new ItemCustomComponent("hunk", 0.25F);
+	public static ItemCustomComponent arrowhead = new ItemCustomComponent("arrowhead", 1/4F);
+	public static ItemCustomComponent bodkinhead = new ItemCustomComponent("bodkinhead", 1/4F);
+	public static ItemCustomComponent broadhead = new ItemCustomComponent("broadhead", 1/4F);
 	
 	//public static Item lime_rock = new ItemComponentMF("lime_rock", 0);
 	//public static Item borax_rock = new ItemComponentMF("borax_rock", 0);
@@ -219,61 +225,13 @@ public class ComponentListMF
 			
 			ingots[a] = new ItemComponentMF("ingot"+name, rarity);
 			OreDictionary.registerOre("ingot"+name, ingots[a]);
-			MineFantasyAPI.addHeatableItems("ingot"+name, mat.workableTemp, mat.unstableTemp, mat.unstableTemp*2);
 			
 			if(name.equalsIgnoreCase("PigIron"))
 			{
-				MineFantasyAPI.addHeatableItems("ingotRefinedIron", mat.workableTemp, mat.unstableTemp, mat.unstableTemp*2);
 				OreDictionary.registerOre("ingotRefinedIron", ingots[a]);
 			}
 		}
 		
-		for(int a = 0; a < hunkMats.length; a ++)
-		{
-			BaseMaterialMF mat = BaseMaterialMF.getMaterial(hunkMats[a]);
-			String name = mat.name;
-			int rarity = mat.rarity;
-			
-			hunks[a] = new ItemComponentMF("hunk"+name, rarity);
-			OreDictionary.registerOre("hunk"+name, hunks[a]);
-			MineFantasyAPI.addHeatableItems("hunk"+name, mat.workableTemp, mat.unstableTemp, mat.unstableTemp*2);
-		}
-		
-		for(int a = 0; a < ArmourListMF.mats.length; a ++)
-		{
-			BaseMaterialMF baseMat = BaseMaterialMF.getMaterial(ArmourListMF.mats[a]);
-			
-			String name=baseMat.name;
-			int rarity = baseMat.rarity;
-			
-			chainmeshes[a] = new ItemComponentMF("chainmesh"+name, rarity);
-			OreDictionary.registerOre("chainmesh"+name, chainmeshes[a]);
-			if(a > 0)
-			{
-				plates[a-1] = new ItemComponentMF("plate"+name, rarity);
-				OreDictionary.registerOre("plate"+name, plates[a-1]);
-			}
-		}
-		for(int a = 0; a < ToolListMF.weaponMats.length; a ++)
-		{
-			BaseMaterialMF mat = BaseMaterialMF.getMaterial(ToolListMF.weaponMats[a]);
-			String name = mat.name.toLowerCase();
-			int rarity = mat.rarity;
-			if(name.equalsIgnoreCase("ornate"))
-			{
-				name = "silver";
-			}
-			arrowheads[a] = new ItemComponentMF(name+"_arrow_head", rarity);
-			OreDictionary.registerOre(name+"_arrow_head", arrowheads[a]);
-			if(a != 0)
-			{
-				bodkinheads[a-1] = new ItemComponentMF(name+"_bodkin_head", rarity);
-				OreDictionary.registerOre(name+"_bodkin_head", bodkinheads[a-1]);
-				
-				broadheads[a-1] = new ItemComponentMF(name+"_broad_head", rarity);
-				OreDictionary.registerOre(name+"_broad_head", broadheads[a-1]);
-			}
-		}
 		addRandomDrops();
 		initFuels();
 		OreDictionary.registerOre("ingotCompositeAlloy", ingotCompositeAlloy);
@@ -281,15 +239,15 @@ public class ComponentListMF
 
 	private static void initFuels() 
 	{
-		MineFantasyAPI.addForgeFuel(new ItemStack(Items.coal, 1, 0), 900, 120);//	120* , 45s
-		MineFantasyAPI.addForgeFuel(new ItemStack(Items.coal, 1, 1), 1200, 160);//	160* , 1m
+		MineFantasyAPI.addForgeFuel(new ItemStack(Items.coal, 1, 0), 900, 150);//	150* , 45s
+		MineFantasyAPI.addForgeFuel(new ItemStack(Items.coal, 1, 1), 1200, 170);//	170* , 1m
 		MineFantasyAPI.addForgeFuel(Items.blaze_powder, 200, 300, true);//			300* , 10s
 		MineFantasyAPI.addForgeFuel(Items.blaze_rod,    300, 300, true);//			300* , 15s
 		MineFantasyAPI.addForgeFuel(Items.fire_charge,  1200, 350,true);//			350* , 1m
 		MineFantasyAPI.addForgeFuel(Items.lava_bucket,  2400, 500, true);//			500* , 2m
 		MineFantasyAPI.addForgeFuel(Items.magma_cream,  2400, 400);//				400* , 2m
 		
-		MineFantasyAPI.addForgeFuel(ComponentListMF.coalDust, 200, 120);//				120* , 10s
+		MineFantasyAPI.addForgeFuel(ComponentListMF.coalDust, 200, 150);//				150* , 10s
 		MineFantasyAPI.addForgeFuel(ComponentListMF.coke, 1200, 250);//					250* , 1m
 		MineFantasyAPI.addForgeFuel(ComponentListMF.magma_cream_refined, 2400, 200);//	500* , 2m
 	}
@@ -299,8 +257,8 @@ public class ComponentListMF
 		RandomOre.addOre(new ItemStack(kaolinite),    1.5F,  Blocks.stone,         	  -1, 32,128, false);
 		RandomOre.addOre(new ItemStack(flux),       	2F,  Blocks.stone,         	  -1, 0, 128, false);
 		RandomOre.addOre(new ItemStack(flux_strong),    1F,  Blocks.stone,         	   2, 0, 128, false);
-		RandomOre.addOre(new ItemStack(flux),       	20F, BlockListMF.limestone,   -1, 0, 256, true);
-		RandomOre.addOre(new ItemStack(flux_strong),    10F, BlockListMF.limestone,    2, 0, 256, true);
+		RandomOre.addOre(new ItemStack(flux),       	20F, BlockListMF.limestone, 0,   -1, 0, 256, true);
+		RandomOre.addOre(new ItemStack(flux_strong),    10F, BlockListMF.limestone, 0,    2, 0, 256, true);
 		RandomOre.addOre(new ItemStack(Items.coal), 	1F,  Blocks.stone, 			  -1, 0, 128, false);
 		RandomOre.addOre(new ItemStack(sulfur),     	2F,  Blocks.stone, 			  -1, 0, 16,  false);
 		RandomOre.addOre(new ItemStack(nitre),      	3F,  Blocks.stone, 			  -1, 0, 64,  false);

@@ -3,6 +3,9 @@ package minefantasy.mf2.block.tileentity;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import minefantasy.mf2.api.crafting.IBasicMetre;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
@@ -58,6 +61,8 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	@Override
 	public void updateEntity()
 	{
+		if(worldObj.isRemote)return;
+		
 		if(justShared > 0)--justShared;
 		super.updateEntity();
 		
@@ -78,7 +83,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		{
 			if(temperature > 0 && ticksExisted % 5 == 0)
 			{
-				temperature --;
+				temperature = 0;
 			}
 			return;
 		}
@@ -89,7 +94,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			return;
 		}
 		isBurning = isBurning();//Check if it's burning
-		float maxTemp = fuelTemperature + getUnderTemperature();
+		float maxTemp = isLit() ? (fuelTemperature + getUnderTemperature()) : 0;
 		
 		if(temperature < maxTemp)
 		{
@@ -190,6 +195,11 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	private boolean isBurning() 
 	{
 		return fuel > 0 && temperature > 0;
+	}
+	@SideOnly(Side.CLIENT)
+	private boolean shouldRenderFlame() 
+	{
+		return fuel > 0 && temperature > 1;
 	}
 
 	private void modifyItem(ItemStack item, int slot) 
@@ -422,12 +432,13 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		}
 		return null;
 	}
+	@SideOnly(Side.CLIENT)
 	public String getTextureName() 
 	{
 		BlockForge forge = getActiveBlock();
 		if(forge == null)return "forge_"+texTypeForRender;
 		
-		return "forge_" + forge.type + (isBurning() ? "_active" : "");
+		return "forge_" + forge.type + (shouldRenderFlame() ? "_active" : "");
 	}
 
 	public boolean hasFuel()

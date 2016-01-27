@@ -13,6 +13,7 @@ import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
@@ -175,11 +176,30 @@ public class MineFantasyHUD extends Gui
         int[] orientationAR = getOrientsFor(width, height, ConfigClient.AR_xOrient, ConfigClient.AR_yOrient);
         int xPosAR = orientationAR[0] + ConfigClient.AR_xPos;
         int yPosAR = orientationAR[1] + ConfigClient.AR_yPos;
-        mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.protection"), xPosAR, yPosAR, Color.WHITE.getRGB());
-      
-        displayTraitValue(xPosAR, yPosAR+8, orientationAR, 0, player);
-        displayTraitValue(xPosAR, yPosAR+16, orientationAR, 2, player);
-        displayTraitValue(xPosAR, yPosAR+24, orientationAR, 1, player);
+        int y = 8;
+        if(ArmourCalculator.advancedDamageTypes)
+        {
+        	mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.protection"), xPosAR, yPosAR, Color.WHITE.getRGB());
+	        displayTraitValue(xPosAR, yPosAR+8, orientationAR, 0, player);
+	        displayTraitValue(xPosAR, yPosAR+16, orientationAR, 2, player);
+	        displayTraitValue(xPosAR, yPosAR+24, orientationAR, 1, player);
+	        y = 32;
+        }
+        else
+        {
+        	 displayGeneralAR(xPosAR, yPosAR, orientationAR, player);
+        }
+        
+        float weight = 0.0F;
+		
+		for(int a = 0; a < 4; a ++)
+		{
+			ItemStack armour = mc.thePlayer.getEquipmentInSlot(4-a);
+			weight += ArmourCalculator.getPieceWeight(armour, a);
+		}
+		
+        String massString = CustomMaterial.getWeightString(weight);
+        mc.fontRenderer.drawStringWithShadow(massString, xPosAR, yPosAR+y, Color.WHITE.getRGB());
 	}
 	private void renderAmmo(EntityPlayer player)
 	{
@@ -225,6 +245,12 @@ public class MineFantasyHUD extends Gui
 	{
 		float AR = ArmourCalculator.useThresholdSystem ? ArmourCalculator.getDTDisplay(player, id) : (int)(ArmourCalculator.getDRDisplay(player, id)*100F);
     	mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.rating."+id)+" " + ItemWeaponMF.decimal_format.format(AR), xPosAR, yPosAR, Color.WHITE.getRGB());
+	}
+	private void displayGeneralAR(int xPosAR, int yPosAR, int[] orientationAR, EntityPlayer player)
+	{
+		float AR = ArmourCalculator.useThresholdSystem ? ArmourCalculator.getDTDisplay(player, 0) : (int)(ArmourCalculator.getDRDisplay(player, 0)*100F);
+    	
+		mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.protection")+": " + ItemWeaponMF.decimal_format.format(AR), xPosAR, yPosAR, Color.WHITE.getRGB());
 	}
 
 	private void renderStaminaBar(EntityPlayer player)

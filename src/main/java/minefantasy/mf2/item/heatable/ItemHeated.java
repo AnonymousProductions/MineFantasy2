@@ -7,7 +7,9 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.heating.TongsHelper;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.GuiHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.util.MFLogUtil;
@@ -87,13 +89,13 @@ public class ItemHeated extends Item implements IHotItem
 		{
 			ItemStack out = new ItemStack(ComponentListMF.hotItem, item.stackSize);
 			NBTTagCompound nbt = getNBT(out);
-	
-			nbt.setInteger(Heatable.NBT_ItemID, Item.getIdFromItem(item.getItem()));
-			nbt.setInteger(Heatable.NBT_SubID, item.getItemDamage());
+			NBTTagCompound save = new NBTTagCompound();
+			item.writeToNBT(save);
+			nbt.setTag(Heatable.NBT_Item, save);
+			
 			nbt.setBoolean(Heatable.NBT_ShouldDisplay, true);
 			setWorkTemp(out, stats.minTemperature);
 			setUnstableTemp(out, stats.unstableTemperature);
-			shareTraits(nbt, item);
 	
 			return out;
 		}
@@ -101,13 +103,13 @@ public class ItemHeated extends Item implements IHotItem
 		{
 			ItemStack out = new ItemStack(ComponentListMF.hotItem, item.stackSize);
 			NBTTagCompound nbt = getNBT(out);
-	
-			nbt.setInteger(Heatable.NBT_ItemID, Item.getIdFromItem(item.getItem()));
-			nbt.setInteger(Heatable.NBT_SubID, item.getItemDamage());
+			NBTTagCompound save = new NBTTagCompound();
+			item.writeToNBT(save);
+			nbt.setTag(Heatable.NBT_Item, save);
+			
 			nbt.setBoolean(Heatable.NBT_ShouldDisplay, false);
 			setWorkTemp(out, 0);
 			setUnstableTemp(out, 0);
-			shareTraits(nbt, item);
 			
 			return out;
 		}

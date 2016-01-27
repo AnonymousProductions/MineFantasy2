@@ -23,7 +23,7 @@ public class BlockListMF
 	};
 	public static final String[] specialMetalBlocks = new String[]
 	{
-		"bronze", "iron", "steel", "blacksteel", "dragonforge", "redsteel", "bluesteel"
+		"bronze", "iron", "steel", "blacksteel", "redsteel", "bluesteel"
 	};
 	public static final String[] anvils = new String[]
 	{
@@ -126,8 +126,8 @@ public class BlockListMF
 	public static Block advTanner = new BlockTanningRack(1, "Strong");
 	public static Block research = new BlockResearchStation();
 	public static Block trough_wood = new BlockTrough("Basic", Material.wood, 32);
-	public static Block trough_rock = new BlockTrough("Rock", Material.wood, 64);
-	public static Block trough_strongwood = new BlockTrough("Refinedwood", Material.wood, 100);
+	public static Block trough_rock = new BlockTrough("Rock", Material.wood, 100);
+	public static Block trough_strongwood = new BlockTrough("Refinedwood", Material.wood, 64);
 	public static Block engTanner = new BlockEngineerTanner(2, "Metal");
 	
 	public static Block bombPress = new BlockBombPress();

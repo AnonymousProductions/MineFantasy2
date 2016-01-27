@@ -4,6 +4,7 @@ import minefantasy.mf2.api.archery.AmmoMechanicsMF;
 import minefantasy.mf2.block.crafting.*;
 import minefantasy.mf2.block.decor.BlockTrough;
 import minefantasy.mf2.block.refining.*;
+import minefantasy.mf2.mechanics.EventManagerMF;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -54,6 +55,8 @@ public class ConfigClient extends ConfigurationBaseMF
 	
 	
 	public static final String CATEGORY_BLOCK = "Block Render Ids";
+	
+	public static final String CATEGORY_DEBUG = "Debug Info";
 	@Override
 	protected void loadConfig()
 	{
@@ -93,6 +96,8 @@ public class ConfigClient extends ConfigurationBaseMF
 		BlockTrough.trough_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Trough", -108).getString());
 		BlockBloomery.bloomery_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Bloomery", -109).getString());
 		BlockCrossbowBench.crossBench_RI = Integer.parseInt(config.get(CATEGORY_BLOCK, "Crossbow Bench", -110).getString());
+		
+		EventManagerMF.displayOreDict = Boolean.parseBoolean(config.get(CATEGORY_DEBUG, "Show Debug OreDict", false, "Displays a list of Ore Dictionary entries to tooltips").getString());
 	}
 
 }

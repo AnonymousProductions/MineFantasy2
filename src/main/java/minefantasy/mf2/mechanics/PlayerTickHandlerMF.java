@@ -67,7 +67,7 @@ public class PlayerTickHandlerMF
 	    	}
 	    	
 			//COMMON
-        	TacticalManager.applyArmourWeight(event.player);
+	    	TacticalManager.applyArmourWeight(event.player);
         	
         	if(event.player.ticksExisted % 20 == 0)
         	{
@@ -109,6 +109,7 @@ public class PlayerTickHandlerMF
         	{
         		tickDragonSpawner(event.player);
         	}
+        	//updatePitch(event.player); (This keeps track of player camera angles, could make a mechanic based on swinging the camera)
         }
 		
         if(event.phase == TickEvent.Phase.START)
@@ -192,7 +193,25 @@ public class PlayerTickHandlerMF
 		
 		return prevStep != stepcount;
 	}
-
+	
+	/*
+	private static String lastPitchNBT = "MF_last_AimPitch";
+	public static void setLastPitch(EntityPlayer user, float value)
+	{
+		user.getEntityData().setFloat(lastPitchNBT, value);
+	}
+	public static void updatePitch(EntityPlayer user)
+	{
+		user.getEntityData().setFloat(lastPitchNBT, user.rotationPitch);
+	}
+	public static float getPitchMovement(EntityPlayer user)
+	{
+		float lastPitch = user.getEntityData().getFloat(lastPitchNBT) + 1000F;
+		float nowPitch = user.rotationPitch + 1000F;
+		
+		return nowPitch - lastPitch;
+	}
+	 */
 	private void tickDragonSpawner(EntityPlayer player) 
 	{
 		if(player.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && player.dimension == 0)
@@ -234,7 +253,7 @@ public class PlayerTickHandlerMF
     		player.worldObj.playSoundEffect(dragon.posX, dragon.posY-16D, dragon.posZ, "mob.enderdragon.growl", 3.0F, 1.5F);
     		dragon.fireBreathCooldown = 200;
     		
-    		if(ConfigMobs.dragonMSG)
+    		if(ConfigMobs.dragonMSG && !player.worldObj.isRemote)
     		{
     			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + StatCollector.translateToLocal("event.dragonnear.name")));
     			
@@ -245,7 +264,7 @@ public class PlayerTickHandlerMF
 	    			Object instance = players.next();
 	    			if(instance != null && instance instanceof EntityPlayer)
 	    			{
-	    				if(((EntityPlayer)instance).getDistanceToEntity(player) < 256D)
+	    				if(((EntityPlayer)instance).getDistanceToEntity(player) < 256D && instance != player)
 	    				{
 	    					((EntityPlayer)instance).addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + StatCollector.translateToLocal("event.dragonnear.name")));
 	    				}
@@ -348,42 +367,42 @@ public class PlayerTickHandlerMF
 	public static int getDragonTier(EntityPlayer player)
 	{
 		int kills = getDragonEnemyPoints(player);
-		
 		if(kills < 10)
 		{
 			return 0;//Young 100%
 		}
 		if(kills < 20)
 		{
-			return rand.nextInt(3) == 0 ? 0 : 1;//Young 33%, Adult 66%
+			if(rand.nextInt(3) == 0)return 1;//33% chance for Adult
+			return 0;//Young
 		}
 		if(kills < 35)
 		{
-			return rand.nextBoolean() ? 2 : rand.nextInt(10) == 0 ? 0 : 1;//Young 5%, Adult 45%, Dire 50%
+			if(rand.nextInt(3) == 0)return 0;//33% chance for Young
+			return 1;//Adult
 		}
 		if(kills < 50)
 		{
-			return rand.nextInt(5) == 0 ? 3 : rand.nextInt(4) == 0 ? 1 : 2;//Elder 20%, Adult 20%, Dire 60%
+			if(rand.nextInt(10) == 0)return 0;//10% chance for Young
+			if(rand.nextInt(10) == 0)return 2;//10% chance for Mature
+			return 1;//Adult
 		}
 		if(kills < 60)
 		{
-			float chance = rand.nextFloat()*100F;//Ancient 5%, Elder 20%, Dire 75%
-			if(chance < 5F)return 4;
-			if(chance < 25F)return 3;
-			return 2;
+			if(rand.nextInt(4) == 0)return 2;//25% chance for Mature
+			return 1;//Adult
 		}
 		if(kills >= 70)
 		{
-			float chance = rand.nextFloat()*100F;//Ancient 1%, Dire 20%, Elder 75%
-			if(chance < 1F)return 4;
-			if(chance < 80F)return 3;
-			return 2;
+			if(rand.nextInt(10) == 0)return 1;//10% chance for Adult
+			if(rand.nextInt(5) == 0)return 3;//20% chance Elder
+			return 2;//Mature
 		}
 		if(kills > 100)
 		{
-			float chance = rand.nextFloat()*100F;//Ancient 5%, Elder 80%
-			if(chance < 5F)return 4;
-			return 3;
+			if(rand.nextInt(100) == 0)return 4;//1% chance Ancient
+			if(rand.nextInt(2) == 0)return 3;//50% chance Elder
+			return 2;//Mature
 		}
 		
 		return 0;//Young 100%

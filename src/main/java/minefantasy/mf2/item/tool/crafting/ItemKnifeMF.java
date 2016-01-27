@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
@@ -43,10 +44,10 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 	/**
 	 * Knives are weapons used for hunting, and tools used for processing
 	 */
-    public ItemKnifeMF(String name, ToolMaterial material, int rarity, float weight)
+    public ItemKnifeMF(String name, ToolMaterial material, int rarity, float weight, int tier)
     {
     	super(material, name, rarity, weight);
-    	setCreativeTab(CreativeTabMF.tabCraftTool);
+    	this.tier = tier;
         setTextureName("minefantasy2:Tool/Crafting/"+name);
     }
     
@@ -60,18 +61,6 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 	public boolean canRetrieveDrops(ItemStack item) 
 	{
 		return true;
-	}
-	
-	@Override
-	public float getEfficiency(ItemStack item) 
-	{
-		return material.getEfficiencyOnProperMaterial();
-	}
-
-	@Override
-	public int getTier(ItemStack item) 
-	{
-		return tier;
 	}
 
 	@Override
@@ -107,10 +96,10 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
 
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemKnifeMF setCustom()
+	public ItemKnifeMF setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
 		return this;
 	}
@@ -119,7 +108,16 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
     	this.baseDamage = baseDamage;
     	return this;
     }
-	
+	@Override
+	public float getEfficiency(ItemStack item) 
+	{
+		return CustomToolHelper.getEfficiency(item, material.getEfficiencyOnProperMaterial(), efficiencyMod);
+	}
+	@Override
+	public int getTier(ItemStack item) 
+	{
+		return CustomToolHelper.getCrafterTier(item, tier);
+	}
 	
     private float efficiencyMod = 1.0F;
     public ItemKnifeMF setEfficiencyMod(float efficiencyMod)
@@ -226,8 +224,10 @@ public class ItemKnifeMF extends ItemWeaponMF implements IToolMF, IHuntingItem
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

@@ -17,7 +17,7 @@ public class BaseMaterialMF
 	public static HashMap<String, BaseMaterialMF> materialMap = new HashMap<String, BaseMaterialMF>();
 	public static BaseMaterialMF linen, wool, leatherapron, hide, rough, reinforced, padding, studded, scaled, dragonscale;//Cloth and leather
 	public static BaseMaterialMF stone, tin, pigiron, silver, gold, ornate, weakblacksteel, weakredsteel, weakbluesteel, tungsten;//Misc Mats
-	public static BaseMaterialMF copper, bronze, iron, steel, encrusted, blacksteel, bluesteel, redsteel, dragonforge, adamantium, mithril, ignotumite, mithium, enderforge;//Tiers
+	public static BaseMaterialMF copper, bronze, iron, steel, encrusted, blacksteel, bluesteel, redsteel,dragonforge, adamantium, mithril, ignotumite, mithium, enderforge;//Tiers
 	
 	public static BaseMaterialMF cogworks, compositeAlloy;//Engineer
 	/**
@@ -100,8 +100,6 @@ public class BaseMaterialMF
 		cogworks       = addArmourSpecificMaterial("Cogworks",          4, 500,  1.0F,    10,  1.00F, 85).setForgeStats(3, 3, 2.5F, 120, 250);
 		compositeAlloy = addArmourSpecificMaterial("CompositeAlloy",    4, 1800,  4.0F,   10,  2.00F, 85).setForgeStats(3, 3, 2.5F, 120, 250).setResistances(95F, 85F);
 		
-		MineFantasyAPI.addHeatableItems("ingotIron", iron.workableTemp, iron.unstableTemp, iron.unstableTemp*2);
-		MineFantasyAPI.addHeatableItems("ingotGold", gold.workableTemp, gold.unstableTemp, gold.unstableTemp*2);
 	}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CLASS START~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//

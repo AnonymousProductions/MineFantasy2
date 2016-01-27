@@ -61,6 +61,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	private int knockbackStrength;
 	public float velocityModifier = 1.0F;
 	public ArrowType arrowtype = ArrowType.NORMAL;
+	public float firepower = 1F;
 
 	public EntityArrowMF(World world) 
 	{
@@ -87,6 +88,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shooter;
 
+		this.firepower = power;
 		if (shooter instanceof EntityPlayer)
 		{
 			this.canBePickedUp = 1;
@@ -121,6 +123,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	public EntityArrowMF(World world, EntityLivingBase shooter, float spread, float power) 
 	{
 		super(world);
+		this.firepower = power/2F;
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shooter;
 
@@ -397,12 +400,12 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 				if (movingobjectposition.entityHit != null) 
 				{
 					f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ) / velocityModifier;
-                    int k = MathHelper.ceiling_double_int((double)f2 * (this.getDamageModifier()/3F));
+                   // int k = MathHelper.ceiling_double_int((double)f2 * (this.getHitDamage()/3F));
 					
-					float dam = k;//(getDamageModifier()*power) / 10F * (float)k;
+					float dam = Math.max(0.1F, this.getHitDamage() * firepower);//(getDamageModifier()*power) / 10F * (float)k;
 					
 					if(!worldObj.isRemote)
-						MFLogUtil.logDebug("Base MF Arrow Damage = " + dam + "force = " + f2);
+						MFLogUtil.logDebug("Base MF Arrow Damage = " + dam + "force = " + (int)(firepower*100F));
 					if (this.getIsCritical())
 					{
 						dam *= (rand.nextFloat()*0.5F)+1.0F;
@@ -633,6 +636,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) 
 	{
+		nbt.setFloat("firepower", firepower);
 		nbt.setBoolean("PlayedSound", playedSound);
 		nbt.setFloat("pierceChance", velocityModifier);
 		nbt.setShort("xTile", (short) this.xTile);
@@ -657,6 +661,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt)
 	{
+		firepower = nbt.getFloat("firepower");
 		playedSound = nbt.getBoolean("PlayedSound");
 		velocityModifier = nbt.getFloat("pierceChance");
 		this.xTile = nbt.getShort("xTile");
@@ -802,7 +807,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		return (b0 & 1) != 0;
 	}
 	
-	public float getDamageModifier()
+	public float getHitDamage()
 	{
 		float dam = 2.0F;
 		ItemStack arrowStack = getArrowStack();
@@ -815,6 +820,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		}
 		if(getEntityData().hasKey("MF_Bow_Damage"))
 		{
+			MFLogUtil.logDebug("Arrow DMG: " + dam + " + Bow DMG: " + getEntityData().getFloat("MF_Bow_Damage"));
 			dam += getEntityData().getFloat("MF_Bow_Damage");
 		}
 		return dam;
@@ -954,8 +960,6 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 
 	public void setPower(float f)
 	{
-		if(!worldObj.isRemote)
-			MFLogUtil.logDebug("Set Arrow Power: " + f);
 		power = f;
 	}
 	

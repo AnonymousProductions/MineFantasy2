@@ -1,5 +1,6 @@
 package minefantasy.mf2.api.material;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,6 +40,7 @@ public class CustomMaterial
 	
 	public int crafterTier = 0;
 	public int crafterAnvilTier = 0;
+	public float craftTimeModifier = 1.0F;
 	
 	public CustomMaterial(String name, String type, int tier, float hardness, float durability, float flexibility, float resistance, float sharpness, float density)
 	{
@@ -51,11 +53,17 @@ public class CustomMaterial
 		this.sharpness = sharpness;
 		this.density = density;
 		this.resistance = resistance;
+		this.craftTimeModifier = 2F + (sharpness * 2F);
 	}
 	public CustomMaterial setCrafterTiers(int tier)
 	{
 		this.crafterTier = tier;
 		this.crafterAnvilTier = Math.min(tier, 4);
+		return this;
+	}
+	public CustomMaterial modifyCraftTime(float time)
+	{
+		this.craftTimeModifier *= time;
 		return this;
 	}
 	public CustomMaterial setArmourStats(float cutting, float blunt, float piercing)
@@ -181,22 +189,60 @@ public class CustomMaterial
 	@SideOnly(Side.CLIENT)
 	public static String getWeightString(float mass) 
 	{
+		DecimalFormat df = decimal_format;
 		String s = "attribute.weightKg.name";
-		if(mass < 1.0F)
+		if(mass > 0 && mass < 1.0F)
 		{
 			s = "attribute.weightg.name";
+			df = decimal_format_grams;
 			mass = (int)(mass*1000F);
 		}
-		return StatCollector.translateToLocalFormatted(s, mass);
+		return StatCollector.translateToLocalFormatted(s, decimal_format.format(mass));
 	}
+	public static final DecimalFormat decimal_format = new DecimalFormat("#.#");
+	public static final DecimalFormat decimal_format_grams = new DecimalFormat("#");
 	@SideOnly(Side.CLIENT)
 	public String getMaterialString() 
 	{
-		return StatCollector.translateToLocalFormatted("materialtype."+this.type+".name", this.tier);
+		return StatCollector.translateToLocalFormatted("materialtype."+this.type+".name", this.crafterTier);
 	}
 	
 	public float getArmourProtection(int id)
 	{
 		return armourProtection[id];
 	}
+	
+	public ItemStack getItem()
+	{
+		return null;
+	}
+	public CustomMaterial setMeltingPoint(float heat)
+	{
+		meltingPoint = heat;
+		return this;
+	}
+	public float getFireResistance()
+	{
+		if(meltingPoint > flameResistArray[0])
+		{
+			float max = flameResistArray[1] - flameResistArray[0];
+			float heat = meltingPoint - flameResistArray[0];
+			
+			int res = (int)(heat / max * 100F);
+			return Math.min(100, res);
+		}
+		return 0F;
+	}
+	public float meltingPoint;
+	public int[] getHeatableStats()
+	{
+		int workableTemp = (int) meltingPoint;
+		int unstableTemp = (int) (workableTemp * 1.5F);
+		int maxTemp = (int) (workableTemp * 2F);
+		return new int[]{workableTemp, unstableTemp, maxTemp};
+	}
+	/**
+	 * Min and Max workable temps
+	 */
+	public static final int[] flameResistArray = new int[]{100, 300};
 }

@@ -30,6 +30,7 @@ public class Shockwave
     public boolean isFlaming;
     /** whether or not this explosion spawns smoke particles */
     public boolean isSmoking = true;
+    public boolean isGriefing = true;
     private int maxRange = 16;
     private Random explosionRNG = new Random();
     private World worldObj;
@@ -213,7 +214,7 @@ public class Shockwave
                     this.worldObj.spawnParticle("smoke", d0, d1, d2, d3, d4, d5);
                 }
 
-                if (block.getMaterial() != Material.air)
+                if (isGriefing && block.getMaterial() == Material.glass)
                 {
                 	this.worldObj.setBlockToAir(i, j, k);
                 	this.worldObj.playSoundEffect(i, j, k, "break.glass", 1.0F, 0.75F+(explosionRNG.nextFloat()*0.5F));

@@ -184,8 +184,21 @@ public class RenderCrossbow implements IItemRenderer
         	
         	if(loaded != null)
         	{
-        		IIcon bolt = loaded.getIconIndex();
-                renderIcon(mc, item, tessellator, bolt, ammoSize);
+        		for(int layer = 0; layer < loaded.getItem().getRenderPasses(loaded.getItemDamage()); layer ++)
+        		{
+        			GL11.glPushMatrix();
+	        		IIcon bolt = loaded.getItem().getIcon(loaded, layer);
+	        		
+	        		int colour = loaded.getItem().getColorFromItemStack(loaded, layer);
+                    float red = (float)(colour >> 16 & 255) / 255.0F;
+                    float green = (float)(colour >> 8 & 255) / 255.0F;
+                    float blue = (float)(colour & 255) / 255.0F;
+                    
+                    GL11.glColor4f(red, green, blue, 1.0F);
+                    
+	                renderIcon(mc, item, tessellator, bolt, ammoSize);
+	                GL11.glPopMatrix();
+        		}
         	}
         	GL11.glPopMatrix();
         }

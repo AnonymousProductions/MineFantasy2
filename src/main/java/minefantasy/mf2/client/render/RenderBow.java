@@ -58,6 +58,8 @@ public class RenderBow implements IItemRenderer
 	            case EQUIPPED:
 	                renderEquippedBow(item, (EntityLivingBase) data[1], false);
 	                break;
+				default:
+					break;
 	        }
     	}
     }
@@ -74,8 +76,6 @@ public class RenderBow implements IItemRenderer
     		GL11.glTranslatef(0.2F, -0.25F, 0F);
     	}
     	
-        IIcon icon = item.getIconIndex();
-
         ItemBowMF bow = null;
         if(item != null && item.getItem() instanceof ItemBowMF)
         {
@@ -113,13 +113,6 @@ public class RenderBow implements IItemRenderer
                 arrowStack = ((IArrowContainer2)quiver.getItem()).getStackInSlot(quiver, ((IArrowContainer2)quiver.getItem()).getSelectedSlot(quiver));
             }
             
-            if(drawAmount >= 0)
-            {
-            	if(bow != null)
-            	{
-            		icon = bow.getIconIndex(item, timer);
-            	}
-            }
             if(timer == 0)
             {
             	arrowStack = null;
@@ -142,8 +135,27 @@ public class RenderBow implements IItemRenderer
     			GL11.glTranslatef((0F/16F), -(4F/16F), 0F);
     		}
     	}
-        ItemRenderer.renderItemIn2D(tessellator, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
-        
+        for(int layer = 0; layer < item.getItem().getRenderPasses(item.getItemDamage()); layer ++)
+        {
+        	IIcon icon = item.getItem().getIcon(item, layer);
+        	
+        	if(bow != null)
+        	{
+        		icon = bow.getIcon(item, layer, drawAmount);
+        	}
+        	
+        	GL11.glPushMatrix();
+        	int colour = item.getItem().getColorFromItemStack(item, layer);
+            float red = (float)(colour >> 16 & 255) / 255.0F;
+            float green = (float)(colour >> 8 & 255) / 255.0F;
+            float blue = (float)(colour & 255) / 255.0F;
+            
+            GL11.glColor4f(red, green, blue, 1.0F);
+        	
+        	ItemRenderer.renderItemIn2D(tessellator, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+        	GL11.glColor3f(1F, 1F, 1F);
+        	GL11.glPopMatrix();
+        }
         GL11.glPopMatrix();
         
         if(arrowStack == null && drawAmount > -2)
@@ -160,12 +172,24 @@ public class RenderBow implements IItemRenderer
         		x += 1;
         		y += 1;
         	}
-            icon = arrowStack.getIconIndex();
-            GL11.glPushMatrix();
-            GL11.glTranslatef(-(x+drawAmount)/16F, -(y+drawAmount)/16F, firstPerson?-0.5F/16F:0.5F/16F);
-            GL11.glRotatef(-90, 0, 0, 1);
-            ItemRenderer.renderItemIn2D(tessellator, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
-            GL11.glPopMatrix();
+        	for(int layer = 0; layer < arrowStack.getItem().getRenderPasses(arrowStack.getItemDamage()); layer++)
+        	{
+	            IIcon icon = arrowStack.getItem().getIcon(arrowStack, layer);
+	            GL11.glPushMatrix();
+	            
+	            int colour = arrowStack.getItem().getColorFromItemStack(arrowStack, layer);
+                float red = (float)(colour >> 16 & 255) / 255.0F;
+                float green = (float)(colour >> 8 & 255) / 255.0F;
+                float blue = (float)(colour & 255) / 255.0F;
+                
+                GL11.glColor4f(red, green, blue, 1.0F);
+                
+	            GL11.glTranslatef(-(x+drawAmount)/16F, -(y+drawAmount)/16F, firstPerson?-0.5F/16F:0.5F/16F);
+	            GL11.glRotatef(-90, 0, 0, 1);
+	            ItemRenderer.renderItemIn2D(tessellator, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+	            GL11.glColor3f(1F, 1F, 1F);
+	            GL11.glPopMatrix();
+        	}
         }
         
         if(item.isItemEnchanted())

@@ -48,7 +48,7 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
         this.tier = tier;
         itemRarity = rarity;
         toolMaterial = material;
-        setCreativeTab(CreativeTabMF.tabTool);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         this.setMaxDamage(material.getMaxUses());
         setTextureName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
@@ -57,10 +57,10 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
     
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemShearsMF setCustom()
+	public ItemShearsMF setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
 		return this;
 	}
@@ -137,8 +137,10 @@ public class ItemShearsMF extends ItemShears implements IToolMaterial, IToolMF
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

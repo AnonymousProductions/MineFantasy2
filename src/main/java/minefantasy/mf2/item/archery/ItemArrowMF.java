@@ -1,30 +1,36 @@
 package minefantasy.mf2.item.archery;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.archery.AmmoMechanicsMF;
 import minefantasy.mf2.api.archery.IAmmo;
 import minefantasy.mf2.api.archery.IArrowMF;
-import minefantasy.mf2.api.archery.IDisplayMFAmmo;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.mechanics.MFArrowDispenser;
+import minefantasy.mf2.util.MFLogUtil;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import net.minecraft.block.BlockDispenser;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 /**
  * @author Anonymous Productions
  */
@@ -36,6 +42,11 @@ public class ItemArrowMF extends Item implements IArrowMF, IAmmo
 	private ToolMaterial arrowMat;
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
 	public static final MFArrowDispenser dispenser = new MFArrowDispenser();
+	
+	public ItemArrowMF(String name, ArrowType type)
+	{
+		this(name, 0, ToolMaterial.WOOD, type);
+	}
 	public ItemArrowMF(String name)
 	{
 		this(name, 0, ToolMaterial.WOOD);
@@ -61,7 +72,7 @@ public class ItemArrowMF extends Item implements IArrowMF, IAmmo
 		}
 		itemRarity = rarity;
 		setTextureName("minefantasy2:Ammo/"+name);
-		setCreativeTab(CreativeTabMF.tabArcher);
+		setCreativeTab(CreativeTabMF.tabOldTools);
 		GameRegistry.registerItem(this, "MF_Com_"+name, MineFantasyII.MODID);
 		
 		AmmoMechanicsMF.addArrow(new ItemStack(this));
@@ -84,18 +95,6 @@ public class ItemArrowMF extends Item implements IArrowMF, IAmmo
 		}
 		return name;
 	}
-	@Override
-	public String getItemStackDisplayName(ItemStack item)
-    {
-        String name = ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(item) + ".name")).trim();
-        
-        if(design != ArrowType.NORMAL && design != ArrowType.EXPLOSIVE && design != ArrowType.BOLT && design != ArrowType.EXPLOSIVEBOLT)
-        {
-        	name += " (" +  StatCollector.translateToLocal("arrow.head."+ design.name.toLowerCase() +".name") + ")";
-        }
-        
-        return name;
-    }
 	
 	private String getName(String mat, ArrowType type) 
 	{
@@ -118,67 +117,11 @@ public class ItemArrowMF extends Item implements IArrowMF, IAmmo
 		return mat + "_arrow_" + type.name.toLowerCase();
 	}
 
-	private int itemRarity;
-    @Override
-	public EnumRarity getRarity(ItemStack item)
-	{
-		int lvl = itemRarity;
-		
-		EnumRarity[] rarity = new EnumRarity[]{EnumRarity.common, EnumRarity.uncommon, EnumRarity.rare, EnumRarity.epic};
-		if(item.isItemEnchanted())
-		{
-			if(lvl == 0)
-			{
-				lvl++;
-			}
-			lvl ++;
-		}
-		if(lvl >= rarity.length)
-		{
-			lvl = rarity.length-1;
-		}
-		return rarity[lvl];
-	}
-    
-    @Override
-    public void getSubItems(Item item, CreativeTabs tab, List list)
-    {
-    }
-    
-    @Override
-    public void addInformation(ItemStack item, EntityPlayer player, List desc, boolean flag) 
-    {
-    	//desc.add(StatCollector.translateToLocal("arrow.head."+ design.name.toLowerCase() +".name"));
-		super.addInformation(item, player, desc, flag);
-		desc.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("attribute.arrowPower.name") + ": " + decimal_format.format(damage));
-        
-    }
-    
     public EntityArrowMF getFiredArrow(EntityArrowMF instance, ItemStack arrow)
     {
     	instance.modifyVelocity(design.velocity);
     	return instance.setArrow(arrow).setArrowTex(arrowName);
     }
-	@Override
-	public float getDamageModifier(ItemStack arrow)
-	{
-		return damage;
-	}
-	@Override
-	public float getGravityModifier(ItemStack arrow)
-	{
-		return 1.0F * design.weightModifier;
-	}
-	@Override
-	public float getBreakChance(Entity entityArrow, ItemStack arrow)
-	{
-		if(arrowMat == BaseMaterialMF.getMaterial("ignotumite").getToolConversion() || arrowMat == BaseMaterialMF.getMaterial("mithium").getToolConversion() || arrowMat == BaseMaterialMF.getMaterial("ender").getToolConversion())
-		{
-			return 0F;
-		}
-		
-		return 1F / (arrowMat.getMaxUses()/150);
-	}
 	@Override
 	public void onHitEntity(Entity arrowInstance, Entity shooter, Entity hit, float damage) 
 	{
@@ -198,4 +141,127 @@ public class ItemArrowMF extends Item implements IArrowMF, IAmmo
 	{
 		return ammoType;
 	}
+	
+	//===================================================== CUSTOM START =============================================================\\
+	private boolean isCustom = false;
+	public ItemArrowMF setCustom(String designType)
+	{
+		canRepair = false;
+		setTextureName("minefantasy2:custom/ammo/"+designType+"/"+arrowName);
+		isCustom = true;
+		return this;
+	}
+	
+	@Override
+	public float getDamageModifier(ItemStack arrow)
+	{
+		return CustomToolHelper.getBowDamage(arrow, damage) * design.damageModifier;
+	}
+	@Override
+	public float getGravityModifier(ItemStack arrow)
+	{
+		float weight = 1.0F * design.weightModifier;
+		return CustomToolHelper.getWeightModifier(arrow, weight);
+	}
+	
+	protected int itemRarity;
+    @Override
+	public EnumRarity getRarity(ItemStack item)
+	{
+    	return CustomToolHelper.getRarity(item, itemRarity);
+	}
+    @SideOnly(Side.CLIENT)
+    private IIcon detailTex = null;
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
+    {
+    	if(isCustom)
+    	{
+    		detailTex = reg.registerIcon(this.getIconString()+"_detail");
+    	}
+    	super.registerIcons(reg);
+    }
+    
+    @Override
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+    	if(isCustom && pass > 0 && detailTex != null)
+    	{
+    		return detailTex;
+    	}
+        return super.getIcon(stack, pass);
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack item, int layer)
+    {
+    	int c = CustomToolHelper.getColourFromItemStack(item, layer, super.getColorFromItemStack(item, layer));
+    	
+    	return c;
+    }
+    
+    public ItemStack construct(String main)
+	{
+		return CustomToolHelper.construct(this, main);
+	}
+    
+    @Override
+    public void getSubItems(Item item, CreativeTabs tab, List list)
+    {
+    	if(isCustom)
+    	{
+    		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
+    		Iterator iteratorMetal = metal.iterator();
+    		while(iteratorMetal.hasNext())
+        	{
+    			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
+        	}
+    	}
+    }
+    
+    @Override
+    public void addInformation(ItemStack item, EntityPlayer user, List list, boolean extra) 
+    {
+    	if(isCustom)
+        {
+        	CustomToolHelper.addInformation(item, list);
+        }
+        super.addInformation(item, user, list, extra);
+        list.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("attribute.arrowPower.name") + ": " + decimal_format.format(getDamageModifier(item)));
+    }
+    
+    @Override
+	public String getItemStackDisplayName(ItemStack item)
+    {
+        String name = ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(item) + ".name")).trim();
+        
+        if(isCustom)
+        name = CustomToolHelper.getLocalisedName(item, name);
+        
+        if(design != ArrowType.NORMAL && design != ArrowType.EXPLOSIVE && design != ArrowType.BOLT && design != ArrowType.EXPLOSIVEBOLT)
+        {
+        	name += " (" +  StatCollector.translateToLocal("arrow.head."+ design.name.toLowerCase() +".name") + ")";
+        }
+        
+        return name;
+    }
+    @Override
+	public float getBreakChance(Entity entityArrow, ItemStack arrow)
+	{
+    	int maxUses = CustomToolHelper.getMaxDamage(arrow, arrowMat.getMaxUses());
+		return 1F / (maxUses/150);
+	}
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return isCustom;
+    }
+	//====================================================== CUSTOM END ==============================================================\\
 }

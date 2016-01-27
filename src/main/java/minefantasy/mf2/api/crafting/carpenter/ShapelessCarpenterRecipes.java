@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -87,7 +88,10 @@ public class ShapelessCarpenterRecipes implements ICarpenterRecipe
                         {
                         	return false;
                         }
-                        
+                        if(!CustomToolHelper.doesMatchForRecipe(recipeItem, inputItem))
+                        {
+                        	return false;
+                        }
                         if (inputItem.getItem() == recipeItem.getItem() && (recipeItem.getItemDamage() == OreDictionary.WILDCARD_VALUE || inputItem.getItemDamage() == recipeItem.getItemDamage()))
                         {
                             var6 = true;

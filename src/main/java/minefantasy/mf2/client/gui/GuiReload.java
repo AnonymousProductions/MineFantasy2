@@ -29,6 +29,12 @@ public class GuiReload extends GuiContainer
     protected void drawGuiContainerForegroundLayer(int x, int y)
     {
     }
+    
+    @Override
+    protected boolean checkHotbarKeys(int id)
+    {
+    	return false;
+    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int x, int y)

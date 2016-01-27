@@ -56,7 +56,7 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
     	this.setFull3D();
         itemRarity = rarity;
         this.name=name;
-        setCreativeTab(CreativeTabMF.tabToolAdvanced);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         setTextureName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
@@ -217,10 +217,10 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
 	
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemScythe setCustom()
+	public ItemScythe setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
 		return this;
 	}
@@ -326,8 +326,10 @@ public class ItemScythe extends Item implements IToolMaterial, IDamageType
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

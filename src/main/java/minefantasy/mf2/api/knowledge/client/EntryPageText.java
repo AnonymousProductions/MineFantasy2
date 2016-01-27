@@ -13,15 +13,25 @@ public class EntryPageText extends EntryPage
 {
 	private Minecraft mc = Minecraft.getMinecraft();
 	private String paragraph;
+	private Object[] additional;
 	
+	public EntryPageText(String paragraph, Object...additional)
+	{	
+		this(paragraph);
+		this.additional = additional;
+	}
 	public EntryPageText(String paragraph)
 	{
 		this.paragraph = paragraph;
 	}
 	@Override
-	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 		String local = StatCollector.translateToLocal(paragraph);
+		if(additional != null && additional.length > 0)
+		{
+			local = StatCollector.translateToLocalFormatted(paragraph, additional);
+		}
 		String text = "";
 		String temp = "";
 		boolean prefix = false;
@@ -79,7 +89,7 @@ public class EntryPageText extends EntryPage
 		mc.fontRenderer.drawSplitString(text, posX+14, posY+15, 117, 0);
 	}
 	@Override
-	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 	}
 }

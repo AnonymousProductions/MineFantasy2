@@ -9,13 +9,16 @@ import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.InformationPage;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.CustomToolListMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.material.MetalMaterial;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -57,7 +60,7 @@ public class KnowledgeListMF
     	tanning = (new InformationBase("tanning", 					0, -2 ,0, Items.leather, (InformationBase)null)).registerStat().setUnlocked().setSpecial();
     	commodities = (new InformationBase("commodities",				-1 ,-2 ,0, ComponentListMF.plank, (InformationBase)null)).registerStat().setUnlocked();
     	dust = (new InformationBase("dust",								-1 ,-3 ,0, ComponentListMF.clay_pot, commodities)).registerStat().setUnlocked();
-    	craftCrafters = (new InformationBase("craftCrafters", 		-1, 1, 0, ToolListMF.hammers[3], (InformationBase)null)).registerStat().setUnlocked();
+    	craftCrafters = (new InformationBase("craftCrafters", 		-1, 1, 0, CustomToolListMF.standard_hammer, (InformationBase)null)).registerStat().setUnlocked();
     	stamina = (new InformationBase("stamina", 					-3, 1, 0, Items.feather, craftCrafters)).registerStat().setUnlocked();
     	combat = (new InformationBase("combat", 						-5, 2, 0, Items.iron_sword, stamina)).registerStat().setUnlocked();
     	craftArmourBasic = (new InformationBase("craftArmourBasic",   -5, 0, 5, ArmourListMF.armour(ArmourListMF.leather, 0, 1), combat)).registerStat().setUnlocked();
@@ -66,24 +69,25 @@ public class KnowledgeListMF
     	bloomery = (new InformationBase("bloomery", 				4, -2, 5, BlockListMF.bloomery, crucible)).registerStat().setPage(artisanry).setUnlocked().setSpecial();
     	crucible = (new InformationBase("crucible", 				4, 0,  5, BlockListMF.crucible, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked().setSpecial();
     	crucible2 = (new InformationBase("crucible2",  				6, 0, 10, BlockListMF.crucibleadv_active, crucible)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 40);
-    	smeltCopper = (new InformationBase("smeltCopper",  			1, 0, 0, ComponentListMF.ingots[0], (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
-    	smeltBronze = (new InformationBase("smeltBronze",  			1, 2,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 5);
-        smeltIron = (new InformationBase("smeltIron",  			    1, 4,  5, Items.iron_ingot, smeltBronze)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 10);
+    	
+    	smeltCopper = (new InformationBase("smeltCopper",  			1, 0, 0, ComponentListMF.ingots[0], (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked().setDescriptValues(getMetalTier("copper"));
+    	smeltBronze = (new InformationBase("smeltBronze",  			1, 2,  5, ComponentListMF.ingots[2], crucible)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 5).setDescriptValues(getMetalTier("bronze"));
+        smeltIron = (new InformationBase("smeltIron",  			    1, 4,  5, Items.iron_ingot, smeltBronze)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 10).setDescriptValues(getMetalTier("iron"));
         blastfurn = (new InformationBase("blastfurn",  				2, 5, 15, BlockListMF.blast_heater_active, smeltIron)).registerStat().setPage(artisanry).setSpecial().addSkill(SkillList.artisanry, 25);
         smeltPig = (new InformationBase("smeltPig",  					3, 3, 0, ComponentListMF.ingots[3], blastfurn)).registerStat().setPage(artisanry).setUnlocked().addSkill(SkillList.artisanry, 25);
-        smeltSteel = (new InformationBase("smeltSteel",  				4, 5, 0, ComponentListMF.ingots[4], smeltPig)).registerStat().setPage(artisanry).setUnlocked().addSkill(SkillList.artisanry, 25);
-        encrusted = (new InformationBase("smeltEncrusted",  			6, 5, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 35);
-        smeltBlackSteel = (new InformationBase("smeltBlackSteel",		4, 7, 10, ComponentListMF.ingots[7], smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 50);
-        smeltDragonforge = (new InformationBase("smeltDragonforge",	6, 7, 15, ToolListMF.swords[7], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 60);
-        smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 10, ComponentListMF.ingots[10], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 65);
-        smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		5, 9, 10, ComponentListMF.ingots[12], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 65);
-        smeltMithril = (new InformationBase("smeltMithril", 			5, 11, 30, ComponentListMF.ingots[14], smeltBlueSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 75);
-        smeltAdamant = (new InformationBase("smeltAdamantium", 		3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 75);
+        smeltSteel = (new InformationBase("smeltSteel",  				4, 5, 0, ComponentListMF.ingots[4], smeltPig)).registerStat().setPage(artisanry).setUnlocked().addSkill(SkillList.artisanry, 25).setDescriptValues(getMetalTier("Steel"));
+        encrusted = (new InformationBase("smeltEncrusted",  			6, 5, 10, ComponentListMF.diamond_shards, smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 35).setDescriptValues(getMetalTier("encrusted"));
+        smeltBlackSteel = (new InformationBase("smeltBlackSteel",		4, 7, 10, ComponentListMF.ingots[7], smeltSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 50).setDescriptValues(getMetalTier("blacksteel"));
+        smeltDragonforge = (new InformationBase("smeltDragonforge",	6, 7, 15, ComponentListMF.dragon_heart, smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 60).setDescriptValues(getMetalTier("blacksteel"));
+        smeltRedSteel = (new InformationBase("smeltRedSteel", 		3, 9, 10, ComponentListMF.ingots[10], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 65).setDescriptValues(getMetalTier("redsteel"));
+        smeltBlueSteel = (new InformationBase("smeltBlueSteel", 		5, 9, 10, ComponentListMF.ingots[12], smeltBlackSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 65).setDescriptValues(getMetalTier("bluesteel"));
+        smeltMithril = (new InformationBase("smeltMithril", 			5, 11, 30, ComponentListMF.ingots[14], smeltBlueSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 75).setDescriptValues(getMetalTier("mithril"));
+        smeltAdamant = (new InformationBase("smeltAdamantium", 		3, 11, 30, ComponentListMF.ingots[13], smeltRedSteel)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 75).setDescriptValues(getMetalTier("adamantium"));
         
         smeltMaster = (new InformationBase("smeltMaster", 			4, 13, 50,  BlockListMF.oreMythic, (InformationBase)null)).registerStat().setPage(artisanry).setSpecial().addSkill(SkillList.artisanry, 100);
-        smeltIgnotumite = (new InformationBase("smeltIgnotumite", 	2, 15, 100, ComponentListMF.ingots[15], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100);
-        smeltMithium = (new InformationBase("smeltMithium", 			6, 15, 100, ComponentListMF.ingots[16], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100);
-        smeltEnderforge = (new InformationBase("smeltEnder", 	4, 16, 100, ComponentListMF.ingots[17], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100);
+        smeltIgnotumite = (new InformationBase("smeltIgnotumite", 	2, 15, 100, ComponentListMF.ingots[15], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100).setDescriptValues(getMetalTier("ignotumite"));
+        smeltMithium = (new InformationBase("smeltMithium", 			6, 15, 100, ComponentListMF.ingots[16], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100).setDescriptValues(getMetalTier("mithium"));
+        smeltEnderforge = (new InformationBase("smeltEnder", 	4, 16, 100, ComponentListMF.ingots[17], smeltMaster)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 100).setDescriptValues(getMetalTier("ender"));
         
         craftHCCTools = (new InformationBase("craftHCCTools", 		-1, -2, 0, ToolListMF.pickStone, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
         bellows = (new InformationBase("bellows", 					 0, -1,0, BlockListMF.bellows, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
@@ -91,19 +95,19 @@ public class KnowledgeListMF
         forge = (new InformationBase("forge", 						 0, 0, 0, BlockListMF.forge, (InformationBase)null)).registerStat().setPage(artisanry).setUnlocked();
         anvil = (new InformationBase("anvil", 						-1, 0, 0, BlockListMF.anvil[1], forge)).registerStat().setPage(artisanry).setUnlocked().setSpecial();
         apron = (new InformationBase("apron", 						-1, -1, 0, ArmourListMF.leatherapron, anvil)).registerStat().setPage(artisanry).setUnlocked();
-        craftTools = (new InformationBase("craftTools", 				-3, 2, 0, ToolListMF.picks[3], anvil)).registerStat().setPage(artisanry).setUnlocked();
-        craftAdvTools = (new InformationBase("craftAdvTools", 		-5, 2, 0, ToolListMF.hvypicks[2], craftTools)).registerStat().setPage(artisanry).setUnlocked();
-        craftWeapons = (new InformationBase("craftWeapons", 			-3, 1, 5, ToolListMF.swords[4], anvil)).registerStat().setPage(artisanry).setUnlocked();
-        craftAdvWeapons = (new InformationBase("craftAdvWeapons",     -5, 1, 0, ToolListMF.battleaxes[3], craftWeapons)).registerStat().setPage(artisanry).setUnlocked();
-        arrows = (new InformationBase("arrows", 		  		   		 -3, 4, 0, ToolListMF.arrows[4], anvil)).registerStat().setPage(artisanry).setUnlocked();
+        craftTools = (new InformationBase("craftTools", 				-3, 2, 0, CustomToolListMF.standard_pick, anvil)).registerStat().setPage(artisanry).setUnlocked();
+        craftAdvTools = (new InformationBase("craftAdvTools", 		-5, 2, 0, CustomToolListMF.standard_hvypick, craftTools)).registerStat().setPage(artisanry).setUnlocked();
+        craftWeapons = (new InformationBase("craftWeapons", 			-3, 1, 5, CustomToolListMF.standard_sword, anvil)).registerStat().setPage(artisanry).setUnlocked();
+        craftAdvWeapons = (new InformationBase("craftAdvWeapons",     -5, 1, 0, CustomToolListMF.standard_battleaxe, craftWeapons)).registerStat().setPage(artisanry).setUnlocked();
+        arrows = (new InformationBase("arrows", 		  		   		 -3, 4, 0, CustomToolListMF.standard_arrow, anvil)).registerStat().setPage(artisanry).setUnlocked();
         
-        craftOrnateWeapons = (new InformationBase("craftOrnateWeapons",  			-3, -1, 10, ToolListMF.swords[3], craftWeapons)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 25);
-        craftAdvOrnateWeapons = (new InformationBase("craftAdvOrnateWeapons", 	-5, -1, 15, ToolListMF.battleaxes[2], craftOrnateWeapons)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 30);
+        craftOrnateWeapons = (new InformationBase("craftOrnateWeapons",  			-3, -1, 10, CustomToolListMF.dragonforged_sword, craftWeapons)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 25);
+        craftAdvOrnateWeapons = (new InformationBase("craftAdvOrnateWeapons", 	-5, -1, 15, CustomToolListMF.dragonforged_battleaxe, craftOrnateWeapons)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 30);
         craftArmourLight = (new InformationBase("craftArmourLight", 			-3, 3, 5, ArmourListMF.armour(ArmourListMF.leather, 3, 1), anvil)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 0);
         craftArmourMedium = (new InformationBase("craftArmourMedium", 		-4, 3, 10, ArmourListMF.armour(ArmourListMF.chainmail, 3, 1), craftArmourLight)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 0);
         craftArmourHeavy = (new InformationBase("craftArmourHeavy",       	-5, 3, 10, ArmourListMF.armour(ArmourListMF.fieldplate, 3, 1), craftArmourMedium)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 10);
-        arrowsBodkin = (new InformationBase("arrowsBodkin", 		  	 -4, 5, 10, ToolListMF.bodkinArrows[3], arrows)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 10);
-        arrowsBroad = (new InformationBase("arrowsBroad", 		  	 -5, 5, 10, ToolListMF.broadArrows[3], arrows)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 20);
+        arrowsBodkin = (new InformationBase("arrowsBodkin", 		  	 -4, 5, 10, CustomToolListMF.standard_arrow_bodkin, arrows)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 10);
+        arrowsBroad = (new InformationBase("arrowsBroad", 		  	 -5, 5, 10, CustomToolListMF.standard_arrow_broad, arrows)).registerStat().setPage(artisanry).addSkill(SkillList.artisanry, 20);
         
         //ENGINEERING - Highly Expensive
         etools = (new InformationBase("etools", 					    3, 0, 0, ToolListMF.spanner, (InformationBase)null)).registerStat().setPage(engineering).setUnlocked();
@@ -200,8 +204,8 @@ public class KnowledgeListMF
         fitness = (new InformationBase("fitness",	     1, 0,  30, ComponentListMF.dragon_heart, (InformationBase)null)).registerStat().setPage(mastery).addSkill(SkillList.combat, 20).setPerk();
         armourpro = (new InformationBase("armourpro",	 2, -1, 50, Items.diamond_chestplate, fitness)).registerStat().setPage(mastery).addSkill(SkillList.combat, 60).setPerk();
         parrypro = (new InformationBase("parrypro",	 	-2, -1, 50, Items.iron_sword, toughness)).registerStat().setPage(mastery).addSkill(SkillList.combat, 20).setPerk();
-        counteratt = (new InformationBase("counteratt",	-1, -2, 50, ToolListMF.waraxes[7], parrypro)).registerStat().setPage(mastery).addSkill(SkillList.combat, 25).setPerk();
-        autoparry = (new InformationBase("autoparry",   -3, -2, 60, ToolListMF.daggers[5], parrypro)).registerStat().setPage(mastery).addSkill(SkillList.combat, 50).setPerk();
+        counteratt = (new InformationBase("counteratt",	-1, -2, 50, CustomToolListMF.standard_waraxe, parrypro)).registerStat().setPage(mastery).addSkill(SkillList.combat, 25).setPerk();
+        autoparry = (new InformationBase("autoparry",   -3, -2, 60, CustomToolListMF.standard_sword, parrypro)).registerStat().setPage(mastery).addSkill(SkillList.combat, 50).setPerk();
         firstaid = (new InformationBase("firstaid",   	 0, 1, 30, ToolListMF.bandage_wool, (InformationBase)null)).registerStat().setPage(mastery).addSkill(SkillList.provisioning, 25).setPerk();
         doctor = (new InformationBase("doctor",          0, 3, 60, ToolListMF.syringe, firstaid)).registerStat().setPage(mastery).addSkill(SkillList.provisioning, 50).setPerk();
         scrapper = (new InformationBase("scrapper",   	 0,-1, 30, BlockListMF.salvage_basic, (InformationBase)null)).registerStat().setPage(mastery).addSkill(SkillList.artisanry, 35).setPerk();
@@ -209,7 +213,14 @@ public class KnowledgeListMF
         dwarvernKnowledge = (new InformationBase("dwarvernKnowledge",   	 0, 0, 0, ToolListMF.skillbook_dwarvern, (InformationBase)null)).registerStat().setPage(dwarvern).setPerk();
         gnomishKnowledge = (new InformationBase("gnomishKnowledge",   	     0, 0, 0, ToolListMF.skillbook_gnomish, (InformationBase)null)).registerStat().setPage(gnomish).setPerk();
 	}
-    public static IRecipe hideHelmR, hideChestR, hideLegsR, hideBootsR;
+    private static Object getMetalTier(String string) 
+    {
+    	CustomMaterial mat = MetalMaterial.getMaterial(string);
+    	if(mat != null)return mat.crafterTier;
+    	
+		return "?";
+	}
+	public static IRecipe hideHelmR, hideChestR, hideLegsR, hideBootsR;
     public static final ArrayList<IAnvilRecipe> hunkR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> ingotR = new ArrayList<IAnvilRecipe>();
     
@@ -234,15 +245,26 @@ public class KnowledgeListMF
     public static IRecipe fireclayR, fireBrickR, fireBricksR;
     public static ICarpenterRecipe nailPlanksR, nailStairR, refinedStairR, strongRackR, woodTroughRecipe, rockTroughRecipe, strongwoodTroughRecipe, bellowsRecipe, bloomeryR, crucibleRecipe, advCrucibleRecipe, chimneyRecipe, wideChimneyRecipe, extractChimneyRecipe;
     
-    public static IAnvilRecipe haftGold, haftSilver, haftObsidian, mailIgno, plateIgno, mailMithi, plateMithi, mailEnder, plateEnder;
-    
     public static ICarpenterRecipe roughHelmetR, roughChestR, roughLegsR, roughBootsR, reHelmetR, reChestR, reLegsR, reBootsR;
-    public static IAnvilRecipe studHelmetR, studChestR, studLegsR, studBootsR, scaleHelmR, scaleChestR, scaleLegsR, scaleBootsR;
+    public static IAnvilRecipe studHelmetR, studChestR, studLegsR, studBootsR;
     public static final ArrayList<IAnvilRecipe> mailRecipes = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> mailHelmetR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> mailChestR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> mailLegsR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> mailBootsR = new ArrayList<IAnvilRecipe>();
+    
+    public static final ArrayList<IAnvilRecipe> scaleRecipes = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> scaleHelmetR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> scaleChestR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> scaleLegsR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> scaleBootsR = new ArrayList<IAnvilRecipe>();
+    
+    public static final ArrayList<IAnvilRecipe> splintRecipes = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> splintHelmetR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> splintChestR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> splintLegsR = new ArrayList<IAnvilRecipe>();
+    public static final ArrayList<IAnvilRecipe> splintBootsR = new ArrayList<IAnvilRecipe>();
+    
     public static final ArrayList<IAnvilRecipe> plateRecipes = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> plateHelmetR = new ArrayList<IAnvilRecipe>();
     public static final ArrayList<IAnvilRecipe> plateChestR = new ArrayList<IAnvilRecipe>();

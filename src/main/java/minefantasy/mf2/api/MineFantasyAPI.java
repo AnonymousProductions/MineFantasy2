@@ -1,15 +1,10 @@
 package minefantasy.mf2.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.Lists;
-
-import cpw.mods.fml.common.IFuelHandler;
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
@@ -18,7 +13,6 @@ import minefantasy.mf2.api.crafting.engineer.ICrossbowPart;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
 import minefantasy.mf2.api.heating.Heatable;
-import minefantasy.mf2.api.knowledge.KnowledgeType;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
@@ -30,8 +24,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
+
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.common.IFuelHandler;
 
 public class MineFantasyAPI 
 {
@@ -372,12 +369,9 @@ public class MineFantasyAPI
 	/**
 	 * Adds a fuel for forges
 	 * 
-	 * @param item
-	 *            the item to be used
-	 * @param dura
-	 *            the amount of ticks said item gives
-	 * @param temperature
-	 *            the base temperature given
+	 * @param item the item to be used
+	 * @param dura the amount of ticks said item gives
+	 * @param temperature the base temperature given
 	 */
 	public static void addForgeFuel(Item id, float dura, int temperature) {
 		addForgeFuel(id, dura, temperature, false);
@@ -386,14 +380,12 @@ public class MineFantasyAPI
 	/**
 	 * Allows an item to be heated
 	 * 
-	 * @param item
-	 *            the item to heat
-	 * @param min
-	 *            the minimum heat to forge with(celcius)
-	 * @param max
-	 *            the maximum heat until the item is ruined(celcius)
+	 * @param item the item to heat
+	 * @param min the minimum heat to forge with(celcius)
+	 * @param max the maximum heat until the item is ruined(celcius)
+	 * @param unstable when the ingot is unstable(celcius)
 	 */
-	public static void addHeatableItem(ItemStack item, int min, int unstable, int max) 
+	public static void setHeatableStats(ItemStack item, int min, int unstable, int max) 
 	{
 		Heatable.addItem(item, min, unstable, max);
 	}
@@ -401,23 +393,21 @@ public class MineFantasyAPI
 	/**
 	 * Allows an item to be heated ignoring subId
 	 * 
-	 * @param id
-	 *            the item to heat
-	 * @param min
-	 *            the minimum heat to forge with(celcius)
-	 * @param max
-	 *            the maximum heat until the item is ruined(celcius)
+	 * @param id the item to heat
+	 * @param min the minimum heat to forge with(celcius)
+	 * @param max the maximum heat until the item is ruined(celcius)
+	 * @param unstable when the ingot is unstable(celcius)
 	 */
-	public static void addHeatableItem(Item id, int min, int unstable, int max) 
+	public static void setHeatableStats(Item id, int min, int unstable, int max) 
 	{
 		Heatable.addItem(new ItemStack(id, 1, OreDictionary.WILDCARD_VALUE), min, unstable, max);
 	}
 	
-	public static void addHeatableItems(String oredict, int min, int unstable, int max)
+	public static void setHeatableStats(String oredict, int min, int unstable, int max)
 	{
 		for(ItemStack item : OreDictionary.getOres(oredict))
 		{
-			addHeatableItem(item, min, unstable, max);
+			setHeatableStats(item, min, unstable, max);
 		}
 	}
 

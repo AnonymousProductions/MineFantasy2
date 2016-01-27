@@ -31,6 +31,7 @@ public class StaminaMechanics
 			ArmourCalculator.setTotalWeightOfWorn(entity, true);
 			ArmourCalculator.setTotalWeightOfWorn(entity, false);
 		}
+		
 		float[] packet = new float[]{StaminaBar.getStaminaValue(entity), StaminaBar.getBaseMaxStamina(entity), StaminaBar.getFlashTime(entity), StaminaBar.getBonusStamina(entity)};
 		float[] values = new float[]{StaminaBar.getStaminaValue(entity), StaminaBar.getTotalMaxStamina(entity)};
 		if(entity.worldObj.isRemote && ConfigClient.playBreath)

@@ -33,7 +33,7 @@ public class StaminaBar
 	/**
 	 * Modifies the decay speed for armour, this scales to what a full suit of plate does
 	 */
-	private static final float armourWeightModifier = 2.0F;
+	private static final float armourWeightModifier = 1.0F;
 	private static final float armourWeightModifierClimbing = 5.0F;
 	/**
 	 * Modifies the regen rate slowdown for armour
@@ -473,10 +473,12 @@ public class StaminaBar
 			}
 			float min = 0F;
 			float max = 50F;
-			float mass = ArmourCalculator.getTotalWeightOfWorn(user, false)-min;
+			float mass = ArmourCalculator.getTotalWeightOfWorn(user, false);
+			
 			if(mass > 0)
 			{
-				value *= (1+(AM* (mass/max*configArmourWeightModifier*(armourWeightModifier-1) )));
+				float modifiers = AM * configArmourWeightModifier* armourWeightModifier;
+				armourMod += (mass/100F);
 			}
 			value *= armourMod;
 		}

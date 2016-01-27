@@ -54,7 +54,8 @@ public class ArmourCalculator
 	/**
 	 * When your movement starts and peaks at slowing down
 	 */
-	public static final float[] moveSpeedThreshold = new float[]{40F, 80F};
+	public static final float slowAmount = 10F;
+	public static final float[] moveSpeedThreshold = new float[]{35F, 100F};
 
 	/**
 	 * Gets the default using the items ArmourClass
@@ -143,7 +144,7 @@ public class ArmourCalculator
 		float max = moveSpeedThreshold[1] - moveSpeedThreshold[0];
 		if(mass > 0 && max > 0)
 		{
-			mod -= (mass/max)*10F*slowRate;//80kg = -10%
+			mod -= (mass/max)*slowAmount*slowRate;//80kg = -10%
 		}
 		return mod;
 	}
@@ -192,7 +193,7 @@ public class ArmourCalculator
 		return weight;
 	}
 
-	private static float getPieceWeight(ItemStack item, int slot) 
+	public static float getPieceWeight(ItemStack item, int slot) 
 	{
 		if(item == null)
 		{

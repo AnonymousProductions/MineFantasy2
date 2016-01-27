@@ -53,7 +53,11 @@ public class BlockChimney extends BlockContainer
 		isWide = wide;
 		this.chimneyType = type;
 		this.size = size;
-		if(!wide)
+		if(wide)
+		{
+			this.setLightOpacity(255);
+		}
+		else
 		{
 			this.setBlockBounds(1F/4F, 0, 1F/4F, 3F/4F, 1F, 3F/4F);
 		}

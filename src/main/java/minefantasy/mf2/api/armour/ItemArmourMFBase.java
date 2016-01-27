@@ -244,9 +244,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
 	@Override
 	public String getSuitWeigthType(ItemStack item)
 	{
-		if(design == ArmourDesign.CLOTH)return null;
-		
-		return armourWeight >= ArmourCalculator.ACArray[1] ? "heavy" : armourWeight >= ArmourCalculator.ACArray[0] ? "medium" : "light";
+		return design.getGroup();
 	}
 	@Override
 	public float getDTValue(EntityLivingBase user, ItemStack armour, DamageSource src)

@@ -141,10 +141,21 @@ public class InformationBase
     /**
      * Returns the fully description of the achievement - ready to be displayed on screen.
      */
+    public Object[] descriptValues;
+    public InformationBase setDescriptValues(Object... values)
+    {
+    	descriptValues = values;
+    	return this;
+    }
     @SideOnly(Side.CLIENT)
     public String getDescription()
     {
-        String text = this.statStringFormatter != null ? this.statStringFormatter.formatString(StatCollector.translateToLocal(this.description)) : StatCollector.translateToLocal(this.description);
+    	String localised = StatCollector.translateToLocal(this.description);
+    	if(descriptValues != null && descriptValues.length > 0)
+    	{
+    		localised = StatCollector.translateToLocalFormatted(description, descriptValues);
+    	}
+        String text = this.statStringFormatter != null ? this.statStringFormatter.formatString(localised) : localised;
         
         if(RPGElements.isSystemActive)
     	{

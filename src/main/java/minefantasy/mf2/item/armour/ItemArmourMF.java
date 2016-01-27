@@ -9,6 +9,7 @@ import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.armour.ItemArmourMFBase;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
@@ -16,6 +17,7 @@ import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.material.MetalMaterial;
 import minefantasy.mf2.mechanics.CombatMechanics;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -97,7 +99,8 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 		CustomMaterial custom = getCustomMaterial(item);
 		if(custom != null)
 		{
-			return custom.resistance;
+			MFLogUtil.logDebug("Fire Resist: " + custom.getFireResistance());
+			return custom.getFireResistance() * design.getRating();
 		}
 		return material.fireResistanceModifier;
 	}
@@ -157,21 +160,6 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 		}
 		list.add(new ItemStack(ArmourListMF.leatherapron));
 		addSet(list, ArmourListMF.leather);
-		addSet(list, ArmourListMF.chainmail);
-		addSet(list, ArmourListMF.fieldplate);
-		list.add(new ItemStack(ArmourListMF.cogwork_frame_helmet));
-		list.add(new ItemStack(ArmourListMF.cogwork_frame_chest));
-		list.add(new ItemStack(ArmourListMF.cogwork_frame_legs));
-		list.add(new ItemStack(ArmourListMF.cogwork_frame_boots));
-		
-		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
-		Iterator iteratorMetal = metal.iterator();
-		while(iteratorMetal.hasNext())
-    	{
-			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-			
-			ItemCogworkArmour.tryAddSuit(list, customMat.name);
-    	}
     }
 	private void addSet(List list, Item[] items) 
 	{
@@ -364,12 +352,11 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 		return super.getSuitWeigthType(item);
 	}
 	
-	protected static final String slot_plate = "plating";
 	
 	public ItemStack construct(String plate)
 	{
 		ItemStack item = new ItemStack(this);
-		CustomMaterial.addMaterial(item, slot_plate, plate.toLowerCase());
+		CustomMaterial.addMaterial(item, CustomToolHelper.slot_main, plate.toLowerCase());
 		return item;
 	}
 
@@ -378,7 +365,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	 */
 	public CustomMaterial getCustomMaterial(ItemStack item)
 	{
-		CustomMaterial material = CustomMaterial.getMaterialFor(item, slot_plate);
+		CustomMaterial material = CustomMaterial.getMaterialFor(item, CustomToolHelper.slot_main);
 		if(material != null)
 		{
 			return material;

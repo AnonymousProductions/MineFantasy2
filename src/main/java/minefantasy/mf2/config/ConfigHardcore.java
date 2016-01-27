@@ -3,6 +3,7 @@ package minefantasy.mf2.config;
 import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.hunger.HungerSystemMF;
 import minefantasy.mf2.mechanics.CombatMechanics;
 
 public class ConfigHardcore extends ConfigurationBaseMF
@@ -45,6 +46,7 @@ public class ConfigHardcore extends ConfigurationBaseMF
 				
 		hunterKnife = Boolean.parseBoolean(config.get(CATEGORY_FOOD, "Restrict to hunting weapon", false, "This option means animals ONLY drop meat and hide when killed with a hunting weapon such as a knife, only the killing blow counts").getString());
 		lessHunt = Boolean.parseBoolean(config.get(CATEGORY_FOOD, "Reduce Meat Drops", false, "This will alter the stack size of animal meat drops, meaning they only drop 1 every time").getString());
+		HungerSystemMF.slowdownRate = Integer.parseInt(config.get(CATEGORY_FOOD, "Hunger slow rate", 3, "how many added points per haunch is slows by. Default is 3: meaning it's takes 3 additional haunches to remove 1, meaning each haunch takes 4 times to be removed").getString());
 		
 		upgradeZombieWep = Boolean.parseBoolean(config.get(CATEGORY_MOB, "Give Zombie Weapon", true, "Zombies have a chance on spawning with forged iron weapons, It also controls some zombies having MF armour").getString());
 		zombieWepChance = Float.parseFloat(config.get(CATEGORY_MOB, "Zombie Weapon Spawn Chance Modifier", 1.0F, "Chance for Zombies to have forged weapons, increased with difficulty").getString());

@@ -11,6 +11,7 @@ import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.CustomToolListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.init.Blocks;
@@ -352,6 +353,8 @@ public class CarpenterRecipes
 		Salvage.addSalvage(ArmourListMF.armourItem(ArmourListMF.leather, 5, 2), ArmourListMF.armourItem(ArmourListMF.leather, 1, 2), new ItemStack(ComponentListMF.thread, 4), new ItemStack(Items.feather, 3), Blocks.wool);
 		Salvage.addSalvage(ArmourListMF.armourItem(ArmourListMF.leather, 5, 3), ArmourListMF.armourItem(ArmourListMF.leather, 1, 3), new ItemStack(ComponentListMF.thread, 4), new ItemStack(Items.feather, 3), Blocks.wool);
 				
+		ItemStack bronzeHammer = CustomToolListMF.standard_hammer.construct("bronze");
+		ItemStack steelHammer = CustomToolListMF.standard_hammer.construct("steel");
 		KnowledgeListMF.repairBasicR =
 		MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(BlockListMF.repair_basic), "repair_basic", sewing, "needle", 1, 20 , new Object[]
 		{
@@ -362,9 +365,10 @@ public class CarpenterRecipes
 			'S', ComponentListMF.leather_strip,
 			'L', Items.leather,
 			'F', Items.flint,
-			'H', ToolListMF.hammers[1],
+			'H', bronzeHammer,
 			'N', ComponentListMF.nail,
 		});
+		ItemStack bronzePlate = ComponentListMF.plate.createComm("bronze");
 		KnowledgeListMF.repairAdvancedR =
 		MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(BlockListMF.repair_advanced), "repair_advanced", sewing, "needle", 2, 50 , new Object[]
 		{
@@ -372,8 +376,8 @@ public class CarpenterRecipes
 			"PKH",
 			"CSC",
 			'K', BlockListMF.repair_basic,
-			'P', ComponentListMF.plates[0],
-			'H', ToolListMF.hammers[3],
+			'P', bronzePlate,
+			'H', steelHammer,
 			'C', Items.slime_ball,
 			'S', Items.string,
 		});
@@ -389,8 +393,8 @@ public class CarpenterRecipes
 			'D', Items.diamond,
 		});
 		
-		Salvage.addSalvage(BlockListMF.repair_basic, new ItemStack(ComponentListMF.thread, 3), ToolListMF.hammers[1], ComponentListMF.nail, Items.flint, Items.leather, new ItemStack(ComponentListMF.leather_strip, 2));
-		Salvage.addSalvage(BlockListMF.repair_advanced, BlockListMF.repair_basic, ComponentListMF.plates[0], ToolListMF.hammers[3], new ItemStack(Items.slime_ball, 3), new ItemStack(Items.string, 3));
+		Salvage.addSalvage(BlockListMF.repair_basic, new ItemStack(ComponentListMF.thread, 3), bronzeHammer, ComponentListMF.nail, Items.flint, Items.leather, new ItemStack(ComponentListMF.leather_strip, 2));
+		Salvage.addSalvage(BlockListMF.repair_advanced, BlockListMF.repair_basic, bronzePlate, steelHammer, new ItemStack(Items.slime_ball, 3), new ItemStack(Items.string, 3));
 		Salvage.addSalvage(BlockListMF.repair_ornate, BlockListMF.repair_advanced, new ItemStack(Items.gold_ingot, 4), Items.diamond, new ItemStack(Items.dye, 3, 4));
 	}
 
@@ -715,24 +719,34 @@ public class CarpenterRecipes
 	
 	private static void addCooking()
 	{
-		String meats = "rawMeat";
-		String meatsUC = "cookedMeat";
-		OreDictionary.registerOre(meats, Items.cooked_beef);
-		OreDictionary.registerOre(meats, Items.cooked_chicken);
-		OreDictionary.registerOre(meats, Items.cooked_porkchop);
-		OreDictionary.registerOre(meats, FoodListMF.wolf_cooked);
-		OreDictionary.registerOre(meats, FoodListMF.horse_cooked);
-		OreDictionary.registerOre(meats, Items.cooked_fished);
-		OreDictionary.registerOre(meats, new ItemStack(Items.cooked_fished, 1, 1));
+		String meatRaw = "rawMeat";
+		String cookedMeat = "cookedMeat";
+		OreDictionary.registerOre(cookedMeat, Items.cooked_beef);
+		OreDictionary.registerOre(cookedMeat, Items.cooked_chicken);
+		OreDictionary.registerOre(cookedMeat, Items.cooked_porkchop);
+		OreDictionary.registerOre(cookedMeat, FoodListMF.wolf_cooked);
+		OreDictionary.registerOre(cookedMeat, FoodListMF.horse_cooked);
+		OreDictionary.registerOre(cookedMeat, Items.cooked_fished);
+		OreDictionary.registerOre(cookedMeat, new ItemStack(Items.cooked_fished, 1, 1));
+		addOreD("listAllporkcooked", cookedMeat);
+		addOreD("listAllmuttoncooked", cookedMeat);
+		addOreD("listAllbeefcooked", cookedMeat);
+		addOreD("listAllchickencooked", cookedMeat);
+		addOreD("listAllfishcooked", cookedMeat);
 		
-		OreDictionary.registerOre(meatsUC, FoodListMF.guts);
-		OreDictionary.registerOre(meatsUC, Items.beef);
-		OreDictionary.registerOre(meatsUC, Items.chicken);
-		OreDictionary.registerOre(meatsUC, Items.porkchop);
-		OreDictionary.registerOre(meatsUC, FoodListMF.wolf_raw);
-		OreDictionary.registerOre(meatsUC, FoodListMF.horse_raw);
-		OreDictionary.registerOre(meatsUC, Items.fish);
-		OreDictionary.registerOre(meatsUC, new ItemStack(Items.fish, 1, 1));
+		OreDictionary.registerOre(meatRaw, FoodListMF.guts);
+		OreDictionary.registerOre(meatRaw, Items.beef);
+		OreDictionary.registerOre(meatRaw, Items.chicken);
+		OreDictionary.registerOre(meatRaw, Items.porkchop);
+		OreDictionary.registerOre(meatRaw, FoodListMF.wolf_raw);
+		OreDictionary.registerOre(meatRaw, FoodListMF.horse_raw);
+		OreDictionary.registerOre(meatRaw, Items.fish);
+		OreDictionary.registerOre(meatRaw, new ItemStack(Items.fish, 1, 1));
+		addOreD("listAllporkraw", meatRaw);
+		addOreD("listAllmuttonraw", meatRaw);
+		addOreD("listAllbeefraw", meatRaw);
+		addOreD("listAllchickenraw", meatRaw);
+		addOreD("listAllfishraw", meatRaw);
 		
 		KnowledgeListMF.curdRecipe = 
 		MineFantasyAPI.addCarpenterRecipe(provisioning, new ItemStack(FoodListMF.curds), "", basic, "hands", -1, 10, new Object[]{
@@ -835,18 +849,18 @@ public class CarpenterRecipes
 			'C', FoodListMF.custard,
 			'R', FoodListMF.eclair_empty,
 		});
-		for(ItemStack food: OreDictionary.getOres(meatsUC))
+		for(ItemStack food: OreDictionary.getOres(meatRaw))
 		{
-			int size = getSize(food);
+			int size = 1;
 			KnowledgeListMF.meatRecipes.add(
 			MineFantasyAPI.addCarpenterRecipe(provisioning, new ItemStack(FoodListMF.generic_meat_uncooked, size), "", chopping, "knife", -1, 15, new Object[]{
 				"M",
 				'M', food,
 			}));
 		}
-		for(ItemStack food: OreDictionary.getOres(meats))
+		for(ItemStack food: OreDictionary.getOres(cookedMeat))
 		{
-			int size = 1;
+			int size = getSize(food);
 			KnowledgeListMF.meatRecipes.add(
 			MineFantasyAPI.addCarpenterRecipe(provisioning, new ItemStack(FoodListMF.generic_meat_cooked, size), "", chopping, "knife", -1, 15, new Object[]{
 				"M",
@@ -1076,6 +1090,14 @@ public class CarpenterRecipes
 		});
 	}
 	
+	private static void addOreD(String list, String mfList) 
+	{
+		for(ItemStack stack: OreDictionary.getOres(list))
+		{
+			OreDictionary.registerOre(mfList, stack);
+		}
+	}
+
 	private static int getSize(ItemStack food) 
 	{
 		if(food != null && food.getItem() instanceof ItemFood)
@@ -1097,44 +1119,6 @@ public class CarpenterRecipes
 			'F', Items.feather,
 			'P', Items.paper,
 		});
-		
-		for(int id = 0; id < ToolListMF.weaponMats.length; id ++)
-		{
-			KnowledgeListMF.arrowR.add(
-			MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(ToolListMF.arrows[id]), "arrows", chopping, 1, new Object[]
-			{
-				"H",
-				"S",
-				"F",
-				'H', ComponentListMF.arrowheads[id],
-				'S', Items.stick,
-				'F', ComponentListMF.fletching,
-			}));
-			Salvage.addSalvage(ToolListMF.arrows[id], ComponentListMF.arrowheads[id], Items.stick, ComponentListMF.fletching);
-		}
-		for(int id = 0; id < ToolListMF.weaponMats.length-1; id ++)
-		{
-			MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(ToolListMF.bodkinArrows[id]), "arrowsBodkin", chopping, 1, new Object[]
-			{
-				"H",
-				"S",
-				"F",
-				'H', ComponentListMF.bodkinheads[id],
-				'S', Items.stick,
-				'F', ComponentListMF.fletching,
-			});
-			Salvage.addSalvage(ToolListMF.bodkinArrows[id], ComponentListMF.bodkinheads[id], Items.stick, ComponentListMF.fletching);
-			MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(ToolListMF.broadArrows[id]), "arrowsBroad", chopping, 1, new Object[]
-			{
-				"H",
-				"S",
-				"F",
-				'H', ComponentListMF.broadheads[id],
-				'S', Items.stick,
-				'F', ComponentListMF.fletching,
-			});
-			Salvage.addSalvage(ToolListMF.broadArrows[id], ComponentListMF.broadheads[id], Items.stick, ComponentListMF.fletching);
-		}
 		
 		//BOMBS
 		KnowledgeListMF.bombCaseCeramicR = 
@@ -1360,9 +1344,10 @@ public class CarpenterRecipes
 			'B', ComponentListMF.bolt,
 			'F', ComponentListMF.iron_frame,
 			'L', Blocks.lever,
-			'P', new ItemStack(ToolListMF.knives[3], 1, 0),
+			'P', new ItemStack(CustomToolListMF.standard_knife, 1, 0),
 			'G', ComponentListMF.bronze_gears,
 		});
+		ItemStack blackPlate = ComponentListMF.plate.createComm("blackSteel");
 		KnowledgeListMF.advancedForgeR =
 		MineFantasyAPI.addCarpenterRecipe(engineering, new ItemStack(BlockListMF.forge_metal), "advforge", spanner, "spanner", 1, 400, new Object[]
 		{
@@ -1373,7 +1358,7 @@ public class CarpenterRecipes
 			'B', ComponentListMF.bolt,
 			'F', ComponentListMF.iron_frame,
 			'T', ToolListMF.engin_anvil_tools,
-			'P', ComponentListMF.plates[4],
+			'P', blackPlate,
 			'R', Blocks.redstone_block,
 		});
 		KnowledgeListMF.spyglassR =
@@ -1400,7 +1385,7 @@ public class CarpenterRecipes
 			'E', ToolListMF.engin_anvil_tools,
 			'T', ComponentListMF.steel_tube,
 			'B', Items.glass_bottle,
-			'N', new ItemStack(ToolListMF.needles[3]),
+			'N', new ItemStack(CustomToolListMF.standard_needle),
 		});
 		
 		KnowledgeListMF.parachuteR =
@@ -1434,10 +1419,10 @@ public class CarpenterRecipes
 		Salvage.addSalvage(BlockListMF.bombBench, new ItemStack(ComponentListMF.bolt, 4), ComponentListMF.iron_frame, BlockListMF.carpenter);
 		Salvage.addSalvage(BlockListMF.crossbowBench, new ItemStack(ComponentListMF.nail, 2), new ItemStack(ComponentListMF.plank, 2), Items.string, BlockListMF.carpenter);
 		Salvage.addSalvage(BlockListMF.bombPress, new ItemStack(ComponentListMF.iron_strut, 2), new ItemStack(ComponentListMF.bolt, 2), new ItemStack(ComponentListMF.bronze_gears, 2), Blocks.lever, ComponentListMF.iron_frame, ToolListMF.spanner);
-		Salvage.addSalvage(BlockListMF.engTanner, new ItemStack(ComponentListMF.iron_strut, 4), new ItemStack(ComponentListMF.bolt, 2), new ItemStack(ComponentListMF.bronze_gears, 3), ToolListMF.knives[3], Blocks.lever, ComponentListMF.iron_frame);
-		Salvage.addSalvage(BlockListMF.forge_metal, new ItemStack(ComponentListMF.bolt, 4), new ItemStack(ComponentListMF.plates[4], 4), new ItemStack(ComponentListMF.iron_frame, 2), new ItemStack(Blocks.redstone_block, 2));
+		Salvage.addSalvage(BlockListMF.engTanner, new ItemStack(ComponentListMF.iron_strut, 4), new ItemStack(ComponentListMF.bolt, 2), new ItemStack(ComponentListMF.bronze_gears, 3), CustomToolListMF.standard_needle, Blocks.lever, ComponentListMF.iron_frame);
+		Salvage.addSalvage(BlockListMF.forge_metal, new ItemStack(ComponentListMF.bolt, 4), blackPlate, blackPlate, blackPlate, blackPlate, new ItemStack(ComponentListMF.iron_frame, 2), new ItemStack(Blocks.redstone_block, 2));
 		Salvage.addSalvage(ToolListMF.spyglass, new ItemStack(ComponentListMF.bolt, 2), new ItemStack(Blocks.glass, 2), ComponentListMF.steel_tube, ComponentListMF.bronze_gears);
-		Salvage.addSalvage(ToolListMF.syringe_empty, Items.glass_bottle, ToolListMF.needles[3], ComponentListMF.steel_tube);
+		Salvage.addSalvage(ToolListMF.syringe_empty, Items.glass_bottle, CustomToolListMF.standard_needle, ComponentListMF.steel_tube);
 		Salvage.addSalvage(ToolListMF.parachute, new ItemStack(ComponentListMF.thread, 3), new ItemStack(Blocks.wool, 3), new ItemStack(ComponentListMF.leather_strip, 4), Items.leather);
 	}
 	

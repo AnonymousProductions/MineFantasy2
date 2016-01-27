@@ -1,11 +1,13 @@
 package minefantasy.mf2.item.armour;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -27,21 +29,23 @@ import minefantasy.mf2.api.armour.ICogworkArmour;
 import minefantasy.mf2.api.armour.IGasProtector;
 import minefantasy.mf2.api.crafting.ISpecialSalvage;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.material.MetalMaterial;
 import minefantasy.mf2.util.MFLogUtil;
 
 public class ItemCogworkArmour extends ItemArmourMF implements ICogworkArmour, IGasProtector, ISpecialSalvage
 {
-	
 	private boolean isFrame = false;
 	public ItemCogworkArmour(String name, ArmourDesign AD, BaseMaterialMF material, int slot, String tex, int rarity)
 	{
 		super(name, material, AD, slot, tex, rarity);
 		this.setTextureName("minefantasy2:apparel/cogwork/"+name);
+		setCreativeTab(CreativeTabMF.tabGadget);
 	}
 	private float fuelCost = 1;
 	public ItemCogworkArmour setFuelCost(float cost)
@@ -203,7 +207,7 @@ public class ItemCogworkArmour extends ItemArmourMF implements ICogworkArmour, I
 	@Override
 	public CustomMaterial getCustomMaterial(ItemStack item)
 	{
-		CustomMaterial material = CustomMaterial.getMaterialFor(item, slot_plate);
+		CustomMaterial material = CustomMaterial.getMaterialFor(item, CustomToolHelper.slot_main);
 		if(material != null)
 		{
 			return material;
@@ -219,7 +223,7 @@ public class ItemCogworkArmour extends ItemArmourMF implements ICogworkArmour, I
 	 /**
 	  * Adds a suit ONLY IF the material ingot exists
 	  */
-	public static void tryAddSuit(List list, String plating)
+	public static void tryAddSuits(List list, String plating)
 	{
 		ArrayList<ItemStack> mats = OreDictionary.getOres("ingot"+plating);
 		if(MineFantasyII.isDebug() || (mats != null && !mats.isEmpty()))
@@ -327,4 +331,25 @@ public class ItemCogworkArmour extends ItemArmourMF implements ICogworkArmour, I
 		}
 		return super.getProtectiveTrait(item, dtype);
 	}
+	
+	@Override
+    public void getSubItems(Item item, CreativeTabs tab, List list)
+    {
+		if(this != ArmourListMF.cogwork_armour_boots)
+		{
+			return;
+		}
+		list.add(new ItemStack(ArmourListMF.cogwork_frame_helmet));
+		list.add(new ItemStack(ArmourListMF.cogwork_frame_chest));
+		list.add(new ItemStack(ArmourListMF.cogwork_frame_legs));
+		list.add(new ItemStack(ArmourListMF.cogwork_frame_boots));
+		
+		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
+		Iterator iteratorMetal = metal.iterator();
+		while(iteratorMetal.hasNext())
+    	{
+			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
+			ItemCogworkArmour.tryAddSuits(list, customMat.name);
+    	}
+    }
 }

@@ -59,7 +59,7 @@ public class ResearchLogic
 		{
 			return hasInfoUnlocked(player, base);
 		}
-        return false;
+        return true;
     }
 	
 	public static boolean hasInfoUnlocked(EntityPlayer player, String[] basenames)

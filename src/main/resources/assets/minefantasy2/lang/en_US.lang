@@ -56,6 +56,10 @@ death.attack.humanstomp=%1$s was stomped by %2$s
 death.attack.fireblast=%1$s was roasted by %2$s
 death.attack.fireblastBase=%1$s was roasted
 death.attack.blastfurn=%1$s was incinerated by a Blast Furnace
+death.attack.frostblast=%1$s was frozen by %2$s
+death.attack.frostblastBase=%1$s was frozen
+death.attack.acidblast=%1$s was Vaporised by %2$s
+death.attack.acidblastBase=%1$s was Vaporised
 
 death.attack.mob.pound=%1$s was pounded by a %2$s
 death.attack.mob.gore=%1$s was gored by a %2$s
@@ -64,11 +68,16 @@ death.attack.mob.beserk=%1$s was torn apart by a %2$s
 entity.minotaur.name=Minotaur
 entity.dredminotaur.name=Dread Minotaur
 
-entity.dragon_young.name=Young Dragon
-entity.dragon.name=Dragon
-entity.dragon_dire.name=Dire Dragon
-entity.dragon_elder.name=Elder Dragon
-entity.dragon_ancient.name=Ancient Dragon
+entity.dragonbreed.red.name=Red
+entity.dragonbreed.white.name=Frost
+entity.dragonbreed.black.name=Dire
+entity.dragonbreed.green.name=Green
+
+entity.dragon_young.name=Young %1$s Dragon
+entity.dragon.name=%1$s Dragon
+entity.dragon_mature.name=Mature %1$s Dragon
+entity.dragon_elder.name=Elder %1$s Dragon
+entity.dragon_ancient.name=Ancient %1$s Dragon
 
 event.dragonnear.name=A Dragon Prowls, take cover or stay to fight!
 event.dragonnear.forge.name=Your crafts insult dragon kind!
@@ -80,10 +89,17 @@ event.dragonaway.name=The Dragon leaves... For now...
 item.tool_pick.name=%1$s Pick
 item.commodity_plank.name=%1$s Timber
 item.haft.name=Haft
+item.commodity_hunk.name=%1$s Hunk
 item.commodity_scrap.name=%1$s Scrap
 item.commodity_plate.name=%1$s Plate
 item.commodity_chainmesh.name=%1$s Chain Mesh
+item.commodity_scalemesh.name=%1$s Scales Mesh
+item.commodity_splintmesh.name=%1$s Splint Mesh
 item.commodity_plateheavy.name=Heavy %1$s Plate
+item.commodity_arrowhead.name=%1$s Arrow Head
+item.commodity_bodkinhead.name=%1$s Bodkin Head
+item.commodity_broadhead.name=%1$s Broad Head
+
 item.mod_plating.name=%1$s Plating
 item.mod_head.name=%1$s Head
 
@@ -97,8 +113,13 @@ component.brace.name=%1$s Brace
 materialtype.wood.name=Tier %1$s Wood
 materialtype.leather.name=Tier %1$s Leather
 materialtype.metal.name=Tier %1$s Metal
+materialtype.workable.name=Workable: %1$s*C - %2$s*C
 
 materialtype.resist.name=%1$s Resistance
+materialtype.fireresist.name=%1$s Fire Resistance
+materialtype.maxtemp.name=%1$s*C Melting Point
+material.any.name=Any
+
 WOOD
 material.oakwood.name=Oak
 material.birchwood.name=Birch
@@ -650,7 +671,8 @@ itemGroup.MFadvancedtool=[MF] Advanced Tools
 itemGroup.MFcrafttool=[MF] Crafting Tools
 itemGroup.MFore=[MF] Ores
 itemGroup.MFfood=[MF] Food
-itemGroup.MFcustom=[MF} Custom Tools
+itemGroup.MFOld=[MF] Primitive Items
+itemGroup.MFdragonforged=[MF] Dragonforged Weapon
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /BANDAGE/
@@ -1595,8 +1617,9 @@ item.silver_arrow_head.name=Silver Arrow Head
 item.silver_bodkin_head.name=Silver Bodkin Head
 item.silver_broad_head.name=Silver Broad Head
 
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/CUSTOM/
+/STANDARD/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 item.standard_pick.name=%1$s Pickaxe
 item.standard_axe.name=%1$s Axe
@@ -1607,7 +1630,7 @@ item.standard_shears.name=%1$s Shears
 item.standard_knife.name=%1$s Knife
 item.standard_needle.name=%1$s Needle
 item.standard_hammer.name=%1$s Hammer
-item.standard_hvyHammer.name=Heavy %1$s Hammer
+item.standard_hvyhammer.name=Heavy %1$s Hammer
 item.standard_tongs.name=%1$s Tongs
 item.standard_saw.name=%1$s Saw
 
@@ -1615,10 +1638,14 @@ item.standard_dagger.name=%1$s Dagger
 item.standard_sword.name=%1$s Sword
 item.standard_mace.name=%1$s Mace
 item.standard_waraxe.name=%1$s Waraxe
+item.standard_spear.name=%1$s Spear
 
+item.standard_katana.name=%1$s Katana
 item.standard_greatsword.name=%1$s Greatsword
 item.standard_warhammer.name=%1$s Warhammer
 item.standard_battleaxe.name=%1$s Battleaxe
+item.standard_halbeard.name=%1$s Halbeard
+item.standard_lance.name=%1$s Lance
 
 item.standard_handpick.name=%1$s Handpick
 item.standard_hvypick.name=Heavy %1$s Pickaxe
@@ -1627,7 +1654,44 @@ item.standard_hvyshovel.name=Heavy %1$s Shovel
 item.standard_scythe.name=%1$s Scythe
 item.standard_mattock.name=%1$s Mattock
 
+item.standard_scale_helmet.name=%1$s Scalemail Helmet
+item.standard_scale_chest.name=%1$s Scalemail
+item.standard_scale_legs.name=%1$s Scalemail Leggings
+item.standard_scale_boots.name=%1$s Scalemail Boots
 
+item.standard_chain_helmet.name=%1$s Chainmail Coif
+item.standard_chain_chest.name=%1$s Chainmail
+item.standard_chain_legs.name=%1$s Chainmail Leggings
+item.standard_chain_boots.name=%1$s Chainmail Boots
+
+item.standard_splint_helmet.name=%1$s Splintmail Helmet
+item.standard_splint_chest.name=%1$s Splintmail
+item.standard_splint_legs.name=%1$s Splintmail Leggings
+item.standard_splint_boots.name=%1$s Splintmail Boots
+
+item.standard_plate_helmet.name=%1$s Plate Helmet
+item.standard_plate_chest.name=%1$s Fieldplate
+item.standard_plate_legs.name=%1$s Plate Greaves
+item.standard_plate_boots.name=%1$s Plate Boots
+
+item.standard_bow.name=%1$s Bow
+item.standard_arrow.name=%1$s Arrow
+item.standard_bolt.name=%1$s Bolt
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/DRAGONFORGE/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item.dragonforged_dagger.name=%1$s Dragonforge Dagger
+item.dragonforged_sword.name=%1$s Dragonforge Sword
+item.dragonforged_mace.name=%1$s Dragonforge Mace
+item.dragonforged_waraxe.name=%1$s Dragonforge Waraxe
+item.dragonforged_spear.name=%1$s Dragonforge Spear
+item.dragonforged_katana.name=%1$s Dragonforge Katana
+item.dragonforged_greatsword.name=%1$s Dragonforge Greatsword
+item.dragonforged_warhammer.name=%1$s Dragonforge Warhammer
+item.dragonforged_battleaxe.name=%1$s Dragonforge Battleaxe
+item.dragonforged_halbeard.name=%1$s Dragonforge Halbeard
+item.dragonforged_lance.name=%1$s Dragonforge Lance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /DWARVEN/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1635,7 +1699,6 @@ item.dwarven_pick.name=%1$s Dwarven Pickaxe
 item.dwarven_axe.name=%1$s Dwarven Axe
 item.dwarven_spade.name=%1$s Dwarven Spade
 item.dwarven_hoe.name=%1$s Dwarven Hoe
-item.dwarven_shears.name=%1$s Dwarven Shears
 
 item.dwarven_dagger.name=%1$s Dwarven Dagger
 item.dwarven_sword.name=%1$s Dwarven Sword
@@ -1645,6 +1708,9 @@ item.dwarven_waraxe.name=%1$s Dwarven Waraxe
 item.dwarven_greatsword.name=%1$s Dwarven Greatsword
 item.dwarven_warhammer.name=%1$s Dwarven Maul
 item.dwarven_battleaxe.name=%1$s Dwarven Battleaxe
+item.dwarven_katana.name=%1$s Dwarven Cleaver
+item.dwarven_spear.name=%1$s Dwarven Glaive
+item.dwarven_halbeard.name=%1$s Dwarven Halbeard
 
 item.dwarven_handpick.name=%1$s Dwarven Handpick
 item.dwarven_hvypick.name=Heavy %1$s Dwarven Pickaxe
@@ -1653,6 +1719,17 @@ item.dwarven_hvyshovel.name=Heavy %1$s Dwarven Shovel
 item.dwarven_scythe.name=%1$s Dwarven Scythe
 item.dwarven_mattock.name=%1$s Dwarven Mattock
 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/GNOMISH/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+item.gnomish_hammer.name=%1$s Gnomish Hammer
+item.gnomish_hvyhammer.name=Heavy %1$s Gnomish Hammer
+item.gnomish_tongs.name=%1$s Gnomish Tongs
+item.gnomish_needle.name=%1$s Gnomish Needle
+item.gnomish_shears.name=%1$s Gnomish Shears
+item.gnomish_knife.name=%1$s Gnomish Knife
+item.gnomish_saw.name=%1$s Gnomish Saw
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /FOOD/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1964,15 +2041,15 @@ knowledge.blunt.info=
 knowledge.polearms.info=
 
 knowledge.smeltCopper=Copper Smithing
-knowledge.smeltCopper.desc=Tier 0, Common material
+knowledge.smeltCopper.desc=Tier %1$s, Common material
 knowledge.smeltCopper.1=The path of metalworking is a long and difficult one to learn. Copper is an easily workable and risk-free material.^It's still a piece of junk though, and is unable to make advanced tools, heavy weapons or heavy armour. But it's your piece of junk!
 
 knowledge.smeltBronze=Bronze Smithing
-knowledge.smeltBronze.desc=Tier 1, Common material
+knowledge.smeltBronze.desc=Tier %1$s, Common material
 knowledge.smeltBronze.1=By mixing a small amount of tin with some copper, you can create bronze. This alloy is far superior to copper alone and can make advanced items.^You can now craft tools from Bronze.
 
 knowledge.smeltIron=Iron Smithing
-knowledge.smeltIron.desc=Tier 2, Common material
+knowledge.smeltIron.desc=Tier %1$s, Common material
 knowledge.smeltIron.1=Iron is by far the most common ore you can find and knowing how to work it makes it all the more useful. Iron tools are pretty average, yet superior to bronze.^You can now craft tools from Iron.
 
 knowledge.smeltPig=Pig Iron
@@ -1980,36 +2057,36 @@ knowledge.smeltPig.desc=Iron preparation
 knowledge.smeltPig.1=Natural iron is full of impurities and defects and proper refining of it is crucial to create a decent alloy. A blast furnace does just that and is able to produce pig iron.^Pig iron is used to create steel.
 
 knowledge.smeltSteel=Steel Smithing
-knowledge.smeltSteel.desc=Tier 3, Common material
+knowledge.smeltSteel.desc=Tier %1$s, Common material
 knowledge.smeltSteel.1=Finally make that blast furnace did you? now to put it to use. This material is far stronger than iron but can be expensive.^Steel is made from pig iron from either working it on an anvil(the suckers way) or finding a way to create a fireclay curcible and throwing it in there(the easy way).
 
 knowledge.smeltEncrusted=Encrusted Smithing
-knowledge.smeltEncrusted.desc=Tier 3, Exotic material
+knowledge.smeltEncrusted.desc=Tier %1$s, Exotic material
 knowledge.smeltEncrusted.1=You can now merge the power of diamonds to the workablility of steel for some reason! Encrusted tools are much stronger and sharper than steel and are able to mine stronger blocks (like obsidian).^Now go ahead: show off your shiny new tools.
 
 knowledge.smeltBlackSteel=Black Steel Smithing
-knowledge.smeltBlackSteel.desc=Tier 4, Common material
+knowledge.smeltBlackSteel.desc=Tier %1$s, Common material
 knowledge.smeltBlackSteel.1=It is now possible to further refine steel into a far superior alloy. This process takes all the best qualities from lesser materials to create an extremely powerful metal.
 
 knowledge.smeltDragonforge=Dragonforge Smithing
-knowledge.smeltDragonforge.desc=Tier 4, Exotic material
-knowledge.smeltDragonforge.1=See that flying nonsense that's eager to redecorate your home into ash! Certainally do and you killed it! Well- with dragonforge you get all the power of those deadly reptiles to yourself through a process that binds elemental magic from dragon hearts into black steel items.
-knowledge.smeltDragonforge.2=To create dragonforge: Start by making a standard black steel tool, armour or weapon. Just before finishing however: throw (right-click) a dragon heart on a forge above 200*, then quickly (less than 5 seconds) finish the craft.^If all goes well you will have a dragonforge item.
+knowledge.smeltDragonforge.desc=Tier %1$s, Exotic material
+knowledge.smeltDragonforge.1=Dragons are tough creatures, and hunting them takes preparation and experience. Through your efforts, it is possible to use their own powers against them, Dragonforge weapons are more effective against damaging dragons.
+knowledge.smeltDragonforge.2=To create dragonforge: Start by making any standard melee weapon. Just before finishing however: throw (right-click) a dragon heart into a nearby forge, then quickly finish the craft.^If all goes well you will have a dragonforge item.
 
 knowledge.smeltBlueSteel=Blue Steel Smithing
-knowledge.smeltBlueSteel.desc=Tier 5, Common material
+knowledge.smeltBlueSteel.desc=Tier %1$s, Common material
 knowledge.smeltBlueSteel.1=You are now able to create Blue Steel. This metal is extremely lighter than inferior metals and excellent for the creation of tools and armour for limiting stamina decay.
 
 knowledge.smeltRedSteel=Red Steel Smithing
-knowledge.smeltRedSteel.desc=Tier 5, Common material
+knowledge.smeltRedSteel.desc=Tier %1$s, Common material
 knowledge.smeltRedSteel.1=You are now able to create Red Steel. This metal is much heavier than other materials, and tiring to use with tools and armour, but is very strong and far better than other materials of this tier.
 
 knowledge.smeltMithril=Mithril Smithing
-knowledge.smeltMithril.desc=Tier 6, Exotic material
+knowledge.smeltMithril.desc=Tier %1$s, Exotic material
 knowledge.smeltMithril.1=Mythic ore is strange: Depending on how it is refined depends on what properties the metal processed is. Through mixing light elements with mythic: along with silver, you can create mithril.^Mithril is an extremely light material, even lighter than blue steel.
 
 knowledge.smeltAdamantium=Adamantium Smithing
-knowledge.smeltAdamantium.desc=Tier 6, Exotic material
+knowledge.smeltAdamantium.desc=Tier %1$s, Exotic material
 knowledge.smeltAdamantium.1=Mythic ore is strange: Depending on how it is refined depends on what properties the metal processed is. Through mixing heavy elements with mythic: along with gold, you can create adamantium.^Adamantium is extremely heavy, more than red steel, but is very strong.
 
 knowledge.smeltMaster=Masterwork Mythics
@@ -2019,15 +2096,15 @@ knowledge.smeltMaster.2=Masterworks allows you to create powerful new tools from
 knowledge.smeltMaster.3=Not only that: but items will be rendered inferior if you make even a slight imperfection. Done correctly however; masterwork items will be indestructible so it's recommended you know what you are doing!
 
 knowledge.smeltIgnotumite=Ignotumite Smithing
-knowledge.smeltIgnotumite.desc=Tier 7, Master material
+knowledge.smeltIgnotumite.desc=Tier %1$s, Master material
 knowledge.smeltIgnotumite.1=Crafting adamantium can make extremely powerful tools but it doesn't quite reach its full capabilities; As you know, mythic ore is made up of many elements that swil within its structure, separating this is key to unlocking the capabilities within adamantium known as ignotumite.
 
 knowledge.smeltMithium=Mithium Smithing
-knowledge.smeltMithium.desc=Tier 7, Master material
+knowledge.smeltMithium.desc=Tier %1$s, Master material
 knowledge.smeltMithium.1=Mithium is found deep within only the purest of mithril. This material has a structure never seen before, it is super light. The lightweight nature of mithium comes from its core, it seems to be a hollow shell that bends to forces yet does not break, inside seems to be some sort of energy that keeps the metal solid...
 
 knowledge.smeltEnder=Enderforge Smithing
-knowledge.smeltEnderforge.desc=Tier 7, Master material
+knowledge.smeltEnderforge.desc=Tier %1$s, Master material
 knowledge.smeltEnderforge.1=There's always been something strange about those ender creatures... Enderforge takes the magical energies deep within the balance of mithril and admantium and focuses it using ender pearls.
 
 knowledge.masterHaft=All masterowk materials use special rods instead of planks. For tools and weapons: Use these instead of planks.
@@ -2125,11 +2202,13 @@ knowledge.craftArmourLight.1=Light armor weighs pretty much nothing and will not
 
 knowledge.craftArmourMedium=Medium Armor
 knowledge.craftArmourMedium.desc=Average protection
-knowledge.craftArmourMedium.1=Medium armor is the base average. Nothing more to say there but the protection is decent but stamina regeneration is slowed by about half, but you should be able to take a decent whack with it. Mail armour is pretty effective but vulnerable to blunt based damage.
+knowledge.craftArmourMedium.1=Medium armor is the base average. Nothing more to say there but the protection is decent but stamina regeneration is slowed by about half, but you should be able to take a decent whack with it. Chainmail armour is pretty effective but vulnerable to blunt based damage.
+knowledge.craftArmourMedium.scale=As an alternative, Scalemail can be created. Scale armor has more balanced protection against all forms of damage, not quite as effective against piercing and cutting resistance, it makes up in blunt.
 
 knowledge.craftArmourHeavy=Heavy Armor
 knowledge.craftArmourHeavy.desc=Strong but restricted
 knowledge.craftArmourHeavy.1=This stuff is strong and much like medium armor, crafted from metal. Heavy armour not only significantly slows your stamina regeneration to roughly a third, but it also increases the rate of decay. Plate is highly protective but vulnerable to piercing based damage.
+knowledge.craftArmourHeavy.splint=Splintmail isn't quite as heavy as a full blown suit of plate, and has lesser protective qualities in return. However, splintmail is still far superior to medium armours and protects all damage types equally.
 
 knowledge.craftHCCTools=Primitive Tools
 knowledge.craftHCCTools.desc=(HARDCORE CRAFTING)
@@ -2160,7 +2239,7 @@ knowledge.sword.info=A good old sword. Swords block the most damage and at the b
 knowledge.mace.info=For a good bop across the bonce!. Maces aren't that special and blocking damages the weapon more. But they have good durability and damage.
 knowledge.waraxe.info=A heavy hand axe for brutal hacking at your foes. War axes do decent damage and have bonuses when sprinting and jumping attacks. Good for the barbaric types. They also take more damage from blocking.
 knowledge.spear.info=If you're too scared for close combat, spears allow you to poke them from afar.. you know like you're just pushing them away with a long stick!^Spears do more damage when sprinting
-knowledge.bow.info=Standard bow for some reason made from metal. These are strong and versitile for all your ranged needs.
+knowledge.bow.info=Standard bow for some reason made from metal. These are strong and versitile for all your ranged needs.^Note that some more brittle metals (like pig iron) will lessen the damage of the item.
 
 knowledge.craftAdvWeapons=Heavy Weapons
 knowledge.craftAdvWeapons.desc=Big enough?
@@ -2539,7 +2618,7 @@ knowledge.fitness.1=Your biggest foe in battle is your energy (well apart from t
 
 knowledge.toughness=Toughness
 knowledge.toughness.desc=Take it!
-knowledge.toughness.1=Your constant exposure to battle has granted you a higher resistence to the elements.^Damage from all sources is reduced by 25%.
+knowledge.toughness.1=Your constant exposure to battle has granted you a higher resistance to the elements.^Damage from all sources is reduced by 25%.
 
 knowledge.armourpro=Armor Proficiency
 knowledge.armourpro.desc=Feel the weight

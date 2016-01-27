@@ -42,7 +42,7 @@ public class ItemHoeMF extends ItemHoe implements IToolMaterial
     {
         super(material);
         itemRarity = rarity;
-        setCreativeTab(CreativeTabMF.tabTool);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         this.name=name;
         this.toolMaterial = material;
         setTextureName("minefantasy2:Tool/"+name);
@@ -57,10 +57,10 @@ public class ItemHoeMF extends ItemHoe implements IToolMaterial
 	
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemHoeMF setCustom()
+	public ItemHoeMF setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
 		return this;
 	}
@@ -137,8 +137,10 @@ public class ItemHoeMF extends ItemHoe implements IToolMaterial
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

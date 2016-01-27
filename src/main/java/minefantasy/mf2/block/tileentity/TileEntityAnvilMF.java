@@ -32,6 +32,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -434,6 +435,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	}
 	private ItemStack modifySpecials(ItemStack result) 
 	{
+		boolean hasHeart = false;
 		boolean isTool = result.getMaxStackSize() == 1 && result.isItemStackDamageable();
 		EntityPlayer player = worldObj.getPlayerEntityByName(lastPlayerHit);
 		
@@ -441,7 +443,6 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 		
 		if(DF != null)
 		{
-			boolean hasHeart = false;
 			//DRAGONFORGE
 			for(int x = -4; x <= 4; x++)
 			{
@@ -466,11 +467,17 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 					}	
 				}	
 			}
-			if(hasHeart)
+		}
+		if(hasHeart)
+		{
+			NBTBase nbt = !(result.hasTagCompound()) ? null : result.getTagCompound().copy();
+			result = new ItemStack(DF, result.stackSize, result.getItemDamage());
+			if(nbt != null)
 			{
-				return new ItemStack(DF, result.stackSize, result.getItemDamage());
+				result.setTagCompound((NBTTagCompound) nbt);
 			}
 		}
+		
 		if(isPerfectItem() && !isMythicRecipe())
 		{
 			this.setTrait(result, "MF_Inferior", false);
@@ -815,7 +822,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil,
 	
 	private boolean isMythicRecipe()
 	{
-		return this.hammerTierRequired >= 6;//Ignotumite And Mithium
+		return false;//this.hammerTierRequired >= 6;
 	}
 	private boolean isMythicReady()
 	{

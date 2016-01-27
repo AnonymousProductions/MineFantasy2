@@ -34,6 +34,7 @@ import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.item.tool.crafting.ItemKnifeMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.mechanics.CombatMechanics;
+import minefantasy.mf2.util.MFLogUtil;
 import mods.battlegear2.api.PlayerEventChild.OffhandAttackEvent;
 import mods.battlegear2.api.weapons.IBackStabbable;
 import mods.battlegear2.api.weapons.IBattlegearWeapon;
@@ -116,7 +117,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		//May be unsafe, but will allow others to add weapons using custom materials (also more efficent)
 		name = named;
 		this.material = material;
-		setCreativeTab(CreativeTabMF.tabWeapon);
+		setCreativeTab(CreativeTabMF.tabOldTools);
         setTextureName("minefantasy2:Weapon/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
@@ -480,6 +481,11 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 				StaminaBar.modifyStaminaValue(user, -points);
 			}
 			StaminaBar.setIdleTime(user, pause * StaminaBar.pauseModifier);
+			
+			if(!user.worldObj.isRemote)
+			{
+				MFLogUtil.logDebug("Spent " + points + " Stamina Pts");
+			}
 		}
 	}
 	@Override
@@ -623,9 +629,11 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
-        	}
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+        		}
+    		}
     		return;
     	}
 		
@@ -647,20 +655,6 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 		list.add(new ItemStack(ToolListMF.waraxeStone));
 		list.add(new ItemStack(ToolListMF.maceStone));
 		list.add(new ItemStack(ToolListMF.spearStone));
-		
-		addSet(list, ToolListMF.swords);
-		addSet(list, ToolListMF.waraxes);
-		addSet(list, ToolListMF.maces);
-		addSet(list, ToolListMF.spears);
-		addSet(list, ToolListMF.daggers);
-		
-		addSet(list, ToolListMF.greatswords);
-		addSet(list, ToolListMF.battleaxes);
-		addSet(list, ToolListMF.warhammers);
-		addSet(list, ToolListMF.halbeards);
-		addSet(list, ToolListMF.katanas);
-		
-		addSet(list, ToolListMF.lances);
     }
 	
 	private void addSet(List list, Item[] items) 
@@ -767,10 +761,11 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-    public ItemWeaponMF setCustom()
+    public ItemWeaponMF setCustom(String s)
     {
-    	setCreativeTab(CreativeTabMF.tabCustom);
-    	setTextureName("minefantasy2:custom/weapon/"+name);
+    	canRepair = false;
+    	setTextureName("minefantasy2:custom/weapon/"+s+"/"+name);
+    	designType = s;
     	isCustom = true;
     	return this;
     }
@@ -860,5 +855,14 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
     	String unlocalName = this.getUnlocalizedNameInefficiently(item) + ".name";
     	return CustomToolHelper.getLocalisedName(item, unlocalName);
     }
+    
     //====================================================== CUSTOM END ==============================================================\\
+
+	public ItemWeaponMF setTab(CreativeTabs tab) 
+	{
+		setCreativeTab(tab);
+		return this;
+	}
+	
+	public String designType = "standard";
 }

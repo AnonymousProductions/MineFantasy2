@@ -8,6 +8,7 @@ import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigMobs;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.entity.EntityBomb;
+import minefantasy.mf2.entity.EntityDragonBreath;
 import minefantasy.mf2.entity.EntityFireBlast;
 import minefantasy.mf2.entity.EntityItemUnbreakable;
 import minefantasy.mf2.entity.EntityMine;
@@ -32,6 +33,8 @@ public class EntityListMF
 		
 		addEntity(EntityMine.class, "landmineMF", auto ? autoAssign() : IDBase, 16, 10);++IDBase;
 		addEntity(EntityParachute.class, "parachute_mf", auto ? autoAssign() : IDBase, 16, 20);++IDBase;
+		
+		addEntity(EntityDragonBreath.class, "dragonbreath", auto ? autoAssign() : IDBase, 16, ConfigExperiment.dynamicArrows ? 2 : 20);++IDBase;
 		
 		MobListMF.register(auto, IDBase);
 	}

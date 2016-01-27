@@ -44,7 +44,7 @@ public class EntryPageRecipeBloom extends EntryPage
 	}
 
 	@Override
-	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 		tooltipStack = null;
 		
@@ -142,7 +142,7 @@ public class EntryPageRecipeBloom extends EntryPage
 	}
 
 	@Override
-	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 	}
 }

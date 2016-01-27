@@ -23,7 +23,23 @@ public class ArrowFireFlint implements IArrowHandler
 		{
 			return false;
 		}
-        EntityArrow entArrow = new EntityArrow(world, user, charge * 2.0F);
+		float maxCharge = 20F;
+		if(bow != null && bow.getItem() instanceof ISpecialBow)
+		{
+			maxCharge = ((ISpecialBow)bow.getItem()).getMaxCharge();
+		}
+		float firepower = charge / maxCharge;
+
+        if (firepower < 0.1D)
+        {
+            return false;
+        }
+        if (firepower > 1.0F)
+        {
+            firepower = 1.0F;
+        }
+        
+        EntityArrow entArrow = new EntityArrow(world, user, firepower * 2.0F);
 
         int var9 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, bow);
 
@@ -51,7 +67,7 @@ public class ArrowFireFlint implements IArrowHandler
         
         if(bow != null && bow.getItem() != null && bow.getItem() instanceof ISpecialBow)
         {
-        	entArrow = (EntityArrow) ((ISpecialBow)bow.getItem()).modifyArrow(entArrow);
+        	entArrow = (EntityArrow) ((ISpecialBow)bow.getItem()).modifyArrow(bow, entArrow);
         }
         if (!world.isRemote)
         {

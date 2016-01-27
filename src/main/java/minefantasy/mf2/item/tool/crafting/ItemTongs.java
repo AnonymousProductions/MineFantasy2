@@ -57,7 +57,7 @@ public class ItemTongs extends ItemTool implements IToolMaterial, ISmithTongs
         this.material = material;
         itemRarity = rarity;
         this.name = name;
-        setCreativeTab(CreativeTabMF.tabCraftTool);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         setTextureName("minefantasy2:Tool/Crafting/"+name);
         this.setMaxDamage(getMaxDamage()/5);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
@@ -155,10 +155,10 @@ public class ItemTongs extends ItemTool implements IToolMaterial, ISmithTongs
 
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemTongs setCustom()
+	public ItemTongs setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
 		return this;
 	}
@@ -210,13 +210,25 @@ public class ItemTongs extends ItemTool implements IToolMaterial, ISmithTongs
     @Override
     public IIcon getIcon(ItemStack stack, int pass)
     {
-    	if(isCustom && pass > 0 && detailTex != null)
+    	ItemStack item = TongsHelper.getHeldItem(stack);
+    	boolean hasHeld = item != null;
+    	int baseLayer = hasHeld ? 1 : 0;
+    	
+    	if (hasHeld && pass == 0) 
+		{
+			return item.getItem().getIcon(item, pass);
+		}
+    	if(!isCustom || pass == baseLayer && detailTex != null)
     	{
-    		return detailTex;
+    		 return super.getIcon(stack, pass);
     	}
-        return super.getIcon(stack, pass);
+        return detailTex != null ? detailTex : super.getIcon(stack, pass);
     }
-    
+    @Override
+    public int getRenderPasses(int metadata)
+    {
+        return 3;
+    }
 	/*@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(ItemStack stack, int renderPass) 
@@ -234,22 +246,20 @@ public class ItemTongs extends ItemTool implements IToolMaterial, ISmithTongs
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack item, int layer)
     {
-    	if (layer == 0) 
-		{	//Customtoolhelper method only handles layer 0, tongs require other layers
-    		return CustomToolHelper.getColourFromItemStack(item, layer, super.getColorFromItemStack(item, layer));
-		}
-    	if (layer == 1) 
-		{
-			return  GuiHelper.getColourForRGB(255, 255, 255);
-		}
-
-		ItemStack held = TongsHelper.getHeldItem(item);
-		if (held != null)
+    	ItemStack held = TongsHelper.getHeldItem(item);
+    	boolean hasHeld = held != null;
+    	int baseLayer = hasHeld ? 1 : 0;
+		if (hasHeld && layer == 0) //Bottom Layer
 		{
 			return held.getItem().getColorFromItemStack(held, 0);
 		}
+		
+    	if (layer == baseLayer) //Middle Layer
+		{	
+    		return CustomToolHelper.getColourFromItemStack(item, layer, super.getColorFromItemStack(item, layer));
+		}
 
-		return GuiHelper.getColourForRGB(255, 255, 255);
+		return GuiHelper.getColourForRGB(255, 255, 255);//Top Layer
     }
 
     @Override
@@ -297,8 +307,10 @@ public class ItemTongs extends ItemTool implements IToolMaterial, ISmithTongs
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

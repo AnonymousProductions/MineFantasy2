@@ -46,60 +46,26 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
 	private boolean heavy;
 	private float baseDamage;
 	private String name;
-    public ItemHammer(String name, ToolMaterial material, boolean heavy, int rarity)
+    public ItemHammer(String name, ToolMaterial material, boolean heavy, int rarity, int tier)
     {
         super(heavy ? 3.0F:2.0F, material, Sets.newHashSet(new Block[] {}));
         this.heavy = heavy;
         this.material = material;
         this.name = name;
         itemRarity = rarity;
-        setCreativeTab(CreativeTabMF.tabCraftTool);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         this.setMaxDamage(material.getMaxUses() *2);
-        
+        this.tier = tier;
         setTextureName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		this.setUnlocalizedName(name);
     }
-    /*private int itemRarity;
-    @Override
-	public EnumRarity getRarity(ItemStack item)
-	{
-		int lvl = itemRarity+1;
-		
-		if(item.isItemEnchanted())
-		{
-			if(lvl == 0)
-			{
-				lvl++;
-			}
-			lvl ++;
-		}
-		if(lvl >= ToolListMF.rarity.length)
-		{
-			lvl = ToolListMF.rarity.length-1;
-		}
-		return ToolListMF.rarity[lvl];
-	}
-    */
-    
 	@Override
 	public ToolMaterial getMaterial()
 	{
 		return toolMaterial;
 	}
 	
-	@Override
-	public float getEfficiency(ItemStack item) 
-	{
-		return ToolHelper.modifyDigOnQuality(item, material.getEfficiencyOnProperMaterial());
-	}
-
-	@Override
-	public int getTier(ItemStack item) 
-	{
-		return tier;
-	}
-
 	@Override
 	public String getToolType(ItemStack item)
 	{
@@ -129,10 +95,10 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
 	
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemHammer setCustom()
+	public ItemHammer setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
 		return this;
 	}
@@ -218,6 +184,17 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
     	return CustomToolHelper.getRarity(item, itemRarity);
 	}
     @Override
+	public float getEfficiency(ItemStack item) 
+	{
+		return CustomToolHelper.getEfficiency(item, material.getEfficiencyOnProperMaterial(), efficiencyMod);
+	}
+	@Override
+	public int getTier(ItemStack item) 
+	{
+		return CustomToolHelper.getCrafterTier(item, tier);
+	}
+	
+    @Override
 	public float getDigSpeed(ItemStack stack, Block block, int meta)
 	{
     	if (!ForgeHooks.isToolEffective(stack, block, meta))
@@ -246,8 +223,10 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

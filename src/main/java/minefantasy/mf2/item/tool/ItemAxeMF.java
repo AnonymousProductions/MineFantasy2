@@ -44,7 +44,7 @@ public class ItemAxeMF extends ItemAxe implements IToolMaterial
     {
         super(material);
         itemRarity = rarity;
-        setCreativeTab(CreativeTabMF.tabTool);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         this.name=name;
         setTextureName("minefantasy2:Tool/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
@@ -58,11 +58,12 @@ public class ItemAxeMF extends ItemAxe implements IToolMaterial
 	
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemAxeMF setCustom()
+	public ItemAxeMF setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
+		canRepair = false;
 		return this;
 	}
 	public ItemAxeMF setBaseDamage(float baseDamage)
@@ -172,8 +173,10 @@ public class ItemAxeMF extends ItemAxe implements IToolMaterial
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

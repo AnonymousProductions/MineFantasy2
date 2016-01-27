@@ -14,7 +14,7 @@ public class Heatable
 {
 	public static final int forgeMaximumMetalHeat = 500;
 	public static boolean requiresHeating = true;
-	public static HashMap<Item, Heatable> items = new HashMap<Item, Heatable>();
+	public static HashMap<String, Heatable> registerList = new HashMap<String, Heatable>();
 	/**
 	 * The min heat the ingot must be to forge with mesured in celcius
 	 */
@@ -42,8 +42,9 @@ public class Heatable
 		this.maxTemperature = max;
 	}
 
-	public static void addItem(ItemStack item, int min, int unstable, int max) {
-		items.put(item.getItem(), new Heatable(item, min, unstable, max));
+	public static void addItem(ItemStack item, int min, int unstable, int max) 
+	{
+		registerList.put(getRegistrationForItem(item), new Heatable(item, min, unstable, max));
 	}
 
 	public static boolean canHeatItem(ItemStack item) {
@@ -55,10 +56,10 @@ public class Heatable
 		if (item == null)
 			return null;
 
-		if (items.isEmpty())
+		if (registerList.isEmpty())
 			return null;
 
-		Heatable stats = items.get(item.getItem());
+		Heatable stats = findRegister(item);
 		if (stats != null)
 		{
 			if (stats.object.getItemDamage() == OreDictionary.WILDCARD_VALUE) 
@@ -77,8 +78,9 @@ public class Heatable
 		return null;
 	}
 
-	public static final String NBT_ItemID = "MFHeatable_ItemID";
-	public static final String NBT_SubID = "MFHeatable_SubID";
+	public static final String NBT_Item = "MFHeatable_ItemSave";
+	//public static final String NBT_ItemID = "MFHeatable_ItemID";
+	//public static final String NBT_SubID = "MFHeatable_SubID";
 	public static final String NBT_ShouldDisplay = "MFHeatable_DisplayTemperature";
 	
 	public static final String NBT_CurrentTemp = "MFHeatable_Temperature";
@@ -176,27 +178,9 @@ public class Heatable
 		}
 		NBTTagCompound tag = getNBT(item);
 
-		if (tag.hasKey(NBT_ItemID) && tag.hasKey(NBT_SubID)) 
+		if (tag.hasKey(NBT_Item)) 
 		{
-			Item metal = Item.getItemById(tag.getInteger(NBT_ItemID));
-			ItemStack newItem = new ItemStack(metal, item.stackSize, tag.getInteger(NBT_SubID));
-			if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_CraftedByName"))
-			{
-				getNBT(newItem).setString("MF_CraftedByName", item.getTagCompound().getString("MF_CraftedByName"));
-			}
-			if(item.hasTagCompound() && item.getTagCompound().hasKey("Unbreakable"))
-			{
-				getNBT(newItem).setBoolean("Unbreakable", item.getTagCompound().getBoolean("Unbreakable"));
-			}
-			if(item.hasTagCompound() && item.getTagCompound().hasKey("MF_Inferior"))
-			{
-				getNBT(newItem).setBoolean("MF_Inferior", item.getTagCompound().getBoolean("MF_Inferior"));
-			}
-			if(item.hasTagCompound() && item.getTagCompound().hasKey("MFCraftQuality"))
-			{
-				getNBT(newItem).setFloat("MFCraftQuality", item.getTagCompound().getFloat("MFCraftQuality"));
-			}
-			return newItem;
+			return ItemStack.loadItemStackFromNBT(tag.getCompoundTag(NBT_Item));
 		}
 
 		return null;
@@ -218,5 +202,28 @@ public class Heatable
 			return getHeatableStage(inputItem) == 1;
 		}
 		return true;
+	}
+
+	private static Heatable findRegister(ItemStack item) 
+	{
+		Heatable specific = registerList.get(item.getItem().getUnlocalizedName() + "_" + item.getItemDamage());//Try Specific first
+		if(specific != null)
+		{
+			return specific;
+		}
+		return registerList.get(item.getUnlocalizedName() + "_any");//Try Any;
+	}
+	public static String getRegistrationForItem(ItemStack item) 
+	{
+		String s;
+		if(item.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+		{
+			s = item.getItem().getUnlocalizedName() + "_any";
+		}
+		else
+		{
+			s = item.getItem().getUnlocalizedName() + "_"+item.getItemDamage();
+		}
+		return s;
 	}
 }

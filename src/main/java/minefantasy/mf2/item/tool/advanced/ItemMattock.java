@@ -31,7 +31,7 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
     {
         super(material);
         itemRarity = rarity;
-        setCreativeTab(CreativeTabMF.tabToolAdvanced);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         
         setTextureName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);

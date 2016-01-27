@@ -51,13 +51,15 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 	private float hitDamage;
 	private float baseDamage;
 	private String name;
+	private int tier;
 	/**
 	 */
-    public ItemSaw(String name, ToolMaterial material, int rarity)
+    public ItemSaw(String name, ToolMaterial material, int rarity, int tier)
     {
         super(material);
+        this.tier=tier;
         itemRarity = rarity;
-        setCreativeTab(CreativeTabMF.tabCraftTool);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         this.hitDamage = (2.0F + material.getDamageVsEntity())/2F;
         setTextureName("minefantasy2:Tool/Crafting/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
@@ -72,7 +74,8 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 		return toolMaterial;
 	}
 
-	public boolean onBlockDestroyedOld(ItemStack item, World world, Block block, int x, int y, int z, EntityLivingBase user)
+    @Override
+	public boolean onBlockDestroyed(ItemStack item, World world, Block block, int x, int y, int z, EntityLivingBase user)
 	{
 		if(user instanceof EntityPlayer && canAcceptCost(user))
 		{
@@ -198,18 +201,6 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 	}
 
 	@Override
-	public float getEfficiency(ItemStack item)
-	{
-		return toolMaterial.getEfficiencyOnProperMaterial();
-	}
-
-	@Override
-	public int getTier(ItemStack item)
-	{
-		return toolMaterial.getHarvestLevel();
-	}
-
-	@Override
 	public String getToolType(ItemStack item)
 	{
 		return "saw";
@@ -222,10 +213,10 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
 	
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemSaw setCustom()
+	public ItemSaw setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
 		return this;
 	}
@@ -235,6 +226,16 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
     	return this;
     }
 	
+	@Override
+	public float getEfficiency(ItemStack item) 
+	{
+		return CustomToolHelper.getEfficiency(item, toolMaterial.getEfficiencyOnProperMaterial(), efficiencyMod);
+	}
+	@Override
+	public int getTier(ItemStack item) 
+	{
+		return CustomToolHelper.getCrafterTier(item, tier);
+	}
 	
     private float efficiencyMod = 1.0F;
     public ItemSaw setEfficiencyMod(float efficiencyMod)
@@ -339,8 +340,10 @@ public class ItemSaw extends ItemAxe implements IToolMaterial, IDamageType, IToo
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

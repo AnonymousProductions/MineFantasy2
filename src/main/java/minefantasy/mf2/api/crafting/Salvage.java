@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -135,6 +136,10 @@ public class Salvage
     }
 	private static boolean doesMatch(ItemStack item1, ItemStack item2)
     {
+		if(!CustomToolHelper.doesMatchForRecipe(item1, item2))
+        {
+        	return false;
+        }
         return item2.getItem() == item1.getItem() && (item2.getItemDamage() == OreDictionary.WILDCARD_VALUE || item2.getItemDamage() == item1.getItemDamage());
     }
 }

@@ -457,7 +457,7 @@ public class ItemCrossbow extends Item implements IFirearm, IDisplayMFAmmo, IDam
         
         if(bow != null && bow.getItem() != null && bow.getItem() instanceof ISpecialBow)
         {
-        	entArrow = (EntityArrowMF) ((ISpecialBow)bow.getItem()).modifyArrow(entArrow);
+        	entArrow = (EntityArrowMF) ((ISpecialBow)bow.getItem()).modifyArrow(bow, entArrow);
         }
         if (!world.isRemote)
         {

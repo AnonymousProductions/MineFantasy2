@@ -7,9 +7,10 @@ import minefantasy.mf2.api.armour.CogworkArmour;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.TacticalManager;
-import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.api.stamina.StaminaBar;
@@ -21,7 +22,6 @@ import minefantasy.mf2.api.weapon.IPowerAttack;
 import minefantasy.mf2.api.weapon.ISpecialEffect;
 import minefantasy.mf2.api.weapon.IWeaponSpeed;
 import minefantasy.mf2.api.weapon.IWeightedWeapon;
-import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.config.ConfigArmour;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigStamina;
@@ -67,6 +67,7 @@ public class CombatMechanics
 	public static final String posthitCooldownNBT = "MF_PostHit";
 	private static Random rand = new Random();
 	public static final float	specialUndeadModifier	= 2.0F;
+	public static final float	specialDragonModifier	= 0.5F;
 	public static final float	specialWerewolfModifier	= 8.0F;
 	public static boolean	swordSkeleton	= true;
 	
@@ -239,7 +240,7 @@ public class CombatMechanics
 		
 		if(properHit && hit instanceof EntityPlayer)
 		{
-			dam = modifyPerks((EntityPlayer)hit, dam);
+			dam = modifyPlayerDamage((EntityPlayer)hit, dam);
 		}
 		
 		if(source != null && hitter != null && hitter instanceof EntityLivingBase)
@@ -277,28 +278,26 @@ public class CombatMechanics
 		if(melee)
 		{
 			int powerAttack = initPowerAttack(user, target, properHit);
-			if(powerAttack != 0)
+			if(powerAttack == 1)
 			{
-				if(powerAttack == 1)
+				dam *= (2F/1.5F);
+				onPowerAttack(dam, user, target, properHit);
+				
+				if(isSkeleton(target))
 				{
-					dam *= (2F/1.5F);
-					if(isSkeleton(target))
+					dam *= 1.5F;
+					if(properHit)
 					{
-						dam *= 1.5F;
-						if(properHit)
+						if(rand.nextInt(2) == 0)
 						{
-							if(rand.nextInt(2) == 0)
-							{
-								target.entityDropItem(new ItemStack(Items.bone), 0.5F);
-							}
+							target.entityDropItem(new ItemStack(Items.bone), 0.5F);
 						}
 					}
-					onPowerAttack(dam, user, target, properHit);
 				}
-				if(powerAttack == -1)
-				{
-					dam /= 2F;
-				}
+			}
+			if(powerAttack == -1)
+			{
+				dam /= 2F;
 			}
 			/*
 			if(RPGElements.isSystemActive && user instanceof EntityPlayer)
@@ -339,13 +338,14 @@ public class CombatMechanics
     			//TODO: IDamageModifier, this mods the damage for weapons
     			dam = ((IDamageModifier)weapon.getItem()).modifyDamage(weapon, user, target, dam, properHit);
     		}
-    		if(weapon.getItem() instanceof IToolMaterial)
+    		CustomMaterial material = CustomToolHelper.getCustomMetalMaterial(weapon);
+    		if(material != null && material.name.equalsIgnoreCase("silver"))
     		{
-    			IToolMaterial mat = (IToolMaterial)weapon.getItem();
-    			if(this.isMaterialUndeadKiller(mat.getMaterial()))
-    			{
-    				dam = hurtUndead(user, target, dam, properHit);
-    			}
+    			dam = hurtUndead(user, target, dam, properHit);
+    		}
+    		if(!weapon.getUnlocalizedName().contains("dragonforged") && target instanceof EntityLivingBase && TacticalManager.isDragon((EntityLivingBase)target))
+    		{
+    			dam *= specialDragonModifier;
     		}
     	}
     	
@@ -440,8 +440,13 @@ public class CombatMechanics
 		return dam + getStrengthEnhancement(user);
 	}
 
-	private boolean isMaterialUndeadKiller(ToolMaterial material) 
+	private boolean isMaterialUndeadKiller(ItemStack weapon, ToolMaterial material) 
     {
+		CustomMaterial mat = CustomToolHelper.getCustomMetalMaterial(weapon);
+		if(mat != null && mat.name.equalsIgnoreCase("silver"))
+		{
+			return true;
+		}
 		return material == BaseMaterialMF.silver.getToolConversion() || material == BaseMaterialMF.ornate.getToolConversion();
 	}
 	private float hurtUndead(Entity entityHitting, Entity entityHit, float dam, boolean properHit) 
@@ -509,10 +514,6 @@ public class CombatMechanics
 	}
 	private void onWeaponHit(EntityLivingBase user, ItemStack weapon, Entity target, float dam)
 	{
-		if(ToolHelper.isItemMaterial(weapon, BaseMaterialMF.dragonforge.getToolConversion()))
-        {
-        	target.setFire(2);
-        }
 		if(target instanceof EntityLivingBase && weapon.getItem() instanceof ISpecialEffect)
 		{
 			((ISpecialEffect)weapon.getItem()).onProperHit(user, weapon, target, dam);
@@ -1051,7 +1052,7 @@ public class CombatMechanics
 	
 	
 	
-	private float modifyPerks(EntityPlayer hit, float dam) 
+	private float modifyPlayerDamage(EntityPlayer hit, float dam) 
 	{
 		if(ResearchLogic.hasInfoUnlocked(hit, KnowledgeListMF.toughness))
 		{

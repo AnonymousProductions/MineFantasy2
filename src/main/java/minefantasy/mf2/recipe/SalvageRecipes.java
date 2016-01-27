@@ -13,6 +13,7 @@ public class SalvageRecipes
 {
 	public static void init()
 	{
+		ItemStack ironHunk = ComponentListMF.metalHunk.createComm("iron");
 		Salvage.addSalvage(Items.wooden_pickaxe, new ItemStack(Items.stick, 2), new ItemStack(Blocks.planks, 3));
 		Salvage.addSalvage(Items.wooden_axe, new ItemStack(Items.stick, 2), new ItemStack(Blocks.planks, 3));
 		Salvage.addSalvage(Items.wooden_shovel, new ItemStack(Items.stick, 2), new ItemStack(Blocks.planks, 1));
@@ -119,7 +120,7 @@ public class SalvageRecipes
 		Salvage.addSalvage(Blocks.lever, Items.stick, Blocks.cobblestone);
 		Salvage.addSalvage(Blocks.lit_pumpkin, Blocks.pumpkin, Blocks.torch);
 		Salvage.addSalvage(Blocks.noteblock, new ItemStack(Blocks.planks, 8), Items.redstone);
-		Salvage.addSalvage(Blocks.rail, ComponentListMF.hunks[3]);
+		Salvage.addSalvage(Blocks.rail, ironHunk);
 		Salvage.addSalvage(Blocks.redstone_lamp, new ItemStack(Items.redstone, 4), Blocks.glowstone);
 		Salvage.addSalvage(Blocks.redstone_torch, Items.stick, Items.redstone);
 		Salvage.addSalvage(Blocks.sandstone, new ItemStack(Blocks.sand, 4));
@@ -128,11 +129,11 @@ public class SalvageRecipes
 		Salvage.addSalvage(Blocks.stone_pressure_plate, new ItemStack(Blocks.stone, 2));
 		Salvage.addSalvage(Blocks.tnt, new ItemStack(Blocks.sand, 4), Items.gunpowder, 5);
 		Salvage.addSalvage(Blocks.trapped_chest, Blocks.chest, Blocks.tripwire_hook);
-		Salvage.addSalvage(Blocks.tripwire_hook, new ItemStack(ComponentListMF.hunks[3], 2));
+		Salvage.addSalvage(Blocks.tripwire_hook, ironHunk, ironHunk);
 		Salvage.addSalvage(Blocks.wooden_button, Blocks.planks);
 		Salvage.addSalvage(Blocks.wooden_pressure_plate, new ItemStack(Blocks.planks, 2));
 		Salvage.addSalvage(Blocks.cobblestone_wall, Blocks.cobblestone);
-		Salvage.addSalvage(Blocks.iron_bars, new ItemStack(ComponentListMF.hunks[3], 2));
+		Salvage.addSalvage(Blocks.iron_bars, ironHunk, ironHunk);
 		Salvage.addSalvage(Items.item_frame, new ItemStack(Items.stick, 8), Items.leather);
 	}
 }

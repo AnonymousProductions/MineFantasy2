@@ -19,6 +19,7 @@ public class MobListMF
 {
 	public static void register(boolean auto, int IDBase)
 	{
+		DragonBreath.init();
 		addEntity(auto ? EntityListMF.autoAssign() : IDBase, EntityDragon.class, "MF_Dragon", 0, 12698049);++IDBase;
 		addEntity(auto ? EntityListMF.autoAssign() : IDBase, EntityMinotaur.class, "MF_Minotaur", 5651507, 11013646);
 		

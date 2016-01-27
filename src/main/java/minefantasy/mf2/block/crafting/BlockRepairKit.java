@@ -89,7 +89,8 @@ public class BlockRepairKit extends Block
     		return true;
     	}
     	ItemStack held = user.getHeldItem();
-    	if(held != null && held.isItemDamaged() && held.getItem().isRepairable() && (!held.isItemEnchanted() || isOrnate))
+    	//held.getItem().isRepairable() Was used but new MF tools disable this to avoid vanilla repairs
+    	if(held != null && held.isItemDamaged() && (!held.isItemEnchanted() || isOrnate))
     	{
     		if(rand.nextFloat() < successRate)
     		{

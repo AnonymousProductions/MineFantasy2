@@ -2,10 +2,14 @@ package minefantasy.mf2.mechanics;
 
 import java.util.Random;
 
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.config.ConfigHardcore;
-import minefantasy.mf2.item.armour.ItemArmourMF;
+import minefantasy.mf2.item.armour.ItemCustomArmour;
 import minefantasy.mf2.item.list.ArmourListMF;
+import minefantasy.mf2.item.list.CustomArmourListMF;
+import minefantasy.mf2.item.list.CustomToolListMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -42,20 +46,20 @@ public class MonsterUpgrader
 			{
 				if(((EntitySkeleton)mob).getSkeletonType() == 1)
 				{
-					giveEntityWeapon(mob, 5, rand.nextInt(8));
+					giveEntityWeapon(mob, "encrusted", rand.nextInt(8));
 				}
 				else if(CombatMechanics.swordSkeleton && rand.nextInt(3) == 0)
 				{
-					mob.setCurrentItemOrArmor(0, new ItemStack(ToolListMF.swords[4]));
+					mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_sword.construct("steel"));
 					((EntitySkeleton)mob).setCombatTask();
 				}
 			}
 			else if(mob instanceof EntityZombie)
 			{
-				int tier = 2;
+				String tier = "iron";
 				if(mob instanceof EntityPigZombie)
 				{
-					tier = 5;
+					tier = "obsidian";
 					giveEntityWeapon(mob, tier, rand.nextInt(7));
 				}
 				else
@@ -112,7 +116,7 @@ public class MonsterUpgrader
 		{
 			if(mob.getHeldItem() != null && mob.getHeldItem().getItem() == Items.iron_sword)
 			{
-				giveEntityWeapon(mob, 2, 0);
+				giveEntityWeapon(mob, "iron", 0);
 			}
 		}
 		if(mob instanceof EntityPigZombie)
@@ -125,77 +129,81 @@ public class MonsterUpgrader
 	private void createZombieKnight(EntityZombie mob) 
 	{
 		if(mob.isChild())return;
-		int tier = rand.nextInt(10) == 0 ? 4 : 2;
+		String tier = "steel";
 		int lootId = 0;
 		if(mob instanceof EntityPigZombie)
 		{
 			lootId = 1;
-			tier = 5;
+			tier = "encrusted";
 		}
 		mob.setVillager(false);
-		giveEntityArmour(mob, tier, 1);//Steel Plate
 		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
-		mob.setCurrentItemOrArmor(0, new ItemStack(ToolListMF.greatswords[tier]));
+		mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_greatsword.construct(tier));
+		setArmour(mob, 1, tier);
 		mob.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.2F);
 		mob.getEntityData().setInteger("MF_LootDrop", lootId);
 	}
+	private void setArmour(EntityLivingBase mob, int id, String tier) 
+	{
+		if(id == 1)
+		{
+			mob.setCurrentItemOrArmor(1, CustomArmourListMF.standard_plate_boots.construct(tier));
+			mob.setCurrentItemOrArmor(2, CustomArmourListMF.standard_plate_legs.construct(tier));
+			mob.setCurrentItemOrArmor(3, CustomArmourListMF.standard_plate_chest.construct(tier));
+			mob.setCurrentItemOrArmor(4, CustomArmourListMF.standard_plate_helmet.construct(tier));
+			return;
+		}
+		mob.setCurrentItemOrArmor(1, CustomArmourListMF.standard_chain_boots.construct(tier));
+		mob.setCurrentItemOrArmor(2, CustomArmourListMF.standard_chain_legs.construct(tier));
+		mob.setCurrentItemOrArmor(3, CustomArmourListMF.standard_chain_chest.construct(tier));
+		mob.setCurrentItemOrArmor(4, CustomArmourListMF.standard_chain_helmet.construct(tier));
+	}
+
+
 	private void createZombieBrute(EntityZombie mob) 
 	{
 		if(mob.isChild())return;
-		int tier = 1;
-		int weapontier = 2;
+		String tier = "iron";
 		int lootId = 0;
 		if(mob instanceof EntityPigZombie)
 		{
 			lootId = 1;
-			tier = 5;
-			weapontier = 5;
+			tier = "encrusted";
 		}
-		giveEntityArmour(mob, tier, 0);//Iron Chain\
 		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
-		mob.setCurrentItemOrArmor(0, new ItemStack(ToolListMF.waraxes[weapontier]));
+		mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_waraxe.construct(tier));
+		setArmour(mob, 0, tier);
 		mob.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35F);
 		mob.getEntityData().setInteger("MF_LootDrop", lootId);
 	}
 
 
-	private void giveEntityWeapon(EntityLivingBase mob, int tier, int weaponType)
+	/**
+	 * 1=Axe.....2=Mace.....3=dagger.....4=spear.....else sword
+	 */
+	private void giveEntityWeapon(EntityLivingBase mob, String tier, int weaponType)
 	{
-		if(tier < 0)return;
+		if(CustomMaterial.getMaterial(tier) == null)return;
 		
-		Item[] weapon = ToolListMF.swords;
+		ItemWeaponMF weapon = CustomToolListMF.standard_sword;
 		if(weaponType == 1)
 		{
-			weapon = ToolListMF.waraxes;
+			weapon = CustomToolListMF.standard_waraxe;
 		}
 		if(weaponType == 2)
 		{
-			weapon = ToolListMF.maces;
+			weapon = CustomToolListMF.standard_mace;
 		}
 		if(weaponType == 3)
 		{
-			weapon = ToolListMF.daggers;
+			weapon = CustomToolListMF.standard_dagger;
 		}
 		if(weaponType == 4)
 		{
-			weapon = ToolListMF.spears;
+			weapon = CustomToolListMF.standard_spear;
 		}
 		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
-		mob.setCurrentItemOrArmor(0, new ItemStack(weapon[tier]));
-	}
-	private void giveEntityArmour(EntityLivingBase mob, int tier, int suit)
-	{
-		mob.getEntityData().setBoolean(zombieArmourNBT, true);
-		
-		ItemArmourMF[] pool = ArmourListMF.chainmail;
-		if(suit == 1)
-		{
-			pool = ArmourListMF.fieldplate;
-		}
-		for(int a = 0; a < 4; a ++)
-		{
-			mob.setCurrentItemOrArmor(4-a, ArmourListMF.armour(pool, tier, a));
-		}
+		mob.setCurrentItemOrArmor(0, weapon.construct(tier));
 	}
 	
 	@SubscribeEvent

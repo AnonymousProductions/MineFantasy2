@@ -27,9 +27,12 @@ public class EntryPageCraft extends EntryPage
 	}
 	
 	@Override
-	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
-		tickRecipes();
+		if(onTick)
+		{
+			tickRecipes();
+		}
 		
 		int xPoint = (parent.width - universalBookImageWidth) / 2;
         int yPoint = (parent.height - universalBookImageHeight) / 2;
@@ -49,22 +52,18 @@ public class EntryPageCraft extends EntryPage
 
 	private void tickRecipes()
 	{
-		long ticks = mc.theWorld.getTotalWorldTime();
-		if(ticks % 15 == 0)
+		if(recipeID < recipes.length-1)
 		{
-			if(recipeID < recipes.length-1)
-			{
-				++recipeID;
-			}
-			else
-			{
-				recipeID = 0;
-			}
+			++recipeID;
+		}
+		else
+		{
+			recipeID = 0;
 		}
 	}
 
 	@Override
-	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 	}
 }

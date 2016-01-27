@@ -1,5 +1,6 @@
 package minefantasy.mf2.hunger;
 
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -43,7 +44,7 @@ public class HungerSystemMF
     		float temp = getTempFood(player);
     		MineFantasyAPI.debugMsg("Saturation: " + sat + " Temp: " + temp);
     		
-    		if(temp > 0)
+    		if(slowdownRate < 0 || temp > 0)
     		{
     			MineFantasyAPI.debugMsg("Hunger drop cancelled: Temp");
     			setTempFood(player, temp-1);
@@ -65,8 +66,9 @@ public class HungerSystemMF
 	
 	private float getTempSlowdownLvl(EntityPlayer player)
 	{
-		return 3;//4x slower
+		return slowdownRate;
 	}
+	public static int slowdownRate = 3;
 
 	public static void setSaturation(EntityPlayer user, float value)
 	{

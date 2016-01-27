@@ -1,19 +1,15 @@
 package minefantasy.mf2.item.custom;
 
+import java.util.HashMap;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.helpers.GuiHelper;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
-import minefantasy.mf2.item.gadget.EnumCasingType;
-import minefantasy.mf2.item.gadget.EnumExplosiveType;
-import minefantasy.mf2.item.gadget.EnumFuseType;
-import minefantasy.mf2.item.gadget.EnumPowderType;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -60,15 +56,7 @@ public class ItemCustomComponent extends Item
     public void addInformation(ItemStack tool, EntityPlayer user, List list, boolean fullInfo)
     {
     	super.addInformation(tool, user, list, fullInfo);
-    	
-    	float mass = getWeightInKg(tool);
-    	
-    	CustomMaterial base = getBase(tool);
-    	if(base != null)
-    	{
-    		list.add(EnumChatFormatting.GOLD + base.getMaterialString());
-    	}
-    	list.add(CustomMaterial.getWeightString(mass));
+    	CustomToolHelper.addComponentString(tool, list, getBase(tool));
     		
     }
 	 
@@ -79,9 +67,9 @@ public class ItemCustomComponent extends Item
     	return StatCollector.translateToLocalFormatted("item.commodity_"+ name +".name", StatCollector.translateToLocal("material."+head.name.toLowerCase() + ".name"));
     }
 	
-	public CustomMaterial getBase(ItemStack haft)
+	public CustomMaterial getBase(ItemStack component)
 	{
-		return CustomMaterial.getMaterialFor(haft, "base");
+		return CustomToolHelper.getCustomMetalMaterial(component);
 	}
 	
 	@Override
@@ -119,13 +107,17 @@ public class ItemCustomComponent extends Item
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        baseTex = reg.registerIcon("minefantasy2:custom/commodity/"+name);
+        baseTex = reg.registerIcon("minefantasy2:custom/component/"+name);
     }
     
-	public ItemStack createComm(String base) 
+    public ItemStack createComm(String base) 
 	{
-		ItemStack item = new ItemStack(this);
-		CustomMaterial.addMaterial(item, "base", base);
+    	return createComm(base, 1);
+	}
+	public ItemStack createComm(String base, int stack) 
+	{
+		ItemStack item = new ItemStack(this, stack);
+		CustomMaterial.addMaterial(item, CustomToolHelper.slot_main, base);
 		return item;
 	}
 }

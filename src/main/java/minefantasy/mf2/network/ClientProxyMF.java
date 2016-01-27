@@ -36,6 +36,7 @@ import minefantasy.mf2.client.render.RenderArrowMF;
 import minefantasy.mf2.client.render.RenderBombIcon;
 import minefantasy.mf2.client.render.RenderBow;
 import minefantasy.mf2.client.render.RenderCrossbow;
+import minefantasy.mf2.client.render.RenderDragonBreath;
 import minefantasy.mf2.client.render.RenderFireBlast;
 import minefantasy.mf2.client.render.RenderHeavyWeapon;
 import minefantasy.mf2.client.render.RenderLance;
@@ -73,6 +74,7 @@ import minefantasy.mf2.client.render.mob.RenderDragon;
 import minefantasy.mf2.client.render.mob.RenderMinotaur;
 import minefantasy.mf2.entity.EntityArrowMF;
 import minefantasy.mf2.entity.EntityBomb;
+import minefantasy.mf2.entity.EntityDragonBreath;
 import minefantasy.mf2.entity.EntityFireBlast;
 import minefantasy.mf2.entity.EntityMine;
 import minefantasy.mf2.entity.EntityParachute;
@@ -93,12 +95,10 @@ import minefantasy.mf2.item.weapon.ItemMaceMF;
 import minefantasy.mf2.item.weapon.ItemSpearMF;
 import minefantasy.mf2.item.weapon.ItemSwordMF;
 import minefantasy.mf2.item.weapon.ItemWaraxeMF;
-import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.mechanics.ExtendedReachMF;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -180,6 +180,7 @@ public class ClientProxyMF extends CommonProxyMF
 		RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderShrapnel("shrapnel"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityFireBlast.class, new RenderFireBlast());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySmoke.class, new RenderFireBlast());
+		RenderingRegistry.registerEntityRenderingHandler(EntityDragonBreath.class, new RenderDragonBreath());
 		RenderingRegistry.registerEntityRenderingHandler(EntityParachute.class, new RenderParachute());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityDragon.class, new RenderDragon(new ModelDragon(), 2F));
@@ -264,56 +265,44 @@ public class ClientProxyMF extends CommonProxyMF
 	{
 		registerEntityRenderer();
 		
-		for(ItemHeavyWeaponMF hammer: ToolListMF.warhammers)
-			MinecraftForgeClient.registerItemRenderer(hammer, new RenderHeavyWeapon().setBlunt());
-		
-		for(ItemHeavyWeaponMF axe: ToolListMF.battleaxes)
-			MinecraftForgeClient.registerItemRenderer(axe, new RenderHeavyWeapon().setBlunt().setParryable());
-		
-		for(ItemHeavyWeaponMF sword: ToolListMF.greatswords)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setGreatsword().setParryable());
-		
-		for(ItemHeavyWeaponMF sword: ToolListMF.katanas)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderHeavyWeapon().setKatana().setParryable());
-		
-		for(ItemSpearMF spear: ToolListMF.spears)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear());
-		for(ItemLance spear: ToolListMF.lances)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderLance());
-		for(ItemHalbeardMF spear: ToolListMF.halbeards)
-			MinecraftForgeClient.registerItemRenderer(spear, new RenderSpear(true));
-		
-			MinecraftForgeClient.registerItemRenderer(ToolListMF.spearTraining, new RenderSpear());
-		
-		for(ItemDagger sword: ToolListMF.daggers)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		for(ItemSwordMF sword: ToolListMF.swords)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		for(ItemWaraxeMF sword: ToolListMF.waraxes)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword().setAxe());
-		for(ItemMaceMF sword: ToolListMF.maces)
-			MinecraftForgeClient.registerItemRenderer(sword, new RenderSword());
-		
 		MinecraftForgeClient.registerItemRenderer(ToolListMF.swordStone, new RenderSword());
 		MinecraftForgeClient.registerItemRenderer(ToolListMF.maceStone, new RenderSword());
 		MinecraftForgeClient.registerItemRenderer(ToolListMF.waraxeStone, new RenderSword().setAxe());
 		MinecraftForgeClient.registerItemRenderer(ToolListMF.spearStone, new RenderSpear());
-		
 		MinecraftForgeClient.registerItemRenderer(ToolListMF.swordTraining, new RenderSword());
-		
-		for(ItemBowMF bow: ToolListMF.bows)
-			MinecraftForgeClient.registerItemRenderer(bow, new RenderBow(false));
-		
-		for(ItemSaw saw: ToolListMF.saws)
-			MinecraftForgeClient.registerItemRenderer(saw, new RenderSaw());
-		
-		for(ItemScythe scythe: ToolListMF.scythes)
-			MinecraftForgeClient.registerItemRenderer(scythe, new RenderHeavyWeapon().setBlunt());
-		
 		MinecraftForgeClient.registerItemRenderer(ToolListMF.crossbow_custom, new RenderCrossbow(2.0F));
 	
+		//STANDARD
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_sword, new RenderSword());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_waraxe, new RenderSword().setAxe());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_mace, new RenderSword());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_scythe, new RenderHeavyWeapon().setBlunt());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_warhammer, new RenderHeavyWeapon().setBlunt());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_battleaxe, new RenderHeavyWeapon().setBlunt().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_greatsword, new RenderHeavyWeapon().setGreatsword().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_katana, new RenderHeavyWeapon().setKatana().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_spear, new RenderSpear());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_halbeard, new RenderSpear(true));
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_lance, new RenderLance());
+		
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_sword, new RenderSword());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_waraxe, new RenderSword().setAxe());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_mace, new RenderSword());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_warhammer, new RenderHeavyWeapon().setBlunt());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_battleaxe, new RenderHeavyWeapon().setBlunt().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_greatsword, new RenderHeavyWeapon().setGreatsword().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_katana, new RenderHeavyWeapon().setKatana().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_spear, new RenderSpear());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_halbeard, new RenderSpear(true));
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dragonforged_lance, new RenderLance());
+		
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_saw, new RenderSaw());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.standard_bow, new RenderBow(false));
+		
+		//DRAGONFORGED
 		
 		//DWARVEN
+		/*
 		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_sword, new RenderSword());
 		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_waraxe, new RenderSword().setAxe());
 		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_mace, new RenderSword());
@@ -322,5 +311,12 @@ public class ClientProxyMF extends CommonProxyMF
 		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_warhammer, new RenderHeavyWeapon().setBlunt());
 		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_battleaxe, new RenderHeavyWeapon().setBlunt().setParryable());
 		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_greatsword, new RenderHeavyWeapon().setGreatsword().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_katana, new RenderHeavyWeapon().setKatana().setParryable());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_spear, new RenderSpear());
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.dwarven_halbeard, new RenderSpear(true));
+		
+		//GNOMISH
+		MinecraftForgeClient.registerItemRenderer(CustomToolListMF.gnomish_saw, new RenderSaw());
+		*/
 	}
 }

@@ -11,9 +11,11 @@ import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.heating.TongsHelper;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.EntityHelper;
 import minefantasy.mf2.api.helpers.TacticalManager;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.rpg.LevelupEvent;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.SyncSkillEvent;
@@ -31,6 +33,7 @@ import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
+import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.network.packet.LevelupPacket;
 import minefantasy.mf2.network.packet.SkillPacket;
 import net.minecraft.block.Block;
@@ -83,6 +86,7 @@ import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventManagerMF
@@ -598,12 +602,38 @@ public class EventManagerMF
 		kills ++;
 		hunter.getEntityData().setInteger(type, kills);
 	}
+	public static boolean displayOreDict = false;
 	
 	@SubscribeEvent
 	public void setTooltip(ItemTooltipEvent event)
 	{
 		if(event.itemStack != null)
 		{
+			int[] ids = OreDictionary.getOreIDs(event.itemStack);
+			boolean hasInfo = false;
+			if(ids != null)
+			{
+				for(int id : ids)
+				{
+					String s = OreDictionary.getOreName(id);
+					if(s != null)
+					{
+						if(!hasInfo && s.startsWith("ingot"))
+						{
+							String s2 = s.substring(5, s.length());
+							CustomMaterial material = CustomMaterial.getMaterial(s2);
+							if(material != null)hasInfo = true;
+							
+							CustomToolHelper.addComponentString(event.itemStack, event.toolTip, material);
+						}
+						if(displayOreDict)
+						{
+							event.toolTip.add("oreDict: " + s);
+						}
+					}
+				}
+			}
+			
 			if(event.itemStack.hasTagCompound() && event.itemStack.getTagCompound().hasKey("MF_Inferior"))
 			{
 				if(event.itemStack.getTagCompound().getBoolean("MF_Inferior"))
@@ -725,13 +755,20 @@ public class EventManagerMF
 		}
 		if(armour.getItem() instanceof ISpecialArmourMF)
 		{
-			list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection")); 
-			addSingleDR(armour, user, 0, list, extra);
-			addSingleDR(armour, user, 2, list, extra);
-			addSingleDR(armour, user, 1, list, extra);
+			if(ArmourCalculator.advancedDamageTypes)
+			{
+				list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection"));
+				addSingleDR(armour, user, 0, list, extra, true);
+				addSingleDR(armour, user, 2, list, extra, true);
+				addSingleDR(armour, user, 1, list, extra, true);
+			}
+			else
+			{
+				addSingleDR(armour, user, 0, list, extra, false);
+			}
 		}
     }
-	public static void addSingleDR(ItemStack armour, EntityPlayer user, int id, List list, boolean extra) 
+	public static void addSingleDR(ItemStack armour, EntityPlayer user, int id, List list, boolean extra, boolean advanced) 
     {
 		int slot = ((ItemArmor)armour.getItem()).armorType;
         String attatch = "";
@@ -755,7 +792,14 @@ public class EventManagerMF
 	        	String d2 = ItemWeaponMF.decimal_format.format(d);
 	        	attatch += " (" + (d > 0 ? "+" : "") + d2 +  ")";
 	        }
-	    	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.rating."+id) + " " + rating + attatch);
+	        if(advanced)
+	        {
+	        	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.rating."+id) + " " + rating + attatch);
+	        }
+	        else
+	        {
+	        	list.add(EnumChatFormatting.BLUE+StatCollector.translateToLocal("attribute.armour.protection") + ": " + rating + attatch);
+	        }
         }
     }
 

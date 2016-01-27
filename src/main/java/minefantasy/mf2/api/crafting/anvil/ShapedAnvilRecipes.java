@@ -2,6 +2,8 @@ package minefantasy.mf2.api.crafting.anvil;
 
 import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.heating.IHotItem;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -161,6 +163,10 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
                     {
                         return false;
                     }
+                    if(!CustomToolHelper.doesMatchForRecipe(recipeItem, inputItem))
+                    {
+                    	return false;
+                    }
                 }
             }
         }
@@ -176,13 +182,11 @@ public class ShapedAnvilRecipes implements IAnvilRecipe
     		return item;
     	}
     	
-		ItemStack hotItem = null;
+		ItemStack hotItem = Heatable.getItem(item);
 		
-		NBTTagCompound tag = getNBT(item);
-
-		if (tag.hasKey(Heatable.NBT_ItemID) && tag.hasKey(Heatable.NBT_SubID)) 
+		if (hotItem != null) 
 		{
-			return new ItemStack(Item.getItemById(tag.getInteger(Heatable.NBT_ItemID)), 1, tag.getInteger(Heatable.NBT_SubID));
+			return hotItem;
 		}
 		
 		return item;

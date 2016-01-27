@@ -48,7 +48,7 @@ public class ItemPickMF extends ItemPickaxe implements IToolMaterial
     {
         super(material);
         itemRarity = rarity;
-        setCreativeTab(CreativeTabMF.tabTool);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         this.name=name;
         
         setTextureName("minefantasy2:Tool/"+name);
@@ -90,14 +90,15 @@ public class ItemPickMF extends ItemPickaxe implements IToolMaterial
 				Block block = world.getBlock(i, j, k);
 				int blockTier = block.getHarvestLevel(world.getBlockMetadata(i, j, k));
 				
-				if(blockTier > this.toolMaterial.getHarvestLevel())
+				int HL = CustomToolHelper.getHarvestLevel(item, toolMaterial.getHarvestLevel());
+				if(blockTier > HL)
 				{
-					String msg = StatCollector.translateToLocalFormatted("prospect.cannotmine", this.toolMaterial.getHarvestLevel(), blockTier);	
+					String msg = StatCollector.translateToLocalFormatted("prospect.cannotmine", HL, blockTier);	
 					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + msg));
 				}
 				else
 				{
-					String msg = StatCollector.translateToLocalFormatted("prospect.canmine", this.toolMaterial.getHarvestLevel(), blockTier);	
+					String msg = StatCollector.translateToLocalFormatted("prospect.canmine", HL, blockTier);	
 					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GREEN + msg));
 				}
 			}
@@ -113,10 +114,10 @@ public class ItemPickMF extends ItemPickaxe implements IToolMaterial
 	
 	//===================================================== CUSTOM START =============================================================\\
 	private boolean isCustom = false;
-	public ItemPickMF setCustom()
+	public ItemPickMF setCustom(String s)
 	{
-		setCreativeTab(CreativeTabMF.tabCustom);
-		setTextureName("minefantasy2:custom/tool/"+name);
+		canRepair = false;
+		setTextureName("minefantasy2:custom/tool/"+s+"/"+name);
 		isCustom = true;
 		return this;
 	}
@@ -226,8 +227,10 @@ public class ItemPickMF extends ItemPickaxe implements IToolMaterial
     		while(iteratorMetal.hasNext())
         	{
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    			
-    			list.add(this.construct(customMat.name));
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct(customMat.name));
+    			}
         	}
     	}
     	else

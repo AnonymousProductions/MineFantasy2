@@ -477,6 +477,18 @@ public class TacticalManager
 		}
 		return false;
 	}
+	public static boolean isDragon(EntityLivingBase entityHit) 
+	{
+		if(entityHit instanceof net.minecraft.entity.boss.EntityDragon)
+		{
+			return true;
+		}
+		if(entityHit instanceof minefantasy.mf2.entity.mob.EntityDragon)
+		{
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Simply drops an item

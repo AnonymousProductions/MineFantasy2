@@ -82,7 +82,7 @@ public class ToolListMF
 	
 	public static EnumRarity[] rarity = new EnumRarity[]{ToolListMF.poor, EnumRarity.common, EnumRarity.uncommon, EnumRarity.rare, EnumRarity.epic};
 
-	
+	/*
 	public static final String[] mats = new String[]
 	{
 		"copper",
@@ -122,55 +122,55 @@ public class ToolListMF
 			
 			
 			
-	public static ItemPickMF[] picks = new ItemPickMF[mats.length];
-	public static ItemAxeMF[] axes = new ItemAxeMF[mats.length];
-	public static ItemSpadeMF[] spades = new ItemSpadeMF[mats.length];
-	public static ItemShearsMF[] shears = new ItemShearsMF[mats.length];
-	public static ItemHoeMF[] hoes = new ItemHoeMF[mats.length];
-	public static ItemKnifeMF[] knives = new ItemKnifeMF[mats.length];
-	public static ItemHammer[] hammers = new ItemHammer[mats.length];
-	public static ItemTongs[] tongs = new ItemTongs[mats.length];
-	public static ItemNeedle[] needles = new ItemNeedle[mats.length];
-	public static ItemSaw[] saws = new ItemSaw[mats.length];
+	private static ItemPickMF[] picks = new ItemPickMF[mats.length];
+	private static ItemAxeMF[] axes = new ItemAxeMF[mats.length];
+	private static ItemSpadeMF[] spades = new ItemSpadeMF[mats.length];
+	private static ItemShearsMF[] shears = new ItemShearsMF[mats.length];
+	private static ItemHoeMF[] hoes = new ItemHoeMF[mats.length];
+	private static ItemKnifeMF[] knives = new ItemKnifeMF[mats.length];
+	private static ItemHammer[] hammers = new ItemHammer[mats.length];
+	private static ItemTongs[] tongs = new ItemTongs[mats.length];
+	private static ItemNeedle[] needles = new ItemNeedle[mats.length];
+	private static ItemSaw[] saws = new ItemSaw[mats.length];
+	private static ItemSwordMF[] swords = new ItemSwordMF[weaponMats.length];
+	private static ItemWaraxeMF[] waraxes = new ItemWaraxeMF[weaponMats.length];
+	private static ItemMaceMF[] maces = new ItemMaceMF[weaponMats.length];
+	private static ItemDagger[] daggers = new ItemDagger[weaponMats.length];
+	private static ItemArrowMF[] bolts = new ItemArrowMF[weaponMats.length];
+	private static ItemArrowMF[] arrows = new ItemArrowMF[weaponMats.length];
+	private static ItemArrowMF[] bodkinArrows = new ItemArrowMF[weaponMats.length-1];
+	private static ItemArrowMF[] broadArrows = new ItemArrowMF[weaponMats.length-1];
+	private static ItemBowMF[] bows = new ItemBowMF[weaponMats.length];
+	private static ItemSpearMF[] spears = new ItemSpearMF[weaponMats.length];
+	//public static Item dwarven_waraxe = new ItemWaraxeMF("dwarven_waraxe", ToolMaterial.IRON, 0, 1.0F).setCustom();
+	
+	private static ItemHeavyWeaponMF[] battleaxes = new ItemBattleaxeMF[weaponMats.length-1];
+	private static ItemHeavyWeaponMF[] warhammers = new ItemWarhammerMF[weaponMats.length-1];
+	private static ItemHeavyWeaponMF[] greatswords = new ItemGreatswordMF[weaponMats.length-1];
+	private static ItemHeavyWeaponMF[] katanas = new ItemKatanaMF[weaponMats.length-1];
+	private static ItemHalbeardMF[] halbeards = new ItemHalbeardMF[weaponMats.length-1];
+	private static ItemLance[] lances = new ItemLance[weaponMats.length-1];
+	
+	private static ItemHammer[] hvyHammers = new ItemHammer[mats.length-1];
+	private static ItemHvyPick[] hvypicks = new ItemHvyPick[mats.length-1];
+	private static ItemHandpick[] handpicks = new ItemHandpick[mats.length-1];
+	private static ItemTrowMF[] trows = new ItemTrowMF[mats.length-1];
+	private static ItemScythe[] scythes = new ItemScythe[mats.length-1];
+	private static ItemHvyShovel[] hvyshovels = new ItemHvyShovel[mats.length-1];
+	private static ItemMattock[] mattocks = new ItemMattock[mats.length-1];
+	*/
 	public static ItemBasicCraftTool malletWood = new ItemBasicCraftTool("malletWood", "mallet", 0, 250);
 	public static ItemBasicCraftTool spoonWood = new ItemBasicCraftTool("spoonWood", "spoon", 0, 250);
 	public static ItemBasicCraftTool pestle = new ItemBasicCraftTool("pestle", "pestle", 0, 1500);
 	
-	public static ItemSwordMF[] swords = new ItemSwordMF[weaponMats.length];
-	public static ItemWaraxeMF[] waraxes = new ItemWaraxeMF[weaponMats.length];
-	public static ItemMaceMF[] maces = new ItemMaceMF[weaponMats.length];
-	public static ItemDagger[] daggers = new ItemDagger[weaponMats.length];
 	public static Item swordTraining = new ItemSwordMF("training_sword", ToolMaterial.WOOD, -1, 0.8F);
 	public static Item waraxeTraining = new ItemWaraxeMF("training_waraxe", ToolMaterial.WOOD, -1, 0.8F);
 	public static Item maceTraining = new ItemMaceMF("training_mace", ToolMaterial.WOOD, -1, 0.8F);
 	public static Item spearTraining = new ItemSpearMF("training_spear", ToolMaterial.WOOD, -1, 0.8F);
-	public static ItemArrowMF[] bolts = new ItemArrowMF[weaponMats.length];
-	public static ItemArrowMF[] arrows = new ItemArrowMF[weaponMats.length];
-	public static ItemArrowMF[] bodkinArrows = new ItemArrowMF[weaponMats.length-1];
-	public static ItemArrowMF[] broadArrows = new ItemArrowMF[weaponMats.length-1];
-	public static ItemBowMF[] bows = new ItemBowMF[weaponMats.length];
-	public static ItemSpearMF[] spears = new ItemSpearMF[weaponMats.length];
-	//public static Item dwarven_waraxe = new ItemWaraxeMF("dwarven_waraxe", ToolMaterial.IRON, 0, 1.0F).setCustom();
-	
-	public static ItemHeavyWeaponMF[] battleaxes = new ItemBattleaxeMF[weaponMats.length-1];
-	public static ItemHeavyWeaponMF[] warhammers = new ItemWarhammerMF[weaponMats.length-1];
-	public static ItemHeavyWeaponMF[] greatswords = new ItemGreatswordMF[weaponMats.length-1];
-	public static ItemHeavyWeaponMF[] katanas = new ItemKatanaMF[weaponMats.length-1];
-	public static ItemHalbeardMF[] halbeards = new ItemHalbeardMF[weaponMats.length-1];
-	public static ItemLance[] lances = new ItemLance[weaponMats.length-1];
-	
-	public static ItemHammer[] hvyHammers = new ItemHammer[mats.length-1];
-	public static ItemHvyPick[] hvypicks = new ItemHvyPick[mats.length-1];
-	public static ItemHandpick[] handpicks = new ItemHandpick[mats.length-1];
-	public static ItemTrowMF[] trows = new ItemTrowMF[mats.length-1];
-	public static ItemScythe[] scythes = new ItemScythe[mats.length-1];
-	public static ItemHvyShovel[] hvyshovels = new ItemHvyShovel[mats.length-1];
-	public static ItemMattock[] mattocks = new ItemMattock[mats.length-1];
-	
-	public static Item knifeStone = new ItemKnifeMF("stone_knife", BaseMaterialMF.getMaterial("stone").getToolConversion(), -1, 3.5F);
-	public static Item hammerStone = new ItemHammer("stone_hammer", BaseMaterialMF.getMaterial("stone").getToolConversion(),false, -1);
+	public static Item knifeStone = new ItemKnifeMF("stone_knife", BaseMaterialMF.getMaterial("stone").getToolConversion(), -1, 3.5F, 0);
+	public static Item hammerStone = new ItemHammer("stone_hammer", BaseMaterialMF.getMaterial("stone").getToolConversion(),false, -1, 0);
 	public static Item tongsStone = new ItemTongs("stone_tongs", BaseMaterialMF.getMaterial("stone").getToolConversion(), -1);
-	public static Item needleBone = new ItemNeedle("bone_needle", BaseMaterialMF.getMaterial("stone").getToolConversion(), -1);
+	public static Item needleBone = new ItemNeedle("bone_needle", BaseMaterialMF.getMaterial("stone").getToolConversion(), -1, 0);
 	
 	public static Item pickStone = new ItemPickMF("stone_pick", BaseMaterialMF.getMaterial("stone").getToolConversion(), -1);
 	public static Item axeStone = new ItemAxeMF("stone_axe", BaseMaterialMF.getMaterial("stone").getToolConversion(), -1);
@@ -243,6 +243,8 @@ public class ToolListMF
 		ArmourListMF.init();
 		FoodListMF.init();
 		CustomToolListMF.init();
+		CustomArmourListMF.init();
+		/*
 		for(int a = 0; a < mats.length; a ++)
 		{
 			BaseMaterialMF baseMat = BaseMaterialMF.getMaterial(mats[a]);
@@ -258,15 +260,15 @@ public class ToolListMF
 			spades[a] = new ItemSpadeMF(matName+"_spade", mat, rarity);
 			hoes[a] = new ItemHoeMF(matName+"_hoe", mat, rarity);
 			shears[a] = new ItemShearsMF(matName+"_shears", mat, rarity, tier);
-			knives[a] = new ItemKnifeMF(matName+"_knife", mat, rarity, weight);
-			hammers[a] = new ItemHammer(matName+"_hammer", mat, false, rarity);
+			knives[a] = new ItemKnifeMF(matName+"_knife", mat, rarity, weight, tier);
+			hammers[a] = new ItemHammer(matName+"_hammer", mat, false, rarity, tier);
 			tongs[a] = new ItemTongs(matName+"_tongs", mat, rarity);
-			needles[a] = new ItemNeedle(matName+"_needle", mat, rarity);
-			saws[a] = new ItemSaw(matName+"_saw", mat, rarity);
+			needles[a] = new ItemNeedle(matName+"_needle", mat, rarity, tier);
+			saws[a] = new ItemSaw(matName+"_saw", mat, rarity, tier);
 			
 			if(a > 0)
 			{
-				hvyHammers[a-1] = new ItemHammer(matName+"_hvyHammer", mat, true, rarity);
+				hvyHammers[a-1] = new ItemHammer(matName+"_hvyHammer", mat, true, rarity, tier);
 				hvypicks[a-1] = new ItemHvyPick(matName+"_hvypick", mat, rarity);
 				handpicks[a-1] = new ItemHandpick(matName+"_handpick", mat, rarity);
 				trows[a-1] = new ItemTrowMF(matName+"_trow", mat, rarity);
@@ -346,9 +348,8 @@ public class ToolListMF
 			SpecialForging.addDragonforgeCraft(ComponentListMF.broadheads[5], ComponentListMF.broadheads[6]);
 			SpecialForging.addDragonforgeCraft(BlockListMF.bars[3], BlockListMF.bars[4]);
 		}
+		*/
 		
-		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(hammers[2]), 1, 5, 5));
-		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(tongs[1]), 1, 2, 5));
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 5, 50));
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(skillbook_construction), 1, 1, 10));
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(ArmourListMF.leatherapron), 1, 1, 10));

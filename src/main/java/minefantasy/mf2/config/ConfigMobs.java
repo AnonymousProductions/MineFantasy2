@@ -68,7 +68,7 @@ public class ConfigMobs extends ConfigurationBaseMF
 		
 		dragonKillNPC =  Boolean.parseBoolean(config.get(MOB_DRAGON, "4A: Kill NPC Grief", true, "Should dragons kill NPCs (including villages as well as animals/mobs)... Not as determined though").getString());
 		dragonGriefFire =  Boolean.parseBoolean(config.get(MOB_DRAGON, "4B: Fire Grief", true, "Should fire breath start fires").getString());
-		dragonGriefGeneral =  Boolean.parseBoolean(config.get(MOB_DRAGON, "4C: General Block Grief", true, "Should glass be broken by fire breath AND stomping").getString());
+		dragonGriefGeneral =  Boolean.parseBoolean(config.get(MOB_DRAGON, "4C: General Block Grief", true, "Should blocks be frozen by frost breath, melted by fire, or glass shatter with fire and stomping").getString());
 		dragonMSG =  Boolean.parseBoolean(config.get(MOB_DRAGON, "4D: Spawn Message", true, "Will players get a message when dragons enter/leave").getString());
 	
 		minotaurHP =  Integer.parseInt(config.get(MOB_MINOTAUR, 	"5Aa: Health", 50, "Brown Minotaur").getString());

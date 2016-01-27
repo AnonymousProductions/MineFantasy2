@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import minefantasy.mf2.api.heating.Heatable;
+import minefantasy.mf2.api.heating.IHotItem;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -98,7 +100,10 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
                         {
                         	return false;
                         }
-                        
+                        if(!CustomToolHelper.doesMatchForRecipe(recipeItem, inputItem))
+                        {
+                        	return false;
+                        }
                         if (inputItem.getItem() == recipeItem.getItem() && (recipeItem.getItemDamage() == OreDictionary.WILDCARD_VALUE || inputItem.getItemDamage() == recipeItem.getItemDamage()))
                         {
                             var6 = true;
@@ -118,17 +123,19 @@ public class ShapelessAnvilRecipes implements IAnvilRecipe
         return var2.isEmpty();
     }
     
-    private ItemStack getHotItem(ItemStack item) 
+    protected ItemStack getHotItem(ItemStack item) 
     {
     	if(item == null)return null;
+    	if(!(item.getItem() instanceof IHotItem))
+    	{
+    		return item;
+    	}
     	
-		ItemStack hotItem = null;
+		ItemStack hotItem = Heatable.getItem(item);
 		
-		NBTTagCompound tag = getNBT(item);
-
-		if (tag.hasKey(Heatable.NBT_ItemID) && tag.hasKey(Heatable.NBT_SubID)) 
+		if (hotItem != null) 
 		{
-			return new ItemStack(Item.getItemById(tag.getInteger(Heatable.NBT_ItemID)), 1, tag.getInteger(Heatable.NBT_SubID));
+			return hotItem;
 		}
 		
 		return item;
