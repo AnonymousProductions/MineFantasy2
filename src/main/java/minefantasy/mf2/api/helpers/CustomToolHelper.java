@@ -17,6 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class CustomToolHelper 
 {
 	public static final String slot_main = "main_metal";
+	public static final String slot_haft = "haft_wood";
 	/**
 	 * A bit of the new system, gets custom materials for the head
 	 */
@@ -31,7 +32,32 @@ public class CustomToolHelper
 		}
 		return null;
 	}
+	public static CustomMaterial getCustomWoodMaterial(ItemStack item)
+	{
+		if(item == null)return null;
+		
+		CustomMaterial material = CustomMaterial.getMaterialFor(item, slot_haft);
+		if(material != null)
+		{
+			return material;
+		}
+		return null;
+	}
+	
 	public static ItemStack construct(Item base, String main)
+	{
+		return construct(base,main,"OakWood");
+	}
+	
+	public static ItemStack construct(Item base, String main, String haft)
+	{
+		ItemStack item = new ItemStack(base);
+		CustomMaterial.addMaterial(item, slot_main, main.toLowerCase());
+		CustomMaterial.addMaterial(item, slot_haft, haft.toLowerCase());
+		return item;
+	}
+	
+	public static ItemStack constructSingleColoredLayer(Item base, String main)
 	{
 		ItemStack item = new ItemStack(base);
 		CustomMaterial.addMaterial(item, slot_main, main.toLowerCase());
@@ -84,12 +110,23 @@ public class CustomToolHelper
 	/**
 	 * Gets the colour for a layer
 	 * @param base is default colour
+	 * 0 is base
+	 * 1 is haft
+	 * 2 is detail
 	 */
 	public static int getColourFromItemStack(ItemStack item, int layer, int base)
     {
     	if(layer == 0)
     	{
     		CustomMaterial material = CustomMaterial.getMaterialFor(item, slot_main);
+    		if(material != null)
+    		{
+    			return material.getColourInt();
+    		}
+    	}
+    	if(layer == 1)
+    	{
+    		CustomMaterial material = CustomMaterial.getMaterialFor(item, slot_haft);
     		if(material != null)
     		{
     			return material.getColourInt();

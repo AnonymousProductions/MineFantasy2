@@ -1,8 +1,12 @@
 package minefantasy.mf2.recipe;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.crafting.Salvage;
 import minefantasy.mf2.api.crafting.refine.PaintOilRecipe;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
@@ -43,6 +47,14 @@ public class CarpenterRecipes
 	
 	public static void init()
 	{
+		ArrayList<CustomMaterial> wood = CustomMaterial.getList("wood");
+		Iterator iteratorWood = wood.iterator();
+		while(iteratorWood.hasNext())
+    	{
+    		CustomMaterial customMat = (CustomMaterial) iteratorWood.next();	
+    		assembleWoodVariations(customMat);
+    	}
+		
 		addDusts();
 		addWoodworks();
 		addStonemason();
@@ -62,33 +74,7 @@ public class CarpenterRecipes
 			"B",
 			'B', Items.book,
 		});
-		KnowledgeListMF.spoonR =
-		MineFantasyAPI.addCarpenterRecipe(null, new ItemStack(ToolListMF.spoonWood), "", basic, "hands", -1, 4 , new Object[]
-		{
-			"P",
-			"S",
-			'P', ComponentListMF.plank,
-			'S', Items.stick
-		});
-		KnowledgeListMF.malletR =
-		MineFantasyAPI.addCarpenterRecipe(null, new ItemStack(ToolListMF.malletWood), "", basic, "hands", -1, 6 , new Object[]
-		{
-			"PP",
-			"S ",
-			'P', ComponentListMF.plank,
-			'S', Items.stick
-		});
-		Salvage.addSalvage(ToolListMF.spoonWood, ComponentListMF.plank, Items.stick);
-		Salvage.addSalvage(ToolListMF.malletWood, new ItemStack(ComponentListMF.plank, 2), Items.stick);
 		
-		KnowledgeListMF.carpenterRecipe =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.carpenter), new Object[]{
-			"PBP",
-			"P P",
-			'B', Blocks.crafting_table,
-			'P', ComponentListMF.plank,
-		});
-		Salvage.addSalvage(BlockListMF.carpenter, new ItemStack(ComponentListMF.plank, 4), Blocks.crafting_table);
 		
 		if(ConfigHardcore.HCCallowRocks)
 		{
@@ -147,7 +133,7 @@ public class CarpenterRecipes
 			"SIII",
 			"NI  ",
 			'N', ComponentListMF.nail,
-			'S', ComponentListMF.plank,
+			'S', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"),
 			'I', Blocks.planks,
 		});
 		MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(ToolListMF.waraxeTraining), nailHammer, "knife", 1, 30 , new Object[]
@@ -156,7 +142,7 @@ public class CarpenterRecipes
 			"SSIN",
 			"  I ",
 			'N', ComponentListMF.nail,
-			'S', ComponentListMF.plank,
+			'S', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"),
 			'I', Blocks.planks,
 		});
 		MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(ToolListMF.maceTraining), nailHammer, "knife", 1, 35 , new Object[]
@@ -164,7 +150,7 @@ public class CarpenterRecipes
 			"  II ",
 			"SSIIN",
 			'N', ComponentListMF.nail,
-			'S', ComponentListMF.plank,
+			'S', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"),
 			'I', Blocks.planks,
 		});
 		MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(ToolListMF.spearTraining), nailHammer, "knife", 1, 20 , new Object[]
@@ -173,13 +159,13 @@ public class CarpenterRecipes
 			"SSSI",
 			"  N ",
 			'N', ComponentListMF.nail,
-			'S', ComponentListMF.plank,
+			'S', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"),
 			'I', Blocks.planks,
 		});
-		Salvage.addSalvage(ToolListMF.swordTraining, new ItemStack(Blocks.planks, 5), new ItemStack(ComponentListMF.nail, 2), ComponentListMF.plank);
-		Salvage.addSalvage(ToolListMF.waraxeTraining, new ItemStack(Blocks.planks, 4), ComponentListMF.nail, new ItemStack(ComponentListMF.plank, 2));
-		Salvage.addSalvage(ToolListMF.maceTraining, new ItemStack(Blocks.planks, 4), ComponentListMF.nail, new ItemStack(ComponentListMF.plank, 2));
-		Salvage.addSalvage(ToolListMF.waraxeTraining, Blocks.planks, new ItemStack(ComponentListMF.nail, 2), new ItemStack(ComponentListMF.plank, 3));
+		Salvage.addSalvage(ToolListMF.swordTraining, new ItemStack(Blocks.planks, 5), new ItemStack(ComponentListMF.nail, 2), ((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem());
+		Salvage.addSalvage(ToolListMF.waraxeTraining, new ItemStack(Blocks.planks, 4), ComponentListMF.nail, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 2));
+		Salvage.addSalvage(ToolListMF.maceTraining, new ItemStack(Blocks.planks, 4), ComponentListMF.nail, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 2));
+		Salvage.addSalvage(ToolListMF.waraxeTraining, Blocks.planks, new ItemStack(ComponentListMF.nail, 2), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 3));
 		
 		KnowledgeListMF.badBandageR =
 		MineFantasyAPI.addCarpenterRecipe(provisioning, new ItemStack(ToolListMF.bandage_crude, 2), "bandage", sewing, "needle", -1, 10 , new Object[]
@@ -353,8 +339,8 @@ public class CarpenterRecipes
 		Salvage.addSalvage(ArmourListMF.armourItem(ArmourListMF.leather, 5, 2), ArmourListMF.armourItem(ArmourListMF.leather, 1, 2), new ItemStack(ComponentListMF.thread, 4), new ItemStack(Items.feather, 3), Blocks.wool);
 		Salvage.addSalvage(ArmourListMF.armourItem(ArmourListMF.leather, 5, 3), ArmourListMF.armourItem(ArmourListMF.leather, 1, 3), new ItemStack(ComponentListMF.thread, 4), new ItemStack(Items.feather, 3), Blocks.wool);
 				
-		ItemStack bronzeHammer = CustomToolListMF.standard_hammer.construct("bronze");
-		ItemStack steelHammer = CustomToolListMF.standard_hammer.construct("steel");
+		ItemStack bronzeHammer = CustomToolListMF.standard_hammer.construct("bronze","OakWood");
+		ItemStack steelHammer = CustomToolListMF.standard_hammer.construct("steel","OakWood");
 		KnowledgeListMF.repairBasicR =
 		MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(BlockListMF.repair_basic), "repair_basic", sewing, "needle", 1, 20 , new Object[]
 		{
@@ -397,7 +383,84 @@ public class CarpenterRecipes
 		Salvage.addSalvage(BlockListMF.repair_advanced, BlockListMF.repair_basic, bronzePlate, steelHammer, new ItemStack(Items.slime_ball, 3), new ItemStack(Items.string, 3));
 		Salvage.addSalvage(BlockListMF.repair_ornate, BlockListMF.repair_advanced, new ItemStack(Items.gold_ingot, 4), Items.diamond, new ItemStack(Items.dye, 3, 4));
 	}
-
+	public static void assembleWoodVariations(CustomMaterial material){
+		
+		KnowledgeListMF.carpenterRecipe =
+		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.carpenter), new Object[]{
+			"PBP",
+			"P P",
+			'B', Blocks.crafting_table,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+		});
+		KnowledgeListMF.spoonR =
+		MineFantasyAPI.addCarpenterRecipe(null, new ItemStack(ToolListMF.spoonWood), "", basic, "hands", -1, 4 , new Object[]
+		{
+			"P",
+			"S",
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+			'S', Items.stick
+		});
+		KnowledgeListMF.malletR =
+		MineFantasyAPI.addCarpenterRecipe(null, new ItemStack(ToolListMF.malletWood), "", basic, "hands", -1, 6 , new Object[]
+		{
+			"PP",
+			"S ",
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+			'S', Items.stick
+		});
+		Salvage.addSalvage(ToolListMF.spoonWood, ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"), Items.stick);
+		Salvage.addSalvage(ToolListMF.malletWood, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 2), Items.stick);		
+		Salvage.addSalvage(BlockListMF.carpenter, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 4), Blocks.crafting_table);
+		
+		KnowledgeListMF.nailPlanksR=
+		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.nailed_planks), "refined_planks", nailHammer, "hammer", 1, 5 , new Object[]
+		{
+			"NN",
+			"PP",
+			"PP",
+			'N', ComponentListMF.nail,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+		});
+		KnowledgeListMF.nailStairR=
+		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.nailed_planks_stair), "refined_planks", nailHammer, "hammer", 1, 5 , new Object[]
+		{
+			"N ",
+			"P ",
+			"PP",
+			'N', ComponentListMF.nail,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+		});
+		KnowledgeListMF.woodTroughRecipe = 
+		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.trough_wood), "", nailHammer, "hammer", 0, 30 , new Object[]
+		{
+			"P P",
+			"PPP",
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+		});
+		if(material.name != "RefinedWood"){
+			KnowledgeListMF.easyPaintPlank = 
+					MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 4), "paint_brush", sewing, "brush", -1, 2 , new Object[]
+					{
+						" O  ",
+						"PPPP",
+						'O', ComponentListMF.plant_oil,
+						'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+					});
+		}
+		
+		KnowledgeListMF.clayWallR =
+		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall, 4), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
+		{
+			"NPN",
+			"PCP",
+			"NPN",
+			'N', ComponentListMF.nail,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+			'C', Blocks.clay
+		});
+		Salvage.addSalvage(BlockListMF.clayWall,  ComponentListMF.nail, ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"), Items.clay_ball);
+		
+	}
 	private static void addDusts() 
 	{
 		KnowledgeListMF.potRecipe = 
@@ -534,21 +597,14 @@ public class CarpenterRecipes
 	{
 		for(ItemStack wood: OreDictionary.getOres("plankWood"))
 		{
-			MineFantasyAPI.addCarpenterRecipe(null, new ItemStack(ComponentListMF.plank, 4), "", sawing, "saw", 1, 10 , new Object[]
+			MineFantasyAPI.addCarpenterRecipe(null, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 4), "", sawing, "saw", 1, 10 , new Object[]
 			{
 				"W",
 				'W', wood
 			});
 		}
-		KnowledgeListMF.nailPlanksR=
-		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.nailed_planks), "refined_planks", nailHammer, "hammer", 1, 5 , new Object[]
-		{
-			"NN",
-			"PP",
-			"PP",
-			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plank,
-		});
+		
+		
 		KnowledgeListMF.refinedPlankBlockR=
 		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.refined_planks), "refined_planks", nailHammer, "hammer", 1, 10 , new Object[]
 		{
@@ -556,17 +612,9 @@ public class CarpenterRecipes
 			"PP",
 			"PP",
 			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 		});
-		KnowledgeListMF.nailStairR=
-		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.nailed_planks_stair), "refined_planks", nailHammer, "hammer", 1, 5 , new Object[]
-		{
-			"N ",
-			"P ",
-			"PP",
-			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plank,
-		});
+		
 		KnowledgeListMF.refinedStairR=
 		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.refined_planks_stair), "refined_planks", nailHammer, "hammer", 1, 10 , new Object[]
 		{
@@ -574,12 +622,12 @@ public class CarpenterRecipes
 			"P ",
 			"PP",
 			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 		});
-		Salvage.addSalvage(BlockListMF.nailed_planks, new ItemStack(ComponentListMF.nail, 2), new ItemStack(ComponentListMF.plank, 4));
-		Salvage.addSalvage(BlockListMF.refined_planks, new ItemStack(ComponentListMF.nail, 2), new ItemStack(ComponentListMF.plankRefined, 4));
-		Salvage.addSalvage(BlockListMF.nailed_planks_stair, ComponentListMF.nail, new ItemStack(ComponentListMF.plank, 3));
-		Salvage.addSalvage(BlockListMF.refined_planks_stair, ComponentListMF.nail, new ItemStack(ComponentListMF.plankRefined, 3));
+		Salvage.addSalvage(BlockListMF.nailed_planks, new ItemStack(ComponentListMF.nail, 2), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 4));
+		Salvage.addSalvage(BlockListMF.refined_planks, new ItemStack(ComponentListMF.nail, 2), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 4));
+		Salvage.addSalvage(BlockListMF.nailed_planks_stair, ComponentListMF.nail, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 3));
+		Salvage.addSalvage(BlockListMF.refined_planks_stair, ComponentListMF.nail, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 3));
 		
 		KnowledgeListMF.bellowsRecipe = 
 		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.bellows), "", nailHammer, "hammer", 1, 50 , new Object[]
@@ -589,17 +637,11 @@ public class CarpenterRecipes
 			"LL ",
 			"PP ",
 			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'L', Items.leather,
 		});
-		Salvage.addSalvage(BlockListMF.bellows, new ItemStack(ComponentListMF.nail, 3), new ItemStack(ComponentListMF.plankRefined, 5), new ItemStack(Items.leather, 2));
-		KnowledgeListMF.woodTroughRecipe = 
-		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.trough_wood), "", nailHammer, "hammer", 0, 30 , new Object[]
-		{
-			"P P",
-			"PPP",
-			'P', ComponentListMF.plank,
-		});
+		Salvage.addSalvage(BlockListMF.bellows, new ItemStack(ComponentListMF.nail, 3), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 5), new ItemStack(Items.leather, 2));
+		
 		KnowledgeListMF.rockTroughRecipe = 
 		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.trough_rock), "", nailHammer, "hammer", 1, 60 , new Object[]
 		{
@@ -615,11 +657,11 @@ public class CarpenterRecipes
 			"PPP",
 			"NNN",
 			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 		});
-		Salvage.addSalvage(BlockListMF.trough_wood, new ItemStack(ComponentListMF.plank, 5));
+		Salvage.addSalvage(BlockListMF.trough_wood, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 5));
 		Salvage.addSalvage(BlockListMF.trough_rock, new ItemStack(BlockListMF.reinforced_stone, 5));
-		Salvage.addSalvage(BlockListMF.trough_strongwood, new ItemStack(ComponentListMF.plankRefined, 5), new ItemStack(ComponentListMF.nail, 5));
+		Salvage.addSalvage(BlockListMF.trough_strongwood, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 5), new ItemStack(ComponentListMF.nail, 5));
 		
 		KnowledgeListMF.strongRackR = 
 		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.advTanner), "", nailHammer, "hammer", 1, 80 , new Object[]
@@ -629,18 +671,11 @@ public class CarpenterRecipes
 			"P P",
 			"PPP",
 			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 		});
-		Salvage.addSalvage(BlockListMF.advTanner, new ItemStack(ComponentListMF.plankRefined, 8), new ItemStack(ComponentListMF.nail, 3));
+		Salvage.addSalvage(BlockListMF.advTanner, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 8), new ItemStack(ComponentListMF.nail, 3));
 		
-		KnowledgeListMF.easyPaintPlank = 
-		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(ComponentListMF.plankRefined, 4), "paint_brush", sewing, "brush", -1, 2 , new Object[]
-		{
-			" O  ",
-			"PPPP",
-			'O', ComponentListMF.plant_oil,
-			'P', ComponentListMF.plank,
-		});
+		
 		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.refined_planks), "paint_brush", sewing, "brush", -1, 3 , new Object[]
 		{
 			"O",
@@ -652,17 +687,7 @@ public class CarpenterRecipes
 		PaintOilRecipe.addRecipe(BlockListMF.nailed_planks, BlockListMF.refined_planks);
 		PaintOilRecipe.addRecipe(BlockListMF.nailed_planks_stair, BlockListMF.refined_planks_stair);
 		
-		KnowledgeListMF.clayWallR =
-		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall, 4), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
-		{
-			"NPN",
-			"PCP",
-			"NPN",
-			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plank,
-			'C', Blocks.clay
-		});
-		Salvage.addSalvage(BlockListMF.clayWall,  ComponentListMF.nail, ComponentListMF.plank, Items.clay_ball);
+		
 	}
 	
 	private static void addStonemason()
@@ -1196,7 +1221,7 @@ public class CarpenterRecipes
 			"N N",
 			"PP ",
 			" P ",
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'N', ComponentListMF.nail
 		});
 		KnowledgeListMF.crossStockWoodR =
@@ -1205,7 +1230,7 @@ public class CarpenterRecipes
 			"NN N",
 			"PPPP",
 			" PPP",
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'N', ComponentListMF.nail
 		});
 		KnowledgeListMF.crossStockIronR =
@@ -1228,7 +1253,7 @@ public class CarpenterRecipes
 			"PPP",
 			"NSN",
 			" P ",
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'N', ComponentListMF.nail,
 			'S', Items.string,
 		});
@@ -1238,7 +1263,7 @@ public class CarpenterRecipes
 			"NNN",
 			"PAP",
 			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'A', ComponentListMF.cross_arms_light,
 		});
 		KnowledgeListMF.crossHeadHeavyR =
@@ -1247,7 +1272,7 @@ public class CarpenterRecipes
 			"NNN",
 			"PAP",
 			'N', ComponentListMF.nail,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'A', ComponentListMF.cross_arms_basic,
 		});
 		KnowledgeListMF.crossHeadAdvancedR =
@@ -1270,7 +1295,7 @@ public class CarpenterRecipes
 			"PGP",
 			"PPP",
 			'G', ComponentListMF.tungsten_gears,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'N', ComponentListMF.nail,
 		});
 		KnowledgeListMF.crossScopeR =
@@ -1280,18 +1305,18 @@ public class CarpenterRecipes
 			"GP ",
 			'G', ComponentListMF.tungsten_gears,
 			'S', ToolListMF.spyglass,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'B', ComponentListMF.bolt,
 		});
-		Salvage.addSalvage(ComponentListMF.cross_arms_light, new ItemStack(ComponentListMF.nail, 2), Items.string, new ItemStack(ComponentListMF.plankRefined, 4));
-		Salvage.addSalvage(ComponentListMF.cross_arms_basic, new ItemStack(ComponentListMF.nail, 3), ComponentListMF.cross_arms_light, new ItemStack(ComponentListMF.plankRefined, 2));
-		Salvage.addSalvage(ComponentListMF.cross_arms_heavy, new ItemStack(ComponentListMF.nail, 3), ComponentListMF.cross_arms_basic, new ItemStack(ComponentListMF.plankRefined, 2));
+		Salvage.addSalvage(ComponentListMF.cross_arms_light, new ItemStack(ComponentListMF.nail, 2), Items.string, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 4));
+		Salvage.addSalvage(ComponentListMF.cross_arms_basic, new ItemStack(ComponentListMF.nail, 3), ComponentListMF.cross_arms_light, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 2));
+		Salvage.addSalvage(ComponentListMF.cross_arms_heavy, new ItemStack(ComponentListMF.nail, 3), ComponentListMF.cross_arms_basic, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 2));
 		Salvage.addSalvage(ComponentListMF.cross_arms_advanced, ComponentListMF.tungsten_gears, new ItemStack(ComponentListMF.nail, 2), ComponentListMF.cross_arms_basic, new ItemStack(ComponentListMF.steel_tube, 3));
 		
-		Salvage.addSalvage(ComponentListMF.cross_scope, ComponentListMF.tungsten_gears, ToolListMF.spyglass, new ItemStack(ComponentListMF.bolt, 2), ComponentListMF.plankRefined);
-		Salvage.addSalvage(ComponentListMF.cross_ammo, ComponentListMF.tungsten_gears, new ItemStack(ComponentListMF.nail, 3), new ItemStack(ComponentListMF.plankRefined, 7));
-		Salvage.addSalvage(ComponentListMF.crossbow_handle_wood, new ItemStack(ComponentListMF.nail, 2), new ItemStack(ComponentListMF.plankRefined, 3));
-		Salvage.addSalvage(ComponentListMF.crossbow_stock_wood, new ItemStack(ComponentListMF.nail, 3), new ItemStack(ComponentListMF.plankRefined, 7));
+		Salvage.addSalvage(ComponentListMF.cross_scope, ComponentListMF.tungsten_gears, ToolListMF.spyglass, new ItemStack(ComponentListMF.bolt, 2), ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem());
+		Salvage.addSalvage(ComponentListMF.cross_ammo, ComponentListMF.tungsten_gears, new ItemStack(ComponentListMF.nail, 3), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 7));
+		Salvage.addSalvage(ComponentListMF.crossbow_handle_wood, new ItemStack(ComponentListMF.nail, 2), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 3));
+		Salvage.addSalvage(ComponentListMF.crossbow_stock_wood, new ItemStack(ComponentListMF.nail, 3), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem(), 7));
 		Salvage.addSalvage(ComponentListMF.crossbow_stock_iron, new ItemStack(ComponentListMF.tungsten_gears, 2), Blocks.obsidian, new ItemStack(ComponentListMF.bolt, 4), new ItemStack(ComponentListMF.iron_strut, 3), ComponentListMF.crossbow_stock_wood);
 	}
 	
@@ -1326,7 +1351,7 @@ public class CarpenterRecipes
 		{
 			"PSP",
 			"NCN",
-			'P', ComponentListMF.plank,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"),
 			'N', ComponentListMF.nail,
 			'S', Items.string,
 			'C', BlockListMF.carpenter,
@@ -1417,7 +1442,7 @@ public class CarpenterRecipes
 		Salvage.addSalvage(ComponentListMF.cogwork_shaft, new ItemStack(ComponentListMF.iron_strut, 2), new ItemStack(ComponentListMF.bolt, 4), ComponentListMF.iron_frame, Blocks.piston, ComponentListMF.tungsten_gears);
 		
 		Salvage.addSalvage(BlockListMF.bombBench, new ItemStack(ComponentListMF.bolt, 4), ComponentListMF.iron_frame, BlockListMF.carpenter);
-		Salvage.addSalvage(BlockListMF.crossbowBench, new ItemStack(ComponentListMF.nail, 2), new ItemStack(ComponentListMF.plank, 2), Items.string, BlockListMF.carpenter);
+		Salvage.addSalvage(BlockListMF.crossbowBench, new ItemStack(ComponentListMF.nail, 2), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 2), Items.string, BlockListMF.carpenter);
 		Salvage.addSalvage(BlockListMF.bombPress, new ItemStack(ComponentListMF.iron_strut, 2), new ItemStack(ComponentListMF.bolt, 2), new ItemStack(ComponentListMF.bronze_gears, 2), Blocks.lever, ComponentListMF.iron_frame, ToolListMF.spanner);
 		Salvage.addSalvage(BlockListMF.engTanner, new ItemStack(ComponentListMF.iron_strut, 4), new ItemStack(ComponentListMF.bolt, 2), new ItemStack(ComponentListMF.bronze_gears, 3), CustomToolListMF.standard_needle, Blocks.lever, ComponentListMF.iron_frame);
 		Salvage.addSalvage(BlockListMF.forge_metal, new ItemStack(ComponentListMF.bolt, 4), blackPlate, blackPlate, blackPlate, blackPlate, new ItemStack(ComponentListMF.iron_frame, 2), new ItemStack(Blocks.redstone_block, 2));
@@ -1435,7 +1460,7 @@ public class CarpenterRecipes
 			"R",
 			"S",
 			'R', Blocks.cobblestone,
-			'S', ComponentListMF.plank,
+			'S', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"),
 		});
 		KnowledgeListMF.stoneHammerR =
 		MineFantasyAPI.addCarpenterRecipe(null, new ItemStack(ToolListMF.hammerStone), "", primitive, "hands", -1, 4, new Object[]
@@ -1443,7 +1468,7 @@ public class CarpenterRecipes
 			"R",
 			"S",
 			'R', Blocks.cobblestone,
-			'S', ComponentListMF.plank,
+			'S', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"),
 		});
 		
 		KnowledgeListMF.stoneTongsR =
@@ -1452,7 +1477,7 @@ public class CarpenterRecipes
 			"R ",
 			"SR",
 			'R', Blocks.cobblestone,
-			'S', ComponentListMF.plank,
+			'S', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"),
 		});
 		KnowledgeListMF.boneNeedleR =
 		MineFantasyAPI.addCarpenterRecipe(null, new ItemStack(ToolListMF.needleBone), "", primitive, "hands", -1, 4, new Object[]
@@ -1467,9 +1492,9 @@ public class CarpenterRecipes
 			"F",
 			'F', Items.flint,
 		});
-		Salvage.addSalvage(ToolListMF.knifeStone, new ItemStack(Blocks.cobblestone, 2), ComponentListMF.plank);
-		Salvage.addSalvage(ToolListMF.hammerStone, Blocks.cobblestone, ComponentListMF.plank);
-		Salvage.addSalvage(ToolListMF.tongsStone, new ItemStack(Blocks.cobblestone, 2), ComponentListMF.plank);
+		Salvage.addSalvage(ToolListMF.knifeStone, new ItemStack(Blocks.cobblestone, 2), ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"));
+		Salvage.addSalvage(ToolListMF.hammerStone, Blocks.cobblestone, ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"));
+		Salvage.addSalvage(ToolListMF.tongsStone, new ItemStack(Blocks.cobblestone, 2), ((ItemComponentMF)ComponentListMF.plank).construct("OakWood"));
 		Salvage.addSalvage(ToolListMF.needleBone, Items.bone);
 		Salvage.addSalvage(ToolListMF.pestle, new ItemStack(Items.flint, 2));
 	}

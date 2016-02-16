@@ -129,6 +129,32 @@ material.junglewood.name=Jungle
 material.refinedwood.name=Refined
 material.ironbarkwood.name=Ironbark
 material.ebonywood.name=Ebony
+material.darkoakwood.name=Dark Oak
+material.pinewood.name=Pine
+material.cherrywood.name=Cherry
+material.poplarwood.name=Poplar
+material.maplewood.name=Maple
+material.mahoewood.name=Mahoe
+material.greenheartwood.name=Green Heart
+material.palmwood.name=Palm
+material.limewood.name=Lime
+material.balsawood.name=Balsa
+material.walnutwood.name=Walnut
+material.chestnutwood.name=Chestnut
+material.larchwood.name=Larch
+material.willowwood.name=Willow
+material.teakwood.name=Teak
+material.sequoiawood.name=Sequoia
+material.mahoganywood.name=Mahogany
+material.wengewood.name=Wenge
+material.redwoodwood.name=Redwood
+material.firwood.name=Fir
+material.purpleheartwood.name=Purple Heart
+material.silverwoodwood.name=Silverwood
+material.greatwoodwood.name=Greatwood
+material.yewwood.name=Yew
+
+
 
 LEATHER
 material.leather.name=Leather

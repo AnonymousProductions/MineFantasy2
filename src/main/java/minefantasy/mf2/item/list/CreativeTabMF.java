@@ -1,7 +1,14 @@
 package minefantasy.mf2.item.list;
 
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.ItemComponentMF;
+import minefantasy.mf2.item.archery.ItemBowMF;
+import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.food.FoodListMF;
+import minefantasy.mf2.item.tool.ItemAxeMF;
+import minefantasy.mf2.item.tool.advanced.ItemHandpick;
+import minefantasy.mf2.item.tool.crafting.ItemHammer;
+import minefantasy.mf2.item.weapon.ItemSwordMF;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -40,15 +47,15 @@ public final class CreativeTabMF extends CreativeTabs
 	{
 		switch(type)
 		{
-			case 1: return new ItemStack(CustomToolListMF.standard_axe);
-			case 2: return new ItemStack(CustomToolListMF.standard_sword);
-			case 3: return new ItemStack(CustomArmourListMF.standard_plate_helmet);
-			case 4: return new ItemStack(CustomToolListMF.standard_bow);
+			case 1: return ((ItemAxeMF)CustomToolListMF.standard_axe).construct("Steel","OakWood");
+			case 2: return ((ItemSwordMF)CustomToolListMF.standard_sword).construct("Steel","OakWood");
+			case 3: return ((ItemArmourMF)CustomArmourListMF.standard_plate_helmet).construct("Steel");
+			case 4: return ((ItemBowMF)CustomToolListMF.standard_bow).construct("Steel","OakWood");
 			case 5: return new ItemStack(BlockListMF.anvil[1]);
 			case 6: return new ItemStack(ToolListMF.bomb_custom);
-			case 7: return new ItemStack(ComponentListMF.plank);
-			case 8: return new ItemStack(CustomToolListMF.standard_handpick);
-			case 9: return new ItemStack(CustomToolListMF.standard_hammer);
+			case 7: return ((ItemComponentMF)ComponentListMF.plank).construct("OakWood");
+			case 8: return ((ItemHandpick)CustomToolListMF.standard_handpick).construct("Steel","OakWood");
+			case 9: return ((ItemHammer)CustomToolListMF.standard_hammer).construct("Steel","OakWood");
 			case 10: return new ItemStack(BlockListMF.oreCopper);
 			case 11: return new ItemStack(FoodListMF.sweetroll);
 			case 12: return new ItemStack(ComponentListMF.dragon_heart);

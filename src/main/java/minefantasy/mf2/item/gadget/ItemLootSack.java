@@ -4,6 +4,7 @@ import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -163,12 +164,12 @@ public class ItemLootSack extends Item
 		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(BlockListMF.repair_basic), 1, 1, 10));
 		
 		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.coal), 1, 8, 20));
-		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.plank), 1, 8, 20));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem()), 1, 8, 20));
 		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.iron_ingot), 1, 4, 20));
 		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.leather), 1, 4, 20));
 		
 		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(Items.string), 1, 2, 10));
-		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(ComponentListMF.plankRefined), 1, 2, 10));
+		ChestGenHooks.addItem(loot, new WeightedRandomChestContent(new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood").getItem()), 1, 2, 10));
 		
 		
 		loot = VALUABLE; //Books, Valued commodities

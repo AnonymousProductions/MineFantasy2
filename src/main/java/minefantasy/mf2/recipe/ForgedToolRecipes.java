@@ -19,6 +19,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import minefantasy.mf2.item.ItemComponentMF;
 
 public class ForgedToolRecipes 
 {
@@ -29,16 +30,30 @@ public class ForgedToolRecipes
 	{
 		ArrayList<CustomMaterial> metal = CustomMaterial.getList("metal");
 		Iterator iteratorMetal = metal.iterator();
+		
+		ArrayList<CustomMaterial> wood = CustomMaterial.getList("wood");
+		Iterator iteratorWood = wood.iterator();
 		while(iteratorMetal.hasNext())
     	{
     		CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
-    		
+
     		for(ItemStack ingot: OreDictionary.getOres("ingot"+customMat.name))
     		{
     			addMetalComponents(customMat, ingot);
-    			addStandardTools(customMat, ingot);
-    			addStandardCrafters(customMat, ingot);
-    			addStandardWeapons(customMat, ingot);
+    			
+    			
+    			while(iteratorWood.hasNext())
+    			{
+    				CustomMaterial customWoodMat = (CustomMaterial) iteratorWood.next();
+    				
+    	    		ItemStack plank = ((ItemComponentMF)ComponentListMF.plank).construct(customWoodMat.name);
+    	    		
+    	    		System.out.println(ingot);
+    	    			addStandardTools(customMat, ingot, customWoodMat, plank);
+    	    			addStandardCrafters(customMat, ingot,customWoodMat, plank);
+    	    			addStandardWeapons(customMat, ingot,customWoodMat, plank);
+    	    		
+    			}
     		}
     		addComponentTools(customMat);
     		
@@ -189,15 +204,16 @@ public class ForgedToolRecipes
 		Salvage.addSalvage(CustomToolListMF.standard_arrow_broad.construct(material.name), ComponentListMF.broadhead.createComm(material.name), Items.stick, ComponentListMF.fletching);
 	}
 
-	private static void addStandardTools(CustomMaterial material, ItemStack ingot) 
+	private static void addStandardTools(CustomMaterial material, ItemStack ingot, CustomMaterial haftMaterial, ItemStack plank) 
 	{
 		ItemStack salvage = material.getItem();
-		Item plank = ComponentListMF.plank;
+		//Item plank = ComponentListMF.plank;
+		System.err.println(ingot+", " +plank);
 		Item strip = ComponentListMF.leather_strip;
 		Item rivet = ComponentListMF.rivet;
 		int time = 15;
 		KnowledgeListMF.pickR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_pick.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_pick.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"L I",
 			"PPI",
@@ -207,14 +223,14 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_pick.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_pick.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage,
 				plank, plank,
 				strip, strip);
 		
 		time = 15;
 		KnowledgeListMF.axeR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_axe.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_axe.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LII",
 			"PPI",
@@ -224,14 +240,14 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_axe.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_axe.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage,
 				plank, plank,
 				strip, strip);
 		
 		time = 12;
 		KnowledgeListMF.hoeR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hoe.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hoe.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"L I",
 			"PPI",
@@ -241,14 +257,14 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_hoe.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_hoe.construct(material.name,haftMaterial.name),
 				salvage, salvage,
 				plank, plank,
 				strip, strip);
 		
 		time = 10;
 		KnowledgeListMF.spadeR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_spade.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_spade.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"L  ",
 			"PPI",
@@ -258,7 +274,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_spade.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_spade.construct(material.name,haftMaterial.name),
 				salvage,
 				plank, plank,
 				strip, strip);
@@ -266,7 +282,7 @@ public class ForgedToolRecipes
 		//ADVANCED
 		time = 25;
 		KnowledgeListMF.hvyPickR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hvypick.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hvypick.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LR I",
 			"PPII",
@@ -277,7 +293,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_hvypick.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_hvypick.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage,
 				plank, plank,
 				strip, strip,
@@ -285,7 +301,7 @@ public class ForgedToolRecipes
 		
 		time = 15;
 		KnowledgeListMF.handpickR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_handpick.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_handpick.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LI ",
 			"PIR",
@@ -296,7 +312,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_handpick.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_handpick.construct(material.name,haftMaterial.name),
 				salvage, salvage,
 				plank,
 				strip, strip,
@@ -304,7 +320,7 @@ public class ForgedToolRecipes
 		
 		time = 25;
 		KnowledgeListMF.hvyShovelR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hvyshovel.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hvyshovel.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LRII",
 			"PPII",
@@ -315,7 +331,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_hvyshovel.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_hvyshovel.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage, salvage,
 				plank, plank,
 				strip, strip,
@@ -323,7 +339,7 @@ public class ForgedToolRecipes
 		
 		time = 15;
 		KnowledgeListMF.trowR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_trow.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_trow.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"L  ",
 			"PIR",
@@ -334,7 +350,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_trow.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_trow.construct(material.name,haftMaterial.name),
 				salvage,
 				plank,
 				strip, strip,
@@ -342,7 +358,7 @@ public class ForgedToolRecipes
 		
 		time = 30;
 		KnowledgeListMF.scytheR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_scythe.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_scythe.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"   I ",
 			"L PIR",
@@ -353,7 +369,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_scythe.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_scythe.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage,
 				plank, plank, plank, plank,
 				strip,
@@ -361,16 +377,15 @@ public class ForgedToolRecipes
 	}
 	
 	
-	private static void addStandardCrafters(CustomMaterial material, ItemStack ingot) 
+	private static void addStandardCrafters(CustomMaterial material, ItemStack ingot,CustomMaterial haftMaterial, ItemStack plank) 
 	{
 		ItemStack salvage = material.getItem();
-		Item plank = ComponentListMF.plank;
 		Item strip = ComponentListMF.leather_strip;
 		Item rivet = ComponentListMF.rivet;
 		
 		int time = 10;
 		KnowledgeListMF.hammerR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hammer.construct(material.name), "smelt"+material.name, true, "hammer", -1, -1, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hammer.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", -1, -1, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"I",
 			"L",
@@ -380,14 +395,14 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_hammer.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_hammer.construct(material.name,haftMaterial.name),
 				salvage,
 				plank,
 				strip);
 		
 		time = 15;
 		KnowledgeListMF.hvyHammerR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hvyhammer.construct(material.name), "smelt"+material.name, true, "hammer", -1, -1, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_hvyhammer.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", -1, -1, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			" II",
 			"RLI",
@@ -398,7 +413,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_hvyhammer.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_hvyhammer.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage,
 				plank,
 				strip,
@@ -418,7 +433,7 @@ public class ForgedToolRecipes
 		
 		time = 10;
 		KnowledgeListMF.knifeR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_knife.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_knife.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"I ",
 			"I ",
@@ -428,7 +443,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_knife.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_knife.construct(material.name,haftMaterial.name),
 				salvage, salvage,
 				plank,
 				strip);
@@ -452,7 +467,7 @@ public class ForgedToolRecipes
 		
 		time = 20;
 		KnowledgeListMF.sawsR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_saw.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_saw.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"PIII",
 			"LI  ",
@@ -461,21 +476,20 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_saw.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_saw.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage,
 				plank,
 				strip);
 	}
-	private static void addStandardWeapons(CustomMaterial material, ItemStack ingot) 
+	private static void addStandardWeapons(CustomMaterial material, ItemStack ingot,CustomMaterial haftMaterial, ItemStack plank) 
 	{
 		ItemStack salvage = material.getItem();
-		Item plank = ComponentListMF.plank;
 		Item strip = ComponentListMF.leather_strip;
 		Item rivet = ComponentListMF.rivet;
 		
 		int time = 15;
 		KnowledgeListMF.daggerR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_dagger.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_dagger.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"L  ",
 			"PII",
@@ -485,11 +499,11 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_dagger.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_dagger.construct(material.name,haftMaterial.name),
 				salvage, salvage,
 				plank,
 				strip, strip);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_dagger.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_dagger.construct(material.name,haftMaterial.name),
 				salvage, salvage,
 				plank,
 				strip, strip);
@@ -497,7 +511,7 @@ public class ForgedToolRecipes
 		
 		time = 25;
 		KnowledgeListMF.swordR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_sword.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_sword.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LI  ",
 			"PIII",
@@ -507,18 +521,18 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_sword.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_sword.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage,
 				plank,
 				strip, strip);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_sword.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_sword.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage,
 				plank,
 				strip, strip);
 		
 		time = 20;
 		KnowledgeListMF.waraxeR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_waraxe.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_waraxe.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LII",
 			"PPI",
@@ -528,17 +542,17 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_waraxe.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_waraxe.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage,
 				plank, plank,
 				strip, strip);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_waraxe.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_waraxe.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage,
 				plank, plank,
 				strip, strip);
 		
 		KnowledgeListMF.maceR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_mace.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_mace.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"L II",
 			"PPII",
@@ -548,17 +562,17 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_mace.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_mace.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage,
 				plank, plank,
 				strip, strip);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_mace.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_mace.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage,
 				plank, plank,
 				strip, strip);
 		
 		KnowledgeListMF.spearR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_spear.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_spear.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			" LLI ",
 			"PPPPI",
@@ -568,11 +582,11 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_spear.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_spear.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage,
 				plank, plank, plank, plank,
 				strip, strip, strip, strip);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_spear.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_spear.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage,
 				plank, plank, plank, plank,
 				strip, strip, strip, strip);
@@ -580,7 +594,7 @@ public class ForgedToolRecipes
 		//HEAVY
 		time = 30;
 		KnowledgeListMF.katanaR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_katana.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_katana.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LR   I",
 			"PIIII ",
@@ -591,12 +605,12 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_katana.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_katana.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage, salvage,
 				plank,
 				strip, strip,
 				rivet);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_katana.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_katana.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage, salvage,
 				plank,
 				strip, strip,
@@ -604,7 +618,7 @@ public class ForgedToolRecipes
 		
 		time = 40;
 		KnowledgeListMF.gswordR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_greatsword.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_greatsword.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LIR   ",
 			"PIIIII",
@@ -615,12 +629,12 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_greatsword.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_greatsword.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage, salvage, salvage,
 				plank,
 				strip, strip,
 				rivet, rivet);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_greatsword.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_greatsword.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage, salvage, salvage,
 				plank,
 				strip, strip,
@@ -628,7 +642,7 @@ public class ForgedToolRecipes
 		
 		time = 30;
 		KnowledgeListMF.battleaxeR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_battleaxe.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_battleaxe.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LLIIR",
 			"PPPIR",
@@ -639,19 +653,19 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_battleaxe.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_battleaxe.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage,
 				plank, plank, plank,
 				strip, strip, strip, strip,
 				rivet, rivet, rivet);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_battleaxe.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_battleaxe.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage,
 				plank, plank, plank,
 				strip, strip, strip, strip,
 				rivet, rivet, rivet);
 		
 		KnowledgeListMF.whammerR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_warhammer.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_warhammer.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LL IIR",
 			"PPPIIR",
@@ -662,19 +676,19 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_warhammer.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_warhammer.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage,
 				plank, plank, plank,
 				strip, strip, strip, strip,
 				rivet, rivet, rivet);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_warhammer.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_warhammer.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage,
 				plank, plank, plank,
 				strip, strip, strip, strip,
 				rivet, rivet, rivet);
 		
 		KnowledgeListMF.halbeardR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_halbeard.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_halbeard.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"LLRII",
 			"PPPPI",
@@ -685,12 +699,12 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_halbeard.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_halbeard.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage,
 				plank, plank, plank, plank,
 				strip, strip, strip, strip,
 				rivet, rivet);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_halbeard.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_halbeard.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage,
 				plank, plank, plank, plank,
 				strip, strip, strip, strip,
@@ -698,7 +712,7 @@ public class ForgedToolRecipes
 		
 		time = 25;
 		KnowledgeListMF.bowR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_bow.construct(material.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_bow.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"ISSSI",
 			" PLP ",
@@ -708,7 +722,7 @@ public class ForgedToolRecipes
 			'P', plank,
 			'L', strip,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_bow.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_bow.construct(material.name,haftMaterial.name),
 				salvage, salvage,
 				plank, plank,
 				strip,
@@ -716,7 +730,7 @@ public class ForgedToolRecipes
 		
 		time = 60;
 		KnowledgeListMF.lanceR.add(
-		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_lance.construct(material.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
+		MineFantasyAPI.addAnvilRecipe(artisanry, CustomToolListMF.standard_lance.construct(material.name,haftMaterial.name), "smelt"+material.name, true, "hvyhammer", material.crafterTier, material.crafterAnvilTier, (int)(time*material.craftTimeModifier), new Object[]
 		{
 			"IR    ",
 			"IIIIII",
@@ -725,10 +739,10 @@ public class ForgedToolRecipes
 			'R', rivet,
 			'I', ingot,
 		}));
-		Salvage.addSalvage(CustomToolListMF.standard_lance.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.standard_lance.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage, salvage, salvage, salvage,
 				rivet, rivet);
-		Salvage.addSalvage(CustomToolListMF.dragonforged_lance.construct(material.name),
+		Salvage.addSalvage(CustomToolListMF.dragonforged_lance.construct(material.name,haftMaterial.name),
 				salvage, salvage, salvage, salvage, salvage, salvage, salvage, salvage,
 				rivet, rivet);
 	}

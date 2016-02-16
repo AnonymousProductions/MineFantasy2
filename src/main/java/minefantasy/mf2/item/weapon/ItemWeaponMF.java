@@ -631,7 +631,7 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
     			if(MineFantasyII.isDebug() || customMat.getItem() != null)
     			{
-    				list.add(this.construct(customMat.name));
+    				list.add(this.construct(customMat.name,"OakWood"));
         		}
     		}
     		return;
@@ -801,14 +801,17 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	{
     	return CustomToolHelper.getWeightModifier(stack, materialWeight);
 	}
-	private IIcon detailTex = null;
+    private IIcon detailTex = null;
+	private IIcon haftTex = null;
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
     	if(isCustom)
     	{
+    		haftTex = reg.registerIcon(this.getIconString()+"_haft");
     		detailTex = reg.registerIcon(this.getIconString()+"_detail");
+    		
     	}
     	super.registerIcons(reg);
     }
@@ -818,10 +821,21 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
     {
         return isCustom;
     }
+  //Returns the number of render passes this item has.
+    @Override
+    public int getRenderPasses(int metadata)
+    {
+        return 3;
+    }
+    
     @Override
     public IIcon getIcon(ItemStack stack, int pass)
     {
-    	if(isCustom && pass > 0 && detailTex != null)
+    	if(isCustom && pass == 1 && haftTex != null)
+    	{
+    		return haftTex; 
+    	}
+    	if(isCustom && pass == 2 && detailTex != null)
     	{
     		return detailTex;
     	}
@@ -838,9 +852,9 @@ public abstract class ItemWeaponMF extends ItemSword implements IPowerAttack, ID
 	{
 		return CustomToolHelper.getMaxDamage(stack, super.getMaxDamage(stack));
 	}
-	public ItemStack construct(String main)
+    public ItemStack construct(String main, String haft)
 	{
-		return CustomToolHelper.construct(this, main);
+		return CustomToolHelper.construct(this, main, haft);
 	}
 	protected int itemRarity;
     @Override

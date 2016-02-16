@@ -1,10 +1,13 @@
 package minefantasy.mf2.recipe;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import minefantasy.mf2.api.crafting.Salvage;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -20,6 +23,14 @@ public class TempRecipesMF
 {
 	public static void init()
 	{
+		ArrayList<CustomMaterial> wood = CustomMaterial.getList("wood");
+		Iterator iteratorWood = wood.iterator();
+		while(iteratorWood.hasNext())
+    	{
+    		CustomMaterial customMat = (CustomMaterial) iteratorWood.next();	
+    		assembleWoodVariations(customMat);
+    	}
+		
 		GameRegistry.addRecipe(new ItemStack(Items.bucket, 1), new Object[]
 		{
 			"I I",
@@ -138,24 +149,7 @@ public class TempRecipesMF
 			'C', Blocks.dirt
 		}));
 		
-		KnowledgeListMF.framedGlassR =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.framed_glass), new Object[]
-		{
-			"PGP",
-			'P', ComponentListMF.plank,
-			'G', Blocks.glass
-		});
-		KnowledgeListMF.windowR =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.window), new Object[]
-		{
-			" P ",
-			"PGP",
-			" P ",
-			'P', ComponentListMF.plank,
-			'G', Blocks.glass
-		});
-		Salvage.addSalvage(BlockListMF.framed_glass, new ItemStack(ComponentListMF.plank, 2), Blocks.glass);
-		Salvage.addSalvage(BlockListMF.window, new ItemStack(ComponentListMF.plank, 4), Blocks.glass);
+		
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.framed_pane, 16), new Object[]
 		{
@@ -180,6 +174,26 @@ public class TempRecipesMF
 		
 		addFood();
 		
+	}
+	private static void assembleWoodVariations(CustomMaterial material) {
+		KnowledgeListMF.framedGlassR =
+				GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.framed_glass), new Object[]
+				{
+					"PGP",
+					'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+					'G', Blocks.glass
+				});
+				KnowledgeListMF.windowR =
+				GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.window), new Object[]
+				{
+					" P ",
+					"PGP",
+					" P ",
+					'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+					'G', Blocks.glass
+				});
+				Salvage.addSalvage(BlockListMF.framed_glass, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 2), Blocks.glass);
+				Salvage.addSalvage(BlockListMF.window, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 4), Blocks.glass);
 	}
 
 	private static void addFood()

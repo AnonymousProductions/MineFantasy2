@@ -13,6 +13,7 @@ import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
@@ -58,7 +59,7 @@ public class KnowledgeListMF
     	ores = (new InformationBase("ores",  						    1, -2, 0, BlockListMF.oreCopper, (InformationBase)null)).registerStat().setUnlocked();
     	chimney = (new InformationBase("chimney",  				    0, 2, 0, BlockListMF.chimney_stone, (InformationBase)null)).registerStat().setUnlocked();
     	tanning = (new InformationBase("tanning", 					0, -2 ,0, Items.leather, (InformationBase)null)).registerStat().setUnlocked().setSpecial();
-    	commodities = (new InformationBase("commodities",				-1 ,-2 ,0, ComponentListMF.plank, (InformationBase)null)).registerStat().setUnlocked();
+    	commodities = (new InformationBase("commodities",				-1 ,-2 ,0, ((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), (InformationBase)null)).registerStat().setUnlocked();
     	dust = (new InformationBase("dust",								-1 ,-3 ,0, ComponentListMF.clay_pot, commodities)).registerStat().setUnlocked();
     	craftCrafters = (new InformationBase("craftCrafters", 		-1, 1, 0, CustomToolListMF.standard_hammer, (InformationBase)null)).registerStat().setUnlocked();
     	stamina = (new InformationBase("stamina", 					-3, 1, 0, Items.feather, craftCrafters)).registerStat().setUnlocked();

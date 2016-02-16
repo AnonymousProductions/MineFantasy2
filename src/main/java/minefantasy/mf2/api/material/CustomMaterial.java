@@ -2,7 +2,9 @@ package minefantasy.mf2.api.material;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -11,6 +13,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.Iterator;
 
 public class CustomMaterial
 {
@@ -245,4 +249,127 @@ public class CustomMaterial
 	 * Min and Max workable temps
 	 */
 	public static final int[] flameResistArray = new int[]{100, 300};
+	
+	
+//-----------------------------------BOW FUNCTIONS----------------------------------------\\
+	
+	//Returns if the material is a hard wood
+	// false is a non-unique value, this should not be used when youre not sure if the material is a wood
+	public boolean isHardwood(){
+		if(this.name.toLowerCase().contains("wood")){
+			if(this.name.toLowerCase().contains("yew")){//Yew is a softwood but has a higher hardness value
+				return true;
+			}
+			return this.hardness>3.3;
+		}
+		return false;
+	}
+	
+	
+	//Returns a  rating for how well a would would serve as a bow.
+	//Answers are in irrelevant physical units, so this is scaled in a later function which is meant to be used.
+	//Bow rating is proportional to power of the bow
+	//With regular woods, this value is from 6.4 to 11.5
+	//A rating BELOW 8.0 means that the wood is not suitable for a bow and this funtion will return zero
+	private float getBowRating(){
+		if(this.name.toLowerCase().contains("wood")){
+			float mid =(0.83F*(this.durability/this.flexibility));
+			float result = (10F*this.flexibility*mid*mid)/this.density;
+			return result > 8.0F? result:0;
+		}
+		return 0;
+	}
+
+	
+	private static float round (float value, int precision) {
+	    int scale = (int) Math.pow(10, precision);
+	    return (float) Math.round(value * scale) / scale;
+	}
+	
+	
+	//Returns a scaled value between in and max of the given value in relation to the whole set.
+	//Use if the values in WoodMaterial are out of bounds for a given purpose.
+	//Will change values to within bounds given proportionally.
+	//ONLY works with wood materials
+	//Only useful if min and max are the same when this function is called for each material.
+	public float getScaledHardness(float minScaled, float maxScaled){
+		ArrayList<CustomMaterial> list = getList("wood");
+		Iterator listIterator  = list.listIterator();
+		ArrayList dataset = new ArrayList(list.size());
+
+		while(listIterator.hasNext()){
+			dataset.add(((CustomMaterial)listIterator.next()).hardness);
+		}
+		float max = Collections.max(dataset);
+		float min = Collections.min(dataset);
+		
+		return ((maxScaled-minScaled)*(this.hardness - min ))/(max-min) + minScaled;
+	}
+	
+	public float getScaledDensity(float minScaled, float maxScaled){
+		ArrayList<CustomMaterial> list = getList("wood");
+		Iterator listIterator  = list.listIterator();
+		ArrayList dataset = new ArrayList(list.size());
+
+		while(listIterator.hasNext()){
+			dataset.add(((CustomMaterial)listIterator.next()).density);
+		}
+		float max = Collections.max(dataset);
+		float min = Collections.min(dataset);
+		
+		return ((maxScaled-minScaled)*(this.density - min ))/(max-min) + minScaled;
+	}
+	
+	//As a multiplier between 1 and 2 these values for normal woods (MC & MF2) is:
+	// 1.000,1.318,1.325,1.358,1.559,1.593,1.643,1.757,2.000
+	//Since this is scaled to the whole suitable bow woods, mods that add woods will not change game balance.
+	public float getScaledBowRating(){
+		float minScaled = 1;
+		float maxScaled = 2;
+		ArrayList<CustomMaterial> list = getList("wood");
+		Iterator listIterator  = list.listIterator();
+		ArrayList dataset = new ArrayList(list.size());
+
+		while(listIterator.hasNext()){
+			dataset.add(((CustomMaterial)listIterator.next()).getBowRating());
+		}
+		float max = Collections.max(dataset);
+		float min = Collections.min(dataset);
+		
+		return round(((maxScaled-minScaled)*(this.getBowRating() - min ))/(max-min) + minScaled,3);
+	}
+	
+	//The bow rating with the minimum subtracted so that they start at zero.
+	//What the user sees, easier to compare wood planks
+	public float getSimpleBowRating(){
+
+		ArrayList<CustomMaterial> list = getList("wood");
+		Iterator listIterator  = list.listIterator();
+		ArrayList dataset = new ArrayList(list.size());
+		while(listIterator.hasNext()){
+			dataset.add(((CustomMaterial)listIterator.next()).getBowRating());
+		}
+		float min = Collections.min(dataset);
+		
+		return round(this.getBowRating()-min,2);
+	}
+	
+	
+	//Bow speed at 1 and 2 is a multiplier
+	//for normal woods, this is pretty evenly distributed
+	public float getScaledBowSpeed(){
+		float minScaled = 1;
+		float maxScaled = 2;
+		ArrayList<CustomMaterial> list = getList("wood");
+		Iterator listIterator  = list.listIterator();
+		ArrayList flex = new ArrayList(list.size());
+
+		while(listIterator.hasNext()){
+			flex.add(((CustomMaterial)listIterator.next()).durability/((CustomMaterial)listIterator.next()).flexibility);
+		}
+		float max = Collections.max(flex);
+		float min = Collections.min(flex);
+		
+		return round(((maxScaled-minScaled)*((this.durability/this.flexibility) - min ))/(max-min) + minScaled,3);
+	}
 }

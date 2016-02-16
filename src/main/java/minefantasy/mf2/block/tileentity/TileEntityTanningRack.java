@@ -12,6 +12,7 @@ import minefantasy.mf2.block.crafting.BlockTanningRack;
 import minefantasy.mf2.block.crafting.BlockEngineerTanner;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.container.ContainerTanner;
+import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
@@ -139,7 +140,7 @@ public class TileEntityTanningRack extends TileEntity implements IInventory
 					{
 						for(int a = 0; a < rand.nextInt(10); a++)
 						{
-							ItemStack plank = new ItemStack(ComponentListMF.plank);
+							ItemStack plank = new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem());
 							worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "mob.zombie.woodbreak", 1.0F, 1.5F);
 							dropItem(plank);
 						}

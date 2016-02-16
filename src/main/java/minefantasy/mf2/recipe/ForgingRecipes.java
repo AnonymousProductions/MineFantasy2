@@ -375,7 +375,7 @@ public class ForgingRecipes
 		{
 			return ComponentListMF.obsidian_rod;
 		}
-		return ComponentListMF.plank;
+		return ((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem();
 	}
 	
 	private static Item getStrips(BaseMaterialMF material)
@@ -565,7 +565,7 @@ public class ForgingRecipes
 			'T', ToolListMF.engin_anvil_tools,
 			'I', ironHunk,
 			'R', Items.redstone,
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'F', ComponentListMF.fletching,
 		});
 		KnowledgeListMF.bombBoltR = 
@@ -615,7 +615,7 @@ public class ForgingRecipes
 		{
 			"R R I",
 			"PIII ",
-			'P', ComponentListMF.plankRefined,
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			'I', ironHunk,
 			'R', ComponentListMF.rivet,
 		});
@@ -669,7 +669,7 @@ public class ForgingRecipes
 		Salvage.addSalvage(ComponentListMF.mine_casing_iron, ironHunk, ironHunk, ComponentListMF.rivet, Items.iron_ingot);
 		Salvage.addSalvage(ComponentListMF.bomb_casing_arrow, 
 				ironHunk, ironHunk, ironHunk, ironHunk, 
-				new ItemStack(Items.redstone, 2), ComponentListMF.plankRefined, ComponentListMF.fletching);
+				new ItemStack(Items.redstone, 2), ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"), ComponentListMF.fletching);
 		
 		Salvage.addSalvage(ComponentListMF.bomb_casing_bolt, 
 				ironHunk, ironHunk, ironHunk, ironHunk, 
@@ -680,7 +680,7 @@ public class ForgingRecipes
 		
 		Salvage.addSalvage(ComponentListMF.cross_bayonet, 
 				ironHunk, ironHunk, ironHunk, ironHunk, 
-				ComponentListMF.plankRefined, new ItemStack(ComponentListMF.rivet, 2));
+				((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"), new ItemStack(ComponentListMF.rivet, 2));
 		
 		Salvage.addSalvage(ToolListMF.spanner, 
 				steelHunk, steelHunk, steelHunk, steelHunk, 
@@ -828,11 +828,11 @@ public class ForgingRecipes
 				
 				'W', Blocks.wool,
 				'I', tin,
-				'P', ComponentListMF.plankRefined,
+				'P', ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"),
 			});
 		}
 		
-		Salvage.addSalvage(ToolListMF.paint_brush, Blocks.wool, ComponentListMF.ingots[1], ComponentListMF.plankRefined);
+		Salvage.addSalvage(ToolListMF.paint_brush, Blocks.wool, ComponentListMF.ingots[1], ((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"));
 	}
 	
 	private static void addNails(String name, int count) 

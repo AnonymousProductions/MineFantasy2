@@ -7,6 +7,7 @@ import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.archery.AmmoMechanicsMF;
+import minefantasy.mf2.api.archery.IAmmo;
 import minefantasy.mf2.api.archery.IDisplayMFAmmo;
 import minefantasy.mf2.api.archery.IFirearm;
 import minefantasy.mf2.api.archery.ISpecialBow;
@@ -14,6 +15,7 @@ import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.item.list.CustomToolListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -45,6 +47,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import minefantasy.mf2.container.ContainerReload;
 
 public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFAmmo, IBattlegearWeapon, IFirearm
 {
@@ -207,8 +210,10 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFAmmo, I
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
     @Override
+    ///Item is the bow.
     public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player)
     {
+    	
     	if(player.isSneaking())
     	{
     		reloadBow(item, player);
@@ -216,18 +221,42 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFAmmo, I
     	}
         ArrowNockEvent event = new ArrowNockEvent(player, item);
         MinecraftForge.EVENT_BUS.post(event);
+        System.out.println(event.result);
         if (event.isCanceled())
         {
             return event.result;
         }
         
-        if (player.capabilities.isCreativeMode || player.inventory.hasItem(Items.arrow))
+        //if(canAccept(item)){
+        	
+        
+      
+        if (player.capabilities.isCreativeMode || (player.inventory.hasItem(CustomToolListMF.standard_arrow)))
         {
             player.setItemInUse(item, this.getMaxItemUseDuration(item));
         }
 
         return item;
+        
+        //player.inventory.hasItem(Items.arrow)
     }
+    
+    public boolean canAccept(ItemStack ammo)
+	{
+		String ammoType = "null";
+		ItemStack weapon = new ItemStack(this);
+		if(ammo != null && ammo.getItem() instanceof IAmmo)
+		{
+			ammoType = ((IAmmo)ammo.getItem()).getAmmoType(ammo);
+		}
+		
+		if(weapon != null && weapon.getItem() instanceof IFirearm)
+		{
+			return ((IFirearm)weapon.getItem()).canAcceptAmmo(weapon, ammoType);
+		}
+		
+		return ammoType.equalsIgnoreCase("arrow");
+	}
 
 	private void reloadBow(ItemStack item, EntityPlayer player) 
 	{
@@ -447,9 +476,9 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFAmmo, I
     	return c;
     }
     
-    public ItemStack construct(String main)
+	public ItemStack construct(String main, String haft)
 	{
-		return CustomToolHelper.construct(this, main);
+		return CustomToolHelper.construct(this, main, haft);
 	}
     
     @Override
@@ -457,6 +486,13 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFAmmo, I
     public boolean requiresMultipleRenderPasses()
     {
         return isCustom;
+    }
+    
+  //Returns the number of render passes this item has.
+    @Override
+    public int getRenderPasses(int metadata)
+    {
+        return 3;
     }
     
     @Override
@@ -485,7 +521,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFAmmo, I
     			CustomMaterial customMat = (CustomMaterial) iteratorMetal.next();
     			if(MineFantasyII.isDebug() || customMat.getItem() != null)
     			{
-    				list.add(this.construct(customMat.name));
+    				list.add(this.construct(customMat.name,"OakWood"));
     			}
         	}
     		return;

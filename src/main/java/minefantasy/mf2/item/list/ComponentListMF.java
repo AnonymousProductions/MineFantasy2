@@ -1,8 +1,12 @@
 package minefantasy.mf2.item.list;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.knowledge.InformationBase;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.mining.RandomDigs;
 import minefantasy.mf2.api.mining.RandomOre;
 import minefantasy.mf2.block.list.BlockListMF;
@@ -53,40 +57,22 @@ public class ComponentListMF
 		"ender",
 		"tungsten",
 	};
-	/*
-	public static final String[] hunkMats = new String[]
-	{
-		"copper",
-		"tin",
-		"bronze",
-		"iron",
-		"pigiron",
-		"steel",
-		"encrusted",
-		"blacksteel",
-		"silver",
-		"gold",
-		"redsteel",
-		"bluesteel",
-		"adamantium",
-		"mithril",
-		"ignotumite",
-		"mithium",
-		"ender",
-		"tungsten",
-	};
-	*/
+	
+
+	
 	public static Item clay_pot = new ItemMFBowl("clay_pot");
 	public static Item clay_pot_uncooked = new ItemComponentMF("clay_pot_uncooked", 0);
 	public static Item ingot_mould = new ItemComponentMF("ingot_mould").setMaxStackSize(1);
 	public static Item ingot_mould_uncooked = new ItemComponentMF("ingot_mould_uncooked", 0).setMaxStackSize(1);
 	
 	public static ItemComponentMF[] ingots = new ItemComponentMF[ingotMats.length];
+	
+	
 	//public static ItemComponentMF[] hunks = new ItemComponentMF[hunkMats.length];
 	//public static ItemComponentMF[] chainmeshes = new ItemComponentMF[ArmourListMF.mats.length];
 	//public static ItemComponentMF[] plates = new ItemComponentMF[ArmourListMF.mats.length-1];
-	public static Item plank = new ItemComponentMF("plank", 0);
-	public static Item plankRefined = new ItemComponentMF("plankRefined", 0);
+	public static Item plank = new ItemComponentMF("plank").setCustom("yes");
+	//public static Item plankRefined = new ItemComponentMF("plankRefined", 0);
 	public static Item vine = new ItemComponentMF("vine", -1);
 	public static Item sharp_rock = new ItemComponentMF("sharp_rock", -1);
 	
@@ -231,6 +217,17 @@ public class ComponentListMF
 				OreDictionary.registerOre("ingotRefinedIron", ingots[a]);
 			}
 		}
+		
+		/*for(int a = 0; a < woodMats.length; a ++)
+		{
+			CustomMaterial mat = CustomMaterial.getMaterial(woodMats[a]);
+			String name = mat.name;
+    			planks[a] = new ItemComponentMF("plank"+name, 0).setCustom("This is irrelevant text,but i'm lazy now");
+    			OreDictionary.registerOre("MFplank2"+name, planks[a]);
+    		
+		}*/
+		
+		
 		
 		addRandomDrops();
 		initFuels();

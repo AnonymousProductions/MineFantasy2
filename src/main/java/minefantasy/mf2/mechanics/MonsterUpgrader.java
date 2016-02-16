@@ -50,7 +50,7 @@ public class MonsterUpgrader
 				}
 				else if(CombatMechanics.swordSkeleton && rand.nextInt(3) == 0)
 				{
-					mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_sword.construct("steel"));
+					mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_sword.construct("steel","OakWood"));
 					((EntitySkeleton)mob).setCombatTask();
 				}
 			}
@@ -138,7 +138,7 @@ public class MonsterUpgrader
 		}
 		mob.setVillager(false);
 		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
-		mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_greatsword.construct(tier));
+		mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_greatsword.construct(tier,"OakWood"));
 		setArmour(mob, 1, tier);
 		mob.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.2F);
 		mob.getEntityData().setInteger("MF_LootDrop", lootId);
@@ -171,7 +171,7 @@ public class MonsterUpgrader
 			tier = "encrusted";
 		}
 		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
-		mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_waraxe.construct(tier));
+		mob.setCurrentItemOrArmor(0, CustomToolListMF.standard_waraxe.construct(tier,"OakWood"));
 		setArmour(mob, 0, tier);
 		mob.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35F);
 		mob.getEntityData().setInteger("MF_LootDrop", lootId);
@@ -203,7 +203,7 @@ public class MonsterUpgrader
 			weapon = CustomToolListMF.standard_spear;
 		}
 		mob.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0F);
-		mob.setCurrentItemOrArmor(0, weapon.construct(tier));
+		mob.setCurrentItemOrArmor(0, weapon.construct(tier,"OakWood"));
 	}
 	
 	@SubscribeEvent

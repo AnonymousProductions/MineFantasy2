@@ -1,15 +1,21 @@
 package minefantasy.mf2.recipe;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.crafting.Salvage;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.ItemComponentMF;
+import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.CustomArmourListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -31,6 +37,16 @@ public class BasicRecipesMF
 		CarpenterRecipes.init();
 		SmeltingRecipesMF.init();
 		SalvageRecipes.init();
+		
+		ArrayList<CustomMaterial> wood = CustomMaterial.getList("wood");
+		Iterator iteratorWood = wood.iterator();
+		while(iteratorWood.hasNext())
+    	{
+    		CustomMaterial customMat = (CustomMaterial) iteratorWood.next();	
+    		assembleWoodVariations(customMat);
+    	}
+		
+		
 		
 		
 		KnowledgeListMF.hideHelmR = 
@@ -98,9 +114,9 @@ public class BasicRecipesMF
 			'W', Blocks.crafting_table,
 			'S', Blocks.stone,
 			'F', Items.flint,
-			'P', ComponentListMF.plank
+			'P', ((ItemComponentMF)ComponentListMF.plank).construct("OakWood")
 		});
-		Salvage.addSalvage(BlockListMF.salvage_basic, Items.flint, new ItemStack(Blocks.stone, 2), new ItemStack(ComponentListMF.plank, 2), Blocks.crafting_table);
+		Salvage.addSalvage(BlockListMF.salvage_basic, Items.flint, new ItemStack(Blocks.stone, 2), new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 2), Blocks.crafting_table);
 		
 		KnowledgeListMF.plantOilR = 
 		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plant_oil, 4), new Object[]
@@ -158,22 +174,7 @@ public class BasicRecipesMF
 			'M', Items.bucket,
 			'B', FoodListMF.jug_water
 		});
-		KnowledgeListMF.refinedPlankR = 
-		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plankRefined), new Object[]
-		{
-			"C",
-			"P",
-			'C', ComponentListMF.plant_oil,
-			'P', ComponentListMF.plank,
-		});
-		KnowledgeListMF.tannerRecipe = 
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
-			"PPP",
-			"P P",
-			"PPP",
-			'P', ComponentListMF.plank,
-		});
-		Salvage.addSalvage(BlockListMF.tanner, new ItemStack(ComponentListMF.plank, 8));
+		
 		
 		KnowledgeListMF.stoneAnvilRecipe = 
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.anvilStone), new Object[]
@@ -193,7 +194,7 @@ public class BasicRecipesMF
 		});
 		Salvage.addSalvage(BlockListMF.forge, new ItemStack(Blocks.stone, 4), Items.coal);
 		Salvage.addSalvage(BlockListMF.anvilStone, new ItemStack(Blocks.stone, 6));
-		Salvage.addSalvage(BlockListMF.tanner, new ItemStack(ComponentListMF.plank, 8));
+		
 		
 		GameRegistry.addRecipe(new RecipeArmourDyeMF());
 		GameRegistry.addRecipe(new RecipeSyringe());
@@ -205,29 +206,7 @@ public class BasicRecipesMF
 			new ItemStack(ComponentListMF.nitre),
 		});
 		
-		KnowledgeListMF.plankRecipe =
-		new ShapedOreRecipe(new ItemStack(ComponentListMF.plank, 8), new Object[]
-		{
-			"S",
-			"S",
-			'S', "plankWood",//OreDictionary
-		});
-		GameRegistry.addRecipe(KnowledgeListMF.plankRecipe);
 		
-		
-		KnowledgeListMF.stickRecipe =
-		GameRegistry.addShapedRecipe(new ItemStack(Items.stick, 4), new Object[]
-		{
-			"S",
-			"S",
-			'S', ComponentListMF.plank,
-		});
-		GameRegistry.addShapedRecipe(new ItemStack(ComponentListMF.plank), new Object[]
-		{
-			"S",
-			"S",
-			'S', Items.stick,
-		});
 		
 		MineFantasyAPI.removeAllRecipes(Items.pumpkin_pie);
 		
@@ -387,5 +366,55 @@ public class BasicRecipesMF
 			'T', ComponentListMF.talisman_greater,
 			'B', ToolListMF.skillbook_combat,
 		});
+		GameRegistry.addShapedRecipe(((ItemComponentMF)ComponentListMF.plank).construct("OakWood"), new Object[]
+		{
+			"S",
+			"S",
+			'S', Items.stick,
+		});
+	}
+	
+
+	private static void assembleWoodVariations(CustomMaterial material) {
+		// TODO 
+		if(material.name != "RefinedWood"){
+			KnowledgeListMF.refinedPlankR = 
+					GameRegistry.addShapedRecipe(((ItemComponentMF)ComponentListMF.plank).construct("RefinedWood"), new Object[]
+					{
+						"C",
+						"P",
+						'C', ComponentListMF.plant_oil,
+						'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+					});
+		
+			KnowledgeListMF.tannerRecipe = 
+					GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.tanner), new Object[]{
+						"PPP",
+						"P P",
+						"PPP",
+						'P', ((ItemComponentMF)ComponentListMF.plank).construct(material.name) ,
+					});
+			Salvage.addSalvage(BlockListMF.tanner, new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct("OakWood").getItem(), 8));
+		}
+		
+		KnowledgeListMF.plankRecipe =
+		new ShapedOreRecipe(new ItemStack(((ItemComponentMF)ComponentListMF.plank).construct(material.name).getItem(),8), new Object[]
+		{
+			"S",
+			"S",
+			'S', "PlankWood",//OreDictionary
+		});
+		GameRegistry.addRecipe(KnowledgeListMF.plankRecipe);
+		
+		
+		KnowledgeListMF.stickRecipe =
+		GameRegistry.addShapedRecipe(new ItemStack(Items.stick, 4), new Object[]
+		{
+			"S",
+			"S",
+			'S', ((ItemComponentMF)ComponentListMF.plank).construct(material.name),
+		});
+		
+		//((ItemComponentMF)ComponentListMF.plank).construct(material.name);	
 	}
 }
