@@ -31,7 +31,7 @@ public class ContainerCrucible extends Container
         		this.addSlotToContainer(new Slot(tile, slot, 62 + x * 18, 14 + y * 18));
         	}
         }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 129, 32));
+        this.addSlotToContainer(new SlotCrucibleOut(tile, tile.getSizeInventory()-1, 129, 32));
         int i;
 
         for (i = 0; i < 3; ++i)

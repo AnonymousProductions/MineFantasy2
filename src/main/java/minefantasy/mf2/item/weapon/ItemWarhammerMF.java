@@ -13,7 +13,7 @@ import net.minecraft.util.DamageSource;
 /**
  * @author Anonymous Productions
  */
-public class ItemWarhammerMF extends ItemHeavyWeapon
+public class ItemWarhammerMF extends ItemHeavyWeaponMF
 {
 	private float stunChance = 0.20F;
     
@@ -107,5 +107,10 @@ public class ItemWarhammerMF extends ItemHeavyWeapon
 	public WeaponClass getWeaponClass() 
 	{
 		return WeaponClass.BLUNT;
+	}
+	@Override
+	public boolean canCounter()
+	{
+		return false;
 	}
 }

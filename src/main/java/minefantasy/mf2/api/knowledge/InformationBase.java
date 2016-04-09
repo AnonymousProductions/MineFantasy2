@@ -18,9 +18,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class InformationBase
 {
+	public static boolean easyResearch = false;
+	public static boolean unlockAll = false;
 	public int ID = 0;
 	private static int nextID = 0;
-	public boolean startedUnlocked = false;
+	private boolean startedUnlocked = false;
     public final int displayColumn;
     public final int displayRow;
     public final InformationBase parentInfo;
@@ -31,22 +33,21 @@ public class InformationBase
     private boolean isSpecial;
     private boolean isPerk;
     private final String idName;
-    private final int baseLevelCost;
     private ArrayList<SkillRequirement> skills = new ArrayList<SkillRequirement>();
     public String[] requirements = null;
+    private int minutes = 10;
 
-    public InformationBase(String name, int x, int y, int cost, Item icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, Item icon, InformationBase parent)
     {
-        this(name, x, y, cost, new ItemStack(icon), parent);
+        this(name, x, y, time, new ItemStack(icon), parent);
     }
-    public InformationBase(String name, int x, int y, int cost, Block icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, Block icon, InformationBase parent)
     {
-        this(name, x, y, cost, new ItemStack(icon), parent);
+        this(name, x, y, time, new ItemStack(icon), parent);
     }
 
-    public InformationBase(String name, int x, int y, int cost, ItemStack icon, InformationBase parent)
+    public InformationBase(String name, int x, int y, int time, ItemStack icon, InformationBase parent)
     {
-    	this.baseLevelCost = cost;
     	this.idName = name;
         this.theItemStack = icon;
         this.description = "knowledge." + idName + ".desc";
@@ -72,8 +73,8 @@ public class InformationBase
         {
             InformationList.maxDisplayRow = y;
         }
-
         this.parentInfo = parent;
+        this.minutes = Math.max(1, time);
     }
     
     public InformationBase addSkill(Skill skill, int level)
@@ -84,6 +85,7 @@ public class InformationBase
     	}
     	return this;
     }
+    
     
     public InformationBase setUnlocked()
     {
@@ -139,10 +141,21 @@ public class InformationBase
     /**
      * Returns the fully description of the achievement - ready to be displayed on screen.
      */
+    public Object[] descriptValues;
+    public InformationBase setDescriptValues(Object... values)
+    {
+    	descriptValues = values;
+    	return this;
+    }
     @SideOnly(Side.CLIENT)
     public String getDescription()
     {
-        String text = this.statStringFormatter != null ? this.statStringFormatter.formatString(StatCollector.translateToLocal(this.description)) : StatCollector.translateToLocal(this.description);
+    	String localised = StatCollector.translateToLocal(this.description);
+    	if(descriptValues != null && descriptValues.length > 0)
+    	{
+    		localised = StatCollector.translateToLocalFormatted(description, descriptValues);
+    	}
+        String text = this.statStringFormatter != null ? this.statStringFormatter.formatString(localised) : localised;
         
         if(RPGElements.isSystemActive)
     	{
@@ -177,27 +190,38 @@ public class InformationBase
     {
         return this.isPerk;
     }
-
-	public boolean trigger(EntityPlayer user, boolean makeEffect)
+	public boolean onPurchase(EntityPlayer user)
 	{
-		if(RPGElements.isSystemActive)
+		if(!hasSkillsUnlocked(user))
 		{
-			if(!hasSkillsUnlocked(user))
-			{
-				return false;
-			}
+			return false;
 		}
-		boolean success = ResearchLogic.tryUnlock(user, this);
-		if(success && makeEffect && !user.worldObj.isRemote)
+		
+		boolean success = ResearchLogic.canPurchase(user, this);
+		if(success && !user.worldObj.isRemote)
 		{
-			user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unlocked") + ": " + StatCollector.translateToLocal(getName())));
 			user.worldObj.playSoundAtEntity(user, "minefantasy2:updateResearch", 1.0F, 1.0F);
 		}
-		return success;
+		
+		if(easyResearch)
+		{
+			ResearchLogic.tryUnlock(user, this);
+		}
+		else
+		{
+			ItemStack item = new ItemStack(scroll, 1, ID);
+			if(!user.inventory.addItemStackToInventory(item))
+			{
+				user.entityDropItem(item, 0F);
+			}
+		}
+		return true;
 	}
+	public static Item scroll;
 
-	private boolean hasSkillsUnlocked(EntityPlayer player)
+	public boolean hasSkillsUnlocked(EntityPlayer player)
 	{
+		if(skills == null)return true;
 		for(int id = 0; id < skills.size(); id++)
 		{
 			SkillRequirement requirement = skills.get(id);
@@ -213,11 +237,6 @@ public class InformationBase
 		return idName;
 	}
 	
-	public int getCost()
-	{
-		return baseLevelCost;
-	}
-	
 	private ArrayList<EntryPage> pages = new ArrayList<EntryPage>();
 	public void addPages(EntryPage... info)
 	{
@@ -231,6 +250,14 @@ public class InformationBase
 		return pages;
 	}
 	
+	public boolean isUnlocked(int id, EntityPlayer player)
+	{
+		if(this.skills != null)
+		{
+			return skills.get(id) != null && skills.get(id).isAvailable(player);
+		}
+		return true;
+	}
 	public String[] getRequiredSkills()
 	{
 		if(this.requirements == null)
@@ -243,6 +270,15 @@ public class InformationBase
 			}
 		}
 		return requirements;
+	}
+	
+	public int getTime() 
+	{
+		return minutes;
+	}
+	public boolean isPreUnlocked() 
+	{
+		return !getPerk() && (unlockAll || startedUnlocked);
 	}
 }
 class SkillRequirement

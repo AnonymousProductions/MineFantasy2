@@ -1,70 +1,45 @@
-//:Re-Implement Hot items:\\
-Make it the same as MFI, only try limit searching the hot list for items
-Instead create NBT variables(maxtemp, workabletemp, etc) on creation.
-(The old system lagged a bit when lots of ingots were used)
+Key
+~~~~
+- = Incomplete
+X = Complete
+? = Uncertainty (if some bugs may be unclear)
+O = Obsolete (Or not considered to matter)
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ISSUES       	 				     |Check|
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Knife salvage needs to yield 1 ingot                 	 -
 
-//:New Blocks(Construction):\\
-Limestone bricks
-Reinforced Stone|Bricks
-Stairs/Slabs
-Roads (Mattock Roads)
-Lantern
-Storage Blocks later (Like safes even lockable chests and doors)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CONTENT		 				     |Check|
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Fletching (expand arrow crafting)                   	-
+Big Furnace                    			      	-
+Cooking Oven						-
+Wood Bucket                     			-
+Pottery Oven (Kiln)         			        -
+Pottery Stand                   			-
+Firepit                         			-
+Cooktop                                                 -
 
+////////////////////////////////////////////////////////////
+More Detail:
+1: Fletching: Pretty much the use of arrow shafts crafted with a knife, rather
+   than just sticks, but really it isn't too important.
 
-//:Skills and Research:\\
-Rather than a research system that seems grindy and unsatisfying, it may be fitting to add RPG elements
-to the mod, just a simple system like the mcmmo plugin would suffice, the research points could be
-added automatically when gaining the proper skills, or with perk points (or config), as you do stuff or
-find scrolls you gain skills, skills can be things like Smithing, Cooking, Melee, Ranged, Defense, etc.
+2: Big Furnace: Similar to the crucible, kind of the same design as MF1 big
+   Furnaces, maybe with ingot moulds outside to fill.
 
+3: Cooking oven: Similar to MF1, only with temperature levels and recipes have
+   a set time of cooking, so you have to remove it at the right time to avoid
+   burning food.
 
-//:Adding Slag:\\
-I've not really been in to adding slag, but if it could be made into a liquid and
-output through some kind of system and dumped, that may make it worth adding,
-Same thing with smoke, making it an upside-down liquid(like thaumcraft fluxgas)
+4: Wood Bucket: Just for milk and water
 
+5: Kiln: A stone furnace for cooking ceramics
 
-//:Research Fields:\\
-Basic (Research, Information, etc)
-Smithing (Smelting, Refining, Alloying, Weapon, Tool, Armour, etc)
-Construction (Blocks for decor)
-Engineering (Bombs, Mines, Crossbows)
-Cooking (Food)
-Mastery (Combat, Stats, etc)
-Alchemy (Potions)
+6: Pottery stand: similar to carpenter bench except for pottery
 
+7: Firepit: used as a weaker heat source than a forge, with spit roasts even
 
-//:Alchemy Stuff:\\
-A large selection of biome-specific herbs, mob drops, etc
-Potions made will have no stacking but multiple uses (kind of like botanica)
-Potions can also have tiers for better ingreedients
-
-
-
-//:Other Stuff:\\
-Big Furnace
-Ignotumite/Mithium ores
-Enderforge smelting
-Coke
-Repair
-Crossbow
-Uncraftable recipes (saddles, tags)
-Item heating
-Stealth Mechanics
-Review on learning craftstuff (like the research system)
-
-//:Later Stuff:\\
-Hardcore Crafting
-Advanced iron / bloomery
-
-
-
-
-Issues: //WRITE ISSUES FOUND IN GAMEPLAY HERE//
-+++++++++++++++++++++++++++++++++++++++++++++++
- Issue                                | Check |
-+++++++++++++++++++++++++++++++++++++++++++++++
-Hot cricibles drop                        X
-Sword skeleton drops arrows               X
+8: Cooktop: Carpenter bench for cooking

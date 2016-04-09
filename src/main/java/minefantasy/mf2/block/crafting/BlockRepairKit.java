@@ -6,6 +6,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
@@ -89,25 +90,23 @@ public class BlockRepairKit extends Block
     		return true;
     	}
     	ItemStack held = user.getHeldItem();
-    	if(held != null && held.isItemDamaged() && held.getItem().isRepairable() && (!held.isItemEnchanted() || isOrnate))
+    	//held.getItem().isRepairable() Was used but new MF tools disable this to avoid vanilla repairs
+    	if(held != null && canRepair(held) && (!held.isItemEnchanted() || isOrnate))
     	{
     		if(rand.nextFloat() < successRate)
     		{
-    			if(rand.nextFloat() < breakChance)
+    			boolean broken = rand.nextFloat() < breakChance;
+				
+    			float lvl = held.isItemEnchanted() ? repairLevelEnchant : repairLevel;
+				int repairAmount = (int)((float)held.getMaxDamage()*lvl);
+				held.setItemDamage(Math.max(0, held.getItemDamage() - repairAmount));
+				world.playAuxSFX(broken ? 1020 : 1021, x, y, z, 0);
+    			
+				if(broken)
     			{
-    				int repairAmount = (int)((float)held.getMaxDamage()*(repairLevel/2));
-    				held.damageItem(repairAmount, user);
-    				world.playAuxSFX(1020, x, y, z, 0);
     				world.playSoundEffect(x+0.5D, y+0.3D, z+0.5D, "random.break", 1.0F, 1.0F);
+    				world.setBlockToAir(x, y, z);
     			}
-    			else
-    			{
-    				float lvl = held.isItemEnchanted() ? repairLevelEnchant : repairLevel;
-    				int repairAmount = (int)((float)held.getMaxDamage()*lvl);
-    				held.setItemDamage(Math.max(0, held.getItemDamage() - repairAmount));
-    				world.playAuxSFX(1021, x, y, z, 0);
-    			}
-    			world.setBlockToAir(x, y, z);
     			return true;
     		}
     		else
@@ -118,4 +117,13 @@ public class BlockRepairKit extends Block
     	}
         return false;
     }
+	private boolean canRepair(ItemStack held) 
+	{
+		if(held == null)return false;
+		if(held.getItem().isDamageable() && CustomToolHelper.getCustomMetalMaterial(held) != null)//Custom Tool
+		{
+			return held.isItemDamaged();
+		}
+		return held.getItem().isRepairable();
+	}
 }

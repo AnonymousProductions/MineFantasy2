@@ -10,6 +10,7 @@ import minefantasy.mf2.api.crafting.carpenter.ShapelessCarpenterRecipes;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerCarpenterMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
@@ -38,6 +39,8 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	private String toolTypeRequired = "hands";
 	private String craftSound = "step.wood";
 	private String researchRequired = "";
+	private Skill skillUsed;
+	private boolean resetRecipe = false;
 	
 	public final int width = 4;
 	public final int height = 4;
@@ -47,7 +50,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	}
 	public TileEntityCarpenterMF(int tier)
 	{
-		inventory = new ItemStack[width*height+1];
+		inventory = new ItemStack[width*height+5];
 		this.tier=tier;
 		setContainer(new ContainerCarpenterMF(this));
 	}
@@ -213,7 +216,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 		{
 			if(ticksExisted % 20 == 0)
 			{
-				updateInv();
+				updateCraftingData();
 			}
 			if(!canCraft() && ticksExisted > 1)
 			{
@@ -222,11 +225,18 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				this.recipe = null;
 			}
 		}
+		resetRecipe = false;
 	}
 	
 	public void onInventoryChanged()
 	{
-		updateInv();
+		MFLogUtil.logDebug("Carpenter: Control Inv Tick");
+		if(!resetRecipe)
+		{
+			updateCraftingData();
+			MFLogUtil.logDebug("Carpenter: Optimised Inv Tick");
+			resetRecipe = true;
+		}
 	}
 	
 	public boolean tryCraft(EntityPlayer user)
@@ -242,6 +252,9 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				user.getHeldItem().damageItem(1, user);
 				if(user.getHeldItem().getItemDamage() >= user.getHeldItem().getMaxDamage())
 				{
+					if(worldObj.isRemote)
+						user.renderBrokenItemStack(user.getHeldItem());
+					
 					user.destroyCurrentEquippedItem();
 				}
 			}
@@ -250,28 +263,18 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 			
 			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= CarpenterTierRequired && hammerTier >= hammerTierRequired)
 			{
-				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, getUseSound(), 1.25F, rand.nextFloat()+0.5F);
+				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, getUseSound(), 1.0F, 1.0F);
 				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem());
 				
 				if(user.swingProgress > 0 && user.swingProgress <= 1.0)
 				{
 					efficiency *= (0.5F-user.swingProgress);
 				}
-				if(RPGElements.isSystemActive)
-				{
-					SkillList.metallurgy.addXP(user, (int)efficiency);
-				}
 				
 				progress += Math.max(0.2F, efficiency);
 				if(progress >= progressMax)
 				{
-					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)(progressMax/2));
-					ResearchLogic.addKnowledgeExperience(user, progressMax/20F);
-					craftItem();
-				}
-				if(rand.nextInt(30) == 0 && user.swingProgress == 0.0F)
-				{
-					ResearchLogic.modifyKnowledgePoints(user, 1);
+					craftItem(user);
 				}
 			}
 			else
@@ -279,10 +282,10 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "step.stone", 1.25F, 1.5F);
 			}
 			lastPlayerHit = user.getCommandSenderName();
-			updateInv();
+			updateCraftingData();
 			return true;
 		}
-		updateInv();
+		updateCraftingData();
 		return false;
 	}
 	
@@ -302,16 +305,17 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 		}
 		return craftSound;
 	}
-	private void craftItem()
+	private void craftItem(EntityPlayer user)
 	{
 		if (this.canCraft())
         {
+			addXP(user);
 			ItemStack result = recipe.copy();
 			if(result != null && result.getItem() instanceof ItemArmourMF)
 			{
 				result = modifyArmour(result);
 			}
-			int output = getSizeInventory()-1;
+			int output = getOutputSlotNum();
 					
             if (this.inventory[output] == null)
             {
@@ -330,12 +334,16 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 		onInventoryChanged();
 		progress = 0;
 	}
+	private int getOutputSlotNum() 
+	{
+		return getSizeInventory()-5;
+	}
 	private ItemStack modifyArmour(ItemStack result)
 	{
 		ItemArmourMF item = (ItemArmourMF)result.getItem();
 		boolean canColour = item.canColour();
-		int colour = item.defaultColour;
-		for(int a = 0; a < getSizeInventory()-1; a++)
+		int colour = -1;
+		for(int a = 0; a < getOutputSlotNum(); a++)
 		{
 			ItemStack slot = getStackInSlot(a);
 			if(slot != null && slot.getItem() instanceof ItemArmor)
@@ -351,7 +359,7 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 				}
 			}
 		}
-		if(canColour)
+		if(colour != -1 && canColour)
 		{
 			item.func_82813_b(result, colour);
 		}
@@ -399,34 +407,6 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
         }
     }
 	
-	public boolean hasItems(EntityPlayer user, ItemStack[] items)
-	{
-		for(ItemStack check: items)
-		{
-			if(!hasItems(user, check))
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-	public boolean hasItems(EntityPlayer user, ItemStack item)
-	{
-		return hasItems(user, item, item.stackSize);
-	}
-	public boolean hasItems(EntityPlayer user, ItemStack item, int number)
-	{
-		int count = 0;
-		for(int a = 0; a < user.inventory.getSizeInventory(); a++)
-		{
-			ItemStack slot = user.inventory.getStackInSlot(a);
-			if(slot != null && slot.isItemEqual(item))
-			{
-				count += slot.stackSize;
-			}
-		}
-		return count >= number;
-	}
 	public void syncData()
 	{
 		
@@ -466,19 +446,73 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 	}
 	public void consumeResources()
 	{
-		for(int slot = 0; slot < getSizeInventory()-1; slot++)
+		resetRecipe = true;
+		for(int slot = 0; slot < getOutputSlotNum(); slot++)
 		{
 			ItemStack item = getStackInSlot(slot);
 			if(item != null && item.getItem() != null && item.getItem().getContainerItem(item) != null)
 			{
-				this.dropItem(item.getItem().getContainerItem(item));
+				if(item.stackSize == 1)
+				{
+					setInventorySlotContents(slot, item.getItem().getContainerItem(item));
+				}
+				else
+				{
+					ItemStack drop = processSurplus(item.getItem().getContainerItem(item));
+					if(drop != null)
+					{
+						this.dropItem(drop);
+					}
+					this.decrStackSize(slot, 1);
+				}
 			}
-			this.decrStackSize(slot, 1);
+			else
+			{
+				this.decrStackSize(slot, 1);
+			}
 		}
+		resetRecipe = false;
+		this.onInventoryChanged();
+	}
+	private ItemStack processSurplus(ItemStack item)
+	{
+		for(int a = 0; a < 4; a++)
+		{
+			if(item == null)
+			{
+				return null;//If item was sorted
+			}
+			
+			int s = getSizeInventory()-4 + a;
+			ItemStack slot = inventory[s];
+			if(slot == null)
+			{
+				setInventorySlotContents(s, item); 
+				return null;//All Placed
+			}
+			else
+			{
+				if(slot.isItemEqual(item) && slot.stackSize < slot.getMaxStackSize())
+				{
+					if(slot.stackSize + item.stackSize <= slot.getMaxStackSize())
+					{
+						slot.stackSize += item.stackSize;
+						return null;//All Shared
+					}
+					else
+					{
+						int room_left = slot.getMaxStackSize() - slot.stackSize;
+						slot.stackSize += room_left;
+						item.stackSize -= room_left;//Share
+					}
+				}
+			}
+		}
+		return item;
 	}
 	private boolean canFitResult(ItemStack result)
 	{
-		ItemStack resSlot = inventory[getSizeInventory()-1];
+		ItemStack resSlot = inventory[getOutputSlotNum()];
 		if(resSlot != null && result != null)
 		{
 			if(!resSlot.isItemEqual(result))
@@ -503,14 +537,14 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
     	if(ticksExisted <= 1)
     		return null;
     	
-    	for(int a = 0 ; a < getSizeInventory()-1 ; a ++)
+    	for(int a = 0 ; a < getOutputSlotNum() ; a ++)
     	{
     		craftMatrix.setInventorySlotContents(a, inventory[a]);
     	}
     	
     	return CraftingManagerCarpenter.getInstance().findMatchingRecipe(this, craftMatrix);
     }
-	public void updateInv()
+	public void updateCraftingData()
     {
     	if(!worldObj.isRemote)
     	{
@@ -608,5 +642,18 @@ public class TileEntityCarpenterMF extends TileEntity implements IInventory, ICa
 			return true;
 		}
 		return ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
+	}
+	private void addXP(EntityPlayer smith)
+	{
+		if(skillUsed != null)
+		{
+			float baseXP = this.progressMax / 10F;
+			skillUsed.addXP(smith, (int)baseXP + 1);
+		}
+	}
+	@Override
+	public void setSkill(Skill skill) 
+	{
+		skillUsed = skill;
 	}
 }

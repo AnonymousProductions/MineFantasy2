@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import minefantasy.mf2.api.helpers.CustomToolHelper;
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -41,7 +43,7 @@ public class CraftingManagerAnvil
     /**
      * Adds a recipe. See spreadsheet on first page for details.
      */
-    public IAnvilRecipe addRecipe(ItemStack result, String research, boolean hot, float exp, String tool, int hammer, int anvil, int time, Object ... input)
+    public IAnvilRecipe addRecipe(ItemStack result, Skill skill, String research, boolean hot, float exp, String tool, int hammer, int anvil, int time, Object ... input)
     {
         String var3 = "";
         int var4 = 0;
@@ -113,12 +115,12 @@ public class CraftingManagerAnvil
             }
         }
 
-        IAnvilRecipe recipe = new ShapedAnvilRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, hot, research);
+        IAnvilRecipe recipe = new ShapedAnvilRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, hot, research, skill);
         this.recipes.add(recipe);
         return recipe;
     }
 
-    public IAnvilRecipe addShapelessRecipe(ItemStack output, String research, boolean hot, float experience, String tool, int hammer, int anvil, int time, Object ... input)
+    public IAnvilRecipe addShapelessRecipe(ItemStack output, Skill skill, String research, boolean hot, float experience, String tool, int hammer, int anvil, int time, Object ... input)
     {
         ArrayList var3 = new ArrayList();
         Object[] var4 = input;
@@ -147,7 +149,7 @@ public class CraftingManagerAnvil
             }
         }
 
-        IAnvilRecipe recipe = new ShapelessAnvilRecipes(output, tool, experience, hammer, anvil, time, var3, hot, research);
+        IAnvilRecipe recipe = new ShapelessAnvilRecipes(output, tool, experience, hammer, anvil, time, var3, hot, research, skill);
         this.recipes.add(recipe);
         return recipe;
     }
@@ -177,7 +179,7 @@ public class CraftingManagerAnvil
             }
         }
 
-        if (var2 == 2 && var3.getItem() == var4.getItem() && var3.stackSize == 1 && var4.stackSize == 1 && var3.getItem().isRepairable())
+        if (var2 == 2 && canRepair(var3, var4))
         {
             Item var10 = var3.getItem();
             int var12 = var10.getMaxDamage() - var3.getItemDamageForDisplay();
@@ -214,7 +216,20 @@ public class CraftingManagerAnvil
     
     
     
-    public ItemStack findMatchingRecipe(IAnvil anvil, InventoryCrafting matrix)
+    private boolean canRepair(ItemStack item1, ItemStack item2) 
+    {
+    	if(item1.getItem() == item2.getItem() && item1.stackSize == 1 && item2.stackSize == 1 && item1.getItem().isRepairable())
+    	{
+    		return true;
+    	}
+    	if(item1.getItem() == item2.getItem() && item1.stackSize == 1 && item2.stackSize == 1 && item1.isItemDamaged() && CustomToolHelper.areToolsSame(item1, item2))
+    	{
+    		return true;
+    	}
+		return false;
+	}
+
+	public ItemStack findMatchingRecipe(IAnvil anvil, InventoryCrafting matrix)
     {
     	int time = 200;
     	int anvi = 1;
@@ -289,6 +304,7 @@ public class CraftingManagerAnvil
 	            anvil.setHotOutput(hot);
 	            anvil.setToolType(toolType);
 	            anvil.setResearch(var13.getResearch());
+	            anvil.setSkill(var13.getSkill());
 	            
 	            return var13.getCraftingResult(matrix);
             }

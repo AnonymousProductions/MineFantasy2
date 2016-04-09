@@ -3,6 +3,7 @@ package minefantasy.mf2.block.tileentity.blastfurnace;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
 import minefantasy.mf2.api.refine.ISmokeCarrier;
 import minefantasy.mf2.api.refine.SmokeMechanics;
@@ -26,7 +27,7 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	public int ticksExisted;
 	public boolean isBuilt = false;
 	public int fireTime;
-	private Random rand = new Random();
+	protected Random rand = new Random();
 	
 	@Override
 	public void updateEntity()
@@ -272,7 +273,7 @@ public class TileEntityBlastFC extends TileEntity implements IInventory, ISidedI
 	}
 	public static boolean isCoal(ItemStack item)
 	{
-		return item.getItem() == Items.coal;
+		return MineFantasyAPI.isCarbon(item);
 	}
 	public static boolean isFlux(ItemStack item)
 	{

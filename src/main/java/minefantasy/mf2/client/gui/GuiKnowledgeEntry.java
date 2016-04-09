@@ -9,6 +9,7 @@ import minefantasy.mf2.api.knowledge.client.EntryPageCraft;
 import minefantasy.mf2.api.knowledge.client.EntryPage;
 import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
@@ -57,10 +58,25 @@ public class GuiKnowledgeEntry extends GuiScreen
         this.buttonNextPage.visible = (this.currentPage < this.pages - 1);
         this.buttonPreviousPage.visible = this.currentPage > 0;
     }
-	
+	private static boolean lastTick = true;
+	private static boolean canTick = true;
 	@Override
 	public void drawScreen(int x, int y, float f)
     {
+		boolean onTick = false;
+		
+		boolean currTick = mc.theWorld.getTotalWorldTime() % 10 == 0;//has a second passed
+		
+		if(currTick != lastTick)
+		{
+			canTick = !canTick;
+			if(canTick)
+			{
+				onTick = true;
+			}
+		}
+		lastTick = currTick;
+		
 		int xPoint = (this.width - this.bookImageWidth) / 2;
         int yPoint = (this.height - this.bookImageHeight) / 2;
         
@@ -69,14 +85,14 @@ public class GuiKnowledgeEntry extends GuiScreen
         EntryPage page = infoBase.getPages().get(currentPage);
         if(page != null)
 		{
-			page.preRender(this, x, y, f, xPoint, yPoint);
+			page.preRender(this, x, y, f, xPoint, yPoint, onTick);
 		}
         
         super.drawScreen(x, y, f);
         
         if(page != null)
 		{
-			page.render(this, x, y, f, xPoint, yPoint);
+			page.render(this, x, y, f, xPoint, yPoint, onTick);
 		}
         
         String s = I18n.format("book.pageIndicator", new Object[] {Integer.valueOf(this.currentPage + 1), Integer.valueOf(this.pages)});

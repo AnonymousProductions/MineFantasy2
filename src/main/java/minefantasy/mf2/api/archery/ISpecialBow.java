@@ -1,6 +1,7 @@
 package minefantasy.mf2.api.archery;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 
 public interface ISpecialBow 
 {
@@ -12,5 +13,6 @@ public interface ISpecialBow
 	 * @param arrow the arrow fired(use a cast to determine what class it is)
 	 * @return the same arrow, but modified
 	 */
-	public Entity modifyArrow(Entity arrow);
+	public Entity modifyArrow(ItemStack bow, Entity arrow);
+	public float getMaxCharge();
 }

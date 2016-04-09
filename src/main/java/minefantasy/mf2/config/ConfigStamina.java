@@ -6,6 +6,7 @@ public class ConfigStamina extends ConfigurationBaseMF
 {
 	public static String VALUES = "Value Modifiers";
 	
+	public static float exhaustDamage;
 	public static float weaponModifier;
 	public static float sprintModifier;
 	public static int fullRegenSeconds;
@@ -42,6 +43,7 @@ public class ConfigStamina extends ConfigurationBaseMF
 		bowModifier = Float.parseFloat(config.get(VALUES, "Bow Time", 1.0F, "Modifies the rate drawing bows will drain stamina").getString());
 		StaminaBar.configArmourWeightModifier = Float.parseFloat(config.get(VALUES, "Weight Modifier", 1.0F, "Modifies the amount weight of armour slows decay").getString());
 		miningSpeed = Float.parseFloat(config.get(VALUES, "Mining Modifier", 1.0F, "Modifies the rate block breaking drains stamina").getString());
+		exhaustDamage = Float.parseFloat(config.get(VALUES, "Exhausted Damage Modifier", 1.5F, "How much damage you take when out of stamina (1.5 = +50% more damage)").getString());
 		
 		affectSpeed = Boolean.parseBoolean(config.get(OPTION, "Affect Speed", true, "Slowness effect adds when out of stamina").getString());
 		affectMining = Boolean.parseBoolean(config.get(OPTION, "Affect Mining", true, "Breaking blocks drains stamina, adds mining fatigue").getString());

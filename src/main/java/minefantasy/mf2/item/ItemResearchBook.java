@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.KnowledgeType;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -28,6 +29,7 @@ public class ItemResearchBook extends Item
 		GameRegistry.registerItem(this, "MF_ResearchBook", MineFantasyII.MODID);
 		this.setUnlocalizedName("infobook");
 		this.setTextureName("minefantasy2:Other/research_book");
+		setContainerItem(this);
     }
 
     @Override
@@ -42,7 +44,11 @@ public class ItemResearchBook extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
     {
-		ResearchLogic.syncData(user);
+    	if(!world.isRemote)
+    	{
+    		ResearchLogic.syncData(user);
+    		RPGElements.syncAll(user);
+    	}
     	user.openGui(MineFantasyII.instance, 1, world, 0, -1, 0);
         return item;
     }
@@ -56,8 +62,8 @@ public class ItemResearchBook extends Item
     	{
     		list.add("Gives information on MineFantasy Content");
     		list.add("");
-    		list.add("This item can be re-crafted with an iron hammer");
-    		list.add("on 2 books(vertical) on crafting table.");
+    		list.add("This item can be re-crafted by placing");
+    		list.add("a regular book on a carpenter bench");
     	}
     }
 }

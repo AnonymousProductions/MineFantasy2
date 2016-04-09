@@ -31,6 +31,13 @@ public class PacketHandlerMF
         packetList.put(SkillPacket.packetName, new SkillPacket());
         packetList.put(LevelupPacket.packetName, new LevelupPacket());
         packetList.put(ForgePacket.packetName, new ForgePacket());
+        packetList.put(ResearchTablePacket.packetName, new ResearchTablePacket());
+        packetList.put(TroughPacket.packetName, new TroughPacket());
+        packetList.put(BombBenchPacket.packetName, new BombBenchPacket());
+        packetList.put(TannerPacket.packetName, new TannerPacket());
+        packetList.put(RoadPacket.packetName, new RoadPacket());
+        packetList.put(BloomeryPacket.packetName, new BloomeryPacket());
+        packetList.put(CrossbowBenchPacket.packetName, new CrossbowBenchPacket());
     }
 
     @SubscribeEvent

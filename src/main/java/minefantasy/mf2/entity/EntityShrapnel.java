@@ -2,6 +2,7 @@ package minefantasy.mf2.entity;
 
 import java.util.List;
 
+import minefantasy.mf2.api.weapon.IDamageType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,7 +16,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class EntityShrapnel extends Entity
+public class EntityShrapnel extends Entity implements IDamageType
 {
     private int field_145795_e = -1;
     private int field_145793_f = -1;
@@ -307,4 +308,21 @@ public class EntityShrapnel extends Entity
     {
         return 15728880;
     }
+
+    @SideOnly(Side.CLIENT)
+	public String getTexture()
+	{
+		return isBurning() ? "fireshrapnel" : "shrapnel";
+	}
+
+	@Override
+	public float[] getDamageRatio(Object... implement) 
+	{
+		return isBurning() ? new float[]{0, 1, 0} : new float[]{0, 1, 1};//50/50 blunt and piercing, fire bombs are full blunt
+	}
+
+	@Override
+	public float getPenetrationLevel(Object implement) {
+		return 0;
+	}
 }

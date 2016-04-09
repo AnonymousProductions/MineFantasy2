@@ -27,7 +27,12 @@ public class ContainerCarpenterMF extends Container
         		this.addSlotToContainer(new Slot(tile, slot, 44 + x * 18, 54 + y * 18));
         	}
         }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 174, 80));
+        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-5, 174, 80));
+        for (int y = 0; y < 4; y ++)
+    	{
+        	int slot = tile.getSizeInventory()-4 + y;
+    		this.addSlotToContainer(new Slot(tile, slot, 3, 54 + y * 18));
+    	}
     }
     
     public ContainerCarpenterMF(InventoryPlayer user, TileEntityCarpenterMF tile)
@@ -45,7 +50,13 @@ public class ContainerCarpenterMF extends Container
         		this.addSlotToContainer(new Slot(tile, slot, 44 + x * 18, 54 + y * 18));
         	}
         }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 174, 80));
+        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-5, 174, 80));
+        for (int y = 0; y < 4; y ++)
+    	{
+        	int slot = tile.getSizeInventory()-4 + y;
+    		this.addSlotToContainer(new Slot(tile, slot, 3, 54 + y * 18));
+    	}
+        
         int i;
 
         for (i = 0; i < 3; ++i)
@@ -113,7 +124,7 @@ public class ContainerCarpenterMF extends Container
                     return null;
                 }
             }
-            else if (!this.mergeItemStack(itemstack1, 0, slotCount-1, false))
+            else if (!this.mergeItemStack(itemstack1, 0, slotCount-5, false))
             {
                 return null;
             }

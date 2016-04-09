@@ -1,5 +1,7 @@
 package minefantasy.mf2.api.crafting.carpenter;
 
+import minefantasy.mf2.api.rpg.Skill;
+
 /**
  * 
  * @author AnonymousProductions
@@ -15,4 +17,5 @@ public interface ICarpenter {
 	void setToolType(String toolType);
 	void setCraftingSound(String trade);
 	void setResearch(String research);
+	void setSkill(Skill skill);
 }

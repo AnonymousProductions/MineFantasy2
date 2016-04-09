@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BlockOreMF extends Block 
@@ -50,6 +51,7 @@ public class BlockOreMF extends Block
 			this.setHarvestLevel("pickaxe", harvestLevel);
 		}
 		this.setCreativeTab(CreativeTabMF.tabOres);
+		OreDictionary.registerOre(name, this);
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package minefantasy.mf2.item;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.mechanics.EventManagerMF;
@@ -46,9 +47,14 @@ public class ItemBandage extends Item
     @Override
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
     {
-    	if(canHeal(user) && user.hurtResistantTime <= 0)
+    	if(!user.isSneaking() && canHeal(user) && user.hurtResistantTime <= 0)
     	{
-    		user.setItemInUse(item, this.getMaxItemUseDuration(item));
+    		int time = this.getMaxItemUseDuration(item);
+    		if(ResearchLogic.hasInfoUnlocked(user, "firstaid"))
+    		{
+    			time /= 3;
+    		}
+    		user.setItemInUse(item, time);
     	}
         return item;
     }
@@ -113,7 +119,12 @@ public class ItemBandage extends Item
         		
         		if(!player.worldObj.isRemote)
         		{
-		        	toHeal.heal(healPwr);
+        			float power = healPwr;
+        			if(ResearchLogic.hasInfoUnlocked(player, "doctor"))
+            		{
+            			power *= 1.5F;
+            		}
+		        	toHeal.heal(power);
 		        	
 		        	if(!player.capabilities.isCreativeMode)
 		        	{
@@ -138,6 +149,10 @@ public class ItemBandage extends Item
 	public boolean isReadyToHeal(EntityPlayer player, EntityLivingBase patient)
 	{
 		int time = getUserHealTime(patient) + 1;
+		if(ResearchLogic.hasInfoUnlocked(player, "firstaid"))
+		{
+			time += 3;
+		}
 		patient.playSound("dig.cloth", 1F, 0.005F);
 		player.swingItem();
 		

@@ -21,6 +21,7 @@ public class TileEntityTanningRackRenderer extends TileEntitySpecialRenderer
 
     public TileEntityTanningRackRenderer() 
     {
+        engmodel = new ModelEngTanningRack();
         model = new ModelTanningRack();
     }
 
@@ -28,7 +29,7 @@ public class TileEntityTanningRackRenderer extends TileEntitySpecialRenderer
         if (tile != null);
         int i = 0;
         if (tile.getWorldObj() != null) {
-            i = tile.blockMetadata; //this is for rotation
+            i = tile.blockMetadata;
         }
 
         int j = 90 * i;
@@ -51,14 +52,27 @@ public class TileEntityTanningRackRenderer extends TileEntitySpecialRenderer
         if (i == 4) {
             j = 90;
         }
-        bindTextureByName("textures/models/tileentity/tanner.png"); //texture
-        GL11.glPushMatrix(); //start
-        GL11.glTranslatef((float) d + 0.5F, (float) d1+1.45F, (float) d2 + 0.5F); //size
-        GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
-        GL11.glScalef(1.0F, -1F, -1F); //if you read this comment out this line and you can see what happens
-        model.renderModel(0.0625F); //renders and yes 0.0625 is a random number
+        bindTextureByName("textures/models/tileentity/tanner"+tile.tex+".png"); 
+        GL11.glPushMatrix();
+        GL11.glTranslatef((float) d + 0.5F, (float) d1+1.45F, (float) d2 + 0.5F);
+        GL11.glRotatef(j, 0.0F, 1.0F, 0.0F);
+        GL11.glScalef(1.0F, -1F, -1F); 
+    	if(tile.isAutomated())
+    	{
+    		engmodel.renderModel(0.0625F);
+    		GL11.glPushMatrix();
+    		GL11.glTranslatef(0F, tile.acTime, 0F);
+    		engmodel.renderBlade(0.0625F);
+    		GL11.glPopMatrix();
+    		engmodel.rotateLever(tile.acTime);
+    		engmodel.renderLever(0.0625F);
+    	}
+    	else
+    	{
+    		model.renderModel(0.0625F);
+    	}
         renderHungItem((TileEntityTanningRack) tile, d, d1, d2, f);
-        GL11.glPopMatrix(); //end
+        GL11.glPopMatrix();
         
 
     }
@@ -69,14 +83,14 @@ public class TileEntityTanningRackRenderer extends TileEntitySpecialRenderer
 	}
 
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
-        renderAModelAt((TileEntityTanningRack) tileentity, d, d1, d2, f); //where to render
+        renderAModelAt((TileEntityTanningRack) tileentity, d, d1, d2, f); 
     }
 	
 	private void renderHungItem(TileEntityTanningRack tile, double d, double d1,
 			double d2, float f) {
 		Minecraft mc = Minecraft.getMinecraft();
 		ItemStack itemstack = tile.getStackInSlot(0);
-		if(itemstack != null)
+		if(itemstack != null && itemstack.getItem().getIconFromDamage(itemstack.getItemDamage()) != null)
 		{
 			Item item = itemstack.getItem();
 			mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
@@ -93,7 +107,6 @@ public class TileEntityTanningRackRenderer extends TileEntitySpecialRenderer
 	        GL11.glTranslatef(-xPos, -yPos, 0.0F);
 	        float var13 = 1F;
 	        GL11.glScalef(var13, var13, var13);
-	        //GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
 	        GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
 	        GL11.glTranslatef(-1F, -1F, 0.0F);
 	        ItemRenderer.renderItemIn2D(image, x2, y1, x1, y2, index.getIconWidth(), index.getIconHeight(), 0.0625F);
@@ -102,4 +115,5 @@ public class TileEntityTanningRackRenderer extends TileEntitySpecialRenderer
 	}
 	
     private ModelTanningRack model;
+    private ModelEngTanningRack engmodel;
 }

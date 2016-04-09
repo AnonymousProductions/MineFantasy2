@@ -10,7 +10,7 @@ public class TierHelper
 	{
 		float satCost = 5F;//Pts for each hour
 		float boostCost = 1F;//Pts for each 1 per day
-		float regenCost = 5F;//Pts for each 1s per minute
+		float regenCost = 2F;//Pts for each 1s per minute
 		
 		float staminaPoints = (staminaMax) * (staminaMaxTime/1200F);
 		float staminaRegenPoints = (staminaSpeed) * (staminaSpeedTime/60F);

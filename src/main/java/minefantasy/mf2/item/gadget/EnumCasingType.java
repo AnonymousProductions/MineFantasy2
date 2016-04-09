@@ -2,6 +2,7 @@ package minefantasy.mf2.item.gadget;
 
 public enum EnumCasingType
 {
+	CRUDE("crude",      0.5F, 1F, 1.0F),
 	CERAMIC("ceramic",  1.0F, 1.0F, 1.0F),
 	IRON("iron",        1.5F, (4.0F/5.5F), 2.0F),
 	OBSIDIAN("obsidian",2.0F, (2.0F/5.5F), 1.5F),
@@ -22,6 +23,10 @@ public enum EnumCasingType
 	
 	public static EnumCasingType getType(byte i)
 	{
+		if(i == -1)
+		{
+			return CRUDE;
+		}
 		if(i == 1)
 		{
 			return IRON;

@@ -1,7 +1,6 @@
 package minefantasy.mf2.client.render.block;
 
 import minefantasy.mf2.block.crafting.BlockAnvilMF;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -21,7 +20,7 @@ public class RenderAnvilMF implements ISimpleBlockRenderingHandler
 		GL11.glPushMatrix();
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 		BlockAnvilMF anvil = (BlockAnvilMF)block;
-		TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityAnvilMF(anvil.getTier(), anvil.material.name), 0.0D, 0.0D, 0.0D, 0.0F);
+		TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityAnvilMF(anvil.getTier(), anvil.material.name).setDisplay(), 0.0D, 0.0D, 0.0D, 0.0F);
 		GL11.glPopMatrix();
 	}
 
@@ -32,7 +31,7 @@ public class RenderAnvilMF implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.anvil_RI;
+		return BlockAnvilMF.anvil_RI;
 	}
 
 	@Override

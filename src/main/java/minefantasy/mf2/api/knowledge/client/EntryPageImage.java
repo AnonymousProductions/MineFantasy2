@@ -29,7 +29,7 @@ public class EntryPageImage extends EntryPage
 		this.sizes = new int[]{width, height};
 	}
 	@Override
-	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 		String text = "";
 		for(String s: paragraphs)
@@ -40,7 +40,7 @@ public class EntryPageImage extends EntryPage
 		mc.fontRenderer.drawSplitString(text, posX+14, posY+117, 117, 0);
 	}
 	@Override
-	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 		mc.renderEngine.bindTexture(TextureHelperMF.getResource(image));
 		RenderHelper.drawTexturedModalRect(posX+14, posY+8, 2, 0, 0, sizes[0], sizes[1], 1F/(float)sizes[0], 1F/(float)sizes[1]);

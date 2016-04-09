@@ -26,7 +26,7 @@ public class FarmingHelper
 		{
 			return false;
 		}
-		float chanceMax = 10F*(world.difficultySetting.getDifficultyId()+1)*hoeFailChanceModifier*hoeFailChanceCfg;
+		float chanceMax = 30F*hoeFailChanceModifier*hoeFailChanceCfg;
 		float chance = rand.nextFloat()*chanceMax;
 		float efficiency = (getHoeEfficiency(hoe)*(grass ? 2.0F : 3.0F));
 		

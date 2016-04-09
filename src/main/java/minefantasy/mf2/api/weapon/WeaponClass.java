@@ -12,13 +12,13 @@ public class WeaponClass
 {
 	public static HashMap<String, WeaponClass>classes = new HashMap<String, WeaponClass>();
 	
-	public static WeaponClass FIST = new WeaponClass("fist", SkillList.unarmed, "blunt");
+	public static WeaponClass FIST = new WeaponClass("fist", null, "blunt");
 	
-	public static WeaponClass BLADE = new WeaponClass("blade", SkillList.blade, "blunt");
-	public static WeaponClass BLUNT = new WeaponClass("blunt", SkillList.blunt, "blade");
-	public static WeaponClass AXE = new WeaponClass("axe", SkillList.axe, "blade");
-	public static WeaponClass POLEARM = new WeaponClass("polearm", SkillList.polearm, "blade");
-	public static WeaponClass EXOTIC = new WeaponClass("exotic", SkillList.exotic, "blade");
+	public static WeaponClass BLADE = new WeaponClass("blade", null, "blunt");
+	public static WeaponClass BLUNT = new WeaponClass("blunt", null, "blade");
+	public static WeaponClass AXE = new WeaponClass("axe", null, "blade");
+	public static WeaponClass POLEARM = new WeaponClass("polearm",null, "blade");
+	public static WeaponClass MISC = new WeaponClass("misc", null, "blunt");
 	
 	public Skill parentSkill;
 	public String name;
@@ -39,7 +39,7 @@ public class WeaponClass
 	public static WeaponClass getWeaponClass(String name)
 	{
 		WeaponClass WC = classes.get(name);
-		return WC != null ? WC : WeaponClass.EXOTIC;
+		return WC != null ? WC : WeaponClass.MISC;
 	}
 	public static WeaponClass getWeaponClass(ItemStack weapon)
 	{
@@ -61,6 +61,6 @@ public class WeaponClass
 		{
 			return getWeaponClass(weapon);
 		}
-		return null;
+		return WeaponClass.MISC;
 	}
 }

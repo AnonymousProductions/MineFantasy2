@@ -1,5 +1,6 @@
 package minefantasy.mf2.api.knowledge;
 
+import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.PlayerTagData;
 import minefantasy.mf2.network.packet.KnowledgePacket;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,11 +11,22 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ResearchLogic
 {
-	public static int xpToKnowledge = 25;
-	public static int startersPoints = 10;
+	public static boolean canPurchase(EntityPlayer player, InformationBase base)
+    {
+		if(base.isPreUnlocked() || !canUnlockInfo(player, base))
+		{
+			return false;
+		}
+		NBTTagCompound nbt = getNBT(player);
+		if(!nbt.hasKey("Research_" + base.getUnlocalisedName()))
+		{
+			return true;
+		}
+		return false;
+    }
 	public static boolean tryUnlock(EntityPlayer player, InformationBase base)
     {
-		if(base.startedUnlocked || !canUnlockInfo(player, base))
+		if(base.isPreUnlocked() || !canUnlockInfo(player, base))
 		{
 			return false;
 		}
@@ -27,48 +39,9 @@ public class ResearchLogic
 		return false;
     }
 	
-	public static void modifyKnowledgePoints(EntityPlayer player, int mod)
-	{
-		int pts = getKnowledgePoints(player)+mod;
-		if(pts < 0)pts = 0;
-		setKnowledgePoints(player, pts);
-	}
-	public static void setKnowledgePoints(EntityPlayer player, int pts)
-	{
-		NBTTagCompound nbt = getNBT(player);
-		nbt.setInteger("KnowledgePts", pts);
-	}
-	public static int getKnowledgePoints(EntityPlayer player)
-	{
-		NBTTagCompound nbt = getNBT(player);
-		if(nbt.hasKey("KnowledgePts"))
-		{
-			return nbt.getInteger("KnowledgePts");
-		}
-		return 0;
-	}
-	
-	public static int getCost(EntityPlayer player, InformationBase base)
-	{
-		int baseCost = base.getCost();
-		
-		if(!base.getUnlocalisedName().equalsIgnoreCase("research2"))//to avoid research1 from lowering research2's cost
-		{
-			if(ResearchLogic.hasInfoUnlocked(player, "research2"))
-			{
-				baseCost = (int)((double)baseCost * 0.75F);
-			}
-			else if(ResearchLogic.hasInfoUnlocked(player, "research1"))
-			{
-				baseCost = (int)((double)baseCost * 0.9F);
-			}
-		}
-		return baseCost;
-	}
-
 	public static boolean hasInfoUnlocked(EntityPlayer player, InformationBase base)
     {
-		if(base.startedUnlocked)return base.parentInfo == null || hasInfoUnlocked(player, base.parentInfo);
+		if(base.isPreUnlocked())return base.parentInfo == null || hasInfoUnlocked(player, base.parentInfo);
 		
 		NBTTagCompound nbt = getNBT(player);
 		String basename = base.getUnlocalisedName();
@@ -86,7 +59,7 @@ public class ResearchLogic
 		{
 			return hasInfoUnlocked(player, base);
 		}
-        return false;
+        return true;
     }
 	
 	public static boolean hasInfoUnlocked(EntityPlayer player, String[] basenames)
@@ -108,11 +81,22 @@ public class ResearchLogic
     private static NBTTagCompound getNBT(EntityPlayer player)
 	{
     	NBTTagCompound persistant = PlayerTagData.getPersistedData(player);
-    	if(!persistant.hasKey("Knowledge"))
+    	if(!persistant.hasKey(KnowledgeNBT))
     	{
-    		persistant.setTag("Knowledge", new NBTTagCompound());
+    		NBTTagCompound tag = new NBTTagCompound();
+    		tag.setInteger("Layer", knowledgelyr);
+    		persistant.setTag(KnowledgeNBT, tag);
     	}
-		return persistant.getCompoundTag("Knowledge");
+    	NBTTagCompound load = persistant.getCompoundTag(KnowledgeNBT);
+    	if(load.getInteger("Layer") != knowledgelyr)
+    	{
+    	   persistant.removeTag(KnowledgeNBT);
+    		
+    		NBTTagCompound tag = new NBTTagCompound();
+    		tag.setInteger("Layer", knowledgelyr);
+    		persistant.setTag(KnowledgeNBT, tag);
+    	}
+		return load;
 	}
 
 	/**
@@ -142,6 +126,8 @@ public class ResearchLogic
         }
     }
     
+    public static final String KnowledgeNBT = "Knowledge";
+    public static int knowledgelyr = 0;
     public static void syncData(EntityPlayer player)
     {
     	if(!player.worldObj.isRemote)
@@ -149,40 +135,4 @@ public class ResearchLogic
 			((WorldServer)player.worldObj).getEntityTracker().func_151248_b(player, new KnowledgePacket(player).generatePacket());
 		}
     }
-
-	public static void addKnowledgeExperience(EntityPlayer player, float xp)
-    {
-		if(xp <= 0.5F)
-		{
-			return;
-		}
-		
-		float experience = getKnowledgeXP(player) + xp;
-		float xpCap = xpBarCap(player);
-		
-		boolean playedSound = false;
-		while(experience >= xpCap)
-		{
-			experience -= xpCap;
-			ResearchLogic.modifyKnowledgePoints(player, 1);
-			if(!playedSound)
-			{
-				player.worldObj.playSoundAtEntity(player, "random.orb", 0.5F, 0.5F);
-				playedSound = true;
-			}
-		}
-			
-		player.getEntityData().setFloat(knowledgeXP, experience);
-    }
-	
-	public static String knowledgeXP = "MF_KnowledgeXP";
-	
-	private static float xpBarCap(EntityPlayer player)
-	{
-		return xpToKnowledge;
-	}
-	public static float getKnowledgeXP(EntityPlayer player)
-	{
-		return player.getEntityData().getFloat(knowledgeXP);
-	}
 }

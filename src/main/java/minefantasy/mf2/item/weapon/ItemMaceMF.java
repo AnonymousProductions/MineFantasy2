@@ -104,4 +104,9 @@ public class ItemMaceMF extends ItemWeaponMF
 	{
 		return WeaponClass.BLUNT;
 	}
+	@Override
+	public boolean canCounter()
+	{
+		return false;
+	}
 }

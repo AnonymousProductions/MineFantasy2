@@ -8,9 +8,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockMythicOre extends BlockOreMF
 {
-	public BlockMythicOre(String name)
+	private boolean isPure;
+	public BlockMythicOre(String name, boolean pure)
 	{
-		super(name, 4, 2);
+		super(name, 4, pure ? 3 : 2);
+		isPure = pure;
 	}
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -19,7 +21,7 @@ public class BlockMythicOre extends BlockOreMF
 		if (rand.nextInt(20) == 0 && world.isRemote)
         {
 			//"minefantasy2:block.mythicore"
-			world.playSound(x + 0.5D, y + 0.5D, z + 0.5D, "random.levelup", 1.0F, rand.nextFloat() * 0.4F + 1.1F, true);
+			world.playSound(x + 0.5D, y + 0.5D, z + 0.5D, (isPure ? "minefantasy2:block.mythicore" : "random.levelup"), 1.0F, rand.nextFloat() * 0.4F + 1.1F, true);
         }
     }
 }

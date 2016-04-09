@@ -57,11 +57,13 @@ public class EntityBomb extends Entity
         this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
         this.setPosition(this.posX, this.posY, this.posZ);
         
+        float force = this.getThrownForce() + (CombatMechanics.getStrengthEnhancement(thrower)/4);
+        
         float f = 0.4F;
         this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f;
         this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f;
         this.motionY = -MathHelper.sin((this.rotationPitch + this.getThrownOffset()) / 180.0F * (float)Math.PI) * f;
-        this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, this.getThrownForce(), 1.0F);
+        this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, force, 1.0F);
         
         this.prevPosX = posX;
         this.prevPosY = posY;
@@ -346,7 +348,7 @@ public class EntityBomb extends Entity
         	for(int a = 0; a < 16; a++)
         	{
         		float range = 0.6F;
-        		EntityShrapnel shrapnel = new EntityShrapnel(worldObj, posX, posY+0.5D, posZ, (rand.nextDouble()-0.5)*range, (rand.nextDouble())*(range/2), (rand.nextDouble()-0.5)*range);
+        		EntityShrapnel shrapnel = new EntityShrapnel(worldObj, posX, posY+0.5D, posZ, (rand.nextDouble()-0.5)*range, (rand.nextDouble()-0.5F)*range, (rand.nextDouble()-0.5)*range);
         		
         		if(t == 2)
         		{

@@ -6,9 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import minefantasy.mf2.api.MineFantasyAPI;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Alloy{
 	public final List recipeItems;
@@ -56,16 +58,22 @@ public class Alloy{
 					ItemStack checkItem = (ItemStack) iterator.next();
 
 					if (itemstack.isItemEqual(checkItem)
-							&& (checkItem.getItemDamage() == 32767 || itemstack
-									.getItemDamage() == checkItem
-									.getItemDamage())) {
+					&& (checkItem.getItemDamage() == OreDictionary.WILDCARD_VALUE || itemstack.getItemDamage() == checkItem.getItemDamage())) 
+					{
+						matches = true;
+						checkRecipe.remove(checkItem);
+						break;
+					}
+					if (areBothCarbon(itemstack, checkItem))
+					{
 						matches = true;
 						checkRecipe.remove(checkItem);
 						break;
 					}
 				}
 
-				if (!matches) {
+				if (!matches)
+				{
 					return false;
 				}
 			}
@@ -74,7 +82,12 @@ public class Alloy{
 		return checkRecipe.isEmpty();
 	}
 
-    /**
+    private boolean areBothCarbon(ItemStack item1, ItemStack item2) 
+    {
+		return MineFantasyAPI.isCarbon(item1) && MineFantasyAPI.isCarbon(item2);
+	}
+
+	/**
      * Returns an Item that is the result of this recipe
      */
     public ItemStack getCraftingResult(InventoryCrafting inv)

@@ -67,7 +67,7 @@ public class ItemWaraxeMF extends ItemWeaponMF
 		
 		if(lunge)
 		{
-			float fallBonus = (Math.min(entityHitting.fallDistance, baseDamage))/2F;
+			float fallBonus = (Math.min(entityHitting.fallDistance, getMeleeDamage(entityHitting.getHeldItem())))/2F;
 			if(entityHit.onGround && !properHit)
 			{
 				entityHitting.hurtResistantTime = 20;
@@ -197,5 +197,20 @@ public class ItemWaraxeMF extends ItemWeaponMF
 	public WeaponClass getWeaponClass() 
 	{
 		return WeaponClass.AXE;
+	}
+	@Override
+	public boolean canCounter()
+	{
+		return true;
+	}
+	@Override
+	public float[] getCounterRatio()
+	{
+		return spearRatio;
+	}
+	@Override
+	public float getCounterDamage()
+	{
+		return 1.0F;
 	}
 }

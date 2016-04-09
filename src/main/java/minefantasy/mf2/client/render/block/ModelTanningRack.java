@@ -21,7 +21,7 @@ public class ModelTanningRack extends ModelBase {
   public ModelTanningRack()
   {
     textureWidth = 64;
-    textureHeight = 64;
+    textureHeight = 32;
     
       Base = new ModelRenderer(this, 0, 0);
       Base.addBox(-8F, 22F, -2.5F, 16, 2, 5);

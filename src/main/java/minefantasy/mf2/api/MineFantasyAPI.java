@@ -1,32 +1,34 @@
 package minefantasy.mf2.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
-import com.google.common.collect.Lists;
-
-import cpw.mods.fml.common.IFuelHandler;
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
+import minefantasy.mf2.api.crafting.engineer.ICrossbowPart;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
 import minefantasy.mf2.api.heating.Heatable;
-import minefantasy.mf2.api.knowledge.KnowledgeType;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.BlastFurnaceRecipes;
+import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.OreDictionary;
+
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.common.IFuelHandler;
 
 public class MineFantasyAPI 
 {
@@ -65,14 +67,14 @@ public class MineFantasyAPI
 	 * @param forgeTime The time taken to forge(default is 200. each hit is about 100)
 	 * @param input The input for the item (Exactly the same as regular recipes)
 	 */
-	public static void addAnvilRecipe(ItemStack result, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
+	public static void addAnvilRecipe(Skill skill, ItemStack result, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		CraftingManagerAnvil.getInstance().addRecipe(result, "", hot, 0F, toolType, hammerType, anvil, forgeTime, input);
+		CraftingManagerAnvil.getInstance().addRecipe(result, skill, "", hot, 0F, toolType, hammerType, anvil, forgeTime, input);
 	}
 	/** {@link MineFantasyAPI#addCarpenterRecipe} */
-	public static void addAnvilRecipe(ItemStack result, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
+	public static void addAnvilRecipe(Skill skill, ItemStack result, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		addAnvilRecipe(result, hot, "hammer", hammerType, anvil, forgeTime, input);
+		addAnvilRecipe(skill, result, hot, "hammer", hammerType, anvil, forgeTime, input);
 	}
 	
 	/**
@@ -88,14 +90,14 @@ public class MineFantasyAPI
 	 * @param forgeTime The time taken to forge(default is 200. each hit is about 100)
 	 * @param input The input for the item (Exactly the same as regular recipes)
 	 */
-	public static IAnvilRecipe addAnvilRecipe(ItemStack result, String research, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
+	public static IAnvilRecipe addAnvilRecipe(Skill skill, ItemStack result, String research, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		return CraftingManagerAnvil.getInstance().addRecipe(result, research, hot, 0F, toolType, hammerType, anvil, forgeTime, input);
+		return CraftingManagerAnvil.getInstance().addRecipe(result, skill, research, hot, 0F, toolType, hammerType, anvil, forgeTime, input);
 	}
 	/** {@link MineFantasyAPI#addCarpenterRecipe} */
-	public static IAnvilRecipe addAnvilRecipe(ItemStack result, String research, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
+	public static IAnvilRecipe addAnvilRecipe(Skill skill, ItemStack result, String research, boolean hot, int hammerType, int anvil, int forgeTime, Object... input)
 	{
-		return addAnvilRecipe(result, research, hot, "hammer", hammerType, anvil, forgeTime, input);
+		return addAnvilRecipe(skill, result, research, hot, "hammer", hammerType, anvil, forgeTime, input);
 	}
 	
 	/**
@@ -109,27 +111,34 @@ public class MineFantasyAPI
 	 * @param craftTime The time taken to craft(default is 200. each hit is about 100)
 	 * @param input The input for the item (Exactly the same as regular recipes)
 	 */
-	public static void addCarpenterRecipe(ItemStack result, String sound, String toolType, int toolTier, int craftTime, Object... input)
+	public static void addCarpenterRecipe(Skill skill, ItemStack result, String sound, String toolType, int toolTier, int craftTime, Object... input)
 	{
-		CraftingManagerCarpenter.getInstance().addRecipe(result, "", sound, 0F, toolType, toolTier, -1, craftTime, input);
+		CraftingManagerCarpenter.getInstance().addRecipe(result, skill, "", sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
 	/** {@link MineFantasyAPI#addCarpenterRecipe} */
-	public static void addCarpenterRecipe(ItemStack result, String sound, int craftTime, Object... input)
+	public static void addCarpenterRecipe(Skill skill, ItemStack result, String sound, int craftTime, Object... input)
 	{
-		addCarpenterRecipe(result, "", sound, "hands", -1, craftTime, input);
+		addCarpenterRecipe(skill, result, "", sound, "hands", -1, craftTime, input);
 	}
 	/** {@link MineFantasyAPI#addCarpenterRecipe} */
-	public static void addShapelessCarpenterRecipe(ItemStack result, String sound, String toolType, int toolTier, int craftTime, Object... input)
+	public static void addShapelessCarpenterRecipe(Skill skill, ItemStack result, String sound, String toolType, int toolTier, int craftTime, Object... input)
 	{
-		CraftingManagerCarpenter.getInstance().addShapelessRecipe(result, "", sound, 0F, toolType, toolTier, -1, craftTime, input);
+		CraftingManagerCarpenter.getInstance().addShapelessRecipe(result, skill, "", sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
 	/** {@link MineFantasyAPI#addCarpenterRecipe} */
-	public static void addShapelessCarpenterRecipe(ItemStack result, String sound, int craftTime, Object... input)
+	public static void addShapelessCarpenterRecipe(Skill skill, ItemStack result, String sound, int craftTime, Object... input)
 	{
-		addShapelessCarpenterRecipe(result,  sound, "hands", -1, craftTime, input);
+		addShapelessCarpenterRecipe(skill, result,  sound, "hands", -1, craftTime, input);
 	}
 	
-	
+	/**
+	 * Adds a basic carpenter recipe similar to regular crafting
+	 * This uses a single hit with bare hands
+	 */
+	public static ICarpenterRecipe addBasicCarpenterRecipe(ItemStack result, Object... input)
+	{
+		return CraftingManagerCarpenter.getInstance().addRecipe(result, null, "", "dig.wood", 0F, "hands", -1, -1, 1, input);
+	}
 	/**
 	 * Adds a shaped recipe for carpenter benches with all variables
 	 * 
@@ -142,24 +151,24 @@ public class MineFantasyAPI
 	 * @param craftTime The time taken to craft(default is 200. each hit is about 100)
 	 * @param input The input for the item (Exactly the same as regular recipes)
 	 */
-	public static ICarpenterRecipe addCarpenterRecipe(ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
+	public static ICarpenterRecipe addCarpenterRecipe(Skill skill, ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
 	{
-		return CraftingManagerCarpenter.getInstance().addRecipe(result, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
+		return CraftingManagerCarpenter.getInstance().addRecipe(result, skill, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
 	/** {@link MineFantasyAPI#addCarpenterRecipe} */
-	public static ICarpenterRecipe addCarpenterRecipe(ItemStack result, String research, String sound, int craftTime, Object... input)
+	public static ICarpenterRecipe addCarpenterRecipe(Skill skill, ItemStack result, String research, String sound, int craftTime, Object... input)
 	{
-		return addCarpenterRecipe(result, research, sound, "hands", -1, craftTime, input);
+		return addCarpenterRecipe(skill, result, research, sound, "hands", -1, craftTime, input);
 	}
 	/** {@link MineFantasyAPI#addCarpenterRecipe} */
-	public static ICarpenterRecipe addShapelessCarpenterRecipe(ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
+	public static ICarpenterRecipe addShapelessCarpenterRecipe(Skill skill, ItemStack result, String research, String sound, String toolType, int toolTier, int craftTime, Object... input)
 	{
-		return CraftingManagerCarpenter.getInstance().addShapelessRecipe(result, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
+		return CraftingManagerCarpenter.getInstance().addShapelessRecipe(result, skill, research, sound, 0F, toolType, toolTier, -1, craftTime, input);
 	}
 	/** {@link MineFantasyAPI#addCarpenterRecipe} */
-	public static ICarpenterRecipe addShapelessCarpenterRecipe(ItemStack result, String research, String sound, int craftTime, Object... input)
+	public static ICarpenterRecipe addShapelessCarpenterRecipe(Skill skill, ItemStack result, String research, String sound, int craftTime, Object... input)
 	{
-		return addShapelessCarpenterRecipe(result, research,  sound, "hands", -1, craftTime, input);
+		return addShapelessCarpenterRecipe(skill, result, research,  sound, "hands", -1, craftTime, input);
 	}
 
 	public static void addBlastFurnaceRecipe(Block input, ItemStack output) 
@@ -367,12 +376,9 @@ public class MineFantasyAPI
 	/**
 	 * Adds a fuel for forges
 	 * 
-	 * @param item
-	 *            the item to be used
-	 * @param dura
-	 *            the amount of ticks said item gives
-	 * @param temperature
-	 *            the base temperature given
+	 * @param item the item to be used
+	 * @param dura the amount of ticks said item gives
+	 * @param temperature the base temperature given
 	 */
 	public static void addForgeFuel(Item id, float dura, int temperature) {
 		addForgeFuel(id, dura, temperature, false);
@@ -381,36 +387,34 @@ public class MineFantasyAPI
 	/**
 	 * Allows an item to be heated
 	 * 
-	 * @param item
-	 *            the item to heat
-	 * @param min
-	 *            the minimum heat to forge with(celcius)
-	 * @param max
-	 *            the maximum heat until the item is ruined(celcius)
+	 * @param item the item to heat
+	 * @param min the minimum heat to forge with(celcius)
+	 * @param max the maximum heat until the item is ruined(celcius)
+	 * @param unstable when the ingot is unstable(celcius)
 	 */
-	public static void addHeatableItem(ItemStack item, int min, int unstable, int max) {
+	public static void setHeatableStats(ItemStack item, int min, int unstable, int max) 
+	{
 		Heatable.addItem(item, min, unstable, max);
 	}
 
 	/**
 	 * Allows an item to be heated ignoring subId
 	 * 
-	 * @param id
-	 *            the item to heat
-	 * @param min
-	 *            the minimum heat to forge with(celcius)
-	 * @param max
-	 *            the maximum heat until the item is ruined(celcius)
+	 * @param id the item to heat
+	 * @param min the minimum heat to forge with(celcius)
+	 * @param max the maximum heat until the item is ruined(celcius)
+	 * @param unstable when the ingot is unstable(celcius)
 	 */
-	public static void addHeatableItem(Item id, int min, int unstable, int max) {
+	public static void setHeatableStats(Item id, int min, int unstable, int max) 
+	{
 		Heatable.addItem(new ItemStack(id, 1, OreDictionary.WILDCARD_VALUE), min, unstable, max);
 	}
 	
-	public static void addHeatableItems(String oredict, int min, int unstable, int max)
+	public static void setHeatableStats(String oredict, int min, int unstable, int max)
 	{
 		for(ItemStack item : OreDictionary.getOres(oredict))
 		{
-			addHeatableItem(item, min, unstable, max);
+			setHeatableStats(item, min, unstable, max);
 		}
 	}
 
@@ -429,5 +433,74 @@ public class MineFantasyAPI
 			return new ItemStack((Block)object, 1, OreDictionary.WILDCARD_VALUE);
 		}
 		return null;
+	}
+
+	/**
+	 * Adds a crossbow part Make sure to do this when adding the item
+	 */
+	public static void registerCrossbowPart(ICrossbowPart part)
+	{
+		ICrossbowPart.components.put(part.getComponentType()+part.getID(), part);
+	}
+	/**
+	 * For Hardcore Crafting: Can remove smelting recipes
+	 * @param input can be an "Item", "Block" or "ItemStack"
+	 */
+	public static boolean removeSmelting(Object input)
+    {
+		ItemStack object = null;
+		if(input instanceof Item)
+		{
+			object = new ItemStack((Item)input, 1, 32767);
+		}
+		else if(input instanceof Block)
+		{
+			object = new ItemStack((Block)input, 1, 32767);
+		}
+		else if(input instanceof ItemStack)
+		{
+			object = (ItemStack)input;
+		}
+		if(object != null)
+		{
+			return removeFurnaceInput(object);
+		}
+		return false;
+    }
+	private static boolean removeFurnaceInput(ItemStack input)
+    {
+        Iterator iterator = FurnaceRecipes.smelting().getSmeltingList().entrySet().iterator();
+        Entry entry;
+
+        do
+        {
+            if (!iterator.hasNext())
+            {
+                return false;
+            }
+
+            entry = (Entry)iterator.next();
+        }
+        while (!checkMatch(input, (ItemStack)entry.getKey()));
+
+        FurnaceRecipes.smelting().getSmeltingList().remove(entry.getKey());
+        return true;
+    }
+	private static boolean checkMatch(ItemStack item1, ItemStack item2)
+    {
+        return item2.getItem() == item1.getItem() && (item2.getItemDamage() == 32767 || item2.getItemDamage() == item1.getItemDamage());
+    }
+
+	public static boolean isCarbon(ItemStack item)
+	{
+		for(int i: OreDictionary.getOreIDs(item))
+		{
+			String name = OreDictionary.getOreName(i);
+			if(name != null && name.equalsIgnoreCase("carbon"))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

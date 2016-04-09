@@ -38,13 +38,13 @@ public class EntryPageSmelting extends EntryPage
 		this.output = out;
 	}
 	
-	public EntryPageSmelting(Item i1, Item i2)
+	public EntryPageSmelting(Item in, Item out)
 	{
-		this(new ItemStack(i1), new ItemStack(i2));
+		this(new ItemStack(in), new ItemStack(out));
 	}
 
 	@Override
-	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 		tooltipStack = null;
 		
@@ -95,8 +95,8 @@ public class EntryPageSmelting extends EntryPage
 
 	private void renderRecipe(GuiScreen parent, int mx, int my, float f, int posX, int posY)
 	{
-		renderResult(parent, input, false, posX, posY+74, mx, my);
-		renderResult(parent, output, false, posX, posY, mx, my);
+		renderResult(parent, output, false, posX, posY+74, mx, my);
+		renderResult(parent, input, false, posX, posY, mx, my);
 	}
 	
 	public void renderResult(GuiScreen gui, ItemStack stack, boolean accountForContainer, int xOrigin, int yOrigin, int mx, int my)
@@ -142,7 +142,7 @@ public class EntryPageSmelting extends EntryPage
 	}
 
 	@Override
-	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 	}
 }

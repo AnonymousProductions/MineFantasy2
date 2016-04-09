@@ -1,12 +1,19 @@
 package minefantasy.mf2.item;
 
+import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+import minefantasy.mf2.api.knowledge.InformationBase;
+import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,50 +23,82 @@ import net.minecraft.world.World;
 
 public class ItemResearchScroll extends ItemComponentMF
 {
-	private final int pointsWorth;
-	public ItemResearchScroll(String name, int pts, int tier)
+	private boolean isComplete;
+	public ItemResearchScroll(String name, boolean complete)
 	{
-		super(name, tier);
-		this.pointsWorth = pts;
+		super(name, 0);
+		setMaxStackSize(1);
+		this.isComplete = complete;
 		setTextureName("minefantasy2:Other/"+name);
 		this.setCreativeTab(CreativeTabMF.tabGadget);
+		setHasSubtypes(true);
+		setMaxDamage(0);
+		
+		if(!isComplete)
+		{
+			InformationBase.scroll = this;
+		}
+	}
+	
+	@Override
+    public void getSubItems(Item item, CreativeTabs tab, List list)
+    {
+    }
+	@Override
+	@SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack item, EntityPlayer user, List list, boolean fullInfo)
+	{
+		if(item.getItemDamage() >= InformationList.knowledgeList.size())
+		{
+			return;
+		}
+		InformationBase info = InformationList.knowledgeList.get(item.getItemDamage());
+		if(info != null)
+		{
+			list.add(info.getName());
+		}
 	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
 	{
-		ResearchLogic.modifyKnowledgePoints(user, pointsWorth);
-		if(RPGElements.isSystemActive)
+		if(!isComplete)
 		{
-			for(int a = 0; a < 1 + rand.nextInt(pointsWorth); a++)
+			return item;
+		}
+		boolean used = false;
+		if(item.getItemDamage() >= InformationList.knowledgeList.size())
+		{
+			return item;
+		}
+		InformationBase info = InformationList.knowledgeList.get(item.getItemDamage());
+		if(info != null)
+		{
+			if(ResearchLogic.hasInfoUnlocked(user, info))
 			{
-				Skill skill = RPGElements.getRandomSkill();
-				skill.addXP(user, skill.getLvlXP(RPGElements.getLevel(user, skill), user));
+				user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.known")));
+			}
+			else if(!info.hasSkillsUnlocked(user))
+			{
+				user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("skill.lowskill")));
+			}
+			else
+			{
+				used = ResearchLogic.tryUnlock(user, info);
 			}
 		}
-		if(!user.capabilities.isCreativeMode)
+		if(used)
 		{
-			--item.stackSize;
-		}
-		if(!world.isRemote)
-		{
-			world.playSoundAtEntity(user, "minefantasy2:updateResearch", 2.0F, 0.9F);
-			user.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted("knowledge.gainPts", ""+pointsWorth)));
+			if(user.worldObj.isRemote)
+			{
+				user.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("knowledge.unlocked") + ": " + StatCollector.translateToLocal(info.getName())));
+			}
+			user.worldObj.playSoundEffect(user.posX, user.posY, user.posZ, "minefantasy2:updateResearch", 1.0F, 1.0F);
+			if(!user.capabilities.isCreativeMode)
+			{
+				--item.stackSize;
+			}
 		}
 		return item;
-	}
-	private static Random rand = new Random();
-	public static ItemStack getRandomDrop()
-	{
-		Item drop = ToolListMF.research_scroll;
-		if(rand.nextFloat() < 0.05F)
-		{
-			drop = ToolListMF.research_scroll_rare;//5% drop rate
-		}
-		else if(rand.nextFloat() < 0.25F)
-		{
-			drop = ToolListMF.research_scroll_uncommon;//25% drop rate
-		}
-		return new ItemStack(drop, 1);
 	}
 }

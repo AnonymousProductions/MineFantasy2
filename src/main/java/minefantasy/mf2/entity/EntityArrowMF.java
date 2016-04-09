@@ -1,5 +1,6 @@
 package minefantasy.mf2.entity;
 
+import java.util.Iterator;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
@@ -9,6 +10,10 @@ import minefantasy.mf2.api.weapon.IDamageType;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.item.archery.ArrowType;
+import minefantasy.mf2.item.gadget.EnumCasingType;
+import minefantasy.mf2.item.gadget.EnumExplosiveType;
+import minefantasy.mf2.item.gadget.EnumFuseType;
+import minefantasy.mf2.item.gadget.EnumPowderType;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,6 +21,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -55,6 +61,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	private int knockbackStrength;
 	public float velocityModifier = 1.0F;
 	public ArrowType arrowtype = ArrowType.NORMAL;
+	public float firepower = 1F;
 
 	public EntityArrowMF(World world) 
 	{
@@ -81,6 +88,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shooter;
 
+		this.firepower = power;
 		if (shooter instanceof EntityPlayer)
 		{
 			this.canBePickedUp = 1;
@@ -110,7 +118,12 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	 */
 	public EntityArrowMF(World world, EntityLivingBase shooter, float power) 
 	{
+		this(world, shooter, 1.0F, power);
+	}
+	public EntityArrowMF(World world, EntityLivingBase shooter, float spread, float power) 
+	{
 		super(world);
+		this.firepower = power/2F;
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shooter;
 
@@ -140,7 +153,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F
 				* (float) Math.PI));
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ,
-				power * 1.5F, 1.0F);
+				power * 1.5F, spread);
 	}
 
 	public EntityArrowMF setDeisgn(ArrowType type)
@@ -247,7 +260,6 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 			this.ticksInGround = 0;
 		}
 	}
-
 	/**
 	 * Called to update the entity's position/logic.
 	 */
@@ -292,14 +304,16 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 			--this.arrowShake;
 		}
 
-		if (this.inGround) {
+		if (this.inGround) 
+		{
 			int j = this.worldObj.getBlockMetadata(this.xTile,
 					this.yTile, this.zTile);
 
 			if (block == this.inBlock && j == this.inData) {
 				++this.ticksInGround;
 
-				if (this.ticksInGround == 1200) {
+				if (this.ticksInGround == 1200) 
+				{
 					this.setDead();
 				}
 			} else 
@@ -379,15 +393,19 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 
 			if (movingobjectposition != null) 
 			{
+				if(isExplosive())
+				{
+					explode();
+				}
 				if (movingobjectposition.entityHit != null) 
 				{
 					f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ) / velocityModifier;
-                    int k = MathHelper.ceiling_double_int((double)f2 * (this.getDamageModifier()/3F));
+                   // int k = MathHelper.ceiling_double_int((double)f2 * (this.getHitDamage()/3F));
 					
-					float dam = k;//(getDamageModifier()*power) / 10F * (float)k;
+					float dam = Math.max(0.1F, this.getHitDamage() * firepower);//(getDamageModifier()*power) / 10F * (float)k;
 					
 					if(!worldObj.isRemote)
-						MFLogUtil.logDebug("Base MF Arrow Damage = " + dam + "force = " + f2);
+						MFLogUtil.logDebug("Base MF Arrow Damage = " + dam + "force = " + (int)(firepower*100F));
 					if (this.getIsCritical())
 					{
 						dam *= (rand.nextFloat()*0.5F)+1.0F;
@@ -410,7 +428,15 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 					{
 						movingobjectposition.entityHit.setFire(5);
 					}
-
+					if(isExplosive())
+					{
+						dam = this.getExplosionDamage();
+						damagesource.setExplosion();
+						if(this.getFilling() == 2)
+						{
+							damagesource.setFireDamage();
+						}
+					}
 					if (movingobjectposition.entityHit.attackEntityFrom(damagesource, dam)) 
 					{
 						onHitEntity(movingobjectposition.entityHit, dam);
@@ -578,6 +604,11 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		}
 	}
 
+	private boolean isExplosive() 
+	{
+		return getEntityData().hasKey("Explosive");
+	}
+
 	private void playHitSound()
 	{
 		if(worldObj.isRemote || playedSound)return;
@@ -605,6 +636,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) 
 	{
+		nbt.setFloat("firepower", firepower);
 		nbt.setBoolean("PlayedSound", playedSound);
 		nbt.setFloat("pierceChance", velocityModifier);
 		nbt.setShort("xTile", (short) this.xTile);
@@ -629,6 +661,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt)
 	{
+		firepower = nbt.getFloat("firepower");
 		playedSound = nbt.getBoolean("PlayedSound");
 		velocityModifier = nbt.getFloat("pierceChance");
 		this.xTile = nbt.getShort("xTile");
@@ -774,7 +807,7 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		return (b0 & 1) != 0;
 	}
 	
-	public float getDamageModifier()
+	public float getHitDamage()
 	{
 		float dam = 2.0F;
 		ItemStack arrowStack = getArrowStack();
@@ -787,7 +820,8 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 		}
 		if(getEntityData().hasKey("MF_Bow_Damage"))
 		{
-			dam += getEntityData().getFloat("MF_Bow_Damage");
+			MFLogUtil.logDebug("Arrow DMG: " + dam + " x Bow DMG: " + getEntityData().getFloat("MF_Bow_Damage"));
+			dam *= getEntityData().getFloat("MF_Bow_Damage");
 		}
 		return dam;
 	}
@@ -883,6 +917,10 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 
 	private boolean didArrowBreak()
 	{
+		if(isExplosive())
+		{
+			return false;
+		}
 		float c = rand.nextFloat();
 		float br = getBreakChance() * ConfigWeapon.arrowBreakMod;
 		return c < br;
@@ -894,9 +932,17 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 	}
 
 	@Override
-	public float[] getDamageRatio(Object implement) 
+	public float[] getDamageRatio(Object... implement) 
 	{
-		return new float[]{1,0};
+		if(isExplosive())
+		{
+			return new float[]{0,1, 0};
+		}
+		if(arrowtype != null)
+		{
+			return arrowtype.ratio;
+		}
+		return new float[]{0,0, 1};
 	}
 
 	public void modifyVelocity(float velocity)
@@ -914,8 +960,107 @@ public class EntityArrowMF extends EntityArrow implements IProjectile, IDamageTy
 
 	public void setPower(float f)
 	{
-		if(!worldObj.isRemote)
-			MFLogUtil.logDebug("Set Arrow Power: " + f);
 		power = f;
 	}
+	
+	public EntityArrowMF setBombStats(int powder, int filling)
+	{
+		getEntityData().setInteger("powder", powder);
+		getEntityData().setInteger("filling", filling);
+		getEntityData().setBoolean("Explosive", true);
+		return this;
+	}
+	public void explode() 
+    {
+		worldObj.playSoundAtEntity(this, "random.explode", 0.3F, 10F - 5F);
+    	worldObj.createExplosion(this, posX, posY, posZ, 0, false);
+        if (!this.worldObj.isRemote)
+        {
+        	double area = getRangeOfBlast()*2D;
+            AxisAlignedBB var3 = this.boundingBox.expand(area, area/2, area);
+            List var4 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, var3);
+
+            if (var4 != null && !var4.isEmpty())
+            {
+                Iterator splashDamage = var4.iterator();
+
+                while (splashDamage.hasNext())
+                {
+                    Entity entityHit = (Entity)splashDamage.next();
+                    double distanceToEntity = this.getDistanceToEntity(entityHit);
+
+                    double radius = getRangeOfBlast();
+                    if (distanceToEntity < radius)
+                    {
+                    	float dam = getExplosionDamage();
+                    	
+                    	if(distanceToEntity > radius/2)
+                    	{
+                    		double sc = distanceToEntity-(radius/2);
+                    		if(sc < 0)sc = 0;
+                    		if(sc > (radius/2))sc = (radius/2);
+                    		dam *= (sc / (radius/2));
+                    	}
+                    	if(!(entityHit instanceof EntityItem))
+                    	{
+                    		DamageSource source = causeBombDamage(this, shootingEntity != null ? shootingEntity:this);
+                    		source.setExplosion();
+                    		if(getFilling() == 2)
+                    		{
+                    			source.setFireDamage();
+                    		}
+                    		entityHit.attackEntityFrom(source, dam);
+                    	}
+                    }
+                }
+            }
+            this.setDead();
+        }
+        
+        int filling = getFilling();
+        if(filling > 0)
+        {
+        	for(int a = 0; a < 16; a++)
+        	{
+        		float range = 0.6F;
+        		EntityShrapnel shrapnel = new EntityShrapnel(worldObj, posX, posY+0.5D, posZ, (rand.nextDouble()-0.5)*range, (rand.nextDouble()-0.5)*range, (rand.nextDouble()-0.5)*range);
+        		
+        		if(filling == 2)
+        		{
+        			shrapnel.setFire(10);
+        		}
+        		worldObj.spawnEntityInWorld(shrapnel);
+        	}
+        }
+	}
+	private int getFilling()
+	{
+		return getEntityData().getInteger("filling");
+	}
+	private int getPowder()
+	{
+		return getEntityData().getInteger("powder");
+	}
+
+	private EnumExplosiveType getBlast()
+	{
+		return EnumExplosiveType.getType((byte)getFilling());
+	}
+	private EnumPowderType getPowderType()
+	{
+		return EnumPowderType.getType((byte)getPowder());
+	}
+	private double getRangeOfBlast()
+	{
+		return getBlast().range * getPowderType().rangeModifier*0.5F;
+	}
+
+	private int getExplosionDamage() 
+	{
+		return (int)(getBlast().damage* getPowderType().damageModifier*0.5F);
+	}
+	public static DamageSource causeBombDamage(Entity bomb, Entity user)
+    {
+        return (new EntityDamageSourceBomb(bomb, user)).setProjectile();
+    }
 }

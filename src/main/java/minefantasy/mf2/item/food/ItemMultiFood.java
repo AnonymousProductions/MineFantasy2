@@ -30,6 +30,12 @@ public class ItemMultiFood extends ItemFoodMF
     }
 	
 	@Override
+	public boolean isRepairable()
+    {
+		return false;
+    }
+	
+	@Override
 	public ItemStack onEaten(ItemStack food, World world, EntityPlayer consumer)
     {
 		consumer.getFoodStats().func_151686_a(this, food);

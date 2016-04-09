@@ -1,5 +1,6 @@
 package minefantasy.mf2.block.refining;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +21,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -51,7 +53,11 @@ public class BlockChimney extends BlockContainer
 		isWide = wide;
 		this.chimneyType = type;
 		this.size = size;
-		if(!wide)
+		if(wide)
+		{
+			this.setLightOpacity(255);
+		}
+		else
 		{
 			this.setBlockBounds(1F/4F, 0, 1F/4F, 3F/4F, 1F, 3F/4F);
 		}

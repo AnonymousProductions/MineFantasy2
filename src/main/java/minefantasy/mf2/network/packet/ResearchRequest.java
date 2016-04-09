@@ -31,21 +31,16 @@ public class ResearchRequest extends PacketMF
 		researchID = packet.readInt();
 		username = ByteBufUtils.readUTF8String(packet);
 		
-		if (username != null) 
+		if (username != null && player.getCommandSenderName().equals(username)) 
         {
-            EntityPlayer entity = player.worldObj .getPlayerEntityByName(username);
             InformationBase research = InformationList.knowledgeList.get(researchID);
-            if(entity != null && research != null)
+            if(player != null && research != null)
             {
-            	int points = ResearchLogic.getKnowledgePoints(entity);
-            	int cost = ResearchLogic.getCost(player, research);
-            	if(!player.worldObj.isRemote && (MineFantasyII.isDebug() || points >= cost))
+            	if(!player.worldObj.isRemote)
             	{
-	            	if(research.trigger(player, true))
+	            	if(research.onPurchase(player))
 	            	{
-	            		if(!MineFantasyII.isDebug())
-	            		ResearchLogic.modifyKnowledgePoints(entity, -cost);
-	            		ResearchLogic.syncData(entity);
+	            		ResearchLogic.syncData(player);
 	            	}
             	}
             }

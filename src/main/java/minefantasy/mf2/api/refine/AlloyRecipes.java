@@ -42,6 +42,7 @@ public class AlloyRecipes {
 	 */
 	public static Alloy[] addRatioRecipe(ItemStack out, int level, List in, int levels)
 	{
+		levels = (int)(9F / in.size());
 		Alloy[] alloys = new Alloy[levels];
 		for(int a = 1; a <= levels; a ++)
 		{

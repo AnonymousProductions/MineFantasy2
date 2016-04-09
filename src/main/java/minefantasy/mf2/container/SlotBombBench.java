@@ -23,7 +23,7 @@ public class SlotBombBench extends Slot
     {
 		if(type.equalsIgnoreCase("case"))
 		{
-			return TileEntityBombBench.isMatch(item, "bombCase") || TileEntityBombBench.isMatch(item, "mineCase");
+			return TileEntityBombBench.isMatch(item, "arrow") || TileEntityBombBench.isMatch(item, "bolt") || TileEntityBombBench.isMatch(item, "bombCase") || TileEntityBombBench.isMatch(item, "mineCase");
 		}
 		if(type.equalsIgnoreCase("bomb"))
 		{

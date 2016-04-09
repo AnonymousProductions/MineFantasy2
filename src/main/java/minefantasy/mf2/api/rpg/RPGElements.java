@@ -14,7 +14,7 @@ public class RPGElements
 {
 	public static boolean isSystemActive = true;
 	public static float levelSpeedModifier = 1.0F;
-	public static float levelUpModifier = 1.0F;
+	public static float levelUpModifier = 1.5F;
 	
 	private static HashMap<String, Skill>skillsMap = new HashMap<String, Skill>();
 	private static ArrayList<Skill>skillsList = new ArrayList<Skill>();
@@ -62,7 +62,7 @@ public class RPGElements
 		for(int id = 0; id < skillsList.size(); id++)
 		{
 			Skill skill = skillsList.get(id);
-			skill.sync(getSkill(player, skill.skillName), player);
+			skill.sync(player);
 		}
 	}
 	
@@ -126,5 +126,19 @@ public class RPGElements
 	{
 		int id = rand.nextInt(skillsList.size());
 		return skillsList.get(id);
+	}
+	public static void syncAll(EntityPlayer user)
+	{
+		if(!user.worldObj.isRemote)
+		{
+			for(int a = 0; a < skillsList.size(); a++)
+			{
+				Skill skill = skillsList.get(a);
+				if(skill != null)
+				{
+					skill.sync(user);
+				}
+			}
+		}
 	}
 }

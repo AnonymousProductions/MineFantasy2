@@ -6,6 +6,7 @@ import java.util.Random;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
@@ -25,20 +26,32 @@ public class ConstructionBlockMF extends Block {
 	public Block[] stairblocks = new Block[4];
 	public ConstructionBlockMF(String unlocName)
 	{
-		super(Material.rock);
+		this(unlocName, new String[] {"", "_cobblestone", "_brick", "_pavement"});
+	}
+	public ConstructionBlockMF(String unlocName, String... types)
+	{
+		this(unlocName, Material.rock, types);
+	}
+	public ConstructionBlockMF(String unlocName, Material material, String... types)
+	{
+		super(material);
 		
 		this.setBlockName(unlocName);
 		
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		GameRegistry.registerBlock(this, ItemConstBlock.class, unlocName);
-		for(int i = 0; i < 4; i ++)
+		for(int i = 0; i < m_names.length; i ++)
 		{
 			GameRegistry.registerBlock(stairblocks[i] = new StairsConstBlock(unlocName + m_names[i] + "_stair", this, i).setHardness(1.5F).setResistance(10F),  unlocName + m_names[i] + "_stair");
 		}
 		
 		setHardness(1.5F);
 		setResistance(10F);
-		setHarvestLevel("pickaxe", 0);
+		if(material == Material.rock)
+		{
+			setHarvestLevel("pickaxe", 0);
+		}
+		
 		addConstructRecipes();
 		
 	}
@@ -157,15 +170,26 @@ public class ConstructionBlockMF extends Block {
 	
 	public static class StairsConstBlock extends BlockStairs
 	{
-
+		private final Block base;
 		public StairsConstBlock(String unlocalizedName, Block baseBlock, int metaOfBaseBlock)
 		{
 			super(baseBlock, metaOfBaseBlock);
 			this.setBlockName(unlocalizedName);
 		    this.setCreativeTab(CreativeTabs.tabBlock);
 		    this.setLightOpacity(0);//They seem to render shadows funny
+		    this.base = baseBlock;
 		}
 		
+		public void addRecipe() 
+		{
+			GameRegistry.addRecipe(new ItemStack(this, 4), new Object[]{
+				"B  ",
+				"BB ",
+				"BBB",
+				'B', this.base
+			});
+		}
+
 		public StairsConstBlock(String unlocalizedName, Block baseBlock) 
 		{
 		    this(unlocalizedName, baseBlock, 0);
@@ -176,7 +200,6 @@ public class ConstructionBlockMF extends Block {
 			GameRegistry.registerBlock(this, name);
 			return this;
 		}
-		
 	}
 	
 	public static class ItemConstBlock extends ItemBlockWithMetadata

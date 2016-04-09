@@ -2,6 +2,7 @@ package minefantasy.mf2.client.render;
 
 import minefantasy.mf2.entity.EntityBomb;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -34,8 +35,8 @@ public class RenderBombIcon extends Render
     }
     public void doRender(EntityBomb bomb, double x, double y, double z, float f, float f1)
     {
-    
-        IIcon iicon = ToolListMF.bomb_custom.getIcon(bomb.getCasing());
+    	byte casing = bomb.getCasing();
+        IIcon iicon = ToolListMF.bomb_custom.getIcon(casing);
 
         if (iicon != null)
         {

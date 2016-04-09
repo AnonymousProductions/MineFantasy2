@@ -6,7 +6,11 @@ import java.util.List;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.heating.IHotItem;
+import minefantasy.mf2.api.heating.TongsHelper;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.GuiHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
+import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
@@ -85,9 +89,10 @@ public class ItemHeated extends Item implements IHotItem
 		{
 			ItemStack out = new ItemStack(ComponentListMF.hotItem, item.stackSize);
 			NBTTagCompound nbt = getNBT(out);
-	
-			nbt.setInteger(Heatable.NBT_ItemID, Item.getIdFromItem(item.getItem()));
-			nbt.setInteger(Heatable.NBT_SubID, item.getItemDamage());
+			NBTTagCompound save = new NBTTagCompound();
+			item.writeToNBT(save);
+			nbt.setTag(Heatable.NBT_Item, save);
+			
 			nbt.setBoolean(Heatable.NBT_ShouldDisplay, true);
 			setWorkTemp(out, stats.minTemperature);
 			setUnstableTemp(out, stats.unstableTemperature);
@@ -98,16 +103,34 @@ public class ItemHeated extends Item implements IHotItem
 		{
 			ItemStack out = new ItemStack(ComponentListMF.hotItem, item.stackSize);
 			NBTTagCompound nbt = getNBT(out);
-	
-			nbt.setInteger(Heatable.NBT_ItemID, Item.getIdFromItem(item.getItem()));
-			nbt.setInteger(Heatable.NBT_SubID, item.getItemDamage());
+			NBTTagCompound save = new NBTTagCompound();
+			item.writeToNBT(save);
+			nbt.setTag(Heatable.NBT_Item, save);
+			
 			nbt.setBoolean(Heatable.NBT_ShouldDisplay, false);
 			setWorkTemp(out, 0);
 			setUnstableTemp(out, 0);
-	
+			
 			return out;
 		}
 		return item;
+	}
+
+	private static void shareTraits(NBTTagCompound nbt, ItemStack item)
+	{
+		NBTTagCompound itemtag = getNBT(item);
+		if(itemtag.hasKey("Unbreakable"))
+		{
+			nbt.setBoolean("Unbreakable", itemtag.getBoolean("Unbreakable"));
+		}
+		if(itemtag.hasKey("MF_Inferior"))
+		{
+			nbt.setBoolean("MF_Inferior", itemtag.getBoolean("MF_Inferior"));
+		}
+		if(itemtag.hasKey("MFCraftQuality"))
+		{
+			nbt.setFloat("MFCraftQuality", itemtag.getFloat("MFCraftQuality"));
+		}
 	}
 
 	@Override
@@ -221,8 +244,10 @@ public class ItemHeated extends Item implements IHotItem
 				if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, item)) {
 					return item;
 				}
+				float water = TongsHelper.getWaterSource(world, i, j, k);
 
-				if (isWaterSource(world, i, j, k)) {
+				if (water >= 0)
+				{
 					player.playSound("random.splash", 1F, 1F);
 					player.playSound("random.fizz", 2F, 0.5F);
 
@@ -231,6 +256,17 @@ public class ItemHeated extends Item implements IHotItem
 					}
 
 					ItemStack drop = getItem(item).copy();
+					
+					if(Heatable.HCCquenchRuin)
+					{	
+						float damageDone = 50F + (water > 0F ? water : 0F);
+						if(damageDone > 99F)damageDone = 99F;
+						
+						if(drop.isItemStackDamageable())
+						{
+							drop.setItemDamage((int) (drop.getMaxDamage()*damageDone/100F));
+						}
+					}
 					drop.stackSize = item.stackSize;
 					if (drop != null) {
 						item.stackSize = 0;
@@ -244,18 +280,6 @@ public class ItemHeated extends Item implements IHotItem
 
 			return item;
 		}
-	}
-
-	private boolean isWaterSource(World world, int i, int j, int k) 
-	{
-		if (world.getBlock(i, j, k).getMaterial() == Material.water)
-		{
-			return true;
-		}
-		if (isCauldron(world, i, j, k)) {
-			return true;
-		}
-		return false;
 	}
 
 	public static boolean renderDynamicHotIngotRendering = true;
@@ -313,10 +337,6 @@ public class ItemHeated extends Item implements IHotItem
 			return (int) (255 - ((255 / 55) * percent));
 		}
 		return 0;
-	}
-
-	public boolean isCauldron(World world, int x, int y, int z) {
-		return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z) > 0;
 	}
 
 	@Override
