@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.crafting.IQualityBalance;
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvil;
 import minefantasy.mf2.api.crafting.anvil.ShapelessAnvilRecipes;
@@ -14,11 +15,14 @@ import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.container.ContainerAnvilMF;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.heatable.ItemHeated;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
+import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
+import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.network.packet.AnvilPacket;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.entity.item.EntityItem;
@@ -28,13 +32,15 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldServer;
 
-public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
+public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil, IQualityBalance
 {
 	public int tier;
 	private ItemStack[] inventory;
@@ -46,6 +52,8 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	private String toolTypeRequired = "hammer";
 	private String researchRequired = "";
 	private boolean outputHot = false;
+	private Skill skillUsed;
+	private boolean resetRecipe = false;
 	
 	public TileEntityAnvilMF()
 	{
@@ -58,13 +66,18 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 		texName=name;
 		setContainer(new ContainerAnvilMF(this));
 	}
+	private boolean isFakeAnvil = false;
+	public TileEntityAnvilMF setDisplay()
+	{
+		isFakeAnvil = true;
+		return this;
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
 		tier = nbt.getInteger("tier");
-		
 		NBTTagList savedItems = nbt.getTagList("Items", 10);
         this.inventory = new ItemStack[this.getSizeInventory()];
 
@@ -85,6 +98,9 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         researchRequired = nbt.getString("researchRequired");
         texName = nbt.getString("TextureName");
         outputHot = nbt.getBoolean("outputHot");
+        qualityBalance = nbt.getFloat("Quality");
+        leftHit = nbt.getFloat("leftHit");
+        rightHit = nbt.getFloat("rightHit");
 	}
 	
 	@Override
@@ -115,6 +131,9 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
         nbt.setString("researchRequired", researchRequired);
         nbt.setString("TextureName", texName);
         nbt.setBoolean("outputHot", outputHot);
+        nbt.setFloat("Quality", qualityBalance);
+        nbt.setFloat("leftHit", leftHit);
+        nbt.setFloat("rightHit", rightHit);
 	}
 
 	@Override
@@ -217,12 +236,16 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	public void updateEntity()
 	{
 		++ticksExisted;
+		if(!worldObj.isRemote && (leftHit == 0 || rightHit == 0))
+		{
+			reassignHitValues();
+		}
 		super.updateEntity();
 		if(!worldObj.isRemote)
 		{
-			if(ticksExisted % 20 == 0)
+			if(!isFakeAnvil && ticksExisted % 20 == 0)
 			{
-				updateInv();
+				updateCraftingData();
 			}
 			if(!canCraft() && ticksExisted > 1)
 			{
@@ -231,14 +254,25 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				this.recipe = null;
 			}
 		}
+		if(!worldObj.isRemote)
+		{
+			updateThreshold();
+		}
+		resetRecipe = false;
 	}
 	
 	public void onInventoryChanged()
 	{
-		updateInv();
+		MFLogUtil.logDebug("Anvil: Control Inv Tick");
+		if(!resetRecipe)
+		{
+			updateCraftingData();
+			MFLogUtil.logDebug("Anvil: Optimised Inv Tick");
+			resetRecipe = true;
+		}
 	}
 	
-	public boolean tryCraft(EntityPlayer user)
+	public boolean tryCraft(EntityPlayer user, boolean rightClick)
 	{
 		if(user == null)return false;
 		
@@ -251,33 +285,43 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				user.getHeldItem().damageItem(1, user);
 				if(user.getHeldItem().getItemDamage() >= user.getHeldItem().getMaxDamage())
 				{
+					if(worldObj.isRemote)
+						user.renderBrokenItemStack(user.getHeldItem());
+					
 					user.destroyCurrentEquippedItem();
 				}
 			}
 			if(worldObj.isRemote)
 				return true;
 			
-			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && tier >= anvilTierRequired && hammerTier >= hammerTierRequired)
+			if(doesPlayerKnowCraft(user) && canCraft() && toolType.equalsIgnoreCase(toolTypeRequired) && hammerTier >= hammerTierRequired)
 			{
-				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, 1.0F);
-				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem());
+				if(rightClick)
+				{
+					this.qualityBalance += rightHit;
+				}
+				else
+				{
+					this.qualityBalance -= leftHit;
+				}
+				if(qualityBalance >= 1.0F || qualityBalance <= -1.0F)
+				{
+					ruinCraft();
+				}
+					
+				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, rightClick ? 1.2F : 1.0F);
+				float efficiency = ToolHelper.getCrafterEfficiency(user.getHeldItem()) * (rightClick ? 0.75F : 1.0F);
 				float toolEfficiency = efficiency;
 				
 				if(user.swingProgress > 0 && user.swingProgress <= 1.0)
 				{
 					efficiency *= (0.5F-user.swingProgress);
 				}
-				if(RPGElements.isSystemActive)
-				{
-					SkillList.metallurgy.addXP(user, (int)efficiency);
-				}
 				
 				progress += Math.max(0.2F, efficiency);
 				if(progress >= progressMax)
 				{
-					float xpGained = progressMax / toolEfficiency;
-					MFLogUtil.logDebug("Completed Craft: KPE Gained: " + (int)xpGained);
-					craftItem();
+					craftItem(user);
 				}
 			}
 			else
@@ -285,23 +329,37 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilfail", 0.25F, 1.0F);
 			}
 			lastPlayerHit = user.getCommandSenderName();
-			updateInv();
+			updateCraftingData();
 			
 			return true;
 		}
-		updateInv();
+		updateCraftingData();
 		return false;
 	}
 	
+	private void ruinCraft() 
+	{
+		if(!worldObj.isRemote)
+		{
+			consumeResources();
+			reassignHitValues();
+			progress = progressMax = qualityBalance = 0;
+		}
+		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.8, zCoord+0.5, "random.break", 1.0F, 0.8F);
+	}
 	public boolean doesPlayerKnowCraft(EntityPlayer user)
 	{
 		return getResearchNeeded().isEmpty() || ResearchLogic.hasInfoUnlocked(user, getResearchNeeded());
 	}
-	private void craftItem()
+	private void craftItem(EntityPlayer lastHit)
 	{
 		if (this.canCraft())
         {
 			ItemStack result = modifySpecials(recipe);
+			if(result == null)
+			{
+				return;
+			}
 			if(result != null && result.getItem() instanceof ItemArmourMF)
 			{
 				result = modifyArmour(result);
@@ -311,17 +369,26 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 			int temp = this.averageTemp();
 			boolean hot = outputHot && temp > 0;
 			
-			if(hot && this.inventory[output] == null)
+			if(hot)
 			{
-				MFLogUtil.logDebug("Hot Output");
-				ItemStack out = ItemHeated.createHotItem(result, temp);
             	if(result.getMaxStackSize() == 1 && lastPlayerHit.length() > 0)
             	{
-            		getNBT(out).setString("MF_CraftedByName", lastPlayerHit);
+            		getNBT(result).setString("MF_CraftedByName", lastPlayerHit);
             	}
-                this.inventory[output] = out;
-				EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
-	            consumeResources();
+            	ItemStack out = ItemHeated.createHotItem(result, temp);
+            	if(inventory[output] == null)
+            	{
+            		addXP(lastHit);
+            		this.inventory[output] = out;
+            		consumeResources();
+            	}
+            	else if(inventory[output].isItemEqual(out) && (inventory[output].stackSize + out.stackSize <= getStackSize(inventory[output])))
+            	{
+            		addXP(lastHit);
+            		inventory[output].stackSize += out.stackSize;
+            		MFLogUtil.logDebug("StackSize = " + inventory[output].stackSize);
+            		consumeResources();
+            	}
 			}
 			else if (!hot)
 			{
@@ -337,12 +404,24 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	            {
 	                this.inventory[output].stackSize += result.stackSize; // Forge BugFix: Results may have multiple items
 	            }
-	            EntityPlayer lastHit = worldObj.getPlayerEntityByName(lastPlayerHit);
+	            addXP(lastHit);
 	            consumeResources();
 			}
         }
 		onInventoryChanged();
 		progress = 0;
+		reassignHitValues();
+		qualityBalance = 0;
+	}
+	private void addXP(EntityPlayer smith)
+	{
+		if(skillUsed == null)return;
+		
+		float baseXP = this.progressMax / 10F;
+		baseXP /= (1.0F + getAbsoluteBalance());
+		
+		MFLogUtil.logDebug("Add " + baseXP + " to " + skillUsed.skillName);
+		skillUsed.addXP(smith, (int)baseXP + 1);
 	}
 	private ItemStack modifyArmour(ItemStack result)
 	{
@@ -374,34 +453,89 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	private ItemStack modifySpecials(ItemStack result) 
 	{
 		boolean hasHeart = false;
+		boolean isTool = result.getMaxStackSize() == 1 && result.isItemStackDamageable();
 		EntityPlayer player = worldObj.getPlayerEntityByName(lastPlayerHit);
-		//DRAGONFORGE
-		for(int x = -4; x <= 4; x++)
+		
+		Item DF = SpecialForging.getDragonCraft(result);
+		
+		if(DF != null)
 		{
-			for(int y = -4; y <= 4; y++)
+			//DRAGONFORGE
+			for(int x = -4; x <= 4; x++)
 			{
-				for(int z = -4; z <= 4; z++)
+				for(int y = -4; y <= 4; y++)
 				{
-					TileEntity tile = worldObj.getTileEntity(xCoord+x, yCoord+y, zCoord+z);
-					if(player != null && ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.smeltDragonforge) && tile != null && tile instanceof TileEntityForge)
+					for(int z = -4; z <= 4; z++)
 					{
-						if(((TileEntityForge)tile).dragonHeartPower > 0)
+						TileEntity tile = worldObj.getTileEntity(xCoord+x, yCoord+y, zCoord+z);
+						if(player != null && ResearchLogic.hasInfoUnlocked(player, KnowledgeListMF.smeltDragonforge) && tile != null && tile instanceof TileEntityForge)
 						{
-							hasHeart = true;
-							((TileEntityForge)tile).dragonHeartPower = 0;
-							worldObj.createExplosion(null, xCoord+x, yCoord+y, zCoord+z, 1F, false);
-							break;
+							if(((TileEntityForge)tile).dragonHeartPower > 0)
+							{
+								hasHeart = true;
+								((TileEntityForge)tile).dragonHeartPower = 0;
+								worldObj.createExplosion(null, xCoord+x, yCoord+y, zCoord+z, 1F, false);
+								PlayerTickHandlerMF.spawnDragon(player);
+								PlayerTickHandlerMF.addDragonEnemyPts(player, 2);
+								
+								break;
+							}
 						}
-					}
+					}	
 				}	
-			}	
+			}
 		}
 		if(hasHeart)
 		{
-			Item DF = SpecialForging.getDragonCraft(result);
-			if(DF != null)
+			NBTBase nbt = !(result.hasTagCompound()) ? null : result.getTagCompound().copy();
+			result = new ItemStack(DF, result.stackSize, result.getItemDamage());
+			if(nbt != null)
 			{
-				return new ItemStack(DF, result.stackSize, result.getItemDamage());
+				result.setTagCompound((NBTTagCompound) nbt);
+			}
+		}
+		
+		if(isPerfectItem() && !isMythicRecipe())
+		{
+			this.setTrait(result, "MF_Inferior", false);
+			ToolHelper.setQuality(result, 200.0F);
+			return result;
+		}
+		if(isTool)
+		{
+			result = modifyQualityComponents(result);
+		}
+		return damageItem(result);
+	}
+	private ItemStack modifyQualityComponents(ItemStack result)
+	{
+		float totalPts = 0F;
+		int totalItems = 0;
+		for(ItemStack item: inventory)
+		{
+			if(item != null && item.hasTagCompound())
+			{
+				if(item.getTagCompound().hasKey("MF_Inferior"))
+				{
+					++totalItems;
+					boolean inf = item.getTagCompound().getBoolean("MF_Inferior");
+					totalPts += (inf ? -50F : 100F);
+				}
+			}
+		}
+		if(totalItems > 0 && totalPts > 0)
+		{
+			MFLogUtil.logDebug("Modify Quality: " + totalItems + " x " + totalPts);
+			totalPts /= totalItems;
+			MFLogUtil.logDebug("= "+totalPts);
+			ToolHelper.setQuality(result, ToolHelper.getQualityLevel(result)+totalPts);
+			if(totalPts <= -85F)
+			{
+				this.setTrait(result, "MF_Inferior", true);
+			}
+			if(totalPts >= 80)
+			{
+				this.setTrait(result, "MF_Inferior", false);
 			}
 		}
 		return result;
@@ -437,9 +571,9 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	{
 		if (itemstack != null)
         {
-            float f = this.rand .nextFloat() * 0.8F + 0.1F;
-            float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
-            float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
+            float f = this.rand .nextFloat() * 0.4F + 0.3F;
+            float f1 = this.rand.nextFloat() * 0.4F + 0.3F;
+            float f2 = this.rand.nextFloat() * 0.4F + 0.3F;
 
             while (itemstack.stackSize > 0)
             {
@@ -449,19 +583,29 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
                 {
                     j1 = itemstack.stackSize;
                 }
-
+                
+                boolean delay = true;
+                double[] positions = new double[]{xCoord+f, yCoord+f1+1, zCoord+f2};
+                if(worldObj.getBlock(xCoord, yCoord+1, zCoord).getMaterial().isSolid() && lastPlayerHit != null)
+                {
+                	EntityPlayer smith = worldObj.getPlayerEntityByName(lastPlayerHit);
+                	if(smith != null)
+                	{
+                		delay = false;
+                		positions = new double[]{smith.posX, smith.posY, smith.posZ};
+                	}
+                }
+                
                 itemstack.stackSize -= j1;
-                EntityItem entityitem = new EntityItem(worldObj, xCoord + f, yCoord + f1, zCoord + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
-
+                EntityItem entityitem = new EntityItem(worldObj, positions[0], positions[1], positions[2], new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
                 if (itemstack.hasTagCompound())
                 {
                     entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
                 }
+                
+            	entityitem.delayBeforeCanPickup = delay ? 20 : 0;
+            	entityitem.motionX = entityitem.motionY = entityitem.motionZ = 0;
 
-                float f3 = 0.05F;
-                entityitem.motionX = (float)this.rand.nextGaussian() * f3;
-                entityitem.motionY = (float)this.rand.nextGaussian() * f3 + 0.2F;
-                entityitem.motionZ = (float)this.rand.nextGaussian() * f3;
                 worldObj.spawnEntityInWorld(entityitem);
             }
         }
@@ -534,35 +678,65 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	}
 	public void consumeResources()
 	{
+		resetRecipe = true;
 		for(int slot = 0; slot < getSizeInventory()-1; slot++)
 		{
 			ItemStack item = getStackInSlot(slot);
 			if(item != null && item.getItem() != null && item.getItem().getContainerItem(item) != null)
 			{
-				this.dropItem(item.getItem().getContainerItem(item));
+				if(item.stackSize == 1)
+				{
+					setInventorySlotContents(slot, item.getItem().getContainerItem(item));
+				}
+				else
+				{
+					this.dropItem(item.getItem().getContainerItem(item));
+					this.decrStackSize(slot, 1);
+				}
 			}
-			this.decrStackSize(slot, 1);
+			else
+			{
+				this.decrStackSize(slot, 1);
+			}
 		}
+		resetRecipe = false;
+		this.onInventoryChanged();
 	}
 	private boolean canFitResult(ItemStack result)
 	{
 		ItemStack resSlot = inventory[getSizeInventory()-1];
 		if(resSlot != null && result != null)
 		{
-			if(outputHot)
+			int maxStack = getStackSize(resSlot);
+			if(resSlot.stackSize + result.stackSize > maxStack)
 			{
 				return false;
+			}
+			if(resSlot.getItem() instanceof IHotItem)
+			{
+				ItemStack heated = Heatable.getItem(resSlot);
+				if(heated != null)
+				{
+					resSlot = heated;
+				}
 			}
 			if(!resSlot.isItemEqual(result))
 			{
 				return false;
 			}
-			if(resSlot.stackSize + result.stackSize > resSlot.getMaxStackSize())
-			{
-				return false;
-			}
 		}
 		return true;
+	}
+	private int getStackSize(ItemStack slot) 
+	{
+		if(slot == null)return 0;
+		
+		if(slot.getItem() instanceof IHotItem)
+		{
+			ItemStack held = Heatable.getItem(slot);
+			if(held != null)return held.getMaxStackSize();
+		}
+		return slot.getMaxStackSize();
 	}
 	//CRAFTING CODE
 	public ItemStack getResult()
@@ -582,7 +756,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
     	
     	return CraftingManagerAnvil.getInstance().findMatchingRecipe(this, craftMatrix);
     }
-	public void updateInv()
+	public void updateCraftingData()
     {
     	if(!worldObj.isRemote)
     	{
@@ -593,11 +767,15 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
     		if (!canCraft() && progress > 0) 
             {
     			progress = 0;
-                //quality = 100;
+    			reassignHitValues();
+    			qualityBalance = 0;
             }
+    		
     		if(recipe != null && oldRecipe != null && !recipe.isItemEqual(oldRecipe))
     		{
     			progress = 0;
+    			reassignHitValues();
+    			qualityBalance = 0;
     		}
     		if(progress > progressMax)progress = progressMax-1;
     		syncData();
@@ -674,7 +852,7 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	
 	private boolean isMythicRecipe()
 	{
-		return this.hammerTierRequired >= 6;//Ignotumite And Mithium
+		return false;//this.hammerTierRequired >= 6;
 	}
 	private boolean isMythicReady()
 	{
@@ -684,5 +862,137 @@ public class TileEntityAnvilMF extends TileEntity implements IInventory, IAnvil
 	public String getTextureName()
 	{
 		return texName;
+	}
+	public float qualityBalance = 0F;
+	public float thresholdPosition = 0.1F;
+	@Override
+	public float getMarkerPosition()
+	{
+		return qualityBalance;
+	}
+	@Override
+	public boolean shouldShowMetre()
+	{
+		return true;
+	}
+	@Override
+	public float getThresholdPosition() 
+	{
+		return thresholdPosition;
+	}
+	@Override
+	public float getSuperThresholdPosition() 
+	{
+		return thresholdPosition/3.5F;
+	}
+	
+	private float getAbsoluteBalance()
+	{
+		return qualityBalance < 0 ? -qualityBalance : qualityBalance;
+	}
+	private float getItemDamage()
+	{
+		int threshold = (int)(100F * thresholdPosition / 2F);
+		int total = (int)(100F * getAbsoluteBalance() - threshold);
+		
+		if(total > threshold)
+		{
+			float percent = ((float)total - (float)threshold) / (100F-(float)threshold);
+			return percent;
+		}
+		return 0F;
+	}
+	private boolean isPerfectItem()
+	{
+		int threshold = (int)(100F * getSuperThresholdPosition() / 2F);
+		int total = (int)(100F * getAbsoluteBalance() - threshold);
+		
+		return total <= threshold;
+	}
+	private ItemStack damageItem(ItemStack item)
+	{
+		float itemdam = getItemDamage();
+		MFLogUtil.logDebug("Dam= "+itemdam);
+		if(itemdam > 0.5F)
+		{
+			setTrait(item, "MF_Inferior");
+			float q = 100F*(0.75F-(itemdam-0.5F));
+			MFLogUtil.logDebug("Fail: " + q);
+			ToolHelper.setQuality(item, Math.max(10F, q));
+		}
+		float damage = itemdam * item.getMaxDamage();
+		if(item.isItemStackDamageable())
+		{
+			if(damage > 0)
+			{
+				item.setItemDamage((int)(damage));
+				if(isMythicRecipe())
+				{
+					setTrait(item, "MF_Inferior");
+				}
+			}
+			else if(isMythicRecipe())
+			{
+				setTrait(item, "Unbreakable");
+			}
+		}
+		return item;
+	}
+	private void setTrait(ItemStack item, String trait)
+	{
+		setTrait(item, trait, true);
+	}
+	private void setTrait(ItemStack item, String trait, boolean flag)
+	{
+		if(item == null)return;
+		if(item.getMaxStackSize() > 1 || !item.isItemStackDamageable())
+		{
+			return;
+		}
+		
+		NBTTagCompound nbt = this.getNBT(item);
+		nbt.setBoolean(trait, flag);
+	}
+	private void updateThreshold() 
+	{
+		float modifier = 1.0F;
+		if(tier < anvilTierRequired)
+		{
+			modifier *= 0.25F;
+		}
+		
+		float baseThreshold = worldObj.difficultySetting.getDifficultyId()>= 2 ? 7.5F : 10F;
+		thresholdPosition = (isMythicRecipe() ? 0.05F : baseThreshold/100F)*modifier;
+	}
+	public void upset(EntityPlayer user)
+	{
+		if(this.progress > 0 && this.progressMax > 0)
+		{
+			worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "minefantasy2:block.anvilsucceed", 0.25F, 0.75F);
+			if(!worldObj.isRemote)
+			{
+				progress -= (progressMax/10F);
+				if(progress < 0)
+				{
+					ruinCraft();
+				}
+			}
+		}
+	}
+	public float leftHit = 0F;
+	public float rightHit = 0F;
+	private void reassignHitValues()
+	{
+		if(!worldObj.isRemote)
+		{
+			leftHit = 0.1F + (0.01F*rand.nextInt(11));
+			rightHit = 0.1F + (0.01F*rand.nextInt(11));
+			MFLogUtil.logDebug("Reset Hits: " + leftHit + "|" + rightHit);
+		}
+	}
+	@Override
+	public void setSkill(Skill skill) 
+	{
+		skillUsed = skill;
 	}
 }

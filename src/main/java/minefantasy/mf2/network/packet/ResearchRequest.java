@@ -31,17 +31,16 @@ public class ResearchRequest extends PacketMF
 		researchID = packet.readInt();
 		username = ByteBufUtils.readUTF8String(packet);
 		
-		if (username != null) 
+		if (username != null && player.getCommandSenderName().equals(username)) 
         {
-            EntityPlayer entity = player.worldObj .getPlayerEntityByName(username);
             InformationBase research = InformationList.knowledgeList.get(researchID);
-            if(entity != null && research != null)
+            if(player != null && research != null)
             {
-            	if(!entity.worldObj.isRemote)
+            	if(!player.worldObj.isRemote)
             	{
-	            	if(research.onPurchase(entity))
+	            	if(research.onPurchase(player))
 	            	{
-	            		ResearchLogic.syncData(entity);
+	            		ResearchLogic.syncData(player);
 	            	}
             	}
             }

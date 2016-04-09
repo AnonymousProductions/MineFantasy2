@@ -1,5 +1,7 @@
 package minefantasy.mf2.api.armour;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 
 public interface IArmourMF 

@@ -51,13 +51,13 @@ public class ContainerResearch extends Container
             {
                 icrafting.sendProgressBarUpdate(this, 0, (int)tile.progress);
             }
-            if (this.lastProgressMax != tile.lastMaxProgress)
+            if (this.lastProgressMax != tile.maxProgress)
             {
-                icrafting.sendProgressBarUpdate(this, 1, (int)tile.lastMaxProgress);
+                icrafting.sendProgressBarUpdate(this, 1, (int)tile.maxProgress);
             }
         }
     	this.lastProgress = (int)tile.progress;
-    	this.lastProgressMax = (int)tile.lastMaxProgress;
+    	this.lastProgressMax = (int)tile.maxProgress;
     }
     
     @Override
@@ -70,7 +70,7 @@ public class ContainerResearch extends Container
         }
         if (id == 1)
         {
-            tile.lastMaxProgress = value;
+            tile.maxProgress = value;
         }
     }
     

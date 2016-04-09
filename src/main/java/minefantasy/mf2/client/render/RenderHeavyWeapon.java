@@ -6,6 +6,7 @@ package minefantasy.mf2.client.render;
  */
 import minefantasy.mf2.api.weapon.IParryable;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -31,11 +32,18 @@ public class RenderHeavyWeapon implements IItemRenderer
     private float scale;
     private float offset;
 	private boolean doesRenderParry = false;
+	private boolean willStab = false;
     
 	public RenderHeavyWeapon setParryable()
     {
 		doesRenderParry = true;
 		return this;
+    }
+	public RenderHeavyWeapon setKatana()
+    {
+    	offset = 1.0F;
+    	willStab = true;
+    	return this;
     }
     public RenderHeavyWeapon setGreatsword()
     {
@@ -99,7 +107,7 @@ public class RenderHeavyWeapon implements IItemRenderer
 	        
 	        if(user instanceof EntityPlayer && item != null)
 	    	{
-	    		hasParried = ItemWeaponMF.getParry(item) > 0;
+	        	hasParried = ItemWeaponMF.getParry(item) > 0 && ResearchLogic.hasInfoUnlocked((EntityPlayer)user, "counteratt");
 	    	}
 	    	else if(!(user instanceof EntityPlayer) && item != null && item.getItem() instanceof IParryable)
 	    	{
@@ -116,8 +124,16 @@ public class RenderHeavyWeapon implements IItemRenderer
         	{
         		if(user instanceof EntityPlayer)
         		{
-        			GL11.glRotatef(-45, 0, 0, 1);
-		        	GL11.glTranslatef(-0.5F, 0.5F, 0);
+        			if(willStab)
+        			{
+	        			GL11.glRotatef(-90, 0, 0, 1);
+			        	GL11.glTranslatef(-1.5F, 0.5F, 0);
+        			}
+        			else
+        			{
+	        			GL11.glRotatef(90, 0, 0, 1);
+			        	GL11.glTranslatef(0F, -1.0F, 0);
+        			}
         		}
         		else
         		{
@@ -128,15 +144,27 @@ public class RenderHeavyWeapon implements IItemRenderer
         	GL11.glTranslatef(0.25F*offset, -0.25F*offset, 0);
             GL11.glTranslatef(-1.0F, 0F, 0);
             GL11.glScalef(scale,scale,1);
-            IIcon icon = item.getIconIndex();
-
-            ItemRenderer.renderItemIn2D(tessellator,
-            		icon.getMaxU(),
-                    icon.getMinV(),
-                    icon.getMinU(),
-                    icon.getMaxV(),
-                    icon.getIconWidth(),
-                    icon.getIconHeight(), 1F/16F);
+            
+            for(int layer = 0; layer < item.getItem().getRenderPasses(item.getItemDamage()); layer ++)
+        	{
+        		int colour = item.getItem().getColorFromItemStack(item, layer);
+                float red = (float)(colour >> 16 & 255) / 255.0F;
+                float green = (float)(colour >> 8 & 255) / 255.0F;
+                float blue = (float)(colour & 255) / 255.0F;
+                
+                GL11.glColor4f(red, green, blue, 1.0F);
+                
+		        IIcon icon = item.getItem().getIcon(item, layer);
+	
+	            ItemRenderer.renderItemIn2D(tessellator,
+	            		icon.getMaxU(),
+	                    icon.getMinV(),
+	                    icon.getMinU(),
+	                    icon.getMaxV(),
+	                    icon.getIconWidth(),
+	                    icon.getIconHeight(), 1F/16F);
+        	}
+            
             if (item != null && item.hasEffect(0)) 
             {
             	TextureHelperMF.renderEnchantmentEffects(tessellator);
@@ -144,18 +172,42 @@ public class RenderHeavyWeapon implements IItemRenderer
 
         }else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) 
         {
+        	if(hasParried)
+        	{
+        		if(willStab)
+    			{
+        			GL11.glRotatef(-90, 0, 0, 1);
+		        	GL11.glTranslatef(-1.5F, 0.5F, 0);
+    			}
+    			else
+    			{
+        			GL11.glRotatef(90, 0, 0, 1);
+		        	GL11.glTranslatef(0F, -1.0F, 0);
+    			}
+        	}
         	GL11.glTranslatef(0.05F*offset, -0.05F*offset, 0);
         	GL11.glTranslatef(-0.75F, -0.25F, 0);
             GL11.glScalef(scale,scale,1);
-            IIcon icon = item.getIconIndex();
-
-            ItemRenderer.renderItemIn2D(tessellator,
-            		icon.getMaxU(),
-                    icon.getMinV(),
-                    icon.getMinU(),
-                    icon.getMaxV(),
-                    icon.getIconWidth(),
-                    icon.getIconHeight(), 1F/16F);
+            
+            for(int layer = 0; layer < item.getItem().getRenderPasses(item.getItemDamage()); layer ++)
+        	{
+        		int colour = item.getItem().getColorFromItemStack(item, layer);
+                float red = (float)(colour >> 16 & 255) / 255.0F;
+                float green = (float)(colour >> 8 & 255) / 255.0F;
+                float blue = (float)(colour & 255) / 255.0F;
+                
+                GL11.glColor4f(red, green, blue, 1.0F);
+                
+		        IIcon icon = item.getItem().getIcon(item, layer);
+	
+	            ItemRenderer.renderItemIn2D(tessellator,
+	            		icon.getMaxU(),
+	                    icon.getMinV(),
+	                    icon.getMinU(),
+	                    icon.getMaxV(),
+	                    icon.getIconWidth(),
+	                    icon.getIconHeight(), 1F/16F);
+        	}
 
             if (item != null && item.hasEffect(0)) {
                TextureHelperMF.renderEnchantmentEffects(tessellator);

@@ -1,2 +1,2 @@
-# MineFantasy2
-Recreation in progress.. Lots of stuff to do
+# MineFantasy2 (2.6.10+)
+Try keep it neat

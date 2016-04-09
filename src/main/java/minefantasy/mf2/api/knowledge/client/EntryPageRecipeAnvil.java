@@ -18,6 +18,7 @@ import minefantasy.mf2.api.heating.Heatable;
 import minefantasy.mf2.api.helpers.ClientTickHandler;
 import minefantasy.mf2.api.helpers.GuiHelper;
 import minefantasy.mf2.api.helpers.TextureHelperMF;
+import minefantasy.mf2.item.list.ComponentListMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
@@ -53,10 +54,13 @@ public class EntryPageRecipeAnvil extends EntryPage
 	}
 	
 	@Override
-	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 		tooltipStack = null;
-		tickRecipes();
+		if(onTick)
+		{
+			tickRecipes();
+		}
 		
 		int xPoint = (parent.width - universalBookImageWidth) / 2;
         int yPoint = (parent.height - universalBookImageHeight) / 2;
@@ -148,34 +152,21 @@ public class EntryPageRecipeAnvil extends EntryPage
 
 			shapelessRecipe = true;
 		} 
-		renderResult(parent, recipe.getRecipeOutput(), false, posX, posY, mx, my);
+		renderResult(parent, recipe.getRecipeOutput(), false, posX, posY, mx, my, recipe.outputHot());
 	}
-	int mouseTicks = 0;
 	private void tickRecipes()
 	{
-		if(Mouse.isButtonDown(1))
+		if(recipeID < recipes.length-1)
 		{
-			++mouseTicks;
+			++recipeID;
 		}
 		else
 		{
-			mouseTicks = 0;
-		}
-		long ticks = Minecraft.getSystemTime();
-		if(mouseTicks == 1)
-		{
-			if(recipeID < recipes.length-1)
-			{
-				++recipeID;
-			}
-			else
-			{
-				recipeID = 0;
-			}
+			recipeID = 0;
 		}
 	}
 	
-	public void renderResult(GuiScreen gui, ItemStack stack, boolean accountForContainer, int xOrigin, int yOrigin, int mx, int my)
+	public void renderResult(GuiScreen gui, ItemStack stack, boolean accountForContainer, int xOrigin, int yOrigin, int mx, int my, boolean hot)
 	{
 		if(stack == null || stack.getItem() == null)
 			return;
@@ -183,38 +174,43 @@ public class EntryPageRecipeAnvil extends EntryPage
 
 		if(stack.getItemDamage() == Short.MAX_VALUE)
 			stack.setItemDamage(0);
-
+		if(stack.getItemDamage() == -1)
+			stack.setItemDamage(0);
+		
 		int xPos = xOrigin + 65;
 		int yPos = yOrigin + 20;
-		ItemStack stack1 = stack.copy();
-		if(stack1.getItemDamage() == -1)
-			stack1.setItemDamage(0);
 
-		renderItem(gui, xPos, yPos, stack1, accountForContainer, mx, my);
+		renderItem(gui, xPos, yPos, stack, accountForContainer, mx, my, hot);
 	}
 	
 	public void renderItemAtGridPos(GuiScreen gui, int x, int y, ItemStack stack, boolean accountForContainer, int xOrigin, int yOrigin, int mx, int my)
 	{
 		if(stack == null || stack.getItem() == null)
 			return;
+		
+		boolean heatable = Heatable.canHeatItem(stack);
+		
 		stack = stack.copy();
 
 		int gridSize = 18;
 		
 		if(stack.getItemDamage() == Short.MAX_VALUE)
 			stack.setItemDamage(0);
+		if(stack.getItemDamage() == -1)
+			stack.setItemDamage(0);
 
 		x-=1;
 		y-=1;
 		int xPos = xOrigin + (x * gridSize) + 21;
 		int yPos = yOrigin + (y * gridSize) + 54;
-		ItemStack stack1 = stack.copy();
-		if(stack1.getItemDamage() == -1)
-			stack1.setItemDamage(0);
 		
-		renderItem(gui, xPos, yPos, stack1, accountForContainer, mx, my);
-		
-		if(Heatable.canHeatItem(stack1))
+		renderItem(gui, xPos, yPos, stack, accountForContainer, mx, my, heatable);
+	}
+	
+	private ItemStack tooltipStack;
+	public void renderItem(GuiScreen gui, int xPos, int yPos, ItemStack stack, boolean accountForContainer, int mx, int my, boolean heatable) 
+	{
+		if(heatable)
 		{
 			GL11.glPushMatrix();
 			GL11.glColor3f(255, 255, 255);
@@ -222,18 +218,13 @@ public class EntryPageRecipeAnvil extends EntryPage
 	        gui.drawTexturedModalRect(xPos, yPos, 248, 0, 8,8);
 			GL11.glPopMatrix();
 		}
-	}
-	
-	private ItemStack tooltipStack;
-	public void renderItem(GuiScreen gui, int xPos, int yPos, ItemStack stack, boolean accountForContainer, int mx, int my) 
-	{
+		
 		RenderItem render = new RenderItem();
 		if(mx > xPos && mx < (xPos+16) && my > yPos && my < (yPos+16))
 		{
 			tooltipStack = stack;
 		}
-		boolean mouseDown = Mouse.isButtonDown(0);
-
+		
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -249,7 +240,7 @@ public class EntryPageRecipeAnvil extends EntryPage
 	}
 
 	@Override
-	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 	}
 }

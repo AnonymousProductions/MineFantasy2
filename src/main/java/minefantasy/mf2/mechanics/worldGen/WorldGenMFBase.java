@@ -1,7 +1,10 @@
 package minefantasy.mf2.mechanics.worldGen;
 
+import java.util.HashMap;
 import java.util.Random;
 
+import minefantasy.mf2.util.MFLogUtil;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -17,17 +20,16 @@ public class WorldGenMFBase implements IWorldGenerator
 	}
 	public void generate(Random random, int chunkX, int chunkZ, World world) 
 	{
-		NBTTagCompound nbt = world.getWorldInfo().getNBTTagCompound();
-		
-		if(shouldGenerate(nbt, chunkX, chunkZ))
+		if(shouldGenerate(null, chunkX, chunkZ))
 		{
-			WorldGenOres.generate(random, chunkX, chunkZ, world);
-			WorldGenPlants.generate(random, chunkX, chunkZ, world);
+			WorldGenGeological.generate(random, chunkX, chunkZ, world);
+			WorldGenBiological.generate(random, chunkX, chunkZ, world);
 		}
 	}
 	
 	private static boolean shouldGenerate(NBTTagCompound nbt, int x, int z)
 	{
+		if(nbt == null)return true;
 		String index = "WorldGenMF_x" + x + "z" + z + generatorLayer;
 		
 		if(nbt.hasKey(index))

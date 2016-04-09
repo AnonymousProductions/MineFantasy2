@@ -3,15 +3,15 @@ package minefantasy.mf2.mechanics;
 import java.util.Map;
 import java.util.Random;
 
-import javax.xml.transform.Source;
-
-import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.armour.CogworkArmour;
+import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ArrowEffectsMF;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.TacticalManager;
-import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.rpg.RPGElements;
-import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.api.stamina.StaminaBar;
 import minefantasy.mf2.api.tier.IToolMaterial;
@@ -22,16 +22,17 @@ import minefantasy.mf2.api.weapon.IPowerAttack;
 import minefantasy.mf2.api.weapon.ISpecialEffect;
 import minefantasy.mf2.api.weapon.IWeaponSpeed;
 import minefantasy.mf2.api.weapon.IWeightedWeapon;
-import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.config.ConfigArmour;
 import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigStamina;
 import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.entity.Shockwave;
 import minefantasy.mf2.item.weapon.ItemBattleaxeMF;
 import minefantasy.mf2.item.weapon.ItemDagger;
 import minefantasy.mf2.item.weapon.ItemKatanaMF;
 import minefantasy.mf2.item.weapon.ItemWaraxeMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
+import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.network.packet.ParryPacket;
 import minefantasy.mf2.util.MFLogUtil;
@@ -40,7 +41,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -67,6 +67,7 @@ public class CombatMechanics
 	public static final String posthitCooldownNBT = "MF_PostHit";
 	private static Random rand = new Random();
 	public static final float	specialUndeadModifier	= 2.0F;
+	public static final float	specialDragonModifier	= 0.5F;
 	public static final float	specialWerewolfModifier	= 8.0F;
 	public static boolean	swordSkeleton	= true;
 	
@@ -76,10 +77,12 @@ public class CombatMechanics
 	@SubscribeEvent
 	public void initAttack(LivingAttackEvent event)
 	{
+		/*
 		if(event.source == DamageSource.fall && event.entityLiving instanceof EntityPlayer && RPGElements.isSystemActive)
 		{
 			SkillList.acrobatics.addXP((EntityPlayer) event.entityLiving, (int)event.ammount+1);
 		}
+		
 		if(RPGElements.isSystemActive && event.entityLiving instanceof EntityPlayer && !event.source.isUnblockable())
 		{
 			for(int a = 0; a < 4; a++)
@@ -94,6 +97,7 @@ public class CombatMechanics
 				}
 			}
 		}
+		*/
 		
 		EntityLivingBase hitter = getHitter(event.source);
 		int spd = EventManagerMF.getHitspeedTime(hitter);
@@ -109,9 +113,9 @@ public class CombatMechanics
 		World world = hit.worldObj;
 		float damage = modifyDamage(src, world, hit, event.ammount, false);
 		
-		if(event.source.isProjectile())
+		if(event.source.isProjectile() && !event.source.isFireDamage() && damage < event.ammount && hit.getTotalArmorValue() > 0)//only if dam has been reduced
     	{
-    		if(ConfigArmour.resistArrow && !event.isCanceled() && TacticalManager.resistArrow(event.entityLiving, event.source, damage))
+    		if(ConfigArmour.resistArrow && !event.isCanceled() && damage <= 0)//TacticalManager.resistArrow(event.entityLiving, event.source, damage))
     		{
     			if(event.source.getSourceOfDamage() != null && !event.source.getSourceOfDamage().getEntityData().hasKey("arrowDeflectMF") && !(event.source.getEntity() instanceof EntityEnderPearl))
     			{
@@ -159,6 +163,10 @@ public class CombatMechanics
     {
 		DamageSource src = event.source;
 		EntityLivingBase hit = event.entityLiving;
+		if(src != null && src == DamageSource.fall)
+		{
+			onFall(hit, event.ammount);
+		}
 		World world = hit.worldObj;
 		float damage = modifyDamage(src, world, hit, event.ammount, true);
 		
@@ -205,10 +213,35 @@ public class CombatMechanics
 		event.ammount = damage;
     }
 	
+	private void onFall(EntityLivingBase fallen, float height) 
+	{
+		float weight = ArmourCalculator.getTotalWeightOfWorn(fallen, false);
+		if(weight > 100)
+		{
+			weight -= 100F;
+			float power = (height/4F) * (weight/100F);
+			newShockwave(fallen, fallen.posX, fallen.posY, fallen.posZ, power, false, true);
+		}
+	}
+	public Shockwave newShockwave(Entity source, double x, double y, double z, float power, boolean fire, boolean smoke)
+    {
+    	Shockwave explosion = new Shockwave("humanstomp", source.worldObj, source, x, y, z, power);
+        explosion.isFlaming = fire;
+        explosion.isSmoking = smoke;
+        explosion.initiate();
+        explosion.decorateWave(true);
+        return explosion;
+    }
+
 	private float modifyDamage(DamageSource src, World world, EntityLivingBase hit, float dam, boolean properHit)
 	{
 		Entity source = src.getSourceOfDamage();
 		Entity hitter = src.getEntity();
+		
+		if(properHit && hit instanceof EntityPlayer)
+		{
+			dam = modifyPlayerDamage((EntityPlayer)hit, dam);
+		}
 		
 		if(source != null && hitter != null && hitter instanceof EntityLivingBase)
 		{
@@ -245,29 +278,28 @@ public class CombatMechanics
 		if(melee)
 		{
 			int powerAttack = initPowerAttack(user, target, properHit);
-			if(powerAttack != 0)
+			if(powerAttack == 1)
 			{
-				if(powerAttack == 1)
+				dam *= (2F/1.5F);
+				onPowerAttack(dam, user, target, properHit);
+				
+				if(isSkeleton(target))
 				{
-					dam *= (2F/1.5F);
-					if(isSkeleton(target))
+					dam *= 1.5F;
+					if(properHit)
 					{
-						dam *= 1.5F;
-						if(properHit)
+						if(rand.nextInt(2) == 0)
 						{
-							if(rand.nextInt(2) == 0)
-							{
-								target.entityDropItem(new ItemStack(Items.bone), 0.5F);
-							}
+							target.entityDropItem(new ItemStack(Items.bone), 0.5F);
 						}
 					}
-					onPowerAttack(dam, user, target, properHit);
-				}
-				if(powerAttack == -1)
-				{
-					dam /= 2F;
 				}
 			}
+			if(powerAttack == -1)
+			{
+				dam /= 2F;
+			}
+			/*
 			if(RPGElements.isSystemActive && user instanceof EntityPlayer)
 			{
 				WeaponClass WC = WeaponClass.findClassForAny(user.getHeldItem());
@@ -278,6 +310,7 @@ public class CombatMechanics
 					dam *= mod;
 				}
 			}
+			*/
 		}
 		if(user instanceof EntityLivingBase)
 		{
@@ -305,13 +338,14 @@ public class CombatMechanics
     			//TODO: IDamageModifier, this mods the damage for weapons
     			dam = ((IDamageModifier)weapon.getItem()).modifyDamage(weapon, user, target, dam, properHit);
     		}
-    		if(weapon.getItem() instanceof IToolMaterial)
+    		CustomMaterial material = CustomToolHelper.getCustomMetalMaterial(weapon);
+    		if(material != null && material.name.equalsIgnoreCase("silver"))
     		{
-    			IToolMaterial mat = (IToolMaterial)weapon.getItem();
-    			if(this.isMaterialUndeadKiller(mat.getMaterial()))
-    			{
-    				dam = hurtUndead(user, target, dam, properHit);
-    			}
+    			dam = hurtUndead(user, target, dam, properHit);
+    		}
+    		if(!weapon.getUnlocalizedName().contains("dragonforged") && target instanceof EntityLivingBase && TacticalManager.isDragon((EntityLivingBase)target))
+    		{
+    			dam *= specialDragonModifier;
     		}
     	}
     	
@@ -385,17 +419,9 @@ public class CombatMechanics
 		{
 			return false;
 		}
-		if(user instanceof EntityZombie || user instanceof EntitySkeleton)
-		{
-			if(user.fallDistance > 2)return false;
-		}
-		else if(user instanceof EntityPlayer)
+		if(user instanceof EntityPlayer)
 		{
 			if(!isFightStance(user))return false;
-		}
-		else
-		{
-			return false;
 		}
 		return user.fallDistance > 0 && !user.isOnLadder();
 	}
@@ -411,11 +437,16 @@ public class CombatMechanics
 		{
 			dam *= 0.65F;
 		}
-		return dam;
+		return dam + getStrengthEnhancement(user);
 	}
 
-	private boolean isMaterialUndeadKiller(ToolMaterial material) 
+	private boolean isMaterialUndeadKiller(ItemStack weapon, ToolMaterial material) 
     {
+		CustomMaterial mat = CustomToolHelper.getCustomMetalMaterial(weapon);
+		if(mat != null && mat.name.equalsIgnoreCase("silver"))
+		{
+			return true;
+		}
 		return material == BaseMaterialMF.silver.getToolConversion() || material == BaseMaterialMF.ornate.getToolConversion();
 	}
 	private float hurtUndead(Entity entityHitting, Entity entityHit, float dam, boolean properHit) 
@@ -468,11 +499,7 @@ public class CombatMechanics
 				}
 				if(RPGElements.isSystemActive && user instanceof EntityPlayer )
 				{
-					WeaponClass WC = WeaponClass.findClassForAny(weapon);
-					if(WC != null)
-					{
-						WC.parentSkill.addXP((EntityPlayer)user, (int)damage);
-					}
+					SkillList.combat.addXP((EntityPlayer)user, (int)(damage/5F));
 				}
 			}
 			else
@@ -487,10 +514,6 @@ public class CombatMechanics
 	}
 	private void onWeaponHit(EntityLivingBase user, ItemStack weapon, Entity target, float dam)
 	{
-		if(ToolHelper.isItemMaterial(weapon, BaseMaterialMF.dragonforge.getToolConversion()))
-        {
-        	target.setFire(2);
-        }
 		if(target instanceof EntityLivingBase && weapon.getItem() instanceof ISpecialEffect)
 		{
 			((ISpecialEffect)weapon.getItem()).onProperHit(user, weapon, target, dam);
@@ -516,10 +539,12 @@ public class CombatMechanics
 	}
 	private void onArrowHit(Entity arrow, Entity target, Entity shooter, float damage)
 	{
+		/*
 		if(RPGElements.isSystemActive && shooter instanceof EntityPlayer)
 		{
 			SkillList.archery.addXP((EntityPlayer) shooter, (int)damage);
 		}
+		*/
 	}
 
 	protected static void performEffects(Map<PotionEffect, Float> map, EntityLivingBase entityHit) 
@@ -568,7 +593,7 @@ public class CombatMechanics
     	    
     	    if(ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote)
     		{
-    	    	threshold = ArmourCalculator.modifyACForType(source, threshold, 1.0F, 0.75F);
+    	    	threshold = ArmourCalculator.adjustACForDamage(source, threshold, 1.0F, 0.75F, 0.5F);
     		}
     	    
     	    if(debugParry && !user.worldObj.isRemote){MFLogUtil.logDebug("Init Parry: Damage = " + dam + " Threshold = " + threshold);}
@@ -614,7 +639,7 @@ public class CombatMechanics
 		    	   if(user instanceof EntityPlayer)
 		    	   {
 		   			   ((EntityPlayer)user).stopUsingItem();
-		    		   ItemWeaponMF.setParry(weapon, 12);
+		    		   ItemWeaponMF.setParry(weapon, 20);
 		    	   }
 		    	   
 		    	   	if(entityHitting != null && entityHitting instanceof EntityLivingBase)
@@ -642,13 +667,112 @@ public class CombatMechanics
     	{
     		dam *= Math.max(1.0F, ConfigStamina.exhaustDamage);
     	}
-    	if(user instanceof EntityPlayer || (entityHitting != null && entityHitting instanceof EntityPlayer))
+    	
+    	//Fire dura degrade
+    	if(properHit && source.isFireDamage() && dam > 0)
+    	{
+    		for(int a = 0; a < 4; a++)
+			{
+				ItemStack armour = user.getEquipmentInSlot(a+1);
+				if(armour != null)
+				{
+					int dura = (int)(dam)+1;
+					if(!user.worldObj.isRemote && !isArmourFireImmune(armour, source))
+					{
+						MFLogUtil.logDebug("Armour Flame Damage: " + dura);
+						if(armour.getItemDamage() + dura < armour.getMaxDamage())
+						{
+							armour.damageItem(dura, user);
+						}
+						else
+						{
+							armour.setItemDamage(armour.getMaxDamage());
+						}
+					}
+					if(armour.getItemDamage() >= armour.getMaxDamage())
+					{
+						user.setCurrentItemOrArmor(a+1, null);
+						user.worldObj.playSoundEffect(user.posX, user.posY+user.getEyeHeight() - (0.4F*a), user.posZ, "random.break", 1.0F, 1.0F);
+					}
+				}
+			}
+    	}
+    	
+    	
+    	if(!source.isUnblockable() && (properHit || source.isProjectile()) && dam > 0 && ArmourCalculator.useThresholdSystem)//THRESHOLD SYSTEM
+    	{
+	    	float AC = ArmourCalculator.getACThreshold(user, source);
+	    	if(source.isFireDamage())
+	    	{
+	    		AC *= 0.5F;
+	    	}
+	    	if(AC > 0)
+	    	{
+	    		if(dam > 0)
+	    		{
+	    			for(int a = 0; a < 4; a++)
+	    			{
+	    				ItemStack armour = user.getEquipmentInSlot(a+1);
+	    				if(armour != null)
+	    				{
+	    					int dura = ArmourCalculator.getDamageToDura(user, source, armour, dam);
+	    					if(!user.worldObj.isRemote)
+	    					{
+	    						if(armour.getItemDamage() + dura < armour.getMaxDamage())
+	    						{
+	    							armour.damageItem(dura, user);
+	    						}
+	    						else
+	    						{
+	    							armour.setItemDamage(armour.getMaxDamage());
+	    						}
+	    					}
+	    					if(armour.getItemDamage() >= armour.getMaxDamage())
+	    					{
+	    						user.setCurrentItemOrArmor(a+1, null);
+	    						user.worldObj.playSoundEffect(user.posX, user.posY+user.getEyeHeight() - (0.4F*a), user.posZ, "random.break", 1.0F, 1.0F);
+	    					}
+	    				}
+	    			}
+	    		}
+	    		
+	    		MFLogUtil.logDebug("Init AC Reduction: " + AC);
+	    		dam -= AC;
+	    		if(dam < 0)dam = 0;
+	    	}
+    	}
+    	
+    	if(dam > 0 && user instanceof EntityPlayer || (entityHitting != null && entityHitting instanceof EntityPlayer))
     	{
     		if(!user.worldObj.isRemote)
-    			MFLogUtil.logDebug(dam + "x Damage inflicted to: " + user.getCommandSenderName() + " (" + user.getEntityId() + ")");
+    		{
+    			String type = "Mixed";
+    			float[] f = ArmourCalculator.getRatioForSource(source);
+    			if(f == null)
+    			{
+    				type = "Basic";
+    			}
+    			else
+    			{
+	    			if(f[0] > f[1] && f[0] > f[2])type = "Cutting";
+	    			if(f[2] > f[1] && f[2] > f[0])type = "Piercing";
+	    			if(f[1] > f[0] && f[1] > f[2])type = "Blunt";
+    			}
+    				
+    			MFLogUtil.logDebug(dam + "x "+ type +" Damage inflicted to: " + user.getCommandSenderName() + " (" + user.getEntityId() + ")");
+    		}
     	}
 		return dam;
 	}
+	private boolean isArmourFireImmune(ItemStack armour, DamageSource src)
+	{
+		if(armour != null && armour.getItem() instanceof IElementalResistance)
+		{
+			return ((IElementalResistance)armour.getItem()).getFireResistance(armour, src) >= 100F;
+		}
+		return false;
+	}
+
 	private String getDefaultParrySound(ItemStack weapon)
 	{
 		if(weapon.getUnlocalizedName().contains("wood") || weapon.getUnlocalizedName().contains("Wood") || weapon.getUnlocalizedName().contains("stone") || weapon.getUnlocalizedName().contains("Stone"))
@@ -663,9 +787,15 @@ public class CombatMechanics
 	 */
 	private int onParry(DamageSource source, EntityLivingBase user, Entity attacker, float dam, float prevDam, IParryable parry)
 	{
+		/*
 		if(RPGElements.isSystemActive && user instanceof EntityPlayer)
 		{
 			SkillList.block.addXP((EntityPlayer)user, 10 + (int)prevDam*2);
+		}
+		*/
+		if(RPGElements.isSystemActive && user instanceof EntityPlayer )
+		{
+			SkillList.combat.addXP((EntityPlayer)user, (int)(prevDam/3F));
 		}
 		if(parry != null)
 		{
@@ -699,18 +829,14 @@ public class CombatMechanics
 		float stamModifier = 1.0F;
 		if(user instanceof EntityPlayer)
 		{
-			if(!isFightStance(user))
+			if(!ResearchLogic.hasInfoUnlocked((EntityPlayer)user, "parrypro"))
 			{
 				return false;
 			}
-			if(RPGElements.isSystemActive)
+
+			if(!isFightStance(user))
 			{
-				//REQUIRED LEVEL: 10 for evade, 25 for jump
-				stamModifier = RPGElements.getStaminaCostModifier((EntityPlayer) user, SkillList.block, user.onGround ? 10 : 25);
-				if(stamModifier == -1)
-				{
-					return false;
-				}
+				return false;
 			}
 		}
 		else
@@ -806,7 +932,7 @@ public class CombatMechanics
 					mob.setSprinting(true);
 				}
 			}
-			if(living.isBurning())
+			if(living.isBurning() && !living.isImmuneToFire())
 			{
 				panic(living, 0.25F, 5);
 			}
@@ -898,10 +1024,6 @@ public class CombatMechanics
 			{
 				StaminaMechanics.onJump(event.entityLiving);
 			}
-			if(RPGElements.isSystemActive)
-			{
-				SkillList.acrobatics.addXP((EntityPlayer) event.entityLiving, 4);
-			}
 		}
 	}
 	
@@ -927,5 +1049,29 @@ public class CombatMechanics
     	victim.swingItem();
     	victim.limbSwing = 1.0F;
     	victim.moveEntity(moveX, 0D, moveZ);
+	}
+	
+	
+	
+	private float modifyPlayerDamage(EntityPlayer hit, float dam) 
+	{
+		if(ResearchLogic.hasInfoUnlocked(hit, KnowledgeListMF.toughness))
+		{
+			dam *= 0.75F;//25% Resist
+		}
+		return dam;
+	}
+	
+	/**
+	 * How much strength is added (directly adds to melee dmg)
+	 */
+	public static float getStrengthEnhancement(EntityLivingBase user)
+	{
+		float dam = 0F;
+		if(CogworkArmour.hasPoweredSuit(user))
+		{
+			dam += 3F;
+		}
+		return Math.max(-0.5F, dam);
 	}
 }

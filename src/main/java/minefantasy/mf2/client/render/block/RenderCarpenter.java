@@ -1,6 +1,6 @@
 package minefantasy.mf2.client.render.block;
 
-import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.block.crafting.BlockCarpenter;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -28,7 +28,7 @@ public class RenderCarpenter implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.carpenter_RI;
+		return BlockCarpenter.carpenter_RI;
 	}
 
 	@Override

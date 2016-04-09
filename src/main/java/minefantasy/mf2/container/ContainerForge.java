@@ -21,15 +21,7 @@ public class ContainerForge extends Container
         int width = 3;
         int height = 3;
         
-        for(int x = 0; x < width; x ++)
-        {
-        	for (int y = 0; y < height; y ++)
-        	{
-        		int slot = y*width+x;
-        		this.addSlotToContainer(new Slot(tile, slot, 70 + x * 18, 14 + y * 18));
-        	}
-        }
-        this.addSlotToContainer(new Slot(tile, tile.getSizeInventory()-1, 32, 60));
+		this.addSlotToContainer(new Slot(tile, 0, 70 + 18, 14 + 18));
         int i;
 
         for (i = 0; i < 3; ++i)
@@ -115,7 +107,7 @@ public class ContainerForge extends Container
                     return null;
                 }
             }
-            else if (!this.mergeItemStack(false, itemstack1, 0, slotCount-1, false))
+            else if (!this.mergeItemStack(true, itemstack1, 0, slotCount, false))
             {
                 return null;
             }

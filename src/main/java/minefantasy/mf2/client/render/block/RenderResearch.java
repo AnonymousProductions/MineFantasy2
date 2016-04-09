@@ -1,6 +1,6 @@
 package minefantasy.mf2.client.render.block;
 
-import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.block.crafting.BlockResearchStation;
 import minefantasy.mf2.block.tileentity.TileEntityResearch;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -28,7 +28,7 @@ public class RenderResearch implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.research_RI;
+		return BlockResearchStation.research_RI;
 	}
 
 	@Override

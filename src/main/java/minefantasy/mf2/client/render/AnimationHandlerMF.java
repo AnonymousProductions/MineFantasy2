@@ -19,14 +19,5 @@ public class AnimationHandlerMF
 
     public void tickStart(EntityPlayer entityPlayer)
     {
-    	ItemStack held = entityPlayer.getHeldItem();
-    	if(held != null)
-    	{
-    		int parry = ItemWeaponMF.getParry(held);
-    		if(parry > 0)
-    		{
-    			ItemWeaponMF.setParry(held, parry-1);
-    		}
-    	}
     }
 }

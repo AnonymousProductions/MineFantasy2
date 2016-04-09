@@ -21,10 +21,16 @@ public class EntityItemUnbreakable extends EntityItem
 	public EntityItemUnbreakable(World world, EntityItem parent)
 	{
 		super(world, parent.posX, parent.posY, parent.posZ, parent.getEntityItem());
-		this.setVelocity(parent.motionX, parent.motionY, parent.motionZ);
+		this.mimicSpeed(parent);
 		delayBeforeCanPickup = parent.delayBeforeCanPickup;
 		isImmuneToFire = true;
 	}
+	public void mimicSpeed(EntityItem parent)
+    {
+        this.motionX = parent.motionX;
+        this.motionY = parent.motionY;
+        this.motionZ = parent.motionZ;
+    }
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource src, float dam)

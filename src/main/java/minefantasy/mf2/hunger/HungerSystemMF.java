@@ -1,5 +1,6 @@
 package minefantasy.mf2.hunger;
 
+import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.MineFantasyAPI;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -21,7 +22,6 @@ public class HungerSystemMF
         	}
         	if(event.phase == TickEvent.Phase.END)
         	{
-        		decrSaturation(event.player);
         		slowHunger(event.player);
         	}
         }
@@ -44,17 +44,19 @@ public class HungerSystemMF
     		float temp = getTempFood(player);
     		MineFantasyAPI.debugMsg("Saturation: " + sat + " Temp: " + temp);
     		
-    		if(sat > 0)
-    		{
-    			MineFantasyAPI.debugMsg("Hunger drop cancelled: Sat");
-    			player.getFoodStats().addStats(1, 0.0F);
-    		}
-    		else if(temp > 0)
+    		if(slowdownRate < 0 || temp > 0)
     		{
     			MineFantasyAPI.debugMsg("Hunger drop cancelled: Temp");
     			setTempFood(player, temp-1);
     			player.getFoodStats().addStats(1, 0.0F);
     		}
+    		else if(sat > 0)
+    		{
+    			decrSaturation(player);
+    			MineFantasyAPI.debugMsg("Hunger drop cancelled: Sat = " + (sat-1));
+    			player.getFoodStats().addStats(1, 0.0F);
+    		}
+    		
     		if(temp <= 0)
     		{
     			setTempFood(player, getTempSlowdownLvl(player));
@@ -64,8 +66,9 @@ public class HungerSystemMF
 	
 	private float getTempSlowdownLvl(EntityPlayer player)
 	{
-		return 3;//4x slower
+		return slowdownRate;
 	}
+	public static int slowdownRate = 3;
 
 	public static void setSaturation(EntityPlayer user, float value)
 	{
@@ -104,9 +107,8 @@ public class HungerSystemMF
 			setSaturation(user, sat);
 		}
 	}
-	public static void applySaturation(EntityPlayer consumer, float seconds)
+	public static void applySaturation(EntityPlayer consumer, float newValue)
 	{
-		float newValue = seconds*20F;
 		float value = getSaturation(consumer);
 		
 		if(newValue > value)

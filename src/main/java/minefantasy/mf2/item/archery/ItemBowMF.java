@@ -1,16 +1,27 @@
 package minefantasy.mf2.item.archery;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.archery.IDisplayMFArrows;
+import minefantasy.mf2.api.archery.AmmoMechanicsMF;
+import minefantasy.mf2.api.archery.IAmmo;
+import minefantasy.mf2.api.archery.IDisplayMFAmmo;
+import minefantasy.mf2.api.archery.IFirearm;
 import minefantasy.mf2.api.archery.ISpecialBow;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.item.list.CustomToolListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.material.BaseMaterialMF;
+import minefantasy.mf2.util.MFLogUtil;
+import mods.battlegear2.api.PlayerEventChild.OffhandAttackEvent;
+import mods.battlegear2.api.weapons.IBattlegearWeapon;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -32,28 +43,35 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import minefantasy.mf2.container.ContainerReload;
 
-public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
+public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFAmmo, IBattlegearWeapon, IFirearm
 {
 	public static final DecimalFormat decimal_format = new DecimalFormat("#.##");
-	public IIcon[] iconArray = new IIcon[3];
 	private final EnumBowType model;
 	private ToolMaterial material = ToolMaterial.WOOD;
 	private int itemRarity;
-	private float damage = 1.0F;
+	private float baseDamage = 1.0F;
+	private String name;
 	
+	public ItemBowMF(String name, EnumBowType type)
+    {
+		this(name, ToolMaterial.WOOD, type, 0);
+    }
 	public ItemBowMF(String name, ToolMaterial mat, EnumBowType type, int rarity)
     {
-		this(name, (int)(mat.getMaxUses()*type.durability), type, mat.getDamageVsEntity(), rarity);
+		this(name, (int)(mat.getMaxUses()*type.durabilityModifier), type, mat.getDamageVsEntity(), rarity);
 		material = mat;
     }
 	
     private ItemBowMF(String name, int dura, EnumBowType type, float damage, int rarity)
     {
-    	this.damage = (damage/2F) + 2.0F;
+    	this.name=name;
+    	this.baseDamage = damage;
         model = type;
         this.maxStackSize = 1;
         this.setMaxDamage(dura);
@@ -61,7 +79,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
         setTextureName("minefantasy2:Bow/"+name);
 		this.setUnlocalizedName(name);
         GameRegistry.registerItem(this, name, MineFantasyII.MODID);
-        setCreativeTab(CreativeTabMF.tabArcher);
+        setCreativeTab(CreativeTabMF.tabOldTools);
     }
     
     @Override
@@ -81,11 +99,6 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     public void onPlayerStoppedUsing(ItemStack item, World world, EntityPlayer player, int time)
     {
         int power = (this.getMaxItemUseDuration(item) - time);
-        power *= model.speed; // Speeds up the power in relation to ticks used
-        
-        power = (int)(power / 20F * getMaxPower());//scales the power down from full
-        
-        if(power > getMaxPower())power = (int)getMaxPower();//limits the power to max
         
         ArrowLooseEvent event = new ArrowLooseEvent(player, item, power);
         MinecraftForge.EVENT_BUS.post(event);
@@ -99,22 +112,20 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 
         if (var5 || player.inventory.hasItem(Items.arrow))
         {
-            float var7 = power / 20.0F;
-            var7 = (var7 * var7 + var7 * 2.0F) / 3.0F;
+            float firepower = power / model.chargeTime;
 
-            if (var7 < 0.1D)
+            if (firepower < 0.1D)
             {
                 return;
             }
-
-            if (var7 > 1.0F)
+            if (firepower > 1.0F)
             {
-                var7 = 1.0F;
+                firepower = 1.0F;
             }
+            
+            EntityArrow var8 = new EntityArrow(world, player, firepower * 2.0F);
 
-            EntityArrow var8 = new EntityArrow(world, player, var7 * 2.0F);
-
-            if (var7 == 1.0F)
+            if (firepower == 1.0F)
             {
                 var8.setIsCritical(true);
             }
@@ -138,8 +149,8 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
                 var8.setFire(100);
             }
 
-        	item.damageItem(1, player);
-            world.playSoundAtEntity(player, "minefantasy2:weapon.bowFire", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + var7 * 0.5F);
+            AmmoMechanicsMF.damageFirearm(item, player, 1);
+            world.playSoundAtEntity(player, "minefantasy2:weapon.bowFire", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + firepower * 0.5F);
 
             if (var5)
             {
@@ -149,7 +160,7 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
             {
                 player.inventory.consumeInventoryItem(Items.arrow);
             }
-            var8 = (EntityArrow) modifyArrow(var8);
+            var8 = (EntityArrow) modifyArrow(item, var8);
 
             if (!world.isRemote)
             {
@@ -158,14 +169,6 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
         }
     }
 
-    /**
-     * Gets the power of the bow
-     * 20 is the power of V bows(max)
-     */
-    private float getMaxPower() 
-    {
-    	return 20F * model.power;
-	}
 	public ItemStack onFoodEaten(ItemStack item, World world, EntityPlayer player)
     {
         return item;
@@ -194,49 +197,70 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     {
 		super.addInformation(item, player, desc, flag);
 		
-		desc.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("attribute.bowPower.name") + ": " + decimal_format.format(damage));
-        
+		CustomToolHelper.addBowInformation(item, desc);
+		ItemStack ammo = AmmoMechanicsMF.getAmmo(item);
+		if(ammo != null)
+		{
+			desc.add(EnumChatFormatting.DARK_GRAY + ammo.getDisplayName() + " x" + ammo.stackSize);
+		}
+		
+		desc.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.bowPower.name", decimal_format.format(getBowDamage(item))));
     }
 
-    /**
+	/**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
     @Override
+    ///Item is the bow.
     public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player)
     {
+    	
+    	if(player.isSneaking())
+    	{
+    		reloadBow(item, player);
+    		return item;
+    	}
         ArrowNockEvent event = new ArrowNockEvent(player, item);
         MinecraftForge.EVENT_BUS.post(event);
+        System.out.println(event.result);
         if (event.isCanceled())
         {
             return event.result;
         }
-        
-        if (player.capabilities.isCreativeMode || player.inventory.hasItem(Items.arrow))
-        {
-            player.setItemInUse(item, this.getMaxItemUseDuration(item));
-        }
-
         return item;
+        
+        //player.inventory.hasItem(Items.arrow)
     }
+    
+    public boolean canAccept(ItemStack ammo)
+	{
+		String ammoType = "null";
+		ItemStack weapon = new ItemStack(this);
+		if(ammo != null && ammo.getItem() instanceof IAmmo)
+		{
+			ammoType = ((IAmmo)ammo.getItem()).getAmmoType(ammo);
+		}
+		
+		if(weapon != null && weapon.getItem() instanceof IFirearm)
+		{
+			return ((IFirearm)weapon.getItem()).canAcceptAmmo(weapon, ammoType);
+		}
+		
+		return ammoType.equalsIgnoreCase("arrow");
+	}
 
-    /**
+	private void reloadBow(ItemStack item, EntityPlayer player) 
+	{
+		player.openGui(MineFantasyII.instance, 1, player.worldObj, 1, 0, 0);
+	}
+
+	/**
      * Return the enchantability factor of the item, most of the time is based on material.
      */
     @Override
 	public int getItemEnchantability()
     {
         return 1;
-    }
-    public IIcon getIconIndex(ItemStack stack, int useRemaining)
-    {
-    	float multiplier = 1.0F / model.speed; //Reverses the decimal (eg. 0.5 becomes 2.0)
-        if (stack != null)
-        {
-            if (useRemaining >= 18*multiplier) return iconArray[2];//The return values are
-            if (useRemaining >  13*multiplier) return iconArray[1];//the icon indexes (in the /Tutorial/Items.png file)
-            if (useRemaining >   0) return iconArray[0];
-        }
-        return this.getIconFromDamage(0);
     }
     
     @Override
@@ -248,35 +272,12 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
     	item.stackTagCompound.setInteger("Use", i);
     }
     
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister reg)
-    {
-    	this.itemIcon = reg.registerIcon(this.getIconString()+"_standby");
-    	
-        for (int i = 0; i < 3; ++i)
-        {
-            this.iconArray[i] = reg.registerIcon(this.getIconString() + "_pulling_" + (i));
-        }
-    }
-    
-    @Override
-	@SideOnly(Side.CLIENT)
-
-    /**
-     * used to cycle through icons based on their used duration, i.e. for the bow
-     */
-    public IIcon getItemIconForUseDuration(int use)
-    {
-        return this.iconArray[use];
-    }
-    
 	public int getDrawAmount(int timer) 
 	{
-		float multiplier = 1.0F / model.speed; //Reverses the decimal (eg. 0.5 becomes 2.0)
-		if (timer >= 18 * multiplier)
+		float maxCharge = this.getMaxCharge();
+		if (timer > (maxCharge*0.9F))
             return 2;
-        else if (timer > 13 * multiplier)
+        else if (timer > (maxCharge*0.65F))
         	return 1;
         else if (timer > 0)
         	return 0;
@@ -328,17 +329,19 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 	}
 	
 	@Override
-	public Entity modifyArrow(Entity arrow) 
+	public Entity modifyArrow(ItemStack bow, Entity arrow) 
 	{
-		if (getMaterial() == BaseMaterialMF.dragonforge.getToolConversion())
+		if (getMaterial() == BaseMaterialMF.getMaterial("dragonforge").getToolConversion())
 		{
 			arrow.setFire(60);
 		}
-		if (getMaterial() == BaseMaterialMF.silver.getToolConversion() || getMaterial() == BaseMaterialMF.ornate.getToolConversion())
+		if (getMaterial() == BaseMaterialMF.getMaterial("silver").getToolConversion() || getMaterial() == BaseMaterialMF.getMaterial("ornate").getToolConversion())
 		{
 			arrow.getEntityData().setBoolean("MF_Silverbow", true);
 		}
-		arrow.getEntityData().setFloat("MF_Bow_Damage", this.damage);
+		float dam = getBowDamage(bow);
+		arrow.getEntityData().setFloat("MF_Bow_Damage", dam);
+		
 		return arrow;
 	}
 	
@@ -347,20 +350,6 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 		return true;
 	}
 	
-	@Override
-    public void getSubItems(Item item, CreativeTabs tab, List list)
-    {
-		if(this != ToolListMF.bows[0])
-		{
-			return;
-		}
-		
-		addSet(list, ToolListMF.bows);
-		addSet(list, ToolListMF.arrows);
-		addSet(list, ToolListMF.bodkinArrows);
-		addSet(list, ToolListMF.broadArrows);
-    }
-
 	private void addSet(List list, Item[] items) 
 	{
 		for(Item item:items)
@@ -370,12 +359,195 @@ public class ItemBowMF extends ItemBow implements ISpecialBow, IDisplayMFArrows
 	}
 	
 	@Override
+	public boolean sheatheOnBack(ItemStack item) {
+		return true;
+	}
+
+	@Override
+	public boolean isOffhandHandDual(ItemStack off) {
+		return false;
+	}
+
+	@Override
+	public boolean offhandAttackEntity(OffhandAttackEvent event,
+			ItemStack mainhandItem, ItemStack offhandItem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean offhandClickAir(PlayerInteractEvent event,
+			ItemStack mainhandItem, ItemStack offhandItem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean offhandClickBlock(PlayerInteractEvent event, ItemStack mainhandItem, ItemStack offhandItem) 
+	{
+		return false;
+	}
+
+	@Override
+	public void performPassiveEffects(Side effectiveSide, ItemStack mainhandItem, ItemStack offhandItem) 
+	{
+	}
+
+	@Override
+	public boolean allowOffhand(ItemStack mainhand, ItemStack offhand) 
+	{
+		return false;
+	}
+
+	@Override
+	public boolean canAcceptAmmo(ItemStack weapon, String ammo) 
+	{
+		return ammo.equalsIgnoreCase("arrow");
+	}
+
+	@Override
+	public int getAmmoCapacity(ItemStack item) {
+		return 1;
+	}
+	//===================================================== CUSTOM START =============================================================\\
+	private boolean isCustom = false;
+	public ItemBowMF setCustom(String designType)
+	{
+		canRepair = false;
+		setTextureName("minefantasy2:custom/bow/"+designType+"/"+name);
+		isCustom = true;
+		return this;
+	}
+	public IIcon[] mainIcons = new IIcon[3];
+	
+	public IIcon cus_metal_standby;
+	public IIcon[] cus_metal_pulling = new IIcon[3];
+	public IIcon cus_wood_standby;
+	public IIcon[] cus_wood_pulling = new IIcon[3];
+	public IIcon cus_detail_standby;
+	public IIcon[] cus_detail_pulling = new IIcon[3];
+	
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+	public IIcon getIcon(ItemStack stack, int pass)
+    {
+		return getIcon(stack, pass, -1);
+    }
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(ItemStack bow, int layer, int pull)
+	{
+		if(!isCustom)
+		{
+			return pull >= 0 ? mainIcons[pull] : this.itemIcon;
+		}
+		
+		if(layer == 0)
+		{
+			return pull >= 0 ? cus_metal_pulling[pull] : cus_metal_standby;
+		}
+		if(layer == 1)
+		{
+			return pull >= 0 ? cus_wood_pulling[pull] : cus_wood_standby;
+		}
+		else
+		{
+			return pull >= 0 ? cus_detail_pulling[pull] : cus_detail_standby;
+		}
+	}
+	@SideOnly(Side.CLIENT)
+    @Override
+    public void registerIcons(IIconRegister reg)
+    {
+    	this.itemIcon = reg.registerIcon(this.getIconString()+"_standby");
+        for (int i = 0; i < 3; ++i)
+        {
+            this.mainIcons[i] = reg.registerIcon(this.getIconString() + "_pulling_" + (i));
+        }
+        
+        if(isCustom)
+        {
+        	this.cus_metal_standby = reg.registerIcon(this.getIconString()+"_standby");
+        	this.cus_wood_standby = reg.registerIcon(this.getIconString()+"_standby_haft");
+        	this.cus_detail_standby = reg.registerIcon(this.getIconString()+"_standby_detail");
+        	
+	        for (int i = 0; i < 3; ++i)
+	        {
+	            this.cus_metal_pulling[i] = reg.registerIcon(this.getIconString() + "_pulling_" + (i));
+	            this.cus_wood_pulling[i] = reg.registerIcon(this.getIconString() + "_pulling_" + (i) + "_haft");
+	            this.cus_detail_pulling[i] = reg.registerIcon(this.getIconString() + "_pulling_" + (i) + "_detail");
+	        }
+        }
+    }
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack item, int layer)
+    {
+		int c = CustomToolHelper.getColourFromItemStack(item, layer, super.getColorFromItemStack(item, layer));
+    	return c;
+    }
+    
+	public ItemStack construct(String main, String haft)
+	{
+		return CustomToolHelper.construct(this, main, haft);
+	}
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return isCustom;
+    }
+    
+  //Returns the number of render passes this item has.
+    @Override
+    public int getRenderPasses(int metadata)
+    {
+        return 3;
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getItemStackDisplayName(ItemStack item)
+    {
+    	String unlocalName = this.getUnlocalizedNameInefficiently(item) + ".name";
+    	return CustomToolHelper.getWoodenLocalisedName(item, unlocalName);
+    }
+    
+    @Override
 	public int getMaxDamage(ItemStack stack)
 	{
-    	if(ToolMaterialMF.isUnbreakable(material))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
-		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
+		return CustomToolHelper.getMaxDamage(stack, super.getMaxDamage(stack));
+	}
+    
+	@Override
+    public void getSubItems(Item item, CreativeTabs tab, List list)
+    {
+		if(isCustom)
+    	{
+    		ArrayList<CustomMaterial> wood = CustomMaterial.getList("wood");
+    		Iterator iteratorWood = wood.iterator();
+    		while(iteratorWood.hasNext())
+        	{
+    			CustomMaterial customMat = (CustomMaterial) iteratorWood.next();
+    			if(MineFantasyII.isDebug() || customMat.getItem() != null)
+    			{
+    				list.add(this.construct("Iron", customMat.name));
+    			}
+        	}
+    		return;
+    	}
+    }
+	
+	public float getBowDamage(ItemStack item) 
+	{
+		return CustomToolHelper.getBowDamage(item, baseDamage) * model.damageModifier;
+	}
+	//====================================================== CUSTOM END ==============================================================\\
+	@Override
+	public float getMaxCharge() 
+	{
+		return model.chargeTime;
 	}
 }

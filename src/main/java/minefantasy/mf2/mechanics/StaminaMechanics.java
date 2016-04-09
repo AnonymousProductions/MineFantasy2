@@ -31,6 +31,7 @@ public class StaminaMechanics
 			ArmourCalculator.setTotalWeightOfWorn(entity, true);
 			ArmourCalculator.setTotalWeightOfWorn(entity, false);
 		}
+		
 		float[] packet = new float[]{StaminaBar.getStaminaValue(entity), StaminaBar.getBaseMaxStamina(entity), StaminaBar.getFlashTime(entity), StaminaBar.getBonusStamina(entity)};
 		float[] values = new float[]{StaminaBar.getStaminaValue(entity), StaminaBar.getTotalMaxStamina(entity)};
 		if(entity.worldObj.isRemote && ConfigClient.playBreath)
@@ -87,6 +88,7 @@ public class StaminaMechanics
 			{
 				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2));
 			}
+			entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 2));
 			//Drain air when exhausted, you will drown faster
 			if(isInWater(entity) && entity.getAir() > -20 && entity.ticksExisted % 20 == 0)
 			{

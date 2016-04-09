@@ -5,27 +5,39 @@ import java.io.File;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
-import minefantasy.mf2.api.knowledge.InformationBase;
 import minefantasy.mf2.block.list.BlockListMF;
-import minefantasy.mf2.config.*;
+import minefantasy.mf2.config.ConfigArmour;
+import minefantasy.mf2.config.ConfigClient;
+import minefantasy.mf2.config.ConfigCrafting;
+import minefantasy.mf2.config.ConfigExperiment;
+import minefantasy.mf2.config.ConfigFarming;
+import minefantasy.mf2.config.ConfigHardcore;
+import minefantasy.mf2.config.ConfigItemRegistry;
+import minefantasy.mf2.config.ConfigMobs;
+import minefantasy.mf2.config.ConfigStamina;
+import minefantasy.mf2.config.ConfigTools;
+import minefantasy.mf2.config.ConfigWeapon;
+import minefantasy.mf2.config.ConfigWorldGen;
+import minefantasy.mf2.item.gadget.ItemLootSack;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
-import minefantasy.mf2.knowledge.KnowledgeCostRegistry;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
+import minefantasy.mf2.material.BaseMaterialMF;
+import minefantasy.mf2.material.MetalMaterial;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
-import minefantasy.mf2.mechanics.worldGen.WorldGenPlants;
+import minefantasy.mf2.mechanics.worldGen.WorldGenBiological;
 import minefantasy.mf2.network.CommonProxyMF;
 import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
+import minefantasy.mf2.recipe.RecipeRemover;
 import minefantasy.mf2.util.MFLogUtil;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -46,7 +58,7 @@ public class MineFantasyII
 {
 	public static final String MODID = "minefantasy2";
 	public static final String NAME = "MineFantasyII";
-	public static final String VERSION = "Alpha_2.1.8";
+	public static final String VERSION = "Alpha_2.7";
 	public static final WorldGenMFBase worldGenManager = new WorldGenMFBase();
 	
     @SidedProxy(clientSide = "minefantasy.mf2.network.ClientProxyMF", serverSide = "minefantasy.mf2.network.CommonProxyMF")
@@ -74,23 +86,23 @@ public class MineFantasyII
 		new ConfigFarming().setConfig(getCfg(event, "Farming"));
 		new ConfigWorldGen().setConfig(getCfg(event, "WorldGen"));
 		new ConfigCrafting().setConfig(getCfg(event, "Crafting"));
+		new ConfigMobs().setConfig(getCfg(event, "Mobs"));
 		
+		BaseMaterialMF.init();
 		MineFantasyAPI.isInDebugMode = isDebug();
 		MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 		
-		ToolListMF.init();
-		
-    	proxy.registerTickHandlers();
     	addModFlags();
-    	ComponentListMF.init();
-    	KnowledgeListMF.init();
-    	BasicRecipesMF.init();
     	proxy.preInit();
+    	
+    	RecipeRemover.removeRecipes();
     }
 
     @EventHandler
     public void load(FMLInitializationEvent evt)
     {
+    	ToolListMF.load();
+    	ComponentListMF.load();
         MinecraftForge.EVENT_BUS.register(this);
         proxy.registerMain();
         GameRegistry.registerWorldGenerator(worldGenManager, 0);
@@ -129,12 +141,17 @@ public class MineFantasyII
     	{
     		registerBiomeStuff(biome);
     	}
-    	KnowledgeCostRegistry.init();
+    	KnowledgeListMF.init();
+    	BasicRecipesMF.init();
+    	ItemLootSack.addItems();
+    	proxy.postInit();
+    	proxy.registerTickHandlers();
+    	MetalMaterial.addHeatables();
     }
 
     private void registerBiomeStuff(BiomeGenBase biome)
 	{
-    	if(WorldGenPlants.isBiomeInConstraint(biome, ConfigWorldGen.berryMinTemp, ConfigWorldGen.berryMaxTemp, ConfigWorldGen.berryMinRain, ConfigWorldGen.berryMaxRain))
+    	if(WorldGenBiological.isBiomeInConstraint(biome, ConfigWorldGen.berryMinTemp, ConfigWorldGen.berryMaxTemp, ConfigWorldGen.berryMinRain, ConfigWorldGen.berryMaxRain))
 		{
     		biome.addFlower(BlockListMF.berryBush, 0, 5);
     	}

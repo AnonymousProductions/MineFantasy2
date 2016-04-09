@@ -1,5 +1,6 @@
 package minefantasy.mf2.api.crafting.anvil;
 
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 
@@ -38,4 +39,6 @@ public interface IAnvilRecipe
     String getResearch();
     
     ItemStack getRecipeOutput();
+    
+    Skill getSkill();
 }

@@ -19,7 +19,6 @@ public class ItemHalbeardMF extends ItemSpearMF
     {
     	super(name, material, rarity, weight);
     	setMaxDamage(getMaxDamage()*2);
-    	baseDamage *= 1.5F;
     }
 
     @Override
@@ -83,5 +82,25 @@ public class ItemHalbeardMF extends ItemSpearMF
 	protected float getStaminaMod() 
 	{
 		return heavyStaminaCost*spearStaminaCost;
+	}
+	@Override
+	protected float[] getWeaponRatio(ItemStack implement, EntityLivingBase user)
+	{
+		if(user.isSprinting())
+		{
+			return spearRatio;
+		}
+		return getWeaponRatio(implement);
+	}
+	@Override
+	protected float[] getWeaponRatio(ItemStack implement)
+	{
+		return battleaxeRatio;
+	}
+	
+	@Override
+	protected float getMeleeDamage(ItemStack item) 
+    {
+    	return super.getMeleeDamage(item)*1.5F;
 	}
 }

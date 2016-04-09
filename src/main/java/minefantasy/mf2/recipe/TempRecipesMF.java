@@ -1,11 +1,16 @@
 package minefantasy.mf2.recipe;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import minefantasy.mf2.api.crafting.Salvage;
 import minefantasy.mf2.api.crafting.tanning.TanningRecipe;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.ItemComponentMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
+import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.init.Blocks;
@@ -18,6 +23,14 @@ public class TempRecipesMF
 {
 	public static void init()
 	{
+		ArrayList<CustomMaterial> wood = CustomMaterial.getList("wood");
+		Iterator iteratorWood = wood.iterator();
+		while(iteratorWood.hasNext())
+    	{
+    		CustomMaterial customMat = (CustomMaterial) iteratorWood.next();	
+    		assembleWoodVariations(customMat);
+    	}
+		
 		GameRegistry.addRecipe(new ItemStack(Items.bucket, 1), new Object[]
 		{
 			"I I",
@@ -31,20 +44,6 @@ public class TempRecipesMF
 		ArrayList<ItemStack> silvers = OreDictionary.getOres("ingotSilver");
 		ArrayList<ItemStack> blacks = OreDictionary.getOres("ingotBlackSteel");
 		
-		KnowledgeListMF.pietrayRecipe =
-		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.pie_tray), new Object[]
-		{
-			"III",
-			'I', Items.iron_ingot,
-		});
-		KnowledgeListMF.caketinRecipe =
-		GameRegistry.addShapedRecipe(new ItemStack(FoodListMF.cake_tin), new Object[]
-		{
-			" I ",
-			"I I",
-			" I ",
-			'I', Items.iron_ingot,
-		});
 		for(ItemStack steel: steels)
 		{
 			GameRegistry.addRecipe(new ItemStack(Blocks.rail, 64), new Object[]
@@ -67,6 +66,7 @@ public class TempRecipesMF
 		GameRegistry.addSmelting(FoodListMF.generic_meat_mince_uncooked, new ItemStack(FoodListMF.generic_meat_mince_cooked), 0);
 		GameRegistry.addSmelting(FoodListMF.curds, new ItemStack(BlockListMF.cheese_wheel), 0);
 		GameRegistry.addSmelting(FoodListMF.bowl_water_salt, new ItemStack(FoodListMF.salt), 0);
+		GameRegistry.addSmelting(FoodListMF.saussage_raw, new ItemStack(FoodListMF.saussage_cooked), 0);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(Blocks.cobblestone), new Object[]
 		{
@@ -133,22 +133,8 @@ public class TempRecipesMF
 			'C', Blocks.dirt
 		}));
 		
-		KnowledgeListMF.framedGlassR =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.framed_glass), new Object[]
-		{
-			"PGP",
-			'P', ComponentListMF.plank,
-			'G', Blocks.glass
-		});
-		KnowledgeListMF.windowR =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.window), new Object[]
-		{
-			" P ",
-			"PGP",
-			" P ",
-			'P', ComponentListMF.plank,
-			'G', Blocks.glass
-		});
+		
+		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.framed_pane, 16), new Object[]
 		{
 			"GGG",
@@ -161,23 +147,10 @@ public class TempRecipesMF
 			"GGG",
 			'G', BlockListMF.window
 		});
-		KnowledgeListMF.thatchR =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.thatch, 1), new Object[]
-		{
-			"HH",
-			"HH",
-			'H', new ItemStack(Blocks.tallgrass, 1, 1)
-		});
-		KnowledgeListMF.clayWallR =
-		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.clayWall, 4), new Object[]
-		{
-			" P ",
-			"PCP",
-			" P ",
-			'P', ComponentListMF.plank,
-			'C', Blocks.clay
-		});
 		addFood();
+		
+	}
+	private static void assembleWoodVariations(CustomMaterial material) {
 		
 	}
 
@@ -185,6 +158,7 @@ public class TempRecipesMF
 	{
 		GameRegistry.addSmelting(FoodListMF.sweetroll_raw, new ItemStack(FoodListMF.sweetroll_uniced), 0F);
 		GameRegistry.addSmelting(FoodListMF.cake_raw, new ItemStack(FoodListMF.cake_uniced), 0F);
+		GameRegistry.addSmelting(FoodListMF.cake_simple_raw, new ItemStack(FoodListMF.cake_simple_uniced), 0F);
 		GameRegistry.addSmelting(FoodListMF.cake_carrot_raw, new ItemStack(FoodListMF.cake_carrot_uniced), 0F);
 		GameRegistry.addSmelting(FoodListMF.cake_choc_raw, new ItemStack(FoodListMF.cake_choc_uniced), 0F);
 		GameRegistry.addSmelting(FoodListMF.cake_bf_raw, new ItemStack(FoodListMF.cake_bf_uniced), 0F);
@@ -192,6 +166,8 @@ public class TempRecipesMF
 		GameRegistry.addSmelting(FoodListMF.pie_shepard_uncooked, new ItemStack(FoodListMF.pie_shepard_cooked), 0F);
 		GameRegistry.addSmelting(FoodListMF.pie_apple_uncooked, new ItemStack(FoodListMF.pie_apple_cooked), 0F);
 		GameRegistry.addSmelting(FoodListMF.pie_berry_uncooked, new ItemStack(FoodListMF.pie_berry_cooked), 0F);
+		GameRegistry.addSmelting(FoodListMF.pie_pumpkin_uncooked, new ItemStack(FoodListMF.pie_pumpkin_uncooked), 0F);
+		GameRegistry.addSmelting(FoodListMF.eclair_raw, new ItemStack(FoodListMF.eclair_uniced), 0F);
 
 		KnowledgeListMF.meatpieOut =
 		GameRegistry.addShapedRecipe(new ItemStack(BlockListMF.pie_meat), new Object[]
@@ -216,6 +192,12 @@ public class TempRecipesMF
 		{
 			"F",
 			'F', FoodListMF.pie_berry_cooked
+		});
+		KnowledgeListMF.pumpPieOut =
+		GameRegistry.addShapedRecipe(new ItemStack(Items.pumpkin_pie), new Object[]
+		{
+			"F",
+			'F', FoodListMF.pie_pumpkin_cooked
 		});
 	}
 }

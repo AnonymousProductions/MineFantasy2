@@ -3,12 +3,12 @@ package minefantasy.mf2.block.crafting;
 import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -27,6 +26,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpenter extends BlockContainer
 {
+	public static int carpenter_RI = 101;
+	
     @SideOnly(Side.CLIENT)
     public int CarpenterRenderSide;
     private int tier = 0;
@@ -35,7 +36,6 @@ public class BlockCarpenter extends BlockContainer
     {
         super(Material.wood);
         
-        this.setBlockTextureName("minectaft:oak_planks");
         GameRegistry.registerBlock(this, "MF_CarpenterBench");
 		setBlockName("carpenterBench");
 		this.setStepSound(Block.soundTypeWood);
@@ -163,10 +163,17 @@ public class BlockCarpenter extends BlockContainer
 	{
 		return Blocks.crafting_table.getIcon(side, meta);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg)
+	{
+		
+	}
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.carpenter_RI;
+		return carpenter_RI;
 	}
 	private Random rand = new Random();
 }

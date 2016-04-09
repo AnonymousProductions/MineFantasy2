@@ -12,9 +12,13 @@ import minefantasy.mf2.api.knowledge.InformationList;
 import minefantasy.mf2.api.knowledge.InformationPage;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
 import minefantasy.mf2.api.rpg.RPGElements;
+import minefantasy.mf2.api.rpg.Skill;
+import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.item.ItemResearchScroll;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.ResearchRequest;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiButton;
@@ -46,6 +50,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiKnowledge extends GuiScreen
 {
+	int offsetByX = 70;
+	int offsetByY = 0;
     public int buyWidth = 225;
     public int buyHeight = 72;
 	private RenderItem itemrender = new RenderItem();
@@ -57,6 +63,7 @@ public class GuiKnowledge extends GuiScreen
     private static final int field_146560_B = InformationList.maxDisplayRow * 24 - 77;
     private static final ResourceLocation screenTex = new ResourceLocation("minefantasy2:textures/gui/knowledge/knowledge.png");
     private static final ResourceLocation buyTex = new ResourceLocation("minefantasy2:textures/gui/knowledge/purchase.png");
+    private static final ResourceLocation skillTex = new ResourceLocation("minefantasy2:textures/gui/knowledge/skilllist.png");
     protected static int field_146555_f = 256;
     protected static int field_146557_g = 202;
     protected static int field_146563_h;
@@ -75,6 +82,8 @@ public class GuiKnowledge extends GuiScreen
     private GuiButton button;
     private LinkedList<InformationBase> informationList = new LinkedList<InformationBase>();
     private EntityPlayer player;
+	private boolean hasScroll = false;
+	private boolean canPurchase = false;
     
     public GuiKnowledge(EntityPlayer user)
     {
@@ -107,8 +116,8 @@ public class GuiKnowledge extends GuiScreen
     @Override
 	public void initGui()
     {
-    	int i1 = (this.width - GuiKnowledge.field_146555_f) / 2;
-        int j1 = (this.height - GuiKnowledge.field_146557_g) / 2;
+    	int i1 = (this.width - GuiKnowledge.field_146555_f) / 2 + offsetByX;
+        int j1 = (this.height - GuiKnowledge.field_146557_g) / 2 + offsetByY;
         
         this.buttonList.clear();
         this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 24, this.height / 2 + 101, 80, 20, I18n.format("gui.done", new Object[0])));
@@ -130,11 +139,11 @@ public class GuiKnowledge extends GuiScreen
     		{
     			player.openGui(MineFantasyII.instance, 1, player.worldObj, 0, highlighted.ID, 0);
     		}
-    		else
+    		else if(ResearchLogic.canPurchase(player, highlighted))
     		{
     			selected = highlighted;
+    			setPurchaseAvailable(player);
     		}
-    		//((EntityClientPlayerMP)player).sendQueue.addToSendQueue(new ResearchRequest(player, highlighted.ID).generatePacket());
     	}
     	super.mouseClicked(x, y, button);
     }
@@ -148,7 +157,12 @@ public class GuiKnowledge extends GuiScreen
 
         if (selected == null && p_146284_1_.id == 2)
         {
+        	boolean hasDwarvern = ResearchLogic.hasInfoUnlocked(mc.thePlayer, KnowledgeListMF.dwarvernKnowledge);
+        	boolean hasGnomish = ResearchLogic.hasInfoUnlocked(mc.thePlayer, KnowledgeListMF.gnomishKnowledge);
             currentPage++;
+            if(currentPage == 5 && !hasDwarvern){currentPage++;};
+            if(currentPage == 6 && !hasGnomish){currentPage++;};
+            
             if (currentPage >= InformationPage.getInfoPages().size())
             {
                 currentPage = -1;
@@ -195,8 +209,8 @@ public class GuiKnowledge extends GuiScreen
 
             if (selected == null && Mouse.isButtonDown(0))
             {
-                k = (this.width - GuiKnowledge.field_146555_f) / 2;
-                int l = (this.height - GuiKnowledge.field_146557_g) / 2;
+                k = (this.width - GuiKnowledge.field_146555_f) / 2 + offsetByX;
+                int l = (this.height - GuiKnowledge.field_146557_g) / 2 + offsetByY;
                 int i1 = k + 8;
                 int j1 = l + 17;
 
@@ -274,14 +288,14 @@ public class GuiKnowledge extends GuiScreen
             this.renderMainPage(mx, my, f);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
-            this.func_146553_h();
+            this.drawOverlay();
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
         }
         if(buttonList.get(2) != null)
         {
         	((GuiButton)buttonList.get(2)).visible = selected != null;
-        	((GuiButton)buttonList.get(2)).enabled = selected != null && selected.hasAllItems(player);
+        	((GuiButton)buttonList.get(2)).enabled = selected != null && canPurchase ;
         	((GuiButton)buttonList.get(3)).visible = selected != null;
         }
     }
@@ -311,14 +325,14 @@ public class GuiKnowledge extends GuiScreen
         }
     }
 
-    protected void func_146553_h()
+    protected void drawOverlay()
     {
-        int i = (this.width - GuiKnowledge.field_146555_f) / 2;
-        int j = (this.height - GuiKnowledge.field_146557_g) / 2;
+        int i = (this.width - GuiKnowledge.field_146555_f) / 2 + offsetByX;
+        int j = (this.height - GuiKnowledge.field_146557_g) / 2 + offsetByY;
         
         this.fontRendererObj.drawString(I18n.format("gui.information", new Object[0]), i + 15, j + 5, 4210752);
     }
-
+    
     protected void renderMainPage(int mx, int my, float f)
     {
         int k = MathHelper.floor_double(GuiKnowledge.field_146569_s + (GuiKnowledge.field_146567_u - GuiKnowledge.field_146569_s) * f);
@@ -344,8 +358,8 @@ public class GuiKnowledge extends GuiScreen
             l = field_146560_B - 1;
         }
 
-        int i1 = (this.width - GuiKnowledge.field_146555_f) / 2;
-        int j1 = (this.height - GuiKnowledge.field_146557_g) / 2;
+        int i1 = (this.width - GuiKnowledge.field_146555_f) / 2 + offsetByX;
+        int j1 = (this.height - GuiKnowledge.field_146557_g) / 2 + offsetByY;
         int k1 = i1 + 16;
         int l1 = j1 + 17;
         this.zLevel = 0.0F;
@@ -357,6 +371,7 @@ public class GuiKnowledge extends GuiScreen
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+        
         int i2 = k + 288 >> 4;
         int j2 = l + 288 >> 4;
         int k2 = (k + 288) % 16;
@@ -548,19 +563,19 @@ public class GuiKnowledge extends GuiScreen
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(screenTex);
         this.drawTexturedModalRect(i1, j1, 0, 0, GuiKnowledge.field_146555_f, GuiKnowledge.field_146557_g);
+        
         this.zLevel = 0.0F;
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         
-        tooltipStack = null;
         if(selected != null)
         {
         	int purchasex = i1 + (field_146555_f - buyWidth)/2;
             int purchasey =j1 + (field_146557_g - buyHeight)/2;
         	renderPurchaseScreen(purchasex, purchasey, mx, my);
         }
-        
+        drawSkillList();
         super.drawScreen(mx, my, f);
 
         highlighted = achievement;
@@ -647,79 +662,142 @@ public class GuiKnowledge extends GuiScreen
     	return new int[]{1, 2, 3};
     }
     
-    private ItemStack tooltipStack;
-    public void renderItem(int xPos, int yPos, ItemStack stack, int mx, int my) 
-	{
-    	if(mx > xPos && mx < (xPos+16) && my > yPos && my < (yPos+16))
-		{
-			tooltipStack = stack;
-		}
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		RenderHelper.enableGUIStandardItemLighting();
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		itemrender.renderItemAndEffectIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), stack, xPos, yPos);
-		itemrender.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), stack, xPos, yPos);
-		RenderHelper.disableStandardItemLighting();
-		GL11.glPopMatrix();
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-	}
-    
     private void renderPurchaseScreen(int x, int y, int mx, int my) 
     {
     	if(selected != null)
         {
+    		String[] requirements = selected.getRequiredSkills();
+    		int size = 0;
+    		if(requirements != null)
+    		{
+    			size = requirements.length;
+    		}
         	this.mc.getTextureManager().bindTexture(buyTex);
-        	this.drawTexturedModalRect(x, y, 0, 0, buyWidth, buyHeight);
-        	mc.fontRenderer.drawString(selected.getName(), x+22, y+12, 16777215, false);
-        	ItemStack[] items = selected.getItems();
-        	if(items != null)
+        	this.drawTexturedModalRect(x, y, 0, 0, buyWidth, 27);//Top
+        	for(int a = 0; a < size; a++)
         	{
-        		for(int a = 0; a < items.length; a++)
-        		{
-        			ItemStack slot = items[a];
-        			int itemX = x+18 + (a*20);
-        			int itemY = y+27;
-        			
-        			this.renderItem(itemX, itemY, slot, mx, my);
-        		}
+        		this.drawTexturedModalRect(x, y+27 + (a*19), 0, 27, buyWidth, 19);//Middle
+        	}
+        	this.drawTexturedModalRect(x, y+27 + (size*19), 0, 46, buyWidth, 26);//Bottom
+        	
+        	if(buttonList.get(2) != null && buttonList.get(3) != null)
+            {
+        		int j1 = (this.height - GuiKnowledge.field_146557_g) / 2;
+        		int purchasey =j1 + (field_146557_g - buyHeight)/2;
         		
-        		if(tooltipStack != null)
-                {
-        			List<String> tooltipData = tooltipStack.getTooltip(Minecraft.getMinecraft().thePlayer, false);
-        			List<String> parsedTooltip = new ArrayList();
-        			boolean first = true;
-
-        			for(String s : tooltipData) 
-        			{
-        				String s_ = s;
-        				if(!first)
-        					s_ = EnumChatFormatting.GRAY + s;
-        				parsedTooltip.add(s_);
-        				first = false;
-        			}
-
-        			minefantasy.mf2.api.helpers.RenderHelper.renderTooltip(mx, my, parsedTooltip);
-
-        			/*
-        			int tooltipY = 8 + tooltipData.size() * 11;
-
-        			if(tooltipEntry) 
-        			{
-        				vazkii.botania.client.core.helper.RenderHelper.renderTooltipOrange(mx, my + tooltipY, Arrays.asList(EnumChatFormatting.GRAY + StatCollector.translateToLocal("botaniamisc.clickToRecipe")));
-        				tooltipY += 18;
-        			}
-
-        			if(tooltipContainerStack != null)
-        			{
-        				vazkii.botania.client.core.helper.RenderHelper.renderTooltipGreen(mx, my + tooltipY, Arrays.asList(EnumChatFormatting.AQUA + StatCollector.translateToLocal("botaniamisc.craftingContainer"), tooltipContainerStack.getDisplayName()));
-        			}
-        			*/
+        		int offset = -19;
+        		if(requirements != null)
+        		{
+        			offset += (19*requirements.length);
+        		}
+        		((GuiButton)buttonList.get(2)).yPosition = purchasey + 47 + offset;
+        		((GuiButton)buttonList.get(3)).yPosition = purchasey + 47 + offset;
+            }
+        	int red = GuiHelper.getColourForRGB(220, 0, 0);
+        	int white = 16777215;
+        	mc.fontRenderer.drawString(selected.getName(), x+22, y+12, white, false);
+        	
+        	if(hasScroll)
+            {
+            	mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("knowledge.hasScroll"), x+20, y+32, red);
+            }
+        	else 
+        	{
+        		for(int a = 0; a < requirements.length; a ++)
+        		{
+        			boolean isUnlocked = selected.isUnlocked(a, mc.thePlayer);
+        			String text = requirements[a];
+        			mc.fontRenderer.drawStringWithShadow(text, x+20, y+32 + (a*19), isUnlocked ? white : red);
         		}
         	}
-        }
+    	}
+    	GL11.glColor3f(255, 255, 255);
 	}
+    
+    private void setPurchaseAvailable(EntityPlayer user)
+    {
+    	hasScroll = getHasScroll(user);
+    	
+    	if(selected != null)
+        {
+    		canPurchase = !hasScroll && selected.hasSkillsUnlocked(user);
+        }
+    	else
+    	{
+    		canPurchase = false;
+    	}
+    }
+    private boolean getHasScroll(EntityPlayer user)
+    {
+    	if(selected == null || user == null)
+    	{
+    		return false;
+    	}
+    	int id = selected.ID;
+    	for(int a = 0; a < user.inventory.getSizeInventory(); a++)
+    	{
+    		ItemStack slot = user.inventory.getStackInSlot(a);
+    		if(slot != null && slot.getItem() instanceof ItemResearchScroll)
+    		{
+    			if(slot.getItemDamage() == id)
+    			{
+    				return true;
+    			}
+    		}
+    	}
+    	return false;
+    }
+    
+    protected void drawSkillList()
+    {
+    	GL11.glPushMatrix();
+    	
+    	int skillWidth = 143;
+    	int skillHeight = 156;
+        int x = (this.width - GuiKnowledge.field_146555_f) / 2 - skillWidth + offsetByX;
+        int y = (this.height - GuiKnowledge.field_146557_g) / 2 + offsetByY;
+        this.mc.getTextureManager().bindTexture(skillTex);
+        
+        this.drawTexturedModalRect(x, y, 0, 0, skillWidth, skillHeight);
+        
+        drawSkill(x+20, y+20, SkillList.artisanry);
+        drawSkill(x+20, y+44, SkillList.construction);
+        drawSkill(x+20, y+68, SkillList.provisioning);
+        drawSkill(x+20, y+92, SkillList.engineering);
+        drawSkill(x+20, y+116, SkillList.combat);
+        
+        drawSkillName(x+20, y+20, SkillList.artisanry);
+        drawSkillName(x+20, y+44, SkillList.construction);
+        drawSkillName(x+20, y+68, SkillList.provisioning);
+        drawSkillName(x+20, y+92, SkillList.engineering);
+        drawSkillName(x+20, y+116, SkillList.combat);
+        
+        GL11.glPopMatrix();
+    }
+    
+    protected void drawSkill(int x, int y, Skill skill)
+    {
+    	if(skill != null)
+    	{
+    		int level = RPGElements.getLevel(mc.thePlayer, skill);
+    		int xp = skill.getXP(player)[0];
+    		int max = skill.getXP(player)[1];
+    		
+    		//this.mc.getTextureManager().bindTexture(skillTex);
+    		float scale = (float)xp / (float)max;
+    		this.drawTexturedModalRect(x+22, y+13, 0, 156, (int)(78F * scale), 5);
+    		
+    		//mc.fontRenderer.drawString(skill.getDisplayName(), x+2, y+1, 0);
+    		//mc.fontRenderer.drawString(""+level, x+1, y+10, 0);
+    	}
+    }
+    protected void drawSkillName(int x, int y, Skill skill)
+    {
+    	if(skill != null)
+    	{
+    		int level = RPGElements.getLevel(mc.thePlayer, skill);
+    		mc.fontRenderer.drawString(skill.getDisplayName(), x+2, y+1, 0);
+    		mc.fontRenderer.drawString(""+level, x+1, y+10, 0);
+    	}
+    }
 }

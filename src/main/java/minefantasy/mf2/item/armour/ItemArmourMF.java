@@ -1,16 +1,23 @@
 package minefantasy.mf2.item.armour;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.armour.ItemArmourMFBase;
+import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.api.helpers.CustomToolHelper;
+import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
+import minefantasy.mf2.material.MetalMaterial;
 import minefantasy.mf2.mechanics.CombatMechanics;
+import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -29,13 +36,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistance
 {
 	private int itemRarity;
-	private BaseMaterialMF baseMaterial;
+	protected BaseMaterialMF baseMaterial;
 	
 	public ItemArmourMF(String name, BaseMaterialMF material, ArmourDesign AD, int slot, String tex, int rarity)
 	{
 		super(name, material.getArmourConversion(), AD, slot, tex);
 		baseMaterial = material;
-		this.setTextureName("minefantasy2:Apparel/"+AD.getName()+"/"+name);
+		this.setTextureName("minefantasy2:apparel/"+AD.getName().toLowerCase()+"/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
 		setCreativeTab(CreativeTabMF.tabArmour);
 		
@@ -50,7 +57,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
-		String tex = "minefantasy2:textures/models/armour/"+design.getName()+"/"+texture;
+		String tex = "minefantasy2:textures/models/armour/"+design.getName().toLowerCase()+"/"+texture;
 		if(type == null && canColour())//bottom layer
 		{
 			return tex + "_cloth.png";
@@ -60,11 +67,11 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	@Override
 	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
 	{
-		if(source.isMagicDamage() && this.getMagicResistance(stack, source) > 0.0F)
+		if(source.isMagicDamage() && this.getMagicResistance(stack, source) > 100F)
 		{
 			return;
 		}
-		if(source.isFireDamage() && this.getFireResistance(stack, source) > 0.0F)
+		if(source.isFireDamage() && this.getFireResistance(stack, source) > 100F)
 		{
 			return;
 		}
@@ -72,18 +79,29 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 		{
 			return;
 		}
-		super.damageArmor(entity, stack, source, damage, slot);
+		initArmourDamage(entity, stack, damage);
 	}
 
 	@Override
 	public float getMagicResistance(ItemStack item, DamageSource source)
 	{
+		CustomMaterial custom = getCustomMaterial(item);
+		if(custom != null)
+		{
+			return custom.resistance;
+		}
 		return material.magicResistanceModifier;
 	}
 
 	@Override
 	public float getFireResistance(ItemStack item, DamageSource source)
 	{
+		CustomMaterial custom = getCustomMaterial(item);
+		if(custom != null)
+		{
+			MFLogUtil.logDebug("Fire Resist: " + custom.getFireResistance());
+			return custom.getFireResistance() * design.getRating();
+		}
 		return material.fireResistanceModifier;
 	}
 
@@ -96,7 +114,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	@Override
 	public float getBaseResistance(ItemStack item, DamageSource source)
 	{
-		if(baseMaterial == BaseMaterialMF.enderforge && source.getSourceOfDamage() != null && source.getSourceOfDamage() instanceof EntityEnderPearl)
+		if(baseMaterial == BaseMaterialMF.getMaterial("ender") && source.getSourceOfDamage() != null && source.getSourceOfDamage() instanceof EntityEnderPearl)
 		{
 			return 100F;
 		}
@@ -130,7 +148,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	@Override
 	protected boolean isUnbreakable()
 	{
-		return baseMaterial == BaseMaterialMF.enderforge;
+		return baseMaterial == BaseMaterialMF.getMaterial("ender");
 	}
 	
 	@Override
@@ -140,12 +158,9 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 		{
 			return;
 		}
+		list.add(new ItemStack(ArmourListMF.leatherapron));
 		addSet(list, ArmourListMF.leather);
-		
-		addSet(list, ArmourListMF.chainmail);
-		addSet(list, ArmourListMF.fieldplate);
     }
-
 	private void addSet(List list, Item[] items) 
 	{
 		for(Item item:items)
@@ -212,19 +227,12 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	
 	public boolean canColour()
 	{
-		if(material.name.equalsIgnoreCase("hide") || material.name.equalsIgnoreCase("rough"))
-		{
-			return false;
-		}
 		return design == ArmourDesign.PADDING || design == ArmourDesign.LEATHER || design == ArmourDesign.CLOTH || isMetal();
 	}
 	public boolean isMetal()
 	{
 		return design == ArmourDesign.MAIL || design == ArmourDesign.PLATE;
 	}
-	
-	//COLOURING
-	public int defaultColour = 10511680;
 	
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -241,6 +249,17 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
     {
         return !canColour() ? false : (!item.hasTagCompound() ? false : (!item.getTagCompound().hasKey("display", 10) ? false : item.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
     }
+	/**
+	 * The Colour of the armour when not dyed
+	 */
+	public int getBaseColour(ItemStack item)
+	{
+		if(!this.isCustom())
+		{
+			return 10511680;
+		}
+		return -1;
+	}
 
     /**
      * Return the color for the specified armor ItemStack.
@@ -248,9 +267,10 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 	@Override
     public int getColor(ItemStack item)
     {
+		int metal = getBaseColour(item);
         if (!canColour())
         {
-            return -1;
+            return metal;
         }
         else
         {
@@ -258,12 +278,12 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 
             if (nbttagcompound == null)
             {
-                return defaultColour;
+                return metal;
             }
             else
             {
                 NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
-                return nbttagcompound1 == null ? defaultColour : (nbttagcompound1.hasKey("color", 3) ? nbttagcompound1.getInteger("color") : defaultColour);
+                return nbttagcompound1 == null ? metal : (nbttagcompound1.hasKey("color", 3) ? nbttagcompound1.getInteger("color") : metal);
             }
         }
     }
@@ -339,5 +359,95 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 			return "heavy";
 		}
 		return super.getSuitWeigthType(item);
+	}
+	
+	
+	public ItemStack construct(String plate)
+	{
+		ItemStack item = new ItemStack(this);
+		CustomMaterial.addMaterial(item, CustomToolHelper.slot_main, plate.toLowerCase());
+		return item;
+	}
+
+	/**
+	 * A bit of the new system, gets custom materials for armour Only used on cogwork armour though
+	 */
+	public CustomMaterial getCustomMaterial(ItemStack item)
+	{
+		CustomMaterial material = CustomMaterial.getMaterialFor(item, CustomToolHelper.slot_main);
+		if(material != null)
+		{
+			return material;
+		}
+		return null;
+	}
+	
+	@Override
+	public float getDRValue(EntityLivingBase user, ItemStack armour, DamageSource src)
+	{
+		float DR = getProtectionRatio(armour)*scalePiece();
+		
+		if(ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote)
+		{
+			DR = ArmourCalculator.adjustACForDamage(src, DR, getProtectiveTrait(armour, 0), getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2));
+		}
+		return DR;
+	}
+	@Override
+	protected float getProtectionRatio(ItemStack item) 
+	{
+		CustomMaterial main = getCustomMaterial(item);
+		if(main != null)
+		{
+			return main.hardness*design.getRating();
+		}
+		return super.getProtectionRatio(item);
+	}
+	
+	/**
+	 * Gets the modifier for a certain damage type (Cutting, Blunt, Piercing)
+	 */
+	@Override
+	public float getProtectiveTrait(ItemStack item, int dtype)
+	{
+		float value =  super.getProtectiveTrait(item, dtype);
+		float cutting = 1.0F;
+		float piercing = 1.0F;
+		float blunt = 1.0F;
+		
+		CustomMaterial material = getCustomMaterial(item);
+		if(material != null)
+		{
+			cutting = material.getArmourProtection(0);
+			blunt = material.getArmourProtection(1);
+			piercing = material.getArmourProtection(2);
+		}
+		
+		if(dtype == 0)//Cutting
+		{
+			value *= cutting;
+		}
+		if(dtype == 2)//Piercing
+		{
+			value *= piercing;
+		}
+		if(dtype == 1)//Blunt
+		{
+			value *= blunt;
+		}
+		return value;
+	}
+	public float getResistanceModifier(ItemStack item, String hazard)
+	{
+		CustomMaterial custom = getCustomMaterial(item);
+		if(custom != null)
+		{
+			return custom.resistance;
+		}
+		return super.getResistanceModifier(item, hazard);
+	}
+
+	public boolean isCustom() {
+		return false;
 	}
 }

@@ -1,5 +1,6 @@
 package minefantasy.mf2.block.refining;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -9,6 +10,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityCrucible;
+import minefantasy.mf2.config.ConfigHardcore;
+import minefantasy.mf2.item.ItemFilledMould;
+import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import net.minecraft.block.Block;
@@ -19,7 +23,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -50,6 +56,12 @@ public class BlockCrucible extends BlockContainer
 		this.setHardness(8F);
 		this.setResistance(8F);
         this.setCreativeTab(CreativeTabMF.tabUtil);
+	}
+	public boolean isAuto;
+	public BlockCrucible setAuto()
+	{
+		isAuto = true;
+		return this;
 	}
 
 	@Override
@@ -82,7 +94,8 @@ public class BlockCrucible extends BlockContainer
 
         if (tile != null)
         {
-            for (int i1 = 0; i1 < tile.getSizeInventory(); ++i1)
+        	int size = (!isAuto && ConfigHardcore.HCCreduceIngots) ? tile.getSizeInventory()-1 : tile.getSizeInventory();
+            for (int i1 = 0; i1 < size; ++i1)
             {
                 ItemStack itemstack = tile.getStackInSlot(i1);
 
@@ -134,13 +147,14 @@ public class BlockCrucible extends BlockContainer
         if(block != null && block instanceof BlockCrucible)
         {
         	int blocktier = ((BlockCrucible)block).tier;
+        	boolean auto = ((BlockCrucible)block).isAuto;
 	        if (state)
 	        {
-	            world.setBlock(x, y, z, getActiveBlock(blocktier));
+	            world.setBlock(x, y, z, getActiveBlock(blocktier, auto));
 	        }
 	        else
 	        {
-	            world.setBlock(x, y, z, getInactiveBlock(blocktier));
+	            world.setBlock(x, y, z, getInactiveBlock(blocktier, auto));
 	        }
         }
 
@@ -154,20 +168,20 @@ public class BlockCrucible extends BlockContainer
         }
     }
 	
-	private static Block getActiveBlock(int tier)
+	private static Block getActiveBlock(int tier, boolean auto)
 	{
 		if(tier == 1)
 		{
-			return BlockListMF.crucibleadv_active;
+			return auto ? BlockListMF.crucibleauto_active : BlockListMF.crucibleadv_active;
 		}
 		return BlockListMF.crucible_active;
 	}
 
-	private static Block getInactiveBlock(int tier) 
+	private static Block getInactiveBlock(int tier, boolean auto) 
 	{
 		if(tier == 1)
 		{
-			return BlockListMF.crucibleadv;
+			return auto ? BlockListMF.crucibleauto : BlockListMF.crucibleadv;
 		}
 		return BlockListMF.crucible;
 	}
@@ -185,6 +199,31 @@ public class BlockCrucible extends BlockContainer
 		TileEntityCrucible tile = getTile(world, x, y, z);
     	if(tile != null)
     	{
+    		ItemStack held = user.getHeldItem();
+    		ItemStack out = tile.getStackInSlot(tile.getSizeInventory()-1);
+    		if(held != null && held.getItem() == ComponentListMF.ingot_mould && out != null && !(out.getItem() instanceof ItemBlock))
+    		{
+    			ItemStack result = out.copy();
+    			result.stackSize = 1;
+    			tile.decrStackSize(tile.getSizeInventory()-1, 1);
+    			
+    			ItemStack mould = ItemFilledMould.createMould(result);
+    			if(held.stackSize == 1)
+    			{
+    				user.setCurrentItemOrArmor(0, mould);
+    			}
+    			else
+    			{
+    				--held.stackSize;
+    				 if(!world.isRemote)
+    				 {
+		    			EntityItem drop = new EntityItem(world, user.posX, user.posY, user.posZ, mould);
+		    			drop.delayBeforeCanPickup = 0;
+		    			world.spawnEntityInWorld(drop);
+    				 }
+    			}
+    			return true;
+    		}
     		if(!world.isRemote)
     		{
     			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
@@ -205,11 +244,11 @@ public class BlockCrucible extends BlockContainer
 	@SideOnly(Side.CLIENT)
     public Item getItem(World world, int x, int y, int z)
     {
-        return Item.getItemFromBlock(getInactiveBlock(tier));
+        return Item.getItemFromBlock(getInactiveBlock(tier, isAuto));
     }
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fort)
     {
-        return Item.getItemFromBlock(getInactiveBlock(tier));
+        return Item.getItemFromBlock(getInactiveBlock(tier, isAuto));
     }
 }

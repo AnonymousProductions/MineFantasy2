@@ -2,8 +2,6 @@ package minefantasy.mf2.api.refine;
 
 import java.util.Random;
 
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -90,11 +88,21 @@ public class SmokeMechanics
 	 */
 	private static Random rand = new Random();
 	public static ISmokeHandler handler;
+	/**
+	 * Emits smoke to a coord, ignoring chimneys
+	 */
 	public static void spawnSmoke(World world, int x, int y, int z, int value) 
+	{
+		spawnSmokeD(world, x+0.5D, y+0.5D, z+0.5D, value);
+	}
+	/**
+	 * Emits smoke, ignoring chimneys
+	 */
+	public static void spawnSmokeD(World world, double x, double y, double z, int value)
 	{
 		if(!world.isRemote && handler != null)
 		{
-			handler.spawnSmoke(world, x+0.5D, y+0.5D, z+0.5D, value);
+			handler.spawnSmoke(world, x, y, z, value);
 		}
 		
 		for(int a = 0; a < value; a++)
@@ -103,14 +111,20 @@ public class SmokeMechanics
 			float sprayX = (rand.nextFloat()*sprayRange) - (sprayRange/2);
 			float sprayZ = (rand.nextFloat()*sprayRange) - (sprayRange/2);
 			float height = 0.2F;
-			world.spawnParticle("smoke",x+0.5D, y+0.5D, z+0.5D, sprayX, height, sprayZ);
+			world.spawnParticle("smoke",x, y, z, sprayX, height, sprayZ);
 		}
 	}
 	
+	/**
+	 * Checks if smoke can go through a chimney
+	 */
 	public static boolean tryUseChimney(World world, int x, int y, int z, int value)
 	{
 		return tryUseChimney(world, x, y, z, value, true);
 	}
+	/**
+	 * Checks if smoke can go through a chimney
+	 */
 	public static boolean tryUseChimney(World world, int x, int y, int z, int value, boolean indirect)
 	{
 		TileEntity tile = world.getTileEntity(x, y, z);//The block
@@ -128,6 +142,9 @@ public class SmokeMechanics
 		}
 		return false;
 	}
+	/**
+	 * Emits smoke from a source, or goes through a chimney
+	 */
 	public static void emitSmokeIndirect(World world, int xCoord, int yCoord, int zCoord, int value) 
 	{
 		if(!tryUseChimney(world, xCoord, yCoord + 1, zCoord, value, false) && !tryUseChimney(world, xCoord, yCoord + 2, zCoord, value))

@@ -16,7 +16,7 @@ import net.minecraft.util.DamageSource;
 /**
  * @author Anonymous Productions
  */
-public class ItemBattleaxeMF extends ItemHeavyWeapon
+public class ItemBattleaxeMF extends ItemHeavyWeaponMF
 {
 	private float injuryChance	= 0.05F;
 	/**
@@ -64,7 +64,7 @@ public class ItemBattleaxeMF extends ItemHeavyWeapon
 		
 		if(lunge)
 		{
-			float fallBonus = (Math.min(entityHitting.fallDistance, baseDamage))/2F;
+			float fallBonus = (Math.min(entityHitting.fallDistance, getMeleeDamage(entityHitting.getHeldItem())))/2F;
 			if(entityHit.onGround && !properHit)
 			{
 				entityHitting.hurtResistantTime = 20;
@@ -194,5 +194,20 @@ public class ItemBattleaxeMF extends ItemHeavyWeapon
 	public WeaponClass getWeaponClass() 
 	{
 		return WeaponClass.AXE;
+	}
+	@Override
+	public boolean canCounter()
+	{
+		return true;
+	}
+	@Override
+	public float[] getCounterRatio()
+	{
+		return maceRatio;
+	}
+	@Override
+	public float getCounterDamage()
+	{
+		return 0.5F;
 	}
 }

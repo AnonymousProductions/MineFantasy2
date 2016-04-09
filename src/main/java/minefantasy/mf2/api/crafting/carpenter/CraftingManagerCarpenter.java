@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import minefantasy.mf2.api.rpg.Skill;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -41,7 +42,7 @@ public class CraftingManagerCarpenter
     /**
      * Adds a recipe. See spreadsheet on first page for details.
      */
-    public ICarpenterRecipe addRecipe(ItemStack result, String research, String sound, float exp, String tool, int hammer, int anvil, int time, Object ... input)
+    public ICarpenterRecipe addRecipe(ItemStack result, Skill skill, String research, String sound, float exp, String tool, int hammer, int anvil, int time, Object ... input)
     {
         String var3 = "";
         int var4 = 0;
@@ -113,12 +114,12 @@ public class CraftingManagerCarpenter
             }
         }
 
-        ICarpenterRecipe recipe = new ShapedCarpenterRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, false, sound, research);
+        ICarpenterRecipe recipe = new ShapedCarpenterRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, false, sound, research, skill);
         this.recipes.add(recipe);
         return recipe;
     }
 
-    public ICarpenterRecipe addShapelessRecipe(ItemStack output, String research, String sound, float experience, String tool, int hammer, int anvil, int time, Object ... input)
+    public ICarpenterRecipe addShapelessRecipe(ItemStack output, Skill skill, String research, String sound, float experience, String tool, int hammer, int anvil, int time, Object ... input)
     {
         ArrayList var3 = new ArrayList();
         Object[] var4 = input;
@@ -147,7 +148,7 @@ public class CraftingManagerCarpenter
             }
         }
 
-        ICarpenterRecipe recipe = new ShapelessCarpenterRecipes(output, tool, experience, hammer, anvil, time, var3, false, sound, research);
+        ICarpenterRecipe recipe = new ShapelessCarpenterRecipes(output, tool, experience, hammer, anvil, time, var3, false, sound, research, skill);
         this.recipes.add(recipe);
         return recipe;
     }
@@ -292,6 +293,7 @@ public class CraftingManagerCarpenter
 	            bench.setToolType(toolType);
 	            bench.setCraftingSound(sound);
 	            bench.setResearch(var13.getResearch());
+	            bench.setSkill(var13.getSkill());
 	            
 	            return var13.getCraftingResult(matrix);
             }

@@ -5,12 +5,15 @@ import java.util.List;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.tier.IToolMaterial;
+import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.block.tileentity.TileEntityRoad;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.tool.ToolMaterialMF;
 import minefantasy.mf2.util.MFLogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemPickaxe;
@@ -28,7 +31,7 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
     {
         super(material);
         itemRarity = rarity;
-        setCreativeTab(CreativeTabMF.tabToolAdvanced);
+        setCreativeTab(CreativeTabMF.tabOldTools);
         
         setTextureName("minefantasy2:Tool/Advanced/"+name);
 		GameRegistry.registerItem(this, name, MineFantasyII.MODID);
@@ -70,84 +73,68 @@ public class ItemMattock extends ItemPickaxe implements IToolMaterial
     {
         super.addInformation(item, user, list, extra);
     }
-	
-	@Override
-	public int getMaxDamage(ItemStack stack)
-	{
-    	if(ToolMaterialMF.isUnbreakable(toolMaterial))
-		{
-    		ToolMaterialMF.setUnbreakable(stack);
-		}
-		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
-	}
 	@Override
     public boolean canHarvestBlock(Block block, ItemStack stack)
     {
     	return super.canHarvestBlock(block, stack) || Items.iron_shovel.canHarvestBlock(block, stack);
     }
 	@Override
-	public boolean onBlockStartBreak(ItemStack item, int x, int y, int z, EntityPlayer user)
-	{
-		World world = user.worldObj;
-		if(item.hasTagCompound())
-		{
-			int id = item.getTagCompound().hasKey("MF_Mattock_ID") ? item.getTagCompound().getInteger("MF_Mattock_ID") : 0;
-			int meta = item.getTagCompound().hasKey("MF_Mattock_Meta") ? item.getTagCompound().getInteger("MF_Mattock_Meta") : 0;
-			
-			//if(player.capabilities.isCreativeMode || consumeItem(player, id, meta))
-			Block block2 = Block.getBlockById(id);
-			if(block2 != null)
-			{
-				MFLogUtil.logDebug("Set Block: " + id + " : " + meta);
-				world.setBlock(x, y, z, block2);
-				world.setBlockMetadataWithNotify(x, y, z, meta, 2);
-				return true;
-			}
-		}
-		return super.onBlockStartBreak(item, x, y, z, user);
-	}
-	private void setBlock(ItemStack mattock, int id, int meta)
-	{
-		if(!mattock.hasTagCompound())mattock.setTagCompound(new NBTTagCompound());
-		mattock.getTagCompound().setInteger("MF_Mattock_ID", id);
-		mattock.getTagCompound().setInteger("MF_Mattock_Meta", meta);
-		MFLogUtil.logDebug("set Mattock Tile: " + id + " : " + meta);
-	}
-	@Override
     public boolean onItemUse(ItemStack mattock, EntityPlayer player, World world, int x, int y, int z, int facing, float pitch, float yaw, float pan)
     {
-        if (!player.canPlayerEdit(x, y, z, facing, mattock))
+		if (!player.canPlayerEdit(x, y, z, facing, mattock))
         {
             return false;
         }
         else
         {
-            Block block = world.getBlock(x, y, z);
+            Block var11 = world.getBlock(x, y, z);
+            int var11m = world.getBlockMetadata(x, y, z);
+            Block var12 = world.getBlock(x, y + 1, z);
 
-            if(block != null)
+            if (facing == 0 || var12 != Blocks.air)
             {
-            	int id = Block.getIdFromBlock(block);
-            	int meta = world.getBlockMetadata(x, y, z);
-        		setBlock(mattock, id, meta);
+                return false;
+            }
+            else if(var11 == Blocks.grass || var11 == Blocks.dirt || var11 == Blocks.sand)
+            {
+                Block var13 = BlockListMF.road;
+                int m = 0;
+                
+                if(var11 == Blocks.sand)
+                {
+                	m = 1;
+                }
+                if(var11 == Blocks.grass)
+                {
+                	var11 = Blocks.dirt;
+                }
+                world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), "dig."+var11.stepSound.soundName, (var13.stepSound.getVolume() + 1.0F) / 2.0F, var13.stepSound.getPitch() * 0.8F);
+
+                if (world.isRemote)
+                {
+                    return true;
+                }
+                else
+                {
+                    world.setBlock(x, y, z, var13, m, 2);
+                    
+                    TileEntityRoad road = new TileEntityRoad();
+                    road.setWorldObj(world);
+                    world.setTileEntity(x, y, z, road);
+                    road.setSurface(var11, var11m);
+                    mattock.damageItem(1, player);
+                    return true;
+                }
+            }
+            else
+            {
+            	return false;
             }
         }
-        return false;
     }
-	private boolean consumeItem(EntityPlayer player, int id, int meta)
+	@Override
+	public int getMaxDamage(ItemStack stack)
 	{
-		Block block = Block.getBlockById(id);
-		if(block == null)return false;
-		
-		for(int a = 0; a < player.inventory.getSizeInventory(); a++)
-		{
-			ItemStack item = player.inventory.getStackInSlot(a);
-			
-			if(item != null && item.isItemEqual(new ItemStack(block, 1, meta)))
-			{
-				item.stackSize--;
-				return true;
-			}
-		}
-		return false;
+		return ToolHelper.setDuraOnQuality(stack, super.getMaxDamage());
 	}
 }

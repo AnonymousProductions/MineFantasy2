@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.knowledge.KnowledgeType;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
+import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -43,7 +44,11 @@ public class ItemResearchBook extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer user)
     {
-		ResearchLogic.syncData(user);
+    	if(!world.isRemote)
+    	{
+    		ResearchLogic.syncData(user);
+    		RPGElements.syncAll(user);
+    	}
     	user.openGui(MineFantasyII.instance, 1, world, 0, -1, 0);
         return item;
     }

@@ -18,21 +18,11 @@ public class ToolMaterialMF
 //public static EnumToolMaterial STEEL = EnumHelper.addToolMaterial("STEEL",         2, 1000, 7.8F, 2.5F, 22);
 
 	//Misc
-	public static ToolMaterial TRAINING = EnumHelper.addToolMaterial("Training", 		0, 320, 0F, 0F, 0);
 	
 	//Basics stage1
-	public static ToolMaterial STONE = BaseMaterialMF.getToolMaterial("Stone");
 	
 	public static boolean isUnbreakable(ToolMaterial toolMaterial) 
 	{
 		return toolMaterial == BaseMaterialMF.enderforge.getToolConversion() || toolMaterial == BaseMaterialMF.ignotumite.getToolConversion() || toolMaterial == BaseMaterialMF.mithium.getToolConversion();
-	}
-	public static void setUnbreakable(ItemStack tool)
-	{
-		if(!tool.hasTagCompound())
-		{
-			tool.setTagCompound(new NBTTagCompound());
-		}
-		tool.getTagCompound().setBoolean("Unbreakable", true);
 	}
 }

@@ -3,6 +3,9 @@ package minefantasy.mf2.block.tileentity;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import minefantasy.mf2.api.crafting.IBasicMetre;
 import minefantasy.mf2.api.heating.ForgeFuel;
 import minefantasy.mf2.api.heating.ForgeItemHandler;
@@ -33,7 +36,7 @@ import net.minecraft.world.WorldServer;
 public class TileEntityForge extends TileEntity implements IInventory, IBasicMetre, IBellowsUseable
 {
 	public static final float dragonHeat = 200F; //200*
-	private ItemStack[] inv = new ItemStack[10];
+	private ItemStack[] inv = new ItemStack[1];
 	public float fuel;
 	public float maxFuel = 6000;//5m
 	public float temperature, fuelTemperature;
@@ -43,6 +46,8 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	public float dragonHeartPower = 0F;
 	public String texTypeForRender = "stone";
 	private boolean isBurning = false;
+	public int workableState = 0;
+	
 	public TileEntityForge(Block block, String type) 
 	{
 		texTypeForRender = type;
@@ -56,18 +61,17 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	@Override
 	public void updateEntity()
 	{
+		if(worldObj.isRemote)return;
+		
 		if(justShared > 0)--justShared;
 		super.updateEntity();
 		
 		if(++ticksExisted % 20 == 0)
 		{
-			for(int a = 0; a < 10; a++)
+			ItemStack item = getStackInSlot(0);
+			if(item != null && !worldObj.isRemote)
 			{
-				ItemStack item = getStackInSlot(a);
-				if(item != null && !worldObj.isRemote)
-				{
-					modifyItem(item, a);
-				}
+				modifyItem(item, 0);
 			}
 			syncData();
 		}
@@ -75,11 +79,11 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			shareTemp();
 		}
 		
-		if(!isLit())
+		if(!isLit() && !worldObj.isRemote)
 		{
-			if(temperature > 0)
+			if(temperature > 0 && ticksExisted % 5 == 0)
 			{
-				temperature --;
+				temperature = 0;
 			}
 			return;
 		}
@@ -90,7 +94,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			return;
 		}
 		isBurning = isBurning();//Check if it's burning
-		float maxTemp = fuelTemperature + getUnderTemperature();
+		float maxTemp = isLit() ? (fuelTemperature + getUnderTemperature()) : 0;
 		
 		if(temperature < maxTemp)
 		{
@@ -108,16 +112,17 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		
 		if(isBurning && temperature > 100 && rand.nextInt(20) == 0 && !isOutside())
 		{
-			SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord, zCoord, 1);
-		}
-		if(dragonHeartPower > 0)
-		{
-			dragonHeartPower -= 1F/100F;//5Seconds
-			if(temperature < dragonHeat)//Must be 300+
+			int val = this.getTier() == 1 ? 3 : 1;
+			if(this.hasCrucibleAbove())
 			{
-				dragonHeartPower = 0;
+				SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord+1, zCoord, val);
+			}
+			else
+			{
+				SmokeMechanics.emitSmokeIndirect(worldObj, xCoord, yCoord, zCoord, val);
 			}
 		}
+		maxFuel = getTier() == 1 ? 12000 : 6000;
 	}
 	private boolean isOutside()
 	{
@@ -181,7 +186,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		if(fuel > 0)
 		{
-			--fuel;
+			fuel -= 0.2F;
 		}
 		
 		if(fuel < 0)fuel = 0;
@@ -190,6 +195,11 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	private boolean isBurning() 
 	{
 		return fuel > 0 && temperature > 0;
+	}
+	@SideOnly(Side.CLIENT)
+	private boolean shouldRenderFlame() 
+	{
+		return fuel > 0 && temperature > 1;
 	}
 
 	private void modifyItem(ItemStack item, int slot) 
@@ -200,13 +210,11 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			if(temp > temperature)
 			{
 				int i = (int)(temperature/5F);
-				MFLogUtil.logDebug("Taken " + i + " from slot " + slot);
-				MFLogUtil.logDebug("Forge Temp = " + temperature);
 				temp -= i;
 			}
 			else
 			{
-				int increase = (int)(temperature / 10F);
+				int increase = (int)(temperature / (20F*getStackModifier(item.stackSize)));
 				if(temp >= (temperature-increase))
 				{
 					temp = (int) temperature;
@@ -227,15 +235,25 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		}
 		else if(temperature > 0)
 		{
+			ItemStack heated = ItemHeated.createHotItem(item);
 			this.setInventorySlotContents(slot, ItemHeated.createHotItem(item));
+				
 		}
+	}
+
+	private float getStackModifier(int stackSize) 
+	{
+		float mod = 1F + (float)stackSize / 8F;//1x to 9x
+		MFLogUtil.logDebug("HeatModifier: " + mod);
+		return mod;
 	}
 
 	public int getTier()
 	{
-		if(this.blockType != null && blockType instanceof BlockForge)
+		Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
+		if(block != null && block instanceof BlockForge)
 		{
-			return ((BlockForge)blockType).tier;
+			return ((BlockForge)block).tier;
 		}
 		return 0;
 	}
@@ -382,7 +400,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	@Override
 	public int getInventoryStackLimit()
 	{
-		return 1;
+		return 64;
 	}
 
 	@Override
@@ -419,12 +437,13 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 		}
 		return null;
 	}
+	@SideOnly(Side.CLIENT)
 	public String getTextureName() 
 	{
 		BlockForge forge = getActiveBlock();
 		if(forge == null)return "forge_"+texTypeForRender;
 		
-		return "forge_" + forge.type + (forge.isActive ? "_active" : "");
+		return "forge_" + forge.type + (shouldRenderFlame() ? "_active" : "");
 	}
 
 	public boolean hasFuel()
@@ -443,6 +462,10 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	 */
 	public void extinguish()
 	{
+		if(getTier() == 1)
+		{
+			return;
+		}
 		BlockForge.updateFurnaceBlockState(false, worldObj, xCoord, yCoord, zCoord);
 	}
 	/**
@@ -450,11 +473,16 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	 */
 	public void fireUpForge()
 	{
+		if(getTier() == 1)
+		{
+			return;
+		}
 		BlockForge.updateFurnaceBlockState(true, worldObj, xCoord, yCoord, zCoord);
 	}
+	
 	public float getBellowsEffect()
 	{
-		return 1.5F;
+		return getTier() == 1 ? 2.0F : 1.5F;
 	}
 	private float getBellowsMax() 
 	{
@@ -464,8 +492,10 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	{
 		return 1000;
 	}
-	public boolean addFuel(ForgeFuel stats, boolean hand)
+	public boolean addFuel(ForgeFuel stats, boolean hand, int tier)
 	{
+		maxFuel = tier == 1 ? 12000 : 6000;
+		
 		boolean hasUsed = false;
 		
 		if(stats.baseHeat > this.fuelTemperature) // uses if hotter
@@ -527,7 +557,7 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 	@Override
 	public String getLocalisedName() 
 	{
-		return StatCollector.translateToLocal("forge.fuel.name");
+		return StatCollector.translateToLocal(workableState >= 2 ? "state.unstable" : workableState == 1 ? "state.workable" : "forge.fuel.name");
 	}
 
 	public boolean[] showSides() {
@@ -642,5 +672,40 @@ public class TileEntityForge extends TileEntity implements IInventory, IBasicMet
 			}
 		}
 		*/
+	}
+
+	public boolean tryAddHeatable(ItemStack held)
+	{
+		ItemStack contents = inv[0];
+		if(contents == null)
+		{
+			ItemStack placed = held.copy();
+			placed.stackSize = 1;
+			setInventorySlotContents(0, placed);
+			return true;
+		}
+		else if(contents.getItem() instanceof ItemHeated)
+		{
+			ItemStack hot = Heatable.getItem(contents);
+			if(hot != null && hot.isItemEqual(held) && contents.stackSize < contents.getMaxStackSize())
+			{
+				contents.stackSize ++;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public int getWorkableState()
+	{
+		if(worldObj == null || worldObj.isRemote)
+		{
+			return workableState;
+		}
+		if(this.inv[0] != null)
+		{
+			return (int)Heatable.getHeatableStage(inv[0]);
+		}
+		return 0;
 	}
 }

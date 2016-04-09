@@ -2,6 +2,7 @@ package minefantasy.mf2.item;
 
 import java.util.Random;
 
+import minefantasy.mf2.api.heating.IQuenchBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -85,9 +87,18 @@ public class ItemHide extends ItemComponentMF
 		{
 			return true;
 		}
+		if(isTrough(world, i, j, k))
+		{
+			return true;
+		}
 		return false;
 	}
     
+    public boolean isTrough(World world, int x, int y, int z)
+    {
+    	TileEntity tile = world.getTileEntity(x, y, z);
+    	return tile != null && tile instanceof IQuenchBlock;
+    }
     public boolean isCauldron(World world, int x, int y, int z)
     {
     	return world.getBlock(x, y, z) == Blocks.cauldron && world.getBlockMetadata(x, y, z)>0;

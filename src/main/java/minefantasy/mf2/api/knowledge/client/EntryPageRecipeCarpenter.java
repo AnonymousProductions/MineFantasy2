@@ -52,10 +52,13 @@ public class EntryPageRecipeCarpenter extends EntryPage
 	}
 	
 	@Override
-	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void render(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
+		if(onTick)
+		{
+			tickRecipes();
+		}
 		tooltipStack = null;
-		tickRecipes();
 		
 		int xPoint = (parent.width - universalBookImageWidth) / 2;
         int yPoint = (parent.height - universalBookImageHeight) / 2;
@@ -150,28 +153,15 @@ public class EntryPageRecipeCarpenter extends EntryPage
 		} 
 		renderResult(parent, recipe.getRecipeOutput(), false, posX, posY, mx, my);
 	}
-	int mouseTicks = 0;
 	private void tickRecipes()
 	{
-		if(Mouse.isButtonDown(1))
+		if(recipeID < recipes.length-1)
 		{
-			++mouseTicks;
+			++recipeID;
 		}
 		else
 		{
-			mouseTicks = 0;
-		}
-		long ticks = Minecraft.getSystemTime();
-		if(mouseTicks == 1)
-		{
-			if(recipeID < recipes.length-1)
-			{
-				++recipeID;
-			}
-			else
-			{
-				recipeID = 0;
-			}
+			recipeID = 0;
 		}
 	}
 	
@@ -240,7 +230,7 @@ public class EntryPageRecipeCarpenter extends EntryPage
 	}
 
 	@Override
-	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY)
+	public void preRender(GuiScreen parent, int x, int y, float f, int posX, int posY, boolean onTick)
 	{
 	}
 }

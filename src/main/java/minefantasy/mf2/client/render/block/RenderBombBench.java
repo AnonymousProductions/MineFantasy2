@@ -1,6 +1,6 @@
 package minefantasy.mf2.client.render.block;
 
-import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.block.crafting.BlockBombBench;
 import minefantasy.mf2.block.tileentity.TileEntityBombBench;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -28,7 +28,7 @@ public class RenderBombBench implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.bomb_RI;
+		return BlockBombBench.bomb_RI;
 	}
 
 	@Override

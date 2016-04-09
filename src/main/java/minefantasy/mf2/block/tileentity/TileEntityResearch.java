@@ -10,6 +10,7 @@ import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.network.packet.ResearchTablePacket;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,13 +22,13 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 {
 	private ItemStack[] items = new ItemStack[1];
 	public float progress;
-	public int lastMaxProgress;
+	public float maxProgress;
 	public int researchID = -1;
 	
 	public boolean interact(EntityPlayer user)
 	{
-		lastMaxProgress = getMaxTime();
-		if(lastMaxProgress > 0)
+		maxProgress = getMaxTime();
+		if(maxProgress > 0)
 		{
 			addProgress(user);
 			return true;
@@ -43,7 +44,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		ItemStack held = user.getHeldItem();
 		if(held != null && (held.getItem() == ComponentListMF.talisman_lesser || held.getItem() == ComponentListMF.talisman_greater))
 		{
-			progress += InformationBase.talismanPower;
+			progress = maxProgress;
 			if(!user.capabilities.isCreativeMode && held.getItem() == ComponentListMF.talisman_lesser)
 			{
 				--held.stackSize;
@@ -59,8 +60,27 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		{
 			efficiency *= (0.5F-user.swingProgress);
 		}
-		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "minefantasy2:updateResearch", 1.0F, rand.nextFloat()*0.4F+0.8F);
+		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "minefantasy2:block.flipPage", 1.0F, rand.nextFloat()*0.4F+0.8F);
+		efficiency *= getEnvironmentBoost();
 		progress += efficiency;
+	}
+	private float getEnvironmentBoost() 
+	{
+		int books = 0;
+		for(int x = -8; x <= 8; x++)
+		{
+			for(int y = -8; y <= 8; y++)
+			{
+				for(int z = -8; z <= 8; z++)
+				{
+					if(worldObj.getBlock(xCoord + x, yCoord + y, zCoord + z) == Blocks.bookshelf)
+					{
+						++books;
+					}
+				}	
+			}	
+		}
+		return 1.0F + (0.1F*books);
 	}
 	private Random rand = new Random();
 	private void createComplete() 
@@ -71,7 +91,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 			ItemStack newItem = new ItemStack(ToolListMF.research_scroll_complete, 1, id);
 			this.setInventorySlotContents(0, newItem);
 		}
-		this.lastMaxProgress = 0;
+		this.maxProgress = 0;
 		this.progress = 0;
 		researchID = -1;
 	}
@@ -112,10 +132,10 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		{
 			if(++ticksExisted % 20 == 0)
 			{
-				lastMaxProgress = getMaxTime();
+				maxProgress = getMaxTime();
 				progress += 1F/60F;//+1 each minute
 			}
-			if(lastMaxProgress > 0 && progress >= lastMaxProgress)
+			if(maxProgress > 0 && progress >= maxProgress)
 			{
 				createComplete();
 			}
@@ -144,6 +164,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		nbt.setInteger("researchID", researchID);
 		nbt.setInteger("ticksExisted", ticksExisted);
 		nbt.setFloat("progress", progress);
+		nbt.setFloat("maxProgress", maxProgress);
 		NBTTagList savedItems = new NBTTagList();
 
         for (int i = 0; i < this.items.length; ++i)
@@ -167,6 +188,7 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 		ticksExisted = nbt.getInteger("ticksExisted");
 		researchID = nbt.getInteger("researchID");
 		progress = nbt.getFloat("progress");
+		maxProgress = nbt.getFloat("maxProgress");
 		NBTTagList savedItems = nbt.getTagList("Items", 10);
         this.items = new ItemStack[this.getSizeInventory()];
 
@@ -285,16 +307,16 @@ public class TileEntityResearch extends TileEntity implements IInventory, IBasic
 	@Override
 	public int getMetreScale(int size) 
 	{
-		if(lastMaxProgress <= 0)
+		if(maxProgress <= 0)
 		{
 			return 0;
 		}
-		return (int)Math.ceil(size / lastMaxProgress * progress);
+		return (int)Math.min(size, Math.ceil(size / maxProgress * progress));
 	}
 	@Override
 	public boolean shouldShowMetre() 
 	{
-		return lastMaxProgress > 0;
+		return maxProgress > 0;
 	}
 	@Override
 	public String getLocalisedName() 

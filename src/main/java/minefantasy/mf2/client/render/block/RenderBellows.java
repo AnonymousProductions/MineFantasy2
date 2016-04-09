@@ -1,6 +1,5 @@
 package minefantasy.mf2.client.render.block;
 
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.refining.BlockBellows;
 import minefantasy.mf2.block.tileentity.TileEntityBellows;
 import net.minecraft.block.Block;
@@ -32,7 +31,7 @@ public class RenderBellows implements ISimpleBlockRenderingHandler
 
 	@Override
 	public int getRenderId() {
-		return BlockListMF.bellows_RI;
+		return BlockBellows.bellows_RI;
 	}
 
 	@Override

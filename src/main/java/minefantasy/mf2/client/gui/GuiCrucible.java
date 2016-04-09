@@ -2,9 +2,11 @@ package minefantasy.mf2.client.gui;
 
 import minefantasy.mf2.api.helpers.TextureHelperMF;
 import minefantasy.mf2.block.tileentity.TileEntityCrucible;
+import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.container.ContainerCrucible;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
@@ -40,6 +42,11 @@ public class GuiCrucible extends GuiContainer
         int xPoint = (this.width - this.xSize) / 2;
         int yPoint = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPoint, yPoint, 0, 0, this.xSize, this.ySize);
+        
+        if(tile.getStackInSlot(tile.getSizeInventory()-1) != null && !(tile.getStackInSlot(tile.getSizeInventory()-1).getItem() instanceof ItemBlock) && ConfigHardcore.HCCreduceIngots && !tile.isAuto())
+        {
+        	this.drawTexturedModalRect(xPoint+128, yPoint+31, 225, 2, 18, 18);
+        }
         
         if (this.tile.temperature > 0)
         {

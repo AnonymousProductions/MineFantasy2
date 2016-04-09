@@ -48,20 +48,18 @@ public class KnowledgePacket extends PacketMF
 			}
 		}
 		username = ByteBufUtils.readUTF8String(packet);
-		if (username != null) 
+        if(username != null && player.getCommandSenderName().equals(username))
         {
-            EntityPlayer entity = player.worldObj .getPlayerEntityByName(username);
-            if(entity != null)
-            {
-            	MFLogUtil.logDebug("KnowledgeSync Complete: " + completed.size() + " Unlocked");
-            	Iterator researches = completed.iterator();
-            	while(researches.hasNext())
-            	{
-            		InformationBase base = (InformationBase) researches.next();
-            		ResearchLogic.tryUnlock(player, base);
-            	}
-            }
+        	MFLogUtil.logDebug("KnowledgeSync Complete: " + completed.size() + " Unlocked");
+        	Iterator researches = completed.iterator();
+        	while(researches.hasNext())
+        	{
+        		InformationBase base = (InformationBase) researches.next();
+        		ResearchLogic.tryUnlock(player, base);
+        	}
         }
+        packet.clear();
+        completed = null;
 	}
 
 	@Override

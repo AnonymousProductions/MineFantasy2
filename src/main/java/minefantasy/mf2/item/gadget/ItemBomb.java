@@ -1,10 +1,13 @@
 package minefantasy.mf2.item.gadget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.crafting.ISpecialSalvage;
 import minefantasy.mf2.entity.EntityBomb;
 import minefantasy.mf2.item.list.CreativeTabMF;
+import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.mechanics.BombDispenser;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -29,7 +32,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBomb extends Item
+public class ItemBomb extends Item implements ISpecialSalvage
 {
     public ItemBomb(String name)
     {
@@ -135,11 +138,11 @@ public class ItemBomb extends Item
     public static byte getFuse(ItemStack item)
     {
     	NBTTagCompound nbt = getNBT(item);
-    	if(nbt.hasKey(fuseNBT))
+		if(item.getItem() instanceof ItemBomb)
     	{
-    		return nbt.getByte(fuseNBT);
+    		return ((ItemBomb)item.getItem()).getItemFuse(nbt.getByte(fuseNBT));
     	}
-    	return (byte)0;
+		return nbt.getByte(fuseNBT);
     }
     
     public static void setPowder(ItemStack item, byte powder)
@@ -150,11 +153,11 @@ public class ItemBomb extends Item
     public static byte getPowder(ItemStack item)
     {
     	NBTTagCompound nbt = getNBT(item);
-    	if(nbt.hasKey(powderNBT))
+		if(item.getItem() instanceof ItemBomb)
     	{
-    		return nbt.getByte(powderNBT);
+    		return ((ItemBomb)item.getItem()).getItemPowder(nbt.getByte(powderNBT));
     	}
-    	return (byte)0;
+		return nbt.getByte(powderNBT);
     }
     /**
      * 0 = Basic
@@ -169,11 +172,11 @@ public class ItemBomb extends Item
     public static byte getFilling(ItemStack item)
     {
     	NBTTagCompound nbt = getNBT(item);
-    	if(nbt.hasKey(fillingNBT))
+		if(item.getItem() instanceof ItemBomb)
     	{
-    		return nbt.getByte(fillingNBT);
+    		return ((ItemBomb)item.getItem()).getItemFilling(nbt.getByte(fillingNBT));
     	}
-    	return (byte)0;
+		return nbt.getByte(fillingNBT);
     }
     
     /**
@@ -188,14 +191,14 @@ public class ItemBomb extends Item
     public static byte getCasing(ItemStack item)
     {
     	NBTTagCompound nbt = getNBT(item);
-    	if(nbt.hasKey(casingNBT))
+		if(item.getItem() instanceof ItemBomb)
     	{
-    		return nbt.getByte(casingNBT);
+    		return ((ItemBomb)item.getItem()).getItemCasing(nbt.getByte(casingNBT));
     	}
-    	return (byte)0;
+		return nbt.getByte(casingNBT);
     }
     
-    public static NBTTagCompound getNBT(ItemStack item)
+	public static NBTTagCompound getNBT(ItemStack item)
     {
     	if(!item.hasTagCompound())item.setTagCompound(new NBTTagCompound());
     	return item.getTagCompound();
@@ -248,6 +251,10 @@ public class ItemBomb extends Item
     @SideOnly(Side.CLIENT)
 	public IIcon getIcon(byte type)
 	{
+    	if(type < 0)
+    	{
+    		return ToolListMF.bomb_crude.getIcon(type);
+    	}
 		return bombs[type];
 	}
     public IIcon[] icons = new IIcon[2];
@@ -317,4 +324,33 @@ public class ItemBomb extends Item
     	}
     	return EnumRarity.common;
     }
+
+	@Override
+	public Object[] getSalvage(ItemStack item)
+	{
+		return new Object[]
+		{
+			ItemBombComponent.getBombComponent("bombcase", getCasing(item)),
+			ItemBombComponent.getBombComponent("fuse", getFuse(item)),
+			ItemBombComponent.getBombComponent("powder", getPowder(item)),
+			ItemBombComponent.getBombComponent("filling", getFilling(item)),
+		};
+	}
+	
+	public byte getItemFuse(byte value) 
+    {
+		return value;
+	}
+	public byte getItemFilling(byte value) 
+    {
+		return value;
+	}
+	public byte getItemCasing(byte value) 
+    {
+		return value;
+	}
+	public byte getItemPowder(byte value) 
+    {
+		return value;
+	}
 }

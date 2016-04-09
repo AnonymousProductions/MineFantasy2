@@ -6,19 +6,21 @@ import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.refine.AlloyRecipes;
 import minefantasy.mf2.api.refine.SmokeMechanics;
 import minefantasy.mf2.block.refining.BlockCrucible;
+import minefantasy.mf2.block.tileentity.blastfurnace.TileEntityBlastFH;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityCrucible extends TileEntity implements IInventory
+public class TileEntityCrucible extends TileEntity implements IInventory, ISidedInventory
 {
 	private ItemStack[] inv = new ItemStack[10];
-	public float progress, progressMax;
+	public float progress = 0, progressMax = 400;
 	public float temperature;
 	private Random rand = new Random();
 	
@@ -29,6 +31,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 		boolean isHot = temperature > 0 && progressMax > 0;
 		temperature = getTemperature();
 		
+		/*
 		int time = 400;
 		for(int a = 1; a < getSizeInventory()-1; a ++)
 		{
@@ -38,7 +41,10 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 			}
 		}
 		if(!worldObj.isRemote)
+		{
 			progressMax = time;
+		}
+		*/
 		
 		if (isHot && canSmelt()) 
 		{
@@ -47,6 +53,10 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 			{
 				progress = 0;
 				smeltItem();
+				if(isAuto())
+				{
+					onAutoSmelt();
+				}
 			}
 		} 
 		else
@@ -64,6 +74,12 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 		}
 	}
 	
+	private void onAutoSmelt()
+	{
+		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "random.fizz", 1.0F, 1.0F);
+		worldObj.playSoundEffect(xCoord+0.5, yCoord+0.5, zCoord+0.5, "random.piston.out", 1.0F, 1.0F);
+	}
+
 	private boolean isOutside()
 	{
 		for(int x = -1; x <= 1; x++)
@@ -162,6 +178,14 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 			return ((BlockCrucible)blockType).tier;
 		}
 		return 0;
+	}
+	public boolean isAuto()
+	{
+		if(this.blockType != null && blockType instanceof BlockCrucible)
+		{
+			return ((BlockCrucible)blockType).isAuto;
+		}
+		return false;
 	}
 	public float getTemperature()
 	{
@@ -328,5 +352,36 @@ public class TileEntityCrucible extends TileEntity implements IInventory
 	public boolean isItemValidForSlot(int slot, ItemStack item)
 	{
 		return true;
+	}
+
+	private boolean isBlastOutput()
+	{
+		if(worldObj == null)return false;
+		TileEntity tile = worldObj.getTileEntity(xCoord, yCoord+1, zCoord);
+		return tile != null && tile instanceof TileEntityBlastFH;
+	}
+	private final int[] grid = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
+	private final int[] output = new int[]{9};
+	private final int[] whole = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) 
+	{
+		if(isBlastOutput())
+		{
+			return whole;
+		}
+		return side == 0 ? output : grid;
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack item, int side) 
+	{
+		return !isBlastOutput() && slot < getOutSlot();
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack item, int side) 
+	{
+		return isAuto() && slot == getOutSlot();
 	}
 }

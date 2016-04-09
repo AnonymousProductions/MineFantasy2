@@ -4,13 +4,11 @@ import java.util.Random;
 
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.heating.TongsHelper;
-import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.item.tool.crafting.ItemTongs;
 import minefantasy.mf2.material.BaseMaterialMF;
-import minefantasy.mf2.network.CommonProxyMF;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -31,7 +29,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockAnvilMF extends BlockContainer
 {
-    @SideOnly(Side.CLIENT)
+    public static int anvil_RI = 100;
+    
+	@SideOnly(Side.CLIENT)
     public int anvilRenderSide;
     public BaseMaterialMF material;
     private int tier;
@@ -88,33 +88,64 @@ public class BlockAnvilMF extends BlockContainer
     	TileEntityAnvilMF tile = getTile(world, x, y, z);
     	if(tile != null)
     	{
-    		if(side == 1 && held != null && held.getItem() instanceof ItemTongs)
+    		if(side == 1 && held != null && held.getItem() instanceof ItemTongs && onUsedTongs(world, user, held, tile))
     		{
-    			ItemStack result = tile.getStackInSlot(tile.getSizeInventory()-1);
-    			if(result != null && result.getItem() == ComponentListMF.hotItem)
-    			{
-    				if(TongsHelper.getHeldItem(held) == null && TongsHelper.trySetHeldItem(held, result))
-    				{
-    					tile.setInventorySlotContents(tile.getSizeInventory()-1, null);
-    					return true;
-    				}
-    			}
+    			return true;
     		}
-    		if(side != 1 || !tile.tryCraft(user) && !world.isRemote)
+    		if(side != 1 || !tile.tryCraft(user, true) && !world.isRemote)
     		{
     			user.openGui(MineFantasyII.instance, 0, world, x, y, z);
     		}
     	}
         return true;
     }
-    @Override
+    private boolean onUsedTongs(World world, EntityPlayer user, ItemStack held, TileEntityAnvilMF tile) 
+    {
+    	ItemStack result = tile.getStackInSlot(tile.getSizeInventory()-1);
+    	ItemStack grabbed = TongsHelper.getHeldItem(held);
+    	
+    	//GRAB
+    	if(grabbed == null)
+    	{
+			if(result != null && result.getItem() == ComponentListMF.hotItem)
+			{
+				if(TongsHelper.trySetHeldItem(held, result))
+				{
+					tile.setInventorySlotContents(tile.getSizeInventory()-1, null);
+					return true;
+				}
+			}
+    	}
+    	else
+    	{
+    		for(int s = 0; s < (tile.getSizeInventory()-1); s++)
+    		{
+    			ItemStack slot = tile.getStackInSlot(s);
+    			if(slot == null)
+    			{
+    				tile.setInventorySlotContents(s, grabbed);
+    				TongsHelper.clearHeldItem(held, user);
+    				return false;
+    			}
+    		}
+    	}
+		return false;
+	}
+	@Override
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer user)
     {
         {
         	TileEntityAnvilMF tile = getTile(world, x, y, z);
         	if(tile != null)
         	{
-        		tile.tryCraft(user);
+        		if(user.isSneaking())
+        		{
+        			tile.upset(user);
+        		}
+        		else
+        		{
+        			tile.tryCraft(user, false);
+        		}
         	}
         }
     }
@@ -203,7 +234,7 @@ public class BlockAnvilMF extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return BlockListMF.anvil_RI;
+		return anvil_RI;
 	}
 	private Random rand = new Random();
 }
