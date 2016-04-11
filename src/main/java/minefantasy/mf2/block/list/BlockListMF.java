@@ -93,7 +93,7 @@ public class BlockListMF
 	public static Block limestone = new ConstructionBlockMF("limestone").setHardness(1.2F).setResistance(8F);
 	
 	public static Block firebricks = new BasicBlockMF("firebricks", Material.rock).setHardness(5.0F).setResistance(15.0F).setStepSound(Block.soundTypePiston);
-	//public static Block clayWall  = new BasicMetadataBlockMF("clayWall", Material.wood, ItemClayWall.class, 4).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
+//	public static Block clayWall  = new BasicMetadataBlockMF("clayWall", Material.wood, ItemClayWall.class, 4).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
 	public static Block clayWall   = new BasicBlockMF("clayWall", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
 	public static Block clayWall1  = new BasicBlockMF("clayWall1", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
 	public static Block clayWall2  = new BasicBlockMF("clayWall2", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);

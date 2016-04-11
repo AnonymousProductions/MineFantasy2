@@ -442,8 +442,7 @@ public class CarpenterRecipes
 		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall1, 1, 1), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
 		{
 			"PNP",
-			"NCN",
-			"PNP",
+			" C ",
 			'N', ComponentListMF.nail,
 			'P', ComponentListMF.plank,
 			'C', BlockListMF.clayWall
@@ -452,7 +451,6 @@ public class CarpenterRecipes
 		KnowledgeListMF.clayWallR =
 		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall2, 1, 2), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
 		{
-			" PN",
 			" C ",
 			"PN ",
 			'N', ComponentListMF.nail,
@@ -465,7 +463,6 @@ public class CarpenterRecipes
 		{
 			"PN ",
 			" C ",
-			" NP",
 			'N', ComponentListMF.nail,
 			'P', ComponentListMF.plank,
 			'C', BlockListMF.clayWall

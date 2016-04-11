@@ -5,6 +5,8 @@ import java.io.File;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
+import minefantasy.mf2.block.basic.BasicMetadataBlockMF;
+import minefantasy.mf2.block.itemblocks.ItemClayWall;
 import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.config.ConfigArmour;
 import minefantasy.mf2.config.ConfigClient;
@@ -31,6 +33,8 @@ import minefantasy.mf2.network.packet.PacketHandlerMF;
 import minefantasy.mf2.recipe.BasicRecipesMF;
 import minefantasy.mf2.recipe.RecipeRemover;
 import minefantasy.mf2.util.MFLogUtil;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -146,7 +150,7 @@ public class MineFantasyII
     	ItemLootSack.addItems();
     	proxy.postInit();
     	proxy.registerTickHandlers();
-    	MetalMaterial.addHeatables();
+    	MetalMaterial.addHeatables();    	
     }
 
     private void registerBiomeStuff(BiomeGenBase biome)

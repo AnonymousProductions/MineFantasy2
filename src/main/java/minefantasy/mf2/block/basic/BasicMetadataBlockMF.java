@@ -34,6 +34,7 @@ public class BasicMetadataBlockMF extends BasicBlockMF {
 		super(name, material, null);
 		NUMBER = number;
 		NAME = name;
+		GameRegistry.registerBlock(this, itemBlock, NAME);
 	}
 	
 	
@@ -43,7 +44,6 @@ public class BasicMetadataBlockMF extends BasicBlockMF {
 		NUMBER = number;
 		NAME = name;
 		
-		GameRegistry.registerBlock(this, itemBlock, NAME);
 		setBlockName(NAME);
 		
 		if(material == Material.rock)

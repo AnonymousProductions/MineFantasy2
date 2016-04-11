@@ -1,8 +1,10 @@
 package minefantasy.mf2.block.itemblocks;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import minefantasy.mf2.MineFantasyII;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -13,12 +15,12 @@ import net.minecraft.item.ItemStack;
  *
  */
 
-public class ItemClayWall extends ItemBlock {
+public class ItemClayWall extends ItemBlockWithMetadata {
 
 	public ItemClayWall(Block block) {
-		super(block);
+		super(block, block);
 		setHasSubtypes(true);
-		GameRegistry.registerItem(this, block.getUnlocalizedName(), "minefantasy2");
+		GameRegistry.registerItem(this, block.getUnlocalizedName(), MineFantasyII.MODID);
 	}
 	
 	@Override
