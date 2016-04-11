@@ -428,7 +428,7 @@ public class CarpenterRecipes
 		});
 		
 		KnowledgeListMF.clayWallR =
-		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall, 4), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
+		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall, 4, 0), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
 		{
 			"NPN",
 			"PCP",
@@ -436,6 +436,39 @@ public class CarpenterRecipes
 			'N', ComponentListMF.nail,
 			'P', ComponentListMF.plank,
 			'C', Blocks.clay
+		});
+		
+		KnowledgeListMF.clayWallR =
+		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall1, 1, 1), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
+		{
+			"PNP",
+			"NCN",
+			"PNP",
+			'N', ComponentListMF.nail,
+			'P', ComponentListMF.plank,
+			'C', BlockListMF.clayWall
+		});
+		
+		KnowledgeListMF.clayWallR =
+		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall2, 1, 2), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
+		{
+			" PN",
+			" C ",
+			"PN ",
+			'N', ComponentListMF.nail,
+			'P', ComponentListMF.plank,
+			'C', BlockListMF.clayWall
+		});
+		
+		KnowledgeListMF.clayWallR =
+		MineFantasyAPI.addCarpenterRecipe(construction, new ItemStack(BlockListMF.clayWall3, 1, 3), "clay_wall", nailHammer, "hammer", 1, 2 , new Object[]
+		{
+			"PN ",
+			" C ",
+			" NP",
+			'N', ComponentListMF.nail,
+			'P', ComponentListMF.plank,
+			'C', BlockListMF.clayWall
 		});
 		
 		KnowledgeListMF.researchTableRecipe = 

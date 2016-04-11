@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BasicBlockMF extends Block 
 {
-	private Object drop;
+	protected Object drop;
 	
 	public BasicBlockMF(String name, Material material)
 	{
@@ -32,6 +32,10 @@ public class BasicBlockMF extends Block
 		}
 		this.drop = drop;
 		this.setCreativeTab(CreativeTabs.tabBlock);
+	}
+	
+	protected BasicBlockMF(Material material) {
+		super(material);
 	}
 	
 	@Override

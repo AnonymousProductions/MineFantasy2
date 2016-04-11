@@ -1,6 +1,7 @@
 package minefantasy.mf2.block.list;
 
 import minefantasy.mf2.block.basic.BasicBlockMF;
+import minefantasy.mf2.block.basic.BasicMetadataBlockMF;
 import minefantasy.mf2.block.basic.BlockMetalBarsMF;
 import minefantasy.mf2.block.basic.BlockMetalMF;
 import minefantasy.mf2.block.basic.BlockMythicOre;
@@ -22,6 +23,7 @@ import minefantasy.mf2.block.decor.BlockTrough;
 import minefantasy.mf2.block.food.BlockBerryBush;
 import minefantasy.mf2.block.food.BlockCakeMF;
 import minefantasy.mf2.block.food.BlockPie;
+import minefantasy.mf2.block.itemblocks.ItemClayWall;
 import minefantasy.mf2.block.refining.BlockBFC;
 import minefantasy.mf2.block.refining.BlockBFH;
 import minefantasy.mf2.block.refining.BlockBellows;
@@ -91,7 +93,11 @@ public class BlockListMF
 	public static Block limestone = new ConstructionBlockMF("limestone").setHardness(1.2F).setResistance(8F);
 	
 	public static Block firebricks = new BasicBlockMF("firebricks", Material.rock).setHardness(5.0F).setResistance(15.0F).setStepSound(Block.soundTypePiston);
-	public static Block clayWall = new BasicBlockMF("clayWall", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
+	//public static Block clayWall  = new BasicMetadataBlockMF("clayWall", Material.wood, ItemClayWall.class, 4).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
+	public static Block clayWall   = new BasicBlockMF("clayWall", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
+	public static Block clayWall1  = new BasicBlockMF("clayWall1", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
+	public static Block clayWall2  = new BasicBlockMF("clayWall2", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
+	public static Block clayWall3  = new BasicBlockMF("clayWall3", Material.wood).setHardness(1.0F).setResistance(1.0F).setStepSound(Block.soundTypeWood);
 	
 	public static BlockMetalBarsMF[] bars = new BlockMetalBarsMF[specialMetalBlocks.length];
 	public static BlockMetalMF[] storage = new BlockMetalMF[metalBlocks.length];
